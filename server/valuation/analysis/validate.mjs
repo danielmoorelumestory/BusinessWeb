@@ -89,6 +89,11 @@ function sanityCheck(scenarios) {
         throw new Error(`${name}情景永续增长率应在-5%–5%`);
       if (d.terminalGrowth >= d.discountRate - 0.01)
         throw new Error(`${name}情景永续增长率必须明显低于折现率`);
+      if (
+        d.nonOperatingDiscount != null &&
+        !(d.nonOperatingDiscount >= 0 && d.nonOperatingDiscount <= 1)
+      )
+        throw new Error(`${name}情景非经营资产计入系数须在0到1之间，缺省为1`);
     }
   }
   const [bd, sd, ud] = [bear, base, bull].map((s) => s.dcf?.discountRate);

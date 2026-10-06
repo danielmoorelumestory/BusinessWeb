@@ -81,6 +81,94 @@ describe('calculateGrid', () => {
     expect(calculateGrid(row, candles)).toEqual(calculateGrid(row, candles))
   })
 
+  it('behaves exactly as before when no floor or budget is set', () => {
+    const candles = [
+      candle('2026-01-05', 10, 10, 10),
+      candle('2026-01-06', 9, 9, 9),
+      candle('2026-01-07', 8, 8, 8),
+    ]
+
+    const result = calculateGrid(row, candles)
+    expect(result.trades.map(trade => trade.side)).toEqual(['建仓', '买入', '买入'])
+    expect(result.floorHitDate).toBeUndefined()
+    expect(result.budgetExceeded).toBeUndefined()
+    expect(result.warnings).toBeUndefined()
+  })
+
+  it('stops buying once the grid buy price falls below the floor and records the date', () => {
+    const result = calculateGrid({ ...row, floorPrice: 9 }, [
+      candle('2026-01-05', 10, 10, 10),
+      candle('2026-01-06', 9, 9, 9),
+      candle('2026-01-07', 8, 8, 8),
+      candle('2026-01-08', 7, 7, 7),
+    ])
+
+    expect(result.trades.map(trade => trade.side)).toEqual(['建仓', '买入'])
+    expect(result.trades[1].price).toBe(9.1)
+    expect(result.floorHitDate).toBe('2026-01-07')
+  })
+
+  it('still triggers sells after the floor stopped buying, so holdings can unwind', () => {
+    const result = calculateGrid({ ...row, floorPrice: 9 }, [
+      candle('2026-01-05', 10, 10, 10),
+      candle('2026-01-06', 9, 9, 9),
+      candle('2026-01-07', 8, 8, 8),
+      candle('2026-01-08', 10.2, 10.2, 8.2),
+    ])
+
+    expect(result.floorHitDate).toBe('2026-01-07')
+    const sell = result.trades.find(trade => trade.side === '卖出')
+    expect(sell).toBeDefined()
+    expect(sell!.date).toBe('2026-01-08')
+    expect(sell!.price).toBe(10)
+  })
+
+  it('never resumes buying after the floor is hit, even if the trigger price recovers above it', () => {
+    const candles = [
+      candle('2026-01-05', 10, 10, 10),
+      candle('2026-01-06', 9, 9, 9),
+      candle('2026-01-07', 8, 8, 8),
+      candle('2026-01-08', 10.2, 10.2, 8.2),
+      candle('2026-01-09', 9, 9, 9),
+    ]
+    const result = calculateGrid({ ...row, floorPrice: 9 }, candles)
+
+    // 01-08 卖出后锚点回到 10，买入触发价 9.1 已高于下沿 9，但破网后不再恢复买入
+    expect(result.trades.map(trade => trade.side)).toEqual(['建仓', '买入', '卖出'])
+    expect(result.trades.filter(trade => trade.side === '买入')).toHaveLength(1)
+  })
+
+  it('flags budgetExceeded when maxCapital exceeds the budget without changing trades', () => {
+    const candles = [
+      candle('2026-01-05', 10, 10, 10),
+      candle('2026-01-06', 9, 9, 9),
+      candle('2026-01-07', 8, 8, 8),
+    ]
+
+    const withBudget = calculateGrid({ ...row, budget: 1_050 }, candles)
+    const withoutBudget = calculateGrid(row, candles)
+    expect(withBudget.maxCapital).toBe(1_200)
+    expect(withBudget.budgetExceeded).toBe(true)
+    expect(withBudget.trades).toEqual(withoutBudget.trades)
+  })
+
+  it('does not flag budgetExceeded when maxCapital stays within the budget', () => {
+    const result = calculateGrid({ ...row, budget: 2_000 }, [
+      candle('2026-01-05', 10, 10, 10),
+      candle('2026-01-06', 9, 9, 9),
+    ])
+
+    expect(result.budgetExceeded).toBeUndefined()
+  })
+
+  it('rejects invalid optional floor and budget values', () => {
+    const candles = [candle('2026-01-05', 10, 10, 10)]
+
+    expect(() => calculateGrid({ ...row, floorPrice: 0 }, candles)).toThrow('floorPrice 参数无效')
+    expect(() => calculateGrid({ ...row, floorPrice: Number.NaN }, candles)).toThrow('floorPrice 参数无效')
+    expect(() => calculateGrid({ ...row, budget: -100 }, candles)).toThrow('budget 参数无效')
+  })
+
   it('overlays manual trades and removed grid fills without mutating generated trade rows', () => {
     const candles = [
       candle('2026-01-05', 10, 10, 10),

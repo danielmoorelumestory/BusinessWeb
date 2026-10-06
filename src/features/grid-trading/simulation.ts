@@ -27,6 +27,9 @@ function validateParams(row: GridParams): void {
       throw new Error(`${name} 参数无效`)
     }
   }
+  for (const [name, value] of Object.entries({ floorPrice: row.floorPrice, budget: row.budget })) {
+    if (value !== undefined && (!Number.isFinite(value) || value <= 0)) throw new Error(`${name} 参数无效`)
+  }
 }
 
 function validCandles(candles: Candle[]): { candles: Candle[]; warnings: string[] } {
@@ -81,6 +84,8 @@ export function calculateGrid(row: GridParams, inputCandles: Candle[], adjustmen
   let buys = 0
   let sells = 0
   let anchored = !adjustments.anchor
+  let buyingStopped = false
+  let floorHitDate: string | undefined
 
   const openingTrade: Trade = {
     date: row.date,
@@ -162,7 +167,12 @@ export function calculateGrid(row: GridParams, inputCandles: Candle[], adjustmen
       const params = paramsAt(candle.date)
       const buyPrice = tick(lastTrade - params.step + params.rebound)
       const sellPrice = tick(lastTrade + params.step - params.pullback)
-      if (candle.low <= buyPrice) buy(candle.date, buyPrice)
+      const belowFloor = row.floorPrice !== undefined && buyPrice < row.floorPrice
+      if (belowFloor && !buyingStopped) {
+        buyingStopped = true
+        floorHitDate = candle.date
+      }
+      if (!buyingStopped && candle.low <= buyPrice) buy(candle.date, buyPrice)
       else if (candle.high >= sellPrice) sell(candle.date, sellPrice)
     }
     series.push({
@@ -178,12 +188,14 @@ export function calculateGrid(row: GridParams, inputCandles: Candle[], adjustmen
   const value = cash + shares * current
   const nextBuy = tick(lastTrade - row.step + row.rebound)
   const nextSell = tick(lastTrade + row.step - row.pullback)
-  return applyLedger(row, {
+  const result = applyLedger(row, {
     range: candles.length ? `${candles[0].date} ～ ${candles[candles.length - 1].date}` : row.date,
     current, lastTradeDate, lastTrade, nextBuy, nextSell, buyTrigger: nextBuy, sellTrigger: nextSell,
     pnl: value - openingAmount, value, realized, maxCapital, buys, sells, trades, series, position: shares,
+    ...(floorHitDate ? { floorHitDate } : {}),
     ...(warnings.length ? { warnings } : {}),
   }, adjustments)
+  return row.budget !== undefined && result.maxCapital > row.budget ? { ...result, budgetExceeded: true } : result
 }
 
 function applyLedger(row: GridParams, base: GridResult, adjustments: Adjustments): GridResult {

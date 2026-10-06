@@ -29,6 +29,15 @@ export default function AiStudio(): JSX.Element {
       </section>
 
       <section className="lab-section">
+        <h2>学习计划</h2>
+        <Link to="/ai/fullstack-roadmap" className="lab-card">
+          <span className="hub-card__title">AI 全栈 8 周学习路线</span>
+          <span className="hub-card__desc">56 天，围绕一个 AI SaaS 边学边做。查看完整计划、标记学习进度、下载原文。</span>
+          <span className="tag">进入学习计划 →</span>
+        </Link>
+      </section>
+
+      <section className="lab-section">
         <h2>推荐方向</h2>
         <p className="hub-group__hint">按和我的匹配度从高到低排列。点开看每个实验的边界和日志。</p>
         <div className="lab-grid">

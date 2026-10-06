@@ -35,4 +35,21 @@ describe('产业格局', () => {
     fireEvent.click(screen.getByRole('tab', { name: '半导体产业链' }))
     expect(fetcher).toHaveBeenCalledTimes(2)
   })
+
+  it('页面声明不构成投资建议，数据里没有荐股、目标价和配置建议', async () => {
+    render(<IndustryLandscape />)
+    expect(screen.getByRole('note').textContent).toContain('不构成投资建议')
+    for (const file of ['solid-state.json', 'semiconductor.json']) {
+      const text = readFileSync(resolve('public/industry', file), 'utf8')
+      expect(text).not.toMatch(/先买|目标¥|优先配置|机会型配置|公司推荐|投资建议|确定性排序|唯一确定性/)
+    }
+  })
+
+  it('有「主题研究卡」页签，切过去不请求产业数据', async () => {
+    fetcher.mockClear()
+    render(<IndustryLandscape />)
+    fireEvent.click(screen.getByRole('tab', { name: '主题研究卡' }))
+    expect(screen.getByRole('textbox', { name: '主题名称' })).toBeTruthy()
+    expect(fetcher).toHaveBeenCalledTimes(1)
+  })
 })

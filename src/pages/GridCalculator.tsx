@@ -21,11 +21,13 @@ type FormState = {
   step: string
   rebound: string
   pullback: string
+  floorPrice: string
+  budget: string
 }
 
 type Calculated = { row: GridParams; result: GridResult; candles: Candle[]; source: string; fetchedAt: string; endDate: string }
 
-const blankForm: FormState = { code: '', name: '', date: '', endDate: '', initialPrice: '', initialAmount: '', gridAmount: '', step: '', rebound: '0', pullback: '0' }
+const blankForm: FormState = { code: '', name: '', date: '', endDate: '', initialPrice: '', initialAmount: '', gridAmount: '', step: '', rebound: '0', pullback: '0', floorPrice: '', budget: '' }
 const money = (value: number): string => `${value < 0 ? '-' : ''}¥${Math.abs(value).toLocaleString('zh-CN', { maximumFractionDigits: 2 })}`
 const uid = (): string => globalThis.crypto?.randomUUID?.() ?? `grid-${Date.now()}-${Math.random().toString(36).slice(2)}`
 
@@ -39,6 +41,9 @@ function validate(form: FormState): string | null {
   ]
   for (const [name, raw, requiredPositive] of values) {
     if (raw.trim() === '' || !Number.isFinite(Number(raw)) || Number(raw) < 0 || (requiredPositive && Number(raw) <= 0)) return `${name}参数无效。`
+  }
+  for (const [name, raw] of [['价格下沿', form.floorPrice], ['资金预算', form.budget]] as Array<[string, string]>) {
+    if (raw.trim() !== '' && (!Number.isFinite(Number(raw)) || Number(raw) <= 0)) return `${name}参数无效。`
   }
   return null
 }
@@ -105,6 +110,8 @@ export default function GridCalculator(): JSX.Element {
         step: Number(form.step),
         rebound: Number(form.rebound),
         pullback: Number(form.pullback),
+        ...(form.floorPrice.trim() !== '' ? { floorPrice: Number(form.floorPrice) } : {}),
+        ...(form.budget.trim() !== '' ? { budget: Number(form.budget) } : {}),
       }
       const result = calculateGrid(row, candles)
       setCalculated({ row, result, candles, source: history.source, fetchedAt: history.fetchedOn, endDate: form.endDate })
@@ -161,6 +168,8 @@ export default function GridCalculator(): JSX.Element {
         <label>网格步长<input type="number" min="0" step="0.001" value={form.step} onChange={event => update('step', event.target.value)} placeholder="价格差" /></label>
         <label>买入反弹<input type="number" min="0" step="0.001" value={form.rebound} onChange={event => update('rebound', event.target.value)} /></label>
         <label>卖出回落<input type="number" min="0" step="0.001" value={form.pullback} onChange={event => update('pullback', event.target.value)} /></label>
+        <label>价格下沿<input type="number" min="0" step="0.001" value={form.floorPrice} onChange={event => update('floorPrice', event.target.value)} placeholder="可选" /><small>可选：网格买入价低于此价时永久停止买入，卖出不受影响</small></label>
+        <label>资金预算<input type="number" min="0" step="100" value={form.budget} onChange={event => update('budget', event.target.value)} placeholder="可选 ¥" /><small>可选：最大资金占用超过预算时给出告警，不改变回测结果</small></label>
         <div className="grid-submit-row"><button type="submit" className="grid-button" disabled={busy}>{busy ? '正在获取行情并回测…' : '运行回测'}</button></div>
       </form>
       <div className="grid-assumption"><strong>回测假设</strong>：按日线最高/最低价判断触发，成交按固定网格价；建仓日不触发。若同一日同时触及买卖价，按买入优先处理，一天最多一笔。这是历史模拟，不会提交实盘委托。</div>
@@ -175,13 +184,16 @@ export default function GridCalculator(): JSX.Element {
         <Metric label="已实现盈亏" value={money(calculated.result.realized)} positive={calculated.result.realized >= 0} />
         <Metric label="最新收盘" value={`¥${calculated.result.current.toFixed(3)}`} />
         <Metric label="持仓市值" value={money((calculated.result.position ?? 0) * calculated.result.current)} />
-        <Metric label="占用峰值" value={money(calculated.result.maxCapital)} />
+        <Metric label="最大资金占用（需要为这张网准备的资金）" value={money(calculated.result.maxCapital)} />
         <Metric label="买入 / 卖出" value={`${calculated.result.buys} / ${calculated.result.sells}`} />
-        <Metric label="下一买入价" value={`¥${calculated.result.nextBuy.toFixed(3)}`} />
+        <Metric label="下一买入价" value={calculated.result.floorHitDate ? '已触及下沿停止买入' : `¥${calculated.result.nextBuy.toFixed(3)}`} />
         <Metric label="下一卖出价" value={`¥${calculated.result.nextSell.toFixed(3)}`} />
       </div>
+      {calculated.result.floorHitDate && <p className="grid-error-text" role="alert">已于 {calculated.result.floorHitDate} 触及价格下沿 ¥{calculated.row.floorPrice!.toFixed(3)}，此后停止买入；卖出仍可触发，持仓可继续出清。</p>}
+      {calculated.result.budgetExceeded && calculated.row.budget !== undefined && <p className="grid-error-text" role="alert">最大资金占用 {money(calculated.result.maxCapital)} 已超过你设定的资金预算 {money(calculated.row.budget)}：这张网需要的资金超出计划，请考虑缩小每格金额、减少格数或设置价格下沿。</p>}
       <div className="grid-chart-wrap"><h3>资金盈亏曲线</h3><EquityPreview result={calculated.result} /></div>
       <p className="grid-data-caption">{calculated.source} · 数据获取于 {calculated.fetchedAt} · 算法 notes-grid-v1</p>
+      <p className="grid-data-caption">历史模拟不代表未来表现；模拟未含滑点与买卖价差，实盘成本会更高。</p>
       {calculated.result.warnings?.map(warning => <p className="grid-error-text" key={warning}>{warning}</p>)}
     </section>}
   </main>

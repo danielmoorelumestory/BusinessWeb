@@ -32,6 +32,7 @@ const IndustryLandscape = lazy(() => import('./pages/IndustryLandscape'))
 const KnowledgeCenter = lazy(() => import('./pages/KnowledgeCenter'))
 const InvestmentAiTools = lazy(() => import('./pages/InvestmentAiTools'))
 const AiLabDirection = lazy(() => import('./pages/AiLabDirection'))
+const AiLearningPlan = lazy(() => import('./pages/AiLearningPlan'))
 
 function PageLoading(): JSX.Element {
   return <div role="status" className="container page-loading">加载中…</div>
@@ -50,6 +51,7 @@ export default function App(): JSX.Element {
           <Route path="/invest" element={<InvestHub />} />
           <Route path="/invest/ai-tools" element={<InvestmentAiTools />} />
           <Route path="/ai" element={<AiStudio />} />
+          <Route path="/ai/fullstack-roadmap" element={<AiLearningPlan />} />
           <Route path="/ai/:slug" element={<AiLabDirection />} />
           <Route path="/knowledge" element={<KnowledgeCenter />} />
           <Route path="/life" element={<LifeLab />} />

@@ -67,6 +67,7 @@ export interface MethodResult {
   equityValue?: number;
   terminalShare?: number;
   cashflows?: number[];
+  nonOperatingEffective?: number;
 }
 export interface MultipleInput {
   method: "pe" | "peg" | "ps" | "pb";
@@ -88,6 +89,7 @@ export interface DcfInput {
   preferred?: number | null;
   minority?: number | null;
   nonOperating?: number | null;
+  nonOperatingDiscount?: number | null;
   projections?: Array<{
     revenue: number;
     ebitMargin: number;

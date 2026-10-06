@@ -31,7 +31,7 @@ export async function analyzeSnapshot(
 - 目标倍数属于研究参数，不是历史事实：没有可核实的同业乘数时，只能基于盈利稳定性、增长、要求回报率设置明确标注的研究区间，说明推理与局限，不称作市场共识；无法建立依据则设null。不能因缺同业数据就判定所有乘数法不适用。
 - 所有预测金额和每股值换算为证券报价币种，使用快照fx字段并在rationale说明。百分比用小数，PEG用增长率百分数计算。
 - 缺少关键事实时方法不可用、指标为null；不能借假设填补未知现金、债务或股权价值桥接，确知为零才用0。
-- DCF用FCFF/WACC或FCFE/股权成本，FCFF不要拿CFO-capex替代。多阶段DCF提供5–15年projections逐年收入、EBIT利润率、税率、折旧、capex、营运资本增加，以及融资与稀释说明；亏损年不自动抵税。关键假设（折现率、永续增长、预测期）必须显式写在rationale，并提示终值占比过高（超过75%）的风险。FCFF普通股股权桥接需现金、债务、优先股、少数权益、非经营资产。金融公司不强制采用企业DCF。
+- DCF用FCFF/WACC或FCFE/股权成本，FCFF不要拿CFO-capex替代。多阶段DCF提供5–15年projections逐年收入、EBIT利润率、税率、折旧、capex、营运资本增加，以及融资与稀释说明；亏损年不自动抵税。关键假设（折现率、永续增长、预测期）必须显式写在rationale，并提示终值占比过高（超过75%）的风险。FCFF普通股股权桥接需现金、债务、优先股、少数权益、非经营资产；这五项是历史事实，由服务端按快照强制覆盖，模型填写的金额无效、应填null。若某情景对非经营资产适用控股集团折价等调整，在该情景的nonOperatingDiscount填0到1的系数（null表示全额计入），并必须在rationale写明折价依据与幅度；该系数只作用于非经营资产，不影响现金与债务。金融公司不强制采用企业DCF。
 - 不给最终目标价、评级或买卖指令，只输出满足schema的JSON。
 财务快照：${JSON.stringify(snapshot)}
 JSON schema：${JSON.stringify(assumptionsSchema)}`;

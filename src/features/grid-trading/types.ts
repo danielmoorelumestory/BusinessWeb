@@ -34,6 +34,10 @@ export type GridParams = {
   rebound: number
   pullback: number
   gridAmount: number
+  /** 可选价格下沿：网格买入触发价低于它时永久停止买入（卖出不受影响），不填则不限制 */
+  floorPrice?: number
+  /** 可选资金预算：不改变回测行为，仅在 maxCapital 超过它时给出告警，不填则不提示 */
+  budget?: number
   id?: number
 }
 
@@ -58,6 +62,10 @@ export type GridResult = {
   series: EquityPoint[]
   position?: number
   warnings?: string[]
+  /** 首次因价格下沿阻止买入的日期；之后买入永久停止 */
+  floorHitDate?: string
+  /** 填写了资金预算且 maxCapital 超过预算时为 true */
+  budgetExceeded?: boolean
 }
 
 export type Overrides = Record<string, number>

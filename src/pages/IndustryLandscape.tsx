@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { PageTabs, PageTitle } from '../components/ui/PageTabs'
+import ThemeCards from './ThemeCards'
 
 interface TreeNode {
   t: string
@@ -79,17 +80,18 @@ const SOURCES = {
   solid: { label: '固态电池', file: 'industry/solid-state.json' },
   semi: { label: '半导体产业链', file: 'industry/semiconductor.json' },
 } as const
-type TabId = keyof typeof SOURCES
+type SourceId = keyof typeof SOURCES
+type TabId = SourceId | 'cards'
 
 export default function IndustryLandscape(): JSX.Element {
   const [tab, setTab] = useState<TabId>('solid')
   // 两棵树各自缓存，切换页签不重复请求
-  const [trees, setTrees] = useState<Partial<Record<TabId, TreeNode | null>>>({})
+  const [trees, setTrees] = useState<Partial<Record<SourceId, TreeNode | null>>>({})
   const [q, setQ] = useState('')
-  const tree = trees[tab]
+  const tree = tab === 'cards' ? undefined : trees[tab]
 
   useEffect(() => {
-    if (tab in trees) return
+    if (tab === 'cards' || tab in trees) return
     let alive = true
     fetch(`${BASE}${SOURCES[tab].file}`).then(r => r.json())
       .then((data: TreeNode) => { if (alive) setTrees(t => ({ ...t, [tab]: data })) })
@@ -102,8 +104,11 @@ export default function IndustryLandscape(): JSX.Element {
     <main>
       <PageTitle>产业格局</PageTitle>
       <PageTabs label="产业格局栏目" value={tab} onChange={id => { setTab(id); setQ('') }}
-        items={(Object.keys(SOURCES) as TabId[]).map(id => ({ id, label: SOURCES[id].label }))} />
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 16px 32px' }}>
+        items={[...(Object.keys(SOURCES) as SourceId[]).map(id => ({ id: id as TabId, label: SOURCES[id].label })), { id: 'cards' as TabId, label: '主题研究卡' }]} />
+      {tab === 'cards' ? <ThemeCards /> : <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 16px 32px' }}>
+        <p role="note" style={{ margin: '0 0 12px', padding: '10px 14px', borderRadius: 10, background: 'var(--bg-primary)', color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.7 }}>
+          这里是产业结构和技术路线的资料整理，用来看懂产业，不是买入清单。节点里出现的公司只是产业参与者；数据和预测多为早期整理，未逐条注明来源与日期，用前请自行核对。产业增长不等于公司盈利，更不等于股价回报，研究方法见书第31章；主题投资只放主动额度（第9章）。不构成投资建议。
+        </p>
         <div style={cardStyle}>
           <input
             value={q}
@@ -116,7 +121,7 @@ export default function IndustryLandscape(): JSX.Element {
             : tree === null ? <p style={{ color: 'var(--system-gray)' }}>加载失败，请刷新重试。</p>
             : <p style={{ color: 'var(--system-gray)' }}>加载中…</p>}
         </div>
-      </div>
+      </div>}
     </main>
   )
 }

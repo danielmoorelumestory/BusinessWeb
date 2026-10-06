@@ -10,6 +10,10 @@ afterEach(cleanup)
 const wrap = () => render(<MemoryRouter><AiStudio /></MemoryRouter>)
 
 describe('AiStudio', () => {
+  it('可以从学习计划入口进入八周路线', () => {
+    wrap()
+    expect(screen.getByRole('link', { name: /AI 全栈 8 周学习路线/ }).getAttribute('href')).toBe('/ai/fullstack-roadmap')
+  })
   it('页头：标题与统计', () => {
     wrap()
     expect(screen.getByRole('heading', { level: 1, name: 'AI实验室' })).toBeTruthy()

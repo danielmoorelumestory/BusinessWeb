@@ -26,6 +26,7 @@ const dcf = {
   preferred: 0,
   minority: 0,
   nonOperating: 0,
+  nonOperatingDiscount: null,
   projections: null,
   financingNote: "",
 };

@@ -57,7 +57,7 @@ export const INVEST_GROUPS: HubGroup[] = [
     hint: '研究什么：公司研究与产业链。观察池按书第32、36章自己建，10到20家，每家一份决策记录。',
     links: [
       { path: '/research-notes', label: '公司研究', desc: '四个市场的公司库、候选池与研究方法' },
-      { path: '/industry-landscape', label: '产业格局', desc: '固态电池、半导体产业链' },
+      { path: '/industry-landscape', label: '产业格局', desc: '固态电池、半导体产业链，和一页纸主题研究卡' },
     ],
   },
   {

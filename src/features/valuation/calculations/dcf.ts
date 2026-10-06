@@ -42,7 +42,9 @@ export function calculateDcf(input: DcfInput): MethodResult {
     (flows[flows.length - 1] * (1 + g)) / (r - g) / (1 + r) ** flows.length;
   const pv = flows.reduce((sum, f, i) => sum + f / (1 + r) ** (i + 1), 0),
     enterprise = pv + terminal;
-  let equity = enterprise;
+  let equity = enterprise,
+    discount = 1,
+    nonOperatingEffective: number | undefined;
   if (input.kind === "fcff") {
     const fields = [
       input.cash,
@@ -58,10 +60,14 @@ export function calculateDcf(input: DcfInput): MethodResult {
       );
     if (fields.some((v) => !Number.isFinite(v) || v! < 0))
       return fail("invalidInput", "股权价值桥接金额必须有限且非负");
+    discount = input.nonOperatingDiscount ?? 1;
+    if (!Number.isFinite(discount) || discount < 0 || discount > 1)
+      return fail("invalidInput", "非经营资产计入系数必须在0到1之间");
+    nonOperatingEffective = input.nonOperating! * discount;
     equity =
       enterprise +
       input.cash! +
-      input.nonOperating! -
+      nonOperatingEffective -
       input.debt! -
       input.preferred! -
       input.minority!;
@@ -75,7 +81,12 @@ export function calculateDcf(input: DcfInput): MethodResult {
     equityValue: equity,
     terminalShare: enterprise !== 0 ? terminal / enterprise : undefined,
     cashflows: flows,
-    reason: `${input.kind.toUpperCase()} / ${flows.length}年；估值基准日价值`,
+    nonOperatingEffective,
+    reason: `${input.kind.toUpperCase()} / ${flows.length}年；估值基准日价值${
+      input.kind === "fcff" && discount !== 1
+        ? `；非经营资产按${(discount * 100).toFixed(0)}%计入`
+        : ""
+    }`,
   };
 }
 export function calculateSensitivity(input: DcfInput): SensitivityCell[] {

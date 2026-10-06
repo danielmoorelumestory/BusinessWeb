@@ -225,6 +225,7 @@ export default function Results({
                     "preferred",
                     "minority",
                     "nonOperating",
+                    "nonOperatingDiscount",
                   ] as const
                 ).map((key) => (
                   <label key={key}>
@@ -238,6 +239,7 @@ export default function Results({
                         preferred: "优先股",
                         minority: "少数权益",
                         nonOperating: "非经营资产",
+                        nonOperatingDiscount: "非经营资产计入系数（0–1，缺省1）",
                       }[key]
                     }
                     <input
@@ -260,6 +262,19 @@ export default function Results({
                   </label>
                 ))}
               </div>
+              {d.kind === "fcff" &&
+                d.nonOperatingDiscount != null &&
+                d.nonOperatingDiscount !== 1 && (
+                  <p className="valuation-muted">
+                    非经营资产按 {(d.nonOperatingDiscount * 100).toFixed(0)}%
+                    计入：账面 {fmt(d.nonOperating)} → 实际生效{" "}
+                    {fmt(
+                      d.nonOperating != null
+                        ? d.nonOperating * d.nonOperatingDiscount
+                        : null,
+                    )}
+                  </p>
+                )}
               <p>{d.financingNote}</p>
               <div className="valuation-table-wrap">
                 <table>

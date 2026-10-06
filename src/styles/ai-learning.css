@@ -1,0 +1,34 @@
+.learning-page { max-width: 1040px; }
+.learning-download { display: inline-flex; padding: 10px 16px; margin-top: 16px; border: 1px solid var(--accent); border-radius: var(--radius-md); color: var(--text-primary); text-decoration: none; }
+.learning-progress { margin: 28px 0; padding: 24px; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg-card); }
+.learning-progress__summary { display: flex; justify-content: space-between; gap: 12px; }
+.learning-page progress { width: 100%; height: 10px; accent-color: var(--accent); }
+.learning-progress > p { margin: 12px 0; color: var(--text-secondary); }
+.learning-progress [role="alert"] { color: var(--system-red); }
+.learning-weeks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.learning-weeks a { display: flex; flex-direction: column; gap: 8px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); text-decoration: none; color: var(--text-primary); }
+.learning-weeks a:hover { border-color: var(--accent); }
+.learning-weeks span { font-size: .85rem; }
+.learning-document { line-height: 1.85; overflow-wrap: anywhere; }
+.learning-document h2 { font-family: var(--font-serif); margin: 40px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
+.learning-document h3 { margin: 28px 0 12px; }
+.learning-document :is(h2, h3) { scroll-margin-top: 100px; }
+.learning-document p, .learning-document ul, .learning-document ol { margin: 12px 0; }
+.learning-document ul, .learning-document ol { padding-left: 24px; }
+.learning-document a { color: var(--accent); text-decoration: underline; }
+.learning-document blockquote { border-left: 3px solid var(--accent); margin: 16px 0; padding-left: 18px; color: var(--text-secondary); }
+.learning-document pre { padding: 18px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow-x: auto; line-height: 1.6; }
+.learning-document code { font-size: .9em; }
+.learning-document table { display: block; overflow-x: auto; max-width: 100%; border-collapse: collapse; margin: 18px 0; }
+.learning-document th, .learning-document td { border: 1px solid var(--border-subtle); padding: 10px 14px; text-align: left; min-width: 110px; }
+.learning-document th { background: var(--bg-card); }
+.learning-days { display: flex; flex-wrap: wrap; gap: 12px; }
+.learning-check { margin: 8px 0; }
+.learning-check label, label.learning-check { cursor: pointer; display: flex; align-items: baseline; gap: 10px; padding: 8px 12px; border-radius: var(--radius-md); background: var(--bg-card); }
+.learning-check input { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+.learning-check:has(input:checked) { color: var(--text-secondary); }
+.learning-page :is(a, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 700px) {
+  .learning-weeks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .learning-progress { padding: 16px; }
+}

@@ -21,6 +21,8 @@ function validDcf(d: any): boolean {
       ["cash", "debt", "preferred", "minority", "nonOperating"].every(
         (k) => d[k] === undefined || nullable(d[k]),
       ) &&
+      (d.nonOperatingDiscount === undefined ||
+        nullable(d.nonOperatingDiscount)) &&
       (d.financingNote === undefined || typeof d.financingNote === "string") &&
       (d.projections === undefined ||
         (Array.isArray(d.projections) &&
@@ -112,7 +114,7 @@ export function isReport(value: unknown): value is ValuationReport {
               "invalidInput",
             ].includes(r.status) &&
             (r.presentPrice === undefined || nullable(r.presentPrice)) &&
-            ["enterpriseValue", "equityValue", "terminalShare"].every(
+            ["enterpriseValue", "equityValue", "terminalShare", "nonOperatingEffective"].every(
               (f) =>
                 r[f as keyof typeof r] === undefined ||
                 finite(r[f as keyof typeof r]),
@@ -183,6 +185,15 @@ export function exportReport(
         (m) =>
           `${m}: ${report.results[k][m].price ?? "不可计算"}；${report.results[k][m].reason}`,
       ),
+      ...(["dcf", "multistage"] as const).flatMap((m) => {
+        const r = report.results[k][m],
+          d = report.assumptions.scenarios[k][m];
+        if (r?.nonOperatingEffective == null) return [];
+        const pct = (((d?.nonOperatingDiscount ?? 1) as number) * 100).toFixed(0);
+        return [
+          `${m}股权桥接：非经营资产账面 ${d?.nonOperating ?? "—"}，按 ${pct}% 计入，实际生效 ${r.nonOperatingEffective}`,
+        ];
+      }),
     ]),
     `## 分析`,
     ...report.assumptions.analysis.map(

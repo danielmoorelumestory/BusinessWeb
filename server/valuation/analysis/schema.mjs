@@ -37,6 +37,7 @@ const dcf = {
       preferred: nullable,
       minority: nullable,
       nonOperating: nullable,
+      nonOperatingDiscount: nullable,
       projections: {
         anyOf: [
           { type: "null" },
