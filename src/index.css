@@ -206,7 +206,7 @@ button {
 }
 
 .btn-primary:hover {
-  background-color: #4B6A55;
+  background-color: var(--accent-ink);
 }
 
 .btn-ghost {
