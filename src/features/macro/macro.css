@@ -5,7 +5,7 @@
 .macro-eyebrow { color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 0.04em; }
 
 .macro-stamp { margin: 0; padding: 8px 12px; border-radius: var(--radius-md); background: var(--bg-secondary); color: var(--text-secondary); font-size: 0.82rem; }
-.macro-stamp.is-stale { background: color-mix(in srgb, var(--system-yellow) 16%, transparent); color: var(--warm-ink); }
+.macro-stamp.is-stale { background: var(--warn-soft); color: var(--warn); }
 
 .macro-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 12px; }
 .macro-grid--modules { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
@@ -20,15 +20,15 @@
 .macro-card__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 
 .macro-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--radius-chip); font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
-.macro-badge--green { background: color-mix(in srgb, var(--system-green) 14%, transparent); color: var(--down-ink); }
-.macro-badge--yellow { background: color-mix(in srgb, var(--system-yellow) 22%, transparent); color: var(--warm-ink); }
-.macro-badge--red { background: color-mix(in srgb, var(--system-red) 14%, transparent); color: var(--up-ink); }
+.macro-badge--green { background: var(--ok-soft); color: var(--ok); }
+.macro-badge--yellow { background: var(--warn-soft); color: var(--warn); }
+.macro-badge--red { background: var(--bad-soft); color: var(--bad); }
 .macro-badge--blue, .macro-badge--gray { background: var(--bg-secondary); color: var(--text-secondary); }
 
 .macro-hero { padding: 20px 22px; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); border-left-width: 4px; background: var(--bg-card); }
-.macro-hero--green { border-left-color: var(--system-green); }
-.macro-hero--yellow { border-left-color: var(--system-yellow); }
-.macro-hero--red { border-left-color: var(--system-red); }
+.macro-hero--green { border-left-color: var(--ok); }
+.macro-hero--yellow { border-left-color: var(--callout-warn-bar); }
+.macro-hero--red { border-left-color: var(--callout-bad-bar); }
 .macro-hero__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .macro-hero__name { margin: 6px 0 4px; font-size: 2.6rem; font-weight: 600; line-height: 1.2; }
 .macro-hero__summary { margin: 0; color: var(--text-secondary); line-height: 1.7; }
@@ -65,7 +65,7 @@
 
 /* AI 解读 */
 .macro-ai h3 { display: inline-flex; align-items: center; gap: 6px; }
-.macro-ai .is-connected { color: var(--down-ink); }
+.macro-ai .is-connected { color: var(--ok); }
 .macro-ai__offline { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; padding: 10px 12px; border-radius: var(--radius-md); background: var(--bg-secondary); font-size: 0.85rem; }
 .macro-ai__offline p { margin: 0 !important; flex: 1 1 280px; }
 .macro-ai__form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; margin-top: 12px; }
@@ -75,7 +75,7 @@
 .macro-ai__run p { margin: 2px 0 !important; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .macro-ai__run code { display: block; width: 100%; margin-top: 4px; font-size: 0.75rem; white-space: pre-wrap; word-break: break-all; }
 .macro-ai__spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--accent-soft); border-top-color: var(--accent); border-radius: 50%; }
-.macro-ai__error { color: var(--up-ink); font-size: 0.85rem; }
+.macro-ai__error { color: var(--bad); font-size: 0.85rem; }
 .macro-ai__result { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-subtle); }
 .macro-ai__summary { font-size: 0.95rem !important; line-height: 1.8 !important; }
 .macro-ai__list { list-style: none; padding: 0 !important; }

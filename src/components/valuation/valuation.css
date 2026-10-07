@@ -35,11 +35,11 @@
 }
 .valuation-card {
   background: var(--bg-card, #fff);
-  border: 1px solid rgba(120, 140, 170, 0.16);
+  border: 1px solid var(--border-subtle);
   border-radius: 20px;
   padding: 26px;
   margin-bottom: 20px;
-  box-shadow: 0 6px 24px rgba(40, 60, 100, 0.04);
+  box-shadow: var(--shadow-card);
 }
 .valuation-card h2 {
   font-size: 20px;

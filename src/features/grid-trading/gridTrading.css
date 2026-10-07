@@ -20,8 +20,8 @@
   margin: 0 0 18px;
   border: 1px solid var(--border-subtle);
   border-radius: 22px;
-  background: rgba(255,255,255,.78);
-  box-shadow: 0 8px 28px rgba(35,48,73,.07);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
 }
 .grid-section-heading { margin-bottom: 22px; }
 .grid-section-heading > div:nth-child(2) { flex: 1; }
@@ -39,7 +39,7 @@
 .grid-button {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px;
   padding: 9px 16px; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font: inherit; font-size: .88rem; font-weight: 650;
-  box-shadow: 0 3px 9px rgba(22,114,219,.16); transition: transform .15s, background .15s; cursor: pointer;
+  transition: transform .15s, background .15s; cursor: pointer;
 }
 .grid-button:hover:not(:disabled) { transform: translateY(-1px); background: var(--accent); }
 .grid-button:disabled, .grid-icon-button:disabled { opacity: .48; cursor: not-allowed; }

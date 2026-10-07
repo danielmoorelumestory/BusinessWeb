@@ -650,16 +650,16 @@ export async function fetchSectorCategories(): Promise<SectorCategory[]> {
         type: 'industry',
         title: '行业板块',
         icon: '🏭',
-        color: '#3b82f6',
-        bgColor: '#eff6ff',
+        color: 'var(--accent)',
+        bgColor: 'var(--accent-soft)',
         data: [...industry.up, ...industry.down]  // 先显示上涨，再显示下跌
       },
       {
         type: 'concept',
         title: '概念板块',
         icon: '💡',
-        color: '#8b5cf6',
-        bgColor: '#faf5ff',
+        color: 'var(--system-purple)',
+        bgColor: '#f4f2fb',
         data: [...concept.up, ...concept.down]  // 先显示上涨，再显示下跌
       }
     ]
@@ -905,8 +905,8 @@ export async function fetchUSSectorCategories(): Promise<SectorCategory[]> {
         type: 'industry',
         title: '美股行业板块',
         icon: '🇺🇸',
-        color: '#3b82f6',
-        bgColor: '#eff6ff',
+        color: 'var(--accent)',
+        bgColor: 'var(--accent-soft)',
         data: [...sectors.up, ...sectors.down]
       }
     ]

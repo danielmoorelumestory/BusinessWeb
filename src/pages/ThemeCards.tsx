@@ -68,12 +68,12 @@ export default function ThemeCards(): JSX.Element {
           <section key={card.id} style={box} aria-label={card.name}>
             <div onClick={() => setOpenId(open ? null : card.id)} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', gap: 8 }}>
               <strong style={{ fontSize: '1.05rem' }}>{open ? '▾' : '▸'} {card.name}</strong>
-              <span style={{ fontSize: '0.85rem', color: warns.length ? 'var(--system-red, #c0392b)' : 'var(--system-gray)' }}>
+              <span style={{ fontSize: '0.85rem', color: warns.length ? 'var(--bad)' : 'var(--system-gray)' }}>
                 已填 {filledCount(card)}/{FIELDS.length}{warns.length ? ` · ${warns.length} 条提醒` : ''}
               </span>
             </div>
             {warns.length > 0 && (
-              <ul style={{ margin: '10px 0 0', paddingLeft: 20, fontSize: '0.85rem', color: 'var(--system-red, #c0392b)', lineHeight: 1.7 }}>
+              <ul style={{ margin: '10px 0 0', paddingLeft: 20, fontSize: '0.85rem', color: 'var(--bad)', lineHeight: 1.7 }}>
                 {warns.map(w => <li key={w}>{w}</li>)}
               </ul>
             )}

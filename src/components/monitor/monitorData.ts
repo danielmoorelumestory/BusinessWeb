@@ -258,9 +258,9 @@ KRE、XHB、GDX/GLD、VIX、DXY、^TNX、BTC-USD、CNN Fear & Greed 指数
 ]
 
 export const categoryConfig = {
-  plan: { title: '计划执行', icon: '📋', color: '#3b82f6', bgColor: '#eff6ff' },
-  strategy: { title: '决策策略', icon: '🎯', color: '#8b5cf6', bgColor: '#faf5ff' },
-  monitor: { title: '监控分析', icon: '📊', color: '#10b981', bgColor: '#f0fdf4' }
+  plan: { title: '计划执行', icon: '📋', color: 'var(--accent)', bgColor: 'var(--accent-soft)' },
+  strategy: { title: '决策策略', icon: '🎯', color: 'var(--system-purple)', bgColor: '#f4f2fb' },
+  monitor: { title: '监控分析', icon: '📊', color: 'var(--system-teal)', bgColor: '#effaf8' }
 }
 
 export const loadData = (): InvestmentFramework[] => {

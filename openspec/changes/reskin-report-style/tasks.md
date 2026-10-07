@@ -25,12 +25,12 @@
 ## 4. 第二段：写死颜色
 
 - [x] 4.0 （已完成，补记）统一标签类全圆角：`.macro-badge`、`.grid-sync-status`、`CandidateButton`、`InvestmentPlan2026` 的 `Pill`、`About` 与 `ResearchNotes` 里的内联按钮与输入框改为 `--radius-chip` / `--radius-btn`，圆形元素保留；并修复主按钮悬停写死旧暗绿的缺陷
-- [ ] 4.1 `src/components/pulse/IndexHeatmap.tsx` 与 `HeatmapSection.tsx`：逐处评估；涨跌色阶保持红涨绿跌语义并保留 `greenUp` 开关，其余文字、底色换成令牌，并记录结论
-- [ ] 4.2 `src/services/api.ts`、`src/pages/ThemeCards.tsx`、`src/pages/TradingPhilosophy.tsx`、`src/components/monitor/monitorData.ts`：评估这些颜色是令牌、涨跌色还是数据分类色；分类色统一到新色板后保留为常量，并记录结论
-- [ ] 4.3 `src/features/grid-trading/GridChart.tsx` 与 `chart.ts`：图表线条、网格、文字颜色换成令牌或新色板，保持买卖与涨跌的区分度
-- [ ] 4.4 `valuation.css`、`macro.css`、`gridTrading.css`、`ai-learning.css`、`index.css` 与 `shell.css` 里剩余的写死颜色：换成令牌
-- [ ] 4.5 逐个页面检查是否仍有内联的暖色或衬线残留，补改
-- [ ] 4.6 核查并迁移"表示状态含义"的颜色用法：宏观温度页等处的"正常 / 警惕 / 危险"胶囊目前引用 `--system-green` / `--system-red`（它们映射到涨跌色 `--down` / `--up`），应改为 `--ok` / `--warn` / `--bad`；真正表示行情涨跌的用法保持 `--up` / `--down`。逐处记录结论
+- [x] 4.1 `src/components/pulse/IndexHeatmap.tsx` 与 `HeatmapSection.tsx`：逐处评估；涨跌色阶保持红涨绿跌语义并保留 `greenUp` 开关，其余文字、底色换成令牌，并记录结论。结果：外围界面换成令牌，色阶、涨跌文字、深色画布与提示框保留（见设计"写死颜色的评估结论"）
+- [x] 4.2 `src/services/api.ts`、`src/pages/ThemeCards.tsx`、`src/pages/TradingPhilosophy.tsx`、`src/components/monitor/monitorData.ts`：评估这些颜色是令牌、涨跌色还是数据分类色；分类色统一到新色板后保留为常量，并记录结论。结果：分类色换成令牌，`TradingPhilosophy` 的白字保留，`ThemeCards` 的红色警告迁到 `--bad`
+- [x] 4.3 `src/features/grid-trading/GridChart.tsx` 与 `chart.ts`：图表线条、网格、文字颜色换成令牌或新色板，保持买卖与涨跌的区分度。结果：买入红、卖出蓝语义保留，色值对齐 `#dc2626` / `#1d4ed8`（SVG 属性不支持 `var()`）
+- [x] 4.4 `valuation.css`、`macro.css`、`gridTrading.css`、`ai-learning.css`、`index.css` 与 `shell.css` 里剩余的写死颜色：换成令牌。结果：`valuation.css`、`gridTrading.css` 的边框、阴影、卡片底色换成令牌；其余 `#fff` 为主色底上的白字，保留
+- [x] 4.5 逐个页面检查是否仍有内联的暖色或衬线残留，补改。结果：除知识图谱（第 5 组）外，没有旧暖色的字面值或 rgba 残留；其余 `color-mix` 均引用令牌
+- [x] 4.6 核查并迁移"表示状态含义"的颜色用法：宏观温度页等处的"正常 / 警惕 / 危险"胶囊目前引用 `--system-green` / `--system-red`（它们映射到涨跌色 `--down` / `--up`），应改为 `--ok` / `--warn` / `--bad`；真正表示行情涨跌的用法保持 `--up` / `--down`。逐处记录结论。结果：已迁移 `macro.css` 的徽章、过期标记、提示条与 AI 连接状态；监控类页面约 470 处引用暂不迁移，原因与后续事项见设计
 
 ## 5. 知识图谱改色
 

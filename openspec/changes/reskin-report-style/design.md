@@ -83,6 +83,21 @@ BusinessWeb 当前是"纸书茶室"风格：`src/index.css` 的 `:root` 定义�
 对每处写死颜色按用途选择：换成令牌（卡片、边框、文字）；保留涨跌语义并统一到 `--up`/`--down` 的等价值（热力图、涨跌幅、图表）；确属数据分类色的（例如 `services/api.ts` 里给分类标签用的蓝、紫等）按新色板统一风格后保留为常量。每个文件评估后在任务里记录结论。
 - 理由：这 105 处并非同一类东西，机械替换会破坏涨跌语义或图表可读性。
 
+#### 写死颜色的评估结论（第 4 组实施记录）
+| 位置 | 结论 |
+|---|---|
+| `IndexHeatmap`、`HeatmapSection` 的外围界面（标签页按钮、边框、灰色文字、重试按钮、琥珀色提示） | 换成令牌（`--accent`、`--accent-soft`、`--border-subtle`、`--text-*`、`--warn` 等） |
+| 热力图色阶、`upText/downText/upLight/downLight`、`greenUp` 开关 | **保留**：行情涨跌语义，色值与 `--up`/`--down` 一致 |
+| 热力图深色画布（`#1f2937`）、画布内文字、提示框 | **保留**：有意的深色底 |
+| `services/api.ts`、`monitorData.ts` 的分类色（行业板块、概念板块、计划执行、决策策略、监控分析） | 换成令牌（`--accent`、`--system-purple`、`--system-teal` 及对应浅底），内联样式里 `var()` 可用 |
+| `TradingPhilosophy` 的 `#ffffff` | **保留**：彩色底上的白字 |
+| 网格图表 `chart.ts`、`GridChart.tsx` | 买入红、卖出蓝的语义保留，色值对齐新色板（`#dc2626`、`#1d4ed8`）；SVG 属性不支持 `var()`，故保持字面值 |
+| `valuation.css`、`gridTrading.css` 的边框与阴影 | 换成 `--border-subtle`、`--shadow-card`、`--bg-card`；去掉蓝色按钮阴影 |
+| `index.css` 的 `#fff`（按钮文字）、`shell.css` 的 `#fff`（3 处） | **保留**：主色底上的白字 |
+| `macro.css` 的徽章、过期标记、提示条、AI 连接状态 | 迁到状态色：绿→`--ok`、黄→`--warn`、红→`--bad`；`macro-hero` 的色条用 callout 色条令牌 |
+| `ThemeCards` 的红色警告 | 迁到 `--bad` |
+| 监控类页面（`USMonitorTab`、`ChinaStockTab`、`ChinaTemperatureTab`、`TemperatureTab`、`SilverMonitor`、`ExecutionTab`、`StagesTab` 等，合计约 470 处引用）以及 `TradingPhilosophy` 等 | **暂不迁移**：这些文件里红绿黄多表达风险等级或装饰，且 `--system-red/green` 与 `--up/--down` 当前同值，视觉上没有冲突；逐处判断工作量大、误改风险高。若将来要让涨跌色独立变化，需要先把这些迁到 `--ok/--warn/--bad`，作为后续事项记录 |
+
 ### 7. 知识图谱整体改色，3D 场景颜色集中成一个小色板
 `knowledge.css` 的 179 处写死颜色按用途映射到新令牌；`gardenEngine.ts`、`GardenScene.tsx` 里 3D 场景的颜色（如标签文字、光点、连线）提取为一个小的色板常量，取值对应新色板（蓝作主色、琥珀作强调）。改完后用肉眼确认节点、连线、标签在冷色底上的可读性。
 - 理由：集中成常量后，以后再调色只改一处；知识图谱不再保留暖色特例，符合使用者的决定。
