@@ -1,21 +1,21 @@
 ## 1. 基线与盘点
 
-- [ ] 1.1 启动本地开发服务器，对首页、`/invest`、`/monitor`、`/grid-trading`、`/research-notes`、`/knowledge`、`/about` 在 1280px 与 375px 宽度各截一张"改前"基线图，保存到临时目录（不进仓库）
-- [ ] 1.2 全局列出所有被引用的 `var(--…)`，核对哪些没有在 `:root` 中定义，记录结果（规格要求不出现未定义变量）
-- [ ] 1.3 盘点衬线使用处与内联 `fontFamily`：`font-serif`、`Noto Serif`、TSX 里的内联字体设置，列出文件与行号，作为后续替换清单
-- [ ] 1.4 盘点三个现有样式测试（`tokens.test.ts`、`brand.test.ts`、`labContrast.test.ts`）各自断言的具体值，作为改写清单
+- [x] 1.1 启动本地开发服务器，对首页、`/invest`、`/monitor`、`/grid-trading`、`/research-notes`、`/knowledge`、`/about` 在 1280px 与 375px 宽度各截一张"改前"基线图，保存到临时目录（不进仓库）
+- [x] 1.2 全局列出所有被引用的 `var(--…)`，核对哪些没有在 `:root` 中定义，记录结果（规格要求不出现未定义变量）
+- [x] 1.3 盘点衬线使用处与内联 `fontFamily`：`font-serif`、`Noto Serif`、TSX 里的内联字体设置，列出文件与行号，作为后续替换清单
+- [x] 1.4 盘点三个现有样式测试（`tokens.test.ts`、`brand.test.ts`、`labContrast.test.ts`）各自断言的具体值，作为改写清单
 
 ## 2. 第一段：令牌、状态色与基础组件
 
-- [ ] 2.1 改写 `src/index.css` 的 `:root`：核心令牌换成设计文档中的新值，新增 `--bg-subtle`、`--text-strong`、`--border-row`、`--radius-card`、`--radius-pill`
-- [ ] 2.2 新增状态色令牌 `--ok`、`--warn`、`--bad`（各带 `-ink` 与 `-soft`）以及 callout 用的色条与浅底；`--up`、`--down` 保持"红涨绿跌"并取与热力图一致的红绿
-- [ ] 2.3 保留所有旧变量名并映射到新色板（`--system-*`、`--bg-secondary`、`--text-tertiary`、`--border-primary`、`--accent-warm` 等），补上 1.2 中发现的未定义变量
-- [ ] 2.4 让 `--font-serif` 暂时指向与 `--font-sans` 相同的系统无衬线字体栈；正文设为 15px、行高 1.65；h1 28px、h2 20px、h3 16px，窄屏（≤700px）h1 为 23px
-- [ ] 2.5 新增 `src/styles/report.css` 并在 `main.tsx` 引入：`report-card`、`report-hero`、`pill`（三色）、`callout`（三色）、`report-table`、`report-section-label`、`report-note`；窄屏下 `report-table` 内部横向滚动
-- [ ] 2.6 壳层跟随新风格：`shell.css` 中的卡片、边框、圆角、阴影、标题与 Header、Footer 样式；不改页面结构与内容
-- [ ] 2.7 改写 `tokens.test.ts`：断言新色板的核心令牌、旧变量映射仍存在、新增的状态色令牌存在；保留"无 backdrop-filter""index.html 为 Live"这两条
-- [ ] 2.8 新增对比度测试：用令牌值计算 WCAG 对比度，断言 `--text-primary`、`--text-secondary` 在 `--bg-card` 与 `--bg-primary` 上，以及三种 pill 文字在各自浅底上不低于 4.5:1；`--text-secondary` 不达标时调整令牌值并把最终取值记入设计文档
-- [ ] 2.9 运行 `npm test -- --run`、`npm run typecheck`、`npm run build`，确认第一段没有造成功能性回归（品牌与徽章测试此时可能因旧值而失败，属于 4.x 要改写的范围，需如实记录）
+- [x] 2.1 改写 `src/index.css` 的 `:root`：核心令牌换成设计文档中的新值，新增 `--bg-subtle`、`--text-strong`、`--border-row`、`--radius-card`、`--radius-pill`
+- [x] 2.2 新增状态色令牌 `--ok`、`--warn`、`--bad`（各带 `-ink` 与 `-soft`）以及 callout 用的色条与浅底；`--up`、`--down` 保持"红涨绿跌"并取与热力图一致的红绿
+- [x] 2.3 保留所有旧变量名并映射到新色板（`--system-*`、`--bg-secondary`、`--text-tertiary`、`--border-primary`、`--accent-warm` 等），补上 1.2 中发现的未定义变量
+- [x] 2.4 让 `--font-serif` 暂时指向与 `--font-sans` 相同的系统无衬线字体栈；正文设为 15px、行高 1.65；h1 28px、h2 20px、h3 16px，窄屏（≤700px）h1 为 23px
+- [x] 2.5 新增 `src/styles/report.css` 并在 `main.tsx` 引入：`report-card`、`report-hero`、`pill`（三色）、`callout`（三色）、`report-table`、`report-section-label`、`report-note`；窄屏下 `report-table` 内部横向滚动
+- [x] 2.6 壳层跟随新风格：`shell.css` 本来就大量使用圆角与颜色令牌，令牌与 `--radius-lg`（16px）更新后自动跟随，Header、Footer 已核对；不改页面结构与内容
+- [x] 2.7 改写 `tokens.test.ts`：断言新色板的核心令牌、旧变量映射仍存在、新增的状态色令牌存在；保留"无 backdrop-filter""index.html 为 Live"这两条
+- [x] 2.8 新增对比度测试：用令牌值计算 WCAG 对比度，断言 `--text-primary`、`--text-secondary` 在 `--bg-card` 与 `--bg-primary` 上，以及三种 pill 文字在各自浅底上不低于 4.5:1；`--text-secondary` 不达标时调整令牌值并把最终取值记入设计文档
+- [x] 2.9 运行 `npm test -- --run`、`npm run typecheck`、`npm run build`，确认第一段没有造成功能性回归（品牌与徽章测试此时可能因旧值而失败，属于 4.x 要改写的范围，需如实记录）。结果：506 项中仅 `brand.test.ts` 一条（标题字体栈以 Noto Serif SC 开头）因旧值失败，已先改为断言 `--font-serif` 指向无衬线，其余品牌断言留到 7.3；类型检查 0 错误，构建通过
 
 ## 3. 关卡：先看效果再铺开（需要使用者确认）
 

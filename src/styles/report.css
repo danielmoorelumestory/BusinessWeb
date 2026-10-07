@@ -1,0 +1,108 @@
+/* 报告组件：对应参考页 etf-portfolio-review-20261004.html 的 .card .hero .section .foot .pill .key .warn .bad table。
+   颜色全部来自 src/index.css 的令牌。状态含义用 pill / callout（--ok --warn --bad），行情涨跌色 --up --down 不在这里使用。 */
+
+.report-card,
+.report-hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.report-hero {
+  background: var(--hero-gradient);
+}
+
+/* 小节标签 */
+.report-section-label {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 次要说明与注释 */
+.report-sub {
+  color: var(--text-secondary);
+}
+
+.report-note {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* 状态胶囊 */
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pill--ok {
+  color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.pill--warn {
+  color: var(--warn);
+  background: var(--warn-soft);
+}
+
+.pill--bad {
+  color: var(--bad);
+  background: var(--bad-soft);
+}
+
+/* 提示块：左侧色条 + 浅底 */
+.callout {
+  border-left: 5px solid var(--callout-info-bar);
+  background: var(--callout-info-bg);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.callout--info {
+  border-left-color: var(--callout-info-bar);
+  background: var(--callout-info-bg);
+}
+
+.callout--warn {
+  border-left-color: var(--callout-warn-bar);
+  background: var(--callout-warn-bg);
+}
+
+.callout--bad {
+  border-left-color: var(--callout-bad-bar);
+  background: var(--callout-bad-bg);
+}
+
+/* 紧凑表格 */
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.report-table th,
+.report-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-row);
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-table th {
+  background: var(--bg-subtle);
+  color: var(--text-strong);
+}
+
+/* 窄屏：表格在自身内部横向滚动，页面整体不出现横向滚动条 */
+@media (max-width: 700px) {
+  .report-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

@@ -39,7 +39,9 @@ describe('品牌文件', () => {
     expect(main).not.toMatch(/chinese-simplified-\d+\.css/)
   })
 
-  it('标题字体栈仍以 Noto Serif SC 开头，并带系统宋体回退', () => {
-    expect(read('src/index.css')).toMatch(/--font-serif:\s*"Noto Serif SC",\s*"Songti SC"/)
+  it('标题不再使用衬线字体：--font-serif 暂时指向系统无衬线字体栈', () => {
+    const css = read('src/index.css')
+    expect(css).toMatch(/--font-serif:\s*var\(--font-sans\)/)
+    expect(css).not.toMatch(/--font-serif:\s*"Noto Serif SC"/)
   })
 })

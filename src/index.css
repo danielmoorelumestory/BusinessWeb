@@ -1,45 +1,71 @@
 :root {
-  /* 纸书茶室色板 */
-  --bg-primary: #FAF6EE;
-  --bg-card: #FFFDF8;
-  --text-primary: #3A3A34;
-  --text-secondary: #7A766B;
-  --accent: #5B7B65;
-  --accent-soft: rgba(91, 123, 101, 0.12);
-  --accent-warm: #C9794F;
-  --accent-warm-soft: rgba(201, 121, 79, 0.12);
-  --border-subtle: #E6DFD0;
-  --up: #C4503F;
-  --down: #3F9A62;
-  /* 浅色底上的深色文字 */
-  --accent-ink: #3F5A49;
-  --up-ink: #8E3426;
-  --down-ink: #2A6B45;
-  --warm-ink: #8A4A28;
+  /* 冷色数据报告色板（参考页 etf-portfolio-review-20261004.html） */
+  --bg-primary: #f5f7fa;
+  --bg-card: #ffffff;
+  --bg-subtle: #f7f9fc;
+  --text-primary: #172033;
+  --text-secondary: #667085;
+  --text-strong: #344054;
+  --accent: #2563eb;
+  --accent-soft: rgba(37, 99, 235, 0.1);
+  --accent-warm: #d97706;
+  --accent-warm-soft: rgba(217, 119, 6, 0.12);
+  --border-subtle: #e5eaf2;
+  --border-row: #e8edf4;
 
-  --font-serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  /* 行情涨跌：A 股红涨绿跌。只用于涨跌，状态含义请用下面的 --ok / --warn / --bad */
+  --up: #dc2626;
+  --down: #16a34a;
+
+  /* 浅色底上的深色文字 */
+  --accent-ink: #1d4ed8;
+  --up-ink: #b42318;
+  --down-ink: #087443;
+  --warm-ink: #966400;
+
+  /* 状态含义（保留 / 减仓 / 退出）：与涨跌色相互独立 */
+  --ok: #087443;
+  --ok-soft: #e9f8ee;
+  --warn: #966400;
+  --warn-soft: #fff4d6;
+  --bad: #b42318;
+  --bad-soft: #ffebe9;
+
+  /* 提示块 callout：左侧色条 + 浅底 */
+  --callout-info-bar: #2563eb;
+  --callout-info-bg: #f6f9ff;
+  --callout-warn-bar: #d97706;
+  --callout-warn-bg: #fffaf0;
+  --callout-bad-bar: #dc2626;
+  --callout-bad-bg: #fff5f5;
+
+  /* 首屏卡片渐变 */
+  --hero-gradient: linear-gradient(135deg, #ffffff, #edf4ff);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  /* 全站只用系统无衬线：旧名字先指向同一字体栈，待引用全部改完后删除 */
+  --font-serif: var(--font-sans);
 
   /* 旧变量映射：老页面引用这些名字，自动换肤 */
   --system-blue: var(--accent);
   --system-blue-light: var(--accent-soft);
   --system-indigo: var(--accent);
-  --system-purple: #8C7B6B;
+  --system-purple: #7c6bc4;
   --system-pink: var(--accent-warm);
   --system-red: var(--up);
-  --system-red-light: rgba(196, 80, 63, 0.1);
+  --system-red-light: rgba(220, 38, 38, 0.1);
   --system-orange: var(--accent-warm);
-  --system-yellow: #D9A441;
+  --system-yellow: #e0a21b;
   --system-green: var(--down);
-  --system-green-light: rgba(63, 154, 98, 0.1);
-  --system-teal: #6E9C94;
-  --system-cyan: #7BA3A8;
-  --system-gray: #9A9588;
-  --system-gray2: #B5B0A3;
-  --system-gray3: #CFC9BB;
-  --system-gray4: #DDD6C6;
-  --system-gray5: #E6DFD0;
-  --system-gray6: #F1EBDD;
+  --system-green-light: rgba(22, 163, 74, 0.1);
+  --system-teal: #0d9488;
+  --system-cyan: #0891b2;
+  --system-gray: #98a2b3;
+  --system-gray2: #b6bfcc;
+  --system-gray3: #cfd6e0;
+  --system-gray4: #dde3ec;
+  --system-gray5: #e5eaf2;
+  --system-gray6: #f1f4f9;
 
   /* 老页面引用但此前从未定义的变量，统一指向新色板 */
   --border-primary: var(--border-subtle);
@@ -56,12 +82,14 @@
 
   --shadow-sm: none;
   --shadow-md: none;
-  --shadow-lg: 0 6px 18px rgba(58, 58, 52, 0.06);
+  --shadow-lg: 0 6px 18px rgba(23, 32, 51, 0.06);
   --shadow-glass: none;
 
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 14px;
+  --radius-lg: 16px;
+  --radius-card: 16px;
+  --radius-pill: 999px;
   --radius-full: 9999px;
 
   --safe-top: env(safe-area-inset-top, 0px);
@@ -87,10 +115,10 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 15px;
   background: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.7;
+  line-height: 1.65;
   overflow-x: hidden;
 }
 
@@ -112,6 +140,14 @@ h6 {
   color: var(--text-primary);
   letter-spacing: 0.01em;
   line-height: 1.4;
+}
+
+h1 { font-size: 28px; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+
+@media (max-width: 700px) {
+  h1 { font-size: 23px; }
 }
 
 a {
