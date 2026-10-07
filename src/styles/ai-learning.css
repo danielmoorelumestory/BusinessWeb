@@ -10,7 +10,7 @@
 .learning-weeks a:hover { border-color: var(--accent); }
 .learning-weeks span { font-size: .85rem; }
 .learning-document { line-height: 1.85; overflow-wrap: anywhere; }
-.learning-document h2 { font-family: var(--font-serif); margin: 40px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
+.learning-document h2 { font-family: var(--font-sans); margin: 40px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
 .learning-document h3 { margin: 28px 0 12px; }
 .learning-document :is(h2, h3) { scroll-margin-top: 100px; }
 .learning-document p, .learning-document ul, .learning-document ol { margin: 12px 0; }

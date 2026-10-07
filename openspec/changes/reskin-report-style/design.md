@@ -104,6 +104,11 @@ BusinessWeb 当前是"纸书茶室"风格：`src/index.css` 的 `:root` 定义�
 - 3D 场景：新增 `gardenPalette.ts` 作为颜色的唯一来源（WebGL 里不能用 `var()`），高亮连线沿用"琥珀 = 强调、蓝 = 主色"的原有逻辑。
 - 验证方式：用放在临时目录的示例资料库启动本地知识服务（通过 `KNOWLEDGE_VAULT` 指定，不触碰真实资料库），截图确认可读性。
 
+#### 去除衬线字体的实施记录（第 6 组）
+- 23 处 `var(--font-serif)` 全部改为 `var(--font-sans)`，随后删除 `--font-serif`、`main.tsx` 里的两行字体引入和 `@fontsource/noto-serif-sc` 依赖。
+- 发现并处理了设计阶段没有预料到的一处：`public/research/` 下的两份静态研究报告（`cn-roundtable-2026-09-30.html`、`sp500-roundtable-2026-09-30.html`）自带 Google Fonts 外链和 Noto Serif SC 声明。它们是应用里链接到的独立文档，同样属于"全站"，所以删掉外链并改为系统无衬线栈。
+- `npm uninstall` 顺带把锁文件根记录里原本就与 `package.json` 不一致的 `@rolldown/binding-darwin-arm64`（写在 `dependencies` 下，而 `package.json` 里是 `optionalDependencies`）规整为一致，这对之前为 macOS arm64 本地启动添加的平台依赖没有影响。
+
 ### 7. 知识图谱整体改色，3D 场景颜色集中成一个小色板
 `knowledge.css` 的 179 处写死颜色按用途映射到新令牌；`gardenEngine.ts`、`GardenScene.tsx` 里 3D 场景的颜色（如标签文字、光点、连线）提取为一个小的色板常量，取值对应新色板（蓝作主色、琥珀作强调）。改完后用肉眼确认节点、连线、标签在冷色底上的可读性。
 - 理由：集中成常量后，以后再调色只改一处；知识图谱不再保留暖色特例，符合使用者的决定。

@@ -40,10 +40,10 @@
 
 ## 6. 去除衬线字体与依赖
 
-- [ ] 6.1 把 1.3 清单里所有 `var(--font-serif)` 引用改为 `var(--font-sans)`，再删除 `--font-serif` 定义
-- [ ] 6.2 删除 `src/main.tsx` 里 `@fontsource/noto-serif-sc` 的两行引入，执行 `npm uninstall @fontsource/noto-serif-sc` 并确认 `package-lock.json` 同步更新
-- [ ] 6.3 全局搜索 `noto-serif`、`Noto Serif`、`font-serif`，确认没有残留；构建后确认 `dist/` 中没有相关字体文件
-- [ ] 6.4 如个别大标题在无衬线下显得单薄，调整字重而不是恢复衬线
+- [x] 6.1 把 1.3 清单里所有 `var(--font-serif)` 引用改为 `var(--font-sans)`，再删除 `--font-serif` 定义。结果：23 处引用（`shell.css` 14、`knowledge.css` 6 等）全部改为 `var(--font-sans)`，`--font-serif` 已删除；TSX 里没有衬线引用
+- [x] 6.2 删除 `src/main.tsx` 里 `@fontsource/noto-serif-sc` 的两行引入，执行 `npm uninstall @fontsource/noto-serif-sc` 并确认 `package-lock.json` 同步更新。结果：已删除并卸载；锁文件除该包外，根记录里原本与 `package.json` 不一致的 `@rolldown/binding-darwin-arm64` 条目被规整为 `optionalDependencies`，平台包条目保留，`npm ci --dry-run` 改前改后均通过
+- [x] 6.3 全局搜索 `noto-serif`、`Noto Serif`、`font-serif`，确认没有残留；构建后确认 `dist/` 中没有相关字体文件。结果：构建产物中没有任何字体文件，也没有 Noto Serif 或 Google Fonts 的文本引用。过程中发现 `public/research/` 下两份静态研究报告自带 Google Fonts 外链与衬线字体，已一并改为系统无衬线栈，并由测试守住
+- [x] 6.4 如个别大标题在无衬线下显得单薄，调整字重而不是恢复衬线。结果：在首页、宏观温度、知识图谱等页面目测无衬线后标题字重正常，未发现需要调整字重的地方
 
 ## 7. 品牌文件与测试改写
 

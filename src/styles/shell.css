@@ -31,7 +31,7 @@
 }
 
 .site-brand__name {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -98,7 +98,7 @@
   background: var(--bg-card);
   color: var(--text-primary);
   text-decoration: none;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.1rem;
 }
 
@@ -135,7 +135,7 @@
 }
 
 .site-footer__name {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.05rem;
   color: var(--text-primary);
   margin-bottom: 4px;
@@ -256,7 +256,7 @@
 .hub-group h2,
 .hub-group summary {
   font-size: 1.15rem;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   margin-bottom: 12px;
 }
@@ -308,7 +308,7 @@
 }
 
 .hub-card__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   font-size: 1.05rem;
 }
@@ -393,7 +393,7 @@
 
 .skill-card h2 {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.2rem;
 }
 
@@ -468,7 +468,7 @@
 .hero__subtitle {
   margin: 0 0 24px;
   color: var(--text-secondary);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.05rem;
 }
 
@@ -484,7 +484,7 @@
   margin: 8px auto 32px;
   padding: 0 8px;
   text-align: center;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.1rem;
   line-height: 1.9;
 }
@@ -545,7 +545,7 @@
 
 .quote p {
   margin: 0 0 8px;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .quote footer {
@@ -583,7 +583,7 @@
 .book-reader h1,
 .book-reader h2,
 .book-reader h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .book-reader p {
@@ -710,7 +710,7 @@
 }
 
 .book-card__pdf-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 600;
 }
@@ -830,7 +830,7 @@
   border: none;
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 0.92rem;
   font-weight: 600;
   line-height: 1.5;
@@ -1081,7 +1081,7 @@ a.chapter-nav__item:hover {
 }
 
 .lab-section > h2 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   margin-bottom: 12px;
 }
 
@@ -1136,7 +1136,7 @@ a.chapter-nav__item:hover {
 }
 
 .lab-card__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   font-size: 1.1rem;
 }

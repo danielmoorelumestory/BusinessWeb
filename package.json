@@ -28,7 +28,6 @@
     "macro:update": "node scripts/macro-snapshot.mjs"
   },
   "dependencies": {
-    "@fontsource/noto-serif-sc": "^5.3.0",
     "@modelcontextprotocol/sdk": "^1.32.0",
     "@types/react-router-dom": "^5.3.3",
     "3d-force-graph": "^1.80.1",

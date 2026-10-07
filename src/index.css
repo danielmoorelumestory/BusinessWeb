@@ -43,8 +43,6 @@
   --hero-gradient: linear-gradient(135deg, #ffffff, #f1f5fb);
 
   --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-  /* 全站只用系统无衬线：旧名字先指向同一字体栈，待引用全部改完后删除 */
-  --font-serif: var(--font-sans);
 
   /* 旧变量映射：老页面引用这些名字，自动换肤 */
   --system-blue: var(--accent);
@@ -138,7 +136,7 @@ h4,
 h5,
 h6 {
   margin: 0 0 0.5em 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: 0;

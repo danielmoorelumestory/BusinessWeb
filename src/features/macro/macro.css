@@ -1,6 +1,6 @@
 /* 宏观温度：卡片、状态徽章、迷你走势。颜色全部取站点变量 */
 .macro-stack { display: flex; flex-direction: column; gap: 24px; }
-.macro-h2 { margin: 0 0 12px; font-size: 1.1rem; font-weight: 600; font-family: var(--font-serif); }
+.macro-h2 { margin: 0 0 12px; font-size: 1.1rem; font-weight: 600; font-family: var(--font-sans); }
 .macro-muted { color: var(--text-secondary); font-size: 0.82rem; font-weight: 400; }
 .macro-eyebrow { color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 0.04em; }
 

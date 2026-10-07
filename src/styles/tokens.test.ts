@@ -53,11 +53,11 @@ describe('设计变量', () => {
     }
   })
 
-  it('字体只用系统无衬线：--font-sans 不含衬线或网络字体，--font-serif 不再指向衬线', () => {
+  it('字体只用系统无衬线：--font-sans 不含衬线或网络字体，不再定义 --font-serif', () => {
     const sans = css.match(/--font-sans\s*:\s*([^;]+);/)![1]
     expect(sans).toBe('-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif')
     expect(css).not.toMatch(/Noto Serif|Songti|STSong|SimSun/)
-    expect(css).toMatch(/--font-serif\s*:\s*var\(--font-sans\)/)
+    expect(css).not.toMatch(/--font-serif/)
   })
 
   it('不再使用玻璃拟态 backdrop-filter', () => {

@@ -28,20 +28,31 @@ describe('品牌文件', () => {
     expect(read('src/index.css')).not.toContain('fadeInScale')
   })
 
-  it('字体自托管：不再请求 Google Fonts，由本地 @fontsource 提供', () => {
+  it('不加载任何 Web 字体：不请求 Google Fonts，也不引入 @fontsource，package.json 不再依赖它', () => {
     const html = read('index.html')
     expect(html).not.toContain('fonts.googleapis.com')
     expect(html).not.toContain('fonts.gstatic.com')
-    const main = read('src/main.tsx')
-    // 600.css / 700.css 是按 unicode-range 切片的版本，浏览器只会下载页面用到的字形片
-    expect(main).toMatch(/@fontsource\/noto-serif-sc\/600\.css/)
-    expect(main).toMatch(/@fontsource\/noto-serif-sc\/700\.css/)
-    expect(main).not.toMatch(/chinese-simplified-\d+\.css/)
+    expect(read('src/main.tsx')).not.toMatch(/@fontsource/)
+    const pkg = JSON.parse(read('package.json'))
+    const deps = { ...pkg.dependencies, ...pkg.devDependencies }
+    expect(Object.keys(deps).filter(name => name.startsWith('@fontsource'))).toEqual([])
   })
 
-  it('标题不再使用衬线字体：--font-serif 暂时指向系统无衬线字体栈', () => {
-    const css = read('src/index.css')
-    expect(css).toMatch(/--font-serif:\s*var\(--font-sans\)/)
-    expect(css).not.toMatch(/--font-serif:\s*"Noto Serif SC"/)
+  it('public 下的静态研究报告也不加载网络字体、不用衬线字体', () => {
+    for (const f of ['public/research/cn-roundtable-2026-09-30.html', 'public/research/sp500-roundtable-2026-09-30.html']) {
+      const html = read(f)
+      expect(html, f).not.toMatch(/fonts\.(googleapis|gstatic)\.com/)
+      expect(html, f).not.toMatch(/Noto Serif|Source Han Serif|Songti|Georgia/)
+      expect(html, f).toContain('-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif')
+    }
+  })
+
+  it('全站只用系统无衬线：不再定义或引用 --font-serif，也没有衬线字体名', () => {
+    const files = ['src/index.css', 'src/styles/shell.css', 'src/styles/report.css', 'src/styles/ai-learning.css', 'src/features/knowledge/knowledge.css', 'src/features/macro/macro.css', 'src/features/grid-trading/gridTrading.css', 'src/components/valuation/valuation.css']
+    for (const f of files) {
+      const css = read(f)
+      expect(css, f).not.toMatch(/--font-serif/)
+      expect(css, f).not.toMatch(/Noto Serif|Songti|STSong|SimSun/)
+    }
   })
 })
