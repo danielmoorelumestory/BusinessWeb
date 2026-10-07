@@ -7,13 +7,13 @@
 
 ## 2. 前端部署到 Cloudflare Pages
 
-- [ ] 2.1 在 Cloudflare 创建 Pages 项目，连接 BusinessWeb 仓库，配置 `npm run build`、输出 `dist`、Node 24
-- [ ] 2.2 配置 SPA 回退（非 `/api/` 路径返回 `index.html`），并确认未知 `/api/*` 返回 404 而不是页面 HTML
-- [ ] 2.3 在 Pages 的构建环境变量里设置 `VITE_API_BASE=https://business-web-black.vercel.app` 和 `VITE_MARKET_DIRECT=true`（网格行情在非直连模式下请求同源 `/api/grid-market`，不会使用 `VITE_API_BASE`，与现有 `build:pages` 的做法一致），保存后重新部署，使接口过渡期继续可用
-- [ ] 2.3a 把 Pages 的 `*.pages.dev` 来源加入 `api/knowledge.ts` 的跨域白名单（现在只允许 `business-web-black.vercel.app` 和 `turbosnails.github.io`，否则知识库接口会返回 403），并重新部署 Vercel
-- [ ] 2.4 确认 `*.pages.dev` 地址的 HTTPS 访问正常；自有域名的绑定推迟到使用者购买并接入域名之后（不阻塞后续任务）
-- [ ] 2.5 验证首页、`/grid-trading`、`/grid-trading/records` 的直接访问与刷新，以及行情接口返回正常
-- [ ] 2.6 在 `docs/` 补充 Cloudflare Pages 部署说明（构建设置、变量、验证命令）
+- [x] 2.1 在 Cloudflare 创建 Pages 项目，连接 BusinessWeb 仓库，配置 `npm run build`、输出 `dist`、Node 24
+- [x] 2.2 配置 SPA 回退（非 `/api/` 路径返回 `index.html`），并确认未知 `/api/*` 返回 404 而不是页面 HTML
+- [x] 2.3 在 Pages 的构建环境变量里设置 `VITE_API_BASE=https://business-web-black.vercel.app` 和 `VITE_MARKET_DIRECT=true`（网格行情在非直连模式下请求同源 `/api/grid-market`，不会使用 `VITE_API_BASE`，与现有 `build:pages` 的做法一致），保存后重新部署，使接口过渡期继续可用
+- [x] 2.3a 把 Pages 的 `*.pages.dev` 来源加入 `api/knowledge.ts` 的跨域白名单（现在只允许 `business-web-black.vercel.app` 和 `turbosnails.github.io`，否则知识库接口会返回 403），并重新部署 Vercel
+- [x] 2.4 确认 `*.pages.dev` 地址的 HTTPS 访问正常；自有域名的绑定推迟到使用者购买并接入域名之后（不阻塞后续任务）
+- [x] 2.5 验证首页、`/grid-trading`、`/grid-trading/records` 的直接访问与刷新，以及行情接口返回正常
+- [x] 2.6 在 `docs/` 补充 Cloudflare Pages 部署说明（构建设置、变量、验证命令）
 
 ## 3. Workers 骨架与配置封装
 
