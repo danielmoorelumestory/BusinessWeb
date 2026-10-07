@@ -75,6 +75,12 @@ Header 的 `/note/` 入口仅当 `VITE_NOTES_PATH` 非空时渲染；`scripts/bu
 - 用 notes 当前提交（`902f04b`）在新位置构建出的 HTML 与 RSS，在归一化 CSS 文件名后与 notes 原 `dist` 逐字节相同。CSS 仅少了一条 `.contents{display:contents}`：源码中没有任何地方使用该类，原 `dist` 的构建时间（13:16）早于最后一次提交（13:19），属于陈旧残留。
 - 主站每次构建都会把当前分钟写进页脚（"更新于 …"），所以资源文件名的哈希每分钟都会变化；这是主站原有行为，与本变更无关。构建产物的文件数与改动前一致（616 个）。
 
+## 线上验证（Cloudflare 构建命令改为 `build:cloudflare` 之后）
+
+- `/note`、`/note/`、`/note/notes/`、`/note/lab/`、`/note/lab/grid-trading/` 及其 `saved`、`minute`、`detail` 子页、`/note/rss.xml`、`/note/favicon.svg` 均可访问；无尾斜杠的链接 308 跳转且保留查询参数；中文文件名的报告最终返回 200。
+- 页面引用的 `/note/_astro/*` 样式与脚本均为 200。RSS 链接使用 `SITE_URL`（`https://businessweb-c0u.pages.dev/note/...`）。
+- 主站 `/`、`/grid-trading`、`/grid-trading/records`、`/no-such-page`、`/changelog.json` 行为不变；10 个 `/api/*` 的状态码与 Vercel 逐个一致；主站 bundle 中包含"笔记"入口。
+
 ## Risks / Trade-offs
 
 - [两个前端技术栈长期并存，视觉不统一] → 本阶段接受；后续按价值逐块重写为 React，重写完一块就把对应的 `/note` 页面下线。
@@ -101,6 +107,6 @@ Header 的 `/note/` 入口仅当 `VITE_NOTES_PATH` 非空时渲染；`scripts/bu
 
 - 已确定：用于 Astro `site` 的环境变量是 `SITE_URL`（Cloudflare 上优先读它，其次 `CF_PAGES_URL`，再退回旧地址）。建议在 Cloudflare 后台设置 `SITE_URL=https://businessweb-c0u.pages.dev`，否则 RSS 会使用每次部署各不相同的临时地址。
 - 已实测：`/note` 无尾斜杠会 308 跳转到带斜杠的地址并保留查询参数（见"实测结论"）。
-- 线上 `/note/` 下未知路径是否同样使用 `dist/note/404.html`，上线后验证。
+- 已在线上验证：`/note/` 下未知路径返回 404，页面是 notes 自己的 `404.html`（标题"找不到 · 记"）；主站的未知路径仍回退到入口页（200），两者互不影响，与本地模拟器的结果一致。
 - 使用者是否在搬家前已经同步过全部记录，需要使用者自行确认。
 - RSS 的 `guid` 随站点地址变化：新站点的订阅源对阅读器来说是一份新的订阅。旧站点保留，现有订阅者不受影响。
