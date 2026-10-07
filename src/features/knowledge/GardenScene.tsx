@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import type { KnowledgeGraph } from './api'
+import { GARDEN_PALETTE } from './gardenPalette'
 
 export type GardenNode = { path: string; title: string }
-const COLORS = ['#5B7B65', '#C9794F', '#6E9C94', '#D9A441', '#8C7B6B', '#A8708A', '#7BA3A8', '#8A9A5B']
+const COLORS = GARDEN_PALETTE.categories
 const SEED_COUNT = 90
 
 export function gardenCategory(path: string): string {

@@ -98,6 +98,12 @@ BusinessWeb 当前是"纸书茶室"风格：`src/index.css` 的 `:root` 定义�
 | `ThemeCards` 的红色警告 | 迁到 `--bad` |
 | 监控类页面（`USMonitorTab`、`ChinaStockTab`、`ChinaTemperatureTab`、`TemperatureTab`、`SilverMonitor`、`ExecutionTab`、`StagesTab` 等，合计约 470 处引用）以及 `TradingPhilosophy` 等 | **暂不迁移**：这些文件里红绿黄多表达风险等级或装饰，且 `--system-red/green` 与 `--up/--down` 当前同值，视觉上没有冲突；逐处判断工作量大、误改风险高。若将来要让涨跌色独立变化，需要先把这些迁到 `--ok/--warn/--bad`，作为后续事项记录 |
 
+#### 知识图谱改色的实施记录（第 5 组）
+- `knowledge.css`：约 100 处是 `var(--token, #旧色)` 形式，旧色只是后备值，直接去掉；带透明度的绿（`#57794c0d` 等）改为 `color-mix(in srgb, var(--accent) N%, transparent)`，保留透明度并跟随主色；花园画布的奶油渐变改为冷色渐变。代码高亮（8 种语法色）与一处中性黑色阴影有意保留。
+- 去掉后备值的副作用：此前盘点出的未定义变量 `--border-color` 原来靠后备值兜底，一并改为 `--border-subtle`。
+- 3D 场景：新增 `gardenPalette.ts` 作为颜色的唯一来源（WebGL 里不能用 `var()`），高亮连线沿用"琥珀 = 强调、蓝 = 主色"的原有逻辑。
+- 验证方式：用放在临时目录的示例资料库启动本地知识服务（通过 `KNOWLEDGE_VAULT` 指定，不触碰真实资料库），截图确认可读性。
+
 ### 7. 知识图谱整体改色，3D 场景颜色集中成一个小色板
 `knowledge.css` 的 179 处写死颜色按用途映射到新令牌；`gardenEngine.ts`、`GardenScene.tsx` 里 3D 场景的颜色（如标签文字、光点、连线）提取为一个小的色板常量，取值对应新色板（蓝作主色、琥珀作强调）。改完后用肉眼确认节点、连线、标签在冷色底上的可读性。
 - 理由：集中成常量后，以后再调色只改一处；知识图谱不再保留暖色特例，符合使用者的决定。

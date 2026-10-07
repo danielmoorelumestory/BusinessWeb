@@ -1,6 +1,7 @@
 import ForceGraph3D from '3d-force-graph'
 import * as THREE from 'three'
 import type { SceneData, SceneNode } from './GardenScene'
+import { GARDEN_PALETTE } from './gardenPalette'
 
 const REST_DISTANCE = 430
 const FOCUS_DISTANCE = 300
@@ -17,14 +18,14 @@ const glowTexture = (() => {
   }
 })()
 
-function labelSprite(text: string, color = '#3A3A34', size = 34, weight = 600): THREE.Sprite {
+function labelSprite(text: string, color: string = GARDEN_PALETTE.label, size = 34, weight = 600): THREE.Sprite {
   const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d')!
   const font = `${weight} ${size}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`
   ctx.font = font
   const label = text.length > 18 ? text.slice(0, 18) + '…' : text
   canvas.width = Math.ceil(ctx.measureText(label).width) + 24; canvas.height = Math.round(size * 1.65)
   ctx.font = font; ctx.textBaseline = 'middle'
-  ctx.shadowColor = 'rgba(250,246,238,1)'; ctx.shadowBlur = 7
+  ctx.shadowColor = GARDEN_PALETTE.labelHalo; ctx.shadowBlur = 7
   ctx.fillStyle = color; ctx.fillText(label, 12, canvas.height / 2 + 2)
   const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true, depthWrite: false, depthTest: false }))
   sprite.scale.set(canvas.width / 9, canvas.height / 9, 1)
@@ -94,14 +95,14 @@ export function createGardenEngine(host: HTMLElement, onFocus: (path: string) =>
 
   
   // Heart of the dandelion and the spokes that join every seed to it.
-  const heart = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#E3B66B', transparent: true, depthWrite: false, opacity: .6 }))
+  const heart = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: GARDEN_PALETTE.heart, transparent: true, depthWrite: false, opacity: .6 }))
   heart.scale.set(80, 80, 1)
   const spokes = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: .32, depthWrite: false }))
   spokes.frustumCulled = false
   // Drifting dandelion fluff in the background.
   const FLUFF = 160, fluffPos = new Float32Array(FLUFF * 3), fluffSeed = Array.from({ length: FLUFF }, () => Math.random() * Math.PI * 2)
   for (let i = 0; i < FLUFF; i++) { const v = new THREE.Vector3().randomDirection().multiplyScalar(260 + Math.random() * 520); fluffPos.set([v.x, v.y, v.z], i * 3) }
-  const fluff = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(fluffPos, 3)), new THREE.PointsMaterial({ map: glowTexture(), size: 7, color: '#B7AE92', transparent: true, opacity: .65, depthWrite: false, sizeAttenuation: true }))
+  const fluff = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(fluffPos, 3)), new THREE.PointsMaterial({ map: glowTexture(), size: 7, color: GARDEN_PALETTE.fluff, transparent: true, opacity: .65, depthWrite: false, sizeAttenuation: true }))
   fluff.frustumCulled = false
   const categoryLabels = new THREE.Group()
   scene.add(heart, spokes, fluff, categoryLabels)
@@ -178,11 +179,11 @@ export function createGardenEngine(host: HTMLElement, onFocus: (path: string) =>
       else if (b && n.__label) n.__label.visible = false
     }
     // Re-assigning an accessor makes 3d-force-graph re-evaluate it for every link.
-    graph.linkColor(l => isActiveLink(l) ? '#C9794F' : b ? '#E6DFD0' : '#9DB5A2')
+    graph.linkColor(l => isActiveLink(l) ? GARDEN_PALETTE.linkActive : b ? GARDEN_PALETTE.linkDim : GARDEN_PALETTE.linkIdle)
       .linkWidth(l => isActiveLink(l) ? 1.4 : .35)
       .linkDirectionalParticles(l => isActiveLink(l) ? 5 : b || paused ? 0 : 2)
       .linkDirectionalParticleWidth(l => isActiveLink(l) ? 2.4 : 1.2)
-      .linkDirectionalParticleColor(l => isActiveLink(l) ? '#C9794F' : '#5B7B65')
+      .linkDirectionalParticleColor(l => isActiveLink(l) ? GARDEN_PALETTE.particleActive : GARDEN_PALETTE.particleIdle)
   }
 
   const resize = () => { const w = host.clientWidth, h = host.clientHeight; if (w && h) { graph.width(w).height(h) } }
