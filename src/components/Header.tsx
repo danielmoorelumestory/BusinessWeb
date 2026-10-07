@@ -18,8 +18,16 @@ function Leaf(): JSX.Element {
   )
 }
 
+// notes 站点由 Cloudflare 构建放进 /note/（见 scripts/build-cloudflare.mjs），只有该构建会设置这个变量；
+// 其他构建（Vercel、GitHub Pages）没有 /note/，不显示入口，避免点进去是 404。
+// 必须用普通 <a> 而不是 Link：Link 会交给前端路由，找不到匹配路由而显示"这一页不存在"。
+function notesHref(): string {
+  return (import.meta.env.VITE_NOTES_PATH || '').trim()
+}
+
 export default function Header(): JSX.Element {
   const { pathname } = useLocation()
+  const notes = notesHref()
   const [open, setOpen] = useState(false)
 
   // 路由变化时关闭抽屉
@@ -73,6 +81,7 @@ export default function Header(): JSX.Element {
               </Link>
             )
           })}
+          {notes && <a href={notes} className="site-nav__link">笔记</a>}
         </nav>
 
         <button
@@ -102,6 +111,7 @@ export default function Header(): JSX.Element {
               </Link>
             )
           })}
+          {notes && <a href={notes} className="site-drawer__link" onClick={() => setOpen(false)}>笔记</a>}
         </nav>
       )}
     </header>

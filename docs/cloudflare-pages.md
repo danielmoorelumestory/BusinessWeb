@@ -11,7 +11,7 @@
 | 项目 | 值 |
 |---|---|
 | 生产分支 | `main`（推送即自动部署） |
-| 构建命令 | `npm run build` |
+| 构建命令 | `npm run build:cloudflare`（主站 + `/note/` 下的 notes，见 [notes-cohosting.md](notes-cohosting.md)）；只要主站时用 `npm run build` |
 | 输出目录 | `dist` |
 | `NODE_VERSION`（构建变量） | `24` |
 | 兼容性日期 | 不早于 `2026-08-04`（当前 `2026-10-07`） |
@@ -27,6 +27,7 @@
 |---|---|---|
 | `VITE_API_BASE` | 不设置 | 为空时前端请求同域 `/api/*`，由本站的 Functions 处理。如需临时回退到 Vercel，设为你自己的 Vercel 域名 |
 | `VITE_MARKET_DIRECT` | 不设置 | 设为 `true` 时网格行情由浏览器直连腾讯，绕开 `/api/grid-market` |
+| `SITE_URL` | `https://businessweb-c0u.pages.dev`（建议设置） | 仅 `build:cloudflare` 使用，作为 notes 的 RSS 链接来源；不设置时使用每次部署各不相同的临时地址 |
 
 > 仓库里曾硬编码上游作者的 `business-web-black.vercel.app`，那不是你自己的部署，**不要**把它填进 `VITE_API_BASE`。你自己的 Vercel 域名可在 Vercel 项目 Overview 页查看。
 

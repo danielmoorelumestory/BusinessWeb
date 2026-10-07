@@ -7,6 +7,7 @@ import Header from './Header'
 
 afterEach(() => {
   cleanup()
+  vi.unstubAllEnvs()
   document.body.style.overflow = ''
 })
 
@@ -99,4 +100,52 @@ it('知识中心点亮桌面与移动导航', () => {
   fireEvent.click(screen.getByRole('button', { name: '打开菜单' }))
   const drawer = screen.getByRole('navigation', { name: '移动导航' })
   expect(within(drawer).getByRole('link', { name: '知识图谱' }).getAttribute('aria-current')).toBe('page')
+})
+
+// 点击后事件是否被前端路由拦截：React 的处理函数在根容器上先于 document 执行，
+// Link 会调用 preventDefault，普通 <a> 不会（这里在 document 上记录后再阻止，避免 jsdom 真的去导航）
+function clickIsIntercepted(element: Element): boolean {
+  let prevented = false
+  const record = (event: Event) => { prevented = event.defaultPrevented; event.preventDefault() }
+  document.addEventListener('click', record)
+  try { fireEvent.click(element) } finally { document.removeEventListener('click', record) }
+  return prevented
+}
+
+describe('Header 的 notes 入口', () => {
+  it('没有设置 VITE_NOTES_PATH 时不显示（Vercel 与 GitHub Pages 的构建没有 /note/）', () => {
+    renderAt('/')
+    expect(screen.queryByRole('link', { name: '笔记' })).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: '打开菜单' }))
+    expect(screen.queryByRole('link', { name: '笔记' })).toBeNull()
+  })
+
+  it('设置后桌面导航末尾出现指向 /note/ 的入口，不影响原有 6 项', () => {
+    vi.stubEnv('VITE_NOTES_PATH', '/note/')
+    renderAt('/')
+    const nav = screen.getByRole('navigation', { name: '主导航' })
+    expect(within(nav).getAllByRole('link').map(a => a.textContent)).toEqual([
+      '首页', '正念投资', 'AI实验室', '知识图谱', '自由空间', '关于', '笔记',
+    ])
+    expect(within(nav).getByRole('link', { name: '笔记' }).getAttribute('href')).toBe('/note/')
+  })
+
+  it('入口是普通链接，点击不会被前端路由拦截；站内导航仍由路由处理', () => {
+    vi.stubEnv('VITE_NOTES_PATH', '/note/')
+    renderAt('/')
+    const nav = screen.getByRole('navigation', { name: '主导航' })
+    expect(clickIsIntercepted(within(nav).getByRole('link', { name: '笔记' }))).toBe(false)
+    expect(clickIsIntercepted(within(nav).getByRole('link', { name: '关于' }))).toBe(true)
+  })
+
+  it('移动抽屉里也有入口，点击后关闭抽屉', () => {
+    vi.stubEnv('VITE_NOTES_PATH', '/note/')
+    renderAt('/')
+    fireEvent.click(screen.getByRole('button', { name: '打开菜单' }))
+    const drawer = screen.getByRole('navigation', { name: '移动导航' })
+    const link = within(drawer).getByRole('link', { name: '笔记' })
+    expect(link.getAttribute('href')).toBe('/note/')
+    expect(clickIsIntercepted(link)).toBe(false)
+    expect(screen.queryByRole('navigation', { name: '移动导航' })).toBeNull()
+  })
 })
