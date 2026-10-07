@@ -64,6 +64,6 @@
 
 ## 9. 上线
 
-- [ ] 9.1 使用者确认后再推送；推送前先说明将触发 Cloudflare、Vercel、GitHub Pages 各构建一次
-- [ ] 9.2 推送后验证线上主站关键页面样式、`/note/` 各页面不受影响（`notes-site` 的风格本变更不动）、`/api/*` 状态码不变
-- [ ] 9.3 确认回退办法：`git revert` 相关提交即可恢复旧外观（只在文档中确认，不实际回退线上）
+- [x] 9.1 使用者确认后再推送；推送前先说明将触发 Cloudflare、Vercel、GitHub Pages 各构建一次。结果：使用者看过最终对比并确认，已推送（15 个提交）
+- [x] 9.2 推送后验证线上主站关键页面样式、`/note/` 各页面不受影响（`notes-site` 的风格本变更不动）、`/api/*` 状态码不变。结果：Cloudflare 新构建约 2 分钟上线；主站 8 个页面与 `/note/` 各页返回 200；线上样式含新令牌（`--accent`、`--ok`、`--warn`、`--bad`、`--radius-card` 等），旧暖色与 Noto Serif 为 0，`--font-serif` 为 0；研究报告无 Google Fonts 外链；manifest、theme-color、favicon 为新值；`/api/*` 状态码不变；`/note/` 仍是 notes 原样；Vercel 也已部署新样式
+- [x] 9.3 确认回退办法：`git revert` 相关提交即可恢复旧外观（只在文档中确认，不实际回退线上）。结果：整套换肤是纯样式改动，`git revert` 相关提交即可恢复旧外观（A / B 两版的取舍也只是保留或回退设计 2b 对应的提交），无数据或接口影响
