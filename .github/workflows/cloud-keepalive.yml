@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     env:
-      SITE_URL: https://business-web-black.vercel.app
+      SITE_URL: https://business-web-pi-eight.vercel.app
       GRID_SYNC_TOKEN: ${{ secrets.GRID_SYNC_TOKEN }}
     steps:
       - name: Check site and read Supabase snapshot through Vercel

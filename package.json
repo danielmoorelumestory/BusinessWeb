@@ -19,7 +19,7 @@
     "prebuild": "node scripts/generate-changelog.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true VITE_API_BASE=https://business-web-black.vercel.app vite build && node scripts/prepare-pages.mjs",
+    "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true VITE_API_BASE=https://business-web-pi-eight.vercel.app vite build && node scripts/prepare-pages.mjs",
     "test:functions": "node scripts/check-functions.mjs",
     "test:scripts": "node --test scripts/*.test.mjs",
     "knowledge:cloud": "node scripts/knowledge-cloud.mjs",

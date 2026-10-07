@@ -30,10 +30,10 @@ export default defineConfig({
       '/api/knowledge': { target: `http://127.0.0.1:${process.env.KNOWLEDGE_PORT || 8789}`, changeOrigin: true,
         headers: { Authorization: `Bearer ${process.env.KNOWLEDGE_TOKEN || ''}` } },
       // Read-only access to the synced cloud library from a local dev page (same-origin for the browser, so no CORS).
-      '/remote-knowledge': { target: 'https://business-web-black.vercel.app', changeOrigin: true, rewrite: path => path.replace(/^\/remote-knowledge/, '/api/knowledge') },
+      '/remote-knowledge': { target: 'https://business-web-pi-eight.vercel.app', changeOrigin: true, rewrite: path => path.replace(/^\/remote-knowledge/, '/api/knowledge') },
       '/api/valuation': { target: `http://127.0.0.1:${process.env.VALUATION_PORT || 8788}`, changeOrigin: true },
-      '/api/cls-plate': { target: 'https://business-web-black.vercel.app', changeOrigin: true },
-      '/api/candidates-sync': { target: 'https://business-web-black.vercel.app', changeOrigin: true },
+      '/api/cls-plate': { target: 'https://business-web-pi-eight.vercel.app', changeOrigin: true },
+      '/api/candidates-sync': { target: 'https://business-web-pi-eight.vercel.app', changeOrigin: true },
       '/api/proxy': {
         target: 'https://hq.sinajs.cn',
         changeOrigin: true,
