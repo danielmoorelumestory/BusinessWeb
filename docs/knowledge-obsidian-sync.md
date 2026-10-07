@@ -15,7 +15,7 @@
 把 `main.js`、`manifest.json` 放入每台电脑的 `<资料库>/.obsidian/plugins/businessweb-knowledge-sync/`。
 在 Obsidian 设置 → 第三方插件中启用“知识同步 · 自己的服务器”。若开启了受限模式，需要按 Obsidian 提示允许本地插件。
 
-插件设置填写 `https://business-web-black.vercel.app/api/knowledge` 和专用同步凭据，点击“测试连接”。确认服务器版本后开启自动同步。
+插件设置填写 `https://business-web-pi-eight.vercel.app/api/knowledge` 和专用同步凭据，点击“测试连接”。确认服务器版本后开启自动同步。
 新仓库首次同步只下载；下一轮才上传本地变化。每 30 秒检查远端，笔记修改后 2 秒触发同步。
 
 新电脑也安装同一插件、连接同一服务器。首次下载完成后，笔记和链接即可使用；离线时可继续编辑，联网后重新同步。

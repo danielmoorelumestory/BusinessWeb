@@ -18,7 +18,7 @@
 在已忽略的 `.local/knowledge-cloud/config.json` 写入：
 
 ```json
-{ "endpoint": "https://business-web-black.vercel.app/api/knowledge", "uploadToken": "你的独立上传凭据" }
+{ "endpoint": "https://business-web-pi-eight.vercel.app/api/knowledge", "uploadToken": "你的独立上传凭据" }
 ```
 
 `npm run knowledge:cloud -- --upload` 重新读取本地文件，批量上传后以乐观版本发布。所有批次完整且图节点匹配才切换 head；失败保持旧版。同步脚本不自动重试冲突。原始 Markdown 不进入 Git。
@@ -30,7 +30,7 @@
 Streamable HTTP MCP endpoint：
 
 ```text
-https://business-web-black.vercel.app/api/knowledge?action=mcp
+https://business-web-pi-eight.vercel.app/api/knowledge?action=mcp
 Authorization: Bearer <KNOWLEDGE_MCP_TOKEN>
 ```
 
