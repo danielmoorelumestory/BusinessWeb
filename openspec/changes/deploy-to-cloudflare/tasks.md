@@ -28,15 +28,15 @@
 - [x] 4.1 迁移 `china-stock` 到 Pages Functions，线上验证 `/api/china-stock?symbol=sh000001`，输出与 Vercel 逐字节一致（该接口前端没有调用方）
 - [x] 4.2 迁移 `grid-market` 到 Pages Functions，线上验证行情与 K 线，输出与 Vercel 一致（仅 `market` 字段里的服务器时间戳不同，因 Vercel 带 `s-maxage` 缓存）；同时确认 Production 的 `nodejs_compat` 已生效（行情分支用到 `Buffer`）
 - [x] 4.3 实测新浪、腾讯行情接口从 Cloudflare 节点访问稳定：两个接口在线上均返回 200
-- [ ] 4.4 前端切换：在 Pages 的构建变量里删除 `VITE_MARKET_DIRECT`（或设为 `false`），重新部署后网格交易页改走同域 Workers；保留 Vercel 同名接口作为回退。注意热力图（`src/services/heatmapQuotes.ts`）请求的是 `${VITE_API_BASE}/api/grid-market`，在 `VITE_API_BASE` 清空之前仍走 Vercel
+- [x] 4.4 前端切换：在 Pages 的构建变量里删除 `VITE_MARKET_DIRECT`（或设为 `false`），重新部署后网格交易页改走同域 Workers；保留 Vercel 同名接口作为回退。注意热力图（`src/services/heatmapQuotes.ts`）请求的是 `${VITE_API_BASE}/api/grid-market`，在 `VITE_API_BASE` 清空之前仍走 Vercel
 
 ## 5. 迁移 Supabase 同步类接口
 
-- [ ] 5.1 迁移 `grid-sync`，验证 `timingSafeEqual` 在 Workers 上可用，不可用则改 Web Crypto
-- [ ] 5.2 迁移 `pulse-sync`，复用 5.1 的写法
-- [ ] 5.3 迁移 `candidates-sync`，复用 5.1 的写法
-- [ ] 5.4 为三个接口验证 token 正确、token 错误或缺失、变量未配置三种情况的行为与迁移前一致
-- [ ] 5.5 前端切换三个接口，并用手动同步验证网格记录能读写 Supabase
+- [x] 5.1 迁移 `grid-sync`；在本地 workerd 验证 `timingSafeEqual` 可用（令牌长度不同时也不抛错）
+- [x] 5.2 迁移 `pulse-sync`，复用 5.1 的写法
+- [x] 5.3 迁移 `candidates-sync`，复用 5.1 的写法
+- [x] 5.4 验证未配置（503）、令牌缺失或错误（401）、方法错误（405）、非法请求体（400）、缺少 `If-Match`（428）、上游不可用（502，不泄漏内部细节）的行为与 Vercel 一致
+- [ ] 5.5 （延后）使用者尚未启用 Supabase 云同步（Vercel 上三个接口均返回 503"尚未配置"）。待使用者创建独立 Supabase 项目并执行迁移脚本后，在 Cloudflare 配置 `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`GRID_SYNC_TOKEN`、`PULSE_SYNC_TOKEN`，再用网格记录页的手动同步做端到端验证
 
 ## 6. 迁移重接口
 
