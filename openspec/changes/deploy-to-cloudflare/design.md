@@ -41,9 +41,10 @@ Pages 站点的 `/api/*` 在第 1 步通过构建期变量（沿用现有 `VITE_
 - 理由：改动最小，且现有 `.test` 文件可以继续覆盖。
 - 备选：直接全部改 Web Crypto。暂不采用，避免无谓重写。
 
-### 5. 密钥读取：从 Workers 的 `env` 读取，不用 `process.env`
-统一封装一个读取配置的函数，所有接口通过它拿密钥。保持"服务端变量不加 `VITE_` 前缀"的现有规则。
-- 理由：集中处理，方便将来再换平台。
+### 5. 密钥读取：保留 `process.env`，由适配器从 Workers 的 `env` 填充
+官方文档说明，在 `nodejs_compat` 且兼容日期不早于 2025-04-01 时，Workers 会自动用环境变量和密钥填充 `process.env`。适配器在每次请求前再兜底填充一次（只写入字符串值，且不覆盖已有值）。处理函数继续读 `process.env`，无需改写。保持"服务端变量不加 `VITE_` 前缀"的现有规则。已在本地 workerd 中验证变量能被读到。
+- 理由：现有 `api/*` 与 `server/*` 的读取方式完全不用动，改动面最小。
+- 备选：统一封装配置读取函数并改写所有调用点。放弃，收益小而改动面大。
 
 ### 6. 调研先行：三项不确定项在改写前确认
 1. `server/` 下实现是否使用 `fs`、`child_process`、原生模块等 Workers 不支持的能力。
@@ -55,6 +56,16 @@ Pages 站点的 `/api/*` 在第 1 步通过构建期变量（沿用现有 `VITE_
 现有接口都是 Vercel 的 Express 风格 `handler(req, res)`（`req.query`、`res.status().json()`、`res.setHeader()`），而 Workers 使用标准 `Request`/`Response`。新增一个适配器，把 `Request` 转成 `{ method, headers, query, body }`，并收集 `res` 的调用结果后生成 `Response`。`server/market.mjs` 已经用同样的思路写过一个 Vite 中间件适配器，可以参考。
 - 理由：处理函数本身基本不用改，现有测试仍然有效，改动集中在一处。
 - 备选：把每个接口都重写成 `fetch(request)` 风格。放弃，因为改动面大、容易引入行为差异。
+
+### 8. 用 Pages Functions 实现 `/api/*`，不单独建 Worker，也不加 `wrangler` 配置文件
+Pages Functions 与 Workers 是同一个运行时，`functions/api/*.js` 同域、随推送自动部署。官方文档说明，一旦项目里有 `wrangler` 配置文件，它就成为配置的唯一来源，Cloudflare 后台里对应字段将变为只读；为避免意外改变已经在后台配置好的构建变量，本变更**不添加** `wrangler.toml`，兼容性开关改在后台设置（见任务 3.4）。
+- 理由：少一个独立部署单元，不需要处理跨域，也不会在后台与文件之间产生配置冲突。
+- 备选：独立 Worker（需要单独部署和路由绑定），放弃。代价是本地调试要用 `npx wrangler pages dev` 并手动传 `--compatibility-flag=nodejs_compat`。
+- 约定：共享代码放在 `server/edge/`，不放在 `functions/` 下，避免被当成路由；每个接口的入口只有两行，`export const onRequest = toPagesFunction(handler)`。
+
+### 9. 在适配器里统一抹平 `fetch` 的 `redirect: 'error'` 差异
+本地用 Cloudflare 的运行时（workerd）验证时发现：Workers 的 `fetch` **不支持** `redirect: 'error'`，传入会直接抛错，被现有接口的 `catch` 吞掉后表现为 502。现有 8 处调用都用了它（含带 Supabase 密钥的同步接口），其目的是避免凭据被重定向转发到其他域名。适配器在 Workers 里包装 `fetch`：把 `'error'` 换成 `'manual'`，遇到 3xx 就抛错，语义与原来一致，Vercel 上不受影响。
+- 理由：一处统一处理，不用改动 8 个调用点，也不削弱原有的安全保证。
 
 ## 调研结论（任务 1）
 

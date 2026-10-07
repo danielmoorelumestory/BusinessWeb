@@ -15,12 +15,13 @@
 - [x] 2.5 验证首页、`/grid-trading`、`/grid-trading/records` 的直接访问与刷新，以及行情接口返回正常
 - [x] 2.6 在 `docs/` 补充 Cloudflare Pages 部署说明（构建设置、变量、验证命令）
 
-## 3. Workers 骨架与配置封装
+## 3. Pages Functions 骨架与适配
 
-- [ ] 3.1 新增 `wrangler` 配置与 Worker 入口，开启 `nodejs_compat`，配置 `/api/*` 路由
-- [ ] 3.2 实现统一的配置读取函数（从 Workers `env` 取值），替代 `process.env`
-- [ ] 3.3 实现未知 `/api/*` 返回 404 的兜底处理
-- [ ] 3.4 在 Cloudflare 配置服务端变量（不加 `VITE_` 前缀），确认不进入前端构建产物
+- [x] 3.1 新增 `server/edge/adapter.mjs`：把 `handler(req, res)` 适配为 Pages Functions 的 `onRequest`（不添加 `wrangler` 配置文件，见设计决策 8）
+- [x] 3.2 适配器从 Workers 的 `env` 填充 `process.env`，处理函数的读取方式不变；并在 Workers 里统一处理 `fetch` 的 `redirect: 'error'`（设计决策 5、9）
+- [x] 3.3 未知 `/api/*` 返回 404 的兜底（`functions/api/[[path]].js`，已在任务 2.2 完成）
+- [x] 3.4a 为适配器编写测试（`npm run test:edge`），并在本地 workerd 中验证 `china-stock`、`grid-market`、`grid-sync` 的真实行为
+- [ ] 3.4 在 Cloudflare 后台为 Pages 项目开启 `nodejs_compat` 兼容性开关并设置兼容日期不早于 2026-08-04（Settings → Functions → Compatibility flags，Production 与 Preview 都要设置）；服务端密钥变量留到迁移相应接口时（任务 5）再配置
 
 ## 4. 迁移简单接口（验证写法）
 

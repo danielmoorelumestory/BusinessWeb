@@ -9,6 +9,7 @@
     "knowledge:mcp": "node server/knowledge/mcp.mjs",
     "knowledge:mcp:http": "node server/knowledge/mcp-http.mjs",
     "test:knowledge": "node --test server/knowledge/*.test.mjs",
+    "test:edge": "node --test server/edge/*.test.mjs",
     "dev": "vite --host",
     "valuation:server": "node server/valuation/index.mjs",
     "valuation": "node scripts/valuation-cli.mjs",
