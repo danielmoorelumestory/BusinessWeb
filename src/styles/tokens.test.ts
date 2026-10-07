@@ -12,10 +12,10 @@ const TOKENS: Record<string, string> = {
   '--text-primary': '#172033',
   '--text-secondary': '#667085',
   '--text-strong': '#344054',
-  '--accent': '#2563eb',
+  '--accent': '#1d4ed8',
   '--accent-warm': '#d97706',
-  '--border-subtle': '#e5eaf2',
-  '--border-row': '#e8edf4',
+  '--border-subtle': '#dde3ec',
+  '--border-row': '#e6ebf2',
   '--up': '#dc2626',
   '--down': '#16a34a',
   '--ok': '#087443',
@@ -24,7 +24,7 @@ const TOKENS: Record<string, string> = {
   '--warn-soft': '#fff4d6',
   '--bad': '#b42318',
   '--bad-soft': '#ffebe9',
-  '--radius-card': '16px',
+  '--radius-card': '12px',
   '--radius-pill': '999px',
 }
 
