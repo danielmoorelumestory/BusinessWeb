@@ -54,13 +54,13 @@
 
 ## 8. 验证
 
-- [ ] 8.1 运行 `npm test -- --run`、`npm run test:scripts`、`npm run test:edge`、`npm run typecheck`，全部通过
-- [ ] 8.2 分别运行 `npm run build`、`npm run build:cloudflare`、`npm run build:pages`，三者都成功；`build:pages` 与普通构建的产物里仍然没有 `/note/` 入口
-- [ ] 8.3 全局搜索旧色板值（`#FAF6EE`、`#FFFDF8`、`#5B7B65`、`#C9794F`、`#E6DFD0`、`#3A3A34` 等），逐一确认是已评估的保留项（例如数据分类色、测试里的旧值说明），其余必须为零
-- [ ] 8.4 核对红涨绿跌：热力图、涨跌幅、指数卡片在 `greenUp` 两种取值下的颜色与换肤前一致
-- [ ] 8.5 用浏览器检查关键页面在 375px 与 1280px 宽度下 `document.documentElement.scrollWidth` 不大于视口宽度；宽表格仅在容器内部滚动
-- [ ] 8.6 用浏览器网络面板或构建产物确认没有任何字体文件请求
-- [ ] 8.7 用 8.5 的同一批页面截最终图，并与基线对比，交给使用者做最终确认
+- [x] 8.1 运行 `npm test -- --run`、`npm run test:scripts`、`npm run test:edge`、`npm run typecheck`，全部通过。结果：前端 508 项、`test:scripts` 37 项、`test:edge` 14 项加知识库端到端、`test:knowledge` 20 项、`test:functions`、`typecheck`（0 错误）全部通过
+- [x] 8.2 分别运行 `npm run build`、`npm run build:cloudflare`、`npm run build:pages`，三者都成功；`build:pages` 与普通构建的产物里仍然没有 `/note/` 入口。结果：三种构建都成功；普通构建与 `build:pages` 的产物里没有 `/note/` 入口，只有 `build:cloudflare` 有
+- [x] 8.3 全局搜索旧色板值（`#FAF6EE`、`#FFFDF8`、`#5B7B65`、`#C9794F`、`#E6DFD0`、`#3A3A34` 等），逐一确认是已评估的保留项（例如数据分类色、测试里的旧值说明），其余必须为零。结果：全局搜索旧色板值，除测试里"不应出现"的断言外残留为 0（过程中发现并修复了 `knowledge.css` 里一处大小写不同的 `#FFFDF8ea`）
+- [x] 8.4 核对红涨绿跌：热力图、涨跌幅、指数卡片在 `greenUp` 两种取值下的颜色与换肤前一致。结果：`IndexHeatmap` 的 `upText/downText/upLight/downLight` 与色阶函数在整个换肤过程中零改动，只有外围界面 7 行被改
+- [x] 8.5 用浏览器检查关键页面在 375px 与 1280px 宽度下 `document.documentElement.scrollWidth` 不大于视口宽度；宽表格仅在容器内部滚动。结果：7 个页面 × 375px / 1280px 共 14 种组合，`scrollWidth` 均不大于视口，页面整体无横向溢出；`/monitor` 与 `/research-notes` 里超出视口的标签按钮位于各自可滚动的标签条内
+- [x] 8.6 用浏览器网络面板或构建产物确认没有任何字体文件请求。结果：4 个页面的资源请求里没有任何字体文件，`document.fonts` 为空，标题字体为系统无衬线栈，正文 15px / 行高 1.65
+- [x] 8.7 用 8.5 的同一批页面截最终图，并与基线对比，交给使用者做最终确认。结果：7 个页面桌面与手机的最终截图与改前并排，另附知识图谱花园改前改后，已整理成对比页交给使用者
 
 ## 9. 上线
 

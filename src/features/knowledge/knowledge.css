@@ -228,7 +228,7 @@
 .kb-garden-selected { margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid color-mix(in srgb, var(--text-tertiary) 27%, transparent); }
 .kb-garden-selected h3 { margin-top:12px; }
 .kb-garden-paging { display:flex; justify-content:space-between; align-items:center; gap:6px; margin-top:16px; font-size:11px; }
-.kb-garden-empty { position:absolute; left:24px; right:24px; bottom:52px; padding:18px 22px; text-align:left; color:var(--text-primary); border:1px solid var(--border-subtle); border-radius:12px; background:#FFFDF8ea; backdrop-filter:blur(6px); }
+.kb-garden-empty { position:absolute; left:24px; right:24px; bottom:52px; padding:18px 22px; text-align:left; color:var(--text-primary); border:1px solid var(--border-subtle); border-radius:12px; background:color-mix(in srgb, var(--bg-card) 92%, transparent); backdrop-filter:blur(6px); }
 .kb-garden-empty p { font-size:13px; line-height:1.9; }
 .kb-garden-empty h3 { font-size:17px; margin:10px 0; }
 .kb-garden-empty p { margin-bottom:0; }
