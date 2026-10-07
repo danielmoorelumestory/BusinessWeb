@@ -5,23 +5,29 @@ import { describe, expect, it } from 'vitest'
 const read = (p: string): string => readFileSync(resolve(__dirname, '../../', p), 'utf8')
 
 describe('品牌文件', () => {
-  it('manifest 名称、描述、主题色都是Live / 纸色', () => {
+  it('manifest 名称、描述、主题色都是 Live / 冷灰蓝页面底色', () => {
     const m = JSON.parse(read('public/manifest.webmanifest'))
     expect(m.name).toBe('Live')
     expect(m.short_name).toBe('Live')
     expect(m.description).toContain('投资')
-    expect(m.theme_color).toBe('#FAF6EE')
-    expect(m.background_color).toBe('#FAF6EE')
+    expect(m.theme_color).toBe('#f5f7fa')
+    expect(m.background_color).toBe('#f5f7fa')
   })
 
-  it('图标改为纸底暗绿叶片，不再是黑底绿折线', () => {
+  it('图标改为浅灰蓝底蓝色叶片，不再是纸底暗绿，也不是黑底绿折线', () => {
     for (const f of ['public/favicon.svg', 'public/favicon-32.svg']) {
       const svg = read(f)
       expect(svg, f).not.toContain('#0A0A0A')
       expect(svg, f).not.toContain('#3DDC84')
-      expect(svg, f).toContain('#FAF6EE')
-      expect(svg, f).toContain('#5B7B65')
+      expect(svg, f).not.toContain('#FAF6EE')
+      expect(svg, f).not.toContain('#5B7B65')
+      expect(svg, f).toContain('#f5f7fa')
+      expect(svg, f).toContain('#1d4ed8')
     }
+  })
+
+  it('index.html 的 theme-color 与 manifest、页面底色一致', () => {
+    expect(read('index.html')).toContain('<meta name="theme-color" content="#f5f7fa" />')
   })
 
   it('index.css 里不再保留无人引用的 fadeInScale 别名', () => {

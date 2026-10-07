@@ -10,7 +10,7 @@ const rule = (selector: string): string => {
 }
 
 describe('AI 实验室徽章对比度', () => {
-  it('可以试 / 实验 徽章文字不用陶土色（对 #FFFDF8 仅 3.3:1），只用它描边', () => {
+  it('可以试 / 实验 徽章文字不用强调色琥珀（对白色卡片仅 3.2:1，不到 AA 的 4.5:1），只用它描边', () => {
     const r = rule('.lab-badge--try,\n.lab-badge--experiment')
     expect(r).toContain('color: var(--text-primary)')
     expect(r).toContain('border-color: var(--accent-warm)')

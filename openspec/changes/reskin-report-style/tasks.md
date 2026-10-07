@@ -47,10 +47,10 @@
 
 ## 7. 品牌文件与测试改写
 
-- [ ] 7.1 `public/manifest.webmanifest` 的 `theme_color` 与 `background_color` 改为 `#f5f7fa`；检查 `index.html` 里是否有 `theme-color` 之类的 meta，并一并更新
-- [ ] 7.2 `public/favicon.svg` 与 `public/favicon-32.svg` 改为浅底与蓝色叶片（取新色板中的值）
-- [ ] 7.3 改写 `brand.test.ts`：断言新的主题色与图标颜色；字体断言改为"不请求 Google Fonts，也不引入任何 `@fontsource` 字体"；保留与颜色无关的原有断言
-- [ ] 7.4 改写 `labContrast.test.ts` 中与旧强调色对应的断言，保留"徽章文字不靠低对比度强调色"的意图；确认"不推荐卡片不降低不透明度"仍成立
+- [x] 7.1 `public/manifest.webmanifest` 的 `theme_color` 与 `background_color` 改为 `#f5f7fa`；检查 `index.html` 里是否有 `theme-color` 之类的 meta，并一并更新。结果：`manifest` 的 `theme_color`、`background_color` 与 `index.html` 的 `theme-color` 均为 `#f5f7fa`
+- [x] 7.2 `public/favicon.svg` 与 `public/favicon-32.svg` 改为浅底与蓝色叶片（取新色板中的值）。结果：底色 `#f5f7fa`、叶片 `#1d4ed8`，已在浏览器里渲染确认
+- [x] 7.3 改写 `brand.test.ts`：断言新的主题色与图标颜色；字体断言改为"不请求 Google Fonts，也不引入任何 `@fontsource` 字体"；保留与颜色无关的原有断言。结果：断言新主题色与图标颜色；字体断言改为"不请求 Google Fonts、不引入 `@fontsource`、`package.json` 不依赖它、CSS 不含衬线"，并新增对 `index.html` 的 `theme-color` 与两份静态报告的断言
+- [x] 7.4 改写 `labContrast.test.ts` 中与旧强调色对应的断言，保留"徽章文字不靠低对比度强调色"的意图；确认"不推荐卡片不降低不透明度"仍成立。结果：断言意图不变（徽章文字不用强调色、只用它描边），描述改为琥珀对白色 3.2:1；"不降低不透明度"仍成立
 
 ## 8. 验证
 
