@@ -21,7 +21,7 @@
 - [x] 3.2 适配器从 Workers 的 `env` 填充 `process.env`，处理函数的读取方式不变；并在 Workers 里统一处理 `fetch` 的 `redirect: 'error'`（设计决策 5、9）
 - [x] 3.3 未知 `/api/*` 返回 404 的兜底（`functions/api/[[path]].js`，已在任务 2.2 完成）
 - [x] 3.4a 为适配器编写测试（`npm run test:edge`），并在本地 workerd 中验证 `china-stock`、`grid-market`、`grid-sync` 的真实行为
-- [ ] 3.4 在 Cloudflare 后台为 Pages 项目开启 `nodejs_compat` 兼容性开关并设置兼容日期不早于 2026-08-04（Settings → Functions → Compatibility flags，Production 与 Preview 都要设置）；服务端密钥变量留到迁移相应接口时（任务 5）再配置
+- [x] 3.4 在 Cloudflare 后台为 Pages 项目开启 `nodejs_compat` 兼容性开关并设置兼容日期不早于 2026-08-04（Settings → Functions → Compatibility flags，Production 与 Preview 都要设置）；服务端密钥变量留到迁移相应接口时（任务 5）再配置（已验证：线上 `grid-market` 用到 `Buffer`、`knowledge` 用到 `node:crypto`，均在 Production 正常运行）
 
 ## 4. 迁移简单接口（验证写法）
 
