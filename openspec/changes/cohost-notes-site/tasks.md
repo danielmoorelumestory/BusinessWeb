@@ -40,7 +40,7 @@
 
 ## 7. 上线与验证
 
-- [ ] 7.1 提交并推送前，请使用者先在旧站点同步或导出本地记录，并确认已完成
+- [ ] 7.1 推送本身是惰性的（Cloudflare 构建命令未改之前不会产生 `/note/`，Vercel 与 GitHub Pages 构建线也不受影响），可以先推送；但在**开始使用新站点、或下线旧站点之前**，使用者必须先在旧站点同步或导出本地记录，并确认已完成（旧域名的 localStorage 不会消失，只是新域名下看不到）
 - [ ] 7.2 使用者在 Cloudflare 后台把构建命令改为 `npm run build:cloudflare`，并确认 `NODE_VERSION=24` 仍设置；推送后等待部署完成
 - [ ] 7.3 线上验证 `/note/`、`/note/notes`、`/note/lab/grid-trading`、`/note/lab/grid-trading/saved`、`/note/lab/grid-trading/minute`、`/note/rss.xml`、`/note/reports/` 下的报告均可访问，且 RSS 与规范链接使用当前站点地址
 - [ ] 7.4 线上验证主站不受影响：路由刷新、未知 `/api/*` 返回 404、已迁移的 `/api/*` 接口输出不变
