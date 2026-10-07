@@ -56,5 +56,8 @@
   "engines": {
     "node": "24.x"
   },
-  "type": "module"
+  "type": "module",
+  "optionalDependencies": {
+    "@rolldown/binding-darwin-arm64": "^1.2.11"
+  }
 }
