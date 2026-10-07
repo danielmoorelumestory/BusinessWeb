@@ -19,7 +19,7 @@
 
 | 变量 | 值 | 作用 |
 |---|---|---|
-| `VITE_API_BASE` | `https://business-web-black.vercel.app` | 监控、投资计划等页面的 `/api/*` 请求发往 Vercel |
+| `VITE_API_BASE` | `https://business-web-pi-eight.vercel.app` | 监控、投资计划等页面的 `/api/*` 请求发往你自己的 Vercel 部署 |
 | `VITE_MARKET_DIRECT` | `true` | 网格行情由浏览器直连腾讯行情，不经过 `/api/grid-market` |
 
 这两个变量在构建时写入前端代码，**修改后必须重新部署才会生效**。它们与 `package.json` 里 `build:pages` 的做法一致，区别是这里站点在根路径，不需要 `VITE_BASE_PATH`。
@@ -56,3 +56,7 @@ curl -s $B/ | grep -o 'assets/index-[^"]*\.js'
 - 自有域名：暂未接入，目前使用 `*.pages.dev`。
 - 接口迁移：`/api/*` 尚在 Vercel，迁移按 openspec 任务 3～6 逐个进行。
 - 知识库本地服务、估值工作台：依赖本机文件和 CLI，不上公网。
+
+## 注意：不要指向上游作者的 Vercel
+
+仓库里多处硬编码了 `https://business-web-black.vercel.app`，那是上游作者（TurboSnails）的部署，不是你自己的。`VITE_API_BASE` 必须使用你自己的 Vercel 域名，否则前端会把请求发到别人的服务器。你的域名可在 Vercel 项目的 Overview 页面查看。

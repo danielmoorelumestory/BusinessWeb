@@ -6,7 +6,7 @@ export default async function handler(req: Request, res: Response): Promise<unkn
   res.setHeader('Cache-Control', 'private, no-store')
   res.setHeader('Vary', 'Origin')
   const origin = req.headers.origin
-  const allowed = ['https://business-web-black.vercel.app', 'https://turbosnails.github.io', 'https://businessweb-c0u.pages.dev']
+  const allowed = ['https://business-web-black.vercel.app', 'https://turbosnails.github.io', 'https://businessweb-c0u.pages.dev', 'https://business-web-pi-eight.vercel.app']
   if (typeof origin === 'string' && allowed.includes(origin)) { res.setHeader('Access-Control-Allow-Origin', origin); res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type'); res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS') }
   if (req.method === 'OPTIONS') return res.status(typeof origin === 'string' && allowed.includes(origin) ? 200 : 403).json({})
   if (origin && (typeof origin !== 'string' || !allowed.includes(origin))) return res.status(403).json({ error: '访问来源不允许' })
