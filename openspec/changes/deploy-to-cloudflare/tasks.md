@@ -25,10 +25,10 @@
 
 ## 4. 迁移简单接口（验证写法）
 
-- [ ] 4.1 迁移 `china-stock` 到 Workers，并用 curl 验证 `/api/china-stock?symbol=sh000001`
-- [ ] 4.2 迁移 `grid-market` 到 Workers，并用 curl 验证 `/api/grid-market?kind=quotes&symbols=sh510300`
-- [ ] 4.3 实测新浪、腾讯行情接口从 Cloudflare 节点访问是否稳定，失败则记录并保留在 Vercel
-- [ ] 4.4 前端切换这两个接口到 Workers，保留 Vercel 同名接口作为回退
+- [x] 4.1 迁移 `china-stock` 到 Pages Functions，线上验证 `/api/china-stock?symbol=sh000001`，输出与 Vercel 逐字节一致（该接口前端没有调用方）
+- [x] 4.2 迁移 `grid-market` 到 Pages Functions，线上验证行情与 K 线，输出与 Vercel 一致（仅 `market` 字段里的服务器时间戳不同，因 Vercel 带 `s-maxage` 缓存）；同时确认 Production 的 `nodejs_compat` 已生效（行情分支用到 `Buffer`）
+- [x] 4.3 实测新浪、腾讯行情接口从 Cloudflare 节点访问稳定：两个接口在线上均返回 200
+- [ ] 4.4 前端切换：在 Pages 的构建变量里删除 `VITE_MARKET_DIRECT`（或设为 `false`），重新部署后网格交易页改走同域 Workers；保留 Vercel 同名接口作为回退。注意热力图（`src/services/heatmapQuotes.ts`）请求的是 `${VITE_API_BASE}/api/grid-market`，在 `VITE_API_BASE` 清空之前仍走 Vercel
 
 ## 5. 迁移 Supabase 同步类接口
 
