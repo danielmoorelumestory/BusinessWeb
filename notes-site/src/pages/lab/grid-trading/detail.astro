@@ -1,0 +1,682 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { href } from '../../../lib/url';
+
+const savedUrl = href('lab/grid-trading/saved');
+---
+
+<Base title="网格回测详情" current="lab" description="网格回测的历史成交明细">
+  <header class="hero compact-hero"><p class="kicker">BACKTEST DETAIL</p><h1 id="title">回测详情</h1><p id="subtitle" class="lede">正在读取已保存记录…</p></header>
+  <a class="back" id="back-link" href={savedUrl}>← 返回已保存标的</a>
+  <section id="stats" class="stats"></section>
+  <section class="chart-panel">
+    <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="line close"></span>收盘价 <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>
+    <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>
+  </section>
+  <section class="minute-panel" aria-label="分钟线">
+    <div class="minute-head">
+      <div><h2>分钟线</h2><p id="minute-status">云端每个交易日收盘后自动抓取 1 分钟线，需要已填写同步密钥。</p></div>
+      <div class="minute-controls"><label>日期 <select id="minute-date"></select></label><label class="minute-check"><input id="minute-adjust" type="checkbox" checked> 前复权</label></div>
+    </div>
+    <p class="minute-alert" id="minute-alert" hidden></p>
+    <div class="minute-summary" id="minute-summary"></div>
+    <div class="chart-scroll"><svg id="minute-chart" viewBox="0 0 920 360" role="img" aria-label="分钟价格与成交量"></svg></div>
+  </section>
+  <section class="backup-panel" aria-label="备份对比">
+    <div class="backup-head">
+      <div><h2>备份对比</h2><p id="backup-desc">备份当前数据作为基准点。之后你手动微调买卖点（改成交、增删记录、改参数），这里会对比“从备份点起完全按网格买卖”与“你现在的实际数据”的收益差别。</p></div>
+      <div class="backup-actions"><select id="backup-select" hidden aria-label="选择备份"></select><a id="backup-view" class="tool-link" hidden>查看备份详情 →</a><button id="backup-delete" class="tool-link" type="button" hidden>删除此备份</button><button id="backup-now" class="tool-button" type="button" disabled>备份当前数据</button></div>
+    </div>
+    <p id="backup-empty" class="backup-empty">还没有备份。点击右上角“备份当前数据”，以当前状态为起点开始对比。</p>
+    <div id="backup-compare" class="backup-compare"></div>
+    <div id="compare-chart-block" class="compare-chart-block" hidden>
+      <div class="chart-head">
+        <div><h3>对比曲线</h3><p>同一指标下，纯网格续跑与当前数据（含手动微调）的走势对比；虚线竖线为备份点，悬停可查看两者的值和差额。</p></div>
+        <div class="metric-tabs" role="tablist" aria-label="对比指标"><button type="button" class="active" data-metric="pnl">总盈亏</button><button type="button" data-metric="positionValue">持仓市值</button><button type="button" data-metric="capitalUsed">占用本金</button></div>
+      </div>
+      <div class="legend"><span class="line pure"></span>纯网格续跑（本备份，含备份视图中的成交修正）<span class="line live"></span>当前数据（含手动微调）</div>
+      <div class="chart-scroll"><svg id="compare-chart" viewBox="0 0 920 300" role="img" aria-label="备份与当前数据对比曲线"></svg></div>
+    </div>
+  </section>
+  <section class="history"><h2>历史成交</h2><p id="history-hint">成交价格、成交金额、成交份额可直接修改为真实成交值（如按 100 份整数倍成交），修改份额时金额按“份额 × 成交价”计算；修改后该笔及之后的持仓、盈亏、网格价位会重新计算，并自动同步到云端。持仓市值按该笔成交价估值；“当时占用本金”仅统计成交金额，不含手续费，其最高值与回测摘要中的“最多使用本金”一致。最新成交在最上方。</p>
+    <p id="history-hint2">可添加或删除成交记录（建仓不可删除）：添加时填写日期、方向、成交价格和成交份额，其余数据自动计算并按日期排入列表。增删只影响总盈亏、持仓和占用本金，不改动其他成交行；只有最上面（最新）的一条变化时，才会改变下一格买卖价的基准。</p>
+    <div class="trade-tools"><button id="add-trade-toggle" class="tool-button" type="button">＋ 添加记录</button><button id="restore-removed" class="tool-link" type="button" hidden></button></div>
+    <form id="trade-form" class="trade-form" hidden novalidate>
+      <label>日期 <input id="tf-date" type="date" required></label>
+      <label>方向 <select id="tf-side"><option value="买入">买入</option><option value="卖出">卖出</option></select></label>
+      <label>成交价格 <input id="tf-price" type="number" step="0.001" min="0.001" inputmode="decimal" required></label>
+      <label>成交份额 <input id="tf-shares" type="number" step="100" min="1" inputmode="decimal" required></label>
+      <span id="tf-preview" class="tf-preview">成交金额 —</span>
+      <button id="tf-save" class="tool-primary" type="submit">保存</button>
+      <button id="tf-cancel" class="tool-button" type="button">取消</button>
+      <span id="tf-error" class="tf-error" role="alert"></span>
+    </form>
+    <p id="sync-note" class="sync-note" role="status" hidden></p><div class="table-shell"><table class="detail-table"><thead><tr><th>日期</th><th>操作</th><th>成交价格</th><th>成交金额</th><th>成交份额</th><th>成交后持仓份额</th><th>成交后持仓市值</th><th>当时占用本金</th><th>当时总盈亏</th><th>操作</th></tr></thead><tbody id="trades"></tbody></table></div></section>
+</Base>
+
+<script>
+  import {
+    calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord,
+    renderEquityChart, renderCompareChart, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
+    blockCopy, fetchMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar,
+    type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
+  } from '../../../lib/grid-trading';
+  import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
+
+  blockCopy(); // 屏蔽页面内容复制
+
+  type AdjustField = 'price' | 'amount' | 'shares';
+  const id = new URLSearchParams(location.search).get('id');
+  // 备份视图：详情页加 backup 参数即进入只读的备份视图，展示备份时的数据以及备份日之后完全按网格买卖的走向。
+  const backupParam = new URLSearchParams(location.search).get('backup');
+  let viewBackup: Backup | undefined;
+  // 对比曲线：live 为当前数据（含手动微调）的逐日曲线，pure 为备份视图的纯网格续跑曲线。
+  let liveSeries: EquityPoint[] = [], pureSeries: EquityPoint[] = [], compareMetric: CompareMetric = 'pnl', compareBackup: Backup | undefined;
+  let viewLiveResult: GridResult | undefined;
+  function drawCompare() {
+    if (!compareBackup) return;
+    renderCompareChart(document.querySelector('#compare-chart') as SVGSVGElement, pureSeries, liveSeries, compareMetric, { date: compareBackup.date, label: '备份点' });
+  }
+  const backupLabelOf = (backup: { at: string }) => new Date(backup.at).toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai' }).slice(0, 16);
+  const subtitle = document.querySelector('#subtitle') as HTMLElement;
+  const price = (v?: number) => typeof v === 'number' && Number.isFinite(v) ? `¥${v.toFixed(3)}` : '—';
+  let record = readRecords().find(item => item.id === id);
+  // 用户修改计数：行情刷新期间用户做过修改就丢弃刷新结果；备份规则升级等后台改动不计入。
+  let editRevision = 0;
+
+  function showNote(text: string) {
+    const note = document.querySelector('#sync-note') as HTMLElement;
+    note.textContent = text; note.hidden = !text;
+  }
+
+  // 分钟线：云端读取最近 30 天内已同步的交易日，按标的只加载一次（切换前复权时重新读取）。
+  const minuteSvg = document.querySelector('#minute-chart') as SVGSVGElement;
+  const minuteDate = document.querySelector('#minute-date') as HTMLSelectElement;
+  const minuteAdjust = document.querySelector('#minute-adjust') as HTMLInputElement;
+  const minuteStatus = document.querySelector('#minute-status') as HTMLElement;
+  let minuteByDate = new Map<string, MinuteBar[]>(), minuteCode = '', minuteRequest = 0;
+  const minuteDaysAgo = (days: number) => { const day = new Date(`${marketToday()}T00:00:00Z`); day.setUTCDate(day.getUTCDate() - days); return day.toISOString().slice(0, 10).replaceAll('-', ''); };
+  // 缺口提示：有缺口、或云端长时间没有成功抓取时显示一行；读取状态失败时静默，不影响图表。
+  async function loadMinuteAlert(code: string, id: number) {
+    const alertEl = document.querySelector('#minute-alert') as HTMLElement;
+    alertEl.hidden = true; alertEl.textContent = '';
+    try {
+      const status = await fetchMinuteStatus(code);
+      if (id !== minuteRequest) return;
+      const dateText = (date: string) => `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+      const parts: string[] = [];
+      if (status.gaps.length) parts.push(`分钟线缺失：${status.gaps.slice(0, 3).map(gap => `${dateText(gap.date)} 缺 ${gap.missing} 根`).join('、')}${status.gaps.length > 3 ? ` 等共 ${status.gaps.length} 天` : ''}（停牌日也会如此显示）`);
+      if (status.stale) parts.push('云端已超过 4 天没有成功抓取分钟线，请检查 Worker 定时任务');
+      alertEl.textContent = parts.join('；'); alertEl.hidden = !parts.length;
+    } catch { /* 状态不可用时不提示 */ }
+  }
+  function renderMinuteDay() {
+    const bars = minuteByDate.get(minuteDate.value) ?? [];
+    renderMinuteChart(minuteSvg, bars);
+    (document.querySelector('#minute-summary') as HTMLElement).innerHTML = minuteSummaryHtml(bars);
+  }
+  async function loadMinute(code: string, force = false) {
+    if (!force && code === minuteCode) return;
+    minuteCode = code;
+    const id = ++minuteRequest;
+    if (readSyncKey().length < 16) { minuteStatus.textContent = '请先在“已保存标的”页填写同步密钥，才能读取云端分钟线。'; renderMinuteChart(minuteSvg, []); return; }
+    minuteStatus.textContent = '正在读取分钟线…';
+    try {
+      const bars = await fetchMinuteBars(code, minuteDaysAgo(30), minuteDaysAgo(-1), minuteAdjust.checked ? 'qfq' : 'none');
+      if (id !== minuteRequest) return;
+      minuteByDate = new Map();
+      for (const bar of bars) { const date = bar.ts.slice(0, 8); minuteByDate.set(date, [...(minuteByDate.get(date) ?? []), bar]); }
+      const dates = [...minuteByDate.keys()].sort().reverse(), previous = minuteDate.value;
+      minuteDate.innerHTML = dates.map(date => `<option value="${date}">${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}</option>`).join('');
+      if (dates.includes(previous)) minuteDate.value = previous;
+      void loadMinuteAlert(code, id);
+      minuteStatus.textContent = dates.length ? `已同步 ${dates.length} 个交易日（最近 30 天内）` : '最近 30 天内暂无该标的的分钟线；云端每个交易日收盘后（15:10）自动抓取。';
+      renderMinuteDay();
+    } catch (error) {
+      if (id !== minuteRequest) return;
+      minuteCode = ''; minuteByDate = new Map(); minuteDate.innerHTML = '';
+      (document.querySelector('#minute-summary') as HTMLElement).innerHTML = '';
+      minuteStatus.textContent = error instanceof Error ? error.message : '读取分钟线失败。';
+      renderMinuteChart(minuteSvg, []);
+    }
+  }
+  minuteDate.addEventListener('change', renderMinuteDay);
+  minuteAdjust.addEventListener('change', () => void loadMinute(minuteCode, true));
+  new ResizeObserver(() => { if (minuteByDate.size) renderMinuteDay(); }).observe(minuteSvg.parentElement!);
+
+  function render(item: SavedRecord) {
+    const { row, result } = item;
+    void loadMinute(row.code);
+    document.querySelector('#title')!.textContent = `${row.name} · ${row.code}`;
+    const detailLine = `${result.range} · 初始价 ${openingOf(item).price} · 每格金额 ¥${row.gridAmount.toLocaleString('zh-CN')}`;
+    if (viewBackup) {
+      const badge = document.createElement('span'); badge.className = 'view-badge'; badge.textContent = '备份视图';
+      document.querySelector('#title')!.append(badge);
+      subtitle.textContent = `备份于 ${backupLabelOf(viewBackup)} · 备份日 ${viewBackup.date} 之后完全按网格买卖 · ${detailLine}`;
+    } else subtitle.textContent = detailLine;
+    // 预计买卖价是固定成交价，日内高低价触及即执行。
+    const current = result.current;
+    const buyReached = current <= result.nextBuy, sellReached = current >= result.nextSell;
+    const gap = (target: number) => `距现价 ${formatPercent((target - current) / current)}`;
+    const moveLine = (label: string, value: number) => `${label} ¥${value.toFixed(3)} · 占现价 ${(value / current * 100).toFixed(2)}%`;
+    const buyHint = [buyReached ? `已达到买入价 ¥${result.nextBuy.toFixed(3)}` : `价格达到 ¥${result.nextBuy.toFixed(3)} 即买入 · ${gap(result.nextBuy)}`, moveLine('反弹', row.rebound)];
+    const sellHint = [sellReached ? `已达到卖出价 ¥${result.nextSell.toFixed(3)}` : `价格达到 ¥${result.nextSell.toFixed(3)} 即卖出 · ${gap(result.nextSell)}`, moveLine('回落', row.pullback)];
+    const hint = (lines: string[]) => lines.map(line => `<span class="step-hint">${line}</span>`).join('');
+    document.querySelector('#stats')!.innerHTML = `
+      <div><span>当前价格</span><strong>${price(current)}</strong></div>
+      <div><span>上次成交价</span><strong>${price(result.lastTrade)}</strong></div>
+      <div><span class="${buyReached ? 'warn' : ''}">预计下次买入</span><strong class="down">${price(result.nextBuy)}</strong>${hint(buyHint)}</div>
+      <div><span class="${sellReached ? 'warn' : ''}">预计下次卖出</span><strong class="up">${price(result.nextSell)}</strong>${hint(sellHint)}</div>
+      <div><span>总盈亏</span><strong class="${result.pnl >= 0 ? 'up' : 'down'}">${formatMoney(result.pnl)}</strong></div>
+      <div><span>持仓市值</span><strong>¥${formatAmount(holdingValue(result))}</strong></div>
+      <div><span>最多使用本金</span><strong>¥${formatAmount(result.maxCapital)}</strong></div>
+      <div><span>买入 / 卖出</span><strong>${result.buys} / ${result.sells}</strong></div>
+    `;
+    let derivedCapital = 0;
+    const lastIndex = result.trades.length - 1;
+    const rows = result.trades.map((t, index) => {
+      // 兼容早期保存的记录：没有 capitalUsed 时按成交额反推当时占用本金。
+      if (typeof t.capitalUsed === 'number') derivedCapital = t.capitalUsed;
+      else if (index === 0) derivedCapital = t.amount;
+      else derivedCapital += t.side === '买入' ? t.amount : -t.amount;
+      const number2 = (v: number) => v.toLocaleString('zh-CN', { maximumFractionDigits: 2 });
+      // 手动记录的价格、金额、份额为只读（错了请删除后重新添加）；网格成交仍可直接修正。
+      const readonlyRow = !!t.manual;
+      const cells = readonlyRow
+        ? `<td>${t.price.toFixed(3)}</td><td>${t.amount.toFixed(2)}</td><td>${Number((t.quantity ?? t.amount / t.price).toFixed(2))}</td>`
+        : `<td>${editableCell(t, 'price')}</td><td>${editableCell(t, 'amount')}</td><td>${editableCell(t, 'shares')}</td>`;
+      const afterBackup = !!viewBackup && t.date > viewBackup.date;
+      const tag = (t.manual ? '<i class="manual-tag">手动</i>' : '') + (afterBackup ? '<i class="after-tag">备份后</i>' : '');
+      const action = t.side === '建仓' || viewBackup ? '' : `<button type="button" class="delete-trade" data-kind="${t.manual ? 'manual' : 'grid'}" data-key="${t.manual ? t.id : t.date}" data-top="${index === lastIndex ? '1' : '0'}">删除</button>`;
+      return `<tr class="${t.manual ? 'manual-row' : ''}${afterBackup ? ' after-row' : ''}"><td>${t.date}</td><td><b class="${t.side === '卖出' ? 'sell' : 'buy'}">${t.side}</b>${tag}</td>${cells}<td>${number2(t.shares)}</td><td>¥${number2(t.shares * t.price)}</td><td>¥${number2(derivedCapital)}</td><td class="${t.pnl >= 0 ? 'up' : 'down'}">${formatMoney(t.pnl)}</td><td>${action}</td></tr>`;
+    });
+    document.querySelector('#trades')!.innerHTML = rows.reverse().join('');
+    const restore = document.querySelector('#restore-removed') as HTMLButtonElement, removedCount = item.removedTrades?.length ?? 0;
+    restore.hidden = !removedCount; restore.textContent = `恢复已删除的 ${removedCount} 条网格成交`;
+    renderEquityChart(document.querySelector('#equity-chart') as SVGSVGElement, result.series ?? [], result.nextBuy, result.nextSell, result.trades, viewBackup ? { date: viewBackup.date, label: '备份点' } : undefined, { down: row.step - row.rebound, up: row.step - row.pullback });
+    if (!viewBackup) void renderBackups(item);
+  }
+
+  // ---------- 备份对比 ----------
+  const MAX_BACKUPS = 20;
+  let selectedBackupId: string | undefined, backupRun = 0;
+  const backupLabel = (backup: { at: string; price: number; pnl: number }) =>
+    `${new Date(backup.at).toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai' }).slice(0, 16)} · 价格 ${backup.price.toFixed(3)} · 总盈亏 ${formatMoney(backup.pnl)}`;
+
+  // 备份对比：摘要 + 对比表 + 对比曲线。当前详情页（备份 vs 当前）与备份视图共用同一个渲染。
+  function showComparison(backup: Backup, pure: GridResult, live: GridResult) {
+    const rateOf = (extra: number) => backup.capital > 0 ? extra / backup.capital : undefined;
+    const totalRateOf = (pnl: number, maxCapital: number) => maxCapital > 0 ? pnl / maxCapital : undefined;
+    const pureExtra = pure.pnl - backup.pnl, liveExtra = live.pnl - backup.pnl;
+    const pct = (value?: number) => value === undefined ? '—' : formatPercent(value);
+    const tone = (value: number) => `class="${value >= 0 ? 'up' : 'down'}"`;
+    const diffMoney = (value: number) => `<span ${tone(value)}>${formatMoney(value)}</span>`;
+    const diffPct = (value?: number) => value === undefined ? '—' : `<span ${tone(value)}>${formatPercent(value)}</span>`;
+    const minus = (a?: number, b?: number) => a === undefined || b === undefined ? undefined : a - b;
+    const shares = (value?: number) => value === undefined ? '—' : Number(value.toFixed(2)).toLocaleString('zh-CN');
+    const rows: [string, string, string, string, string][] = [
+      ['总盈亏', formatMoney(backup.pnl), formatMoney(pure.pnl), formatMoney(live.pnl), diffMoney(live.pnl - pure.pnl)],
+      ['备份后新增盈亏', '—', formatMoney(pureExtra), formatMoney(liveExtra), diffMoney(liveExtra - pureExtra)],
+      ['备份后收益率<small>新增盈亏 ÷ 备份时占用本金</small>', '—', pct(rateOf(pureExtra)), pct(rateOf(liveExtra)), diffPct(minus(rateOf(liveExtra), rateOf(pureExtra)))],
+      ['总收益率<small>总盈亏 ÷ 最多使用本金</small>', pct(totalRateOf(backup.pnl, backup.maxCapital)), pct(totalRateOf(pure.pnl, pure.maxCapital)), pct(totalRateOf(live.pnl, live.maxCapital)), diffPct(minus(totalRateOf(live.pnl, live.maxCapital), totalRateOf(pure.pnl, pure.maxCapital)))],
+      ['备份后 买入 / 卖出', '—', `${pure.buys - backup.buys} / ${pure.sells - backup.sells}`, `${live.buys - backup.buys} / ${live.sells - backup.sells}`, ''],
+      ['当前持仓份额', shares(backup.position), shares(pure.position), shares(live.position), ''],
+    ];
+    const gain = live.pnl - pure.pnl;
+    const summary = Math.abs(gain) < 0.005 ? '目前与纯网格没有差别。'
+      : `备份以来，手动微调比纯网格<b ${tone(gain)}>${gain >= 0 ? '多赚' : '少赚'} ¥${formatAmount(Math.abs(gain))}</b>${rateOf(liveExtra) !== undefined && rateOf(pureExtra) !== undefined ? `，收益率相差 ${((rateOf(liveExtra)! - rateOf(pureExtra)!) * 100).toFixed(2)} 个百分点` : ''}。`;
+    (document.querySelector('#backup-compare') as HTMLElement).innerHTML = `<p class="backup-summary">备份日 ${backup.date} · 备份时价格 ¥${backup.price.toFixed(3)} · 最新价 ¥${live.current.toFixed(3)}　${summary}</p>
+      <div class="table-shell"><table class="compare-table"><thead><tr><th></th><th>备份时</th><th>纯网格续跑</th><th>当前（含手动微调）</th><th>差额（当前 − 纯网格）</th></tr></thead><tbody>${rows.map(([name, a, b, c, d]) => `<tr><td>${name}</td><td data-label="备份时">${a}</td><td data-label="纯网格">${b}</td><td data-label="当前">${c}</td><td data-label="差额">${d}</td></tr>`).join('')}</tbody></table></div>`;
+    compareBackup = backup; pureSeries = pure.series; liveSeries = live.series;
+    (document.querySelector('#compare-chart-block') as HTMLElement).hidden = false;
+    drawCompare();
+  }
+
+  async function renderBackups(item: SavedRecord) {
+    const run = ++backupRun, backups = item.backups ?? [];
+    const select = document.querySelector('#backup-select') as HTMLSelectElement, compare = document.querySelector('#backup-compare') as HTMLElement;
+    (document.querySelector('#backup-empty') as HTMLElement).hidden = backups.length > 0;
+    const viewLink = document.querySelector('#backup-view') as HTMLAnchorElement;
+    (document.querySelector('#backup-delete') as HTMLElement).hidden = select.hidden = viewLink.hidden = !backups.length;
+    const chartBlock = document.querySelector('#compare-chart-block') as HTMLElement;
+    if (!backups.length) { compare.innerHTML = ''; chartBlock.hidden = true; return; }
+    const backup = backups.find(entry => entry.id === selectedBackupId) ?? backups[0];
+    selectedBackupId = backup.id;
+    const viewUrl = new URL(location.href); viewUrl.searchParams.set('backup', backup.id);
+    viewLink.href = viewUrl.toString();
+    select.innerHTML = backups.map(entry => `<option value="${entry.id}"${entry.id === backup.id ? ' selected' : ''}>${backupLabel(entry)}</option>`).join('');
+    compare.innerHTML = '<p class="backup-empty">正在计算纯网格续跑…</p>';
+    try {
+      // 纯网格：用备份时冻结的输入在最新行情上续跑，备份日之后完全按网格买卖，不含之后的任何手动微调。
+      const candles = await loadCandles(item);
+      if (run !== backupRun) return; // 已有更新的渲染，丢弃过期结果
+      // 备份的快照按旧规则算出时，按当前规则重算并保存（不改动记录的修改时间，也不触发同步）。
+      const upgraded = upgradeBackup(backup, candles);
+      if (upgraded) { persistBackup(upgraded); void renderBackups(record ?? item); return; }
+      const pure = replayBackup(backup, candles);
+      showComparison(backup, pure, item.result);
+    } catch {
+      if (run === backupRun) { compare.innerHTML = '<p class="backup-empty">行情获取失败，暂时无法对比。</p>'; chartBlock.hidden = true; }
+    }
+  }
+
+  // 只替换某个备份（规则升级重算快照用），不改记录的修改时间。
+  function persistBackup(next: Backup) {
+    if (!record) return;
+    record = { ...record, backups: (record.backups ?? []).map(entry => entry.id === next.id ? next : entry) };
+    saveRecord(record);
+  }
+
+  // 备份的增删只改记录本身（不需要重算），保存后同步到云端。
+  async function saveBackups(mutate: (item: SavedRecord) => SavedRecord) {
+    if (!record) return;
+    editRevision++;
+    record = { ...mutate(record), updatedAt: new Date().toISOString() };
+    saveRecord(record);
+    render(record);
+    showNote('正在同步到云端…');
+    showNote(await pushRecord(record));
+  }
+
+  function bindBackups() {
+    document.querySelector('#backup-now')!.addEventListener('click', () => {
+      if (!record) return;
+      if ((record.backups?.length ?? 0) >= MAX_BACKUPS) { showNote(`最多保留 ${MAX_BACKUPS} 个备份，请先删除旧备份`); return; }
+      const backup = createBackup(record);
+      selectedBackupId = backup.id;
+      void saveBackups(item => ({ ...item, backups: [backup, ...(item.backups ?? [])] }));
+    });
+    document.querySelector('#backup-select')!.addEventListener('change', event => {
+      selectedBackupId = (event.target as HTMLSelectElement).value;
+      if (record) void renderBackups(record);
+    });
+    document.querySelector('#backup-delete')!.addEventListener('click', () => {
+      if (!record || !selectedBackupId || !confirm('确认删除此备份？删除后无法恢复。')) return;
+      const id = selectedBackupId; selectedBackupId = undefined;
+      void saveBackups(item => ({ ...item, backups: (item.backups ?? []).filter(entry => entry.id !== id) }));
+    });
+  }
+
+  function editableCell(t: Trade, field: AdjustField) {
+    const config = {
+      price: { digits: 3, step: '0.001', label: '成交价格', value: t.price, model: t.modelPrice },
+      amount: { digits: 2, step: '0.01', label: '成交金额', value: t.amount, model: t.modelAmount },
+      // 旧记录没有 quantity，按成交金额 ÷ 成交价反推。
+      shares: { digits: 2, step: '100', label: '成交份额', value: t.quantity ?? t.amount / t.price, model: t.modelQuantity },
+    }[field];
+    const adjusted = typeof config.model === 'number';
+    const shown = field === 'shares' ? String(Number(config.value.toFixed(2))) : config.value.toFixed(config.digits);
+    return `<span class="price-edit"><input class="price-input${field === 'price' ? '' : ' amount-input'}${adjusted ? ' adjusted' : ''}" type="number" inputmode="decimal" step="${config.step}" min="0.001" value="${shown}" data-date="${t.date}" data-field="${field}" data-digits="${config.digits}" data-original="${Number(shown).toFixed(config.digits)}" aria-label="${t.date} ${config.label}"><button type="button" class="confirm-edit" hidden>确认</button></span>`;
+  }
+
+  // 日线（按天缓存）+ 实时报价（60 秒缓存）合并出最新行情。
+  async function loadCandles(item: Pick<SavedRecord, 'row'>) {
+    return mergeQuote(await getCandles(item.row.code, item.row.date), (await fetchQuotes([item.row.code])).get(item.row.code));
+  }
+
+  // 保存修改并重算：用缓存日线立即重算，写入本机后原地刷新，再把该条记录推送到云端（不重载页面）。
+  // validate 返回非空文字时表示不允许保存，此时不写入任何数据。
+  async function commit(mutate: (item: SavedRecord) => SavedRecord, validate?: (result: GridResult) => string): Promise<string> {
+    if (!record) return '';
+    const next = mutate(record);
+    const candles = await loadCandles(next);
+    if (!candles.length) throw new Error('没有可用日线');
+    const result = calculateGrid(next.row, candles, adjustmentsOf(next));
+    const problem = validate?.(result) ?? '';
+    if (problem) return problem;
+    editRevision++;
+    record = { ...next, updatedAt: new Date().toISOString(), result };
+    saveRecord(record);
+    render(record);
+    showNote('正在同步到云端…');
+    showNote(await pushRecord(record));
+    return '';
+  }
+
+  // 修正网格成交的真实成交价/金额/份额。
+  // 在某个成交日写入修正值。金额与份额互相决定，同一笔只保留最后修改的那一项。
+  function withOverride(current: Adjustments, field: AdjustField, date: string, value: number): Adjustments {
+    const next: Adjustments = { ...current, price: { ...current.price }, amount: { ...current.amount }, shares: { ...current.shares } };
+    if (field !== 'price') { delete next.amount![date]; delete next.shares![date]; }
+    else delete next.price![date];
+    next[field]![date] = value;
+    return next;
+  }
+
+  async function applyAdjustment(field: AdjustField, date: string, value: number) {
+    subtitle.textContent = '正在按修正后的成交数据重新计算…';
+    try {
+      if (viewBackup) await commitBackup(field, date, value);
+      else await commit(item => {
+        const next = withOverride(adjustmentsOf(item), field, date, value);
+        return { ...item, priceOverrides: next.price, amountOverrides: next.amount, sharesOverrides: next.shares };
+      });
+    } catch {
+      subtitle.textContent = '行情获取失败，修正未保存，请稍后重试';
+      if (viewBackup && record) render(backupRecordOf(record, viewBackup, replayBackup(viewBackup, cachedBackupCandles ?? [])));
+      else if (record) render(record);
+    }
+  }
+
+  // 备份视图里的修正：只写入这份备份（记录按网格执行时与系统成交的微小差异），不影响当前数据。
+  // 修正的是备份日及之前的成交时，同步刷新“备份时”快照，使对比表与备份视图一致。
+  let cachedBackupCandles: Awaited<ReturnType<typeof loadCandles>> | undefined;
+  async function commitBackup(field: AdjustField, date: string, value: number) {
+    if (!record || !viewBackup) return;
+    const candles = cachedBackupCandles = await loadCandles(viewBackup);
+    const overrides = withOverride({ price: viewBackup.priceOverrides, amount: viewBackup.amountOverrides, shares: viewBackup.sharesOverrides }, field, date, value);
+    let next: Backup = { ...viewBackup, priceOverrides: overrides.price, amountOverrides: overrides.amount, sharesOverrides: overrides.shares };
+    if (date <= next.date) next = refreshBackupSnapshot(next, candles);
+    const result = replayBackup(next, candles);
+    record = { ...record, backups: (record.backups ?? []).map(entry => entry.id === next.id ? next : entry), updatedAt: new Date().toISOString() };
+    viewBackup = next;
+    saveRecord(record);
+    render(backupRecordOf(record, next, result));
+    if (viewLiveResult) showComparison(next, result, viewLiveResult);
+    showNote('正在同步到云端…');
+    showNote(await pushRecord(record));
+  }
+
+  // 备份视图用与当前详情页相同的渲染，这里把备份和续跑结果包装成一条记录。
+  const backupRecordOf = (source: SavedRecord, backup: Backup, result: GridResult): SavedRecord => ({
+    id: source.id, savedAt: backup.at, row: backup.row, result, priceOverrides: backup.priceOverrides, amountOverrides: backup.amountOverrides,
+    sharesOverrides: backup.sharesOverrides, paramHistory: backup.paramHistory, manualTrades: backup.manualTrades, removedTrades: backup.removedTrades,
+  });
+
+  // 手动增删记录只影响总盈亏、持仓和占用本金：卖出份额不能超过当时持仓，删除也不能让持仓变成负数。
+  const positionProblem = (message: string) => (result: GridResult) =>
+    (result.position ?? 0) < -1e-6 || result.trades.some(trade => trade.manual && trade.shares < -1e-6) ? message : '';
+
+  function bindTradeTools() {
+    const form = document.querySelector('#trade-form') as HTMLFormElement;
+    const field = (name: string) => document.querySelector(`#tf-${name}`) as HTMLInputElement;
+    const error = document.querySelector('#tf-error') as HTMLElement;
+    const preview = document.querySelector('#tf-preview') as HTMLElement;
+    const updatePreview = () => {
+      const amount = Number(field('price').value) * Number(field('shares').value);
+      preview.textContent = amount > 0 ? `成交金额 ¥${formatAmount(amount)}` : '成交金额 —';
+    };
+    const lastDate = () => record?.result.series?.at(-1)?.date ?? new Date().toISOString().slice(0, 10);
+    document.querySelector('#add-trade-toggle')!.addEventListener('click', () => {
+      if (!record) return;
+      form.hidden = !form.hidden;
+      if (form.hidden) return;
+      field('date').min = record.row.date; field('date').max = lastDate(); field('date').value = lastDate();
+      error.textContent = ''; field('price').focus();
+    });
+    document.querySelector('#tf-cancel')!.addEventListener('click', () => { form.hidden = true; form.reset(); error.textContent = ''; updatePreview(); });
+    form.addEventListener('input', updatePreview);
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!record) return;
+      const date = field('date').value, side = (document.querySelector('#tf-side') as HTMLSelectElement).value as '买入' | '卖出';
+      const tradePrice = Number(field('price').value), shares = Number(field('shares').value);
+      if (!date || date < record.row.date || date > lastDate()) { error.textContent = `日期需在 ${record.row.date} 至 ${lastDate()} 之间`; return; }
+      if (!(tradePrice > 0) || !(shares > 0)) { error.textContent = '请填写大于 0 的成交价格和成交份额'; return; }
+      const save = document.querySelector('#tf-save') as HTMLButtonElement;
+      save.disabled = true; error.textContent = '';
+      try {
+        const problem = await commit(
+          item => ({ ...item, manualTrades: [...(item.manualTrades ?? []), { id: crypto.randomUUID(), date, side, price: tick(tradePrice), shares: Number(shares.toFixed(2)) }] }),
+          positionProblem('卖出份额超过当时持仓，无法保存'),
+        );
+        if (problem) error.textContent = problem;
+        else { form.hidden = true; form.reset(); updatePreview(); }
+      } catch { error.textContent = '行情获取失败，请稍后重试'; }
+      save.disabled = false;
+    });
+
+    document.querySelector('#restore-removed')!.addEventListener('click', () => {
+      commit(item => ({ ...item, removedTrades: [] })).catch(() => showNote('行情获取失败，请稍后重试'));
+    });
+    document.querySelector('#trades')!.addEventListener('click', event => {
+      const button = (event.target as HTMLElement).closest('.delete-trade') as HTMLButtonElement | null;
+      if (!button) return;
+      const isTop = button.dataset.top === '1', key = button.dataset.key!;
+      const tip = `确认删除这条成交记录？\n删除只影响总盈亏、持仓和占用本金，不改动其他成交行。${isTop ? '\n这是最新的一条，删除后下一格买卖价将以上一条成交价为基准。' : ''}`;
+      if (!confirm(tip)) return;
+      button.disabled = true;
+      commit(item => button.dataset.kind === 'manual'
+        ? { ...item, manualTrades: (item.manualTrades ?? []).filter(trade => trade.id !== key) }
+        : { ...item, removedTrades: [...new Set([...(item.removedTrades ?? []), key])] },
+      positionProblem('删除后持仓将变为负数，无法删除'))
+        .then(problem => { if (problem) { showNote(problem); button.disabled = false; } })
+        .catch(() => { showNote('行情获取失败，请稍后重试'); button.disabled = false; });
+    });
+  }
+
+  function bindEditing() {
+    const table = document.querySelector('#trades') as HTMLElement;
+    const inputOf = (target: EventTarget | null) => (target as HTMLElement).closest('.price-input') as HTMLInputElement | null;
+    // 输入值与原值不同时显示确认按钮，确认后才保存并重算。
+    table.addEventListener('input', event => {
+      const input = inputOf(event.target);
+      if (!input) return;
+      const value = Number(input.value), digits = Number(input.dataset.digits);
+      (input.nextElementSibling as HTMLButtonElement).hidden = !(Number.isFinite(value) && value > 0 && value.toFixed(digits) !== input.dataset.original);
+    });
+    table.addEventListener('keydown', event => {
+      const input = inputOf(event.target), key = (event as KeyboardEvent).key;
+      if (!input) return;
+      const button = input.nextElementSibling as HTMLButtonElement;
+      if (key === 'Enter' && !button.hidden) button.click();
+      if (key === 'Escape') { input.value = input.dataset.original!; button.hidden = true; input.blur(); }
+    });
+    table.addEventListener('click', event => {
+      const button = (event.target as HTMLElement).closest('.confirm-edit') as HTMLButtonElement | null;
+      if (!button) return;
+      const input = button.previousElementSibling as HTMLInputElement;
+      const value = Number(input.value), digits = Number(input.dataset.digits);
+      if (!Number.isFinite(value) || value <= 0) return;
+      button.disabled = true; button.textContent = '计算中…';
+      void applyAdjustment(input.dataset.field as AdjustField, input.dataset.date!, Number(value.toFixed(digits)));
+    });
+  }
+
+  // 备份视图：只读，不写入任何数据。用备份冻结的输入在最新行情上重算，页面结构与当前详情页完全一致。
+  async function showBackupView(source: SavedRecord, backupId: string) {
+    const backup = source.backups?.find(entry => entry.id === backupId);
+    document.body.classList.add('backup-view');
+    const backLink = document.querySelector('#back-link') as HTMLAnchorElement;
+    const currentUrl = new URL(location.href); currentUrl.searchParams.delete('backup');
+    backLink.href = currentUrl.toString(); backLink.textContent = '← 返回当前数据';
+    if (!backup) { document.querySelector('#title')!.textContent = '未找到该备份'; subtitle.textContent = '该备份可能已被删除，或来自另一台浏览器。'; return; }
+    viewBackup = backup;
+    (document.querySelector('#history-hint') as HTMLElement).textContent = '备份视图展示备份时的数据，以及备份日之后完全按网格买卖的走向（不含此后的手动微调）。标有“备份后”的行是备份之后按网格自动产生的成交。成交价格、成交金额、成交份额可修改，用来记录按网格执行时与系统成交的微小差异，只保存在这份备份里，不影响当前数据；修改备份日及之前的成交会同步刷新对比表中的“备份时”。此处不能增删记录或改参数。持仓市值按该笔成交价估值；“当时占用本金”仅统计成交金额，不含手续费。最新成交在最上方。';
+    (document.querySelector('#history-hint2') as HTMLElement).hidden = true;
+    subtitle.textContent = '正在计算备份及之后的网格走向…';
+    bindEditing();
+    try {
+      const candles = cachedBackupCandles = await loadCandles(backup);
+      const upgraded = upgradeBackup(backup, candles);
+      if (upgraded) { viewBackup = upgraded; persistBackup(upgraded); }
+      const current = upgraded ?? backup;
+      const result = replayBackup(current, candles);
+      render(backupRecordOf(record ?? source, current, result));
+      // 当前数据：与详情页相同的计算（含手动增删、修正与参数变更），用于和纯网格续跑对比。
+      viewLiveResult = calculateGrid(source.row, candles, adjustmentsOf(source));
+      (document.querySelector('#backup-desc') as HTMLElement).textContent = '以下为本备份与当前数据的对比（只读），内容与当前详情页的“备份对比”一致。';
+      showComparison(current, result, viewLiveResult);
+    } catch { subtitle.textContent = '行情获取失败，暂时无法展示备份走向，请稍后重试。'; }
+  }
+
+  // 对比曲线的指标切换（当前详情页与备份视图共用）。
+  document.querySelectorAll('.metric-tabs button').forEach(button => button.addEventListener('click', () => {
+    compareMetric = (button as HTMLElement).dataset.metric as CompareMetric;
+    document.querySelectorAll('.metric-tabs button').forEach(item => item.classList.toggle('active', item === button));
+    drawCompare();
+  }));
+
+  if (!record) {
+    document.querySelector('#title')!.textContent = '未找到保存记录';
+    subtitle.textContent = '该记录可能已被删除，或来自另一台浏览器。';
+  } else if (backupParam) {
+    void showBackupView(record, backupParam);
+  } else {
+    render(record);
+    bindEditing();
+    bindTradeTools();
+    bindBackups();
+    // 先显示已保存快照，再用最新行情（日线按天缓存、报价 60 秒缓存）重算并原地更新。
+    const snapshot = record, revision = editRevision;
+    refreshRecord(snapshot).then(updated => {
+      if (editRevision !== revision) return; // 刷新期间用户已修正，以修正结果为准
+      // 刷新期间可能已升级备份，保留最新的备份列表。
+      record = { ...updated, backups: record?.backups ?? updated.backups }; saveRecord(record); render(record);
+    }).catch(() => { subtitle.textContent = `${snapshot.result.range} · 行情刷新失败，当前显示已保存快照`; })
+      .finally(() => { (document.querySelector('#backup-now') as HTMLButtonElement).disabled = false; });
+  }
+</script>
+
+<style>
+  .compact-hero { margin-bottom:1rem; }
+  .back { display:inline-block; margin-bottom:16px; color:#0369a1; font-size:13px; text-decoration:none; }
+  .back:hover { text-decoration:underline; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:minmax(96px,auto); gap:1px; overflow:hidden; margin-bottom:28px; border:1px solid #e2e8f0; border-radius:10px; background:#e2e8f0; }
+  .history h2 { margin:0 0 4px; font-size:18px; }
+  .history > p { margin:0 0 12px; color:#64748b; font-size:12px; }
+  .history > .sync-note { padding:8px 12px; border:1px solid #fcd34d; border-radius:8px; background:#fffbeb; color:#b45309; }
+  .history > .sync-note[hidden] { display:none; }
+  .table-shell {
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(15 23 42 / .04);
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  .table-shell::-webkit-scrollbar { height: 6px; width: 6px; }
+  .table-shell::-webkit-scrollbar-track { background: transparent; }
+  .table-shell::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+  .table-shell::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+  .axis-legend { flex-direction: column; align-items: flex-end; gap: 6px; }.legend-row { display: flex; flex-wrap: nowrap; white-space: nowrap; align-items: center; justify-content: flex-end; gap: 7px; }.axis-tag { padding: 1px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }.axis-tag.tag-money { background: #f1f5f9; color: #334155; }.axis-tag.tag-price { background: #eef2ff; color: #4f46e5; }
+  /* 移动端长按图表不弹出复制/选择菜单 */
+  .chart-scroll { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+  .chart-panel { margin-top:28px; padding:18px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }.chart-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:8px; }.chart-head h2 { margin:0 0 3px; color:#1e293b; font-size:16px; }.chart-head p { margin:0; color:#94a3b8; font-size:12px; }.legend { display:flex; flex-wrap:wrap; gap:7px; align-items:center; color:#64748b; font-size:12px; }.line { display:inline-block; width:14px; height:2px; margin-left:5px; }.line.position { background:#3b82f6; }.line.capital { background:#f59e0b; }.line.profit { background:#f43f5e; }.line.close { background:#6366f1; }.line.buy-level { border-top:1.5px dashed #10b981; background:none; height:0; }.line.step-level { border-top:1.5px dotted #94a3b8; background:none; height:0; }.line.sell-level { border-top:1.5px dashed #f97316; background:none; height:0; }.chart-scroll { overflow-x:auto; }.chart-scroll svg { display:block; width:100%; height:auto; }
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+  /* 手机：图表适配屏幕宽度；标题与图例上下排列，图例可换行 */
+  @media (max-width: 720px) { .chart-head { flex-direction: column; gap: 10px; }.axis-legend { align-items: flex-start; }.legend-row { flex-wrap: wrap; justify-content: flex-start; white-space: normal; } }
+</style>
+
+<style is:global>
+  .minute-panel { margin-top:28px; padding:18px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
+  .minute-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
+  .minute-head h2 { margin:0 0 3px; color:#1e293b; font-size:16px; }
+  .minute-head p { margin:0; color:#94a3b8; font-size:12px; }
+  .minute-controls { display:flex; align-items:center; gap:14px; color:#475569; font-size:13px; }
+  .minute-controls label { display:flex; align-items:center; gap:6px; }
+  .minute-controls select { border:1px solid #cbd5e1; border-radius:6px; padding:5px 8px; background:#fff; color:#334155; font-size:13px; }
+  .minute-alert { margin:0 0 10px; padding:7px 10px; border:1px solid #fde68a; border-radius:7px; background:#fffbeb; color:#92400e; font-size:12px; }
+  .minute-alert[hidden] { display:none; }
+  .minute-summary { display:flex; flex-wrap:wrap; gap:8px 22px; margin-bottom:8px; }
+  .minute-summary div { display:flex; flex-direction:column; gap:2px; font-variant-numeric:tabular-nums; }
+  .minute-summary span { color:#94a3b8; font-size:11px; }
+  .minute-summary strong { color:#1e293b; font-size:14px; }
+  .stats div { padding: 12px 10px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .stats span { display: block; margin-bottom: 4px; color: #94a3b8; font-size: 12px; transition: color .15s ease; }
+  .stats span.warn { color: #d97706 !important; font-weight: 700; }
+  .stats strong { display: block; font-size: 19px; font-weight: 700; line-height: 1.25; font-variant-numeric: tabular-nums; color: #1e293b; }
+  .stats .step-hint { margin-top: 4px; margin-bottom: 0; font-size: 11px; color: #94a3b8; line-height: 1.3; }
+  .stats .step-hint + .step-hint { margin-top: 2px; }
+  .stats .up { color: #dc2626 !important; font-weight: 600; }
+  .stats .down { color: #16a34a !important; font-weight: 600; }
+
+  .detail-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .detail-table th { height: 46px; padding: 11px 9px; background: #f8fafc; color: #475569; font-size: 12px; font-weight: 600; text-align: center; border-bottom: 1px solid #cbd5e1; white-space: nowrap; }
+  .detail-table td { height: 50px; padding: 8px 9px; border-bottom: 1px solid #f1f5f9; text-align: center; vertical-align: middle; white-space: nowrap; font-variant-numeric: tabular-nums; color: #334155; }
+  .detail-table tbody tr { transition: background-color .15s ease; }
+  .detail-table tbody tr:hover { background-color: #f8fafc; }
+  .detail-table tr:last-child td { border-bottom: 0; }
+  .detail-table .buy, .detail-table .sell { display: inline-flex; align-items: center; justify-content: center; min-width: 48px; border-radius: 4px; padding: 3px 8px; font-size: 11px; font-weight: 600; }
+  .detail-table .buy { background: #fef2f2; color: #dc2626; }
+  .detail-table .sell { background: #f0fdf4; color: #16a34a; }
+  .detail-table .up { color: #dc2626; font-weight: 600; }
+  .detail-table .price-edit { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+  .detail-table .price-input { width: 84px; padding: 4px 6px; border: 1px solid transparent; border-radius: 5px; background: transparent; color: inherit; font: inherit; font-variant-numeric: tabular-nums; text-align: center; cursor: text; -moz-appearance: textfield; }
+  .detail-table .price-input::-webkit-inner-spin-button, .detail-table .price-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .detail-table .price-input:hover { border-color: #cbd5e1; background: #fff; }
+  .detail-table .price-input:focus { outline: none; border-color: #0369a1; background: #fff; box-shadow: 0 0 0 2px rgb(3 105 161 / .15); }
+  .detail-table .price-input.adjusted { border-color: #fcd34d; background: #fffbeb; color: #b45309; font-weight: 600; }
+  .detail-table .price-input.amount-input { width: 96px; }
+  .detail-table .confirm-edit { border: 1px solid #0369a1; border-radius: 4px; padding: 1px 10px; background: #0369a1; color: #fff; font-size: 11px; line-height: 16px; cursor: pointer; }
+  .detail-table .confirm-edit:hover { background: #075985; }
+  .detail-table .confirm-edit:disabled { opacity: .6; cursor: wait; }
+  .detail-table .confirm-edit[hidden] { display: none; }
+  .detail-table .down { color: #16a34a; font-weight: 600; }
+  .compare-chart-block { margin-top: 16px; padding-top: 14px; border-top: 1px solid #f1f5f9; }
+  .compare-chart-block[hidden] { display: none; }
+  .compare-chart-block h3 { margin: 0 0 3px; color: #1e293b; font-size: 14px; }
+  .metric-tabs { display: flex; flex: none; gap: 4px; padding: 3px; border-radius: 8px; background: #f1f5f9; }
+  .metric-tabs button { border: 0; border-radius: 6px; padding: 4px 11px; background: transparent; color: #64748b; font-size: 12px; font-weight: 500; cursor: pointer; }
+  .metric-tabs button:hover { color: #0f172a; }
+  .metric-tabs button.active { background: #fff; color: #0369a1; font-weight: 700; box-shadow: 0 1px 2px rgb(15 23 42 / .08); }
+  .legend { margin-bottom: 4px; }
+  .line.pure { background: #3b82f6; height: 1.5px; }
+  .line.live { height: 0; border-top: 1.5px dashed #f97316; margin-left: 14px; }
+  .view-badge { margin-left: 10px; padding: 2px 9px; border-radius: 5px; background: #e0f2fe; color: #0369a1; font-size: 13px; font-weight: 700; vertical-align: 4px; }
+  .backup-view .backup-actions, .backup-view #backup-empty, .backup-view .trade-tools, .backup-view .trade-form { display: none; }
+  .backup-view .detail-table th:last-child, .backup-view .detail-table td:last-child { display: none; }
+  .detail-table .after-tag { margin-left: 5px; padding: 1px 5px; border-radius: 3px; background: #e0f2fe; color: #0369a1; font-size: 10px; font-style: normal; font-weight: 600; vertical-align: 1px; }
+  .detail-table .after-row { background: #f5faff; }
+  .backup-panel { margin: 28px 0; padding: 16px 18px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; }
+  .backup-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .backup-head h2 { margin: 0 0 3px; color: #1e293b; font-size: 16px; }
+  .backup-head p { margin: 0; color: #94a3b8; font-size: 12px; line-height: 1.6; }
+  .backup-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 12px; flex: none; }
+  .backup-actions select { max-width: 300px; height: 30px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 3px 8px; background: #fff; color: #334155; font-size: 12px; }
+  .backup-actions select[hidden], .backup-actions .tool-link[hidden] { display: none; }
+  .backup-actions .tool-button:disabled { opacity: .55; cursor: wait; }
+  .backup-empty { margin: 12px 0 0; color: #94a3b8; font-size: 12px; }
+  .backup-empty[hidden] { display: none; }
+  .backup-summary { margin: 12px 0 10px; color: #475569; font-size: 13px; line-height: 1.7; }
+  .backup-summary b.up { color: #dc2626; } .backup-summary b.down { color: #16a34a; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .compare-table th { height: 40px; padding: 8px 12px; background: #f8fafc; color: #475569; font-size: 12px; font-weight: 600; text-align: center; border-bottom: 1px solid #cbd5e1; white-space: nowrap; }
+  .compare-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; color: #334155; }
+  .compare-table td:first-child { text-align: left; color: #475569; font-weight: 500; }
+  .compare-table td small { display: block; margin-top: 1px; color: #94a3b8; font-size: 11px; font-weight: 400; }
+  .compare-table tr:last-child td { border-bottom: 0; }
+  .compare-table td:nth-child(4), .compare-table th:nth-child(4) { background: #fafaff; }
+  .compare-table .up { color: #dc2626; font-weight: 700; }
+  .compare-table .down { color: #16a34a; font-weight: 700; }
+  .backup-compare .table-shell { overflow-x: auto; }
+  /* 手机：对比表改为卡片式，每个指标一块，下面 2×2 显示四个数值，不需要横向滚动 */
+  @media (max-width: 720px) {
+    .compare-table, .compare-table tbody { display: block; width: 100%; }
+    .compare-table thead { display: none; }
+    .compare-table tr { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; padding: 12px 4px; border-bottom: 1px solid #f1f5f9; }
+    .compare-table tr:last-child { border-bottom: 0; }
+    .compare-table td { padding: 0; border: 0; text-align: left; white-space: normal; }
+    .compare-table td:first-child { grid-column: 1 / -1; font-weight: 600; }
+    .compare-table td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 1px; color: #94a3b8; font-size: 11px; font-weight: 400; }
+    .compare-table td:empty { display: none; }
+    .compare-table td:nth-child(4), .compare-table th:nth-child(4) { background: none; }
+  }
+  @media (max-width: 720px) { .backup-head { flex-direction: column; } .backup-actions { justify-content: flex-start; } }
+  .detail-table .manual-tag { margin-left: 5px; padding: 1px 5px; border-radius: 3px; background: #eef2ff; color: #4f46e5; font-size: 10px; font-style: normal; font-weight: 600; vertical-align: 1px; }
+  .detail-table .manual-row { background: #fafaff; }
+  .detail-table .delete-trade { border: 1px solid #fecaca; border-radius: 5px; padding: 2px 9px; background: #fef2f2; color: #dc2626; font-size: 11px; cursor: pointer; }
+  .detail-table .delete-trade:hover { background: #fee2e2; border-color: #fca5a5; }
+  .detail-table .delete-trade:disabled { opacity: .5; cursor: wait; }
+
+  .trade-tools { display: flex; align-items: center; gap: 12px; margin: 0 0 10px; }
+  .tool-button, .tool-primary { border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 12px; background: #fff; color: #334155; font-size: 12px; font-weight: 500; cursor: pointer; }
+  .tool-button:hover { border-color: #94a3b8; background: #f8fafc; }
+  .tool-primary { border-color: #0369a1; background: #0369a1; color: #fff; }
+  .tool-primary:hover { background: #075985; }
+  .tool-primary:disabled { opacity: .6; cursor: wait; }
+  .tool-link { border: 0; padding: 0; background: none; color: #0369a1; font-size: 12px; cursor: pointer; }
+  .tool-link:hover { text-decoration: underline; }
+  .tool-link[hidden] { display: none; }
+  .trade-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 12px; padding: 12px 14px; border: 1px solid #bae6fd; border-radius: 10px; background: #f0f9ff; color: #475569; font-size: 12px; }
+  .trade-form[hidden] { display: none; }
+  .trade-form label { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .trade-form input, .trade-form select { box-sizing: border-box; height: 30px; border: 1px solid #bae6fd; border-radius: 5px; padding: 3px 8px; background: #fff; color: #0f172a; font: inherit; }
+  .trade-form input[type=number] { width: 96px; -moz-appearance: textfield; appearance: textfield; }
+  .trade-form input[type=number]::-webkit-inner-spin-button, .trade-form input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .trade-form input:focus, .trade-form select:focus { outline: none; border-color: #0369a1; box-shadow: 0 0 0 2px rgb(3 105 161 / .15); }
+  .tf-preview { min-width: 130px; color: #0369a1; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tf-error { flex-basis: 100%; color: #dc2626; }
+  .tf-error:empty { display: none; }
+</style>
