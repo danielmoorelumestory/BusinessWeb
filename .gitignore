@@ -13,3 +13,6 @@ valuation-reports/
 .superpowers/
 
 obsidian-plugin/main.js
+
+# Cloudflare wrangler 本地调试缓存
+.wrangler/

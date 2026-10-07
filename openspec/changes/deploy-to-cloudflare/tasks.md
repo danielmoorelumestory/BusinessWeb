@@ -45,11 +45,11 @@
 - [x] 6.3 迁移 `cls-plate`：交易日参数下 30796 字节，与 Vercel 哈希一致；非法参数 400 一致
 - [x] 6.4 迁移 `knowledge`：除 `action=mcp` 外经适配器复用原处理函数；`action=mcp` 在 Workers 里改用 MCP SDK 的 Web 标准传输；已在本地 workerd 验证初始化、工具列表、工具调用与非法参数
 - [x] 6.4a 新增 `scripts/check-edge-knowledge.mjs`（纳入 `npm run test:edge`），用假 Supabase 端到端覆盖只读动作、鉴权、来源校验、MCP 与 64KB 限制
-- [ ] 6.5 前端逐个切换：把 `VITE_API_BASE` 改为空（或删除），使所有 `/api/*` 走同域 Workers；先在 Preview 或本地确认无遗漏，再改 Production。注意 `knowledge`、同步类接口在使用者启用 Supabase 之前都返回 503，切换前后行为相同
+- [x] 6.5 前端逐个切换：把 `VITE_API_BASE` 改为空（或删除），使所有 `/api/*` 走同域 Workers；先在 Preview 或本地确认无遗漏，再改 Production。注意 `knowledge`、同步类接口在使用者启用 Supabase 之前都返回 503，切换前后行为相同
 
 ## 7. 收尾与验证
 
-- [ ] 7.1 运行 `npm test -- --run`、`npm run test:functions`、`npm run typecheck`、`npm run build`，确认通过
-- [ ] 7.2 为每个已迁移接口记录一条可复制的 curl 验证命令，写入 `docs/`
-- [ ] 7.3 更新 `docs/DEPLOYMENT.md` 与 `README.md` 的部署说明，注明 Cloudflare 为主、Vercel 为回退
-- [ ] 7.4 确认未迁移的接口清单与原因已记录，且 Vercel 部署仍保留
+- [x] 7.1 运行 `npm test -- --run`、`npm run test:functions`、`npm run typecheck`、`npm run build`，确认通过
+- [x] 7.2 为每个已迁移接口记录一条可复制的 curl 验证命令，写入 `docs/`
+- [x] 7.3 更新 `docs/DEPLOYMENT.md` 与 `README.md` 的部署说明，注明 Cloudflare 为主、Vercel 为回退
+- [x] 7.4 确认未迁移的接口清单与原因已记录，且 Vercel 部署仍保留

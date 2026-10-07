@@ -1,5 +1,7 @@
 # 免费部署与可选云同步
 
+> 当前线上部署在 Cloudflare Pages，见 [cloudflare-pages.md](cloudflare-pages.md)。本文描述的 Vercel + Supabase 流程仍然有效，作为回退部署与 Supabase 同步的配置参考。
+
 ## 当前技术栈
 
 React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。Supabase 仅用于可选的独立同步：网格记录（`/api/grid-sync`）和经济脉搏每日复盘（`/api/pulse-sync`）。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。

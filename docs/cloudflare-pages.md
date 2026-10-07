@@ -1,6 +1,6 @@
 # Cloudflare Pages 部署
 
-前端托管在 Cloudflare Pages；`/api/*` 在迁移完成前仍由 Vercel 提供。迁移计划见 `openspec/changes/deploy-to-cloudflare/`。
+前端和 `/api/*` 都托管在 Cloudflare Pages：静态页面来自 `dist/`，后端是 `functions/api/*` 下的 Pages Functions（与 Workers 同一个运行时）。Vercel 上的同名接口保留作为回退。迁移过程见 `openspec/changes/deploy-to-cloudflare/`。
 
 线上地址：https://businessweb-c0u.pages.dev
 
@@ -10,53 +10,104 @@
 
 | 项目 | 值 |
 |---|---|
-| 生产分支 | `main` |
+| 生产分支 | `main`（推送即自动部署） |
 | 构建命令 | `npm run build` |
 | 输出目录 | `dist` |
-| `NODE_VERSION` | `24` |
+| `NODE_VERSION`（构建变量） | `24` |
+| 兼容性日期 | 不早于 `2026-08-04`（当前 `2026-10-07`） |
+| 兼容性开关 | `nodejs_compat`（Settings → Functions → Compatibility flags） |
 
-## 构建环境变量（Production）
+**不要在仓库里添加 `wrangler.toml`。** 官方文档说明，一旦有 wrangler 配置文件，它就成为 Pages 项目配置的唯一来源，后台里对应字段会变成只读，容易覆盖已在后台设好的构建变量。
 
-| 变量 | 值 | 作用 |
+## 构建变量
+
+构建变量会在构建时写入前端代码，**修改后必须重新部署（Retry deployment）才会生效**。
+
+| 变量 | 当前值 | 说明 |
 |---|---|---|
-| `VITE_API_BASE` | `https://business-web-pi-eight.vercel.app` | 监控、投资计划等页面的 `/api/*` 请求发往你自己的 Vercel 部署 |
-| `VITE_MARKET_DIRECT` | `true` | 网格行情由浏览器直连腾讯行情，不经过 `/api/grid-market` |
+| `VITE_API_BASE` | 不设置 | 为空时前端请求同域 `/api/*`，由本站的 Functions 处理。如需临时回退到 Vercel，设为你自己的 Vercel 域名 |
+| `VITE_MARKET_DIRECT` | 不设置 | 设为 `true` 时网格行情由浏览器直连腾讯，绕开 `/api/grid-market` |
 
-这两个变量在构建时写入前端代码，**修改后必须重新部署才会生效**。它们与 `package.json` 里 `build:pages` 的做法一致，区别是这里站点在根路径，不需要 `VITE_BASE_PATH`。
+> 仓库里曾硬编码上游作者的 `business-web-black.vercel.app`，那不是你自己的部署，**不要**把它填进 `VITE_API_BASE`。你自己的 Vercel 域名可在 Vercel 项目 Overview 页查看。
 
-## `/api/*` 的兜底
+## 服务端变量（运行时）
 
-`functions/api/[[path]].js` 让没有对应接口的 `/api/*` 返回 404 JSON。没有它时，Pages 会把这些请求回退成 `index.html`，接口错误会被页面 HTML 掩盖。以后迁移接口时，在 `functions/api/` 下新增具体文件即可，它们会优先于这个兜底文件匹配。
+只有启用相应功能时才需要，在 Cloudflare 项目的 Settings → Variables and Secrets 里添加为 **Secret**，不要加 `VITE_` 前缀，不要提交到 Git。
 
-## 跨域白名单
+| 变量 | 用途 |
+|---|---|
+| `SUPABASE_URL`、`SUPABASE_SECRET_KEY` | 同步类接口与知识库云端接口访问 Supabase |
+| `GRID_SYNC_TOKEN` | `/api/grid-sync` |
+| `PULSE_SYNC_TOKEN` | `/api/pulse-sync`、`/api/candidates-sync` |
+| `KNOWLEDGE_READ_TOKEN`、`KNOWLEDGE_MCP_TOKEN`、`KNOWLEDGE_UPLOAD_TOKEN`、`KNOWLEDGE_SYNC_TOKEN` | `/api/knowledge`（前三个互不相同，且至少 32 字符） |
 
-- `api/knowledge.ts` 的 `allowed` 数组包含 Pages 地址，否则知识库接口返回 403。
-- 本地估值服务（`npm run valuation:server`）默认不允许 Pages 来源。如需在线上页面使用 AI 解读，启动时追加：
+未配置时这些接口返回 503，这是正常状态：目前尚未启用 Supabase 云同步。
 
-  ```bash
-  VALUATION_ALLOWED_ORIGINS=https://businessweb-c0u.pages.dev npm run valuation:server
-  ```
+## 代码结构
 
-  请使用 Chrome 或 Edge，Safari 会拦截网页访问本机服务。
+```
+functions/api/
+├── [[path]].js          未知 /api/* 兜底，返回 404 JSON（具体文件优先匹配）
+├── china-stock.js ...   每个接口入口两行：export const onRequest = toPagesFunction(handler)
+server/edge/adapter.mjs  把 Vercel 风格 handler(req, res) 适配为 Pages Function
+api/*.js、api/*.ts       处理函数本体，Vercel 与 Cloudflare 共用，未做改写
+```
 
-## 验证
+适配器做的事：解析查询参数与请求体、把 Workers 的 `env` 填进 `process.env`、把 `fetch` 的 `redirect: 'error'` 换成 `'manual'` 并在 3xx 时抛错（Workers 不支持 `'error'`）、`knowledge` 的 MCP 分支改用 SDK 的 Web 标准传输。新增接口时只需在 `functions/api/` 下加一个入口文件。
+
+## 本地调试
+
+```bash
+npm run build
+npx wrangler pages dev dist --compatibility-date=2026-10-07 --compatibility-flag=nodejs_compat
+# 需要服务端变量时追加：--binding SUPABASE_URL=... --binding GRID_SYNC_TOKEN=...
+```
+
+`.wrangler/` 是本地缓存，已被 Git 忽略。自动化检查：
+
+```bash
+npm run test:edge        # 适配器单元测试 + knowledge/MCP 端到端（假 Supabase）
+npm run test:functions   # 原有 Vercel 风格函数检查
+```
+
+## 验证接口
+
+把 `B` 换成你的地址。下表的预期是**未启用 Supabase** 的状态。
 
 ```bash
 B=https://businessweb-c0u.pages.dev
-# 前端路由刷新：返回应用入口页（200，text/html）
+
+# 前端路由刷新：应为 200 text/html
 curl -s -o /dev/null -w "%{http_code} %{content_type}\n" $B/grid-trading/records
-# 未知接口：应为 404 JSON，而不是页面 HTML
+
+# 未知接口：应为 404 的 JSON，而不是页面 HTML
 curl -s -w "\n%{http_code}\n" $B/api/does-not-exist
-# 构建变量是否写入：监控页分包里应能找到 Vercel 地址
-curl -s $B/ | grep -o 'assets/index-[^"]*\.js'
+
+# 行情与宏观
+curl -s "$B/api/china-stock?symbol=sh000001" | head -c 120
+curl -s "$B/api/grid-market?kind=quotes&symbols=sh510300" | iconv -f gbk -t utf-8 | head -c 120
+curl -s "$B/api/grid-market?kind=candles&symbol=sh510300&begin=2026-09-01&end=2026-10-07" | head -c 120
+curl -s "$B/api/macro" | head -c 120
+curl -s "$B/api/sentiment"
+curl -s "$B/api/cls-plate?date=20260930&up_limit=1" | head -c 120   # 需交易日
+
+# 同步与知识库：未配置时应为 503；方法不对为 405；陌生来源为 403
+curl -s -w " [%{http_code}]\n" $B/api/grid-sync
+curl -s -w " [%{http_code}]\n" $B/api/pulse-sync
+curl -s -w " [%{http_code}]\n" $B/api/candidates-sync
+curl -s -w " [%{http_code}]\n" "$B/api/knowledge?action=status"
+curl -s -w " [%{http_code}]\n" -H "Origin: https://evil.example" "$B/api/knowledge?action=status"
 ```
 
-## 暂不包含
+对比 Vercel 的输出可以确认一致性（Vercel 带 `s-maxage` 缓存，行情里的服务器时间戳可能差几秒）。
 
-- 自有域名：暂未接入，目前使用 `*.pages.dev`。
-- 接口迁移：`/api/*` 尚在 Vercel，迁移按 openspec 任务 3～6 逐个进行。
-- 知识库本地服务、估值工作台：依赖本机文件和 CLI，不上公网。
+## 回退
 
-## 注意：不要指向上游作者的 Vercel
+任一阶段出问题，把 `VITE_API_BASE` 设为你自己的 Vercel 域名并重新部署，前端即回到 Vercel；Vercel 上的接口一直保留。
 
-仓库里多处硬编码了 `https://business-web-black.vercel.app`，那是上游作者（TurboSnails）的部署，不是你自己的。`VITE_API_BASE` 必须使用你自己的 Vercel 域名，否则前端会把请求发到别人的服务器。你的域名可在 Vercel 项目的 Overview 页面查看。
+## 已知限制与后续
+
+- **Supabase 云同步尚未启用**：Vercel 与 Cloudflare 上的同步类接口都返回 503。启用步骤见 `docs/DEPLOYMENT.md` 的"启用自有 Supabase 免费同步"，把其中的变量配到 Cloudflare 即可，需要用真实 Supabase 做一次端到端验证（openspec 任务 5.5）。
+- **CPU 时间**：Workers 免费计划每次请求的 CPU 时间上限很低（官方文档为 10 ms）。`macro` 在线上连续多次实测未触发，但高峰期是否偶发超限需要观察；如出现 `Error 1102`，可升级 Workers Paid，或改为定时生成快照。
+- **自有域名**：暂未接入，目前使用 `*.pages.dev`。
+- **不上公网**：知识库本地服务（`npm run knowledge:app`）和估值工作台（`npm run valuation:server`）依赖本机文件和 CLI。线上页面访问本地估值服务时，启动需追加 `VALUATION_ALLOWED_ORIGINS=https://businessweb-c0u.pages.dev`，并使用 Chrome 或 Edge。
