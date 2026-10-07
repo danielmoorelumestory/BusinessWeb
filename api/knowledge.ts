@@ -1,7 +1,7 @@
 import { handleSync } from '../server/knowledge/cloud-sync.js'
 import { authenticated, cloudDatabase, cloudVault, CloudError, object, readHead, uuid, validPath } from '../server/knowledge/cloud.js'
-export type Request = { method?: string; headers: Record<string, string | string[] | undefined>; query?: Record<string, string | string[] | undefined>; body?: unknown }
-export type Response = { setHeader(k: string, v: string): unknown; status(n: number): Response; json(b: unknown): unknown }
+export type Request = { method?: string; headers: Record<string, string | string[] | undefined>; query?: Record<string, string | string[] | undefined>; body?: unknown; webRequest?: InstanceType<typeof globalThis.Request> }
+export type Response = { setHeader(k: string, v: string): unknown; status(n: number): Response; json(b: unknown): unknown; sendWebResponse?(response: InstanceType<typeof globalThis.Response>): unknown }
 export default async function handler(req: Request, res: Response): Promise<unknown> {
   res.setHeader('Cache-Control', 'private, no-store')
   res.setHeader('Vary', 'Origin')

@@ -91,9 +91,9 @@ HTTP 请求的总耗时没有上限，只限制 CPU 时间；等待上游网络�
 | `china-stock`、`grid-market` | 迁 |
 | `grid-sync`、`pulse-sync`、`candidates-sync` | 迁（`node:crypto` 需实测） |
 | `cls-plate` | 迁（`process.env` 改封装） |
-| `macro`、`sentiment` | 迁，但需先实测 CPU 时间，Free 计划可能不够 |
+| `macro`、`sentiment` | 迁；线上实测未触发 CPU 限制（`macro` 连续 4 次 200），仍需留意高峰期是否偶发超限 |
 | `knowledge`（非 MCP 部分） | 迁 |
-| `knowledge`（`action=mcp`） | 待定：改用标准 Request/Response 传输，或暂留 Vercel |
+| `knowledge`（`action=mcp`） | 迁：在 Workers 里改用 MCP SDK 的 `WebStandardStreamableHTTPServerTransport`（SDK 1.32.0 自带），适配器通过 `req.webRequest` 与 `res.sendWebResponse` 透传，Vercel 上仍走 Node 传输 |
 
 ## Risks / Trade-offs
 

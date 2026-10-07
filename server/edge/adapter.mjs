@@ -54,18 +54,21 @@ async function bodyOf(request) {
 
 export async function toNodeRequest(request) {
   const url = new URL(request.url)
+  // 保留一份未被读取的标准请求，供需要 Web 标准 API 的处理函数使用（例如 MCP 的 Web 标准传输）
+  const webRequest = request.method === 'GET' || request.method === 'HEAD' ? request : request.clone()
   return {
     method: request.method,
     url: url.pathname + url.search,
     headers: Object.fromEntries(request.headers),
     query: queryOf(url),
     body: await bodyOf(request),
+    webRequest,
   }
 }
 
 export function createResponseCollector() {
   const headers = new Headers()
-  const state = { statusCode: 200, body: null, ended: false }
+  const state = { statusCode: 200, body: null, ended: false, webResponse: null }
   const res = {
     get statusCode() { return state.statusCode },
     get ended() { return state.ended },
@@ -85,7 +88,14 @@ export function createResponseCollector() {
       state.ended = true
       return res
     },
+    // 处理函数已经生成了完整的标准 Response（例如 MCP 的 Web 标准传输），直接采用
+    sendWebResponse(response) {
+      state.webResponse = response
+      state.ended = true
+      return res
+    },
     toResponse(method) {
+      if (state.webResponse) return state.webResponse
       const noBody = method === 'HEAD' || [101, 204, 205, 304].includes(state.statusCode)
       return new Response(noBody ? null : state.body, { status: state.statusCode, headers })
     },

@@ -40,11 +40,12 @@
 
 ## 6. 迁移重接口
 
-- [ ] 6.1 按任务 1 的结论迁移 `macro`，在 Workers 上实测 CPU 时间；超限则采用拆分、缓存或快照方案
-- [ ] 6.2 迁移 `sentiment`，处理同样的时间限制问题
-- [ ] 6.3 迁移 `cls-plate`（含 `sectorHistory` 的存取逻辑）
-- [ ] 6.4 迁移 `knowledge`（有公网场景）；若依赖本地文件或 Node 专有功能，按任务 1.2 的结论改造，无法改造的部分在设计文档中记录原因，该部分保留在 Vercel
-- [ ] 6.5 前端逐个切换上述接口，每切换一个就验证对应页面
+- [x] 6.1 迁移 `macro`：线上连续 4 次返回 200，20 个序列（美国 12、中国 8）与 Vercel 内容完全相同，未触发 CPU 限制
+- [x] 6.2 迁移 `sentiment`：线上多次返回 200，仅金银比因实时行情有 0.01 的波动
+- [x] 6.3 迁移 `cls-plate`：交易日参数下 30796 字节，与 Vercel 哈希一致；非法参数 400 一致
+- [x] 6.4 迁移 `knowledge`：除 `action=mcp` 外经适配器复用原处理函数；`action=mcp` 在 Workers 里改用 MCP SDK 的 Web 标准传输；已在本地 workerd 验证初始化、工具列表、工具调用与非法参数
+- [x] 6.4a 新增 `scripts/check-edge-knowledge.mjs`（纳入 `npm run test:edge`），用假 Supabase 端到端覆盖只读动作、鉴权、来源校验、MCP 与 64KB 限制
+- [ ] 6.5 前端逐个切换：把 `VITE_API_BASE` 改为空（或删除），使所有 `/api/*` 走同域 Workers；先在 Preview 或本地确认无遗漏，再改 Production。注意 `knowledge`、同步类接口在使用者启用 Supabase 之前都返回 503，切换前后行为相同
 
 ## 7. 收尾与验证
 

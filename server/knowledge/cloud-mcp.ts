@@ -1,5 +1,4 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
 import { z } from 'zod'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Request, Response } from '../../api/knowledge.js'
@@ -28,7 +27,18 @@ export function createCloudMcpServer(vault: ReturnType<typeof cloudVault>) {
 }
 export async function handleCloudMcp(req: Request, res: Response, vault: ReturnType<typeof cloudVault>) {
   const server = createCloudMcpServer(vault)
-  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined, enableJsonResponse: true })
-  try { await server.connect(transport); await transport.handleRequest(req as IncomingMessage, res as unknown as ServerResponse, req.body) }
-  finally { await server.close() }
+  try {
+    if (req.webRequest && res.sendWebResponse) {
+      // Cloudflare 等标准 Request/Response 运行时：使用 Web 标准传输，不依赖 Node 的 IncomingMessage/ServerResponse
+      const { WebStandardStreamableHTTPServerTransport } = await import('@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js')
+      const transport = new WebStandardStreamableHTTPServerTransport({ sessionIdGenerator: undefined, enableJsonResponse: true })
+      await server.connect(transport)
+      res.sendWebResponse(await transport.handleRequest(req.webRequest, { parsedBody: req.body }))
+      return
+    }
+    const { StreamableHTTPServerTransport } = await import('@modelcontextprotocol/sdk/server/streamableHttp.js')
+    const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined, enableJsonResponse: true })
+    await server.connect(transport)
+    await transport.handleRequest(req as IncomingMessage, res as unknown as ServerResponse, req.body)
+  } finally { await server.close() }
 }
