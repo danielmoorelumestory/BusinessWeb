@@ -41,23 +41,29 @@ BusinessWeb 当前是"纸书茶室"风格：`src/index.css` 的 `:root` 定义�
 | `--text-primary` | `#172033` | 正文 |
 | `--text-secondary` | `#667085` | 次要文字，需实测对比度 |
 | `--text-strong` | `#344054` | 表头等 |
-| `--accent` | `#2563eb` | 主色 |
-| `--accent-soft` | `rgba(37,99,235,0.1)` | 主色浅底 |
-| `--accent-ink` | `#1d4ed8` | 浅底上的主色文字 |
+| `--accent` | `#1d4ed8` | 主色（B 版，比参考页的 `#2563eb` 更深更稳） |
+| `--accent-soft` | `rgba(29,78,216,0.08)` | 主色浅底 |
+| `--accent-ink` | `#1e3a8a` | 浅底上的主色文字，也用作主按钮悬停色 |
 | `--accent-warm` | `#d97706` | 原来的暖色强调，改映射为琥珀 |
-| `--border-subtle` | `#e5eaf2` | 卡片边框 |
-| `--border-row` | `#e8edf4` | 表格行线 |
-| `--radius-card` | `16px` | 卡片圆角 |
-| `--radius-pill` | `999px` | 胶囊 |
+| `--border-subtle` | `#dde3ec` | 卡片边框（略深，线条更利落） |
+| `--border-row` | `#e6ebf2` | 表格行线 |
+| `--radius-card` | `12px` | 卡片圆角（`--radius-lg` 同为 12px） |
+| `--radius-btn` | `8px` | 按钮与输入框 |
+| `--radius-chip` | `6px` | 标签、胶囊、分段按钮 |
+| `--shadow-card` | `0 1px 2px rgba(16,24,40,0.05)` | 卡片的极淡阴影 |
 | `--up` / `--down` | 红 `#dc2626` / 绿 `#16a34a` | 涨跌，与热力图现有取值一致 |
 
 ### 2a. 对比度实测后的取值调整（实施中补充）
 对比度测试实测发现：参考页的"减仓"胶囊文字 `#9a6700` 在浅黄底 `#fff4d6` 上只有 4.44:1，略低于 AA 的 4.5:1。按"不达标就调整令牌、不放宽阈值"的约定，`--warn` 与 `--warm-ink` 取 `#966400`（对 `#fff4d6` 为 4.65:1，肉眼与参考色几乎无差别）。其余令牌对均达标，包括此前担心的次要文字 `#667085` 对 `#f5f7fa`。
 
 ### 2. 状态色与涨跌色拆成两套变量
-新增 `--ok`、`--warn`、`--bad`，每个配 `-ink`（文字色）与 `-soft`（浅底）：绿 `#087443`/`#e9f8ee`、橙 `#966400`/`#fff4d6`（参考页为 `#9a6700`，见 2a）、红 `#b42318`/`#ffebe9`；callout 的左侧色条与浅底另配（蓝 `#2563eb`/`#f6f9ff`、橙 `#d97706`/`#fffaf0`、红 `#dc2626`/`#fff5f5`）。`--up`、`--down` 只用于行情涨跌。
+新增 `--ok`、`--warn`、`--bad`，每个配 `-ink`（文字色）与 `-soft`（浅底）：绿 `#087443`/`#e9f8ee`、橙 `#966400`/`#fff4d6`（参考页为 `#9a6700`，见 2a）、红 `#b42318`/`#ffebe9`；callout 的左侧色条与浅底另配（蓝 `#1d4ed8`/`#f6f9ff`、橙 `#d97706`/`#fffaf0`、红 `#dc2626`/`#fff5f5`）。`--up`、`--down` 只用于行情涨跌。
 - 理由：参考页里的"绿 = 保留、红 = 退出"是状态含义，而 A 股是红涨绿跌；若共用同一组变量，"退出"和"上涨"会撞色，造成误读。
 - 约束：热力图与涨跌幅继续使用 `--up`/`--down`（或其等价值），`greenUp` 开关行为不变。
+
+### 2b. A / B 两版对比后选定 B（商务版）
+关卡阶段做了两版并排对比：A 为参考页原样（主色 `#2563eb`、卡片 16px 圆角、胶囊按钮与标签、无阴影），B 为偏商务的取值（主色 `#1d4ed8`、卡片 12px、按钮 8px、标签 6px、卡片极淡阴影、首页大标题 2rem/2.6rem 且字距收紧、名言卡片竖条由橙改蓝）。使用者选定 B。对比中还发现并修复了一个两版共有的缺陷：主按钮悬停色写死为旧的暗绿 `#4B6A55`，改为 `--accent-ink`。
+- 标签类的全圆角（宏观温度页的 `.macro-badge`、网格同步状态、候选池按钮、2026 投资计划的 `Pill`、关于页与研究笔记里的内联按钮与输入框）统一改为 `--radius-chip` / `--radius-btn`；圆点、头像、加载圈等用 `50%` 的圆形元素保留。
 
 ### 3. 字体：先让 `--font-serif` 指向无衬线，最后再清理
 第一步把 `--font-serif` 重新定义为与 `--font-sans` 相同的系统无衬线栈，使所有标题立刻变为无衬线，无需先改十几处引用。关卡通过后，再把引用逐个改为 `--font-sans`，删除 `--font-serif`、`main.tsx` 里的两行字体引入和 `package.json` 里的依赖。
@@ -65,7 +71,7 @@ BusinessWeb 当前是"纸书茶室"风格：`src/index.css` 的 `:root` 定义�
 - 参考页字体栈：`-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif`，正文 15px、行高 1.65，h1 28px、h2 20px、h3 16px，窄屏（≤700px）h1 为 23px。
 
 ### 4. 报告组件放在单独的样式文件，类名对应参考页
-新增 `src/styles/report.css`，在 `main.tsx` 引入。类名：`report-card`、`report-hero`、`pill`（`pill--ok`/`pill--warn`/`pill--bad`）、`callout`（`callout--info`/`callout--warn`/`callout--bad`）、`report-table`、`report-section-label`、`report-note`。窄屏下 `report-table` 内部横向滚动。
+新增 `src/styles/report.css`，在 `main.tsx` 引入。类名：`report-card`、`report-hero`、`pill`（`pill--ok`/`pill--warn`/`pill--bad`，6px 圆角矩形）、`callout`（`callout--info`/`callout--warn`/`callout--bad`）、`report-table`、`report-section-label`、`report-note`。窄屏下 `report-table` 内部横向滚动。
 - 理由：与现有 `shell.css` 分开，职责清晰，后续新页面可直接复用；类名与参考页的 `.card`、`.hero`、`.pill`、`.key`、`.section`、`.foot` 一一对应。
 - 范围：本变更只新增样式并在壳层与少数展示页中使用，不强制把所有页面改写成这些类。
 

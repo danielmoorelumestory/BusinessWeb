@@ -20,10 +20,11 @@
 ## 3. 关卡：先看效果再铺开（需要使用者确认）
 
 - [x] 3.1 对 1.1 中的同一批页面在 1280px 与 375px 宽度截"改后"图，与基线并排整理成对比，交给使用者
-- [ ] 3.2 使用者确认风格方向与令牌取值；如需调整（例如红绿深浅、主色），回到 2.1、2.2 修改并重新截图，直到确认。**未获确认前不得进入第 4 组，也不得推送**
+- [x] 3.2 使用者确认风格方向与令牌取值；如需调整（例如红绿深浅、主色），回到 2.1、2.2 修改并重新截图，直到确认。**未获确认前不得进入第 4 组，也不得推送**。结果：使用者确认方向正确，并要求偏商务；做了 A / B 两版并排对比，使用者选定 B（主色 `#1d4ed8`、卡片 12px、按钮 8px、标签 6px、卡片极淡阴影、首页大标题收敛、竖条改蓝），详见设计 2b
 
 ## 4. 第二段：写死颜色
 
+- [x] 4.0 （已完成，补记）统一标签类全圆角：`.macro-badge`、`.grid-sync-status`、`CandidateButton`、`InvestmentPlan2026` 的 `Pill`、`About` 与 `ResearchNotes` 里的内联按钮与输入框改为 `--radius-chip` / `--radius-btn`，圆形元素保留；并修复主按钮悬停写死旧暗绿的缺陷
 - [ ] 4.1 `src/components/pulse/IndexHeatmap.tsx` 与 `HeatmapSection.tsx`：逐处评估；涨跌色阶保持红涨绿跌语义并保留 `greenUp` 开关，其余文字、底色换成令牌，并记录结论
 - [ ] 4.2 `src/services/api.ts`、`src/pages/ThemeCards.tsx`、`src/pages/TradingPhilosophy.tsx`、`src/components/monitor/monitorData.ts`：评估这些颜色是令牌、涨跌色还是数据分类色；分类色统一到新色板后保留为常量，并记录结论
 - [ ] 4.3 `src/features/grid-trading/GridChart.tsx` 与 `chart.ts`：图表线条、网格、文字颜色换成令牌或新色板，保持买卖与涨跌的区分度

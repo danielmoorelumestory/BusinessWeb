@@ -284,11 +284,11 @@ export default function ResearchNotes(): JSX.Element {
     a.download = `${catMarket}-林奇-${lType}-${lTier}-${lMoat}-${new Date().toISOString().slice(0, 10)}.json`; a.click()
     setTimeout(() => URL.revokeObjectURL(a.href), 1000)
   }
-  const chipStyle = (on: boolean): React.CSSProperties => ({ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '12px', fontWeight: 500, padding: '6px 12px', borderRadius: 'var(--radius-full)', background: on ? 'var(--accent)' : 'var(--bg-secondary)', color: on ? '#fff' : 'var(--text-secondary)' })
+  const chipStyle = (on: boolean): React.CSSProperties => ({ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '12px', fontWeight: 500, padding: '6px 12px', borderRadius: 'var(--radius-btn)', background: on ? 'var(--accent)' : 'var(--bg-secondary)', color: on ? '#fff' : 'var(--text-secondary)' })
   const emptyHint = (n: number): React.ReactNode => (n === 0 ? (
     <div style={{ textAlign: 'center', padding: '24px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>
       没有符合当前筛选条件的公司。
-      <button onClick={resetFilters} style={{ marginLeft: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: 500, padding: '6px 14px', borderRadius: 'var(--radius-full)', background: 'var(--system-blue)', color: '#fff' }}>重置筛选</button>
+      <button onClick={resetFilters} style={{ marginLeft: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: 500, padding: '6px 14px', borderRadius: 'var(--radius-btn)', background: 'var(--system-blue)', color: '#fff' }}>重置筛选</button>
     </div>
   ) : null)
 
@@ -310,7 +310,7 @@ export default function ResearchNotes(): JSX.Element {
       </div>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', margin: '0 0 10px' }}>
         <input value={q} onChange={e => setQ(e.target.value)} placeholder="搜索公司名称或代码"
-          style={{ flex: '1 1 180px', minWidth: '150px', fontSize: '13px', padding: '8px 14px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-primary)', background: 'var(--bg-card)', color: 'var(--text-primary)', fontFamily: 'inherit' }} />
+          style={{ flex: '1 1 180px', minWidth: '150px', fontSize: '13px', padding: '8px 14px', borderRadius: 'var(--radius-btn)', border: '1px solid var(--border-primary)', background: 'var(--bg-card)', color: 'var(--text-primary)', fontFamily: 'inherit' }} />
         {['全部', '高', '中', '低'].map(t => <button key={t} onClick={() => setLTier(t)} style={chipStyle(lTier === t)}>{t === '全部' ? '关注度：全部' : `关注度：${t}`}</button>)}
         {['全部', '宽', '窄'].map(t => <button key={t} onClick={() => setLMoat(t)} style={chipStyle(lMoat === t)}>{t === '全部' ? '护城河：全部' : `护城河：${t}`}</button>)}
         <button onClick={exportLynch} style={{ ...chipStyle(false), border: '1px solid var(--border-primary)', background: 'var(--bg-card)' }}>⬇ 导出当前（{lynchShown.length}）JSON</button>
@@ -347,17 +347,17 @@ export default function ResearchNotes(): JSX.Element {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '4px 0 12px' }}>
         {['全部', ...progSectors].map(sec => (
           <button key={sec} onClick={() => updateParams({ sec: sec === '全部' ? null : sec })}
-            style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: 500, padding: '6px 14px', borderRadius: 'var(--radius-full)', background: progSector === sec ? 'var(--accent)' : 'var(--bg-secondary)', color: progSector === sec ? '#fff' : 'var(--text-secondary)', transition: 'all 0.2s' }}>
+            style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: 500, padding: '6px 14px', borderRadius: 'var(--radius-btn)', background: progSector === sec ? 'var(--accent)' : 'var(--bg-secondary)', color: progSector === sec ? '#fff' : 'var(--text-secondary)', transition: 'all 0.2s' }}>
             {sec} {sec === '全部' ? progList.length : progList.filter(c => c.sector === sec).length}
           </button>
         ))}
       </div>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', margin: '0 0 16px' }}>
         <input value={q} onChange={e => setQ(e.target.value)} placeholder="搜索公司名称或代码"
-          style={{ flex: '1 1 200px', minWidth: '160px', fontSize: '13px', padding: '8px 14px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-primary)', background: 'var(--bg-card)', color: 'var(--text-primary)', fontFamily: 'inherit', outline: 'none' }} />
+          style={{ flex: '1 1 200px', minWidth: '160px', fontSize: '13px', padding: '8px 14px', borderRadius: 'var(--radius-btn)', border: '1px solid var(--border-primary)', background: 'var(--bg-card)', color: 'var(--text-primary)', fontFamily: 'inherit', outline: 'none' }} />
         {['全部', '优先关注', '条件关注', '观察', '回避', ...(catMarket === 'adr' ? ['未估值'] : [])].map(r => (
           <button key={r} onClick={() => setRatingF(r)}
-            style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '12px', fontWeight: 500, padding: '6px 12px', borderRadius: 'var(--radius-full)', background: ratingF === r ? 'var(--accent)' : 'var(--bg-secondary)', color: ratingF === r ? '#fff' : 'var(--text-secondary)' }}>
+            style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '12px', fontWeight: 500, padding: '6px 12px', borderRadius: 'var(--radius-btn)', background: ratingF === r ? 'var(--accent)' : 'var(--bg-secondary)', color: ratingF === r ? '#fff' : 'var(--text-secondary)' }}>
             {r} {r === '全部' ? secList.length : secList.filter(c => ratingOf(c) === r).length}
           </button>
         ))}
@@ -365,7 +365,7 @@ export default function ResearchNotes(): JSX.Element {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '0 0 12px' }}>
         {[[`导出当前筛选（${shownCompanies.length}）`, shownCompanies, `${catMarket}-${progSector}-${ratingF}`], [`导出该市场全部（${progList.length}）`, progList, `${catMarket}-全部`]].map(([label, list, name]) => (
           <button key={label as string} onClick={() => exportJson(list as typeof progList, name as string)}
-            style={{ border: '1px solid var(--border-primary)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '12px', fontWeight: 500, padding: '6px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-card)', color: 'var(--text-secondary)' }}>
+            style={{ border: '1px solid var(--border-primary)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '12px', fontWeight: 500, padding: '6px 12px', borderRadius: 'var(--radius-btn)', background: 'var(--bg-card)', color: 'var(--text-secondary)' }}>
             ⬇ {label as string} JSON
           </button>
         ))}
@@ -383,7 +383,7 @@ export default function ResearchNotes(): JSX.Element {
         {emptyHint(shownCompanies.length)}
         {shownCompanies.length > limit && (
           <div style={{ textAlign: 'center', marginTop: '14px' }}>
-            <button onClick={() => setLimit(l => l + 100)} style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: 500, padding: '8px 20px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', color: 'var(--system-blue)' }}>显示更多（已显示 {limit} / {shownCompanies.length}）</button>
+            <button onClick={() => setLimit(l => l + 100)} style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: 500, padding: '8px 20px', borderRadius: 'var(--radius-btn)', background: 'var(--bg-secondary)', color: 'var(--system-blue)' }}>显示更多（已显示 {limit} / {shownCompanies.length}）</button>
           </div>
         )}
         <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', margin: '12px 0 0' }}>

@@ -106,7 +106,7 @@ export default function About(): JSX.Element {
             fontSize: '0.9rem',
             padding: '8px 16px',
             background: 'var(--bg-card)',
-            borderRadius: 'var(--radius-full)',
+            borderRadius: 'var(--radius-btn)',
             border: '1px solid var(--border-subtle)',
           }}
         >
@@ -141,7 +141,7 @@ export default function About(): JSX.Element {
                 background: 'var(--system-blue)',
                 color: '#fff',
                 border: 'none',
-                borderRadius: 'var(--radius-full)',
+                borderRadius: 'var(--radius-btn)',
                 padding: '6px 14px',
                 fontSize: '0.85rem',
                 cursor: 'pointer',

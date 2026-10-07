@@ -72,7 +72,7 @@ const Pill: React.FC<{ tone: Tone; children: React.ReactNode }> = ({ tone, child
       alignItems: 'center',
       gap: 6,
       padding: '3px 10px',
-      borderRadius: 999,
+      borderRadius: 'var(--radius-chip)',
       background: TONE[tone].bg,
       color: TONE[tone].fg,
       fontSize: '0.78rem',

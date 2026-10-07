@@ -1,11 +1,11 @@
 ## ADDED Requirements
 
 ### Requirement: 设计令牌集中定义，色板为冷色数据报告风格
-系统 SHALL 在 `src/index.css` 的 `:root` 中集中定义设计令牌，页面底色为冷灰蓝，卡片为白色并带 1px 浅边框与 16px 圆角，主色为蓝色，正文与次要文字为深灰蓝色系；站内组件的颜色 MUST 通过这些令牌取得，而不是各自写死。
+系统 SHALL 在 `src/index.css` 的 `:root` 中集中定义设计令牌，页面底色为冷灰蓝，卡片为白色并带 1px 浅边框、极淡阴影与 12px 圆角，主色为蓝色，按钮与标签为圆角矩形而不是胶囊，正文与次要文字为深灰蓝色系；站内组件的颜色 MUST 通过这些令牌取得，而不是各自写死。
 
 #### Scenario: 核心令牌取值
 - **WHEN** 读取 `src/index.css` 的 `:root`
-- **THEN** `--bg-primary` 为 `#f5f7fa`，`--bg-card` 为 `#ffffff`，`--text-primary` 为 `#172033`，`--accent` 为 `#2563eb`，`--border-subtle` 为 `#e5eaf2`，`--radius-card` 为 `16px`
+- **THEN** `--bg-primary` 为 `#f5f7fa`，`--bg-card` 为 `#ffffff`，`--text-primary` 为 `#172033`，`--accent` 为 `#1d4ed8`，`--border-subtle` 为 `#dde3ec`，`--radius-card` 为 `12px`，`--radius-btn` 为 `8px`，`--radius-chip` 为 `6px`
 
 #### Scenario: 页面使用新底色
 - **WHEN** 用户打开任一主站页面
@@ -57,11 +57,15 @@
 
 #### Scenario: 胶囊使用状态色
 - **WHEN** 元素带有 `pill pill--ok`
-- **THEN** 它以绿色文字、浅绿底、全圆角和粗体 12px 字号显示
+- **THEN** 它以绿色文字、浅绿底、6px 圆角矩形和粗体 12px 字号显示
 
 #### Scenario: 提示块的左侧色条
 - **WHEN** 元素带有 `callout callout--warn`
 - **THEN** 它左侧有 5px 橙色色条与浅橙底，圆角为 8px
+
+#### Scenario: 按钮与标签不是胶囊
+- **WHEN** 渲染主按钮、次按钮、标签、分段按钮与状态徽章
+- **THEN** 按钮的圆角为 8px，标签与徽章的圆角为 6px；仅圆点、头像、加载圈等圆形元素保持 `50%`
 
 #### Scenario: 窄屏表格内部滚动
 - **WHEN** 视口宽度不超过 700px，页面里有 `report-table`

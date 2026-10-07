@@ -19,7 +19,7 @@
 .macro-card--note { background: var(--accent-soft); border-color: transparent; }
 .macro-card__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 
-.macro-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+.macro-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--radius-chip); font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
 .macro-badge--green { background: color-mix(in srgb, var(--system-green) 14%, transparent); color: var(--down-ink); }
 .macro-badge--yellow { background: color-mix(in srgb, var(--system-yellow) 22%, transparent); color: var(--warm-ink); }
 .macro-badge--red { background: color-mix(in srgb, var(--system-red) 14%, transparent); color: var(--up-ink); }
