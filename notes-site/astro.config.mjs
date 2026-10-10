@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import vue from '@astrojs/vue';
 import tailwindcss from '@tailwindcss/vite';
 
 // GitHub Pages serves this site from /note; Vercel serves it from the domain root.
@@ -15,6 +16,7 @@ const site = isVercel
     : 'https://danielmoorelumestory.github.io';
 
 export default defineConfig({
+  integrations: [vue()],
   site,
   base: isVercel ? undefined : '/note',
   markdown: {
