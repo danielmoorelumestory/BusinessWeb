@@ -28,6 +28,8 @@ describe('经济脉搏：每日复盘本地增删与云同步入口', () => {
   it('删除一天复盘会写入墓碑；取消确认则不删除', async () => {
     localStorage.setItem('pulse_daily_reviews', JSON.stringify([review('2026-09-30'), review('2026-09-29')]))
     render(<Pulse />)
+    expect(screen.queryByRole('button', { name: /删除/ })).toBeNull()
+    fireEvent.click(screen.getByRole('tab', { name: '每日分析' }))
     const buttons = await screen.findAllByRole('button', { name: /删除/ })
     vi.spyOn(window, 'confirm').mockReturnValueOnce(false)
     fireEvent.click(buttons[0])
@@ -37,10 +39,15 @@ describe('经济脉搏：每日复盘本地增删与云同步入口', () => {
     fireEvent.click(screen.getAllByRole('button', { name: /删除/ })[0])
     expect(JSON.parse(localStorage.getItem('pulse_daily_reviews')!).map((r: { date: string }) => r.date)).toEqual(['2026-09-29'])
     expect(JSON.parse(localStorage.getItem('pulse_review_tombstones')!)).toMatchObject([{ date: '2026-09-30', deleted: true }])
+    fireEvent.click(screen.getByRole('tab', { name: '市场热力图' }))
+    expect(screen.queryByRole('button', { name: /删除/ })).toBeNull()
+    fireEvent.click(screen.getByRole('tab', { name: '每日分析' }))
+    expect(screen.getAllByRole('button', { name: /删除/ })).toHaveLength(1)
   })
 
   it('未配置时没有「同步」按钮，保存配置前会确认目标域名且 token 太短被拒绝', async () => {
     render(<Pulse />)
+    fireEvent.click(screen.getByRole('tab', { name: '每日分析' }))
     await screen.findByRole('button', { name: /云端设置/ })
     expect(screen.queryByRole('button', { name: /同步$/ })).toBeNull()
     fireEvent.click(screen.getByRole('button', { name: /云端设置/ }))

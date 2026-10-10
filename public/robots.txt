@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /valuation
+Disallow: /dcf
+Disallow: /knowledge
+Disallow: /monitor
+Disallow: /grid-trading/records
+Disallow: /downloads/
+Disallow: /ai-skills/
+Disallow: /investment-skills/
+
+Sitemap: https://business-web-black.vercel.app/sitemap.xml

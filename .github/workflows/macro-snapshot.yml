@@ -24,19 +24,21 @@ jobs:
         with:
           node-version: '24'
       - name: Fetch FRED / Yahoo / Eastmoney data
-        run: node scripts/macro-snapshot.mjs
+        run: |
+          node scripts/macro-snapshot.mjs
+          node scripts/index-snapshot.mjs
       - name: Commit if changed
         id: commit
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- public/data/macro-us.json public/data/macro-cn.json; then
+          if git diff --quiet -- public/data/macro-us.json public/data/macro-cn.json public/data/macro-hk.json public/data/index-history.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/data/macro-us.json public/data/macro-cn.json
+          git add public/data/macro-us.json public/data/macro-cn.json public/data/macro-hk.json public/data/index-history.json
           git commit -m "data(macro): 更新宏观温度数据 $(date -u +%Y-%m-%d)"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"

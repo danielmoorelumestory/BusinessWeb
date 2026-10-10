@@ -70,6 +70,7 @@ export default async function handler(req: Request, res: Response): Promise<unkn
         return res.status(502).json({ error: '云端数据结构无效，请检查数据库迁移' })
       }
       res.setHeader('ETag', `"${snapshot.revision}"`)
+      res.setHeader('X-Revision', String(snapshot.revision))
       return res.status(200).json(snapshot.payload)
     }
     if (data === 'conflict') return res.status(409).json({ error: '其他设备已更新候选池，请刷新后重试' })

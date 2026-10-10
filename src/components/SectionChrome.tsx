@@ -20,7 +20,7 @@ export default function SectionChrome(): JSX.Element | null {
       <nav className="breadcrumb" aria-label="面包屑">
         <Link to="/">Live</Link>
         <span aria-hidden="true">›</span>
-        <Link to="/invest">正念投资</Link>
+        <Link to="/invest">投资</Link>
         <span aria-hidden="true">›</span>
         <span className="breadcrumb__current">{link.label}</span>
       </nav>

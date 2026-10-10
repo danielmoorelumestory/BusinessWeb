@@ -24,7 +24,7 @@ vi.mock('../features/grid-trading/repository', () => ({
 }))
 
 describe('grid trading calculator entry', () => {
-  it('keeps a grid trading entry reachable from the 正念投资 hub', () => {
+  it('keeps a grid trading entry reachable from the 投资 hub', () => {
     render(<MemoryRouter><InvestHub /></MemoryRouter>)
 
     const link = screen.getAllByRole('link', { name: /网格交易/ })[0]

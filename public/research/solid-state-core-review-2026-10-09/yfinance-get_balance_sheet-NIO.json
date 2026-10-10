@@ -1,0 +1,1061 @@
+{
+  "server": "yfinance",
+  "tool": "get_balance_sheet",
+  "arguments": {
+    "symbol": "NIO",
+    "quarterly": true
+  },
+  "retrievedAt": "2026-10-09T15:51:30.928887+00:00",
+  "isError": false,
+  "data": {
+    "symbol": "NIO",
+    "type": "quarterly",
+    "data": {
+      "columns": [
+        "2026-06-30T00:00:00",
+        "2026-03-31T00:00:00",
+        "2025-12-31T00:00:00",
+        "2025-09-30T00:00:00",
+        "2025-06-30T00:00:00",
+        "2025-03-31T00:00:00"
+      ],
+      "indexName": null,
+      "rows": [
+        {
+          "metric": "Treasury Shares Number",
+          "values": [
+            null,
+            2951528.0,
+            2951528.0,
+            2896378.0,
+            2896378.0,
+            3472933.0
+          ]
+        },
+        {
+          "metric": "Ordinary Shares Number",
+          "values": [
+            2505667022.0,
+            2505667022.0,
+            2474273324.0,
+            2464175188.0,
+            2244666266.0,
+            null
+          ]
+        },
+        {
+          "metric": "Share Issued",
+          "values": [
+            2505667022.0,
+            2508618550.0,
+            2477224852.0,
+            2467071566.0,
+            2247562644.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Debt",
+          "values": [
+            159840000.0,
+            5847421000.0,
+            2700059000.0,
+            5366764000.0,
+            8232746000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Debt",
+          "values": [
+            28995940000.0,
+            26567525000.0,
+            31263135000.0,
+            27640475000.0,
+            30964420000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Tangible Book Value",
+          "values": [
+            3696789000.0,
+            4115052000.0,
+            3933121000.0,
+            3442074000.0,
+            -1434696000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Invested Capital",
+          "values": [
+            21677444000.0,
+            19014993000.0,
+            18133613000.0,
+            18307326000.0,
+            14138500000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Working Capital",
+          "values": [
+            1631219000.0,
+            736380000.0,
+            -1949526000.0,
+            -4260227000.0,
+            -9773616000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Tangible Assets",
+          "values": [
+            3696789000.0,
+            4115052000.0,
+            3933121000.0,
+            3442074000.0,
+            -1434696000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Capital Lease Obligations",
+          "values": [
+            11382536000.0,
+            11892597000.0,
+            17288982000.0,
+            13002888000.0,
+            15620215000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Common Stock Equity",
+          "values": [
+            4064040000.0,
+            4340065000.0,
+            4159460000.0,
+            3669739000.0,
+            -1205705000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Capitalization",
+          "values": [
+            12614966000.0,
+            12729550000.0,
+            12785732000.0,
+            12391025000.0,
+            7907473000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Equity Gross Minority Interest",
+          "values": [
+            14268225000.0,
+            14493724000.0,
+            12692557000.0,
+            12088220000.0,
+            6615964000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Minority Interest",
+          "values": [
+            10204185000.0,
+            10153659000.0,
+            8533097000.0,
+            8418481000.0,
+            7821669000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Stockholders Equity",
+          "values": [
+            4064040000.0,
+            4340065000.0,
+            4159460000.0,
+            3669739000.0,
+            -1205705000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Gains Losses Not Affecting Retained Earnings",
+          "values": [
+            null,
+            null,
+            579799000.0,
+            null,
+            843138000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Equity Adjustments",
+          "values": [
+            null,
+            null,
+            579799000.0,
+            null,
+            843138000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Treasury Stock",
+          "values": [
+            null,
+            null,
+            123910000.0,
+            null,
+            139156000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Retained Earnings",
+          "values": [
+            null,
+            null,
+            -128029031000.0,
+            null,
+            -124807714000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Additional Paid In Capital",
+          "values": [
+            null,
+            null,
+            131728259000.0,
+            null,
+            122894093000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Capital Stock",
+          "values": [
+            null,
+            null,
+            4343000.0,
+            null,
+            3934000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Common Stock",
+          "values": [
+            null,
+            null,
+            4343000.0,
+            null,
+            3934000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Liabilities Net Minority Interest",
+          "values": [
+            121943115000.0,
+            111701285000.0,
+            111708521000.0,
+            99955854000.0,
+            93429881000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Non Current Liabilities Net Minority Interest",
+          "values": [
+            34324557000.0,
+            33097414000.0,
+            33125958000.0,
+            32636301000.0,
+            31148294000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Non Current Liabilities",
+          "values": [
+            15029869000.0,
+            14098969000.0,
+            423334000.0,
+            13170335000.0,
+            316139000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Preferred Securities Outside Stock Equity",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            7586488000.0
+          ]
+        },
+        {
+          "metric": "Dueto Related Parties Non Current",
+          "values": [
+            1190070000.0,
+            777289000.0,
+            604178000.0,
+            372778000.0,
+            357970000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Tradeand Other Payables Non Current",
+          "values": [
+            0.0,
+            0.0,
+            193845000.0,
+            0.0,
+            854015000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Non Current Deferred Liabilities",
+          "values": [
+            133011000.0,
+            118487000.0,
+            3810093000.0,
+            118543000.0,
+            3404548000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Non Current Deferred Revenue",
+          "values": [
+            null,
+            null,
+            3441906000.0,
+            null,
+            3277262000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Non Current Deferred Taxes Liabilities",
+          "values": [
+            133011000.0,
+            118487000.0,
+            112691000.0,
+            118543000.0,
+            127286000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Long Term Debt And Capital Lease Obligation",
+          "values": [
+            17971607000.0,
+            18102669000.0,
+            23488283000.0,
+            18974645000.0,
+            21933785000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Long Term Capital Lease Obligation",
+          "values": [
+            9420681000.0,
+            9713184000.0,
+            14862011000.0,
+            10253359000.0,
+            12820607000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Long Term Debt",
+          "values": [
+            8550926000.0,
+            8389485000.0,
+            8626272000.0,
+            8721286000.0,
+            9113178000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Long Term Provisions",
+          "values": [
+            null,
+            null,
+            4606225000.0,
+            null,
+            4281837000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Liabilities",
+          "values": [
+            87618558000.0,
+            78603871000.0,
+            78582563000.0,
+            67319553000.0,
+            62281587000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Deferred Liabilities",
+          "values": [
+            null,
+            null,
+            4397565000.0,
+            null,
+            4024017000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Deferred Revenue",
+          "values": [
+            null,
+            null,
+            4282451000.0,
+            null,
+            4024017000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Debt And Capital Lease Obligation",
+          "values": [
+            11024333000.0,
+            8464856000.0,
+            7774852000.0,
+            8665830000.0,
+            9030635000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Capital Lease Obligation",
+          "values": [
+            1961855000.0,
+            2179413000.0,
+            2426971000.0,
+            2749529000.0,
+            2799608000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Debt",
+          "values": [
+            9062478000.0,
+            6285443000.0,
+            5347881000.0,
+            5916301000.0,
+            6231027000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Current Borrowings",
+          "values": [
+            9062478000.0,
+            6285443000.0,
+            1767881000.0,
+            5916301000.0,
+            2163027000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Line Of Credit",
+          "values": [
+            null,
+            null,
+            3580000000.0,
+            null,
+            4068000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Provisions",
+          "values": [
+            null,
+            null,
+            856664000.0,
+            null,
+            682476000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Payables And Accrued Expenses",
+          "values": [
+            76594225000.0,
+            70139015000.0,
+            65553482000.0,
+            58653723000.0,
+            48544459000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Accrued Expenses",
+          "values": [
+            15371799000.0,
+            15224724000.0,
+            926890000.0,
+            17714186000.0,
+            872091000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Interest Payable",
+          "values": [
+            null,
+            null,
+            74243000.0,
+            null,
+            76067000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Payables",
+          "values": [
+            61222426000.0,
+            54914291000.0,
+            64626592000.0,
+            40939537000.0,
+            47672368000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Payable",
+          "values": [
+            null,
+            null,
+            10251722000.0,
+            null,
+            11576046000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Dueto Related Parties Current",
+          "values": [
+            502353000.0,
+            638215000.0,
+            625903000.0,
+            763945000.0,
+            641495000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Tax Payable",
+          "values": [
+            334595000.0,
+            306346000.0,
+            439240000.0,
+            627860000.0,
+            503432000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Accounts Payable",
+          "values": [
+            60385478000.0,
+            53969730000.0,
+            53309727000.0,
+            39547732000.0,
+            34951395000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Assets",
+          "values": [
+            136211340000.0,
+            126195009000.0,
+            124401078000.0,
+            112044074000.0,
+            100045845000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Total Non Current Assets",
+          "values": [
+            46961563000.0,
+            46854758000.0,
+            47768041000.0,
+            48984748000.0,
+            47537874000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Non Current Assets",
+          "values": [
+            8045073000.0,
+            7445125000.0,
+            98909000.0,
+            7798862000.0,
+            205045000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Non Current Prepaid Assets",
+          "values": [
+            null,
+            null,
+            791784000.0,
+            null,
+            914176000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Non Current Accounts Receivable",
+          "values": [
+            null,
+            null,
+            713098000.0,
+            null,
+            718620000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Investments And Advances",
+          "values": [
+            2340908000.0,
+            2450240000.0,
+            2480518000.0,
+            2148380000.0,
+            2710730000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Investmentin Financial Assets",
+          "values": [
+            null,
+            null,
+            1675222000.0,
+            null,
+            1846645000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Held To Maturity Securities",
+          "values": [
+            null,
+            null,
+            9390000.0,
+            null,
+            13142000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Available For Sale Securities",
+          "values": [
+            null,
+            null,
+            1665832000.0,
+            null,
+            1823230000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Trading Securities",
+          "values": [
+            null,
+            null,
+            0.0,
+            null,
+            10273000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Long Term Equity Investment",
+          "values": [
+            null,
+            null,
+            805296000.0,
+            null,
+            864085000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Goodwill And Other Intangible Assets",
+          "values": [
+            367251000.0,
+            225013000.0,
+            226339000.0,
+            227665000.0,
+            228991000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Intangible Assets",
+          "values": [
+            367251000.0,
+            225013000.0,
+            226339000.0,
+            227665000.0,
+            228991000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net PPE",
+          "values": [
+            36208331000.0,
+            36734380000.0,
+            43457393000.0,
+            38809841000.0,
+            42760312000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Accumulated Depreciation",
+          "values": [
+            null,
+            null,
+            -21424275000.0,
+            null,
+            -18687587000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Gross PPE",
+          "values": [
+            36208331000.0,
+            36734380000.0,
+            64881668000.0,
+            38809841000.0,
+            61447899000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Leases",
+          "values": [
+            null,
+            null,
+            6365523000.0,
+            null,
+            6365822000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Construction In Progress",
+          "values": [
+            null,
+            null,
+            1074175000.0,
+            null,
+            2543145000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Properties",
+          "values": [
+            36208331000.0,
+            36734380000.0,
+            40372650000.0,
+            38809841000.0,
+            36627523000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Machinery Furniture Equipment",
+          "values": [
+            null,
+            null,
+            16157874000.0,
+            null,
+            14997049000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Buildings And Improvements",
+          "values": [
+            null,
+            null,
+            911446000.0,
+            null,
+            914360000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Properties",
+          "values": [
+            null,
+            null,
+            0.0,
+            null,
+            0.0,
+            null
+          ]
+        },
+        {
+          "metric": "Current Assets",
+          "values": [
+            89249777000.0,
+            79340251000.0,
+            76633037000.0,
+            63059326000.0,
+            52507971000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Current Assets",
+          "values": [
+            5378445000.0,
+            5154523000.0,
+            null,
+            4475189000.0,
+            4444995000.0,
+            4592787000.0
+          ]
+        },
+        {
+          "metric": "Restricted Cash",
+          "values": [
+            13510507000.0,
+            16304820000.0,
+            34115906000.0,
+            12447786000.0,
+            9260268000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Prepaid Assets",
+          "values": [
+            null,
+            null,
+            1830630000.0,
+            null,
+            1496518000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Inventory",
+          "values": [
+            11089742000.0,
+            8579710000.0,
+            8530854000.0,
+            7477682000.0,
+            8243337000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Inventories Adjustments Allowances",
+          "values": [
+            null,
+            null,
+            -664016000.0,
+            null,
+            -365808000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Finished Goods",
+          "values": [
+            null,
+            null,
+            5465616000.0,
+            null,
+            6056589000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Work In Process",
+          "values": [
+            null,
+            null,
+            241910000.0,
+            null,
+            190206000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Raw Materials",
+          "values": [
+            null,
+            null,
+            3487344000.0,
+            null,
+            2362350000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Receivables",
+          "values": [
+            16182778000.0,
+            17535534000.0,
+            20495675000.0,
+            14552510000.0,
+            15706959000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Receivables Adjustments Allowances",
+          "values": [
+            null,
+            null,
+            -1450000.0,
+            null,
+            -1931000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Receivables",
+          "values": [
+            null,
+            null,
+            331945000.0,
+            null,
+            238293000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Duefrom Related Parties Current",
+          "values": [
+            14986044000.0,
+            16375974000.0,
+            16078250000.0,
+            13248324000.0,
+            11414387000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Taxes Receivable",
+          "values": [
+            null,
+            null,
+            2692485000.0,
+            null,
+            2712115000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Accounts Receivable",
+          "values": [
+            1196734000.0,
+            1159560000.0,
+            1394445000.0,
+            1304186000.0,
+            1344095000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Allowance For Doubtful Accounts Receivable",
+          "values": [
+            null,
+            null,
+            -26600000.0,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "metric": "Gross Accounts Receivable",
+          "values": [
+            null,
+            null,
+            1421045000.0,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "metric": "Cash Cash Equivalents And Short Term Investments",
+          "values": [
+            43088305000.0,
+            31765664000.0,
+            11659972000.0,
+            24106159000.0,
+            17800889000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Short Term Investments",
+          "values": [
+            25634741000.0,
+            22938157000.0,
+            385878000.0,
+            14835336000.0,
+            10689430000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Cash And Cash Equivalents",
+          "values": [
+            17453564000.0,
+            8827507000.0,
+            11274094000.0,
+            9270823000.0,
+            7111459000.0,
+            null
+          ]
+        }
+      ]
+    }
+  }
+}

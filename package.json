@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "skills:package": "python3 scripts/package-investment-skills.py",
+    "skills:package": "node scripts/generate-investment-method.mjs && node scripts/generate-future-trends-skill.mjs && python3 scripts/package-investment-skills.py",
+    "future-trends:picks": "sh scripts/future-trends-picks/run.sh",
     "knowledge:app": "node scripts/knowledge-app.mjs",
     "knowledge:server": "node server/knowledge/index.mjs",
     "knowledge:mcp": "node server/knowledge/mcp.mjs",
@@ -17,15 +18,19 @@
     "test:valuation-server": "node --test server/valuation/*.test.mjs",
     "test": "node scripts/run-vitest.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.grid.json && tsc --noEmit -p tsconfig.server.json && tsc --noEmit -p tsconfig.valuation.json && tsc --noEmit -p tsconfig.knowledge.json",
-    "prebuild": "node scripts/generate-changelog.mjs",
-    "build": "vite build",
+    "prebuild": "node scripts/generate-changelog.mjs && node scripts/generate-sitemap.mjs",
+    "build": "vite build && node scripts/prerender-routes.mjs",
     "preview": "vite preview",
     "build:cloudflare": "node scripts/build-cloudflare.mjs",
-    "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true VITE_API_BASE=https://business-web-pi-eight.vercel.app vite build && node scripts/prepare-pages.mjs",
+    "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true VITE_API_BASE=https://business-web-pi-eight.vercel.app vite build && node scripts/prepare-pages.mjs && node scripts/prerender-routes.mjs",
     "test:functions": "node scripts/check-functions.mjs",
     "test:scripts": "node --test scripts/*.test.mjs",
     "knowledge:cloud": "node scripts/knowledge-cloud.mjs",
-    "macro:update": "node scripts/macro-snapshot.mjs"
+    "macro:update": "node scripts/macro-snapshot.mjs",
+    "index:update": "node scripts/index-snapshot.mjs",
+    "index:fpe": "node scripts/index-snapshot.mjs fpe",
+    "index:fpe-import": "node scripts/index-snapshot.mjs fpe-import",
+    "index:ref-import": "node scripts/index-snapshot.mjs ref-import"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.0",

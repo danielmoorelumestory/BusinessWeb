@@ -1,0 +1,158 @@
+[
+  {
+    "id": "batch-01",
+    "family": "海外龙头",
+    "codes": [
+      "ASML",
+      "NVO",
+      "SAP",
+      "TM",
+      "SONY"
+    ]
+  },
+  {
+    "id": "batch-02",
+    "family": "海外龙头",
+    "codes": [
+      "AZN",
+      "NVS",
+      "SNY",
+      "GSK",
+      "SHEL"
+    ]
+  },
+  {
+    "id": "batch-03",
+    "family": "海外龙头",
+    "codes": [
+      "TTE",
+      "BP",
+      "HSBC",
+      "MUFG",
+      "SMFG"
+    ]
+  },
+  {
+    "id": "batch-04",
+    "family": "海外龙头",
+    "codes": [
+      "TD",
+      "RY",
+      "SHOP",
+      "SPOT",
+      "HMC"
+    ]
+  },
+  {
+    "id": "batch-05",
+    "family": "海外龙头",
+    "codes": [
+      "E",
+      "CNI",
+      "LYG",
+      "BHP",
+      "RIO"
+    ]
+  },
+  {
+    "id": "batch-06",
+    "family": "海外龙头",
+    "codes": [
+      "UL",
+      "DEO",
+      "BTI"
+    ]
+  },
+  {
+    "id": "batch-07",
+    "family": "中概",
+    "codes": [
+      "BABA",
+      "PDD",
+      "JD",
+      "BIDU",
+      "NTES"
+    ]
+  },
+  {
+    "id": "batch-08",
+    "family": "中概",
+    "codes": [
+      "TCOM",
+      "YUMC",
+      "NIO",
+      "XPEV",
+      "LI"
+    ]
+  },
+  {
+    "id": "batch-09",
+    "family": "中概",
+    "codes": [
+      "ZTO",
+      "BEKE",
+      "TME",
+      "VIPS",
+      "BILI"
+    ]
+  },
+  {
+    "id": "batch-10",
+    "family": "中概",
+    "codes": [
+      "MNSO",
+      "HTHT",
+      "FUTU"
+    ]
+  },
+  {
+    "id": "batch-11",
+    "family": "中概",
+    "codes": [
+      "TAL",
+      "EDU",
+      "ONC"
+    ]
+  },
+  {
+    "id": "batch-12",
+    "family": "新兴市场平台",
+    "codes": [
+      "GRAB",
+      "SE",
+      "MELI",
+      "NU",
+      "CPNG"
+    ]
+  },
+  {
+    "id": "batch-13",
+    "family": "新兴市场平台",
+    "codes": [
+      "INFY",
+      "HDB",
+      "IBN",
+      "VALE",
+      "PBR"
+    ]
+  },
+  {
+    "id": "batch-14",
+    "family": "新兴市场平台",
+    "codes": [
+      "ITUB",
+      "STNE",
+      "PAGS"
+    ]
+  },
+  {
+    "id": "batch-15",
+    "family": "跨分类：半导体与新上市资本开支对照",
+    "codes": [
+      "TSM",
+      "ARM",
+      "SKHY",
+      "SPCX"
+    ]
+  }
+]

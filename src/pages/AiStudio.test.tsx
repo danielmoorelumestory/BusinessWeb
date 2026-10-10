@@ -3,7 +3,7 @@ import { cleanup, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
 import AiStudio from './AiStudio'
-import { LAB_SHOWCASE, avoidedDirections, recommendedDirections } from '../data/aiLab'
+import { LAB_PRINCIPLE, LAB_SHOWCASE, avoidedDirections, recommendedDirections } from '../data/aiLab'
 
 afterEach(cleanup)
 
@@ -59,5 +59,16 @@ describe('AiStudio', () => {
   it('最后是实验规则', () => {
     wrap()
     expect(screen.getByRole('heading', { level: 2, name: '实验规则' })).toBeTruthy()
+  })
+
+  it('商业原理：放在作品之前，层级链接都指向真实方向，并声明是假设', () => {
+    const { container } = wrap()
+    const h = screen.getByRole('heading', { level: 2, name: '商业原理' })
+    const shelf = container.querySelector('.lab-showcase') as HTMLElement
+    expect(h.compareDocumentPosition(shelf) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    const section = h.closest('section') as HTMLElement
+    const slugs = LAB_PRINCIPLE.layers.flatMap(l => l.directions)
+    expect(within(section).getAllByRole('link').map(a => a.getAttribute('href'))).toEqual(slugs.map(s => `/ai/${s}`))
+    expect(within(section).getByText(LAB_PRINCIPLE.caveat)).toBeTruthy()
   })
 })

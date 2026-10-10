@@ -9,7 +9,7 @@
 - **公司估值工作台**：`/valuation`支持本地Pi/Codex/Claude/OpenCode及具体模型版本选择、财务采集、六方法三情景估值、参数复算和报告导出。启动方法见[本地估值说明](docs/valuation-local-setup.md)。
 
 - **网格交易**：`src/features/grid-trading/` 实现了完整的 ETF / 个股网格模拟器——行情接入、参数求解、回测、记录、导入导出、可选 Supabase 同步。记录默认保存在浏览器，云同步只在手动配置独立 Supabase + token 后才启用。
-- **多智能体投研**：项目自带三个研究 skill（见 [AI 投研 skills](#ai-投研-skills)），可由 Claude Code 或 opencode 调用，跑出首次覆盖报告、圆桌观点或交易决策流水线。
+- **AI 投研**：项目自带统一股票分析与交易分析 skill（见 [AI 投研 skills](#ai-投研-skills)），支持深度研究、圆桌观点与交易风险分析。
 - **多市场数据**：通过 MCP（yahoo-finance、baostock）和 `src/services/api.ts` 的本地封装，覆盖美股行情、A 股行情、ETF 实时数据、AkShare 数据字典。
 
 栈：React 18 · Vite 5 · TypeScript · React Router 6 · Vitest · Node 24。
@@ -62,15 +62,25 @@ npm run build
 
 ## AI 投研 skills
 
-项目自带三个项目本地 skill（`BusinessWeb/.claude/skills/` 下是 Claude Code 版本，`BusinessWeb/.opencode/skills/` 下是 opencode 版本，两份内容平行维护），用于辅助研究员和交易员角色：
+项目以 `stock-analysis` 融合研究方法、股票研究专家、腾讯自选股投研专家团与 Public Markets Investing，位于「AI 工具」第一项。新增商业模式驱动树、核心假设、预测归因、行业周期及证据追溯；回测与组合风险按需启用。交易分析团队保留独立入口；旧两套名称转入融合版。
+
+从 BusinessWeb 目录启动工具。股票分析已安装到以下项目目录：
+
+| 工具 | 股票分析入口 |
+| --- | --- |
+| Codex / Antigravity CLI | `.agents/skills/stock-analysis/SKILL.md` |
+| Claude Code | `.claude/skills/stock-analysis/SKILL.md` |
+| OpenCode | `.opencode/skills/stock-analysis/SKILL.md` |
+| CodeBuddy Code | `.codebuddy/skills/stock-analysis/SKILL.md` |
+
+执行 `npm run skills:package` 会从 `.agents/skills/` 同步融合版股票分析及旧两套兼容入口到其他三个目录，并更新下载包。旧名称 ZIP 包含同级 `stock-analysis`，解压后可直接读取融合版。重新打开会话后确认 Skill 列表；普通分析一个 agent 即可，多视角不强制多 agent。
 
 | Skill | 用途 | 何时触发 |
 |---|---|---|
-| **stock-research-expert** | 单公司深度研究：首次覆盖 / DCF / 三情景估值 / 投资备忘录 / 财报前瞻与解读 | 「分析一下 XX」「估值」「财报解读」 |
-| **tencent-stock-research-team** | 6 位风格不同的投研专家圆桌：多视角并存，不给买卖指令 | 「圆桌」「几位专家怎么看 X」「多空观点对比」 |
+| **stock-analysis** | 五步流程：商业模式 / 核心假设 / 盈利预测 / 三情景与盈亏比 / 六专家 / 证据与验证；按需回测与组合风险 | 「用股票分析研究 XX」「商业模式」「核心假设」「估值」「财报解读」「圆桌」 |
 | **trading-analysis-team** | 12 角色流水线：技术 / 基本面 / 新闻 / 情绪并行采集 → 多空辩论 → 风险三派挑战 → 拍板 BUY/SELL/HOLD | 「X 该不该买」「多空辩论」「风险诊断」 |
 
-每个 skill 内置研究纪律：数据可追溯、缺失标 `[MISSING]`、预期盈亏比 ≥ 约 2:1 才算首次介入赔率成立、所有买卖区间是条件化研究区间不是交易指令、结尾声明不构成投资建议。运行 `stock-research-expert` 后可将结果同步到 `src/data/companies.ts` 自动出现在 `/research-notes`。
+每个 skill 内置研究纪律：数据可追溯、缺失标 `[MISSING]`，研究区间与情景价标明条件，结尾声明不构成投资建议。股票分析优先研究约 2:1 及以上的情景盈亏比，同时核实悲观压力、期限与证据；初筛数字不能直接认证。用户要求更新网站时，可将结果同步到 `src/data/companies.ts` 并显示在 `/research-notes`。
 
 ## MCP 数据源
 

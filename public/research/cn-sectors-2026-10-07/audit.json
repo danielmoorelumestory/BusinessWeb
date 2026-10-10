@@ -1,0 +1,3611 @@
+[
+  {
+    "code": "603596",
+    "name": "伯特利",
+    "sector": "自动驾驶",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "603596",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12562308&stockid=603596",
+      "kind": "html",
+      "revenue": 6271971694.77,
+      "net": 641482632.31,
+      "core": 580089687.17,
+      "ocf": 751623839.23,
+      "equity": null,
+      "unit": 1,
+      "pages": 4,
+      "sha256": "727abd5b1e971172e234065362a9375509acb7cf35f4476a459bddc03b16cf1a",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-28/12562308.PDF",
+      "cashCapex": 364019942.86,
+      "fcfProxy": 387603896.37,
+      "cashCapexPage": 57,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 364,019,942.86 334,500,859.03\n投资支付的现金 1,305,448,812.32 605,500,000.00\n质押贷款净增加额 -\n取得子公司及其他营业单位支",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-28/12562309.PDF",
+      "fullSha256": "10702a45e500bdc38dbfd658c5ad248fbcf379ca7878dd829af67f25a3f1c2c5"
+    },
+    "quote": {
+      "name": "伯特利",
+      "price": 28.14,
+      "timestamp": "20260930161438",
+      "providerPe": 17.68,
+      "providerPb": 3.07,
+      "capYi": 252.6,
+      "url": "https://qt.gtimg.cn/q=sh603596"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        12.0,
+        15.0,
+        19.0
+      ],
+      "pe": [
+        15.0,
+        20.0,
+        25.0
+      ],
+      "approxSharesYi": 8.976545842217483,
+      "price": [
+        20.052256532066508,
+        33.420427553444185,
+        52.91567695961996
+      ],
+      "ratio": 0.6528925619834715,
+      "threshold": 24.5083135391924,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.1,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 19.762908847905884,
+      "terminalValueShare": 0.6629767836316593,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          17.1284,
+          15.6541,
+          14.0943
+        ],
+        [
+          21.1635,
+          19.7629,
+          18.284
+        ],
+        [
+          25.2687,
+          23.938,
+          22.5355
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留制动与底盘平台逻辑；撤回固定仓位、历史分位认证及确定的L3政策日期",
+    "watch": "智能电控收入与毛利率、豫北并表贡献和摊薄股数"
+  },
+  {
+    "code": "002284",
+    "name": "亚太股份",
+    "sector": "自动驾驶",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "002284",
+      "url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12499505&stockid=002284",
+      "kind": "html",
+      "revenue": 2759416264.11,
+      "net": 268198717.89,
+      "core": 245649086.79,
+      "ocf": 382946951.65,
+      "equity": 3552522852.17,
+      "unit": 1,
+      "pages": 152,
+      "sha256": "7a56618c3b498981bc01a579d479aaf4222b9741bab47a07df3ddf4b87d20331",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-18/12499505.PDF",
+      "cashCapex": 156682153.27,
+      "fcfProxy": 226264798.37999997,
+      "cashCapexPage": 54,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 156,682,153.27 112,425,159.75\n投资支付的现金质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的现金 1,508,740,047.1",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-18/12499505.PDF",
+      "fullSha256": "7a56618c3b498981bc01a579d479aaf4222b9741bab47a07df3ddf4b87d20331"
+    },
+    "quote": {
+      "name": "亚太股份",
+      "price": 9.29,
+      "timestamp": "20260930161421",
+      "providerPe": 12.31,
+      "providerPb": 1.93,
+      "capYi": 68.66,
+      "url": "https://qt.gtimg.cn/q=sz002284"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        3.8,
+        5.5,
+        6.8
+      ],
+      "pe": [
+        12.0,
+        16.0,
+        20.0
+      ],
+      "approxSharesYi": 7.390742734122713,
+      "price": [
+        6.169880570929215,
+        11.906787066705505,
+        18.401398193999416
+      ],
+      "ratio": 0.8386816999132697,
+      "threshold": 8.08218273618798,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 6.255978295281885,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          5.4404,
+          4.985,
+          4.5005
+        ],
+        [
+          6.6836,
+          6.256,
+          5.8022
+        ],
+        [
+          7.937,
+          7.5351,
+          7.1097
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留扣非改善与现金覆盖；撤回买入5%和未核实2027EPS",
+    "watch": "电子制动产品收入、扣非利润率与资本开支"
+  },
+  {
+    "code": "002906",
+    "name": "华阳集团",
+    "sector": "自动驾驶",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "002906",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12506396&stockid=002906",
+      "kind": "html",
+      "revenue": 6923087857.78,
+      "net": 401307253.02,
+      "core": 346181980.0,
+      "ocf": 351876424.66,
+      "equity": 7132817985.46,
+      "unit": 1,
+      "pages": 149,
+      "sha256": "19119c030af66d459ae8264aa35f522b2f60ba2ac49491d446eb473913c8732d",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-20/12506396.PDF",
+      "cashCapex": 659977899.62,
+      "fcfProxy": -308101474.96,
+      "cashCapexPage": 50,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 659,977,899.62 554,230,219.65 \n投资支付的现金 712,000,000.00 110,000,000.00 \n质押贷款净增加额取得子公司及其他营业单位支付的现",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-20/12506396.PDF",
+      "fullSha256": "19119c030af66d459ae8264aa35f522b2f60ba2ac49491d446eb473913c8732d"
+    },
+    "quote": {
+      "name": "华阳集团",
+      "price": 26.62,
+      "timestamp": "20260930161500",
+      "providerPe": 16.6,
+      "providerPb": 1.96,
+      "capYi": 139.73,
+      "url": "https://qt.gtimg.cn/q=sz002906"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        5.0,
+        8.0,
+        10.5
+      ],
+      "pe": [
+        16.0,
+        22.0,
+        28.0
+      ],
+      "approxSharesYi": 5.249060856498873,
+      "price": [
+        15.240821584484364,
+        33.5298074858656,
+        56.01001932298003
+      ],
+      "ratio": 0.6072325464590655,
+      "threshold": 21.337150218278108,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.1,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 10.932190234829331,
+      "terminalValueShare": 0.6629767836316593,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          9.4748,
+          8.6593,
+          7.7965
+        ],
+        [
+          11.707,
+          10.9322,
+          10.1141
+        ],
+        [
+          13.9778,
+          13.2417,
+          12.4659
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留营收增长事实；撤回买入9%及用营收增速推算盈利",
+    "watch": "汽车电子毛利率、研发费用率、扣非增速与回款"
+  },
+  {
+    "code": "002920",
+    "name": "德赛西威",
+    "sector": "自动驾驶",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002920",
+      "url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-14/2aab2da4-0d48-471f-b396-fbded887d69c.PDF",
+      "kind": "pdf",
+      "revenue": 14900950597.04,
+      "net": 1244645323.07,
+      "core": 1225358704.68,
+      "ocf": 1062812506.8,
+      "equity": 16071271926.44,
+      "unit": 1,
+      "pages": 144,
+      "sha256": "255395c61411f0ef72c783b22146aec50d5b4a69964e441f21868b7b166ad7d5",
+      "pdf": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-14/2aab2da4-0d48-471f-b396-fbded887d69c.PDF",
+      "cashCapex": 781456854.58,
+      "fcfProxy": 281355652.2199999,
+      "cashCapexPage": 49,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 781,456,854.58 679,819,424.35 \n投资支付的现金 13,301,943,259.55 1,349,000,000.00 \n质押贷款净增加额取得子公司及其他营业单",
+      "fullPdf": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-14/2aab2da4-0d48-471f-b396-fbded887d69c.PDF",
+      "fullSha256": "255395c61411f0ef72c783b22146aec50d5b4a69964e441f21868b7b166ad7d5"
+    },
+    "quote": {
+      "name": "德赛西威",
+      "price": 79.28,
+      "timestamp": "20260930161457",
+      "providerPe": 19.11,
+      "providerPb": 2.94,
+      "capYi": 473.15,
+      "url": "https://qt.gtimg.cn/q=sz002920"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        20.0,
+        28.0,
+        36.0
+      ],
+      "pe": [
+        15.0,
+        22.0,
+        28.0
+      ],
+      "approxSharesYi": 5.9680877901109985,
+      "price": [
+        50.26735707492339,
+        103.21563986050937,
+        168.8983197717426
+      ],
+      "ratio": 0.8250072191741271,
+      "threshold": 67.91678467011872,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 39.32832210808022,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          34.13,
+          31.2232,
+          28.1417
+        ],
+        [
+          42.0774,
+          39.3283,
+          36.4201
+        ],
+        [
+          50.1343,
+          47.5336,
+          44.7878
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留域控与座舱研究；删除绝对龙头的未经量化份额结论",
+    "watch": "智驾收入占比、综合毛利率、扣非增长、摊薄股数"
+  },
+  {
+    "code": "688326",
+    "name": "经纬恒润-W",
+    "sector": "自动驾驶",
+    "batch": 1,
+    "rating": "回避",
+    "tier": "C",
+    "filing": {
+      "code": "688326",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505875.PDF",
+      "kind": "pdf",
+      "revenue": 2623186406.57,
+      "net": -381992695.69,
+      "core": -395844537.55,
+      "ocf": -656595619.24,
+      "equity": 3718971905.98,
+      "unit": 1,
+      "pages": 5,
+      "sha256": "88460cbebaeaa84905a8b791b06dde587ec1eeddb0dc33c54984995552f420fa",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505875.PDF",
+      "cashCapex": 372331806.13,
+      "fcfProxy": -1028927425.37,
+      "cashCapexPage": 77,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 372,331,806.13 364,204,437.52\n\n[PDF PAGE 78]\n北京经纬恒润科技股份有限公司2026 年半年度报告\n78 / 188\n投资支付的现金 964,52",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-26/12535809.PDF",
+      "fullSha256": "83c0a0911f9f98907f258e45dc4f6a1e4afd0282ecdaf0a856173a34923e1b30"
+    },
+    "quote": {
+      "name": "经纬恒润-W",
+      "price": 56.5,
+      "timestamp": "20260930161439",
+      "providerPe": -34.79,
+      "providerPb": 1.82,
+      "capYi": 67.76,
+      "url": "https://qt.gtimg.cn/q=sh688326"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 6.1739745017229914,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          5.3691,
+          4.9196,
+          4.4415
+        ],
+        [
+          6.596,
+          6.174,
+          5.7262
+        ],
+        [
+          7.8329,
+          7.4363,
+          7.0165
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "撤回持续盈利PE；改为亏损业务的现金跑道研究",
+    "watch": "电子产品订单、研发费用率、扣非盈亏平衡与现金消耗"
+  },
+  {
+    "code": "600699",
+    "name": "均胜电子",
+    "sector": "自动驾驶",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "600699",
+      "url": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-08-26/600699_20260826_TXZI.pdf",
+      "kind": "pdf",
+      "revenue": 28091357109.43,
+      "net": 738950846.85,
+      "core": 655320760.32,
+      "ocf": 1933994868.99,
+      "equity": 16578881378.07,
+      "unit": 1,
+      "pages": 240,
+      "sha256": "845fac6fdd50bd806b38470802d4c95f820d1effeac998d8df89cb74d638d634",
+      "pdf": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-08-26/600699_20260826_TXZI.pdf",
+      "cashCapex": 1879912573.05,
+      "fcfProxy": 54082295.94000006,
+      "cashCapexPage": 52,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 1,879,912,573.05 1,946,071,100.13\n投资支付的现金 200,000,000.00 80,000,000.00\n取得子公司及其他营业单位支付的现金净额 4,000",
+      "fullPdf": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-08-26/600699_20260826_TXZI.pdf",
+      "fullSha256": "845fac6fdd50bd806b38470802d4c95f820d1effeac998d8df89cb74d638d634"
+    },
+    "quote": {
+      "name": "均胜电子",
+      "price": 23.46,
+      "timestamp": "20260930161453",
+      "providerPe": 26.61,
+      "providerPb": 2.19,
+      "capYi": 363.81,
+      "url": "https://qt.gtimg.cn/q=sh600699"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        10.0,
+        15.0,
+        20.0
+      ],
+      "pe": [
+        10.0,
+        15.0,
+        20.0
+      ],
+      "approxSharesYi": 15.507672634271099,
+      "price": [
+        6.448420879030263,
+        14.508946977818093,
+        25.793683516121053
+      ],
+      "ratio": null,
+      "threshold": 9.13526291195954,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 35.26536526497093,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          30.7135,
+          28.174,
+          25.4667
+        ],
+        [
+          37.6377,
+          35.2654,
+          32.7429
+        ],
+        [
+          44.5906,
+          42.3721,
+          40.0191
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留降本与全球业务逻辑；不将安全业务收入全部标成智驾收入",
+    "watch": "安全业务利润率、电子业务盈利、净债务与少数股东分配"
+  },
+  {
+    "code": "002036",
+    "name": "联创电子",
+    "sector": "自动驾驶",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "002036",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225484062.pdf",
+      "kind": "pdf",
+      "revenue": 3193350824.59,
+      "net": -357952945.53,
+      "core": -371358306.96,
+      "ocf": 87983306.32,
+      "equity": 672650202.56,
+      "unit": 1,
+      "pages": 164,
+      "sha256": "3621732eca12216bf63a8de1de1de27c280d7a196913be830a2e296780026a5e",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225484062.pdf",
+      "cashCapex": 246003400.41,
+      "fcfProxy": -158020094.09,
+      "cashCapexPage": 57,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 246,003,400.41 525,380,940.56\n投资支付的现金质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的现金 109,012,522.93\n",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225484062.pdf",
+      "fullSha256": "3621732eca12216bf63a8de1de1de27c280d7a196913be830a2e296780026a5e"
+    },
+    "quote": {
+      "name": "联创电子",
+      "price": 5.97,
+      "timestamp": "20260930161433",
+      "providerPe": -4.53,
+      "providerPb": 9.39,
+      "capYi": 63.14,
+      "url": "https://qt.gtimg.cn/q=sz002036"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 5.753021694787333,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          5.003,
+          4.5842,
+          4.1387
+        ],
+        [
+          6.1463,
+          5.753,
+          5.3357
+        ],
+        [
+          7.2989,
+          6.9293,
+          6.5381
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留车载镜头业务；撤回特定客户放量与龙头溢价认证",
+    "watch": "车载收入、扣非亏损、利息支出、可动用现金与到期债务"
+  },
+  {
+    "code": "603501",
+    "name": "豪威集团",
+    "sector": "自动驾驶",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "603501",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12527222&stockid=603501",
+      "kind": "html",
+      "revenue": 14024560916.08,
+      "net": 1219762603.08,
+      "core": 1242455735.23,
+      "ocf": 407900244.31,
+      "equity": 32707865094.94,
+      "unit": 1,
+      "pages": 13,
+      "sha256": "da028c922120fdd7de7c9dda8b70a225bd3d47fa88499b892c9acf75d59a28e0",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-25/12527222.PDF",
+      "cashCapex": 958694325.17,
+      "fcfProxy": -550794080.8599999,
+      "cashCapexPage": 76,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 958,694,325.17 1,069,503,954.69\n投资支付的现金七、78 2,833,612,711.50 427,060,965.72\n质押贷款净增加额取得子公司及其他营业",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-25/12527220.PDF",
+      "fullSha256": "9e28e3d6e05fc22a1c14da8f4f54c4a01f9f0a9031beab7d32a0d0a39788eda1"
+    },
+    "quote": {
+      "name": "豪威集团",
+      "price": 82.21,
+      "timestamp": "20260930161450",
+      "providerPe": 31.94,
+      "providerPb": 3.18,
+      "capYi": 1034.04,
+      "url": "https://qt.gtimg.cn/q=sh603501"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        16.0,
+        28.0,
+        38.0
+      ],
+      "pe": [
+        18.0,
+        25.0,
+        32.0
+      ],
+      "approxSharesYi": 12.578031869602238,
+      "price": [
+        22.89706394336776,
+        55.65258597346331,
+        96.67649220533055
+      ],
+      "ratio": null,
+      "threshold": 33.81557128673294,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 85.94961046737669,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          74.5889,
+          68.2364,
+          61.5019
+        ],
+        [
+          91.9575,
+          85.9496,
+          79.5939
+        ],
+        [
+          109.5654,
+          103.8817,
+          97.881
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "更名豪威集团；保留CIS定位，撤回未量化的全球龙头判断",
+    "watch": "CIS业务毛利率、车载收入、库存周转和扣非修复"
+  },
+  {
+    "code": "002456",
+    "name": "欧菲光",
+    "sector": "自动驾驶",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "002456",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225506549.PDF",
+      "kind": "pdf",
+      "revenue": 7840793352.98,
+      "net": -443503022.7,
+      "core": -466240981.73,
+      "ocf": 693815149.56,
+      "equity": 4453047511.27,
+      "unit": 1,
+      "pages": 8,
+      "sha256": "f31bc780d479a58a2604c959939b0b15226e7b5e76c29747cdfd095f8ee09d2b",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225506549.PDF",
+      "cashCapex": 275774975.55,
+      "fcfProxy": 418040174.00999993,
+      "cashCapexPage": 83,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 275,774,975.55 219,491,546.31 \n投资支付的现金 98,317,656.00  \n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-26/12539197.PDF",
+      "fullSha256": "2fdb2e21086e6611caf6ecb803abfed94fee5c6fe93d17f38dd5b0c7d962bcef"
+    },
+    "quote": {
+      "name": "欧菲光",
+      "price": 6.49,
+      "timestamp": "20260930161436",
+      "providerPe": -77.44,
+      "providerPb": 5.1,
+      "capYi": 226.88,
+      "url": "https://qt.gtimg.cn/q=sz002456"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 21.99226538939723,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          19.1536,
+          17.5699,
+          15.8816
+        ],
+        [
+          23.4717,
+          21.9923,
+          20.4192
+        ],
+        [
+          27.8077,
+          26.4242,
+          24.9568
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "撤回扭亏确定性和常规PE估值",
+    "watch": "车载收入占比、扣非盈亏平衡、减值、现金资本开支"
+  },
+  {
+    "code": "300790",
+    "name": "宇瞳光学",
+    "sector": "自动驾驶",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300790",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225520910.PDF",
+      "kind": "pdf",
+      "revenue": 1781909268.52,
+      "net": 122231901.8,
+      "core": 106435874.48,
+      "ocf": 143448514.46,
+      "equity": 2773271665.16,
+      "unit": 1,
+      "pages": 3,
+      "sha256": "08a56989e713b87887a3d244e6faf22409c07042e4149b8f381fcc62a559dab8",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225520910.PDF",
+      "cashCapex": 225369674.08,
+      "fcfProxy": -81921159.62,
+      "cashCapexPage": 52,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 225,369,674.08 256,715,578.41\n投资支付的现金 81,281,000.00 55,350,000.00\n质押贷款净增加额 0.00 0.00\n取得子公司及其他营",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-28/12561897.PDF",
+      "fullSha256": "91d2d9bec387709c65ff5b0c31e12ee447c118c8783d961e85c1649b31dc5e66"
+    },
+    "quote": {
+      "name": "宇瞳光学",
+      "price": 18.49,
+      "timestamp": "20260930161445",
+      "providerPe": 36.89,
+      "providerPb": 3.5,
+      "capYi": 96.22,
+      "url": "https://qt.gtimg.cn/q=sz300790"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        1.6,
+        2.5,
+        3.4
+      ],
+      "pe": [
+        20.0,
+        26.0,
+        32.0
+      ],
+      "approxSharesYi": 5.203893996755003,
+      "price": [
+        6.149241321970484,
+        12.490646435252547,
+        20.907420494699647
+      ],
+      "ratio": null,
+      "threshold": 8.263043026397838,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 7.997825537862156,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          6.9407,
+          6.3496,
+          5.7229
+        ],
+        [
+          8.5569,
+          7.9978,
+          7.4064
+        ],
+        [
+          10.1953,
+          9.6665,
+          9.1081
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留多应用光学平台；撤回收入增速直接外推EPS",
+    "watch": "车载与新应用收入、扣非利润率、现金流和可转债摊薄"
+  },
+  {
+    "code": "688048",
+    "name": "长光华芯",
+    "sector": "自动驾驶",
+    "batch": 3,
+    "rating": "回避",
+    "tier": "C",
+    "filing": {
+      "code": "688048",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-31/1225534249.PDF",
+      "kind": "pdf",
+      "revenue": 391023878.55,
+      "net": 30337848.85,
+      "core": -10384361.87,
+      "ocf": -157097905.28,
+      "equity": 3040605968.63,
+      "unit": 1,
+      "pages": 181,
+      "sha256": "00ee0869eb09e672f42f27cd523ee2747e877b62c54cd1615ded1b262af21b68",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-31/1225534249.PDF",
+      "cashCapex": 39805740.96,
+      "fcfProxy": -196903646.24,
+      "cashCapexPage": 66,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 39,805,740.96 31,953,102.53\n投资支付的现金七、78（2） 732,000,000.00 2,208,731,336.78\n质押贷款净增加额取得子公司及其他营业",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-31/1225534249.PDF",
+      "fullSha256": "00ee0869eb09e672f42f27cd523ee2747e877b62c54cd1615ded1b262af21b68"
+    },
+    "quote": {
+      "name": "长光华芯",
+      "price": 289.7,
+      "timestamp": "20260930161500",
+      "providerPe": 1184.13,
+      "providerPb": 16.8,
+      "capYi": 510.68,
+      "url": "https://qt.gtimg.cn/q=sh688048"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.1,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 39.954561719907275,
+      "terminalValueShare": 0.6629767836316593,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          34.6283,
+          31.6478,
+          28.4945
+        ],
+        [
+          42.7861,
+          39.9546,
+          36.9646
+        ],
+        [
+          51.0855,
+          48.3953,
+          45.5599
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "将增长驱动改为光通信；撤回持续盈利PE与激光雷达纯度叙事",
+    "watch": "光通信业务毛利率、扣非转正、存货与现金消耗"
+  },
+  {
+    "code": "603297",
+    "name": "永新光学",
+    "sector": "自动驾驶",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "603297",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12547146&stockid=603297",
+      "kind": "html",
+      "revenue": 564480767.76,
+      "net": 95524055.85,
+      "core": 77796884.73,
+      "ocf": 77547142.16,
+      "equity": 2053474139.56,
+      "unit": 1,
+      "pages": 159,
+      "sha256": "e2a5363bcc6070889b893e7268406187a3b4a6f4ac7f0bca3e37918901e37a6d",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-27/12547146.PDF",
+      "cashCapex": 33148138.31,
+      "fcfProxy": 44399003.849999994,
+      "cashCapexPage": 55,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 33,148,138.31 43,146,537.45\n投资支付的现金 160,000,000.00 -\n质押贷款净增加额 - -\n取得子公司及其他营业单位支付的现金净额 - -\n支付其",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-27/12547146.PDF",
+      "fullSha256": "e2a5363bcc6070889b893e7268406187a3b4a6f4ac7f0bca3e37918901e37a6d"
+    },
+    "quote": {
+      "name": "永新光学",
+      "price": 106.92,
+      "timestamp": "20260930161447",
+      "providerPe": 57.17,
+      "providerPb": 5.79,
+      "capYi": 118.39,
+      "url": "https://qt.gtimg.cn/q=sh603297"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        1.4,
+        2.0,
+        2.7
+      ],
+      "pe": [
+        22.0,
+        30.0,
+        38.0
+      ],
+      "approxSharesYi": 1.1072764683875795,
+      "price": [
+        27.815997972801753,
+        54.18700903792549,
+        92.65978545485261
+      ],
+      "ratio": null,
+      "threshold": 36.606334994509666,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 9.840600347406992,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          8.5399,
+          7.8126,
+          7.0415
+        ],
+        [
+          10.5285,
+          9.8406,
+          9.1129
+        ],
+        [
+          12.5444,
+          11.8937,
+          11.2067
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留精密光学定位；撤回放量等于利润高增的推断",
+    "watch": "分产品毛利率、研发费用、扣非与现金转化"
+  },
+  {
+    "code": "688167",
+    "name": "炬光科技",
+    "sector": "自动驾驶",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "688167",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-08/1225464342.PDF",
+      "kind": "pdf",
+      "revenue": 418565100.76,
+      "net": -67228780.32,
+      "core": -69477504.13,
+      "ocf": 29503225.4,
+      "equity": 2273726721.4,
+      "unit": 1,
+      "pages": 232,
+      "sha256": "76ad1006160da100510dd42dd1cbcb064162c7572440cffd62ef6806160ba60c",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-08/1225464342.PDF",
+      "cashCapex": 101140366.57,
+      "fcfProxy": -71637141.16999999,
+      "cashCapexPage": 89,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 101,140,366.57 89,718,407.09\n投资支付的现金七、78 252,347,311.63 254,000,000.00\n质押贷款净增加额取得子公司及其他营业单位支付的",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-08/1225464342.PDF",
+      "fullSha256": "76ad1006160da100510dd42dd1cbcb064162c7572440cffd62ef6806160ba60c"
+    },
+    "quote": {
+      "name": "炬光科技",
+      "price": 282.88,
+      "timestamp": "20260930161442",
+      "providerPe": -456.19,
+      "providerPb": 16.19,
+      "capYi": 368.14,
+      "url": "https://qt.gtimg.cn/q=sh688167"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 33.543196178634915,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          29.1703,
+          26.7282,
+          24.1309
+        ],
+        [
+          35.8362,
+          33.5432,
+          31.1102
+        ],
+        [
+          42.5562,
+          40.4016,
+          38.1207
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留上游光学定位；撤回持续盈利模型",
+    "watch": "并购业务亏损、费用率、客户回款和量产毛利率"
+  },
+  {
+    "code": "300620",
+    "name": "光库科技",
+    "sector": "自动驾驶",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300620",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12499016&stockid=300620",
+      "kind": "html",
+      "revenue": 1031662205.86,
+      "net": 148395975.24,
+      "core": 131451202.59,
+      "ocf": -161416595.35,
+      "equity": 2257425630.41,
+      "unit": 1,
+      "pages": 4,
+      "sha256": "50184065f07991fd5344dad4ca7aadd51a23f1fa5223851900960507a1921de8",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-18/12499016.PDF",
+      "cashCapex": 90306021.36,
+      "fcfProxy": -251722616.70999998,
+      "cashCapexPage": 73,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 90,306,021.36 56,610,104.62 \n投资支付的现金 371,396,694.33 439,318,336.27 \n质押贷款净增加额取得子公司及其他营业单位支付的现金",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-18/12499014.PDF",
+      "fullSha256": "ed2f06e50bb8407479bb54f2c229f213c8fd2c1681341e48bd49ce0261f23ac4"
+    },
+    "quote": {
+      "name": "光库科技",
+      "price": 270.48,
+      "timestamp": "20260930161451",
+      "providerPe": 246.7,
+      "providerPb": 29.86,
+      "capYi": 673.98,
+      "url": "https://qt.gtimg.cn/q=sz300620"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        1.8,
+        3.5,
+        5.0
+      ],
+      "pe": [
+        25.0,
+        35.0,
+        45.0
+      ],
+      "approxSharesYi": 2.4917923691215615,
+      "price": [
+        18.059289593163,
+        49.161399448054844,
+        90.29644796581502
+      ],
+      "ratio": null,
+      "threshold": 28.42665954479362,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.12,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 49.66168421052632,
+      "terminalValueShare": 0.6710526315789475,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          42.9882,
+          39.2512,
+          35.3052
+        ],
+        [
+          53.2271,
+          49.6617,
+          45.9035
+        ],
+        [
+          63.6789,
+          60.2776,
+          56.6987
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留光器件增长；将AI数据中心与激光雷达驱动分开",
+    "watch": "高速光器件订单、存货应收、资本开支、经营现金恢复"
+  },
+  {
+    "code": "002703",
+    "name": "浙江世宝",
+    "sector": "自动驾驶",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002703",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-24/1225488124.PDF",
+      "kind": "pdf",
+      "revenue": 1720713225.78,
+      "net": 103717594.73,
+      "core": 94207273.98,
+      "ocf": 207634645.58,
+      "equity": 2177956316.56,
+      "unit": 1,
+      "pages": 4,
+      "sha256": "45008b77c668b23a74b2e631cfd0c4b0d089641e4977f1c67ce6992f14e27b48",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-24/1225488124.PDF",
+      "cashCapex": 125370214.17,
+      "fcfProxy": 82264431.41000001,
+      "cashCapexPage": 31,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 125,370,214.17 99,635,214.97 \n投资支付的现金 311,991,473.00 385,000,000.00 \n投资活动现金流出小计 437,361,687.17",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-24/12520328.PDF",
+      "fullSha256": "0bb3525d4c9967020a830d83ddeb301d4fe35d411005639a858a88cb54063de9"
+    },
+    "quote": {
+      "name": "浙江世宝",
+      "price": 15.65,
+      "timestamp": "20260930161415",
+      "providerPe": 67.33,
+      "providerPb": 6.05,
+      "capYi": 128.74,
+      "url": "https://qt.gtimg.cn/q=sz002703"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        1.5,
+        2.4,
+        3.2
+      ],
+      "pe": [
+        16.0,
+        22.0,
+        28.0
+      ],
+      "approxSharesYi": 8.226198083067093,
+      "price": [
+        2.9175081559732794,
+        6.418517943141214,
+        10.892030448966912
+      ],
+      "ratio": null,
+      "threshold": 4.084511418362591,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 11.730187091968977,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          10.201,
+          9.347,
+          8.4387
+        ],
+        [
+          12.5321,
+          11.7302,
+          10.8794
+        ],
+        [
+          14.8821,
+          14.1286,
+          13.331
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留转向业务；撤回线控转向已大规模贡献利润的隐含前提",
+    "watch": "量产转向收入、扣非利润率、新项目收入和研发投入"
+  },
+  {
+    "code": "603197",
+    "name": "保隆科技",
+    "sector": "自动驾驶",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "603197",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513711.PDF",
+      "kind": "pdf",
+      "revenue": 4684042754.59,
+      "net": 263826053.61,
+      "core": 138089690.71,
+      "ocf": 177145662.69,
+      "equity": 3371539423.46,
+      "unit": 1,
+      "pages": 166,
+      "sha256": "7fbf2bea2d4b8096228435394b559ae0c1afc38f1e4b7d99478165d1f9a40ce4",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513711.PDF",
+      "cashCapex": 335981796.56,
+      "fcfProxy": -158836133.87,
+      "cashCapexPage": 54,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 335,981,796.56 411,446,665.12\n投资支付的现金七、78 201,645,107.13 609,804,118.41\n质押贷款净增加额取得子公司及其他营业单位支付",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513711.PDF",
+      "fullSha256": "7fbf2bea2d4b8096228435394b559ae0c1afc38f1e4b7d99478165d1f9a40ce4"
+    },
+    "quote": {
+      "name": "保隆科技",
+      "price": 29.1,
+      "timestamp": "20260930161451",
+      "providerPe": 18.22,
+      "providerPb": 1.93,
+      "capYi": 62.28,
+      "url": "https://qt.gtimg.cn/q=sh603197"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        2.0,
+        3.5,
+        5.0
+      ],
+      "pe": [
+        12.0,
+        18.0,
+        24.0
+      ],
+      "approxSharesYi": 2.1402061855670103,
+      "price": [
+        11.213872832369944,
+        29.436416184971097,
+        56.06936416184971
+      ],
+      "ratio": 0.01880877742946696,
+      "threshold": 17.28805394990366,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 5.176725987300511,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          4.4925,
+          4.1099,
+          3.7042
+        ],
+        [
+          5.5386,
+          5.1767,
+          4.7939
+        ],
+        [
+          6.5991,
+          6.2568,
+          5.8954
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留悬架与传感器业务；撤回只看归母高增的盈利判断",
+    "watch": "空气悬架毛利率、扣非盈利、利息、可转债与FCF"
+  },
+  {
+    "code": "002405",
+    "name": "四维图新",
+    "sector": "自动驾驶",
+    "batch": 4,
+    "rating": "回避",
+    "tier": "C",
+    "filing": {
+      "code": "002405",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12532802&stockid=002405",
+      "kind": "html",
+      "revenue": 1766755057.97,
+      "net": -488823333.62,
+      "core": -482778548.35,
+      "ocf": -267256321.06,
+      "equity": 8310049600.26,
+      "unit": 1,
+      "pages": 3,
+      "sha256": "c21b62bae35f6eabedb7b6ce84dc0589fae4ec8784e37990c6dd36ec31c321d7",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-26/12532802.PDF",
+      "cashCapex": 109301194.53,
+      "fcfProxy": -376557515.59000003,
+      "cashCapexPage": 56,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 109,301,194.53 132,079,889.84 \n投资支付的现金 0.00 33,221,183.80 \n质押贷款净增加额 0.00 0.00 \n取得子公司及其他营业单位支付的",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-26/12532806.PDF",
+      "fullSha256": "b598f5e9aedbddc984cc744965aea2100fd724695e2a0cbde4f33232b1fa35ec"
+    },
+    "quote": {
+      "name": "四维图新",
+      "price": 5.91,
+      "timestamp": "20260930161427",
+      "providerPe": -187.4,
+      "providerPb": 1.69,
+      "capYi": 140.08,
+      "url": "https://qt.gtimg.cn/q=sz002405"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 13.578440302127838,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          11.8258,
+          10.848,
+          9.8056
+        ],
+        [
+          14.4919,
+          13.5784,
+          12.6072
+        ],
+        [
+          17.169,
+          16.3148,
+          15.4088
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留业务协同假设；撤回高精地图必然高增长的论点",
+    "watch": "分业务毛利率、研发支出、项目回款及现金余额"
+  },
+  {
+    "code": "300458",
+    "name": "全志科技",
+    "sector": "自动驾驶",
+    "batch": 5,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300458",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12538718&stockid=300458",
+      "kind": "html",
+      "revenue": 1888442625.74,
+      "net": 490211272.38,
+      "core": 455318525.48,
+      "ocf": 225174611.49,
+      "equity": 3483336241.68,
+      "unit": 1,
+      "pages": 160,
+      "sha256": "5dbbda29ec320a16c4f84664ceb0e31e4395d6a2b5b0e4695cf30eeaa3f62aae",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-26/12538718.PDF",
+      "cashCapex": 64886363.24,
+      "fcfProxy": 160288248.25,
+      "cashCapexPage": 51,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 64,886,363.24 13,864,639.92\n投资支付的现金 1,032,134,562.46 1,249,622,387.77\n质押贷款净增加额取得子公司及其他营业单位支付的",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-26/12538718.PDF",
+      "fullSha256": "5dbbda29ec320a16c4f84664ceb0e31e4395d6a2b5b0e4695cf30eeaa3f62aae"
+    },
+    "quote": {
+      "name": "全志科技",
+      "price": 32.18,
+      "timestamp": "20260930161430",
+      "providerPe": 54.09,
+      "providerPb": 9.18,
+      "capYi": 319.75,
+      "url": "https://qt.gtimg.cn/q=sz300458"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        5.0,
+        8.0,
+        11.0
+      ],
+      "pe": [
+        18.0,
+        25.0,
+        32.0
+      ],
+      "approxSharesYi": 9.936295835922934,
+      "price": [
+        9.057701329163407,
+        20.128225175918686,
+        35.42567630961689
+      ],
+      "ratio": null,
+      "threshold": 12.7478759447485,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 26.57768359729188,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          23.0647,
+          21.1003,
+          19.0179
+        ],
+        [
+          28.4355,
+          26.5777,
+          24.6123
+        ],
+        [
+          33.8802,
+          32.1227,
+          30.2672
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留芯片平台；将增长拆为提价和新品，撤回车载纯度判断",
+    "watch": "出货量与ASP拆分、毛利率、库存、扣非与现金转化"
+  },
+  {
+    "code": "688052",
+    "name": "纳芯微",
+    "sector": "自动驾驶",
+    "batch": 5,
+    "rating": "回避",
+    "tier": "C",
+    "filing": {
+      "code": "688052",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12562026&stockid=688052",
+      "kind": "html",
+      "revenue": 2540419200.0,
+      "net": 67591800.0,
+      "core": -47888800.0,
+      "ocf": -710482200.0,
+      "equity": 7742612100.0,
+      "unit": 10000,
+      "pages": 5,
+      "sha256": "8e6acf20cbac3882acefefeb12c250060705d9364ab414ac60f06397f43e5a5e",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-28/12562026.PDF",
+      "cashCapex": 347232853.2,
+      "fcfProxy": -1057715053.2,
+      "cashCapexPage": 86,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 347,232,853.20 144,375,527.41\n投资支付的现金 175,750,000.00 43,000,000.00\n\n[PDF PAGE 87]\n苏州纳芯微电子股份有限公",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-28/12562028.PDF",
+      "fullSha256": "eba39203b30805a2cd2c4971920fe2af70c0f343d06acd74ff0f0e11b95d0404"
+    },
+    "quote": {
+      "name": "纳芯微",
+      "price": 236.32,
+      "timestamp": "20260930161442",
+      "providerPe": -464.01,
+      "providerPb": 4.95,
+      "capYi": 386.4,
+      "url": "https://qt.gtimg.cn/q=sh688052"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.1,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 30.231147976369098,
+      "terminalValueShare": 0.6629767836316593,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          26.2011,
+          23.9459,
+          21.56
+        ],
+        [
+          32.3736,
+          30.2311,
+          27.9689
+        ],
+        [
+          38.6533,
+          36.6178,
+          34.4724
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "撤回表观扭亏等于可持续盈利；改跟踪现金与扣非拐点",
+    "watch": "单季扣非盈利、毛利率、备货应收与现金消耗"
+  },
+  {
+    "code": "300177",
+    "name": "中海达",
+    "sector": "自动驾驶",
+    "batch": 5,
+    "rating": "回避",
+    "tier": "C",
+    "filing": {
+      "code": "300177",
+      "url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12516602&stockid=300177",
+      "kind": "html",
+      "revenue": 349696974.93,
+      "net": -42945024.83,
+      "core": -59837798.03,
+      "ocf": -7041308.81,
+      "equity": 1248838109.01,
+      "unit": 1,
+      "pages": 6,
+      "sha256": "52c93f6e90d860f341eae961135e4489d881c9c157f4d276412128ddc5aced14",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-22/12516602.PDF",
+      "cashCapex": 26603125.21,
+      "fcfProxy": -33644434.02,
+      "cashCapexPage": 60,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 26,603,125.21 55,014,334.55\n投资支付的现金 937,500.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的现金 210,",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-22/12518902.PDF",
+      "fullSha256": "42b6308a9cd8e5b896b690df7e32db431d852a3ddf67b0a0cdd5749e60652038"
+    },
+    "quote": {
+      "name": "中海达",
+      "price": 6.0,
+      "timestamp": "20260930161457",
+      "providerPe": -17.71,
+      "providerPb": 3.58,
+      "capYi": 44.65,
+      "url": "https://qt.gtimg.cn/q=sz300177"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 4.328079379568874,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          3.7694,
+          3.4578,
+          3.1255
+        ],
+        [
+          4.6192,
+          4.3281,
+          4.0185
+        ],
+        [
+          5.4726,
+          5.2003,
+          4.9115
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留定位技术方向；撤回车载核心配套已贡献主要收入的判断",
+    "watch": "主营订单、车载收入、单季扣非与现金消耗"
+  },
+  {
+    "code": "300627",
+    "name": "华测导航",
+    "sector": "自动驾驶",
+    "batch": 5,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300627",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-14/1225472842.PDF",
+      "kind": "pdf",
+      "revenue": 1928755092.43,
+      "net": 333157564.07,
+      "core": 271945706.02,
+      "ocf": 51910848.2,
+      "equity": 4366558861.94,
+      "unit": 1,
+      "pages": 199,
+      "sha256": "94e40202f85667fb882eb0f5a73932722a189ab306dab53809a34ab1d1ebd79a",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-14/1225472842.PDF",
+      "cashCapex": 18935159.11,
+      "fcfProxy": 32975689.090000004,
+      "cashCapexPage": 68,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 18,935,159.11 19,311,691.90\n投资支付的现金 69,927,475.46 147,887,572.91\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-14/1225472842.PDF",
+      "fullSha256": "94e40202f85667fb882eb0f5a73932722a189ab306dab53809a34ab1d1ebd79a"
+    },
+    "quote": {
+      "name": "华测导航",
+      "price": 26.22,
+      "timestamp": "20260930161433",
+      "providerPe": 30.08,
+      "providerPb": 4.74,
+      "capYi": 208.18,
+      "url": "https://qt.gtimg.cn/q=sz300627"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        4.5,
+        6.5,
+        8.5
+      ],
+      "pe": [
+        18.0,
+        25.0,
+        32.0
+      ],
+      "approxSharesYi": 7.939740655987796,
+      "price": [
+        10.20184455759439,
+        20.466663464309732,
+        34.25804592179844
+      ],
+      "ratio": null,
+      "threshold": 13.623450859832838,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.1,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 16.28757863799306,
+      "terminalValueShare": 0.6629767836316593,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          14.1163,
+          12.9013,
+          11.6158
+        ],
+        [
+          17.4419,
+          16.2876,
+          15.0687
+        ],
+        [
+          20.8251,
+          19.7285,
+          18.5726
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留导航平台业务；撤回车载业务等同全部盈利的判断",
+    "watch": "机器人导航收入、扣非增速、现金回款、股份支付"
+  },
+  {
+    "code": "600176",
+    "name": "中国巨石",
+    "sector": "新材料",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "600176",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-21/1225484380.PDF",
+      "kind": "pdf",
+      "revenue": 11158886608.98,
+      "net": 2933304204.75,
+      "core": 2907908165.17,
+      "ocf": 2423769653.65,
+      "equity": 33154995601.18,
+      "unit": 1,
+      "pages": 159,
+      "sha256": "4760ff852b7b68550cb1b0a519d68ffbad8f363ab71258cb4f3fb79ca23ce418",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-21/1225484380.PDF",
+      "cashCapex": 2154491160.88,
+      "fcfProxy": 269278492.77,
+      "cashCapexPage": 49,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 2,154,491,160.88 326,257,523.39\n投资支付的现金质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的现金七、60 55,418,941.",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-21/1225484380.PDF",
+      "fullSha256": "4760ff852b7b68550cb1b0a519d68ffbad8f363ab71258cb4f3fb79ca23ce418"
+    },
+    "quote": {
+      "name": "中国巨石",
+      "price": 39.41,
+      "timestamp": "20260930161457",
+      "providerPe": 34.81,
+      "providerPb": 4.76,
+      "capYi": 1577.64,
+      "url": "https://qt.gtimg.cn/q=sh600176"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        35.0,
+        55.0,
+        70.0
+      ],
+      "pe": [
+        12.0,
+        16.0,
+        20.0
+      ],
+      "approxSharesYi": 40.031464095407266,
+      "price": [
+        10.491747166653987,
+        21.982708349179784,
+        34.97249055551329
+      ],
+      "ratio": null,
+      "threshold": 14.322067560829254,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 152.92611763455855,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          133.1873,
+          122.1749,
+          110.4348
+        ],
+        [
+          163.2137,
+          152.9261,
+          141.9876
+        ],
+        [
+          193.3645,
+          183.7442,
+          173.5404
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留成本与电子布逻辑；撤回固定第2名及成长股PEG框架",
+    "watch": "电子布价格、玻纤吨毛利、销量、现金资本开支"
+  },
+  {
+    "code": "688019",
+    "name": "安集科技",
+    "sector": "新材料",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "688019",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513853.PDF",
+      "kind": "pdf",
+      "revenue": 1526359564.44,
+      "net": 531763849.95,
+      "core": 425764261.57,
+      "ocf": 320311282.5,
+      "equity": 4842808026.18,
+      "unit": 1,
+      "pages": 206,
+      "sha256": "f0cff7c70465fa581da10351cecf5f24ecff30287f62f0770d8309a47fa4aa3f",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513853.PDF",
+      "cashCapex": 234252352.6,
+      "fcfProxy": 86058929.9,
+      "cashCapexPage": 85,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 234,252,352.60 123,939,963.07\n投资支付的现金七、78(2) 1,471,586,661.54 932,349,338.34\n取得子公司及其他营业单位支付的现金",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513853.PDF",
+      "fullSha256": "f0cff7c70465fa581da10351cecf5f24ecff30287f62f0770d8309a47fa4aa3f"
+    },
+    "quote": {
+      "name": "安集科技",
+      "price": 211.0,
+      "timestamp": "20260930161450",
+      "providerPe": 51.27,
+      "providerPb": 9.87,
+      "capYi": 481.83,
+      "url": "https://qt.gtimg.cn/q=sh688019"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        7.0,
+        10.0,
+        13.0
+      ],
+      "pe": [
+        25.0,
+        35.0,
+        45.0
+      ],
+      "approxSharesYi": 2.283554502369668,
+      "price": [
+        76.63491272855572,
+        153.26982545711144,
+        256.17956540688624
+      ],
+      "ratio": null,
+      "threshold": 102.17988363807429,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.12,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 35.503263157894736,
+      "terminalValueShare": 0.6710526315789475,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          30.7324,
+          28.0608,
+          25.2398
+        ],
+        [
+          38.0522,
+          35.5033,
+          32.8165
+        ],
+        [
+          45.5242,
+          43.0926,
+          40.534
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留工艺耗材壁垒；撤回旧排名和未校准估值认证",
+    "watch": "抛光液及湿化学品收入、扣非利润率、回款、摊薄股数"
+  },
+  {
+    "code": "603799",
+    "name": "华友钴业",
+    "sector": "新材料",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "603799",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12503130&stockid=603799",
+      "kind": "html",
+      "revenue": 55567528870.01,
+      "net": 3507405417.91,
+      "core": 3310746535.95,
+      "ocf": 2148087518.58,
+      "equity": 50870768401.92,
+      "unit": 1,
+      "pages": 187,
+      "sha256": "a13cf4d273a8f670d030b018c472c7eb9efa56eb403093636231d8a1da23e751",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-19/12503130.PDF",
+      "cashCapex": 9959341002.11,
+      "fcfProxy": -7811253483.530001,
+      "cashCapexPage": 51,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 9,959,341,002.11 4,561,227,710.03\n投资支付的现金 707,338,972.22 732,125,959.13\n质押贷款净增加额取得子公司及其他营业单位支付的现",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-19/12503130.PDF",
+      "fullSha256": "a13cf4d273a8f670d030b018c472c7eb9efa56eb403093636231d8a1da23e751"
+    },
+    "quote": {
+      "name": "华友钴业",
+      "price": 35.0,
+      "timestamp": "20260930161450",
+      "providerPe": 9.6,
+      "providerPb": 1.3,
+      "capYi": 662.73,
+      "url": "https://qt.gtimg.cn/q=sh603799"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        40.0,
+        65.0,
+        85.0
+      ],
+      "pe": [
+        8.0,
+        12.0,
+        16.0
+      ],
+      "approxSharesYi": 18.935142857142857,
+      "price": [
+        16.899793279314352,
+        41.19324611832873,
+        71.82412143708599
+      ],
+      "ratio": 0.34216438595979337,
+      "threshold": 24.997610892319145,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 64.24071774292676,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          55.9489,
+          51.3228,
+          46.3911
+        ],
+        [
+          68.5623,
+          64.2407,
+          59.6457
+        ],
+        [
+          81.2279,
+          77.1867,
+          72.9003
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留印尼项目与资源周期研究；撤回低PE即安全边际",
+    "watch": "镍钴实现价与单位成本、项目资本开支、净债务及归母现金"
+  },
+  {
+    "code": "603659",
+    "name": "璞泰来",
+    "sector": "新材料",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "603659",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225482316.PDF",
+      "kind": "pdf",
+      "revenue": 10114704705.86,
+      "net": 1451879417.3,
+      "core": 1312020757.92,
+      "ocf": 1798537897.57,
+      "equity": 21403971337.65,
+      "unit": 1,
+      "pages": 170,
+      "sha256": "d9cea0deda7428d4dc13d348e8bb3e4d430ed7cf8179771a67145877fda4709e",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225482316.PDF",
+      "cashCapex": 2332991441.32,
+      "fcfProxy": -534453543.75000024,
+      "cashCapexPage": 50,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 2,332,991,441.32 496,379,827.60\n投资支付的现金 3,877,657,192.55 2,422,529,648.19\n质押贷款净增加额取得子公司及其他营业单位支付",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225482316.PDF",
+      "fullSha256": "d9cea0deda7428d4dc13d348e8bb3e4d430ed7cf8179771a67145877fda4709e"
+    },
+    "quote": {
+      "name": "璞泰来",
+      "price": 21.45,
+      "timestamp": "20260930161452",
+      "providerPe": 16.69,
+      "providerPb": 2.15,
+      "capYi": 459.93,
+      "url": "https://qt.gtimg.cn/q=sh603659"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        20.0,
+        30.0,
+        40.0
+      ],
+      "pe": [
+        12.0,
+        18.0,
+        24.0
+      ],
+      "approxSharesYi": 21.441958041958042,
+      "price": [
+        11.193007631596112,
+        25.184267171091253,
+        44.77203052638445
+      ],
+      "ratio": 0.3640703860319194,
+      "threshold": 15.856760811427826,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 38.22947307866288,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          33.1763,
+          30.3508,
+          27.3554
+        ],
+        [
+          40.9017,
+          38.2295,
+          35.4025
+        ],
+        [
+          48.7335,
+          46.2055,
+          43.5364
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留业务修复和设备订单逻辑；撤回固定第1名与统一营收外推",
+    "watch": "设备外部订单验收、负极单位毛利、涂覆利润与资本开支"
+  },
+  {
+    "code": "002080",
+    "name": "中材科技",
+    "sector": "新材料",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002080",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-18/1225476377.PDF",
+      "kind": "pdf",
+      "revenue": 16257366084.37,
+      "net": 1207702748.73,
+      "core": 1095404634.89,
+      "ocf": -200005165.65,
+      "equity": 20410227994.82,
+      "unit": 1,
+      "pages": 158,
+      "sha256": "7e2457745ffb073f36a2904bad9ab1de9a00d8851d6481ca297e9195d022e6f6",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-18/1225476377.PDF",
+      "cashCapex": 2061894946.08,
+      "fcfProxy": -2261900111.73,
+      "cashCapexPage": 49,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 2,061,894,946.08 1,531,829,356.22\n投资支付的现金 0.00 0.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额 0.00 0.00\n支付其他与投",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-18/1225476377.PDF",
+      "fullSha256": "7e2457745ffb073f36a2904bad9ab1de9a00d8851d6481ca297e9195d022e6f6"
+    },
+    "quote": {
+      "name": "中材科技",
+      "price": 54.15,
+      "timestamp": "20260930161500",
+      "providerPe": 44.83,
+      "providerPb": 4.45,
+      "capYi": 908.7,
+      "url": "https://qt.gtimg.cn/q=sz002080"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        16.0,
+        26.0,
+        36.0
+      ],
+      "pe": [
+        10.0,
+        15.0,
+        20.0
+      ],
+      "approxSharesYi": 16.78116343490305,
+      "price": [
+        9.534499834929019,
+        23.24034334763948,
+        42.905249257180586
+      ],
+      "ratio": null,
+      "threshold": 14.10311433916584,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 88.08344305071078,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          76.7141,
+          70.3711,
+          63.609
+        ],
+        [
+          94.009,
+          88.0834,
+          81.783
+        ],
+        [
+          111.3754,
+          105.8343,
+          99.957
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留多业务修复；撤回共振修复等于高确定性的判断",
+    "watch": "分部盈利与现金、应收票据、隔膜利用率、资本开支"
+  },
+  {
+    "code": "002812",
+    "name": "恩捷股份",
+    "sector": "新材料",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002812",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12525709&stockid=002812",
+      "kind": "html",
+      "revenue": 8671187982.67,
+      "net": 820321427.54,
+      "core": 849226783.5,
+      "ocf": 1161582272.61,
+      "equity": 26050823280.42,
+      "unit": 1,
+      "pages": 3,
+      "sha256": "d271d5a8fa8540b605e697afcc951dfc6a4ea5c7aa7a0c49b37afac4db3b7a83",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-25/12525709.PDF",
+      "cashCapex": 576335861.61,
+      "fcfProxy": 585246410.9999999,
+      "cashCapexPage": 64,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 576,335,861.61 768,538,653.17\n投资支付的现金 612,882,560.00 266,992,500.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-25/12525715.PDF",
+      "fullSha256": "05b6c6dc307bce19027fa861201dbcc8071c3ce122503eed0abcf9c3ca090ee5"
+    },
+    "quote": {
+      "name": "恩捷股份",
+      "price": 45.51,
+      "timestamp": "20260930161457",
+      "providerPe": 42.29,
+      "providerPb": 1.72,
+      "capYi": 446.6,
+      "url": "https://qt.gtimg.cn/q=sz002812"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        8.0,
+        17.0,
+        24.0
+      ],
+      "pe": [
+        12.0,
+        18.0,
+        24.0
+      ],
+      "approxSharesYi": 9.81322786200835,
+      "price": [
+        9.782713837886252,
+        31.182400358262427,
+        58.696283027317506
+      ],
+      "ratio": null,
+      "threshold": 16.915942678011643,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 40.69210467044699,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          35.3872,
+          32.4247,
+          29.2738
+        ],
+        [
+          43.4738,
+          40.6921,
+          37.7406
+        ],
+        [
+          51.626,
+          49.0123,
+          46.2452
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留隔膜盈利修复；撤回固定第5名和高增长PEG",
+    "watch": "隔膜单平米利润、利用率、资本开支与债务"
+  },
+  {
+    "code": "688126",
+    "name": "沪硅产业",
+    "sector": "新材料",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "688126",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225483472.PDF",
+      "kind": "pdf",
+      "revenue": 2317244800.0,
+      "net": -965151900.0,
+      "core": -957632600.0,
+      "ocf": 178987500.0,
+      "equity": 19389707300.0,
+      "unit": 10000,
+      "pages": 198,
+      "sha256": "933996d00b966f105caf5aa7e547d79c9181b5ae8753d6660b43e42cee80857a",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225483472.PDF",
+      "cashCapex": 2147718137.46,
+      "fcfProxy": -1968730637.46,
+      "cashCapexPage": 82,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 2,147,718,137.46 1,941,134,138.81\n投资支付的现金 11,157,245,800.00 4,930,270,000.00\n质押贷款净增加额取得子公司及其他营业单",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225483472.PDF",
+      "fullSha256": "933996d00b966f105caf5aa7e547d79c9181b5ae8753d6660b43e42cee80857a"
+    },
+    "quote": {
+      "name": "沪硅产业",
+      "price": 23.38,
+      "timestamp": "20260930161455",
+      "providerPe": -36.69,
+      "providerPb": 3.99,
+      "capYi": 772.71,
+      "url": "https://qt.gtimg.cn/q=sh688126"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 70.40572368988153,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          61.2272,
+          56.1014,
+          50.6497
+        ],
+        [
+          75.2187,
+          70.4057,
+          65.299
+        ],
+        [
+          89.3237,
+          84.8013,
+          80.0137
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留硅片国产化；撤回盈利型PE模型",
+    "watch": "硅片ASP、稼动率、折旧和现金资本开支"
+  },
+  {
+    "code": "300346",
+    "name": "南大光电",
+    "sector": "新材料",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300346",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12557641&stockid=300346",
+      "kind": "html",
+      "revenue": 1368405377.06,
+      "net": 255816595.24,
+      "core": 220998606.64,
+      "ocf": 299134788.0,
+      "equity": 3543317378.6,
+      "unit": 1,
+      "pages": 165,
+      "sha256": "b815e9a76b4ae208c4aeaeed5bb1a5e7f17ed63bc8c8f94024fd763145340290",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-28/12557641.PDF",
+      "cashCapex": 94550917.33,
+      "fcfProxy": 204583870.67000002,
+      "cashCapexPage": 69,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 94,550,917.33 72,985,776.78 \n投资支付的现金  179,956,738.00 \n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-28/12557641.PDF",
+      "fullSha256": "b815e9a76b4ae208c4aeaeed5bb1a5e7f17ed63bc8c8f94024fd763145340290"
+    },
+    "quote": {
+      "name": "南大光电",
+      "price": 49.45,
+      "timestamp": "20260930161445",
+      "providerPe": 92.94,
+      "providerPb": 9.8,
+      "capYi": 341.78,
+      "url": "https://qt.gtimg.cn/q=sz300346"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        3.5,
+        5.5,
+        7.5
+      ],
+      "pe": [
+        22.0,
+        30.0,
+        38.0
+      ],
+      "approxSharesYi": 6.911627906976744,
+      "price": [
+        11.140646029609691,
+        23.872812920592196,
+        41.234858681022885
+      ],
+      "ratio": null,
+      "threshold": 15.384701659937193,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.1,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 26.740170174335997,
+      "terminalValueShare": 0.6629767836316593,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          23.1755,
+          21.1807,
+          19.0703
+        ],
+        [
+          28.6352,
+          26.7402,
+          24.7391
+        ],
+        [
+          34.1897,
+          32.3893,
+          30.4917
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留三大材料平台；撤回光刻胶研发进展自动等于盈利",
+    "watch": "特气和前驱体毛利率、光刻胶收入、补助及资本开支"
+  },
+  {
+    "code": "688772",
+    "name": "珠海冠宇",
+    "sector": "新材料",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "688772",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225501342.PDF",
+      "kind": "pdf",
+      "revenue": 7327116209.25,
+      "net": -203208028.11,
+      "core": -301193043.05,
+      "ocf": 667847183.42,
+      "equity": 7190309373.89,
+      "unit": 1,
+      "pages": 218,
+      "sha256": "05ef42cf6c4eb0e4d4275ab303bb9d0d95101c447c8f2c41fd0538dd17efc0a2",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225501342.PDF",
+      "cashCapex": 2124164327.39,
+      "fcfProxy": -1456317143.9700003,
+      "cashCapexPage": 82,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 2,124,164,327.39 1,906,114,104.57\n投资支付的现金 116,018,410.24 2,285,671,000.00\n质押贷款净增加额取得子公司及其他营业单位支付",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225501342.PDF",
+      "fullSha256": "05ef42cf6c4eb0e4d4275ab303bb9d0d95101c447c8f2c41fd0538dd17efc0a2"
+    },
+    "quote": {
+      "name": "珠海冠宇",
+      "price": 14.34,
+      "timestamp": "20260930161453",
+      "providerPe": 107.65,
+      "providerPb": 2.4,
+      "capYi": 163.23,
+      "url": "https://qt.gtimg.cn/q=sh688772"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 14.872754691798166,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          12.9338,
+          11.8511,
+          10.6994
+        ],
+        [
+          15.8895,
+          14.8728,
+          13.794
+        ],
+        [
+          18.869,
+          17.9137,
+          16.9024
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留消费电池主营；撤回把公司当作锂电材料纯标的",
+    "watch": "消费电池单位利润、新业务亏损、研发及资本开支"
+  },
+  {
+    "code": "688779",
+    "name": "五矿新能",
+    "sector": "新材料",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "688779",
+      "url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12498155&stockid=688779",
+      "kind": "html",
+      "revenue": 7812162781.16,
+      "net": 377618935.7,
+      "core": 373016775.25,
+      "ocf": -861561339.92,
+      "equity": 7554671734.22,
+      "unit": 1,
+      "pages": 4,
+      "sha256": "834e73338aec1df342f7ae497b68c905709f8b63f59782a2c442beb7e96e8db2",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-18/12498155.PDF",
+      "cashCapex": 20226746.78,
+      "fcfProxy": -881788086.6999999,
+      "cashCapexPage": 57,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 20,226,746.78 98,197,348.64\n投资支付的现金 9,000,000.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的现金七、7",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-18/12498158.PDF",
+      "fullSha256": "3b507271654a3827ddd47e3fe3c27c9781348999213a1b3226c99eb244eb33b2"
+    },
+    "quote": {
+      "name": "五矿新能",
+      "price": 7.45,
+      "timestamp": "20260930161450",
+      "providerPe": 22.72,
+      "providerPb": 1.96,
+      "capYi": 143.73,
+      "url": "https://qt.gtimg.cn/q=sh688779"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        4.0,
+        8.0,
+        12.0
+      ],
+      "pe": [
+        12.0,
+        18.0,
+        24.0
+      ],
+      "approxSharesYi": 19.292617449664426,
+      "price": [
+        2.4879983302024633,
+        7.4639949906073895,
+        14.927989981214779
+      ],
+      "ratio": 0.002820432466311589,
+      "threshold": 4.146663883670772,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 13.096005831355452,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          11.3887,
+          10.4353,
+          9.4212
+        ],
+        [
+          13.9912,
+          13.096,
+          12.1461
+        ],
+        [
+          16.6149,
+          15.7737,
+          14.8832
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "更名五矿新能；保留材料修复，撤回营收高增直接推EPS",
+    "watch": "出货量、加工费、原料库存和现金回款"
+  },
+  {
+    "code": "600392",
+    "name": "盛和资源",
+    "sector": "新材料",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "600392",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225525089.PDF",
+      "kind": "pdf",
+      "revenue": 8759018921.89,
+      "net": 886615573.86,
+      "core": 876909013.33,
+      "ocf": -637686864.14,
+      "equity": 13058208380.47,
+      "unit": 1,
+      "pages": 199,
+      "sha256": "4fd4e7d09e45bd38256048f309b91e35c682b1b60ba89ae6b0b67bf03de58b17",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225525089.PDF",
+      "cashCapex": 253244015.58,
+      "fcfProxy": -890930879.72,
+      "cashCapexPage": 50,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 253,244,015.58 97,966,071.22\n投资支付的现金 1,631,917,428.58 14,590,552.76\n质押贷款净增加额取得子公司及其他营业单位支付的现金净",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225525089.PDF",
+      "fullSha256": "4fd4e7d09e45bd38256048f309b91e35c682b1b60ba89ae6b0b67bf03de58b17"
+    },
+    "quote": {
+      "name": "盛和资源",
+      "price": 20.17,
+      "timestamp": "20260930161455",
+      "providerPe": 26.21,
+      "providerPb": 2.71,
+      "capYi": 353.55,
+      "url": "https://qt.gtimg.cn/q=sh600392"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        10.0,
+        18.0,
+        25.0
+      ],
+      "pe": [
+        10.0,
+        15.0,
+        20.0
+      ],
+      "approxSharesYi": 17.528507684680218,
+      "price": [
+        5.704992221750813,
+        15.403478998727195,
+        28.524961108754066
+      ],
+      "ratio": null,
+      "threshold": 8.937821147409608,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 34.27082787562319,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          29.8473,
+          27.3795,
+          24.7485
+        ],
+        [
+          36.5763,
+          34.2708,
+          31.8195
+        ],
+        [
+          43.3331,
+          41.1772,
+          38.8905
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留稀土周期；撤回重稀土龙头与催化抛光全线布局的宽泛主张",
+    "watch": "稀土价格、库存跌价、应收回款、海外原料供应"
+  },
+  {
+    "code": "300748",
+    "name": "金力永磁",
+    "sector": "新材料",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300748",
+      "url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12510773&stockid=300748",
+      "kind": "html",
+      "revenue": 4649284465.03,
+      "net": 462235981.25,
+      "core": 398537018.95,
+      "ocf": 1205874754.47,
+      "equity": 7814577297.87,
+      "unit": 1,
+      "pages": 6,
+      "sha256": "53948d75512a3c450492ba3277e4884c71854efc78d4a5c435989d7e46a0f5c4",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-21/12510773.PDF",
+      "cashCapex": 174638554.61,
+      "fcfProxy": 1031236199.86,
+      "cashCapexPage": 52,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 174,638,554.61 320,519,274.94 \n投资支付的现金 1,278,437,215.18 1,051,001,522.76 \n质押贷款净增加额取得子公司及其他营业单位",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-21/12510772.PDF",
+      "fullSha256": "53e604c896fe1680f5175240eb92e5ae053de93daeba7952a60bac68b941a9d4"
+    },
+    "quote": {
+      "name": "金力永磁",
+      "price": 24.11,
+      "timestamp": "20260930161445",
+      "providerPe": 38.61,
+      "providerPb": 4.36,
+      "capYi": 333.19,
+      "url": "https://qt.gtimg.cn/q=sz300748"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        5.0,
+        9.0,
+        12.0
+      ],
+      "pe": [
+        18.0,
+        25.0,
+        32.0
+      ],
+      "approxSharesYi": 13.81957693902945,
+      "price": [
+        6.512500375161319,
+        16.281250937903298,
+        27.786668267354962
+      ],
+      "ratio": null,
+      "threshold": 9.768750562741978,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 27.694819070466554,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          24.0342,
+          21.9872,
+          19.8172
+        ],
+        [
+          29.6307,
+          27.6948,
+          25.6469
+        ],
+        [
+          35.3043,
+          33.4729,
+          31.5394
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留磁材需求与现金修复；撤回机器人直接贡献利润的假设",
+    "watch": "磁材销量、吨加工毛利、稀土成本传导及库存"
+  },
+  {
+    "code": "688295",
+    "name": "中复神鹰",
+    "sector": "新材料",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "688295",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12546888&stockid=688295",
+      "kind": "html",
+      "revenue": 1162500300.0,
+      "net": 70162300.0,
+      "core": 61442500.0,
+      "ocf": 259828300.00000003,
+      "equity": 4761944200.0,
+      "unit": 10000,
+      "pages": 202,
+      "sha256": "62cb4952ef550f8cc2daa1d421da6fa3fc8a5758d9195cd60d1a948563b05324",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-27/12546888.PDF",
+      "cashCapex": 711743916.61,
+      "fcfProxy": -451915616.61,
+      "cashCapexPage": 67,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 711,743,916.61 516,052,960.74\n投资支付的现金 918,000,000.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的现金",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-27/12546888.PDF",
+      "fullSha256": "62cb4952ef550f8cc2daa1d421da6fa3fc8a5758d9195cd60d1a948563b05324"
+    },
+    "quote": {
+      "name": "中复神鹰",
+      "price": 35.6,
+      "timestamp": "20260930161450",
+      "providerPe": 207.49,
+      "providerPb": 6.73,
+      "capYi": 320.4,
+      "url": "https://qt.gtimg.cn/q=sh688295"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        0.7,
+        1.8,
+        3.0
+      ],
+      "pe": [
+        18.0,
+        25.0,
+        32.0
+      ],
+      "approxSharesYi": 8.999999999999998,
+      "price": [
+        1.4000000000000004,
+        5.000000000000001,
+        10.66666666666667
+      ],
+      "ratio": null,
+      "threshold": 2.6000000000000005,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 29.193350506966443,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          25.3875,
+          23.2622,
+          21.0016
+        ],
+        [
+          31.189,
+          29.1934,
+          27.0759
+        ],
+        [
+          37.0376,
+          35.1624,
+          33.1773
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留碳纤维制造定位；撤回盈利修复等于高增长复利",
+    "watch": "碳纤维ASP、吨毛利、利用率、投产折旧"
+  },
+  {
+    "code": "688233",
+    "name": "神工股份",
+    "sector": "新材料",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "688233",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12547075&stockid=688233",
+      "kind": "html",
+      "revenue": 216405628.2,
+      "net": 41085379.13,
+      "core": 37687659.38,
+      "ocf": 134124129.75,
+      "equity": 1909221191.41,
+      "unit": 1,
+      "pages": 5,
+      "sha256": "408e9151308c4de3b9fbf5ecdbade082eb2d5dbc97975d2cdc0b9f92e6b0714c",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-27/12547075.PDF",
+      "cashCapex": 11488757.66,
+      "fcfProxy": 122635372.09,
+      "cashCapexPage": 56,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 11,488,757.66 91,302,424.63\n投资支付的现金 871,961,000.00 556,050,000.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-27/12547078.PDF",
+      "fullSha256": "7e550a7667d394f82d6e89c0fe7c5768e5ee22259e4d17502764e69d68ecbdde"
+    },
+    "quote": {
+      "name": "神工股份",
+      "price": 87.92,
+      "timestamp": "20260930161500",
+      "providerPe": 158.81,
+      "providerPb": 7.84,
+      "capYi": 149.73,
+      "url": "https://qt.gtimg.cn/q=sh688233"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        0.55,
+        1.0,
+        1.5
+      ],
+      "pe": [
+        20.0,
+        28.0,
+        36.0
+      ],
+      "approxSharesYi": 1.7030254777070062,
+      "price": [
+        6.459093034128099,
+        16.44132772323516,
+        31.708274894810664
+      ],
+      "ratio": null,
+      "threshold": 9.786504597163786,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 12.445587380836631,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          10.8005,
+          9.8807,
+          8.9055
+        ],
+        [
+          13.3155,
+          12.4456,
+          11.5253
+        ],
+        [
+          15.8652,
+          15.0422,
+          14.1733
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留刻蚀用硅材料定位；撤回全部业务放量的推断",
+    "watch": "材料与零部件收入、毛利率、客户采购和扩产现金"
+  },
+  {
+    "code": "600516",
+    "name": "方大炭素",
+    "sector": "新材料",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "600516",
+      "url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12574991&stockid=600516",
+      "kind": "html",
+      "revenue": 1970546816.99,
+      "net": 170944628.83,
+      "core": 10098632.68,
+      "ocf": 29043166.5,
+      "equity": 16571373612.42,
+      "unit": 1,
+      "pages": 231,
+      "sha256": "18bcc6c2301eb87a545823f3b8addb9658da29bac1981b29849c25b21969f30a",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-31/12574991.PDF",
+      "cashCapex": 509612384.43,
+      "fcfProxy": -480569217.93,
+      "cashCapexPage": 62,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 509,612,384.43 18,614,781.22\n投资支付的现金 10,301,858,145.32 1,090,219,299.51\n质押贷款净增加额取得子公司及其他营业单位支付",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-31/12574991.PDF",
+      "fullSha256": "18bcc6c2301eb87a545823f3b8addb9658da29bac1981b29849c25b21969f30a"
+    },
+    "quote": {
+      "name": "方大炭素",
+      "price": 5.29,
+      "timestamp": "20260930161455",
+      "providerPe": 101.68,
+      "providerPb": 1.29,
+      "capYi": 212.97,
+      "url": "https://qt.gtimg.cn/q=sh600516"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        0.8,
+        2.5,
+        5.0
+      ],
+      "pe": [
+        12.0,
+        18.0,
+        24.0
+      ],
+      "approxSharesYi": 40.25897920604915,
+      "price": [
+        0.23845612058036347,
+        1.1177630652204535,
+        2.980701507254543
+      ],
+      "ratio": null,
+      "threshold": 0.5315584354603935,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.0,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 22.674401576255708,
+      "terminalValueShare": 0.616208183291071,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          19.7948,
+          18.1909,
+          16.4746
+        ],
+        [
+          24.1605,
+          22.6744,
+          21.0889
+        ],
+        [
+          28.517,
+          27.1378,
+          25.6706
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "撤回归母高增等于主业景气；改主业+金融资产SOTP待核",
+    "watch": "石墨电极价差、扣非利润、投资收益与可动用净现金"
+  },
+  {
+    "code": "603663",
+    "name": "三祥新材",
+    "sector": "新材料",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "603663",
+      "url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12514599&stockid=603663",
+      "kind": "html",
+      "revenue": 563342817.18,
+      "net": 77009857.05,
+      "core": 73988287.19,
+      "ocf": 93243151.56,
+      "equity": 1447268536.02,
+      "unit": 1,
+      "pages": 4,
+      "sha256": "8cca4c4b07aefddf895695cf09eee81e0df458ac5c86db6f335242c703fc4750",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-22/12514599.PDF",
+      "cashCapex": 40020066.55,
+      "fcfProxy": 53223085.010000005,
+      "cashCapexPage": 47,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 40,020,066.55 16,702,113.23\n投资支付的现金 665,018,373.99 20,000,000.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-8/2026-08-22/12514600.PDF",
+      "fullSha256": "2c520f8c902408a36d5faa125bba55cc9442860d63f62448447abbda5de2af85"
+    },
+    "quote": {
+      "name": "三祥新材",
+      "price": 43.24,
+      "timestamp": "20260930161453",
+      "providerPe": 171.5,
+      "providerPb": 18.27,
+      "capYi": 256.66,
+      "url": "https://qt.gtimg.cn/q=sh603663"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        1.0,
+        1.6,
+        2.2
+      ],
+      "pe": [
+        18.0,
+        25.0,
+        32.0
+      ],
+      "approxSharesYi": 5.935707678075856,
+      "price": [
+        3.0324943505026107,
+        6.738876334450246,
+        11.860422348632433
+      ],
+      "ratio": null,
+      "threshold": 4.267955011818489,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 21.333630248884862,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          18.5138,
+          16.937,
+          15.2654
+        ],
+        [
+          22.8249,
+          21.3336,
+          19.7561
+        ],
+        [
+          27.1953,
+          25.7846,
+          24.2951
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留锆材料业务；撤回固态电池题材直接抬高盈利",
+    "watch": "锆产品售价与成本、毛利率、固态相关确认收入"
+  },
+  {
+    "code": "300285",
+    "name": "国瓷材料",
+    "sector": "新材料",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300285",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12479265&stockid=300285",
+      "kind": "html",
+      "revenue": 2512750568.08,
+      "net": 362756609.66,
+      "core": 360987143.74,
+      "ocf": 455673130.71,
+      "equity": 7329859356.63,
+      "unit": 1,
+      "pages": 8,
+      "sha256": "b075222e241a536bafdac7deebdf0597becf9c3875269f049d789c62aa45d155",
+      "pdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-06/12479265.PDF",
+      "cashCapex": 415214903.07,
+      "fcfProxy": 40458227.639999986,
+      "cashCapexPage": 72,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 415,214,903.07 132,631,721.70\n投资支付的现金 2,127,270.00 2,812,600.00\n质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其",
+      "fullPdf": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-06/12479260.PDF",
+      "fullSha256": "beca99a0e1050037b2090830a57222056e84f77e9aee21ac6018685aabb25fcd"
+    },
+    "quote": {
+      "name": "国瓷材料",
+      "price": 63.06,
+      "timestamp": "20260930161433",
+      "providerPe": 98.03,
+      "providerPb": 8.64,
+      "capYi": 628.74,
+      "url": "https://qt.gtimg.cn/q=sz300285"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        5.5,
+        8.5,
+        11.0
+      ],
+      "pe": [
+        20.0,
+        28.0,
+        36.0
+      ],
+      "approxSharesYi": 9.970504281636536,
+      "price": [
+        11.032541273022236,
+        23.870407481629925,
+        39.71714858288005
+      ],
+      "ratio": null,
+      "threshold": 15.3118300092248,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 52.26099385445284,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          45.3532,
+          41.4906,
+          37.3958
+        ],
+        [
+          55.9141,
+          52.261,
+          48.3964
+        ],
+        [
+          66.6204,
+          63.1645,
+          59.5158
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留陶瓷平台与现金质量；撤回多业务自动带来高估值容错",
+    "watch": "分部利润率、牙科业务、研发费用及FCF"
+  },
+  {
+    "code": "300034",
+    "name": "钢研高纳",
+    "sector": "新材料",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "300034",
+      "url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-25/d0a70bcc-52a9-40be-a3bd-03d993c29ea5.PDF",
+      "kind": "pdf",
+      "revenue": 2053495665.67,
+      "net": 102870971.88,
+      "core": 91584100.71,
+      "ocf": 318569605.91,
+      "equity": 3861814964.9,
+      "unit": 1,
+      "pages": 3,
+      "sha256": "b82eba338fb4c92a290aae33c4c3d2aad33a8fd2c64bf5c1a08a8ac4083140fe",
+      "pdf": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-25/d0a70bcc-52a9-40be-a3bd-03d993c29ea5.PDF",
+      "cashCapex": 48372915.59,
+      "fcfProxy": 270196690.32000005,
+      "cashCapexPage": 43,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 48,372,915.59 53,006,196.95\n投资支付的现金质押贷款净增加额取得子公司及其他营业单位支付的现金净额支付其他与投资活动有关的现金投资活动现金流出小计 48,372",
+      "fullPdf": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-25/fc6a5e7f-dd11-47f9-b460-c4e67a821115.PDF",
+      "fullSha256": "e78c84e0a6d83075fa91788f0f1ce5e5183684e9fa15ee3bcfed39356143c758"
+    },
+    "quote": {
+      "name": "钢研高纳",
+      "price": 15.27,
+      "timestamp": "20260930161439",
+      "providerPe": 96.19,
+      "providerPb": 3.15,
+      "capYi": 121.7,
+      "url": "https://qt.gtimg.cn/q=sz300034"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        1.3,
+        2.5,
+        3.5
+      ],
+      "pe": [
+        20.0,
+        28.0,
+        36.0
+      ],
+      "approxSharesYi": 7.969875573018992,
+      "price": [
+        3.262284305669679,
+        8.783073130649136,
+        15.809531635168446
+      ],
+      "ratio": null,
+      "threshold": 5.102547247329498,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.08,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 10.115728205755815,
+      "terminalValueShare": 0.6545030189711882,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          8.7786,
+          8.031,
+          7.2384
+        ],
+        [
+          10.8228,
+          10.1157,
+          9.3677
+        ],
+        [
+          12.8952,
+          12.2262,
+          11.52
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留高温合金定位；撤回把订单景气直接当永久利润",
+    "watch": "订单交付、产品毛利率、应收回款及减值"
+  },
+  {
+    "code": "000012",
+    "name": "南玻A",
+    "sector": "新材料",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "000012",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225517788.PDF",
+      "kind": "pdf",
+      "revenue": 6118978774.0,
+      "net": -421151211.0,
+      "core": -469705829.0,
+      "ocf": 205008283.0,
+      "equity": 12645481034.0,
+      "unit": 1,
+      "pages": 133,
+      "sha256": "80eaaa2f8e444d2a755e0a2f2eb90c6863996de804cca5a086c4ae54b7bcc70d",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225517788.PDF",
+      "cashCapex": 329118816.0,
+      "fcfProxy": -124110533.0,
+      "cashCapexPage": 51,
+      "cashCapexEvidence": "购建固定资产、无形资产和其他长期资产支付的现金 329,118,816 559,400,085\n投资支付的现金 2,460,270,372 1,922,800,000\n支付其他与投资活动有关的现金 49,937,698 91,39",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225517788.PDF",
+      "fullSha256": "80eaaa2f8e444d2a755e0a2f2eb90c6863996de804cca5a086c4ae54b7bcc70d"
+    },
+    "quote": {
+      "name": "南  玻Ａ",
+      "price": 3.69,
+      "timestamp": "20260930161500",
+      "providerPe": -30.34,
+      "providerPb": 0.89,
+      "capYi": 112.27,
+      "url": "https://qt.gtimg.cn/q=sz000012"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.0,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 11.953115767320412,
+      "terminalValueShare": 0.616208183291071,
+      "sensitivityKe": [
+        0.1,
+        0.12,
+        0.14
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          10.4351,
+          9.5896,
+          8.6848
+        ],
+        [
+          12.7366,
+          11.9531,
+          11.1173
+        ],
+        [
+          15.0331,
+          14.3061,
+          13.5326
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留玻璃业务；撤回低PB即低估及特种玻璃覆盖全部主业",
+    "watch": "分部毛利率、减值、利用率和资本开支"
+  }
+]

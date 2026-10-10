@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "NIO",
+    "quarterly": true
+  },
+  "retrievedAt": "2026-10-09T15:51:30.937759+00:00",
+  "isError": false,
+  "data": {
+    "symbol": "NIO",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

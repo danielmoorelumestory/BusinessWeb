@@ -5,8 +5,8 @@ import {
 } from './aiLab'
 
 describe('aiLab 数据', () => {
-  it('共 11 个方向，slug 唯一', () => {
-    expect(LAB_DIRECTIONS).toHaveLength(11)
+  it('共 14 个方向，slug 唯一', () => {
+    expect(LAB_DIRECTIONS).toHaveLength(14)
     const slugs = LAB_DIRECTIONS.map(d => d.slug)
     expect(new Set(slugs).size).toBe(slugs.length)
   })
@@ -20,11 +20,11 @@ describe('aiLab 数据', () => {
 
   it('推荐组按匹配度降序且不含不推荐；同分保持原顺序', () => {
     const rec = recommendedDirections()
-    expect(rec).toHaveLength(8)
+    expect(rec).toHaveLength(11)
     expect(rec.every(d => d.verdict !== 'avoid')).toBe(true)
     for (let i = 1; i < rec.length; i++) expect(rec[i - 1].fit).toBeGreaterThanOrEqual(rec[i].fit)
     expect(rec.map(d => d.slug)).toEqual([
-      'ai-skills', 'indie-dev', 'free-tools', 'digital-goods', 'blog', 'newsletter', 'video', 'dropshipping',
+      'ai-skills', 'indie-dev', 'free-tools', 'digital-goods', 'blog', 'image-tools', 'mini-program', 'newsletter', 'video', 'game-guides', 'dropshipping',
     ])
   })
 

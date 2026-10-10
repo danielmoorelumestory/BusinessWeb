@@ -69,7 +69,7 @@
   --border-primary: var(--border-subtle);
   --border-light: var(--border-subtle);
   --bg-secondary: var(--system-gray6);
-  --text-tertiary: var(--system-gray);
+  --text-tertiary: #857F72;
   --shadow-subtle: none;
   --font-family: var(--font-sans);
 
@@ -271,5 +271,60 @@ button {
   .animate-fade-in,
   .skeleton-line {
     animation: none;
+  }
+}
+
+/* ───────── 无障碍与交互基础（Web Interface Guidelines） ───────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+button,
+a,
+[role="tab"],
+select,
+summary,
+label {
+  touch-action: manipulation;
+}
+table {
+  font-variant-numeric: tabular-nums;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+/* 内联样式的按钮没法写 :hover，统一用滤镜给出悬停与按下反馈（不改各自背景色） */
+.plan-page button:not(.page-tab):not(:disabled):hover {
+  filter: brightness(0.96);
+}
+.plan-page button:not(.page-tab):not(:disabled):active {
+  filter: brightness(0.92);
+}
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm, 8px);
+  background: var(--text-primary);
+  color: var(--bg-card);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

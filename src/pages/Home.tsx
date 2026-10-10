@@ -5,7 +5,7 @@ import { QUOTES } from '../data/quotes'
 import RecentUpdates from '../components/RecentUpdates'
 
 const COLUMNS = [
-  { to: '/invest', title: '正念投资', desc: '读书、方法、工具与研究。普通人用规则代替盯盘。' },
+  { to: '/invest', title: '投资', desc: '读书、方法、工具与研究。普通人用规则代替盯盘。' },
   { to: '/ai', title: 'AI实验室', desc: '把书里的框架做成小产品，边学边做。' },
   { to: '/life', title: '自由空间', desc: '从 *** 到目标 400 万，再到自由生活的第一年。' },
 ]

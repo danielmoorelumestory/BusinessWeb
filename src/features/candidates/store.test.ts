@@ -49,6 +49,14 @@ describe('payload validation', () => {
 })
 
 describe('cloud client', () => {
+  it('弱 ETag（CDN 压缩改写）和 X-Revision 都能读出版本号', async () => {
+    const body = JSON.stringify({ schemaVersion: 1, items: [item('A')] })
+    const weak = vi.fn(async () => new Response(body, { status: 200, headers: { ETag: 'W/"7"' } }))
+    expect((await readCloud('t'.repeat(32), weak as never, '/x')).revision).toBe(7)
+    const custom = vi.fn(async () => new Response(body, { status: 200, headers: { ETag: 'W/"1"', 'X-Revision': '9' } }))
+    expect((await readCloud('t'.repeat(32), custom as never, '/x')).revision).toBe(9)
+  })
+
   it('reads revision from ETag and sends bearer token', async () => {
     const f = vi.fn(async () => new Response(JSON.stringify({ schemaVersion: 1, items: [item('A')] }), { status: 200, headers: { ETag: '"4"' } }))
     const r = await readCloud('t'.repeat(32), f as unknown as typeof fetch, 'https://x/api')

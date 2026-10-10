@@ -67,6 +67,7 @@ describe('补全公司：研究笔记列表与详情', () => {
   it('沪深列表加载补全数据，支持搜索与评级筛选、分页', async () => {
     renderAt('/research-notes?tab=category&m=cn')
     await waitFor(() => expect(screen.getByText(/显示更多/)).toBeTruthy(), { timeout: 8000 })
+    expect(screen.getByRole('link', { name: '金融、房地产、工业复核总览' }).getAttribute('href')).toContain('cn-finance-property-industrial-2026-10-07/index.md')
     const box = screen.getByPlaceholderText('搜索公司名称或代码') as HTMLInputElement
     fireEvent.change(box, { target: { value: '宁德时代' } })
     await waitFor(() => expect(screen.getAllByText(/宁德时代/).length).toBeGreaterThan(0))
@@ -91,11 +92,41 @@ describe('补全公司：研究笔记列表与详情', () => {
     expect(screen.getAllByText(/条件价格（研究假设）/).length).toBeGreaterThan(0)
   })
 
-  it('A 股补全公司详情页可渲染', async () => {
+  it('比亚迪详情页显示本轮复核并替换程序化结论', async () => {
     renderAt('/research-notes/cn/002594')
-    await waitFor(() => expect(screen.getByText('程序化研究页')).toBeTruthy(), { timeout: 8000 })
+    await waitFor(() => expect(screen.getByRole('link', { name: '查看本轮完整报告与一手来源' }).getAttribute('href')).toContain('cn-four-sectors-2026-10-07'), { timeout: 8000 })
+    expect(screen.queryByText('程序化研究页')).toBeNull()
     expect(screen.getAllByText(/比亚迪/).length).toBeGreaterThan(0)
   })
+})
+
+it('四分类复核在异步补全后仍保留，亏损公司不恢复旧PE价格', async () => {
+  const audit = JSON.parse(readFileSync(resolve('public/research/cn-four-sectors-2026-10-07/audit.json'), 'utf8'))
+  expect(audit.length).toBe(46)
+  expect(audit.reduce((counts: Record<string, number>, row: { sector: string }) => {
+    counts[row.sector] = (counts[row.sector] ?? 0) + 1
+    return counts
+  }, {})).toEqual({ '机器人链': 3, '工程机械': 1, '新能源汽车': 23, 'AI 算力': 19 })
+  await loadCompanies('cn')
+  for (const row of audit) {
+    const company = findCompany('cn', row.code)!
+    expect(company).toBeTruthy()
+    expect(company.auto).toBe(false)
+    expect(company.reviewed).toBe(true)
+    expect(company.scenarios?.length).toBe(3)
+    if (row.filing.core < 0) {
+      expect(row.model).toBeNull()
+      expect(company.scenarios?.every(s => s.price.includes('[MISSING]'))).toBe(true)
+    }
+  }
+  const byCode = Object.fromEntries(audit.map((row: { code: string }) => [row.code, row]))
+  // 防止千元现金流表与元主指标混用，以及现金支出的列示负号颠倒。
+  expect(byCode['002594'].filing.cashCapex / 1e8).toBeCloseTo(447.03066, 4)
+  expect(byCode['601138'].filing.fcfProxy / 1e8).toBeCloseTo(-17.00421, 4)
+  for (const code of ['688183', '688008', '300308']) {
+    expect(byCode[code].notes.eventNotes.length).toBeGreaterThan(0)
+    expect(byCode[code].model.certified).toBe(false)
+  }
 })
 
 describe('林奇分组、港股、导出', () => {
@@ -126,10 +157,11 @@ describe('林奇分组、港股、导出', () => {
     expect(screen.getByText(/导出该市场全部/)).toBeTruthy()
   })
 
-  it('美股非标普标签：三组分类', async () => {
+  it('美股非标普标签：四组分类', async () => {
     renderAt('/research-notes?tab=category&m=adr')
     await waitFor(() => expect(screen.getAllByText(/台积电/).length).toBeGreaterThan(0), { timeout: 8000 })
     expect(screen.getAllByText(/^中概 \d+/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/^新上市\/热门 \d+/).length).toBeGreaterThan(0)
   })
 
   it('切换市场后筛选被重置：沪深选「优先关注」再切到美股非标普仍有公司', async () => {
@@ -140,11 +172,13 @@ describe('林奇分组、港股、导出', () => {
     await waitFor(() => expect(screen.getAllByText(/台积电/).length).toBeGreaterThan(0), { timeout: 8000 })
   })
 
-  it('美股非标普手工研究页：台积电详情页有三情景与买入区，且不再标程序化', async () => {
+  it('美股非标普原件复核页：台积电列明估值缺口与完整来源，隐藏旧筛选卡', async () => {
     renderAt('/research-notes/adr/TSM')
     await waitFor(() => expect(screen.getAllByText(/条件价格（研究假设）/).length).toBeGreaterThan(0), { timeout: 8000 })
     expect(screen.queryByText('程序化研究页')).toBeNull()
     expect(screen.getAllByText(/Bear/).length).toBeGreaterThan(0)
+    expect(screen.getByRole('link', { name: '查看本轮完整报告与一手来源' }).getAttribute('href')).toContain('adr-2026-10-07/TSM.html')
+    expect(screen.queryByText(/林奇分类：/)).toBeNull()
   })
 
   it('港股手工研究页：建设银行详情页有三情景与买入区，且不再标程序化', async () => {
@@ -154,11 +188,12 @@ describe('林奇分组、港股、导出', () => {
     expect(screen.getAllByText(/Bear/).length).toBeGreaterThan(0)
   })
 
-  it('补充覆盖的公司：必和必拓与药明康德详情页有三情景，并注明第三方数据源', async () => {
+  it('补充覆盖的公司：必和必拓使用本轮原件证据，历史第三方结论不覆盖', async () => {
     renderAt('/research-notes/adr/BHP')
     await waitFor(() => expect(screen.getAllByText(/条件价格（研究假设）/).length).toBeGreaterThan(0), { timeout: 8000 })
     expect(screen.queryByText('程序化研究页')).toBeNull()
-    expect(screen.getAllByText(/stockanalysis\.com/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/原件财务核读/).length).toBeGreaterThan(0)
+    expect(screen.getByRole('link', { name: '查看本轮完整报告与一手来源' }).getAttribute('href')).toContain('adr-2026-10-07/BHP.html')
   })
 
   it('补充覆盖的港股：药明康德详情页可打开', async () => {
@@ -168,15 +203,38 @@ describe('林奇分组、港股、导出', () => {
   })
 })
 
-it('沪深复核撤回旧模型，初始手工和异步公司均保留存档', async () => {
+it('沪深复核保留未重建公司；伯特利使用最新未认证研究初稿', async () => {
   const manual = findCompany('cn', '603596')!
-  expect(manual.scenarios).toBeUndefined()
-  expect(manual.metrics.some(([k]) => k === '上轮结论（存档）')).toBe(true)
+  expect(manual.scenarios).toHaveLength(3)
+  expect(manual.ratioNote).toContain('不认证')
+  expect(manual.metrics.some(([k]) => k === '研究复核')).toBe(true)
+  expect(manual.discipline?.position).toContain('不提供个人仓位指令')
   const rows = await loadCompanies('cn')
   const dp = rows.find(c => c.code === '605499')!
-  expect(dp.scenarios).toBeUndefined()
-  expect(dp.headline).toContain('股本')
-  expect(rows.find(c => c.code === '601138')!.ratioNote).toContain('1.993')
+  // 东鹏饮料已由 2026-10-07 逐家复核页取代 09-30 圆桌结论：有三情景，且标注为未认证
+  expect(dp.scenarios).toHaveLength(3)
+  expect(dp.auto).toBe(false)
+  expect(dp.researchReport).toContain('cn-itucd-2026-10-07')
+  expect(dp.ratioNote).toContain('不认证')
+  expect(rows.find(c => c.code === '601138')!.ratioNote).toContain('本轮不认证')
+})
+
+it('两分类40家公司在初始与异步数据都显示原件复核，亏损公司不恢复旧PE', async () => {
+  const rows = (await loadCompanies('cn')).filter(c => ['自动驾驶', '新材料'].includes(c.sector))
+  expect(rows.filter(c => c.sector === '自动驾驶')).toHaveLength(21)
+  expect(rows.filter(c => c.sector === '新材料')).toHaveLength(19)
+  for (const company of rows) {
+    expect(company.auto).toBe(false)
+    expect(company.asOf).toContain('2026-10-07')
+    expect(company.metrics.some(([key]) => key === '估值认证')).toBe(true)
+    expect(company.scenarios).toHaveLength(3)
+    expect(findCompany('cn', company.code)?.headline).toBe(company.headline)
+  }
+  for (const code of ['688326', '002036', '688048', '688052', '688126']) {
+    expect(rows.find(c => c.code === code)?.scenarios?.every(s => s.price.includes('[MISSING]'))).toBe(true)
+  }
+  expect(rows.find(c => c.code === '603501')?.name).toBe('豪威集团')
+  expect(rows.find(c => c.code === '688779')?.name).toBe('五矿新能')
 })
 
 it('沪深研究池提供汇总报告入口', async () => {
@@ -187,8 +245,8 @@ it('沪深研究池提供汇总报告入口', async () => {
 
 it('沪深复核详情不会从历史指标重建被撤回的三情景', async () => {
   renderAt('/research-notes/cn/605499')
-  await waitFor(() => expect(screen.getByText(/待补充三情景估值表/)).toBeTruthy())
-  expect(screen.getByRole('link', { name: '查看本轮完整报告与一手来源' }).getAttribute('href')).toContain('cn-roundtable')
+  await waitFor(() => expect(screen.getAllByText(/饮料类假设/).length).toBeGreaterThan(0))
+  expect(screen.getByRole('link', { name: '查看本轮完整报告与一手来源' }).getAttribute('href')).toContain('cn-itucd-2026-10-07')
 })
 
 describe('额外综合分类视图', () => {

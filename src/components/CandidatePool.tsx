@@ -5,7 +5,7 @@ import type { SyncState } from '../features/candidates/useCandidates'
 import { MAX_NOTE } from '../features/candidates/validation'
 import type { CandidateItem } from '../features/candidates/validation'
 
-const MARKET_LABEL: Record<string, string> = { us: '标普500', cn: '沪深500', hk: '港股', adr: '美股非标普' }
+const MARKET_LABEL: Record<string, string> = { us: '标普500', cn: '沪深500', hk: '港股', adr: '美股非标普', ndx: '纳指100' }
 const cell: React.CSSProperties = { padding: '10px 12px', textAlign: 'left', verticalAlign: 'top', borderBottom: '1px solid var(--border-primary)' }
 const btn: React.CSSProperties = { fontFamily: 'inherit', fontSize: '12px', padding: '4px 10px', border: '1px solid var(--border-primary)', borderRadius: '8px', background: 'var(--bg-card)', color: 'var(--text-secondary)', cursor: 'pointer' }
 

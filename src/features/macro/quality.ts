@@ -1,5 +1,6 @@
 import type { MacroSnapshot, SeriesData } from './indicators'
 import type { CnKey } from './china'
+import type { HkKey } from './hk'
 
 // 数据体检：判断每项读数能不能拿来下结论。规则写死，不依赖模型。
 export type Quality = 'ok' | 'stale' | 'invalid' | 'missing'
@@ -25,6 +26,20 @@ const US: Record<string, Rule> = {
   vix: { maxAge: 7, range: [5, 90] },
   dd: { maxAge: 7, range: [0, 90] },
   kre: { maxAge: 14, range: [0, 52] },
+  // FINRA 次月中旬公布上月数据
+  marginGdp: { maxAge: 80, range: [0, 15] },
+  cashDebt: { maxAge: 80, range: [0, 500] },
+  // 美联储资金流量表季度公布，滞后约三个月
+  equityShare: { maxAge: 220, range: [10, 80] },
+  buffett: { maxAge: 220, range: [20, 600] },
+  debtService: { maxAge: 220, range: [5, 20] },
+  ccDelinq: { maxAge: 220, range: [0, 15] },
+  tenYear: { maxAge: 7, range: [0, 20] },
+  saving: { maxAge: 70, range: [-5, 40] },
+  dxy: { maxAge: 7, range: [60, 160] },
+  gold: { maxAge: 7, range: [300, 30000] },
+  silver: { maxAge: 7, range: [3, 500] },
+  wti: { maxAge: 7, range: [10, 250] },
 }
 const CN: Record<CnKey, Rule> = {
   gdp: { maxAge: 220, range: [-10, 20] },
@@ -35,6 +50,16 @@ const CN: Record<CnKey, Rule> = {
   ip: { maxAge: 80, range: [-30, 40] },
   m1m2: { maxAge: 80, range: [-30, 30] },
   lpr: { maxAge: 45, range: [1, 10] },
+  marginGdp: { maxAge: 10, range: [0, 8] },
+  marginMcap: { maxAge: 10, range: [0, 10] },
+}
+
+const HK: Record<HkKey, Rule> = {
+  hsiDd: { maxAge: 14, range: [0, 90] },
+  hsi12m: { maxAge: 14, range: [-80, 200] },
+  hkd: { maxAge: 10, range: [7.6, 8] },
+  fed: { maxAge: 95, range: [0, 12] },
+  south: { maxAge: 10, range: [-3000, 3000] },
 }
 
 export interface QualityResult {
@@ -82,3 +107,8 @@ export function checkQuality(us: MacroSnapshot, cn: MacroSnapshot<CnKey> | null,
 }
 
 export const QUALITY_LABEL: Record<Quality, string> = { ok: '正常', stale: '过期', invalid: '异常', missing: '缺失' }
+
+/** 港股数据体检：单独成表，不计入总览的体检计数（港股不参与阶段打分） */
+export function checkHkQuality(hk: MacroSnapshot<HkKey>, today = new Date()): Record<string, QualityResult> {
+  return Object.fromEntries((Object.keys(HK) as HkKey[]).map(k => [k, checkSeries(k, hk.series[k], HK[k], today)]))
+}

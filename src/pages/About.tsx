@@ -67,7 +67,7 @@ export default function About(): JSX.Element {
         </p>
         <h3 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', margin: '0 0 8px' }}>三个栏目</h3>
         <ul style={{ color: 'var(--text-secondary)', lineHeight: 1.8, paddingLeft: 20, margin: '0 0 20px' }}>
-          <li><Link to="/invest" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>正念投资</Link>：书稿全文与 PDF、方法与框架、估值与网格工具、公司与产业研究</li>
+          <li><Link to="/invest" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>投资</Link>：书稿全文与 PDF、方法与框架、估值与网格工具、公司与产业研究</li>
           <li><Link to="/ai" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>AI实验室</Link>：用技术放大创造力，第一个作品从《正念投资》长出来</li>
           <li><Link to="/life" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>自由空间</Link>：记录从积累本金到自由生活的过程</li>
         </ul>

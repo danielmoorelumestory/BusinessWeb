@@ -86,8 +86,10 @@ export async function readCloud(token: string, fetchImpl: FetchLike = fetch, end
   if (!res.ok) throw await parseError(res)
   let body: unknown
   try { body = await res.json() } catch { throw { kind: 'unavailable', message: '云端接口不可用（未部署，或本地开发环境没有后端），数据暂存本机' } satisfies CloudError }
-  const revision = Number(/^"(\d+)"$/.exec(res.headers.get('ETag') ?? '')?.[1])
-  if (!validCandidatesPayload(body) || !Number.isSafeInteger(revision)) throw { kind: 'unavailable', message: '云端数据无效' } satisfies CloudError
+  // CDN 压缩响应时会把强 ETag 改成弱 ETag（W/"3"），所以优先读不会被改写的 X-Revision，ETag 兼容弱校验写法
+  const revision = Number(/^(?:W\/)?"?(\d+)"?$/.exec(res.headers.get('X-Revision') ?? res.headers.get('ETag') ?? '')?.[1])
+  if (!Number.isSafeInteger(revision)) throw { kind: 'unavailable', message: '云端响应缺少版本号，请稍后重试' } satisfies CloudError
+  if (!validCandidatesPayload(body)) throw { kind: 'unavailable', message: '云端数据无效（结构校验失败，可能含重复或不合规条目）' } satisfies CloudError
   return { items: body.items, revision }
 }
 

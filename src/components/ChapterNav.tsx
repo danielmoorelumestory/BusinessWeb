@@ -22,7 +22,7 @@ interface ChapterNavProps {
   topLinks?: NavChapter[]
 }
 
-const chapterHref = (file: string): string => `/first-book/${encodeURIComponent(file)}`
+const chapterHref = (file: string): string => `/first-book/read/${encodeURIComponent(file)}`
 
 function safeDecode(s: string): string {
   try {

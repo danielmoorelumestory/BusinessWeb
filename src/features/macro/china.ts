@@ -2,12 +2,13 @@ import type { Indicator, ModuleId } from './indicators'
 
 // 中国宏观：国家统计局 / 中国人民银行公布的数据，经东方财富数据中心拉取（scripts/macro-snapshot.mjs）。
 // 阈值是经验范围，用来判断“内需和价格是否在修复”，不用于择时。
-export type CnKey = 'gdp' | 'pmi' | 'nmpmi' | 'cpi' | 'ppi' | 'ip' | 'm1m2' | 'lpr'
+export type CnKey = 'gdp' | 'pmi' | 'nmpmi' | 'cpi' | 'ppi' | 'ip' | 'm1m2' | 'lpr' | 'marginGdp' | 'marginMcap'
 
 export const CN_MODULES: { id: ModuleId; name: string; question: string }[] = [
   { id: 'cn-growth', name: '增长与景气', question: '经济在扩张还是收缩？' },
   { id: 'cn-price', name: '价格', question: '是通胀还是通缩压力？' },
   { id: 'cn-money', name: '货币与信用', question: '钱有没有流进实体经济？' },
+  { id: 'cn-leverage', name: '杠杆与资金', question: 'A 股里的杠杆有多重？' },
 ]
 
 export const CN_INDICATORS: Indicator<CnKey>[] = [
@@ -27,4 +28,8 @@ export const CN_INDICATORS: Indicator<CnKey>[] = [
     why: 'M1 是企业活期存款，M2 包括定期存款。差值越负，说明钱趴在账上不愿花，企业投资与居民消费意愿弱。', limit: '2025 年起 M1 统计口径调整（纳入个人活期等），前后不完全可比。' },
   { key: 'lpr', name: '1 年期 LPR', module: 'cn-money', digits: 2, freq: '每月 20 日',
     why: '贷款定价基准，反映货币政策方向。', limit: '背景指标，不打分：降息本身既可能是利好，也说明经济需要刺激。' },
+  { key: 'marginGdp', name: '融资余额 ÷ GDP', module: 'cn-leverage', crowded: 'high', digits: 2, freq: '每日',
+    why: '两市融资余额（券商借给投资者的钱）占经济总量的比例。2015 年 6 月曾冲到 2% 以上，随后爆发去杠杆式下跌。', limit: '分母是滚动一年 GDP，每季度才更新；融资余额只含两融，不含场外配资和收益互换。' },
+  { key: 'marginMcap', name: '融资余额 ÷ 流通市值', module: 'cn-leverage', crowded: 'high', digits: 2, freq: '每日',
+    why: '换成市值口径看杠杆：行情越热这个比例越容易走高，和上一项对照可以区分“钱借多了”还是“市值涨多了”。', limit: '市值大涨时分母变大会压低比例，高位不一定意味着安全。' },
 ]

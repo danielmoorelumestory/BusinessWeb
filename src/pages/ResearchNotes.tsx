@@ -40,6 +40,7 @@ import { useCandidates } from '../features/candidates/useCandidates'
 import { CN_REPORT } from '../data/cnReassessment'
 import ResearchNotice from '../components/research/ResearchNotice'
 import { SP500_REPORT, sp500Reassessment } from '../data/sp500Reassessment'
+import { NDX_CODES } from '../data/ndx100'
 
 type TabId = 'companies' | 'pool' | 'watch' | 'method' | 'notes' | 'dev'
 
@@ -54,7 +55,9 @@ const tabs: { id: TabId; label: string; icon: React.ElementType }[] = [
   { id: 'watch', label: '历史价位（存档）', icon: Crosshair },
 ]
 
-const markets: [Market, string][] = [['us', '标普500'], ['adr', '美股非标普'], ['hk', '港股'], ['cn', '沪深']]
+const markets: [Market, string][] = [['us', '标普500'], ['ndx', '纳指100'], ['adr', '美股非标普'], ['hk', '港股'], ['cn', '沪深']]
+
+const marketLabel = (m: Market): string => (m === 'us' ? '标普500' : m === 'hk' ? '港股' : m === 'adr' ? '美股非标普' : m === 'ndx' ? '纳指100' : '沪深')
 
 // 旧链接（?tab=category&m=watch 等）映射到新页签，收藏和公司页的返回链接继续可用
 function resolveTab(tab: string | null, m: string | null): TabId {
@@ -79,7 +82,7 @@ export default function ResearchNotes(): JSX.Element {
   const tabParam = params.get('tab')
   const mParam = params.get('m')
   const activeTab = resolveTab(tabParam, mParam)
-  const catMarket: Market = mParam === 'cn' || mParam === 'hk' || mParam === 'adr' ? mParam : 'us'
+  const catMarket: Market = mParam === 'cn' || mParam === 'hk' || mParam === 'adr' || mParam === 'ndx' ? mParam : 'us'
   const notesView = params.get('n') === 'v6' || tabParam === 'strategy' ? 'v6' : 'framework'
   const vParam = params.get('v')
   const view = vParam === 'combined' ? 'combined' : vParam === 'overview' ? 'overview' : vParam === 'lynch' ? 'lynch' : 'list'
@@ -89,6 +92,7 @@ export default function ResearchNotes(): JSX.Element {
   const { list: cnList, loading: cnLoading } = useCompanies('cn', inCategory)
   const { list: hkList, loading: hkLoading } = useCompanies('hk', inCategory)
   const { list: adrList, loading: adrLoading } = useCompanies('adr', inCategory)
+  const { list: ndxNewList, loading: ndxNewLoading } = useCompanies('ndx', inCategory)
   const lynch = useLynch(inCategory)
   const cand = useCandidates(inCategory)
   const isCand = (c: Company): boolean => cand.items.some(i => i.market === c.market && i.code === c.code)
@@ -230,8 +234,15 @@ export default function ResearchNotes(): JSX.Element {
   )
 
   const usSectors = sectorsOf(usList)
-  const progList = catMarket === 'cn' ? cnList : catMarket === 'hk' ? hkList : catMarket === 'adr' ? adrList : usList
-  const combinedLoading = catMarket === 'cn' ? cnLoading : catMarket === 'hk' ? hkLoading : catMarket === 'adr' ? adrLoading : usLoading
+  // 纳指100 页签：100 个成分条目 = 引用「标普500 / 美股非标普」已有研究页 + 本页新增 10 家（market 为 ndx）
+  const ndxByCode = new Map<string, Company>()
+  for (const c of [...usList, ...adrList, ...ndxNewList]) if (!ndxByCode.has(c.code)) ndxByCode.set(c.code, c)
+  // 本轮新增的 10 家排在最前（便于复核），其余按成分名单顺序
+  const ndxAll = NDX_CODES.map(code => ndxByCode.get(code)).filter((c): c is Company => !!c)
+  const ndxList = [...ndxAll.filter(c => c.market === 'ndx'), ...ndxAll.filter(c => c.market !== 'ndx')]
+  const ndxLoading = usLoading || adrLoading || ndxNewLoading
+  const progList = catMarket === 'cn' ? cnList : catMarket === 'hk' ? hkList : catMarket === 'adr' ? adrList : catMarket === 'ndx' ? ndxList : usList
+  const combinedLoading = catMarket === 'cn' ? cnLoading : catMarket === 'hk' ? hkLoading : catMarket === 'adr' ? adrLoading : catMarket === 'ndx' ? ndxLoading : usLoading
   const progSectors = sectorsOf(progList)
   const secList = progSector === '全部' ? progList : progList.filter(c => c.sector === progSector)
   // 各来源评级用语不一（Notion 手写：逢低增持/买入/首选/核心配置…），统一归到四档；未识别的一律「观察」
@@ -244,12 +255,18 @@ export default function ResearchNotes(): JSX.Element {
     return '观察'
   }
   const hkNote = '港股范围 = 恒生指数成分股（取自维基百科 2026-01 名单）∪ 恒生科技与主要 H 股龙头补充，共 127 家，全部已覆盖（领展、药明生物、药明康德因东方财富接口失败，改用第三方 stockanalysis.com 数据，需核实）。这不是官方指数口径，是「港股大盘蓝筹」的研究池。数据来自东方财富：PE/PB/股息率直接取其已换算值（港股报告币种常与交易币种不同，不能自行用 EPS 除股价）；增速按财年窗口计算，并附最新中期利润同比。127 家港股均已按股票分析专家标准做成手工研究页：用 aktools（东方财富）取财务与估值，联网搜索公司 2026 中期业绩核对，给出三情景、买入区与评级；其中赣锋锂业、中国铝业、中国铁建、中国交建、中国建材、信义玻璃、信义光能 7 家因搜索额度用尽，只有东方财富口径的 H1 同比加第三方（stockanalysis.com）的年度/TTM 数据，分部、产量等标 [MISSING]；海螺水泥仅有东方财富口径，结论信息不全；比亚迪电子等数页缺 H1 公告数据；电能实业、长江基建 PE 含出售 UKPN 一次性收益，页内改用估算的经常性 EPS。多数公司盈亏比低于 1:1，评级以观察为主，反映价格已含较高预期而非数据缺失。'
-  const adrNote = '美股非标普：在美国交易所可买卖、但不在标普500 内的知名公司（ADR 或直接上市），按三组归类——海外龙头、中概、新兴市场平台（含近期上市的 SK 海力士 ADR〔SKHY〕、SpaceX〔SPCX〕）；特别小的公司不收，共 66 家（必和必拓、力拓、联合利华、帝亚吉欧、英美烟草、百济神州〔现 ONC〕因东方财富财务接口缺失，改用第三方 stockanalysis.com 数据补充，需核实）。名单是我按知名度与市值挑的研究池，不是官方指数口径。全部 66 家均已按股票分析专家标准做成手工研究页：用 aktools 取财务数据、联网搜索公司最新财报核对每 ADS 盈利，再折成每 ADS 美元 EPS（汇率取欧洲央行 2026-09-29 参考汇率，经搜索摘要转述，需核实），给出三情景、买入区与评级。需要注意：多数公司的每 ADS EPS 含我的估计或归一化（各页「口径与陷阱」里逐项写明），盈亏比多数低于 1:1，所以评级几乎全部是观察或回避——这反映的是当前价格已含较高预期，不是数据缺失。'
+  const adrNote = '美股非标普研究池共66家，按四个分类覆盖：海外龙头30家、中概21家、新兴市场平台13家、新上市/热门2家；名单是自选研究池，不是官方指数。2026-10-07已逐家核读公司或监管财务原件，更新常规交易价快照、证券单位、财报期、一次性损益、旧结论修正与风险证伪。采用单模型多视角复核，15个批次每批3–5家。汇丰与道明银行有静态BV/ROE敏感性草案，全部66家均未完成两种独立估值认证；旧买入区、赔率及未经核实的美元EPS折算不作为当前结论。每家公司可打开本轮完整报告；缺证据标[MISSING]，不把缺证直接解释成经营恶化。'
+  const ndxNote = (): string => {
+    const sp = ndxList.filter(c => c.market === 'us').length
+    const ad = ndxList.filter(c => c.market === 'adr').length
+    const nw = ndxList.filter(c => c.market === 'ndx').length
+    return `纳指100 页签按成分股名单列出 ${ndxList.length} 个条目（GOOGL 与 GOOG 为同一公司两类股）：其中 ${sp} 个与标普500 重合、${ad} 个属于「美股非标普」，这些直接引用已有研究页，不重复分析，行内标签标明来源；另有 ${nw} 家（ALNY、ALAB、CCEP、CRWV、FER、HONA、MSTR、NBIS、RKLB、TRI）此前不在站内任何名单中，本轮按股票分析标准逐家新做了完整研究页（市场标记为 ndx，不计入标普500 列表）。成分名单取自维基百科 2026-08 更新版，未与纳斯达克官方名单逐项核对；新增 10 家价格为 2026-10-06 美股收盘，财务来自 aktools 与公司 2026Q2（或 H1）公告摘要，二手摘要均需核实原文。10 家新增公司的盈亏比均低于 1:1（均不满足 2:1 门槛），评级为观察或回避；估值为研究假设，不是目标价，不构成投资建议。`
+  }
   const shownCompanies = secList.filter(c => (ratingF === '全部' || ratingOf(c) === ratingF) && (!q.trim() || (c.name + c.code).toLowerCase().includes(q.trim().toLowerCase())))
 
   // 导出：公司、代码、评级、结论（当前筛选 / 全部）
   const exportJson = (list: typeof progList, label: string): void => {
-    const rows = list.map(c => ({ 市场: c.market === 'us' ? '标普500' : c.market === 'hk' ? '港股' : c.market === 'adr' ? '美股非标普' : '沪深', 代码: c.code, 公司: c.name, 板块: c.sector, 评级: c.rating, 归类: ratingOf(c), 结论: c.headline }))
+    const rows = list.map(c => ({ 市场: marketLabel(c.market), 代码: c.code, 公司: c.name, 板块: c.sector, 评级: c.rating, 归类: ratingOf(c), 结论: c.headline }))
     const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' })
     const a = document.createElement('a')
     a.href = URL.createObjectURL(blob)
@@ -278,7 +295,7 @@ export default function ResearchNotes(): JSX.Element {
       return mb - ma
     })
   const exportLynch = (): void => {
-    const rows = lynchShown.map(c => { const l = lynchOf(c) as LynchInfo; return { 市场: c.market === 'us' ? '标普500' : c.market === 'hk' ? '港股' : c.market === 'adr' ? '美股非标普' : '沪深', 代码: c.code, 公司: c.name, 板块: c.sector, 林奇类型: l.t, 同类关注度: l.r, 护城河: l.m ? `${l.m.l}（${l.m.s}/${l.m.n}）` : '—', 结论: [l.v, ...l.w].filter(Boolean).join('；'), 站内评级: c.rating } })
+    const rows = lynchShown.map(c => { const l = lynchOf(c) as LynchInfo; return { 市场: marketLabel(c.market), 代码: c.code, 公司: c.name, 板块: c.sector, 林奇类型: l.t, 同类关注度: l.r, 护城河: l.m ? `${l.m.l}（${l.m.s}/${l.m.n}）` : '—', 结论: [l.v, ...l.w].filter(Boolean).join('；'), 站内评级: c.rating } })
     const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' })
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob)
     a.download = `${catMarket}-林奇-${lType}-${lTier}-${lMoat}-${new Date().toISOString().slice(0, 10)}.json`; a.click()
@@ -374,7 +391,7 @@ export default function ResearchNotes(): JSX.Element {
         <Table
           heads={['公司', '评级', '一句话结论', '候选']}
           rows={shownCompanies.slice(0, limit).map(c => [
-            <span>{companyLink(c.market, c.code, `${c.name} ${c.code}`)}{c.auto ? <span style={{ ...badge('gray'), marginLeft: '6px', marginBottom: 0, fontSize: '10px' }}>程序化</span> : null}</span>,
+            <span>{companyLink(c.market, c.code, `${c.name} ${c.code}`)}{c.auto ? <span style={{ ...badge('gray'), marginLeft: '6px', marginBottom: 0, fontSize: '10px' }}>程序化</span> : null}{catMarket === 'ndx' ? <span style={{ ...badge(c.market === 'ndx' ? 'blue' : 'gray'), marginLeft: '6px', marginBottom: 0, fontSize: '10px' }}>{c.market === 'ndx' ? '纳指新增' : c.market === 'us' ? '同属标普500' : '美股非标普'}</span> : null}</span>,
             <span style={badge(toneOf(c.rating))}>{c.rating.length > 12 ? c.rating.slice(0, 12) + '…' : c.rating}</span>,
             <span style={{ display: 'block', minWidth: '220px' }}>{c.headline}</span>,
             <CandidateButton on={isCand(c)} onClick={() => toggleCand(c)} />,
@@ -387,14 +404,14 @@ export default function ResearchNotes(): JSX.Element {
           </div>
         )}
         <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', margin: '12px 0 0' }}>
-          点击公司名称进入该公司的分析页；标有「程序化」的公司页由脚本按统一规则生成。{(usLoading || cnLoading || hkLoading || adrLoading) ? ' 正在加载补全公司…' : ''}
+          点击公司名称进入该公司的分析页；标有「程序化」的公司页由脚本按统一规则生成。{(usLoading || cnLoading || hkLoading || adrLoading || ndxNewLoading) ? ' 正在加载补全公司…' : ''}
         </p>
       </div>
     </>
   )
 
   const companyLink = (market: Market, code: string, label: string): React.ReactNode => {
-    const exists = (market === 'us' ? usList : market === 'cn' ? cnList : market === 'adr' ? adrList : hkList).some(c => c.code === code)
+    const exists = (market === 'us' ? usList : market === 'cn' ? cnList : market === 'adr' ? adrList : market === 'ndx' ? ndxNewList : hkList).some(c => c.code === code)
     return exists
       ? <Link to={`/research-notes/${market}/${encodeURIComponent(code)}`} onClick={() => { try { sessionStorage.setItem('rn-scroll', String(window.scrollY)) } catch { /* ignore */ } }} style={{ color: 'var(--system-blue)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
       : label
@@ -604,9 +621,9 @@ export default function ResearchNotes(): JSX.Element {
             </div>
 
             <div style={card}>
-              <h3 style={cardTitle}>三个研究 skill 的分工</h3>
+              <h3 style={cardTitle}>统一股票分析 Skill 与交易分析的分工</h3>
               <Table heads={['skill', '什么时候用', '特点']} rows={researchStandard.skills.map(k => [<span><strong style={{ color: 'var(--text-primary)' }}>{k[0]}</strong><br /><code style={{ fontSize: '11px' }}>{k[1]}</code></span>, k[2], k[3]])} />
-              <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', margin: '12px 0 0', lineHeight: 1.6 }}>注意：专家团圆桌不给买卖指令；另外两个会给方向性结论，口径不要混用。</p>
+              <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', margin: '12px 0 0', lineHeight: 1.6 }}>股票分析已融合本页研究方法、股票研究专家、腾讯自选股投研专家团与 Public Markets Investing，位于「AI 工具」第一项。从商业模式和核心假设连接盈利预测与估值，综合评级与专家立场分别展示，所有价位均为条件化研究区间。</p>
             </div>
 
             <div style={card}>
@@ -699,7 +716,7 @@ export default function ResearchNotes(): JSX.Element {
         {activeTab === 'pool' && (
           <div>
             {hint('在公司库里点「候选」加入，这里排序、写备注，准备进一步研究。')}
-            <CandidatePool items={cand.items} companies={[...usList, ...cnList, ...hkList, ...adrList]} state={cand.state} message={cand.message}
+            <CandidatePool items={cand.items} companies={[...usList, ...cnList, ...hkList, ...adrList, ...ndxNewList]} state={cand.state} message={cand.message}
               onMove={cand.move} onRemove={i => cand.toggle(i.market, i.code)} onNote={(i, t) => cand.setNote(i.market, i.code, t)} onClear={cand.clear} onConnect={cand.connect} onRetry={cand.retry} />
           </div>
         )}
@@ -796,7 +813,11 @@ export default function ResearchNotes(): JSX.Element {
             )}
 
             {catMarket === 'cn' && <details style={{ ...card, padding: '14px 18px' }}>
-              <summary style={reviewSummary}>最近复核 · 2026-09-30 专家团圆桌（点开查看）</summary>
+              <summary style={reviewSummary}>最近复核 · 2026-10-07 公司研究（点开查看）</summary>
+              <h3 style={{ ...cardTitle, marginTop: '14px' }}>金融82 · 房地产9 · 工业179</h3>
+              <p style={{ lineHeight: 1.8, fontSize: '13px' }}>本轮更新270家公司研究初稿，按55批整理，附财报来源、财务口径、旧结论修订和公司专属验证项。29家银行有普通股PB敏感性草案；其余241家价格待补证据，全部估值尚未完成独立双方法认证。财务为2026H1，行情锚点为9月30日最后报价。</p>
+              <a href={`${import.meta.env.BASE_URL}research/cn-finance-property-industrial-2026-10-07/index.md`} target="_blank" rel="noreferrer">金融、房地产、工业复核总览</a> · <a href={`${import.meta.env.BASE_URL}research/cn-finance-property-industrial-2026-10-07/summary.csv`} download>270家公司复核汇总</a>
+              <p style={{ lineHeight: 1.8, fontSize: '13px' }}>此前批次：<a href={`${import.meta.env.BASE_URL}research/cn-four-sectors-2026-10-07/index.md`} target="_blank" rel="noreferrer">机器人链、工程机械、新能源汽车、AI算力</a> · <a href={`${import.meta.env.BASE_URL}research/cn-sectors-2026-10-07/index.md`} target="_blank" rel="noreferrer">自动驾驶、新材料</a></p>
               <h3 style={{ ...cardTitle, marginTop: '14px' }}>沪深研究池 · 2026-09-30 圆桌复核</h3>
               <p style={{ lineHeight: 1.8, fontSize: '13px' }}>范围为832条研究记录（806程序化、26人工），包含沪深300、中证500及额外产业链公司；不是官方500只成分股。全池完成旧模型算术与字段审计，重点复核28家，未逐家完成一手深研。</p>
               <p style={{ lineHeight: 1.8, fontSize: '13px' }}>旧数值超过2的26家均不再作为已认证机会。东鹏保留经营正面跟踪、平安和世纪华通保留研究优先级，估值均待重建；荣昌、三生撤回授权收入的持续EPS外推；工业富联实际1.993未达2；伯特利旧基准赔率约0.83，撤回增持认证。</p>
@@ -889,6 +910,21 @@ export default function ResearchNotes(): JSX.Element {
                   <div style={card}>
                     <h3 style={cardTitle}>美股非标普 · 覆盖说明</h3>
                     <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.8 }}>{adrNote}</p>
+                    <a href={`${import.meta.env.BASE_URL}research/adr-2026-10-07/index.html`} target="_blank" rel="noreferrer" style={{ fontSize: '13px' }}>查看四个分类、66家公司完整报告与一手来源</a>
+                  </div>
+                )}
+              </div>
+            )}
+            {catMarket === 'ndx' && (
+              <div>
+                {viewSwitch()}
+                {view === 'list' && renderProgress()}
+                {view === 'lynch' && renderLynch()}
+                {view === 'combined' && <CompanyCombined key={catMarket} companies={progList} lynch={lynch} ratingOf={ratingOf} loading={combinedLoading} isCandidate={isCand} onToggleCandidate={toggleCand} />}
+                {view === 'overview' && (
+                  <div style={card}>
+                    <h3 style={cardTitle}>纳指100 · 覆盖说明</h3>
+                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.8 }}>{ndxNote()}</p>
                   </div>
                 )}
               </div>

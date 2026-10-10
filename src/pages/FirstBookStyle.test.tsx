@@ -14,9 +14,9 @@ describe('书稿阅读页样式钩子', () => {
   it('章节正文使用 book-reader，翻页区使用 book-pager', async () => {
     vi.stubGlobal('fetch', (async () => ({ ok: true, text: async () => '# 标题\n\n正文一段。' })) as unknown as typeof fetch)
     const { container } = render(
-      <MemoryRouter initialEntries={[`/first-book/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
+      <MemoryRouter initialEntries={[`/first-book/read/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
         <Routes>
-          <Route path="/first-book/:file" element={<FirstBook />} />
+          <Route path="/first-book/read/:file" element={<FirstBook />} />
         </Routes>
       </MemoryRouter>
     )
@@ -28,9 +28,9 @@ describe('书稿阅读页样式钩子', () => {
   it('阅读页左侧有章节目录，当前章高亮，且数据来自书稿章节清单', async () => {
     vi.stubGlobal('fetch', (async () => ({ ok: true, text: async () => '# 标题\n\n正文一段。' })) as unknown as typeof fetch)
     render(
-      <MemoryRouter initialEntries={[`/first-book/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
+      <MemoryRouter initialEntries={[`/first-book/read/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
         <Routes>
-          <Route path="/first-book/:file" element={<FirstBook />} />
+          <Route path="/first-book/read/:file" element={<FirstBook />} />
         </Routes>
       </MemoryRouter>
     )
@@ -45,9 +45,9 @@ describe('书稿阅读页样式钩子', () => {
   it('目录与正文放在同一个两栏布局容器里', async () => {
     vi.stubGlobal('fetch', (async () => ({ ok: true, text: async () => '正文' })) as unknown as typeof fetch)
     const { container } = render(
-      <MemoryRouter initialEntries={[`/first-book/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
+      <MemoryRouter initialEntries={[`/first-book/read/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
         <Routes>
-          <Route path="/first-book/:file" element={<FirstBook />} />
+          <Route path="/first-book/read/:file" element={<FirstBook />} />
         </Routes>
       </MemoryRouter>
     )
@@ -63,9 +63,9 @@ describe('书稿阅读页样式钩子', () => {
     vi.stubGlobal('fetch', (async () => ({ ok: true, text: async () => '正文' })) as unknown as typeof fetch)
     render(
       <React.StrictMode>
-        <MemoryRouter initialEntries={[`/first-book/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
+        <MemoryRouter initialEntries={[`/first-book/read/${encodeURIComponent('开篇-美好的愿望.md')}`]}>
           <Routes>
-            <Route path="/first-book/:file" element={<FirstBook />} />
+            <Route path="/first-book/read/:file" element={<FirstBook />} />
           </Routes>
         </MemoryRouter>
       </React.StrictMode>

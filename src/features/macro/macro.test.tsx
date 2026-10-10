@@ -65,10 +65,10 @@ describe('宏观温度页面', () => {
 
   it('美国、中国宏观每项指标都有走势图和数据日期', async () => {
     renderAt('/monitor?tab=us')
-    expect((await screen.findAllByRole('img', { name: /近两年走势/ })).length).toBe(INDICATORS.length)
+    expect((await screen.findAllByRole('img', { name: /走势/ })).length).toBe(INDICATORS.length)
     cleanup()
     renderAt('/monitor?tab=cn')
-    expect((await screen.findAllByRole('img', { name: /近两年走势/ })).length).toBe(CN_INDICATORS.length)
+    expect((await screen.findAllByRole('img', { name: /走势/ })).length).toBe(CN_INDICATORS.length)
     expect(screen.getByText(/中国数据更新于/)).toBeTruthy()
   })
 
@@ -77,11 +77,11 @@ describe('宏观温度页面', () => {
     const fetcher = vi.fn(async (url: string) => ({ ok: true, json: async () => (String(url).includes('/api/macro') ? { us: fresh, cn: { ...cnSnapshot, series: {} }, warnings: ['gdp：超时'] } : String(url).includes('macro-cn') ? cnSnapshot : snapshot) }) as Response)
     vi.stubGlobal('fetch', fetcher)
     renderAt('/monitor?tab=us')
-    await screen.findAllByRole('img', { name: /近两年走势/ })
+    await screen.findAllByRole('img', { name: /走势/ })
     fireEvent.click(screen.getByRole('button', { name: '刷新最新数据' }))
     expect(await screen.findByText(/已刷新：实时数据拉取于/)).toBeTruthy()
     expect(screen.getByText('33.3')).toBeTruthy()
-    expect(screen.getAllByRole('img', { name: /近两年走势/ }).length).toBe(INDICATORS.length)
+    expect(screen.getAllByRole('img', { name: /走势/ }).length).toBe(INDICATORS.length)
     expect(screen.getByText(/1 项没拉到，沿用快照/)).toBeTruthy()
   })
 

@@ -36,7 +36,7 @@ describe('ChapterNav', () => {
     renderNav()
     const cur = screen.getByRole('link', { name: /先分清钱的用途/ })
     expect(cur.getAttribute('aria-current')).toBe('page')
-    expect(cur.getAttribute('href')).toBe('/first-book/' + encodeURIComponent('第7章-钱的用途.md'))
+    expect(cur.getAttribute('href')).toBe('/first-book/read/' + encodeURIComponent('第7章-钱的用途.md'))
   })
 
   it('其他部默认折叠：章节链接不在页面里，点标题后出现', () => {
@@ -44,7 +44,7 @@ describe('ChapterNav', () => {
     expect(screen.queryByRole('link', { name: /短线/ })).toBeNull()
     fireEvent.click(screen.getByRole('button', { name: /第三部分 取舍/ }))
     const link = screen.getByRole('link', { name: /短线/ })
-    expect(link.getAttribute('href')).toBe('/first-book/' + encodeURIComponent('第12章 短线.md'))
+    expect(link.getAttribute('href')).toBe('/first-book/read/' + encodeURIComponent('第12章 短线.md'))
   })
 
   it('再点一次标题可收起，aria-expanded 同步', () => {

@@ -312,7 +312,7 @@ export const cnReassessment = [
 ]
 
 export function applyCnReassessment(company: Company): Company {
-  if (company.market !== 'cn' || company.metrics.some(([key]) => key === '圆桌复核日期')) return company
+  if (company.market !== 'cn' || company.metrics.some(([key]) => key === '圆桌复核日期') || company.researchReport?.includes('cn-itucd-2026-10-07')) return company // 后者：2026-10-07 逐家复核页已取代 09-30 圆桌结论
   const row = cnReassessment.find(r => r.code === company.code)
   if (!row) return company
   return {

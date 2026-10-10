@@ -2,10 +2,15 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, ExternalLink, CheckCircle2, AlertTriangle, ArrowRight } from 'lucide-react'
 import { useCompanies, useLynch, Market } from '../data/companies'
+import { usePageSeo } from '../components/RouteSeo'
 import ResearchNotice from '../components/research/ResearchNotice'
 import { toneOf, Tone } from '../data/notionNotes'
 import { CN_REPORT } from '../data/cnReassessment'
 import { SP500_REPORT } from '../data/sp500Reassessment'
+import CandidateButton from '../components/CandidateButton'
+import { useCandidates } from '../features/candidates/useCandidates'
+import { priceAnchorAge } from '../features/dcf/priceAnchor'
+import { buildDcfLink } from '../features/dcf'
 
 const toneColors: Record<Tone, { bg: string; color: string }> = {
   green: { bg: 'color-mix(in srgb, var(--system-green) 12%, transparent)', color: 'var(--system-green)' },
@@ -18,10 +23,12 @@ const toneColors: Record<Tone, { bg: string; color: string }> = {
 export default function CompanyDetail(): JSX.Element {
   const { market, code } = useParams()
   const navigate = useNavigate()
-  const mk = (market === 'cn' ? 'cn' : market === 'hk' ? 'hk' : market === 'adr' ? 'adr' : 'us') as Market
+  const mk = (market === 'cn' ? 'cn' : market === 'hk' ? 'hk' : market === 'adr' ? 'adr' : market === 'ndx' ? 'ndx' : 'us') as Market
   const { list, loading } = useCompanies(mk)
   const lynchAll = useLynch()
   const company = list.find(c => c.code === decodeURIComponent(code || ''))
+  const cand = useCandidates(true)
+  usePageSeo(company ? `${company.name}（${company.code}）研究笔记` : undefined, company ? `${company.name}（${company.code}）：${company.headline}`.slice(0, 160) : undefined)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -88,6 +95,7 @@ export default function CompanyDetail(): JSX.Element {
   const metric = (re: RegExp): string | undefined => activeMetrics.find(([l]) => re.test(l))?.[1]
   const priceText = metric(/价格锚点|收盘价|现价|9\/18 收盘/)
   const price = priceText ? nums(priceText)[0] : undefined
+  const priceAge = priceAnchorAge(priceText)
   const scenText = metric(/Bear \/ Base \/ Bull/)
   const scenNums = scenText && !/市值/.test(scenText) ? nums(scenText) : []
   const scenRows: [string, string, string, string][] | null = scenNums.length === 3
@@ -140,29 +148,39 @@ export default function CompanyDetail(): JSX.Element {
       <div className="page-hero">
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           {back}
-          <Link to={`/valuation?market=${mk === 'adr' ? 'us' : mk}&code=${encodeURIComponent(company.code)}`} style={{display:'inline-block',marginLeft:'18px',color:'var(--accent)',fontSize:'13px'}}>建立估值模型 →</Link>
+          <Link to={`/valuation?market=${mk === 'adr' || mk === 'ndx' ? 'us' : mk}&code=${encodeURIComponent(company.code)}`} style={{display:'inline-block',marginLeft:'18px',color:'var(--accent)',fontSize:'13px'}}>建立估值模型 →</Link>
+          <Link to={buildDcfLink({ company: company.name, code: company.code, researchMarket: mk, price })} style={{display:'inline-block',marginLeft:'18px',color:'var(--accent)',fontSize:'13px'}}>用当前价格测算 DCF →</Link>
           <h1 style={{ fontSize: '24px', margin: '0 0 6px' }}>{company.name}</h1>
           <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '0 0 14px' }}>
-            {company.market === 'us' ? '标普500' : company.market === 'hk' ? '港股' : company.market === 'adr' ? '美股非标普' : '沪深'} · {company.code} · {company.sector} · {company.batch}
+            {company.market === 'us' ? '标普500' : company.market === 'hk' ? '港股' : company.market === 'adr' ? '美股非标普' : company.market === 'ndx' ? '纳指100' : '沪深'} · {company.code} · {company.sector} · {company.batch}
           </p>
           <span style={{ display: 'inline-block', fontSize: '13px', fontWeight: 600, padding: '4px 12px', borderRadius: '8px', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: toneColors[tone].color }}>
             {company.rating}
           </span>
+          <span style={{ marginLeft: '10px' }}>
+            <CandidateButton on={cand.items.some(i => i.market === company.market && i.code === company.code)} onClick={() => cand.toggle(company.market, company.code)} />
+          </span>
+          {priceAge && (
+            <p role="status" style={{ fontSize: '12px', margin: '10px 0 0', color: priceAge.stale ? 'var(--system-orange)' : 'var(--text-secondary)' }}>
+              价格锚点 {priceAge.date}（{priceAge.days === 0 ? '今天' : `${priceAge.days} 天前`}）
+              {priceAge.stale && '：盈亏比与买入价按这个价格算，重新取价后再用'}
+            </p>
+          )}
         </div>
       </div>
 
       <div style={{ maxWidth: '760px', margin: '0 auto', padding: '28px 20px' }}>
         <ResearchNotice />
-        {(company.market === 'us' || company.market === 'cn') && company.metrics.some(([key]) => key === '圆桌复核日期') && (
+        {(company.market === 'us' || company.market === 'cn' || company.market === 'hk' || company.market === 'adr') && (company.researchReport || company.metrics.some(([key]) => key === '圆桌复核日期')) && (
           <div style={card}>
-            <h3 style={cardTitle}>腾讯自选股投研专家团 · 本轮公告复核</h3>
-            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.8 }}>本轮已补充公司公告；证据分为公告原件、公告转载及待核实；旧情景价值的认证状态以本轮结论为准。“上轮”指标保留历史口径，林奇分类仍为此前的程序化筛选结果。</p>
-            <a href={`${import.meta.env.BASE_URL}${company.market === 'cn' ? CN_REPORT : SP500_REPORT}`} target="_blank" rel="noreferrer" style={{ fontSize: '13px' }}>查看本轮完整报告与一手来源</a>
+            <h3 style={cardTitle}>{company.researchReport ? '公司研究 · 本轮事实复核与估值初稿' : '腾讯自选股投研专家团 · 本轮公告复核'}</h3>
+            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.8 }}>{(company.market === 'hk' || company.market === 'adr') && company.researchReport ? '已逐家核读公司业绩原件并补充新行情，报告列明来源、旧结论修正及待补证据。部分公司有数值敏感性草案；两种独立估值、现金与股本桥接仍待补，旧评级和价位不作为当前结论。' : company.researchReport ? '已按公司核对财报与现金流，完整报告列明来源、旧结论调整及待补证据。估值假设尚未认证；林奇分类仍为此前的程序化筛选结果。' : '本轮已补充公司公告；证据分为公告原件、公告转载及待核实；旧情景价值的认证状态以本轮结论为准。“上轮”指标保留历史口径，林奇分类仍为此前的程序化筛选结果。'}</p>
+            <a href={`${import.meta.env.BASE_URL}${company.researchReport ?? (company.market === 'cn' ? CN_REPORT : SP500_REPORT)}`} target="_blank" rel="noreferrer" style={{ fontSize: '13px' }}>查看本轮完整报告与一手来源</a>
           </div>
         )}
         {(() => {
           const ly = lynchAll[`${company.market}:${company.code}`]
-          if (!ly) return null
+          if (!ly || ((company.market === 'hk' || company.market === 'adr') && company.researchReport)) return null
           const tone = ly.r === '高' ? 'color-mix(in srgb, var(--system-green) 45%, transparent)' : ly.r === '中' ? 'color-mix(in srgb, var(--system-blue) 35%, transparent)' : 'var(--border-primary)'
           return (
             <div style={{ ...card, border: `1.5px solid ${tone}` }}>

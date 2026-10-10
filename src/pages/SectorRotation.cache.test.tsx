@@ -26,7 +26,7 @@ it('切回即显示快照，不触发数据或类型映射请求', async () => {
   expect(fetcher).not.toHaveBeenCalled()
 })
 it('每30秒只更新最新日期，刷新失败保留历史和快照，卸载停止请求', async () => {
-  vi.useFakeTimers(); seed()
+  vi.useFakeTimers(); vi.setSystemTime(new Date('2026-09-30T02:00:00Z')); seed()
   const fetcher = vi.fn().mockRejectedValue(new Error('offline')); vi.stubGlobal('fetch', fetcher)
   const view = render(<SectorRotation />)
   await act(async () => { await vi.advanceTimersByTimeAsync(30_000) })

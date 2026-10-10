@@ -12,7 +12,7 @@ export default function InvestmentAiTools(): JSX.Element {
         <div className="skill-download-actions">
           <span className="tag">{INVESTMENT_SKILL_TAG}</span>
           <a className="skill-download" href={investmentSkillDownloadUrl('investment-analysis-skills.zip')} download="investment-analysis-skills.zip">
-            <Download size={16} aria-hidden="true" /> 下载投资分析合集（3 套 ZIP）
+            <Download size={16} aria-hidden="true" /> 下载投资分析合集（{INVESTMENT_SKILLS.length} 套 ZIP）
           </a>
         </div>
       </header>
@@ -97,7 +97,7 @@ export default function InvestmentAiTools(): JSX.Element {
         <h2 id="skill-install-title">下载后怎么用</h2>
         <ol>
           <li>解压 ZIP，保留每套 Skill 的整个文件夹，包括 SKILL.md 和 references。</li>
-          <li>放到项目的 <code>.agents/skills/</code>（Codex）或 <code>.claude/skills/</code>（Claude Code）目录；OpenCode 可用 <code>.opencode/skills/</code>。</li>
+          <li>放到项目的 <code>.agents/skills/</code>（Codex / Antigravity CLI）、<code>.claude/skills/</code>（Claude Code）、<code>.opencode/skills/</code>（OpenCode）或 <code>.codebuddy/skills/</code>（CodeBuddy Code）目录。</li>
           <li>重新打开会话，在提问时写出 Skill 名称和任务背景：投资研究提供代码、市场和问题；视频创作提供主体、场景、风格和时长；小说写作提供设定、稿件和创作目标。</li>
         </ol>
         <p>Skill 是供 AI 助手读取的任务流程。投资分析需准备公开数据查询能力；团队类 Skill 还需助手支持子代理编排。具体要求见包内说明。</p>

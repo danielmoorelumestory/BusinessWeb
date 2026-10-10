@@ -21,7 +21,7 @@ export default function InvestHub(): JSX.Element {
   return (
     <main className="container animate-fade-in">
       <header className="page-head">
-        <h1>正念投资</h1>
+        <h1>投资</h1>
         <p>不盯盘、不预测的普通人投资方法。先读书定规则，再选标的、用工具执行，最后才看行情。</p>
       </header>
 

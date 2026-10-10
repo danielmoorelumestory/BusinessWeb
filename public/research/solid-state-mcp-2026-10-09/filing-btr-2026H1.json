@@ -1,0 +1,28 @@
+{
+  "sourceType": "公司公告原件摘录，非 MCP 返回",
+  "issuer": "贝特瑞新材料集团股份有限公司",
+  "code": "920185",
+  "title": "2026年半年度报告摘要",
+  "url": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225531195.PDF",
+  "publishedAt": "2026-08-28",
+  "retrievedOn": "2026-10-09",
+  "period": "2026H1",
+  "currency": "CNY",
+  "unit": "元",
+  "audit": "未经审计",
+  "pages": "PDF第3–4页（页索引2–3），2.2主要财务数据",
+  "data": {
+    "revenue": 10220514268.03,
+    "netIncome": 382519235.10,
+    "adjustedNetIncome": 344814660.31,
+    "cfo": -339811201.62,
+    "assets": 39749448725.35,
+    "equity": 12743927093.27,
+    "revenueGrowth": 0.3040,
+    "netIncomeGrowth": -0.2007,
+    "adjustedNetIncomeGrowth": -0.1982,
+    "basicEps": 0.34,
+    "debtToAssetsReported": 0.6080
+  },
+  "notes": ["摘要不是完整三张报表；资本支出、简化FCF与季度数据未取得，不推算", "公司称全固态主攻硫化物，混合固液采用聚合物与氧化物复合；此为公司技术路线声明，不证明单独收入", "本轮没有有效 MCP 行情，旧价格不用于当前赔率"]
+}

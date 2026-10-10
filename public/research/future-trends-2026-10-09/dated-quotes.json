@@ -1,0 +1,16 @@
+{
+  "海外:AIR.PA": {
+    "price": 187.26,
+    "currency": "EUR",
+    "time": "2026-10-08 收盘（历史锚点，不是 10-09 盘中价）",
+    "source": "https://www.boursorama.com/cours/historique/1rPAIR",
+    "title": "Boursorama 逐日历史行情：2026-10-08"
+  },
+  "海外:8035.T": {
+    "price": 12500,
+    "currency": "JPY",
+    "time": "2026-10-07 收盘，拆股后（历史锚点，不是 10-09 现价）",
+    "source": "https://finance.yahoo.co.jp/quote/8035.T/history",
+    "title": "Yahoo 日本历史行情：拆股后 2026-10-07"
+  }
+}

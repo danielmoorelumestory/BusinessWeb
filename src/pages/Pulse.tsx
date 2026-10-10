@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { PageTitle } from '../components/ui/PageTabs'
+import { PageTabs, PageTitle } from '../components/ui/PageTabs'
 import { fetchMarketDataByType, fetchSectorCategories, fetchUSSectorCategories } from '../services/api'
 import type { DailyReview, MarketCategory, SectorCategory, NewsSource, StockQuote } from '../types'
 import { loadReviews, saveReviews, loadNewsSources, saveNewsSources, loadTombstones, saveTombstones } from '../utils/storage'
@@ -35,6 +35,7 @@ import {
 } from 'lucide-react'
 
 export default function Pulse(): JSX.Element {
+  const [activeTab, setActiveTab] = useState<'market' | 'analysis'>('market')
   const [categories, setCategories] = useState<MarketCategory[]>([])
   const [sectorCategories, setSectorCategories] = useState<SectorCategory[]>([])
   const [loading, setLoading] = useState(true)
@@ -482,21 +483,23 @@ export default function Pulse(): JSX.Element {
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '16px', minHeight: '100vh' }}>
       <PageTitle>全球行情</PageTitle>
-      <div className="page-toolbar">
-        <span className="page-toolbar__note">{timestamp ? `更新于 ${timestamp}` : '--'}</span>
-        {syncConfig && <button className="tool-btn" onClick={handleSync} disabled={syncing}>{syncing ? '⏳ 同步中' : '☁️ 同步'}</button>}
-        <button className="tool-btn" onClick={() => setShowFilter(true)}>🔍 筛选</button>
-        <button className="tool-btn" onClick={() => setShowSettings(true)}>⚙️ {syncConfig ? '已配置' : '云端设置'}</button>
-        <button className="tool-btn" onClick={handleExport}>📥 导出</button>
-        <button className="tool-btn" onClick={handleImport}>📤 导入</button>
-        <button className="tool-btn tool-btn--primary" onClick={handleRefresh} disabled={loading}>{loading ? '⏳ 加载' : '🔄 刷新'}</button>
+      <PageTabs label="全球行情视图" value={activeTab} onChange={setActiveTab} width={1200} items={[
+        { id: 'market', label: '市场热力图' },
+        { id: 'analysis', label: '每日分析' },
+      ]} />
+      <div role="tabpanel" aria-label="市场热力图" hidden={activeTab !== 'market'}>
+        <HeatmapSection />
       </div>
 
-      {/* 市场热力图 */}
-      <HeatmapSection />
-
-      {/* 复盘表格 */}
-      {renderReviewTable()}
+      <div role="tabpanel" aria-label="每日分析" hidden={activeTab !== 'analysis'}>
+        <div className="page-toolbar">
+          <span className="page-toolbar__note">{timestamp ? `更新于 ${timestamp}` : '--'}</span>
+          {syncConfig && <button className="tool-btn" onClick={handleSync} disabled={syncing}>{syncing ? '⏳ 同步中' : '☁️ 同步'}</button>}
+          <button className="tool-btn" onClick={() => setShowSettings(true)}>⚙️ {syncConfig ? '已配置' : '云端设置'}</button>
+          <button className="tool-btn" onClick={() => setShowFilter(true)}>🔍 筛选</button>
+          <button className="tool-btn tool-btn--primary" onClick={handleRefresh} disabled={loading}>{loading ? '⏳ 加载' : '🔄 刷新'}</button>
+        </div>
+        {renderReviewTable()}
 
       {/* 消息源管理 */}
       <NewsSourceSection
@@ -563,6 +566,7 @@ export default function Pulse(): JSX.Element {
               onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-secondary)'; e.currentTarget.style.color = 'var(--text-secondary)' }}>{link.name}</a>
           ))}
         </div>
+      </div>
       </div>
 
       {/* 录入表单弹窗 */}

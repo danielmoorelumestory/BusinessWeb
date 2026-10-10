@@ -19,7 +19,7 @@ function rows<K extends string>(snap: MacroSnapshot<K>, indicators: Indicator<K>
       读数: usable ? d.latest.value : null,
       单位: d.unit,
       日期: d.latest.date,
-      状态: TONE[toneOf(i, d.latest.value)],
+      状态: TONE[toneOf(i, d.latest.value, d.long)],
       阈值: thresholdText(i, d.unit === 'pp' || d.unit === '万人' ? '' : d.unit),
       近一年: usable ? d.history.slice(-12).map(([date, v]) => [date.slice(0, 7), v]) : [],
     }

@@ -1,0 +1,465 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "MBG.DE",
+    "quarterly": true
+  },
+  "retrievedAt": "2026-10-09T14:50:32.964405+00:00",
+  "data": {
+    "symbol": "MBG.DE",
+    "type": "quarterly",
+    "data": {
+      "columns": [
+        "2026-06-30T00:00:00",
+        "2026-03-31T00:00:00",
+        "2025-12-31T00:00:00",
+        "2025-06-30T00:00:00",
+        "2025-03-31T00:00:00"
+      ],
+      "indexName": null,
+      "rows": [
+        {
+          "metric": "Free Cash Flow",
+          "values": [
+            184000000.0,
+            2001000000.0,
+            -1071000000.0,
+            2448000000.0,
+            4489000000.0
+          ]
+        },
+        {
+          "metric": "Repurchase Of Capital Stock",
+          "values": [
+            -1269000000.0,
+            -515000000.0,
+            -304000000.0,
+            0.0,
+            -56000000.0
+          ]
+        },
+        {
+          "metric": "Repayment Of Debt",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            -7903000000.0
+          ]
+        },
+        {
+          "metric": "Issuance Of Debt",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            5680000000.0
+          ]
+        },
+        {
+          "metric": "Capital Expenditure",
+          "values": [
+            -2247000000.0,
+            -1784000000.0,
+            -3848000000.0,
+            -1981000000.0,
+            -1477000000.0
+          ]
+        },
+        {
+          "metric": "End Cash Position",
+          "values": [
+            10200000000.0,
+            12230000000.0,
+            12276000000.0,
+            13939000000.0,
+            11752000000.0
+          ]
+        },
+        {
+          "metric": "Beginning Cash Position",
+          "values": [
+            12230000000.0,
+            12276000000.0,
+            13666000000.0,
+            11752000000.0,
+            14516000000.0
+          ]
+        },
+        {
+          "metric": "Effect Of Exchange Rate Changes",
+          "values": [
+            98000000.0,
+            89000000.0,
+            20000000.0,
+            -331000000.0,
+            -252000000.0
+          ]
+        },
+        {
+          "metric": "Changes In Cash",
+          "values": [
+            -2128000000.0,
+            -135000000.0,
+            -1410000000.0,
+            2518000000.0,
+            -2512000000.0
+          ]
+        },
+        {
+          "metric": "Financing Cash Flow",
+          "values": [
+            -2663000000.0,
+            -1949000000.0,
+            -2397000000.0,
+            -781000000.0,
+            -4203000000.0
+          ]
+        },
+        {
+          "metric": "Net Other Financing Charges",
+          "values": [
+            1954000000.0,
+            -1427000000.0,
+            -2068000000.0,
+            3503000000.0,
+            -4141000000.0
+          ]
+        },
+        {
+          "metric": "Cash Dividends Paid",
+          "values": [
+            null,
+            null,
+            0.0,
+            null,
+            null
+          ]
+        },
+        {
+          "metric": "Net Common Stock Issuance",
+          "values": [
+            -1269000000.0,
+            -515000000.0,
+            -304000000.0,
+            0.0,
+            -56000000.0
+          ]
+        },
+        {
+          "metric": "Common Stock Payments",
+          "values": [
+            -1269000000.0,
+            -515000000.0,
+            -304000000.0,
+            0.0,
+            -56000000.0
+          ]
+        },
+        {
+          "metric": "Net Issuance Payments Of Debt",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            -4197000000.0
+          ]
+        },
+        {
+          "metric": "Net Short Term Debt Issuance",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            -1974000000.0
+          ]
+        },
+        {
+          "metric": "Net Long Term Debt Issuance",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            -2223000000.0
+          ]
+        },
+        {
+          "metric": "Long Term Debt Payments",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            -7903000000.0
+          ]
+        },
+        {
+          "metric": "Long Term Debt Issuance",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            5680000000.0
+          ]
+        },
+        {
+          "metric": "Investing Cash Flow",
+          "values": [
+            -1896000000.0,
+            -1971000000.0,
+            -1790000000.0,
+            -1130000000.0,
+            -4275000000.0
+          ]
+        },
+        {
+          "metric": "Net Other Investing Changes",
+          "values": [
+            -3000000.0,
+            -15000000.0,
+            60000000.0,
+            17000000.0,
+            -13000000.0
+          ]
+        },
+        {
+          "metric": "Net Investment Purchase And Sale",
+          "values": [
+            -67000000.0,
+            -309000000.0,
+            1928000000.0,
+            844000000.0,
+            -2825000000.0
+          ]
+        },
+        {
+          "metric": "Sale Of Investment",
+          "values": [
+            435000000.0,
+            578000000.0,
+            2497000000.0,
+            5783000000.0,
+            1619000000.0
+          ]
+        },
+        {
+          "metric": "Purchase Of Investment",
+          "values": [
+            -502000000.0,
+            -887000000.0,
+            -569000000.0,
+            -4939000000.0,
+            -4444000000.0
+          ]
+        },
+        {
+          "metric": "Net Business Purchase And Sale",
+          "values": [
+            413000000.0,
+            74000000.0,
+            28000000.0,
+            -61000000.0,
+            24000000.0
+          ]
+        },
+        {
+          "metric": "Sale Of Business",
+          "values": [
+            428000000.0,
+            119000000.0,
+            200000000.0,
+            3000000.0,
+            64000000.0
+          ]
+        },
+        {
+          "metric": "Purchase Of Business",
+          "values": [
+            -15000000.0,
+            -45000000.0,
+            -172000000.0,
+            -64000000.0,
+            -40000000.0
+          ]
+        },
+        {
+          "metric": "Net Intangibles Purchase And Sale",
+          "values": [
+            -1027000000.0,
+            -1035000000.0,
+            -1214000000.0,
+            -1063000000.0,
+            -792000000.0
+          ]
+        },
+        {
+          "metric": "Purchase Of Intangibles",
+          "values": [
+            -1027000000.0,
+            -1035000000.0,
+            -1214000000.0,
+            -1063000000.0,
+            -792000000.0
+          ]
+        },
+        {
+          "metric": "Net PPE Purchase And Sale",
+          "values": [
+            -1212000000.0,
+            -686000000.0,
+            -2592000000.0,
+            -867000000.0,
+            -669000000.0
+          ]
+        },
+        {
+          "metric": "Sale Of PPE",
+          "values": [
+            8000000.0,
+            63000000.0,
+            42000000.0,
+            51000000.0,
+            16000000.0
+          ]
+        },
+        {
+          "metric": "Purchase Of PPE",
+          "values": [
+            -1220000000.0,
+            -749000000.0,
+            -2634000000.0,
+            -918000000.0,
+            -685000000.0
+          ]
+        },
+        {
+          "metric": "Operating Cash Flow",
+          "values": [
+            2431000000.0,
+            3785000000.0,
+            2777000000.0,
+            4429000000.0,
+            5966000000.0
+          ]
+        },
+        {
+          "metric": "Taxes Refund Paid",
+          "values": [
+            -134000000.0,
+            21000000.0,
+            -386000000.0,
+            -314000000.0,
+            -710000000.0
+          ]
+        },
+        {
+          "metric": "Dividend Received Cfo",
+          "values": [
+            625000000.0,
+            46000000.0,
+            404000000.0,
+            896000000.0,
+            30000000.0
+          ]
+        },
+        {
+          "metric": "Change In Working Capital",
+          "values": [
+            -1731000000.0,
+            214000000.0,
+            -443000000.0,
+            863000000.0,
+            2778000000.0
+          ]
+        },
+        {
+          "metric": "Change In Other Current Assets",
+          "values": [
+            304000000.0,
+            742000000.0,
+            -2383000000.0,
+            773000000.0,
+            1808000000.0
+          ]
+        },
+        {
+          "metric": "Change In Inventory",
+          "values": [
+            -552000000.0,
+            -124000000.0,
+            2228000000.0,
+            -303000000.0,
+            -941000000.0
+          ]
+        },
+        {
+          "metric": "Change In Receivables",
+          "values": [
+            -1483000000.0,
+            -404000000.0,
+            -1199000000.0,
+            393000000.0,
+            1911000000.0
+          ]
+        },
+        {
+          "metric": "Other Non Cash Items",
+          "values": [
+            268000000.0,
+            -175000000.0,
+            -219000000.0,
+            -237000000.0,
+            -385000000.0
+          ]
+        },
+        {
+          "metric": "Depreciation And Amortization",
+          "values": [
+            1834000000.0,
+            1740000000.0,
+            1872000000.0,
+            1689000000.0,
+            1851000000.0
+          ]
+        },
+        {
+          "metric": "Depreciation",
+          "values": [
+            1834000000.0,
+            1740000000.0,
+            1872000000.0,
+            1689000000.0,
+            1851000000.0
+          ]
+        },
+        {
+          "metric": "Gain Loss On Investment Securities",
+          "values": [
+            -67000000.0,
+            -73000000.0,
+            -59000000.0,
+            130000000.0,
+            -20000000.0
+          ]
+        },
+        {
+          "metric": "Net Income From Continuing Operations",
+          "values": [
+            1636000000.0,
+            2012000000.0,
+            1608000000.0,
+            1402000000.0,
+            2422000000.0
+          ]
+        }
+      ]
+    }
+  }
+}

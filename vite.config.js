@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import { marketMiddleware } from './server/market.mjs'
 import { macroMiddleware } from './server/macro.mjs'
+import { indexesMiddleware } from './server/indexes.mjs'
 import { sentimentMiddleware } from './server/sentiment.mjs'
 import { knowledgeProxyGuard } from './server/knowledge/local-access.mjs'
 import { knowledgePrivateDeny } from './server/knowledge/private-files.mjs'
@@ -9,6 +10,7 @@ import { knowledgePrivateDeny } from './server/knowledge/private-files.mjs'
 export default defineConfig({
   plugins: [react(), { name: 'businessweb-market-api', configureServer(server) { server.middlewares.use(marketMiddleware) } },
     { name: 'businessweb-macro-api', configureServer(server) { server.middlewares.use(macroMiddleware) } },
+    { name: 'businessweb-indexes-api', configureServer(server) { server.middlewares.use(indexesMiddleware) } },
     { name: 'businessweb-sentiment-api', configureServer(server) { server.middlewares.use(sentimentMiddleware) } },
     { name: 'private-knowledge-api', configureServer(server) { server.middlewares.use((req, res, next) => knowledgeProxyGuard(req, res, next, process.env.KNOWLEDGE_TOKEN)) } }],
   base: process.env.VITE_BASE_PATH || '/',

@@ -1,0 +1,1668 @@
+{
+  "00001": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 67.8,
+    "quoteTime": "2026-10-07 15:03:13 HKT",
+    "numericDraft": false
+  },
+  "00002": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 75.9,
+    "quoteTime": "2026-10-07 15:04:26 HKT",
+    "numericDraft": false
+  },
+  "00003": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 7.025,
+    "quoteTime": "2026-10-07 15:02:46 HKT",
+    "numericDraft": false
+  },
+  "00005": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 151.4,
+    "quoteTime": "2026-10-07 15:04:15 HKT",
+    "numericDraft": false
+  },
+  "00006": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 59.3,
+    "quoteTime": "2026-10-07 15:03:46 HKT",
+    "numericDraft": false
+  },
+  "00012": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 25.94,
+    "quoteTime": "2026-10-07 15:04:04 HKT",
+    "numericDraft": false
+  },
+  "00016": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 106.6,
+    "quoteTime": "2026-10-07 15:04:00 HKT",
+    "numericDraft": false
+  },
+  "00027": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 30.74,
+    "quoteTime": "2026-10-07 15:04:05 HKT",
+    "numericDraft": false
+  },
+  "00066": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 31.28,
+    "quoteTime": "2026-10-07 15:01:22 HKT",
+    "numericDraft": false
+  },
+  "00101": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 6.605,
+    "quoteTime": "2026-10-07 15:04:07 HKT",
+    "numericDraft": false
+  },
+  "00175": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 14.98,
+    "quoteTime": "2026-10-07 15:04:49 HKT",
+    "numericDraft": false
+  },
+  "00241": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 2.82,
+    "quoteTime": "2026-10-07 15:03:14 HKT",
+    "numericDraft": false
+  },
+  "00267": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 12.76,
+    "quoteTime": "2026-10-07 15:04:55 HKT",
+    "numericDraft": false
+  },
+  "00268": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 7.38,
+    "quoteTime": "2026-10-07 15:04:57 HKT",
+    "numericDraft": false
+  },
+  "00285": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 23.76,
+    "quoteTime": "2026-10-07 15:04:06 HKT",
+    "numericDraft": false
+  },
+  "00288": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 6.665,
+    "quoteTime": "2026-10-07 15:04:58 HKT",
+    "numericDraft": false
+  },
+  "00291": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 18.59,
+    "quoteTime": "2026-10-07 15:03:57 HKT",
+    "numericDraft": false
+  },
+  "00300": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 90.35,
+    "quoteTime": "2026-10-07 15:04:31 HKT",
+    "numericDraft": false
+  },
+  "00316": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 144.3,
+    "quoteTime": "2026-10-07 15:02:54 HKT",
+    "numericDraft": false
+  },
+  "00322": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 11.72,
+    "quoteTime": "2026-10-07 15:04:08 HKT",
+    "numericDraft": false
+  },
+  "00386": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 4.425,
+    "quoteTime": "2026-10-07 15:04:51 HKT",
+    "numericDraft": false
+  },
+  "00388": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 378.6,
+    "quoteTime": "2026-10-07 15:04:57 HKT",
+    "numericDraft": false
+  },
+  "00390": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 3.27,
+    "quoteTime": "2026-10-07 15:03:45 HKT",
+    "numericDraft": false
+  },
+  "00522": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 174.2,
+    "quoteTime": "2026-10-07 15:02:36 HKT",
+    "numericDraft": false
+  },
+  "00669": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 131.2,
+    "quoteTime": "2026-10-07 15:04:42 HKT",
+    "numericDraft": false
+  },
+  "00688": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 13.08,
+    "quoteTime": "2026-10-07 15:04:51 HKT",
+    "numericDraft": false
+  },
+  "00700": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 420.6,
+    "quoteTime": "2026-10-07 15:05:01 HKT",
+    "numericDraft": false
+  },
+  "00728": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 4.53,
+    "quoteTime": "2026-10-07 15:04:34 HKT",
+    "numericDraft": false
+  },
+  "00762": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 5.55,
+    "quoteTime": "2026-10-07 15:04:20 HKT",
+    "numericDraft": false
+  },
+  "00780": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 9.77,
+    "quoteTime": "2026-10-07 15:04:59 HKT",
+    "numericDraft": false
+  },
+  "00836": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 19.78,
+    "quoteTime": "2026-10-07 15:04:32 HKT",
+    "numericDraft": false
+  },
+  "00857": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 9.63,
+    "quoteTime": "2026-10-07 15:00:24 HKT",
+    "numericDraft": false
+  },
+  "00868": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 8.04,
+    "quoteTime": "2026-10-07 15:03:12 HKT",
+    "numericDraft": false
+  },
+  "00881": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 2.475,
+    "quoteTime": "2026-10-07 15:03:57 HKT",
+    "numericDraft": false
+  },
+  "00883": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 23.52,
+    "quoteTime": "2026-10-07 15:04:08 HKT",
+    "numericDraft": false
+  },
+  "00914": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 15.81,
+    "quoteTime": "2026-10-07 15:00:19 HKT",
+    "numericDraft": false
+  },
+  "00939": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 9.63,
+    "quoteTime": "2026-10-07 15:04:45 HKT",
+    "numericDraft": true,
+    "bvpsCny": 13.69,
+    "bvpsPage": 9,
+    "fx": 1.1698,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082800783.pdf",
+    "valuationType": "普通股PB敏感性，独立DDM尚缺",
+    "assumedBaseRoe": 10,
+    "bear": 5.833876157142855,
+    "base": 12.171067119999998,
+    "bull": 18.01638225,
+    "definitions": [
+      {
+        "name": "悲观",
+        "roe": 0.06,
+        "g": 0,
+        "ke": 0.14,
+        "haircut": 0.15
+      },
+      {
+        "name": "基准",
+        "roe": 0.1,
+        "g": 0.02,
+        "ke": 0.12,
+        "haircut": 0.05
+      },
+      {
+        "name": "乐观",
+        "roe": 0.12,
+        "g": 0.03,
+        "ke": 0.11,
+        "haircut": 0
+      }
+    ],
+    "sensitivity": [
+      [
+        0.1,
+        0,
+        15.213833899999997
+      ],
+      [
+        0.1,
+        0.02,
+        15.213833899999997
+      ],
+      [
+        0.1,
+        0.03,
+        15.213833899999997
+      ],
+      [
+        0.12,
+        0,
+        12.678194916666666
+      ],
+      [
+        0.12,
+        0.02,
+        12.17106712
+      ],
+      [
+        0.12,
+        0.03,
+        11.832981922222222
+      ],
+      [
+        0.14,
+        0,
+        10.867024214285712
+      ],
+      [
+        0.14,
+        0.02,
+        10.142555933333332
+      ],
+      [
+        0.14,
+        0.03,
+        9.681530663636362
+      ]
+    ],
+    "threshold2": 7.9462731447619035
+  },
+  "00941": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 79.1,
+    "quoteTime": "2026-10-07 15:04:56 HKT",
+    "numericDraft": false
+  },
+  "00960": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 5.255,
+    "quoteTime": "2026-10-07 15:04:25 HKT",
+    "numericDraft": false
+  },
+  "00968": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 1.91,
+    "quoteTime": "2026-10-07 15:05:07 HKT",
+    "numericDraft": false
+  },
+  "00981": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 60.7,
+    "quoteTime": "2026-10-07 15:05:15 HKT",
+    "numericDraft": false
+  },
+  "00992": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 35.08,
+    "quoteTime": "2026-10-07 15:05:16 HKT",
+    "numericDraft": false
+  },
+  "01024": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 29.62,
+    "quoteTime": "2026-10-07 15:05:14 HKT",
+    "numericDraft": false
+  },
+  "01038": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 65.15,
+    "quoteTime": "2026-10-07 15:03:22 HKT",
+    "numericDraft": false
+  },
+  "01044": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 19.35,
+    "quoteTime": "2026-10-07 14:58:36 HKT",
+    "numericDraft": false
+  },
+  "01088": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 43.46,
+    "quoteTime": "2026-10-07 15:05:14 HKT",
+    "numericDraft": false
+  },
+  "01093": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "上市产品DCF及管线rNPV/SOTP；独立持续产品盈利校验，许可费单列",
+    "price": 9.805,
+    "quoteTime": "2026-10-07 15:05:19 HKT",
+    "numericDraft": false
+  },
+  "01099": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 14.87,
+    "quoteTime": "2026-10-07 15:05:12 HKT",
+    "numericDraft": false
+  },
+  "01109": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 29.88,
+    "quoteTime": "2026-10-07 15:03:50 HKT",
+    "numericDraft": false
+  },
+  "01113": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 45.6,
+    "quoteTime": "2026-10-07 15:04:39 HKT",
+    "numericDraft": false
+  },
+  "01171": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 11.38,
+    "quoteTime": "2026-10-07 15:04:40 HKT",
+    "numericDraft": false
+  },
+  "01177": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "上市产品DCF及管线rNPV/SOTP；独立持续产品盈利校验，许可费单列",
+    "price": 5.685,
+    "quoteTime": "2026-10-07 15:05:03 HKT",
+    "numericDraft": false
+  },
+  "01186": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 4.32,
+    "quoteTime": "2026-10-07 14:50:50 HKT",
+    "numericDraft": false
+  },
+  "01209": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 36.92,
+    "quoteTime": "2026-10-07 15:04:54 HKT",
+    "numericDraft": false
+  },
+  "01211": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 74.65,
+    "quoteTime": "2026-10-07 15:04:48 HKT",
+    "numericDraft": false
+  },
+  "01288": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 6.575,
+    "quoteTime": "2026-10-07 15:05:30 HKT",
+    "numericDraft": true,
+    "bvpsCny": 8.17,
+    "bvpsPage": 12,
+    "fx": 1.1698,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082800437.pdf",
+    "valuationType": "普通股PB敏感性，独立DDM尚缺",
+    "assumedBaseRoe": 10,
+    "bear": 3.481575471428571,
+    "base": 7.26352216,
+    "bull": 10.75192425,
+    "definitions": [
+      {
+        "name": "悲观",
+        "roe": 0.06,
+        "g": 0,
+        "ke": 0.14,
+        "haircut": 0.15
+      },
+      {
+        "name": "基准",
+        "roe": 0.1,
+        "g": 0.02,
+        "ke": 0.12,
+        "haircut": 0.05
+      },
+      {
+        "name": "乐观",
+        "roe": 0.12,
+        "g": 0.03,
+        "ke": 0.11,
+        "haircut": 0
+      }
+    ],
+    "sensitivity": [
+      [
+        0.1,
+        0,
+        9.0794027
+      ],
+      [
+        0.1,
+        0.02,
+        9.0794027
+      ],
+      [
+        0.1,
+        0.03,
+        9.0794027
+      ],
+      [
+        0.12,
+        0,
+        7.566168916666667
+      ],
+      [
+        0.12,
+        0.02,
+        7.263522160000001
+      ],
+      [
+        0.12,
+        0.03,
+        7.061757655555557
+      ],
+      [
+        0.14,
+        0,
+        6.485287642857142
+      ],
+      [
+        0.14,
+        0.02,
+        6.0529351333333326
+      ],
+      [
+        0.14,
+        0.03,
+        5.777801718181818
+      ]
+    ],
+    "threshold2": 4.742224367619047
+  },
+  "01299": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "EV/NBV或分部SOTP；独立营运利润与可汇回自由盈余校验",
+    "price": 68.95,
+    "quoteTime": "2026-10-07 15:05:30 HKT",
+    "numericDraft": false
+  },
+  "01336": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "EV/NBV或分部SOTP；独立营运利润与可汇回自由盈余校验",
+    "price": 44.42,
+    "quoteTime": "2026-10-07 15:05:08 HKT",
+    "numericDraft": false
+  },
+  "01347": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 105.2,
+    "quoteTime": "2026-10-07 15:05:31 HKT",
+    "numericDraft": false
+  },
+  "01378": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 21,
+    "quoteTime": "2026-10-07 15:05:35 HKT",
+    "numericDraft": false
+  },
+  "01385": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 25.48,
+    "quoteTime": "2026-10-07 15:02:34 HKT",
+    "numericDraft": false
+  },
+  "01398": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 7.585,
+    "quoteTime": "2026-10-07 15:05:29 HKT",
+    "numericDraft": true,
+    "bvpsCny": 11.12,
+    "bvpsPage": 4,
+    "fx": 1.1698,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082800399.pdf",
+    "valuationType": "普通股PB敏感性，独立DDM尚缺",
+    "assumedBaseRoe": 10,
+    "bear": 4.738692685714285,
+    "base": 9.886213759999999,
+    "bull": 14.634197999999998,
+    "definitions": [
+      {
+        "name": "悲观",
+        "roe": 0.06,
+        "g": 0,
+        "ke": 0.14,
+        "haircut": 0.15
+      },
+      {
+        "name": "基准",
+        "roe": 0.1,
+        "g": 0.02,
+        "ke": 0.12,
+        "haircut": 0.05
+      },
+      {
+        "name": "乐观",
+        "roe": 0.12,
+        "g": 0.03,
+        "ke": 0.11,
+        "haircut": 0
+      }
+    ],
+    "sensitivity": [
+      [
+        0.1,
+        0,
+        12.357767199999998
+      ],
+      [
+        0.1,
+        0.02,
+        12.357767199999998
+      ],
+      [
+        0.1,
+        0.03,
+        12.357767199999998
+      ],
+      [
+        0.12,
+        0,
+        10.298139333333332
+      ],
+      [
+        0.12,
+        0.02,
+        9.88621376
+      ],
+      [
+        0.12,
+        0.03,
+        9.611596711111112
+      ],
+      [
+        0.14,
+        0,
+        8.826976571428569
+      ],
+      [
+        0.14,
+        0.02,
+        8.238511466666665
+      ],
+      [
+        0.14,
+        0.03,
+        7.864033672727271
+      ]
+    ],
+    "threshold2": 6.454533043809523
+  },
+  "01658": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 5.345,
+    "quoteTime": "2026-10-07 15:02:30 HKT",
+    "numericDraft": true,
+    "bvpsCny": 8.71,
+    "bvpsPage": 13,
+    "fx": 1.1698,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082800835.pdf",
+    "valuationType": "普通股PB敏感性，独立DDM尚缺",
+    "assumedBaseRoe": 9,
+    "bear": 3.093076535714286,
+    "base": 6.775657069999999,
+    "bull": 10.188958000000001,
+    "definitions": [
+      {
+        "name": "悲观",
+        "roe": 0.05,
+        "g": 0,
+        "ke": 0.14,
+        "haircut": 0.15
+      },
+      {
+        "name": "基准",
+        "roe": 0.09,
+        "g": 0.02,
+        "ke": 0.12,
+        "haircut": 0.05
+      },
+      {
+        "name": "乐观",
+        "roe": 0.11,
+        "g": 0.03,
+        "ke": 0.11,
+        "haircut": 0
+      }
+    ],
+    "sensitivity": [
+      [
+        0.1,
+        0,
+        8.71155909
+      ],
+      [
+        0.1,
+        0.02,
+        8.4695713375
+      ],
+      [
+        0.1,
+        0.03,
+        8.29672294285714
+      ],
+      [
+        0.12,
+        0,
+        7.2596325749999995
+      ],
+      [
+        0.12,
+        0.02,
+        6.77565707
+      ],
+      [
+        0.12,
+        0.03,
+        6.453006733333333
+      ],
+      [
+        0.14,
+        0,
+        6.222542207142856
+      ],
+      [
+        0.14,
+        0.02,
+        5.646380891666666
+      ],
+      [
+        0.14,
+        0.03,
+        5.279732781818181
+      ]
+    ],
+    "threshold2": 4.32060338047619
+  },
+  "01772": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 29.76,
+    "quoteTime": "2026-10-07 15:05:29 HKT",
+    "numericDraft": false
+  },
+  "01797": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 25.02,
+    "quoteTime": "2026-10-07 15:04:12 HKT",
+    "numericDraft": false
+  },
+  "01800": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 3.345,
+    "quoteTime": "2026-10-07 15:05:35 HKT",
+    "numericDraft": false
+  },
+  "01801": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "上市产品DCF及管线rNPV/SOTP；独立持续产品盈利校验，许可费单列",
+    "price": 97.45,
+    "quoteTime": "2026-10-07 15:05:00 HKT",
+    "numericDraft": false
+  },
+  "01810": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 23.98,
+    "quoteTime": "2026-10-07 15:05:40 HKT",
+    "numericDraft": false
+  },
+  "01876": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 5.68,
+    "quoteTime": "2026-10-07 15:05:30 HKT",
+    "numericDraft": false
+  },
+  "01898": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 10.17,
+    "quoteTime": "2026-10-07 15:05:18 HKT",
+    "numericDraft": false
+  },
+  "01919": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 16.34,
+    "quoteTime": "2026-10-07 15:05:35 HKT",
+    "numericDraft": false
+  },
+  "01928": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 11.33,
+    "quoteTime": "2026-10-07 15:05:49 HKT",
+    "numericDraft": false
+  },
+  "01929": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 11,
+    "quoteTime": "2026-10-07 15:05:40 HKT",
+    "numericDraft": false
+  },
+  "01958": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部经营转盈与现金跑道情景；独立净现金/SOTP，暂不采用亏损EPS×PE",
+    "price": 0.7,
+    "quoteTime": "2026-10-07 15:05:03 HKT",
+    "numericDraft": false
+  },
+  "01997": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部NAV/SOTP；独立持续租金、基础经营或可分派股息贴现，债务逐项扣除",
+    "price": 30.4,
+    "quoteTime": "2026-10-07 15:04:59 HKT",
+    "numericDraft": false
+  },
+  "02015": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部经营转盈与现金跑道情景；独立净现金/SOTP，暂不采用亏损EPS×PE",
+    "price": 43.5,
+    "quoteTime": "2026-10-07 15:05:46 HKT",
+    "numericDraft": false
+  },
+  "02020": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 71.65,
+    "quoteTime": "2026-10-07 15:05:49 HKT",
+    "numericDraft": false
+  },
+  "02057": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 155,
+    "quoteTime": "2026-10-07 15:04:47 HKT",
+    "numericDraft": false
+  },
+  "02196": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "上市产品DCF及管线rNPV/SOTP；独立持续产品盈利校验，许可费单列",
+    "price": 18.24,
+    "quoteTime": "2026-10-07 15:05:23 HKT",
+    "numericDraft": false
+  },
+  "02238": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部经营转盈与现金跑道情景；独立净现金/SOTP，暂不采用亏损EPS×PE",
+    "price": 2.35,
+    "quoteTime": "2026-10-07 14:54:55 HKT",
+    "numericDraft": false
+  },
+  "02313": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 34.04,
+    "quoteTime": "2026-10-07 15:04:01 HKT",
+    "numericDraft": false
+  },
+  "02318": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "EV/NBV或分部SOTP；独立营运利润与可汇回自由盈余校验",
+    "price": 51.55,
+    "quoteTime": "2026-10-07 15:05:52 HKT",
+    "numericDraft": false
+  },
+  "02319": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 17.28,
+    "quoteTime": "2026-10-07 15:05:39 HKT",
+    "numericDraft": false
+  },
+  "02331": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 12.4,
+    "quoteTime": "2026-10-07 15:05:52 HKT",
+    "numericDraft": false
+  },
+  "02333": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 7.15,
+    "quoteTime": "2026-10-07 15:05:40 HKT",
+    "numericDraft": false
+  },
+  "02378": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "EV/NBV或分部SOTP；独立营运利润与可汇回自由盈余校验",
+    "price": 94.55,
+    "quoteTime": "2026-10-07 15:05:22 HKT",
+    "numericDraft": false
+  },
+  "02382": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 64.75,
+    "quoteTime": "2026-10-07 15:05:49 HKT",
+    "numericDraft": false
+  },
+  "02388": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 51,
+    "quoteTime": "2026-10-07 15:05:53 HKT",
+    "numericDraft": false
+  },
+  "02600": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 7.64,
+    "quoteTime": "2026-10-07 15:04:10 HKT",
+    "numericDraft": false
+  },
+  "02601": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "EV/NBV或分部SOTP；独立营运利润与可汇回自由盈余校验",
+    "price": 27.58,
+    "quoteTime": "2026-10-07 15:05:46 HKT",
+    "numericDraft": false
+  },
+  "02618": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 9.99,
+    "quoteTime": "2026-10-07 15:05:40 HKT",
+    "numericDraft": false
+  },
+  "02628": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "EV/NBV或分部SOTP；独立营运利润与可汇回自由盈余校验",
+    "price": 27.36,
+    "quoteTime": "2026-10-07 15:05:37 HKT",
+    "numericDraft": false
+  },
+  "02688": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 49.46,
+    "quoteTime": "2026-10-07 15:05:32 HKT",
+    "numericDraft": false
+  },
+  "02899": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 32.36,
+    "quoteTime": "2026-10-07 15:05:30 HKT",
+    "numericDraft": false
+  },
+  "03323": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期盈利或分部NAV；独立价格/成本/资本开支压力下的现金流贴现",
+    "price": 3.13,
+    "quoteTime": "2026-10-07 15:05:20 HKT",
+    "numericDraft": false
+  },
+  "03328": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 8.22,
+    "quoteTime": "2026-10-07 15:04:32 HKT",
+    "numericDraft": true,
+    "bvpsCny": 13.22,
+    "bvpsPage": 2,
+    "fx": 1.1698,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082800406.pdf",
+    "valuationType": "普通股PB敏感性，独立DDM尚缺",
+    "assumedBaseRoe": 8,
+    "bear": 3.755726457142857,
+    "base": 8.814910919999999,
+    "bull": 13.531661500000002,
+    "definitions": [
+      {
+        "name": "悲观",
+        "roe": 0.04,
+        "g": 0,
+        "ke": 0.14,
+        "haircut": 0.15
+      },
+      {
+        "name": "基准",
+        "roe": 0.08,
+        "g": 0.02,
+        "ke": 0.12,
+        "haircut": 0.05
+      },
+      {
+        "name": "乐观",
+        "roe": 0.1,
+        "g": 0.03,
+        "ke": 0.11,
+        "haircut": 0
+      }
+    ],
+    "sensitivity": [
+      [
+        0.1,
+        0,
+        11.75321456
+      ],
+      [
+        0.1,
+        0.02,
+        11.018638649999998
+      ],
+      [
+        0.1,
+        0.03,
+        10.49394157142857
+      ],
+      [
+        0.12,
+        0,
+        9.794345466666668
+      ],
+      [
+        0.12,
+        0.02,
+        8.814910919999999
+      ],
+      [
+        0.12,
+        0.03,
+        8.161954555555555
+      ],
+      [
+        0.14,
+        0,
+        8.395153257142857
+      ],
+      [
+        0.14,
+        0.02,
+        7.345759099999999
+      ],
+      [
+        0.14,
+        0.03,
+        6.677962818181817
+      ]
+    ],
+    "threshold2": 5.442121278095239
+  },
+  "03606": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 54.75,
+    "quoteTime": "2026-10-07 15:05:50 HKT",
+    "numericDraft": false
+  },
+  "03690": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 70.1,
+    "quoteTime": "2026-10-07 15:04:40 HKT",
+    "numericDraft": false
+  },
+  "03692": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "上市产品DCF及管线rNPV/SOTP；独立持续产品盈利校验，许可费单列",
+    "price": 34.06,
+    "quoteTime": "2026-10-07 15:06:00 HKT",
+    "numericDraft": false
+  },
+  "03888": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 25.08,
+    "quoteTime": "2026-10-07 15:05:55 HKT",
+    "numericDraft": false
+  },
+  "03908": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期普通股ROE/PB与业务SOTP；独立可分派盈利校验",
+    "price": 20.18,
+    "quoteTime": "2026-10-07 15:05:29 HKT",
+    "numericDraft": false
+  },
+  "03968": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 50.95,
+    "quoteTime": "2026-10-07 15:05:52 HKT",
+    "numericDraft": true,
+    "bvpsCny": 45.4,
+    "bvpsPage": 7,
+    "fx": 1.1698,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082801289.pdf",
+    "valuationType": "普通股PB敏感性，独立DDM尚缺",
+    "assumedBaseRoe": 13,
+    "bear": 29.02023128571428,
+    "base": 55.4988214,
+    "bull": 79.66337999999999,
+    "definitions": [
+      {
+        "name": "悲观",
+        "roe": 0.09,
+        "g": 0,
+        "ke": 0.14,
+        "haircut": 0.15
+      },
+      {
+        "name": "基准",
+        "roe": 0.13,
+        "g": 0.02,
+        "ke": 0.12,
+        "haircut": 0.05
+      },
+      {
+        "name": "乐观",
+        "roe": 0.15,
+        "g": 0.03,
+        "ke": 0.11,
+        "haircut": 0
+      }
+    ],
+    "sensitivity": [
+      [
+        0.1,
+        0,
+        65.58951619999999
+      ],
+      [
+        0.1,
+        0.02,
+        69.37352675
+      ],
+      [
+        0.1,
+        0.03,
+        72.07639142857141
+      ],
+      [
+        0.12,
+        0,
+        54.65793016666666
+      ],
+      [
+        0.12,
+        0.02,
+        55.4988214
+      ],
+      [
+        0.12,
+        0.03,
+        56.05941555555555
+      ],
+      [
+        0.14,
+        0,
+        46.84965442857142
+      ],
+      [
+        0.14,
+        0.02,
+        46.249017833333326
+      ],
+      [
+        0.14,
+        0.03,
+        45.86679454545454
+      ]
+    ],
+    "threshold2": 37.84642799047619
+  },
+  "03988": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "普通股ROE驱动PB / 剩余收益模型；独立股息贴现校验，先扣优先股与永续债权益",
+    "price": 6,
+    "quoteTime": "2026-10-07 15:05:44 HKT",
+    "numericDraft": true,
+    "bvpsCny": 8.54,
+    "bvpsPage": 11,
+    "fx": 1.1698,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0828/2026082800485.pdf",
+    "valuationType": "普通股PB敏感性，独立DDM尚缺",
+    "assumedBaseRoe": 9,
+    "bear": 3.0327064999999997,
+    "base": 6.643411179999999,
+    "bull": 9.990091999999999,
+    "definitions": [
+      {
+        "name": "悲观",
+        "roe": 0.05,
+        "g": 0,
+        "ke": 0.14,
+        "haircut": 0.15
+      },
+      {
+        "name": "基准",
+        "roe": 0.09,
+        "g": 0.02,
+        "ke": 0.12,
+        "haircut": 0.05
+      },
+      {
+        "name": "乐观",
+        "roe": 0.11,
+        "g": 0.03,
+        "ke": 0.11,
+        "haircut": 0
+      }
+    ],
+    "sensitivity": [
+      [
+        0.1,
+        0,
+        8.541528659999997
+      ],
+      [
+        0.1,
+        0.02,
+        8.304263974999998
+      ],
+      [
+        0.1,
+        0.03,
+        8.134789199999998
+      ],
+      [
+        0.12,
+        0,
+        7.117940549999999
+      ],
+      [
+        0.12,
+        0.02,
+        6.643411179999999
+      ],
+      [
+        0.12,
+        0.03,
+        6.327058266666666
+      ],
+      [
+        0.14,
+        0,
+        6.101091899999998
+      ],
+      [
+        0.14,
+        0.02,
+        5.536175983333331
+      ],
+      [
+        0.14,
+        0.03,
+        5.176684036363635
+      ]
+    ],
+    "threshold2": 4.236274726666666
+  },
+  "06030": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期普通股ROE/PB与业务SOTP；独立可分派盈利校验",
+    "price": 23.92,
+    "quoteTime": "2026-10-07 15:04:52 HKT",
+    "numericDraft": false
+  },
+  "06060": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "承保利润与科技业务SOTP；独立普通股ROE/PB及资本约束校验",
+    "price": 9.61,
+    "quoteTime": "2026-10-07 15:06:11 HKT",
+    "numericDraft": false
+  },
+  "06098": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 5.23,
+    "quoteTime": "2026-10-07 15:04:54 HKT",
+    "numericDraft": false
+  },
+  "06160": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "上市产品DCF及管线rNPV/SOTP；独立持续产品盈利校验，许可费单列",
+    "price": 217.8,
+    "quoteTime": "2026-10-07 15:05:59 HKT",
+    "numericDraft": false
+  },
+  "06186": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 2.72,
+    "quoteTime": "2026-10-07 15:05:36 HKT",
+    "numericDraft": false
+  },
+  "06618": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 35.26,
+    "quoteTime": "2026-10-07 15:05:31 HKT",
+    "numericDraft": false
+  },
+  "06690": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 19.74,
+    "quoteTime": "2026-10-07 15:02:19 HKT",
+    "numericDraft": false
+  },
+  "06862": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 9.22,
+    "quoteTime": "2026-10-07 15:05:45 HKT",
+    "numericDraft": false
+  },
+  "06881": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "中周期普通股ROE/PB与业务SOTP；独立可分派盈利校验",
+    "price": 7.145,
+    "quoteTime": "2026-10-07 15:06:13 HKT",
+    "numericDraft": false
+  },
+  "09618": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 104.8,
+    "quoteTime": "2026-10-07 15:05:57 HKT",
+    "numericDraft": false
+  },
+  "09626": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 117.2,
+    "quoteTime": "2026-10-07 15:06:21 HKT",
+    "numericDraft": false
+  },
+  "09633": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 39.8,
+    "quoteTime": "2026-10-07 15:05:25 HKT",
+    "numericDraft": false
+  },
+  "09698": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 29.38,
+    "quoteTime": "2026-10-07 15:06:21 HKT",
+    "numericDraft": false
+  },
+  "09866": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部经营转盈与现金跑道情景；独立净现金/SOTP，暂不采用亏损EPS×PE",
+    "price": 27.16,
+    "quoteTime": "2026-10-07 15:06:06 HKT",
+    "numericDraft": false
+  },
+  "09868": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "分部经营转盈与现金跑道情景；独立净现金/SOTP，暂不采用亏损EPS×PE",
+    "price": 37.74,
+    "quoteTime": "2026-10-07 15:06:13 HKT",
+    "numericDraft": false
+  },
+  "09888": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 84.35,
+    "quoteTime": "2026-10-07 15:06:24 HKT",
+    "numericDraft": false
+  },
+  "09961": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 302.2,
+    "quoteTime": "2026-10-07 15:06:22 HKT",
+    "numericDraft": false
+  },
+  "09987": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 322,
+    "quoteTime": "2026-10-07 15:06:22 HKT",
+    "numericDraft": false
+  },
+  "09988": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 105.1,
+    "quoteTime": "2026-10-07 15:06:21 HKT",
+    "numericDraft": false
+  },
+  "09992": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 151.8,
+    "quoteTime": "2026-10-07 15:06:23 HKT",
+    "numericDraft": false
+  },
+  "09999": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 188.9,
+    "quoteTime": "2026-10-07 15:06:18 HKT",
+    "numericDraft": false
+  },
+  "02269": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 56.85,
+    "quoteTime": "2026-10-07 15:06:26 HKT",
+    "numericDraft": false
+  },
+  "02359": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "正常化EPS×公司适用倍数；独立FCFE/DCF或业务SOTP，租赁本金与股份支付单列",
+    "price": 218.8,
+    "quoteTime": "2026-10-07 15:04:17 HKT",
+    "numericDraft": false
+  },
+  "00823": {
+    "certified": false,
+    "independentMethodsClosed": false,
+    "method": "可分派收入贴现 / AFFO收益率；独立NAV及租金资本化校验",
+    "price": 36.92,
+    "quoteTime": "2026-10-07 15:06:18 HKT",
+    "numericDraft": true,
+    "valuationType": "分派贴现与NAV双方法敏感性，AFFO/资本开支和后续调整未闭合",
+    "dpu": 2.5361,
+    "nav": 57.75,
+    "source": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0528/2026052800355.pdf",
+    "bear": 26.666666666666668,
+    "base": 36.592299999999994,
+    "bull": 50.06925,
+    "definitions": [
+      {
+        "name": "悲观",
+        "dpu": 2.4,
+        "ke": 0.09,
+        "g": 0,
+        "navShock": -0.2,
+        "navMultiple": 0.65,
+        "ddm": 26.666666666666668,
+        "navValue": 30.03,
+        "conservativeLower": 26.666666666666668
+      },
+      {
+        "name": "基准",
+        "dpu": 2.5361,
+        "ke": 0.08,
+        "g": 0.01,
+        "navShock": -0.05,
+        "navMultiple": 0.75,
+        "ddm": 36.592299999999994,
+        "navValue": 41.146874999999994,
+        "conservativeLower": 36.592299999999994
+      },
+      {
+        "name": "乐观",
+        "dpu": 2.7,
+        "ke": 0.07,
+        "g": 0.02,
+        "navShock": 0.02,
+        "navMultiple": 0.85,
+        "ddm": 55.080000000000005,
+        "navValue": 50.06925,
+        "conservativeLower": 50.06925
+      }
+    ],
+    "sensitivity": [
+      [
+        0.07,
+        0,
+        36.23
+      ],
+      [
+        0.07,
+        0.01,
+        42.69101666666666
+      ],
+      [
+        0.07,
+        0.02,
+        51.736439999999995
+      ],
+      [
+        0.08,
+        0,
+        31.701249999999998
+      ],
+      [
+        0.08,
+        0.01,
+        36.592299999999994
+      ],
+      [
+        0.08,
+        0.02,
+        43.113699999999994
+      ],
+      [
+        0.09,
+        0,
+        28.17888888888889
+      ],
+      [
+        0.09,
+        0.01,
+        32.0182625
+      ],
+      [
+        0.09,
+        0.02,
+        36.9546
+      ]
+    ],
+    "threshold2": 29.97521111111111
+  }
+}

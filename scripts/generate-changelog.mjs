@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -46,6 +46,16 @@ function buildVersions(tags, commits) {
 }
 
 function main() {
+  // CLI deployments contain source files without Git metadata. Preserve the
+  // committed changelog instead of failing the production build or fabricating history.
+  try {
+    execFileSync('git', ['rev-parse', '--git-dir'], { cwd: CWD, stdio: 'pipe' })
+  } catch (error) {
+    const saved = JSON.parse(readFileSync(OUT, 'utf8'))
+    if (!Array.isArray(saved.versions)) throw new Error('Saved changelog must contain versions', { cause: error })
+    console.log('Git metadata unavailable; using saved public/changelog.json')
+    return
+  }
   const tags = getTags()
   const commits = getCommits(30)
   const versions = buildVersions(tags, commits)

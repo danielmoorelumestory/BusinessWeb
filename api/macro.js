@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
   try {
     const result = await buildSnapshots()
-    if (!Object.keys(result.us.series).length && !Object.keys(result.cn.series).length) {
+    if (!Object.keys(result.us.series).length && !Object.keys(result.cn.series).length && !Object.keys(result.hk.series).length) {
       return res.status(502).json({ error: '数据源暂时不可用', warnings: result.warnings })
     }
     // 宏观数据一天最多变几次：CDN 缓存 10 分钟，避免频繁刷新打到数据源

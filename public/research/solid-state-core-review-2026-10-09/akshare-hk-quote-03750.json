@@ -1,0 +1,12 @@
+{
+  "server": "akshare",
+  "tool": "stock_hk_hist",
+  "arguments": {
+    "symbol": "03750",
+    "start_date": "20261008",
+    "end_date": "20261009"
+  },
+  "retrievedAt": "2026-10-09T15:52:20.017307+00:00",
+  "isError": true,
+  "data": "Error calling tool 'stock_hk_hist': ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+}

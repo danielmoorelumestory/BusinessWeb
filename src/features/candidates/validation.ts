@@ -1,11 +1,11 @@
 // 候选池云同步的严格校验：服务端（api/candidates-sync.ts）与客户端共用。
-export type CandidateMarket = 'us' | 'cn' | 'hk' | 'adr'
+export type CandidateMarket = 'us' | 'cn' | 'hk' | 'adr' | 'ndx'
 export type CandidateItem = { market: CandidateMarket; code: string; addedAt: string; note?: string }
 export type CandidatesPayload = { schemaVersion: 1; items: CandidateItem[] }
 
 export const MAX_CANDIDATES = 2000
 export const MAX_NOTE = 500
-const MARKETS = new Set<string>(['us', 'cn', 'hk', 'adr'])
+const MARKETS = new Set<string>(['us', 'cn', 'hk', 'adr', 'ndx'])
 const ITEM_KEYS = new Set(['market', 'code', 'addedAt', 'note'])
 const object = (value: unknown): value is Record<string, unknown> => !!value && typeof value === 'object' && !Array.isArray(value)
 

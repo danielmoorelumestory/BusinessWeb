@@ -14,10 +14,10 @@ const renderAt = (path: string) =>
   )
 
 describe('SectionChrome', () => {
-  it('分组内页面显示面包屑：Live › 正念投资 › 页面名', () => {
+  it('分组内页面显示面包屑：Live › 投资 › 页面名', () => {
     renderAt('/valuation')
     const crumb = screen.getByRole('navigation', { name: '面包屑' })
-    expect(within(crumb).getAllByRole('link').map(a => a.textContent)).toEqual(['Live', '正念投资'])
+    expect(within(crumb).getAllByRole('link').map(a => a.textContent)).toEqual(['Live', '投资'])
     expect(crumb.textContent).toContain('公司估值')
   })
 
@@ -25,7 +25,7 @@ describe('SectionChrome', () => {
     renderAt('/valuation')
     const tabs = screen.getByRole('navigation', { name: '同组页面' })
     const links = within(tabs).getAllByRole('link')
-    expect(links.map(a => a.textContent)).toEqual(['公司估值', '网格交易', 'AI 工具'])
+    expect(links.map(a => a.textContent)).toEqual(['公司估值', '现金流折现 DCF', '网格交易', 'AI 工具'])
     expect(links[0].getAttribute('aria-current')).toBe('page')
     expect(links[1].getAttribute('aria-current')).toBeNull()
   })

@@ -8,7 +8,7 @@ const appSource = readFileSync(resolve(__dirname, '../App.tsx'), 'utf8')
 describe('NAV_ITEMS', () => {
   it('包含知识图谱，共 6 项，顺序固定', () => {
     expect(NAV_ITEMS.map(i => i.label)).toEqual([
-      '首页', '正念投资', 'AI实验室', '知识图谱', '自由空间', '关于',
+      '首页', '投资', 'AI实验室', '知识图谱', '自由空间', '关于',
     ])
     expect(NAV_ITEMS.map(i => i.path)).toEqual(['/', '/invest', '/ai', '/knowledge', '/life', '/about'])
   })
@@ -31,7 +31,7 @@ describe('INVEST_GROUPS', () => {
   it('收纳全部旧入口和 AI 工具，且无重复', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
-      '/first-book', '/grid-trading', '/invest/ai-tools', '/industry-landscape', '/investment-plan-2026',
+      '/dcf', '/first-book', '/future-trends', '/grid-trading', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
       '/investment-strategy', '/investment-targets', '/limit-up-analysis',
       '/mainland-investment-targets', '/monitor', '/pulse', '/research-notes',
       '/sector-rotation', '/trading-philosophy', '/valuation',
@@ -57,7 +57,7 @@ describe('INVEST_GROUPS', () => {
 
   it('选标的组只放研究方法与资料，不放带具体买卖建议的观察池', () => {
     const research = INVEST_GROUPS.find(g => g.id === 'research')!
-    expect(research.links.map(l => l.path)).toEqual(['/research-notes', '/industry-landscape'])
+    expect(research.links.map(l => l.path)).toEqual(['/research-notes', '/invest/etf', '/future-trends', '/industry-landscape'])
   })
 
   it('宏观温度（原每日监控）归入定规则，和 2026 计划同组', () => {
@@ -104,7 +104,7 @@ describe('isNavActive', () => {
     expect(isNavActive('/', '/invest')).toBe(false)
   })
 
-  it('任何收纳页面都点亮「正念投资」', () => {
+  it('任何收纳页面都点亮「投资」', () => {
     expect(isNavActive('/invest', '/invest')).toBe(true)
     expect(isNavActive('/invest', '/sector-rotation')).toBe(true)
     expect(isNavActive('/invest', '/grid-trading/records/1')).toBe(true)

@@ -1,0 +1,1644 @@
+{
+  "method": "本轮真实MCP stdio初始化、list_tools及call_tool；不是读取旧快照作为新查询",
+  "calls": [
+    {
+      "file": "yfinance-fx-CNYHKD.json",
+      "server": "yfinance",
+      "tool": "get_stock_history",
+      "arguments": {
+        "symbol": "CNYHKD=X",
+        "period": "5d"
+      },
+      "retrievedAt": "2026-10-09T15:52:54.889515+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-1772.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "1772.HK"
+      },
+      "retrievedAt": "2026-10-09T15:50:52.342608+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688005.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:01.277381+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002709.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:36.948597+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688559.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:29.719619+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300037.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:35.353512+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002074.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:14.329505+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "SLDP",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:34.824626+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688778.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:04.439802+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300037.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:35.382499+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-832522.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "832522.BJ"
+      },
+      "retrievedAt": "2026-10-09T15:51:39.018624+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002074.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:14.484784+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-0470.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "0470.HK"
+      },
+      "retrievedAt": "2026-10-09T15:51:17.533195+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688005.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:00.747786+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300457.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:20.673365+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688116.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:11.257645+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300073.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:59.717490+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-quote-300037.json",
+      "server": "akshare",
+      "tool": "stock_zh_a_hist_tx",
+      "arguments": {
+        "symbol": "sz300037",
+        "start_date": "20261008",
+        "end_date": "20261009",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-09T15:51:53.256197+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "603200.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:56.569172+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "603200.SS"
+      },
+      "retrievedAt": "2026-10-09T15:50:56.035037+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688116.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:11.230901+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300073.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:50:59.204275+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-7203.T.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "7203.T"
+      },
+      "retrievedAt": "2026-10-09T15:51:31.677656+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-600104.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "600104.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:31.589670+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002594.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:13.623207+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-7203.T.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "7203.T",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:31.772739+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002594.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:14.043456+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300568.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:10.188820+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "SLDP"
+      },
+      "retrievedAt": "2026-10-09T15:51:33.789134+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "603663.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:37.455135+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002812.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:09.155578+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "301238.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:57.601379+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-QS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "QS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:33.344527+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300207.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:16.498890+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688499.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:30.451728+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-600884.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "600884.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:07.562612+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-QS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "QS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:33.290386+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-NIO.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "NIO",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:30.887406+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-hk-financial-00470.json",
+      "server": "akshare",
+      "tool": "stock_hk_financial_indicator_em",
+      "arguments": {
+        "symbol": "00470"
+      },
+      "retrievedAt": "2026-10-09T15:52:17.397559+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300750.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:12.804715+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-quote-300450.json",
+      "server": "akshare",
+      "tool": "stock_zh_a_hist_tx",
+      "arguments": {
+        "symbol": "sz300450",
+        "start_date": "20261008",
+        "end_date": "20261009",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-09T15:51:45.980358+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300014.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:15.872497+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688567.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:15.368558+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688779.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:02.845047+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300207.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:16.487824+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300409.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:58.646557+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002812.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:08.717415+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-NIO.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "NIO",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:30.937759+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-hk-quote-03750.json",
+      "server": "akshare",
+      "tool": "stock_hk_hist",
+      "arguments": {
+        "symbol": "03750",
+        "start_date": "20261008",
+        "end_date": "20261009"
+      },
+      "retrievedAt": "2026-10-09T15:52:20.017307+00:00",
+      "isError": true
+    },
+    {
+      "file": "yfinance-get_cash_flow-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300750.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:13.339420+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300014.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:15.779952+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688499.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:30.054939+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-600884.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "600884.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:06.511623+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-hk-financial-01211.json",
+      "server": "akshare",
+      "tool": "stock_hk_financial_indicator_em",
+      "arguments": {
+        "symbol": "01211"
+      },
+      "retrievedAt": "2026-10-09T15:52:18.862006+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "301238.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:58.149689+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300409.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:59.196392+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688567.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:15.050127+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688779.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:02.314034+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-600104.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "600104.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:31.150788+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300450.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:18.605203+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-quote-300457.json",
+      "server": "akshare",
+      "tool": "stock_zh_a_hist_tx",
+      "arguments": {
+        "symbol": "sz300457",
+        "start_date": "20261008",
+        "end_date": "20261009",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-09T15:51:49.057058+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300450.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:17.528255+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "603663.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:37.978705+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-835185.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "835185.BJ"
+      },
+      "retrievedAt": "2026-10-09T15:51:04.483479+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300568.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:10.715498+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002460.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:55.037768+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-hk-financial-01772.json",
+      "server": "akshare",
+      "tool": "stock_hk_financial_indicator_em",
+      "arguments": {
+        "symbol": "01772"
+      },
+      "retrievedAt": "2026-10-09T15:52:19.423167+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300457.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:19.105672+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002460.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:50:52.341865+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-9866.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "9866.HK"
+      },
+      "retrievedAt": "2026-10-09T15:51:30.624812+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "603659.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:08.102812+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002709.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:36.401044+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688559.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:29.052232+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-bj-920185.json",
+      "server": "akshare",
+      "tool": "stock_individual_info_em",
+      "arguments": {
+        "symbol": "920185",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-09T15:52:24.212399+00:00",
+      "isError": true
+    },
+    {
+      "file": "yfinance-info-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "603659.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:07.588936+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688778.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:03.380509+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "603663.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:37.463279+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-splits-300450.json",
+      "server": "yfinance",
+      "tool": "get_dividends_and_splits",
+      "arguments": {
+        "symbol": "300450.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:52:54.890213+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002594.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:13.789974+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300568.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:10.705228+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300568.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:09.687106+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300450.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:19.093003+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "603663.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:37.444717+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300409.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:58.654787+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "301238.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:50:57.091607+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300750.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:11.769938+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-quote-300750.json",
+      "server": "akshare",
+      "tool": "stock_zh_a_hist_tx",
+      "arguments": {
+        "symbol": "sz300750",
+        "start_date": "20261008",
+        "end_date": "20261009",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-09T15:51:42.310201+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-7203.T.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "7203.T",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:32.804279+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300750.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:13.325062+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-3750.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "3750.HK"
+      },
+      "retrievedAt": "2026-10-09T15:51:12.289028+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "301238.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:57.615876+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002812.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:09.145851+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300409.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:50:58.179950+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300207.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:16.497915+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-bj-920522.json",
+      "server": "akshare",
+      "tool": "stock_individual_info_em",
+      "arguments": {
+        "symbol": "920522",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-09T15:52:26.829802+00:00",
+      "isError": true
+    },
+    {
+      "file": "yfinance-get_income_statement-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002074.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:14.336425+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300037.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:35.379277+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "603659.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:08.616788+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-financial-300457.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300457",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-09T15:52:06.832266+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688005.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:00.758502+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-7203.T.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "7203.T",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:32.203215+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-quote-300073.json",
+      "server": "akshare",
+      "tool": "stock_zh_a_hist_tx",
+      "arguments": {
+        "symbol": "sz300073",
+        "start_date": "20261008",
+        "end_date": "20261009",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-09T15:51:57.440832+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002460.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:55.617643+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "603200.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:56.036564+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300073.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:59.699273+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688116.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:11.243706+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-financial-300450.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300450",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-09T15:52:01.659311+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300457.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:19.093722+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300073.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:00.358642+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688116.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:11.766271+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300457.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:19.631243+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "603200.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:56.585574+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002460.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:50:52.342663+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-splits-002594.json",
+      "server": "yfinance",
+      "tool": "get_dividends_and_splits",
+      "arguments": {
+        "symbol": "002594.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:52:54.890267+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002074.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:14.730377+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300037.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:35.886309+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-hk-financial-03750.json",
+      "server": "akshare",
+      "tool": "stock_hk_financial_indicator_em",
+      "arguments": {
+        "symbol": "03750"
+      },
+      "retrievedAt": "2026-10-09T15:52:16.812268+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688778.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:03.392858+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-920522.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "920522.BJ"
+      },
+      "retrievedAt": "2026-10-09T15:51:37.990816+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-1211.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "1211.HK"
+      },
+      "retrievedAt": "2026-10-09T15:51:13.650100+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688559.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:27.510059+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002709.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:35.887178+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-hk-quote-00470.json",
+      "server": "akshare",
+      "tool": "stock_hk_hist",
+      "arguments": {
+        "symbol": "00470",
+        "start_date": "20261008",
+        "end_date": "20261009"
+      },
+      "retrievedAt": "2026-10-09T15:52:22.179087+00:00",
+      "isError": true
+    },
+    {
+      "file": "yfinance-get_balance_sheet-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688559.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:29.354425+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002709.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:36.922646+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688005.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:01.286677+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-NIO.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "NIO",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:30.928887+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688778.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:03.368764+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-NIO.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "NIO"
+      },
+      "retrievedAt": "2026-10-09T15:51:30.568325+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "603659.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:07.591701+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688779.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:02.319577+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "SLDP",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:34.850822+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688567.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:15.356859+00:00",
+      "isError": false
+    },
+    {
+      "file": "akshare-financial-300037.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300037",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-09T15:52:12.067674+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300014.SZ"
+      },
+      "retrievedAt": "2026-10-09T15:51:15.372518+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-600884.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "600884.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:04.948531+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688499.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:30.053714+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-600884.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "600884.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:07.035043+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688499.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:30.063841+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300207.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:17.030840+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "SLDP",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:34.301374+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002812.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:09.686130+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300014.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:15.810087+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688779.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:01.821176+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688567.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:14.743852+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-600104.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "600104.SS"
+      },
+      "retrievedAt": "2026-10-09T15:51:31.118375+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002594.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:14.129496+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-920185.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "920185.BJ"
+      },
+      "retrievedAt": "2026-10-09T15:51:04.442010+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_income_statement-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300450.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:18.046712+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_balance_sheet-600104.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "600104.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:31.541838+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-info-QS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "QS"
+      },
+      "retrievedAt": "2026-10-09T15:51:32.832720+00:00",
+      "isError": false
+    },
+    {
+      "file": "yfinance-get_cash_flow-QS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "QS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-09T15:51:33.786838+00:00",
+      "isError": false
+    }
+  ],
+  "note": "isError=false不代表有数据，四个北交所代码返回空资料；已另验名称、代码和正价格。原始文件为最终修正解析后的响应；初始客户端解析错误造成的重复尝试未计入独立请求数。"
+}

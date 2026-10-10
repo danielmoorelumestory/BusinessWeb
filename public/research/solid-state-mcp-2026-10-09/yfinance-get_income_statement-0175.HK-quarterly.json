@@ -1,0 +1,50 @@
+{
+  "server": "yfinance",
+  "tool": "get_income_statement",
+  "arguments": {
+    "symbol": "0175.HK",
+    "quarterly": true
+  },
+  "retrievedAt": "2026-10-09T14:50:30.867099+00:00",
+  "data": {
+    "symbol": "0175.HK",
+    "type": "quarterly",
+    "data": {
+      "columns": [
+        "2026-03-31T00:00:00",
+        "2025-03-31T00:00:00"
+      ],
+      "indexName": null,
+      "rows": [
+        {
+          "metric": "Diluted Average Shares",
+          "values": [
+            10797936297.0,
+            10077246783.0
+          ]
+        },
+        {
+          "metric": "Basic Average Shares",
+          "values": [
+            10797936297.0,
+            10077246783.0
+          ]
+        },
+        {
+          "metric": "Diluted EPS",
+          "values": [
+            0.385814,
+            0.562852
+          ]
+        },
+        {
+          "metric": "Basic EPS",
+          "values": [
+            0.385814,
+            0.562852
+          ]
+        }
+      ]
+    }
+  }
+}

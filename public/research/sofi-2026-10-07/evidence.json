@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-07",
+  "code": "SOFI",
+  "priceAnchor": {
+    "price": 15.76,
+    "date": "2026-10-06",
+    "source": "aktools 日线（第三方）"
+  },
+  "filings": [
+    {
+      "form": "8-K EX-99.1",
+      "date": "2026-07-29",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818874/000181887426000050/a2026q2earningsrelease.htm",
+      "sha256": "1843898ddf2751e37d8452729a4bad1ff7120a0e60ddc6473a5cc360e8f465d3"
+    },
+    {
+      "form": "10-Q",
+      "date": "2026-08-06",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818874/000181887426000054/sofi-20260630.htm",
+      "sha256": "d0ff8e13802cf559ba61c0b88cbd3579216cb03a7d4a6fb288bd95b02e844aab"
+    },
+    {
+      "form": "10-K (EPS 来自 XBRL companyfacts)",
+      "date": "2026-02-17",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001818874.json"
+    }
+  ],
+  "inputs": {
+    "ttmEps": {
+      "fy2025": 0.39,
+      "h1_2025": 0.14,
+      "h1_2026": 0.24,
+      "value": 0.49
+    },
+    "guidanceAdjEps": 0.6,
+    "adjEpsH1": 0.24,
+    "adjNiGuide": 825,
+    "adjNiH1": 327.137,
+    "bvps": 8.58,
+    "tbvps": 7.34,
+    "sharesOutM": 1291.570324,
+    "dilutedWtdQ2M": 1351.99,
+    "dilutedWtdQ2PYM": 1182.877,
+    "tbvB": 9.5
+  },
+  "scenarios": {
+    "bear": {
+      "p": 0.3,
+      "eps2027": 0.45,
+      "pe": 17,
+      "tbvps": 8.2,
+      "ptbv": 1.1,
+      "price": 8
+    },
+    "base": {
+      "p": 0.45,
+      "eps2027": 0.8,
+      "pe": 24,
+      "tbvps": 8.4,
+      "ptbv": 2.2,
+      "price": 19
+    },
+    "bull": {
+      "p": 0.25,
+      "eps2027": 1.05,
+      "pe": 28,
+      "tbvps": 8.6,
+      "ptbv": 3.2,
+      "price": 28
+    }
+  },
+  "derived": {
+    "ttmPE": 32.16326530612245,
+    "fwdPE": 26.266666666666666,
+    "pb": 1.8368298368298368,
+    "ptbv": 2.147138964577657,
+    "R": 0.4175257731958763,
+    "Pstar": 11.666666666666666,
+    "impliedROTCE_pct": 19.029972752043598,
+    "h2NiVsH1": 1.521879212684594
+  },
+  "assumptions": "Ke 11%、g 4%、概率与倍数均为研究假设，不是回测胜率或目标价"
+}

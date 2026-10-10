@@ -1,0 +1,14 @@
+{
+  "server": "akshare",
+  "tool": "stock_zh_a_hist_tx",
+  "arguments": {
+    "symbol": "bj920185",
+    "start_date": "20260925",
+    "end_date": "20261009",
+    "timeout": 15
+  },
+  "retrievedAt": "2026-10-09T14:07:22.593506+00:00",
+  "data": {
+    "error": "Error calling tool 'stock_zh_a_hist_tx': 'day'"
+  }
+}

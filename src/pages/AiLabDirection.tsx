@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Stars, VerdictBadge } from '../components/lab/LabDirectionCard'
 import { findDirection, type LabDirection } from '../data/aiLab'
+import { usePageSeo } from '../components/RouteSeo'
 import NotFound from './NotFound'
 
 function limitRows(d: LabDirection): Array<[string, string]> {
@@ -17,6 +18,7 @@ function limitRows(d: LabDirection): Array<[string, string]> {
 export default function AiLabDirection(): JSX.Element {
   const { slug = '' } = useParams()
   const d = findDirection(slug)
+  usePageSeo(d ? `${d.title}｜AI实验室` : undefined, d?.reason)
   if (!d) return <NotFound />
 
   const avoid = d.verdict === 'avoid'
@@ -40,9 +42,19 @@ export default function AiLabDirection(): JSX.Element {
         <p>{d.why}</p>
       </section>
 
+      {!avoid && d.plan && <section className="lab-section">
+        <h2>怎样验证这门小生意</h2>
+        <p className="hub-group__hint">以下是待验证的假设，预算和目标是建议边界，开始前再确认。</p>
+        <dl className="lab-limits">
+          {([['服务谁', d.plan.audience], ['做什么', d.plan.product], ['怎样获客', d.plan.acquisition], ['怎样收费', d.plan.monetization], ['看什么结果', d.plan.validation]] as const).map(([label, value]) => <React.Fragment key={label}><dt>{label}</dt><dd>{value}</dd></React.Fragment>)}
+        </dl>
+        <h3>主要难点</h3>
+        <ul>{d.plan.cautions.map(text => <li key={text}>{text}</li>)}</ul>
+      </section>}
+
       {rows.length > 0 && (
         <section className="lab-section">
-          <h2>实验边界</h2>
+          <h2>{d.plan ? '建议实验边界' : '实验边界'}</h2>
           <dl className="lab-limits">
             {rows.map(([k, v]) => (
               <React.Fragment key={k}>

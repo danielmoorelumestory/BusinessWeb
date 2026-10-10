@@ -1,0 +1,18 @@
+# Local caches, dependencies, credentials and generated output are not deployment sources.
+.local/
+.superpowers/
+.git/
+.vercel/
+node_modules/
+dist/
+obsidian-plugin/node_modules/
+obsidian-plugin/main.js
+.env
+.env.*
+!.env.example
+# Runtime skill downloads are packaged under public/investment-skills.
+.agents/
+.claude/
+.opencode/
+.codebuddy/
+valuation-reports/

@@ -1,0 +1,11 @@
+{
+  "server": "akshare",
+  "tool": "stock_individual_info_em",
+  "arguments": {
+    "symbol": "920522",
+    "timeout": 15
+  },
+  "retrievedAt": "2026-10-09T15:52:26.829802+00:00",
+  "isError": true,
+  "data": "Error calling tool 'stock_individual_info_em': Expecting value: line 1 column 1 (char 0)"
+}

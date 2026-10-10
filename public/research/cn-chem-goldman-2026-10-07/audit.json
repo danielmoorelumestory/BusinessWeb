@@ -1,0 +1,2906 @@
+[
+  {
+    "code": "600426",
+    "name": "华鲁恒升",
+    "sector": "化工",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "600426",
+      "name": "华鲁恒升",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225481561.PDF",
+      "fullTitle": "<em>华鲁恒升</em>2026年半年度报告",
+      "fullSize": 995,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225481540.PDF",
+      "summaryTitle": "<em>华鲁恒升</em>2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 17162488970.88,
+      "revenuePrior": 15763647150.22,
+      "net": 2352959838.15,
+      "netPrior": 1568858834.77,
+      "core": 2346178462.58,
+      "corePrior": 1559025016.33,
+      "ocf": 2692017519.54,
+      "ocfPrior": 2331495955.11,
+      "equity": 34932701977.82,
+      "revenueYoy": 8.87,
+      "netYoy": 49.98,
+      "coreYoy": 50.49,
+      "ocfYoy": 15.46,
+      "cashCapex": 1656423643.03,
+      "cashCapexPage": 33,
+      "fcfProxy": 1035593876.51,
+      "pages": 139,
+      "sha256": "a9fa4b948525f0c9d9cea1cb381ae85c8c3c60c234179f3b0c635c811d431ce3",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225481540.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225481561.PDF",
+      "fullSha256": "a9fa4b948525f0c9d9cea1cb381ae85c8c3c60c234179f3b0c635c811d431ce3"
+    },
+    "quote": {
+      "name": "华鲁恒升",
+      "price": 19.43,
+      "timestamp": "20260930161436",
+      "providerPe": 13.03,
+      "providerPb": 1.53,
+      "capYi": 534.31,
+      "totalShares": 2749943015,
+      "url": "https://qt.gtimg.cn/q=sh600426"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        36.0,
+        46.0,
+        56.0
+      ],
+      "pe": [
+        9.0,
+        11.0,
+        14.0
+      ],
+      "approxSharesYi": 27.49943015,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        11.782062327571541,
+        18.400381289355554,
+        28.509681681531138
+      ],
+      "ratio": null,
+      "threshold": 13.988168648166214,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 48.68418781349146,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          42.3374,
+          38.793,
+          35.0233
+        ],
+        [
+          52.0122,
+          48.6842,
+          45.153
+        ],
+        [
+          61.7656,
+          58.6384,
+          55.3279
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：低负债与煤化工成本壁垒定位。调整：财务数据更新为2026H1原件（收入171.6亿，扣非23.5亿，FCF 10.4亿）。撤回：旧未认证买入区间与固定评级",
+    "watch": "荆州基地二期爬坡进度、DMF与醋酸价差以及单季经营现金流持续性"
+  },
+  {
+    "code": "600486",
+    "name": "扬农化工",
+    "sector": "化工",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "600486",
+      "name": "扬农化工",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225496819.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1189,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497232.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 6605877425.85,
+      "revenuePrior": 6233521095.71,
+      "net": 789837865.86,
+      "netPrior": 805864243.84,
+      "core": 787545261.71,
+      "corePrior": 795880037.69,
+      "ocf": 1438765505.46,
+      "ocfPrior": 1727101117.51,
+      "equity": 11960193799.72,
+      "revenueYoy": 5.97,
+      "netYoy": -1.99,
+      "coreYoy": -1.05,
+      "ocfYoy": -16.69,
+      "cashCapex": 310340204.91,
+      "cashCapexPage": 44,
+      "fcfProxy": 1128425300.55,
+      "pages": 162,
+      "sha256": "25e18daf8aa713acae0f62ef01eacf91b6ab07f1ebbeac733bcba71bcef5ea38",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497232.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225496819.PDF",
+      "fullSha256": "25e18daf8aa713acae0f62ef01eacf91b6ab07f1ebbeac733bcba71bcef5ea38"
+    },
+    "quote": {
+      "name": "XD扬农化",
+      "price": 51.18,
+      "timestamp": "20260930161444",
+      "providerPe": 16.29,
+      "providerPb": 1.74,
+      "capYi": 206.82,
+      "totalShares": 404111938,
+      "url": "https://qt.gtimg.cn/q=sh600486"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        12.0,
+        16.0,
+        20.0
+      ],
+      "pe": [
+        10.0,
+        13.0,
+        16.0
+      ],
+      "approxSharesYi": 4.04111938,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        29.69474264826099,
+        51.47088725698572,
+        79.18598039536265
+      ],
+      "ratio": 0.013538923561563724,
+      "threshold": 36.9534575178359,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 18.844880855657713,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          16.3881,
+          15.0162,
+          13.557
+        ],
+        [
+          20.1331,
+          18.8449,
+          17.478
+        ],
+        [
+          23.9085,
+          22.698,
+          21.4166
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：先正达农药渠道与现金流稳健定位。调整：财务更新至2026H1（收入66.1亿，扣非7.88亿，简式FCF 11.3亿）。撤回：旧机械买入点",
+    "watch": "原药出口价格企稳信号、辽宁葫芦岛一期产能稼动率及毛利率回升"
+  },
+  {
+    "code": "600989",
+    "name": "宝丰能源",
+    "sector": "化工",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "600989",
+      "name": "宝丰能源",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-13/1225470229.PDF",
+      "fullTitle": "<em>宁夏宝丰能源集团股份有限公司</em>2026年半年度报告",
+      "fullSize": 1210,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-13/1225470232.PDF",
+      "summaryTitle": "<em>宁夏宝丰能源集团股份有限公司</em>2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 30197583541.33,
+      "revenuePrior": 22819543339.15,
+      "net": 9727818696.5,
+      "netPrior": 5717625875.88,
+      "core": 9209887019.74,
+      "corePrior": 5579431320.5,
+      "ocf": 11964338495.35,
+      "ocfPrior": 7989808926.48,
+      "equity": 55205181437.62,
+      "revenueYoy": 32.33,
+      "netYoy": 70.14,
+      "coreYoy": 65.07,
+      "ocfYoy": 49.74,
+      "cashCapex": 4602989394.94,
+      "cashCapexPage": 51,
+      "fcfProxy": 7361349100.410001,
+      "pages": 158,
+      "sha256": "e4c2d398299a6856180134c580885f0848dcf2b15584ca263bc5d6f1506b682e",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-13/1225470232.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-13/1225470229.PDF",
+      "fullSha256": "e4c2d398299a6856180134c580885f0848dcf2b15584ca263bc5d6f1506b682e"
+    },
+    "quote": {
+      "name": "宝丰能源",
+      "price": 22.46,
+      "timestamp": "20260930161446",
+      "providerPe": 10.72,
+      "providerPb": 3.16,
+      "capYi": 1647.07,
+      "totalShares": 7333360000,
+      "url": "https://qt.gtimg.cn/q=sh600989"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        140.0,
+        180.0,
+        220.0
+      ],
+      "pe": [
+        8.0,
+        10.0,
+        13.0
+      ],
+      "approxSharesYi": 73.3336,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        15.272671735739141,
+        24.545365289580765,
+        38.99985818233388
+      ],
+      "ratio": 0.29014471204136966,
+      "threshold": 18.363569587019683,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.06,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 145.52913809256628,
+      "terminalValueShare": 0.6456106998062031,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          126.4667,
+          115.8166,
+          104.5018
+        ],
+        [
+          155.554,
+          145.5291,
+          134.9032
+        ],
+        [
+          184.9332,
+          175.4918,
+          165.5059
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：煤制烯烃极低成本护城河。调整：财务更新为2026H1（收入302.0亿，扣非92.1亿，FCF 73.6亿）。撤回：旧固定买入评级",
+    "watch": "内蒙项目达产负荷与单吨烯烃成本、国际原油与动力煤价差、资本开支现金流匹配度"
+  },
+  {
+    "code": "000792",
+    "name": "盐湖股份",
+    "sector": "化工",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "000792",
+      "name": "盐湖股份",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225504164.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 22815,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225504163.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 13052166200.79,
+      "revenuePrior": 6780620522.27,
+      "net": 6168537120.45,
+      "netPrior": 2515130477.62,
+      "core": 6000549265.36,
+      "corePrior": 2509247590.09,
+      "ocf": 6282200914.52,
+      "ocfPrior": 6162615889.2,
+      "equity": 47751402269.74,
+      "revenueYoy": 92.49,
+      "netYoy": 145.26,
+      "coreYoy": 139.14,
+      "ocfYoy": 1.94,
+      "cashCapex": 630315492.54,
+      "cashCapexPage": 56,
+      "fcfProxy": 5651885421.9800005,
+      "pages": 142,
+      "sha256": "7dffb768395a615d67af497501511c056c2aaae77eec86fcdf2eaaf65fc47955",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225504163.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225504164.PDF",
+      "fullSha256": "7dffb768395a615d67af497501511c056c2aaae77eec86fcdf2eaaf65fc47955"
+    },
+    "quote": {
+      "name": "盐湖股份",
+      "price": 23.83,
+      "timestamp": "20260930161415",
+      "providerPe": 10.46,
+      "providerPb": 2.64,
+      "capYi": 1260.98,
+      "totalShares": 5291572541,
+      "url": "https://qt.gtimg.cn/q=sz000792"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        80.0,
+        110.0,
+        140.0
+      ],
+      "pe": [
+        8.0,
+        11.0,
+        14.0
+      ],
+      "approxSharesYi": 52.91572541,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        12.094703323845069,
+        22.866548471644585,
+        37.04002892927552
+      ],
+      "ratio": null,
+      "threshold": 15.685318373111576,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 114.89476222571886,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          99.9163,
+          91.5516,
+          82.655
+        ],
+        [
+          122.749,
+          114.8948,
+          106.5612
+        ],
+        [
+          145.7668,
+          138.3868,
+          130.574
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：钾锂资源垄断禀赋与超高毛利（71.4%）。调整：财务更新为2026H1（收入130.5亿，扣非60.0亿，FCF 56.5亿）。撤回：旧未核验区间",
+    "watch": "秋季钾肥集采定价、4万吨基础锂盐项目爬坡以及中国盐湖集团协同效应兑现"
+  },
+  {
+    "code": "600096",
+    "name": "云天化",
+    "sector": "化工",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "600096",
+      "name": "云天化",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-18/1225477770.PDF",
+      "fullTitle": "<em>云天化</em>2026年半年度报告",
+      "fullSize": 1761,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-18/1225477781.PDF",
+      "summaryTitle": "<em>云天化</em>2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 22820982028.44,
+      "revenuePrior": 25055713228.3,
+      "net": 2934440407.74,
+      "netPrior": 2764747401.32,
+      "core": 2874364165.66,
+      "corePrior": 2698875845.58,
+      "ocf": 2944535292.87,
+      "ocfPrior": 4216282903.83,
+      "equity": 25404766479.34,
+      "revenueYoy": -8.92,
+      "netYoy": 6.14,
+      "coreYoy": 6.5,
+      "ocfYoy": -30.16,
+      "cashCapex": 884584125.64,
+      "cashCapexPage": 52,
+      "fcfProxy": 2059951167.23,
+      "pages": 173,
+      "sha256": "52869de81393b6dfa77f9e9a6ca13b30a39b41a8fcbb23d6d794ff85384e344e",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-18/1225477781.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-18/1225477770.PDF",
+      "fullSha256": "52869de81393b6dfa77f9e9a6ca13b30a39b41a8fcbb23d6d794ff85384e344e"
+    },
+    "quote": {
+      "name": "云天化",
+      "price": 27.86,
+      "timestamp": "20260930161442",
+      "providerPe": 9.54,
+      "providerPb": 2.03,
+      "capYi": 507.89,
+      "totalShares": 1822990731,
+      "url": "https://qt.gtimg.cn/q=sh600096"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        42.0,
+        54.0,
+        66.0
+      ],
+      "pe": [
+        7.0,
+        9.0,
+        12.0
+      ],
+      "approxSharesYi": 18.22990731,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        16.127344752802255,
+        26.659488264836384,
+        43.44509198714077
+      ],
+      "ratio": null,
+      "threshold": 19.63805925681363,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 47.727587672370674,
+      "terminalValueShare": 0.6362786150670128,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          41.5359,
+          38.0798,
+          34.3997
+        ],
+        [
+          50.9646,
+          47.7276,
+          44.2895
+        ],
+        [
+          60.4512,
+          57.4168,
+          54.2015
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：磷矿资源与低估值属性。调整：财务更新为2026H1（收入228.2亿，扣非28.7亿，FCF 20.6亿）。撤回：旧投资排名",
+    "watch": "磷矿石外售价格与磷铵出口配额执行、主营毛利率与资产负债率去化节奏"
+  },
+  {
+    "code": "600309",
+    "name": "万华化学",
+    "sector": "化工",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "600309",
+      "name": "万华化学",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497561.PDF",
+      "fullTitle": "<em>万华化学</em>2026年半年度报告",
+      "fullSize": 1187,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497598.PDF",
+      "summaryTitle": "<em>万华化学</em>2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 119315863794.85,
+      "revenuePrior": 90901436922.57,
+      "net": 10062963544.81,
+      "netPrior": 6122729612.96,
+      "core": 9676293596.48,
+      "corePrior": 6244469681.36,
+      "ocf": 11784141040.7,
+      "ocfPrior": 10528103970.83,
+      "equity": 113596224902.63,
+      "revenueYoy": 31.26,
+      "netYoy": 64.35,
+      "coreYoy": 54.96,
+      "ocfYoy": 11.93,
+      "cashCapex": 10739891135.86,
+      "cashCapexPage": 46,
+      "fcfProxy": 1044249904.8400002,
+      "pages": 194,
+      "sha256": "9842bc427ea4e99a0b4ae32bf537cff60c9c5c8f73d68352ecbd11ca0ba1a984",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497598.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497561.PDF",
+      "fullSha256": "9842bc427ea4e99a0b4ae32bf537cff60c9c5c8f73d68352ecbd11ca0ba1a984"
+    },
+    "quote": {
+      "name": "万华化学",
+      "price": 68.9,
+      "timestamp": "20260930161447",
+      "providerPe": 13.1,
+      "providerPb": 1.94,
+      "capYi": 2156.89,
+      "totalShares": 3130471626,
+      "url": "https://qt.gtimg.cn/q=sh600309"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        150.0,
+        190.0,
+        240.0
+      ],
+      "pe": [
+        9.0,
+        12.0,
+        15.0
+      ],
+      "approxSharesYi": 31.30471626,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        43.124492449879824,
+        72.83247613757482,
+        114.99864653301285
+      ],
+      "ratio": 0.15256639000912608,
+      "threshold": 53.027153679111485,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.06,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 190.57511636293296,
+      "terminalValueShare": 0.6456106998062031,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          165.6122,
+          151.6655,
+          136.8485
+        ],
+        [
+          203.703,
+          190.5751,
+          176.6601
+        ],
+        [
+          242.1761,
+          229.8122,
+          216.7353
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：全球MDI绝对龙头地位。调整：财务更新为2026H1（收入1193.2亿，扣非96.8亿，简式FCF 10.4亿）。撤回：旧买入区间",
+    "watch": "MDI全球供需格局与出口价差、烟台乙烯二期及福建基地投产进度、FCF与杠杆改善"
+  },
+  {
+    "code": "000408",
+    "name": "藏格矿业",
+    "sector": "化工",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "000408",
+      "name": "藏格矿业",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225466935.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 23291,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225466934.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 2064878029.42,
+      "revenuePrior": 1678141937.3,
+      "net": 3638081370.05,
+      "netPrior": 1800205233.31,
+      "core": 3705693238.72,
+      "corePrior": 1808397987.46,
+      "ocf": 984157915.1,
+      "ocfPrior": 834076232.24,
+      "equity": 17196667217.83,
+      "revenueYoy": 23.05,
+      "netYoy": 102.09,
+      "coreYoy": 104.92,
+      "ocfYoy": 17.99,
+      "cashCapex": 88325200.74,
+      "cashCapexPage": 61,
+      "fcfProxy": 895832714.36,
+      "pages": 150,
+      "sha256": "ec07c0221bf1edb3b73eb1ad9ed28a997b41598d798fa31a9264e650c07449dc",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225466934.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225466935.PDF",
+      "fullSha256": "ec07c0221bf1edb3b73eb1ad9ed28a997b41598d798fa31a9264e650c07449dc"
+    },
+    "quote": {
+      "name": "藏格矿业",
+      "price": 70.66,
+      "timestamp": "20260930161430",
+      "providerPe": 19.48,
+      "providerPb": 7.09,
+      "capYi": 1108.6,
+      "totalShares": 1568914754,
+      "url": "https://qt.gtimg.cn/q=sz000408"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        45.0,
+        60.0,
+        75.0
+      ],
+      "pe": [
+        12.0,
+        16.0,
+        20.0
+      ],
+      "approxSharesYi": 15.68914754,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        34.41869602049775,
+        61.188792925329324,
+        95.60748894582707
+      ],
+      "ratio": null,
+      "threshold": 43.342061655441604,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 101.0100100727934,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          87.8417,
+          80.4879,
+          72.6664
+        ],
+        [
+          107.915,
+          101.01,
+          93.6835
+        ],
+        [
+          128.1513,
+          121.6631,
+          114.7945
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：巨龙铜业与盐湖资源重估逻辑。调整：财务更新为2026H1（收入20.7亿，扣非37.1亿，FCF 9.0亿）。撤回：旧C层评价",
+    "watch": "巨龙铜业二期扩产分红节奏、碳酸锂生产单吨成本与实际回收率、实控人相关历史治理阴影消除"
+  },
+  {
+    "code": "002064",
+    "name": "华峰化学",
+    "sector": "化工",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002064",
+      "name": "华峰化学",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-01/1225450795.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 2698,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-01/1225450794.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 14166625096.76,
+      "revenuePrior": 12136602677.19,
+      "net": 1982794883.9,
+      "netPrior": 983310926.88,
+      "core": 1972765699.79,
+      "corePrior": 904485433.57,
+      "ocf": 1372903660.31,
+      "ocfPrior": 1351619822.79,
+      "equity": 28777656502.92,
+      "revenueYoy": 16.73,
+      "netYoy": 101.64,
+      "coreYoy": 118.11,
+      "ocfYoy": 1.57,
+      "cashCapex": 655865151.43,
+      "cashCapexPage": 53,
+      "fcfProxy": 717038508.88,
+      "pages": 150,
+      "sha256": "a553e80b891015f1b5455e20ff1cef052c5afb965d8715de02b259e14a993e39",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-01/1225450794.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-01/1225450795.PDF",
+      "fullSha256": "a553e80b891015f1b5455e20ff1cef052c5afb965d8715de02b259e14a993e39"
+    },
+    "quote": {
+      "name": "华峰化学",
+      "price": 9.65,
+      "timestamp": "20260930161430",
+      "providerPe": 16.76,
+      "providerPb": 1.66,
+      "capYi": 478.89,
+      "totalShares": 4962543897,
+      "url": "https://qt.gtimg.cn/q=sz002064"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        26.0,
+        36.0,
+        46.0
+      ],
+      "pe": [
+        9.0,
+        12.0,
+        15.0
+      ],
+      "approxSharesYi": 49.62543897,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        4.7153235287542685,
+        8.70521266846942,
+        13.904159123249768
+      ],
+      "ratio": null,
+      "threshold": 6.045286575325986,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 45.00239074969923,
+      "terminalValueShare": 0.6362786150670128,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          39.1643,
+          35.9055,
+          32.4356
+        ],
+        [
+          48.0545,
+          45.0024,
+          41.7606
+        ],
+        [
+          56.9995,
+          54.1384,
+          51.1066
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：氨纶与聚氨酯成本规模第一。调整：财务更新为2026H1（收入141.7亿，扣非19.7亿，FCF 7.2亿）。撤回：旧仅观察标签",
+    "watch": "氨纶与主要原料纯MDI/PTMEG价差走势、重庆基地产能利用率以及行业老旧产能退出进度"
+  },
+  {
+    "code": "600160",
+    "name": "巨化股份",
+    "sector": "化工",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "600160",
+      "name": "巨化股份",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505980.PDF",
+      "fullTitle": "<em>巨化股份</em>2026年半年度报告",
+      "fullSize": 2399,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505439.PDF",
+      "summaryTitle": "<em>巨化股份</em>2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 13340133500.18,
+      "revenuePrior": 13331461429.24,
+      "net": 2650249394.52,
+      "netPrior": 2050820025.28,
+      "core": 2627354838.66,
+      "corePrior": 2026051219.71,
+      "ocf": 2330548347.76,
+      "ocfPrior": 2665670072.93,
+      "equity": 22058688269.76,
+      "revenueYoy": 0.07,
+      "netYoy": 29.23,
+      "coreYoy": 29.68,
+      "ocfYoy": -12.57,
+      "cashCapex": 4265483564.47,
+      "cashCapexPage": 80,
+      "fcfProxy": -1934935216.7099996,
+      "pages": 242,
+      "sha256": "7706d9983b7b0f8108efad1c32bbf626719ad461b9db7f4022517667473e3c6f",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505439.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505980.PDF",
+      "fullSha256": "7706d9983b7b0f8108efad1c32bbf626719ad461b9db7f4022517667473e3c6f"
+    },
+    "quote": {
+      "name": "巨化股份",
+      "price": 33.13,
+      "timestamp": "20260930161451",
+      "providerPe": 20.41,
+      "providerPb": 4.17,
+      "capYi": 894.43,
+      "totalShares": 2699746081,
+      "url": "https://qt.gtimg.cn/q=sh600160"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        35.0,
+        48.0,
+        62.0
+      ],
+      "pe": [
+        14.0,
+        18.0,
+        23.0
+      ],
+      "approxSharesYi": 26.99746081,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        18.149855034459442,
+        32.0030096934142,
+        52.819782202324824
+      ],
+      "ratio": null,
+      "threshold": 22.767573254111028,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.06,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 79.02810264031439,
+      "terminalValueShare": 0.6456106998062031,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          68.6764,
+          62.893,
+          56.7486
+        ],
+        [
+          84.472,
+          79.0281,
+          73.2578
+        ],
+        [
+          100.4261,
+          95.299,
+          89.8763
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：制冷剂配额与氟化工平台优势。调整：财务更新为2026H1（收入133.4亿，扣非26.3亿，简式FCF -19.4亿）。撤回：旧C层评档",
+    "watch": "外贸与内销制冷剂长协价格变动、PVDF/PTFE产能稼动率、扩产资本开支峰值过后FCF转正节奏"
+  },
+  {
+    "code": "002493",
+    "name": "荣盛石化",
+    "sector": "化工",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002493",
+      "name": "荣盛石化",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225495698.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1627,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225495697.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 129406713606.78,
+      "revenuePrior": 148629350935.5,
+      "net": 5110652552.96,
+      "netPrior": 602084104.39,
+      "core": 5343525369.1,
+      "corePrior": 754957891.58,
+      "ocf": 21254077553.64,
+      "ocfPrior": 7586625253.68,
+      "equity": 47653523410.47,
+      "revenueYoy": -12.93,
+      "netYoy": 748.83,
+      "coreYoy": 607.79,
+      "ocfYoy": 180.15,
+      "cashCapex": 20334113669.43,
+      "cashCapexPage": 71,
+      "fcfProxy": 919963884.2099991,
+      "pages": 171,
+      "sha256": "9a1c467bb2a3e065321607056a98930034b90474850a6fa0d03fbc5525ebff91",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225495697.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225495698.PDF",
+      "fullSha256": "9a1c467bb2a3e065321607056a98930034b90474850a6fa0d03fbc5525ebff91"
+    },
+    "quote": {
+      "name": "荣盛石化",
+      "price": 13.33,
+      "timestamp": "20260930161445",
+      "providerPe": 24.86,
+      "providerPb": 2.79,
+      "capYi": 1331.59,
+      "totalShares": 9989442254,
+      "url": "https://qt.gtimg.cn/q=sz002493"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        60.0,
+        85.0,
+        115.0
+      ],
+      "pe": [
+        11.0,
+        15.0,
+        20.0
+      ],
+      "approxSharesYi": 99.89442254,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        6.606975476891325,
+        12.763475353085514,
+        23.02430848007583
+      ],
+      "ratio": null,
+      "threshold": 8.659142102289389,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 125.13399259250414,
+      "terminalValueShare": 0.6362786150670128,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          108.9004,
+          99.8392,
+          90.1905
+        ],
+        [
+          133.6208,
+          125.134,
+          116.1198
+        ],
+        [
+          158.4932,
+          150.5376,
+          142.1075
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：大炼化龙头与芳烃成本优势。调整：财务更新为2026H1（收入1294.1亿，扣非53.4亿，FCF 9.2亿）。撤回：旧未认证高赔率",
+    "watch": "浙石化芳烃与烯烃装置开工率、与沙特阿美后续合作落地、资产负债率与净借款压降进度"
+  },
+  {
+    "code": "600346",
+    "name": "恒力石化",
+    "sector": "化工",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "600346",
+      "name": "恒力石化",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225482026.PDF",
+      "fullTitle": "<em>恒力</em><em>石化</em>2026年半年度报告",
+      "fullSize": 2142,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225482020.PDF",
+      "summaryTitle": "<em>恒力石化</em>2026年半年度报告摘要",
+      "unit": 10000,
+      "revenue": 98221486100.0,
+      "revenuePrior": 103887311900.0,
+      "net": 7205753100.000001,
+      "netPrior": 3050099000.0,
+      "core": 5335675500.0,
+      "corePrior": 2296435500.0,
+      "ocf": 3499889699.9999995,
+      "ocfPrior": 19477464200.0,
+      "equity": 71943106200.0,
+      "revenueYoy": -5.45,
+      "netYoy": 136.25,
+      "coreYoy": 132.35,
+      "ocfYoy": -82.03,
+      "cashCapex": 2153498045.43,
+      "cashCapexPage": 52,
+      "fcfProxy": 1346391654.5699997,
+      "pages": 215,
+      "sha256": "b0fa1495c285d3451831689dbee29597b8d44f35b1f4ed2f818ddd5b21afe4ac",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225482020.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-20/1225482026.PDF",
+      "fullSha256": "b0fa1495c285d3451831689dbee29597b8d44f35b1f4ed2f818ddd5b21afe4ac"
+    },
+    "quote": {
+      "name": "恒力石化",
+      "price": 16.07,
+      "timestamp": "20260930161445",
+      "providerPe": 10.07,
+      "providerPb": 1.57,
+      "capYi": 1131.18,
+      "totalShares": 7039099786,
+      "url": "https://qt.gtimg.cn/q=sh600346"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        70.0,
+        95.0,
+        125.0
+      ],
+      "pe": [
+        8.0,
+        11.0,
+        15.0
+      ],
+      "approxSharesYi": 70.39099786,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        7.955562742749844,
+        14.845648332452834,
+        26.636928826171353
+      ],
+      "ratio": null,
+      "threshold": 10.252257939317508,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 103.06813858960058,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          89.6315,
+          82.1278,
+          74.147
+        ],
+        [
+          110.1139,
+          103.0681,
+          95.5923
+        ],
+        [
+          130.7624,
+          124.1421,
+          117.1335
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：一体化聚酯全产业链壁垒。调整：财务更新为2026H1（收入982.2亿，扣非53.4亿，FCF 13.5亿）。撤回：旧偏高收益率预期",
+    "watch": "煤化工副产物综合利用、康辉新材分拆/上市重组进展、单季经营现金流对到期负债覆盖"
+  },
+  {
+    "code": "000301",
+    "name": "东方盛虹",
+    "sector": "化工",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "000301",
+      "name": "东方盛虹",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225526409.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 8062,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225526408.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 69924386581.16,
+      "revenuePrior": 60916418734.57,
+      "net": 4500151589.93,
+      "netPrior": 386245051.32,
+      "core": 4315503400.85,
+      "corePrior": 271723916.35,
+      "ocf": 18135334213.98,
+      "ocfPrior": 2811195924.26,
+      "equity": 38788030721.54,
+      "revenueYoy": 14.79,
+      "netYoy": 1065.1,
+      "coreYoy": 1488.19,
+      "ocfYoy": 545.11,
+      "cashCapex": 3225394447.17,
+      "cashCapexPage": 72,
+      "fcfProxy": 14909939766.81,
+      "pages": 170,
+      "sha256": "00c9ae51ee5c1b997fec099092844b5a5698a1de82b1cc2c7d8f8f6d1cb47949",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225526408.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225526409.PDF",
+      "fullSha256": "00c9ae51ee5c1b997fec099092844b5a5698a1de82b1cc2c7d8f8f6d1cb47949"
+    },
+    "quote": {
+      "name": "东方盛虹",
+      "price": 12.89,
+      "timestamp": "20260930161451",
+      "providerPe": 20.06,
+      "providerPb": 2.25,
+      "capYi": 852.19,
+      "totalShares": 6611232470,
+      "url": "https://qt.gtimg.cn/q=sz000301"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        45.0,
+        65.0,
+        90.0
+      ],
+      "pe": [
+        10.0,
+        14.0,
+        18.0
+      ],
+      "approxSharesYi": 66.1123247,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        6.8065977416764465,
+        13.764453210945703,
+        24.50375187003521
+      ],
+      "ratio": 0.14374410466597712,
+      "threshold": 9.125882898099531,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 80.0828014764115,
+      "terminalValueShare": 0.6362786150670128,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          69.6937,
+          63.8947,
+          57.7198
+        ],
+        [
+          85.5142,
+          80.0828,
+          74.3139
+        ],
+        [
+          101.4319,
+          96.3405,
+          90.9455
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：EVA新材料与炼化协同定位。调整：财务更新为2026H1（收入699.2亿，扣非43.2亿，FCF 149.1亿）。撤回：旧粗糙估值",
+    "watch": "光伏EVA粒子出货量与价差修复、连云港炼化装置负荷及经营净现金流对债务的持续覆盖"
+  },
+  {
+    "code": "000703",
+    "name": "恒逸石化",
+    "sector": "化工",
+    "batch": 3,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "000703",
+      "name": "恒逸石化",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225467439.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 2227,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225467438.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 67309305318.81,
+      "revenuePrior": 55960017549.87,
+      "net": 5901665221.78,
+      "netPrior": 226681667.52,
+      "core": 5886084675.39,
+      "corePrior": 149434296.6,
+      "ocf": -487952906.18,
+      "ocfPrior": -181470495.48,
+      "equity": 30492980877.51,
+      "revenueYoy": 20.28,
+      "netYoy": 2503.5,
+      "coreYoy": 3838.91,
+      "ocfYoy": -168.89,
+      "cashCapex": 3193657728.96,
+      "cashCapexPage": 110,
+      "fcfProxy": -3681610635.14,
+      "pages": 256,
+      "sha256": "9addb0980ad5915faa3ff3e3066a784701fd577705a5fe1122d6765ead85d345",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225467438.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-11/1225467439.PDF",
+      "fullSha256": "9addb0980ad5915faa3ff3e3066a784701fd577705a5fe1122d6765ead85d345"
+    },
+    "quote": {
+      "name": "恒逸石化",
+      "price": 15.63,
+      "timestamp": "20260930161421",
+      "providerPe": 10.83,
+      "providerPb": 2.43,
+      "capYi": 642.64,
+      "totalShares": 4111588968,
+      "url": "https://qt.gtimg.cn/q=sz000703"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        35.0,
+        55.0,
+        75.0
+      ],
+      "pe": [
+        8.0,
+        11.0,
+        14.0
+      ],
+      "approxSharesYi": 41.11588968,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        6.810019245094929,
+        14.714505868865828,
+        25.537572169105985
+      ],
+      "ratio": null,
+      "threshold": 9.444848119685227,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 62.29345576834113,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          54.253,
+          49.7671,
+          44.9849
+        ],
+        [
+          66.484,
+          62.2935,
+          57.8377
+        ],
+        [
+          78.7658,
+          74.847,
+          70.6905
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：文莱海外基地与化纤规模优势。调整：财务更新为2026H1（收入673.1亿，扣非58.9亿，FCF -36.8亿）。撤回：旧乐观现金流判断",
+    "watch": "文莱二期投资节奏与融资安排、单季经营现金流能否转正、PTA加工差能否维持在盈利区间"
+  },
+  {
+    "code": "000422",
+    "name": "湖北宜化",
+    "sector": "化工",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "000422",
+      "name": "湖北宜化",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-12/1225468007.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1309,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-12/1225468006.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 13391915759.47,
+      "revenuePrior": 12004585375.22,
+      "net": 319334194.62,
+      "netPrior": 398880278.09,
+      "core": 235805724.26,
+      "corePrior": 314726925.03,
+      "ocf": 1557413240.48,
+      "ocfPrior": 1287155858.35,
+      "equity": 7726019288.65,
+      "revenueYoy": 11.56,
+      "netYoy": -19.94,
+      "coreYoy": -25.08,
+      "ocfYoy": 21.0,
+      "cashCapex": 2338316136.56,
+      "cashCapexPage": 62,
+      "fcfProxy": -780902896.0799999,
+      "pages": 179,
+      "sha256": "6963a7b5ca322c8fe53d59eafe383bb882689ad9e2a9b78aa669373f58de4e12",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-12/1225468006.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-12/1225468007.PDF",
+      "fullSha256": "6963a7b5ca322c8fe53d59eafe383bb882689ad9e2a9b78aa669373f58de4e12"
+    },
+    "quote": {
+      "name": "湖北宜化",
+      "price": 11.52,
+      "timestamp": "20260930161445",
+      "providerPe": 17.18,
+      "providerPb": 2.04,
+      "capYi": 125.22,
+      "totalShares": 1086949102,
+      "url": "https://qt.gtimg.cn/q=sz000422"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        3.5,
+        5.5,
+        8.0
+      ],
+      "pe": [
+        12.0,
+        16.0,
+        20.0
+      ],
+      "approxSharesYi": 10.86949102,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        3.8640263764622897,
+        8.096055264968607,
+        14.720100481761104
+      ],
+      "ratio": null,
+      "threshold": 5.274702672631062,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 11.766995806285916,
+      "terminalValueShare": 0.6362786150670128,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          10.2405,
+          9.3884,
+          8.4811
+        ],
+        [
+          12.5651,
+          11.767,
+          10.9193
+        ],
+        [
+          14.9039,
+          14.1558,
+          13.3631
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：区域磷煤资源一体化基础。调整：财务更新为2026H1（收入133.9亿，扣非2.36亿，FCF -7.8亿）。撤回：旧泛化评级",
+    "watch": "田家河新材料项目各装置达产率、磷矿石自给率提升进度以及化肥化销淡季控费能力"
+  },
+  {
+    "code": "600596",
+    "name": "新安股份",
+    "sector": "化工",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "600596",
+      "name": "新安股份",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497008.PDF",
+      "fullTitle": "<em>新安股份</em>2026年半年度报告",
+      "fullSize": 1152,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497452.PDF",
+      "summaryTitle": "<em>新安股份</em>2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 8562644216.24,
+      "revenuePrior": 8058193360.0,
+      "net": 254207476.66,
+      "netPrior": 69073403.93,
+      "core": 210600874.0,
+      "corePrior": -23917745.63,
+      "ocf": 154363001.15,
+      "ocfPrior": 221606361.37,
+      "equity": 12572436994.84,
+      "revenueYoy": 6.26,
+      "netYoy": 268.03,
+      "coreYoy": 980.52,
+      "ocfYoy": -30.34,
+      "cashCapex": 220661379.91,
+      "cashCapexPage": 41,
+      "fcfProxy": -66298378.75999999,
+      "pages": 204,
+      "sha256": "13880a37d4f40b70046ecd0c5ab9ad04ad77830608a3fb0afd8f833e91042458",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497452.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225497008.PDF",
+      "fullSha256": "13880a37d4f40b70046ecd0c5ab9ad04ad77830608a3fb0afd8f833e91042458"
+    },
+    "quote": {
+      "name": "新安股份",
+      "price": 10.59,
+      "timestamp": "20260930161452",
+      "providerPe": 43.05,
+      "providerPb": 1.14,
+      "capYi": 142.92,
+      "totalShares": 1349597049,
+      "url": "https://qt.gtimg.cn/q=sh600596"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        3.0,
+        4.5,
+        6.5
+      ],
+      "pe": [
+        18.0,
+        25.0,
+        32.0
+      ],
+      "approxSharesYi": 13.49597049,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        4.001194285361838,
+        8.335821427837162,
+        15.412007617690042
+      ],
+      "ratio": null,
+      "threshold": 5.4460699995202795,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.03,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 13.853956964962226,
+      "terminalValueShare": 0.6314409037758967,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          12.0658,
+          11.0681,
+          10.0046
+        ],
+        [
+          14.7859,
+          13.854,
+          12.863
+        ],
+        [
+          17.5174,
+          16.6458,
+          15.7215
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：硅-磷循环经济成本协同特点。调整：财务更新为2026H1（收入85.6亿，扣非2.11亿，FCF -0.66亿）。撤回：旧定性观察",
+    "watch": "有机硅单体行业开工率及价格回暖信号、草甘膦海外订单恢复情况、特种有机硅下游导入"
+  },
+  {
+    "code": "002466",
+    "name": "天齐锂业",
+    "sector": "化工",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002466",
+      "name": "天齐锂业",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225522276.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 6044,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225522275.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 12242243203.99,
+      "revenuePrior": 4832680736.98,
+      "net": 4242020000.77,
+      "netPrior": 84410596.0,
+      "core": 4199658203.59,
+      "corePrior": 1320004.23,
+      "ocf": 2212067158.9,
+      "ocfPrior": 1820464149.25,
+      "equity": 48343230172.09,
+      "revenueYoy": 153.32,
+      "netYoy": 4925.46,
+      "coreYoy": 318054.9,
+      "ocfYoy": 21.51,
+      "cashCapex": 1080425984.29,
+      "cashCapexPage": 90,
+      "fcfProxy": 1131641174.6100001,
+      "pages": 188,
+      "sha256": "ef01ccab12723364f80444303df7a0b061222019513969ca496594e0915298f7",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225522275.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225522276.PDF",
+      "fullSha256": "ef01ccab12723364f80444303df7a0b061222019513969ca496594e0915298f7"
+    },
+    "quote": {
+      "name": "天齐锂业",
+      "price": 40.25,
+      "timestamp": "20260930161430",
+      "providerPe": 14.92,
+      "providerPb": 1.43,
+      "capYi": 689.52,
+      "totalShares": 1713105208,
+      "url": "https://qt.gtimg.cn/q=sz002466"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        40.0,
+        60.0,
+        85.0
+      ],
+      "pe": [
+        9.0,
+        12.0,
+        16.0
+      ],
+      "approxSharesYi": 17.13105208,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        21.014471167260616,
+        42.02894233452123,
+        79.388002187429
+      ],
+      "ratio": 0.09248211213686132,
+      "threshold": 28.019294889680822,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 62.8262812701704,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          54.6358,
+          50.0619,
+          45.1971
+        ],
+        [
+          67.1211,
+          62.8263,
+          58.2693
+        ],
+        [
+          79.7076,
+          75.6721,
+          71.3999
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：全球顶级锂辉石资源垄断性。调整：财务更新为2026H1（收入122.4亿，扣非42.0亿，FCF 11.3亿）。撤回：旧机械周期底部判断",
+    "watch": "格林布什化学级锂精矿定价机制调整执行、海外SQM权益收益税务争议处置进展、国内工厂利用率"
+  },
+  {
+    "code": "002460",
+    "name": "赣锋锂业",
+    "sector": "化工",
+    "batch": 4,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002460",
+      "name": "赣锋锂业",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528829.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 2161,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528828.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 23096945425.05,
+      "revenuePrior": 8376096469.08,
+      "net": 4257164842.1,
+      "netPrior": -531239266.4,
+      "core": 3848225720.39,
+      "corePrior": -912845436.11,
+      "ocf": 1328246006.9,
+      "ocfPrior": 300344610.17,
+      "equity": 48198716991.84,
+      "revenueYoy": 175.75,
+      "netYoy": 901.36,
+      "coreYoy": 521.56,
+      "ocfYoy": 342.24,
+      "cashCapex": 1800639022.1,
+      "cashCapexPage": 27,
+      "fcfProxy": -472393015.1999998,
+      "pages": 224,
+      "sha256": "48964866c58578aea600a4247a51744b5d0ab8443e263982725b1b78dccd63db",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528828.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528829.PDF",
+      "fullSha256": "48964866c58578aea600a4247a51744b5d0ab8443e263982725b1b78dccd63db"
+    },
+    "quote": {
+      "name": "赣锋锂业",
+      "price": 43.43,
+      "timestamp": "20260930161424",
+      "providerPe": 14.22,
+      "providerPb": 1.89,
+      "capYi": 910.59,
+      "totalShares": 2096694404,
+      "url": "https://qt.gtimg.cn/q=sz002460"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        40.0,
+        62.0,
+        90.0
+      ],
+      "pe": [
+        10.0,
+        14.0,
+        18.0
+      ],
+      "approxSharesYi": 20.96694404,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        19.07764904780086,
+        41.398498433727866,
+        77.26447864359349
+      ],
+      "ratio": null,
+      "threshold": 26.517932176443196,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 82.96910391699849,
+      "terminalValueShare": 0.6410009732166797,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          72.1527,
+          66.1123,
+          59.6878
+        ],
+        [
+          88.6409,
+          82.9691,
+          76.9511
+        ],
+        [
+          105.2628,
+          99.9335,
+          94.2916
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：锂行业全谱系垂直一体化平台。调整：财务更新为2026H1（收入231.0亿，扣非38.5亿，FCF -4.7亿）。撤回：旧偏高弹性假设",
+    "watch": "海外阿根廷Cauchari-Olaroz等盐湖达产爬坡单吨成本、电池制造业务毛利及单季存货减值测试"
+  },
+  {
+    "code": "603260",
+    "name": "合盛硅业",
+    "sector": "化工",
+    "batch": 5,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "603260",
+      "name": "合盛硅业",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505925.PDF",
+      "fullTitle": "<em>合盛硅业</em>2026年半年度报告",
+      "fullSize": 1156,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505539.PDF",
+      "summaryTitle": "<em>合盛硅业</em>2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 10160440506.95,
+      "revenuePrior": 9775499092.82,
+      "net": 324494945.39,
+      "netPrior": -397086612.7,
+      "core": -30222551.5,
+      "corePrior": -532986058.74,
+      "ocf": 2635162196.21,
+      "ocfPrior": 3523534138.29,
+      "equity": 29692488440.43,
+      "revenueYoy": 3.94,
+      "netYoy": 181.72,
+      "coreYoy": 94.33,
+      "ocfYoy": -25.21,
+      "cashCapex": 456551696.78,
+      "cashCapexPage": 51,
+      "fcfProxy": 2178610499.4300003,
+      "pages": 175,
+      "sha256": "7cc830c570f160ccb42a254ea450d701f1bdf588ca217f343f893df94a4cb9a7",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505539.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505925.PDF",
+      "fullSha256": "7cc830c570f160ccb42a254ea450d701f1bdf588ca217f343f893df94a4cb9a7"
+    },
+    "quote": {
+      "name": "合盛硅业",
+      "price": 31.55,
+      "timestamp": "20260930161438",
+      "providerPe": -16.44,
+      "providerPb": 1.26,
+      "capYi": 372.99,
+      "totalShares": 1182206941,
+      "url": "https://qt.gtimg.cn/q=sh603260"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.16,
+      "fiveYearGrowth": 0.0,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 55.31363122231855,
+      "terminalValueShare": 0.5144243191142654,
+      "sensitivityKe": [
+        0.14,
+        0.16,
+        0.18
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          49.9434,
+          47.528,
+          44.9584
+        ],
+        [
+          57.5585,
+          55.3136,
+          52.9316
+        ],
+        [
+          65.1605,
+          63.0711,
+          60.8594
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：煤电硅规模与成本护城河。调整：扣非微亏不套PE；财务更新为2026H1（收入101.6亿，扣非-0.30亿，FCF 21.8亿）。撤回：旧估值",
+    "watch": "工业硅行业落后产能出清进度、主营业务扣非连续两季转正证据、短期债务滚动与银行授信维持"
+  },
+  {
+    "code": "002597",
+    "name": "金禾实业",
+    "sector": "化工",
+    "batch": 5,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "002597",
+      "name": "金禾实业",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225524511.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 991,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225524510.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 3037136576.18,
+      "revenuePrior": 2443677428.87,
+      "net": 255672225.65,
+      "netPrior": 334243611.88,
+      "core": 236580031.57,
+      "corePrior": 338263890.52,
+      "ocf": 439366120.66,
+      "ocfPrior": 137290246.35,
+      "equity": 7962392176.16,
+      "revenueYoy": 24.29,
+      "netYoy": -23.51,
+      "coreYoy": -30.06,
+      "ocfYoy": 220.03,
+      "cashCapex": 338466794.64,
+      "cashCapexPage": 50,
+      "fcfProxy": 100899326.02000004,
+      "pages": 150,
+      "sha256": "9b466f480adfd1fa3df244e0e05615271b9dbb8c195a3409692e05a2237ad57e",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225524510.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225524511.PDF",
+      "fullSha256": "9b466f480adfd1fa3df244e0e05615271b9dbb8c195a3409692e05a2237ad57e"
+    },
+    "quote": {
+      "name": "金禾实业",
+      "price": 21.23,
+      "timestamp": "20260930161409",
+      "providerPe": 44.94,
+      "providerPb": 1.53,
+      "capYi": 120.65,
+      "totalShares": 568319878,
+      "url": "https://qt.gtimg.cn/q=sz002597"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        3.5,
+        5.0,
+        7.0
+      ],
+      "pe": [
+        15.0,
+        20.0,
+        26.0
+      ],
+      "approxSharesYi": 5.68319878,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        9.237755361426933,
+        17.595724497956063,
+        32.024218586280035
+      ],
+      "ratio": null,
+      "threshold": 12.023745073603308,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.12,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 11.338268890535169,
+      "terminalValueShare": 0.6362786150670128,
+      "sensitivityKe": [
+        0.09999999999999999,
+        0.12,
+        0.13999999999999999
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          9.8674,
+          9.0463,
+          8.1721
+        ],
+        [
+          12.1073,
+          11.3383,
+          10.5215
+        ],
+        [
+          14.3609,
+          13.6401,
+          12.8762
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：全球代糖龙头深厚成本护城河。调整：财务更新为2026H1（收入30.4亿，扣非2.37亿，FCF 1.0亿）。撤回：旧估值溢价",
+    "watch": "三氯蔗糖行业开工率及价格提振持续性、定远二期精细化工新产品放量进度、扣非净利率回升"
+  },
+  {
+    "code": "002068",
+    "name": "黑猫股份",
+    "sector": "化工",
+    "batch": 5,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "002068",
+      "name": "黑猫股份",
+      "sector": "化工",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225502150.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1160,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225502149.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 4425228797.07,
+      "revenuePrior": 4295955937.12,
+      "net": -106374903.72,
+      "netPrior": -114946192.05,
+      "core": -111555466.04,
+      "corePrior": -119444356.08,
+      "ocf": 63387159.81,
+      "ocfPrior": -8199753.2,
+      "equity": 2468519719.89,
+      "revenueYoy": 3.01,
+      "netYoy": 7.46,
+      "coreYoy": 6.6,
+      "ocfYoy": 873.04,
+      "cashCapex": 103634604.63,
+      "cashCapexPage": 47,
+      "fcfProxy": -40247444.81999999,
+      "pages": 120,
+      "sha256": "74b1fef48d88c684ebc9fec1f7a0cf03069d051bf81f310b7af5c38450aeefe6",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225502149.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225502150.PDF",
+      "fullSha256": "74b1fef48d88c684ebc9fec1f7a0cf03069d051bf81f310b7af5c38450aeefe6"
+    },
+    "quote": {
+      "name": "黑猫股份",
+      "price": 8.97,
+      "timestamp": "20260930161436",
+      "providerPe": -14.5,
+      "providerPb": 2.67,
+      "capYi": 65.96,
+      "totalShares": 735345196,
+      "url": "https://qt.gtimg.cn/q=sz002068"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.16,
+      "fiveYearGrowth": 0.0,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 9.781895164459028,
+      "terminalValueShare": 0.5144243191142654,
+      "sensitivityKe": [
+        0.14,
+        0.16,
+        0.18
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          8.8322,
+          8.4051,
+          7.9506
+        ],
+        [
+          10.1789,
+          9.7819,
+          9.3606
+        ],
+        [
+          11.5233,
+          11.1538,
+          10.7626
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：炭黑规模与导电炭黑期权。调整：扣非亏损不套PE；财务更新为2026H1（收入44.3亿，扣非-1.12亿，FCF -0.4亿）。撤回：旧结论",
+    "watch": "传统炭黑行业落后产能停产淘汰进度、导电炭黑在主流动力电池厂验证及规模化供货证据、扣非扭亏"
+  },
+  {
+    "code": "603929",
+    "name": "亚翔集成",
+    "sector": "高盛增持",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "603929",
+      "name": "亚翔集成",
+      "sector": "高盛增持",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-07-31/1225448579.PDF",
+      "fullTitle": "<em>亚翔集成</em>2026年半年度报告",
+      "fullSize": 1011,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-07-31/1225448580.PDF",
+      "summaryTitle": "公司2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 2547729187.94,
+      "revenuePrior": 1683274815.06,
+      "net": 490416194.97,
+      "netPrior": 160898426.11,
+      "core": 490226937.42,
+      "corePrior": 160334772.44,
+      "ocf": -130968429.25,
+      "ocfPrior": 877331777.35,
+      "equity": 2387675381.07,
+      "revenueYoy": 51.36,
+      "netYoy": 204.8,
+      "coreYoy": 205.75,
+      "ocfYoy": -114.93,
+      "cashCapex": 3158633.16,
+      "cashCapexPage": 45,
+      "fcfProxy": -134127062.41,
+      "pages": 180,
+      "sha256": "f15104e40f9e07bc60e5581e9f31248265a1479b7ecc152beaa0ffbfaf5b4654",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-07-31/1225448580.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-07-31/1225448579.PDF",
+      "fullSha256": "f15104e40f9e07bc60e5581e9f31248265a1479b7ecc152beaa0ffbfaf5b4654"
+    },
+    "quote": {
+      "name": "亚翔集成",
+      "price": 139.46,
+      "timestamp": "20260930161452",
+      "providerPe": 24.36,
+      "providerPb": 14.62,
+      "capYi": 297.55,
+      "totalShares": 213360000,
+      "url": "https://qt.gtimg.cn/q=sh603929"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        6.5,
+        9.0,
+        12.0
+      ],
+      "pe": [
+        18.0,
+        24.0,
+        30.0
+      ],
+      "approxSharesYi": 2.1336,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        54.83689538807649,
+        101.23734533183352,
+        168.7289088863892
+      ],
+      "ratio": null,
+      "threshold": 70.3037120359955,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.14,
+      "fiveYearGrowth": 0.06,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 31.703465376967607,
+      "terminalValueShare": 0.593830093197397,
+      "sensitivityKe": [
+        0.12000000000000001,
+        0.14,
+        0.16
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          28.1016,
+          26.2906,
+          24.3709
+        ],
+        [
+          33.4091,
+          31.7035,
+          29.8995
+        ],
+        [
+          38.7648,
+          37.1576,
+          35.461
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：海外晶圆洁净室技术与订单确定性。调整：财务更新为2026H1（收入25.5亿，扣非4.90亿，FCF -1.3亿）。撤回：旧未对冲盲目追高",
+    "watch": "新加坡项目回款与后续二期订单定点、国内12英寸晶圆厂洁净工程中标份额、单季经营现金流转正"
+  },
+  {
+    "code": "000426",
+    "name": "兴业银锡",
+    "sector": "高盛增持",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "A",
+    "filing": {
+      "code": "000426",
+      "name": "兴业银锡",
+      "sector": "高盛增持",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528892.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1366,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528891.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 4281697008.56,
+      "revenuePrior": 2473099239.08,
+      "net": 2263056168.41,
+      "netPrior": 795675116.05,
+      "core": 1816087159.18,
+      "corePrior": 801447914.68,
+      "ocf": 2112766541.0,
+      "ocfPrior": 1645491905.0,
+      "equity": 11539026705.25,
+      "revenueYoy": 73.13,
+      "netYoy": 184.42,
+      "coreYoy": 126.6,
+      "ocfYoy": 28.4,
+      "cashCapex": 403462183.34,
+      "cashCapexPage": 67,
+      "fcfProxy": 1709304357.66,
+      "pages": 177,
+      "sha256": "a72812a4e1c6e0189d922d4eb5ac6f66b774e18a1e08ab1e7f95d2c56abb0fe8",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528891.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225528892.PDF",
+      "fullSha256": "a72812a4e1c6e0189d922d4eb5ac6f66b774e18a1e08ab1e7f95d2c56abb0fe8"
+    },
+    "quote": {
+      "name": "兴业银锡",
+      "price": 31.5,
+      "timestamp": "20260930161430",
+      "providerPe": 17.64,
+      "providerPb": 4.85,
+      "capYi": 559.33,
+      "totalShares": 1775635739,
+      "url": "https://qt.gtimg.cn/q=sz000426"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        25.0,
+        34.0,
+        45.0
+      ],
+      "pe": [
+        12.0,
+        16.0,
+        21.0
+      ],
+      "approxSharesYi": 17.75635739,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        16.895357161990532,
+        30.636914320409495,
+        53.220375060270165
+      ],
+      "ratio": null,
+      "threshold": 21.475876214796852,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.14,
+      "fiveYearGrowth": 0.07,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 57.86467071031738,
+      "terminalValueShare": 0.5986580604957202,
+      "sensitivityKe": [
+        0.12000000000000001,
+        0.14,
+        0.16
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          51.2562,
+          47.9299,
+          44.4076
+        ],
+        [
+          61.0045,
+          57.8647,
+          54.5468
+        ],
+        [
+          70.8581,
+          67.893,
+          64.766
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：亚洲白银龙头稀缺资源壁垒。调整：财务更新为2026H1（收入42.8亿，扣非18.2亿，FCF 17.1亿）。撤回：旧粗放目标价",
+    "watch": "银漫矿业二期扩产建设投产节点、白银及锡矿石出矿品位与综合回款率、单季经营现金流稳定性"
+  },
+  {
+    "code": "688372",
+    "name": "伟测科技",
+    "sector": "高盛增持",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "688372",
+      "name": "伟测科技",
+      "sector": "高盛增持",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225529132.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1335,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225529185.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 1071859786.42,
+      "revenuePrior": 634252628.82,
+      "net": 159311093.39,
+      "netPrior": 101078388.85,
+      "core": 145751927.16,
+      "corePrior": 53717284.25,
+      "ocf": 547488321.54,
+      "ocfPrior": 339442813.28,
+      "equity": 4227916123.67,
+      "revenueYoy": 69.0,
+      "netYoy": 57.61,
+      "coreYoy": 171.33,
+      "ocfYoy": 61.29,
+      "cashCapex": 1735122909.58,
+      "cashCapexPage": 22,
+      "fcfProxy": -1187634588.04,
+      "pages": 159,
+      "sha256": "8ce795816a06b1d3d18069ddb8b151b27bf34ab5d5dd74f1675a394225a433d0",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225529185.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-29/1225529132.PDF",
+      "fullSha256": "8ce795816a06b1d3d18069ddb8b151b27bf34ab5d5dd74f1675a394225a433d0"
+    },
+    "quote": {
+      "name": "伟测科技",
+      "price": 99.85,
+      "timestamp": "20260930161447",
+      "providerPe": 46.69,
+      "providerPb": 3.97,
+      "capYi": 168.74,
+      "totalShares": 168996530,
+      "url": "https://qt.gtimg.cn/q=sh688372"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        2.2,
+        3.2,
+        4.5
+      ],
+      "pe": [
+        28.0,
+        38.0,
+        48.0
+      ],
+      "approxSharesYi": 1.6899653,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        36.45045256254671,
+        71.95414012346882,
+        127.81327521931959
+      ],
+      "ratio": null,
+      "threshold": 48.28501508285408,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.14,
+      "fiveYearGrowth": 0.05,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 18.518754956583066,
+      "terminalValueShare": 0.5888949008098826,
+      "sensitivityKe": [
+        0.12000000000000001,
+        0.14,
+        0.16
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          16.4261,
+          15.3751,
+          14.2599
+        ],
+        [
+          19.5063,
+          18.5188,
+          17.4733
+        ],
+        [
+          22.6092,
+          21.6805,
+          20.6996
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：独立测试龙头份额与客户绑定壁垒。调整：财务更新为2026H1（收入10.7亿，扣非1.46亿，FCF -11.9亿）。撤回：旧观察简单评级",
+    "watch": "高端测试机台平均稼动率与测试单价、资本开支高峰后折旧占收入比例下降拐点、经营现金流转正弥补Capex"
+  },
+  {
+    "code": "688110",
+    "name": "东芯股份",
+    "sector": "高盛增持",
+    "batch": 1,
+    "rating": "观察",
+    "tier": "B",
+    "filing": {
+      "code": "688110",
+      "name": "东芯股份",
+      "sector": "高盛增持",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-22/1225493179.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1515,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-22/1225493285.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 1496960025.64,
+      "revenuePrior": 342991662.2,
+      "net": 40.03,
+      "netPrior": 4.9,
+      "core": 636402041.46,
+      "corePrior": -126723992.74,
+      "ocf": 572489125.33,
+      "ocfPrior": -56392480.18,
+      "equity": 4156510597.24,
+      "revenueYoy": 336.44,
+      "netYoy": 716.94,
+      "coreYoy": 602.2,
+      "ocfYoy": 1115.19,
+      "cashCapex": 24364437.02,
+      "cashCapexPage": 82,
+      "fcfProxy": 548124688.3100001,
+      "pages": 204,
+      "sha256": "f93139e40ca2e3fa7db9fe35f8fcd73e486903908decb1a946f6912bd28f16a6",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-22/1225493285.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-22/1225493179.PDF",
+      "fullSha256": "f93139e40ca2e3fa7db9fe35f8fcd73e486903908decb1a946f6912bd28f16a6"
+    },
+    "quote": {
+      "name": "东芯股份",
+      "price": 113.81,
+      "timestamp": "20260930161453",
+      "providerPe": 87.49,
+      "providerPb": 12.11,
+      "capYi": 503.47,
+      "totalShares": 442377391,
+      "url": "https://qt.gtimg.cn/q=sh688110"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        5.0,
+        8.0,
+        12.0
+      ],
+      "pe": [
+        35.0,
+        50.0,
+        70.0
+      ],
+      "approxSharesYi": 4.42377391,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        39.55898370041248,
+        90.42053417237138,
+        189.88312176197988
+      ],
+      "ratio": null,
+      "threshold": 56.51283385773212,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.14,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 56.917639783061965,
+      "terminalValueShare": 0.5838503739644747,
+      "sensitivityKe": [
+        0.12000000000000001,
+        0.14,
+        0.16
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          50.5215,
+          47.3126,
+          43.9044
+        ],
+        [
+          59.9256,
+          56.9176,
+          53.7303
+        ],
+        [
+          69.3819,
+          66.5599,
+          63.5761
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：轻资产存储设计与周期弹性。调整：财务更新为2026H1（收入15.0亿，扣非6.36亿，FCF 5.5亿；拟转增4.9股）。撤回：旧周期单一标签",
+    "watch": "资本公积转增4.9股后股本摊薄计算、Q3/Q4存储产品合约价格走势、新产品工艺节点向先进制程迁移良率"
+  },
+  {
+    "code": "300655",
+    "name": "晶瑞电材",
+    "sector": "高盛增持",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "300655",
+      "name": "晶瑞电材",
+      "sector": "高盛增持",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225510304.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 4524,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225510303.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 949102638.52,
+      "revenuePrior": 767943715.12,
+      "net": 49152697.11,
+      "netPrior": 69753489.52,
+      "core": 44615857.82,
+      "corePrior": 32688549.84,
+      "ocf": 42906273.69,
+      "ocfPrior": 172978206.76,
+      "equity": 2704769369.5,
+      "revenueYoy": 23.59,
+      "netYoy": -29.53,
+      "coreYoy": 36.49,
+      "ocfYoy": -75.2,
+      "cashCapex": 120083465.76,
+      "cashCapexPage": 60,
+      "fcfProxy": -77177192.07000001,
+      "pages": 177,
+      "sha256": "a079ed312198b39b93c7ca0890e3b0cde662da33a61257e7c4be28edd67671f4",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225510303.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225510304.PDF",
+      "fullSha256": "a079ed312198b39b93c7ca0890e3b0cde662da33a61257e7c4be28edd67671f4"
+    },
+    "quote": {
+      "name": "晶瑞电材",
+      "price": 12.32,
+      "timestamp": "20260930161439",
+      "providerPe": 107.8,
+      "providerPb": 5.32,
+      "capYi": 138.8,
+      "totalShares": 1126626471,
+      "url": "https://qt.gtimg.cn/q=sz300655"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        0.6,
+        1.0,
+        1.6
+      ],
+      "pe": [
+        45.0,
+        65.0,
+        90.0
+      ],
+      "approxSharesYi": 11.26626471,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        2.3965352044351174,
+        5.769436603269727,
+        12.781521090320629
+      ],
+      "ratio": null,
+      "threshold": 3.520835670713321,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.14,
+      "fiveYearGrowth": 0.04,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 15.69149039946393,
+      "terminalValueShare": 0.5838503739644747,
+      "sensitivityKe": [
+        0.12000000000000001,
+        0.14,
+        0.16
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          13.9282,
+          13.0435,
+          12.1039
+        ],
+        [
+          16.5208,
+          15.6915,
+          14.8128
+        ],
+        [
+          19.1277,
+          18.3497,
+          17.5271
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：微电子化学品国产化验证壁垒。调整：财务更新为2026H1（收入9.5亿，扣非0.45亿，FCF -0.77亿）。撤回：旧估值透支泛评",
+    "watch": "KrF光刻胶主流晶圆产线批量供货订单确认、电子级高纯硫酸产能利用率、主营净利率能否突破8%"
+  },
+  {
+    "code": "002585",
+    "name": "双星新材",
+    "sector": "高盛增持",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "002585",
+      "name": "双星新材",
+      "sector": "高盛增持",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225499470.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 4023,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225499469.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 2728535002.79,
+      "revenuePrior": 2626491238.39,
+      "net": 45773366.83,
+      "netPrior": -149465314.76,
+      "core": 5861751.77,
+      "corePrior": -172768822.57,
+      "ocf": 581028935.89,
+      "ocfPrior": -279652897.1,
+      "equity": 8385993179.22,
+      "revenueYoy": 3.89,
+      "netYoy": 130.62,
+      "coreYoy": 103.39,
+      "ocfYoy": 307.77,
+      "cashCapex": 22479031.16,
+      "cashCapexPage": 50,
+      "fcfProxy": 558549904.73,
+      "pages": 166,
+      "sha256": "4396111e294c88221219589ea86a9a76f0ac894895d1de2d700a9c75eb10acdd",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225499469.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225499470.PDF",
+      "fullSha256": "4396111e294c88221219589ea86a9a76f0ac894895d1de2d700a9c75eb10acdd"
+    },
+    "quote": {
+      "name": "双星新材",
+      "price": 10.35,
+      "timestamp": "20260930161412",
+      "providerPe": -35.56,
+      "providerPb": 1.41,
+      "capYi": 118.13,
+      "totalShares": 1141322612,
+      "url": "https://qt.gtimg.cn/q=sz002585"
+    },
+    "model": {
+      "horizon": "2027-12-31",
+      "profitYi": [
+        0.3,
+        0.8,
+        1.5
+      ],
+      "pe": [
+        40.0,
+        60.0,
+        85.0
+      ],
+      "approxSharesYi": 11.41322612,
+      "shareBasis": "腾讯总股本字段，未认证完全摊薄；跨市场权益按A股价作等价计算",
+      "price": [
+        1.0514117457965513,
+        4.205646983186206,
+        11.17124979908836
+      ],
+      "ratio": null,
+      "threshold": 2.102823491593103,
+      "certified": false
+    },
+    "reverseDcf": {
+      "ke": 0.14,
+      "fiveYearGrowth": 0.02,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 14.175226841040002,
+      "terminalValueShare": 0.5734249721032962,
+      "sensitivityKe": [
+        0.12000000000000001,
+        0.14,
+        0.16
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          12.6007,
+          11.8127,
+          10.9739
+        ],
+        [
+          14.9103,
+          14.1752,
+          13.3948
+        ],
+        [
+          17.2242,
+          16.5378,
+          15.8107
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：薄膜产能规模与涂布工艺基础。调整：财务更新为2026H1（收入27.3亿，扣非仅0.06亿，FCF 5.6亿）。撤回：旧暂不简单归类",
+    "watch": "高端光学基膜及MLCC离型膜客户批量供货证据、传统包装薄膜开工率与毛利率修复、扣非利润率回升"
+  },
+  {
+    "code": "603690",
+    "name": "至纯科技",
+    "sector": "高盛增持",
+    "batch": 2,
+    "rating": "观察",
+    "tier": "C",
+    "filing": {
+      "code": "603690",
+      "name": "至纯科技",
+      "sector": "高盛增持",
+      "fullPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225498601.PDF",
+      "fullTitle": "2026年半年度报告",
+      "fullSize": 1339,
+      "summaryPdfUrl": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225498634.PDF",
+      "summaryTitle": "2026年半年度报告摘要",
+      "unit": 1,
+      "revenue": 1019752005.8,
+      "revenuePrior": 1607655491.19,
+      "net": -286733148.05,
+      "netPrior": -35395359.34,
+      "core": -291149302.66,
+      "corePrior": -55198165.74,
+      "ocf": 171891320.72,
+      "ocfPrior": -562689851.82,
+      "equity": 3220906284.52,
+      "revenueYoy": -36.57,
+      "netYoy": -710.09,
+      "coreYoy": -427.46,
+      "ocfYoy": 130.55,
+      "cashCapex": 137175759.27,
+      "cashCapexPage": 58,
+      "fcfProxy": 34715561.44999999,
+      "pages": 212,
+      "sha256": "682f6c3f4da3b0ce94a80092eec716a864947db72805cb79ac76fa34ca285dd1",
+      "pdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225498634.PDF",
+      "fullPdf": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225498601.PDF",
+      "fullSha256": "682f6c3f4da3b0ce94a80092eec716a864947db72805cb79ac76fa34ca285dd1"
+    },
+    "quote": {
+      "name": "至纯科技",
+      "price": 22.22,
+      "timestamp": "20260930161457",
+      "providerPe": -8.28,
+      "providerPb": 2.64,
+      "capYi": 85.09,
+      "totalShares": 382964250,
+      "url": "https://qt.gtimg.cn/q=sh603690"
+    },
+    "model": null,
+    "reverseDcf": {
+      "ke": 0.16,
+      "fiveYearGrowth": 0.0,
+      "terminalGrowth": 0.02,
+      "requiredFirstYearFcfeYi": 12.619483793301782,
+      "terminalValueShare": 0.5144243191142654,
+      "sensitivityKe": [
+        0.14,
+        0.16,
+        0.18
+      ],
+      "sensitivityTerminal": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "sensitivityRequiredFcfeYi": [
+        [
+          11.3943,
+          10.8432,
+          10.257
+        ],
+        [
+          13.1316,
+          12.6195,
+          12.076
+        ],
+        [
+          14.866,
+          14.3893,
+          13.8847
+        ]
+      ],
+      "certified": false
+    },
+    "revised": "保留：高纯系统与湿法设备技术积累。调整：亏损不套PE；财务更新为2026H1（收入10.2亿，扣非-2.91亿，FCF 0.35亿）。撤回：旧简单回避",
+    "watch": "下半年湿法设备大客户验收确收进度、扣非净利扭亏转正证据、债务重组与授信维持"
+  }
+]

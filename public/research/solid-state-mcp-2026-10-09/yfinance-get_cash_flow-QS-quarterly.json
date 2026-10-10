@@ -1,0 +1,415 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "QS",
+    "quarterly": true
+  },
+  "retrievedAt": "2026-10-09T13:53:45.069163+00:00",
+  "data": {
+    "symbol": "QS",
+    "type": "quarterly",
+    "data": {
+      "columns": [
+        "2026-06-30T00:00:00",
+        "2026-03-31T00:00:00",
+        "2025-12-31T00:00:00",
+        "2025-09-30T00:00:00",
+        "2025-06-30T00:00:00"
+      ],
+      "indexName": null,
+      "rows": [
+        {
+          "metric": "Free Cash Flow",
+          "values": [
+            -61366000.0,
+            -69491000.0,
+            -68426000.0,
+            -73314000.0,
+            -70426000.0
+          ]
+        },
+        {
+          "metric": "Repayment Of Debt",
+          "values": [
+            -882000.0,
+            -870000.0,
+            -845000.0,
+            -808000.0,
+            -796000.0
+          ]
+        },
+        {
+          "metric": "Issuance Of Capital Stock",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            267621000.0,
+            26000.0
+          ]
+        },
+        {
+          "metric": "Capital Expenditure",
+          "values": [
+            -4618000.0,
+            -9980000.0,
+            -12276000.0,
+            -9580000.0,
+            -8586000.0
+          ]
+        },
+        {
+          "metric": "Interest Paid Supplemental Data",
+          "values": [
+            466000.0,
+            478000.0,
+            492000.0,
+            503000.0,
+            516000.0
+          ]
+        },
+        {
+          "metric": "End Cash Position",
+          "values": [
+            146527000.0,
+            158723000.0,
+            244179000.0,
+            241026000.0,
+            190499000.0
+          ]
+        },
+        {
+          "metric": "Beginning Cash Position",
+          "values": [
+            158723000.0,
+            244179000.0,
+            241026000.0,
+            190499000.0,
+            171603000.0
+          ]
+        },
+        {
+          "metric": "Changes In Cash",
+          "values": [
+            -12196000.0,
+            -85456000.0,
+            3153000.0,
+            50527000.0,
+            18896000.0
+          ]
+        },
+        {
+          "metric": "Financing Cash Flow",
+          "values": [
+            12464000.0,
+            -256000.0,
+            27282000.0,
+            270639000.0,
+            3480000.0
+          ]
+        },
+        {
+          "metric": "Cash Flow From Continuing Financing Activities",
+          "values": [
+            12464000.0,
+            -256000.0,
+            27282000.0,
+            270639000.0,
+            3480000.0
+          ]
+        },
+        {
+          "metric": "Net Other Financing Charges",
+          "values": [
+            null,
+            null,
+            19425000.0,
+            -4160000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Proceeds From Stock Option Exercised",
+          "values": [
+            2993000.0,
+            614000.0,
+            8702000.0,
+            7986000.0,
+            4477000.0
+          ]
+        },
+        {
+          "metric": "Net Common Stock Issuance",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            267621000.0,
+            26000.0
+          ]
+        },
+        {
+          "metric": "Common Stock Issuance",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            267621000.0,
+            26000.0
+          ]
+        },
+        {
+          "metric": "Net Issuance Payments Of Debt",
+          "values": [
+            -882000.0,
+            -870000.0,
+            -845000.0,
+            -808000.0,
+            -796000.0
+          ]
+        },
+        {
+          "metric": "Net Long Term Debt Issuance",
+          "values": [
+            -882000.0,
+            -870000.0,
+            -845000.0,
+            -808000.0,
+            -796000.0
+          ]
+        },
+        {
+          "metric": "Long Term Debt Payments",
+          "values": [
+            -882000.0,
+            -870000.0,
+            -845000.0,
+            -808000.0,
+            -796000.0
+          ]
+        },
+        {
+          "metric": "Investing Cash Flow",
+          "values": [
+            32088000.0,
+            -25689000.0,
+            32021000.0,
+            -156378000.0,
+            77256000.0
+          ]
+        },
+        {
+          "metric": "Cash Flow From Continuing Investing Activities",
+          "values": [
+            32088000.0,
+            -25689000.0,
+            32021000.0,
+            -156378000.0,
+            77256000.0
+          ]
+        },
+        {
+          "metric": "Net Other Investing Changes",
+          "values": [
+            46000.0,
+            174000.0,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "metric": "Net Investment Purchase And Sale",
+          "values": [
+            36660000.0,
+            -15883000.0,
+            43010000.0,
+            -147626000.0,
+            85564000.0
+          ]
+        },
+        {
+          "metric": "Sale Of Investment",
+          "values": [
+            282290000.0,
+            231953000.0,
+            295200000.0,
+            293100000.0,
+            256344000.0
+          ]
+        },
+        {
+          "metric": "Purchase Of Investment",
+          "values": [
+            -245630000.0,
+            -247836000.0,
+            -252190000.0,
+            -440726000.0,
+            -170780000.0
+          ]
+        },
+        {
+          "metric": "Net PPE Purchase And Sale",
+          "values": [
+            -4618000.0,
+            -9980000.0,
+            -13382000.0,
+            -8474000.0,
+            -8586000.0
+          ]
+        },
+        {
+          "metric": "Purchase Of PPE",
+          "values": [
+            -4618000.0,
+            -9980000.0,
+            -12276000.0,
+            -9580000.0,
+            -8586000.0
+          ]
+        },
+        {
+          "metric": "Operating Cash Flow",
+          "values": [
+            -56748000.0,
+            -59511000.0,
+            -56150000.0,
+            -63734000.0,
+            -61840000.0
+          ]
+        },
+        {
+          "metric": "Cash Flow From Continuing Operating Activities",
+          "values": [
+            -56748000.0,
+            -59511000.0,
+            -56150000.0,
+            -63734000.0,
+            -61840000.0
+          ]
+        },
+        {
+          "metric": "Change In Working Capital",
+          "values": [
+            786000.0,
+            -2491000.0,
+            1435000.0,
+            -5329000.0,
+            -5439000.0
+          ]
+        },
+        {
+          "metric": "Change In Other Current Liabilities",
+          "values": [
+            -1209000.0,
+            -1199000.0,
+            -1001000.0,
+            -1156000.0,
+            -2747000.0
+          ]
+        },
+        {
+          "metric": "Change In Payables And Accrued Expense",
+          "values": [
+            769000.0,
+            -880000.0,
+            2243000.0,
+            -2185000.0,
+            -5328000.0
+          ]
+        },
+        {
+          "metric": "Change In Prepaid Assets",
+          "values": [
+            1226000.0,
+            -412000.0,
+            193000.0,
+            -1988000.0,
+            2636000.0
+          ]
+        },
+        {
+          "metric": "Other Non Cash Items",
+          "values": [
+            -686000.0,
+            454000.0,
+            -1107000.0,
+            -2657000.0,
+            -319000.0
+          ]
+        },
+        {
+          "metric": "Stock Based Compensation",
+          "values": [
+            27325000.0,
+            30509000.0,
+            31345000.0,
+            29223000.0,
+            26255000.0
+          ]
+        },
+        {
+          "metric": "Asset Impairment Charge",
+          "values": [
+            null,
+            null,
+            2164000.0,
+            9522000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Amortization Of Securities",
+          "values": [
+            -3756000.0,
+            -4498000.0,
+            -5271000.0,
+            -4583000.0,
+            -4065000.0
+          ]
+        },
+        {
+          "metric": "Depreciation Amortization Depletion",
+          "values": [
+            15966000.0,
+            17314000.0,
+            15389000.0,
+            15914000.0,
+            21538000.0
+          ]
+        },
+        {
+          "metric": "Depreciation And Amortization",
+          "values": [
+            15966000.0,
+            17314000.0,
+            15389000.0,
+            15914000.0,
+            21538000.0
+          ]
+        },
+        {
+          "metric": "Depreciation",
+          "values": [
+            15966000.0,
+            17314000.0,
+            15389000.0,
+            15914000.0,
+            21538000.0
+          ]
+        },
+        {
+          "metric": "Net Income From Continuing Operations",
+          "values": [
+            -98240000.0,
+            -100799000.0,
+            -100105000.0,
+            -105824000.0,
+            -114698000.0
+          ]
+        }
+      ]
+    }
+  }
+}

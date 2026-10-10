@@ -1,0 +1,336 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "300457.SZ",
+    "quarterly": true
+  },
+  "retrievedAt": "2026-10-09T15:51:20.673365+00:00",
+  "isError": false,
+  "data": {
+    "symbol": "300457.SZ",
+    "type": "quarterly",
+    "data": {
+      "columns": [
+        "2026-06-30T00:00:00",
+        "2026-03-31T00:00:00",
+        "2025-12-31T00:00:00",
+        "2025-06-30T00:00:00",
+        "2025-03-31T00:00:00"
+      ],
+      "indexName": null,
+      "rows": [
+        {
+          "metric": "Free Cash Flow",
+          "values": [
+            1202242877.47,
+            -216995392.04,
+            597699685.93,
+            136261433.94,
+            -448124257.27
+          ]
+        },
+        {
+          "metric": "Repayment Of Debt",
+          "values": [
+            -100000000.0,
+            -134430000.0,
+            -100000000.0,
+            -200000000.0,
+            -500000000.0
+          ]
+        },
+        {
+          "metric": "Issuance Of Debt",
+          "values": [
+            null,
+            0.0,
+            0.0,
+            390000000.0,
+            840000000.0
+          ]
+        },
+        {
+          "metric": "Capital Expenditure",
+          "values": [
+            -11796260.46,
+            -15826023.47,
+            -45423384.56,
+            -41709765.46,
+            -48821177.29
+          ]
+        },
+        {
+          "metric": "End Cash Position",
+          "values": [
+            2774782366.34,
+            1696117687.4,
+            1799760697.08,
+            1674880865.17,
+            1587041129.55
+          ]
+        },
+        {
+          "metric": "Beginning Cash Position",
+          "values": [
+            1696117687.4,
+            1799760556.76,
+            1408891983.05,
+            1587041129.55,
+            1750091217.38
+          ]
+        },
+        {
+          "metric": "Effect Of Exchange Rate Changes",
+          "values": [
+            -6259853.57,
+            -4724927.48,
+            -13498142.54,
+            -1001370.52,
+            992237.43
+          ]
+        },
+        {
+          "metric": "Changes In Cash",
+          "values": [
+            1084924392.19,
+            -98917941.88,
+            404366856.57,
+            88841106.14,
+            -164042325.26
+          ]
+        },
+        {
+          "metric": "Financing Cash Flow",
+          "values": [
+            -67816177.66,
+            117531135.66,
+            -187046436.6,
+            -17862045.7,
+            284060286.01
+          ]
+        },
+        {
+          "metric": "Net Other Financing Charges",
+          "values": [
+            32260016.78,
+            252902990.17,
+            -64101591.32,
+            39423715.41,
+            -52727313.97
+          ]
+        },
+        {
+          "metric": "Cash Dividends Paid",
+          "values": [
+            -76194.44,
+            -941854.51,
+            -22944845.28,
+            -2285761.11,
+            -3212400.02
+          ]
+        },
+        {
+          "metric": "Net Issuance Payments Of Debt",
+          "values": [
+            -100000000.0,
+            -134430000.0,
+            -100000000.0,
+            190000000.0,
+            340000000.0
+          ]
+        },
+        {
+          "metric": "Net Long Term Debt Issuance",
+          "values": [
+            -100000000.0,
+            -134430000.0,
+            -100000000.0,
+            190000000.0,
+            340000000.0
+          ]
+        },
+        {
+          "metric": "Long Term Debt Payments",
+          "values": [
+            -100000000.0,
+            -134430000.0,
+            -100000000.0,
+            -200000000.0,
+            -500000000.0
+          ]
+        },
+        {
+          "metric": "Long Term Debt Issuance",
+          "values": [
+            null,
+            0.0,
+            0.0,
+            390000000.0,
+            840000000.0
+          ]
+        },
+        {
+          "metric": "Investing Cash Flow",
+          "values": [
+            -61298568.08,
+            -15279708.97,
+            -51709777.32,
+            -71268047.56,
+            -48799531.29
+          ]
+        },
+        {
+          "metric": "Net Investment Purchase And Sale",
+          "values": [
+            null,
+            null,
+            -25468737.51,
+            -30655792.1,
+            0.0
+          ]
+        },
+        {
+          "metric": "Sale Of Investment",
+          "values": [
+            null,
+            null,
+            null,
+            null,
+            0.0
+          ]
+        },
+        {
+          "metric": "Purchase Of Investment",
+          "values": [
+            null,
+            null,
+            -25468737.51,
+            -30655792.1,
+            0.0
+          ]
+        },
+        {
+          "metric": "Net PPE Purchase And Sale",
+          "values": [
+            -11498568.08,
+            -15279708.97,
+            -42241039.81,
+            -40612255.46,
+            -48799531.29
+          ]
+        },
+        {
+          "metric": "Sale Of PPE",
+          "values": [
+            297692.38,
+            546314.5,
+            3182344.75,
+            1097510.0,
+            21646.0
+          ]
+        },
+        {
+          "metric": "Purchase Of PPE",
+          "values": [
+            -11796260.46,
+            -15826023.47,
+            -45423384.56,
+            -41709765.46,
+            -48821177.29
+          ]
+        },
+        {
+          "metric": "Cash Flowsfromusedin Operating Activities Direct",
+          "values": [
+            1214039137.93,
+            -201169368.57,
+            643123070.49,
+            177971199.4,
+            -399303079.98
+          ]
+        },
+        {
+          "metric": "Taxes Refund Paid Direct",
+          "values": [
+            -24097163.89,
+            -36358953.42,
+            -65236950.41,
+            -42287719.79,
+            -16972622.83
+          ]
+        },
+        {
+          "metric": "Classesof Cash Payments",
+          "values": [
+            -3642001762.62,
+            -3447551713.53,
+            -2040873263.49,
+            -2009074694.82,
+            -2598169560.15
+          ]
+        },
+        {
+          "metric": "Other Cash Paymentsfrom Operating Activities",
+          "values": [
+            -109255773.9,
+            -446226463.1,
+            -114671067.82,
+            -116525411.79,
+            -83836925.13
+          ]
+        },
+        {
+          "metric": "Paymentson Behalfof Employees",
+          "values": [
+            -520022288.73,
+            -569642114.86,
+            -501789658.61,
+            -415327745.95,
+            -378836710.15
+          ]
+        },
+        {
+          "metric": "Paymentsto Suppliersfor Goodsand Services",
+          "values": [
+            -3012723699.99,
+            -2431683135.57,
+            -1424412537.06,
+            -1477221537.08,
+            -2135495924.87
+          ]
+        },
+        {
+          "metric": "Classesof Cash Receiptsfrom Operating Activities",
+          "values": [
+            4880138064.44,
+            3282741298.38,
+            2749233284.39,
+            2229333614.01,
+            2215839103.0
+          ]
+        },
+        {
+          "metric": "Other Cash Receiptsfrom Operating Activities",
+          "values": [
+            19126565.24,
+            54156482.34,
+            32364086.97,
+            22278395.36,
+            31978134.43
+          ]
+        },
+        {
+          "metric": "Receiptsfrom Customers",
+          "values": [
+            4861011499.2,
+            3228584816.04,
+            2716869197.42,
+            2207055218.65,
+            2183860968.57
+          ]
+        }
+      ]
+    }
+  }
+}

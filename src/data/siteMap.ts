@@ -22,7 +22,7 @@ export interface HubGroup {
 
 export const NAV_ITEMS: NavItem[] = [
   { path: '/', label: '首页' },
-  { path: '/invest', label: '正念投资' },
+  { path: '/invest', label: '投资' },
   { path: '/ai', label: 'AI实验室' },
   { path: '/knowledge', label: '知识图谱' },
   { path: '/life', label: '自由空间' },
@@ -57,6 +57,8 @@ export const INVEST_GROUPS: HubGroup[] = [
     hint: '研究什么：公司研究与产业链。观察池按书第32、36章自己建，10到20家，每家一份决策记录。',
     links: [
       { path: '/research-notes', label: '公司研究', desc: '四个市场的公司库、候选池与研究方法' },
+      { path: '/invest/etf', label: 'ETF 流派地图', desc: '宽基、因子、主题、债券、商品等流派的主要 ETF 与风险' },
+      { path: '/future-trends', label: '未来趋势', desc: 'AI、智驾、机器人、创新药、航空航天、新能源等赛道的产业链与中美参与公司' },
       { path: '/industry-landscape', label: '产业格局', desc: '固态电池、半导体产业链，和一页纸主题研究卡' },
     ],
   },
@@ -67,6 +69,7 @@ export const INVEST_GROUPS: HubGroup[] = [
     hint: '估值定价格，网格管节奏，AI 工具辅助研究。',
     links: [
       { path: '/valuation', label: '公司估值', desc: '六方法三情景估值与报告导出' },
+      { path: '/dcf', label: '现金流折现 DCF', desc: 'WACC + 五年现金流折现估值与安全边际，可保存记录' },
       { path: '/grid-trading', label: '网格交易', desc: 'ETF / 个股网格模拟、回测与记录' },
       { path: '/invest/ai-tools', label: 'AI 工具', desc: '投资分析、视频创作与小说写作 Skills 的介绍和下载包' },
     ],
