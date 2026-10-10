@@ -17,9 +17,7 @@ const Pulse = lazy(() => import('./pages/Pulse'))
 const Monitor = lazy(() => import('./pages/Monitor'))
 const InvestmentPlan2026 = lazy(() => import('./pages/InvestmentPlan2026'))
 const InvestmentTargetsPage = lazy(() => import('./pages/InvestmentTargetsPage'))
-const LimitUpAnalysis = lazy(() => import('./pages/LimitUpAnalysis'))
 const TradingPhilosophy = lazy(() => import('./pages/TradingPhilosophy'))
-const SectorRotation = lazy(() => import('./pages/SectorRotation'))
 const MainlandInvestmentTargets = lazy(() => import('./pages/MainlandInvestmentTargets'))
 const InvestmentStrategy = lazy(() => import('./pages/InvestmentStrategy'))
 const FirstBook = lazy(() => import('./pages/FirstBook'))
@@ -28,6 +26,8 @@ const ResearchNotes = lazy(() => import('./pages/ResearchNotes'))
 const CompanyDetail = lazy(() => import('./pages/CompanyDetail'))
 // 主站自己的网格交易已由 notes 的网格交易计算器取代，旧路径由 GridMoved 跳转或说明
 const GridMoved = lazy(() => import('./pages/GridMoved'))
+// 旧的板块轮动、涨停分析同样已由 notes 的股市分析 lab 取代，旧路径由 StockToolsMoved 跳转或说明
+const StockToolsMoved = lazy(() => import('./pages/StockToolsMoved'))
 const Valuation = lazy(() => import('./pages/Valuation'))
 const Dcf = lazy(() => import('./pages/Dcf'))
 const FutureTrends = lazy(() => import('./pages/FutureTrends'))
@@ -94,9 +94,9 @@ export default function App(): JSX.Element {
           <Route path="/monitor" element={<Monitor />} />
           <Route path="/investment-plan-2026" element={<InvestmentPlan2026 />} />
           <Route path="/investment-targets" element={<InvestmentTargetsPage />} />
-          <Route path="/limit-up-analysis" element={<LimitUpAnalysis />} />
           <Route path="/trading-philosophy" element={<TradingPhilosophy />} />
-          <Route path="/sector-rotation" element={<SectorRotation />} />
+          <Route path="/sector-rotation" element={<StockToolsMoved />} />
+          <Route path="/limit-up-analysis/*" element={<StockToolsMoved />} />
           <Route path="/mainland-investment-targets" element={<MainlandInvestmentTargets />} />
           <Route path="/investment-strategy" element={<InvestmentStrategy />} />
           <Route path="/first-book" element={<MyBooks />} />

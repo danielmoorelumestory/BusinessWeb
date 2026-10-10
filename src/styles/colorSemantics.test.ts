@@ -33,10 +33,6 @@ describe('涨跌色语义：--up/--down 只表示 A 股红涨绿跌', () => {
     expect(down.container.innerHTML).toContain('var(--system-red)')
     expect(down.container.innerHTML).not.toContain('var(--system-green)')
   })
-
-  it('A 股页面（板块轮动）仍按红涨绿跌使用 --up/--down', () => {
-    expect(read('pages/SectorRotation.tsx')).toMatch(/>= 0 \? 'var\(--up\)' : 'var\(--down\)'/)
-  })
 })
 
 describe('样式小问题', () => {

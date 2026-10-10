@@ -118,23 +118,3 @@ export type SectorCategory = {
   data: SectorData[]
 }
 
-// 涨停股票类型
-export type LimitUpStock = {
-  code: string           // 股票代码
-  name: string           // 股票简称
-  currentPrice: number   // 现价
-  changePercent: number  // 涨幅
-  limitUpTime: string    // 涨停时间 (HH:mm:ss)
-  marketCap: number      // 流通市值（亿元）
-  consecutiveDays: number // 连续涨停天数
-  description?: string   // 涨停原因描述
-}
-
-// 涨停概念分类
-export type LimitUpConcept = {
-  name: string           // 概念名称
-  stockCount: number     // 涨停股票数量
-  changePercent: number   // 概念整体涨跌幅
-  drivingFactor?: string // 驱动因素
-  stocks: LimitUpStock[] // 涨停股票列表
-}

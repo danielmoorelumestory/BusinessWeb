@@ -28,7 +28,7 @@ BusinessWeb/
 ├── functions/              Cloudflare Pages Functions 入口（调用 api/ 与 server/edge 适配器）
 ├── server/                 Vite dev 中间件（行情代理）
 ├── d1/schema.sql           复盘与候选池云同步的 D1 表结构
-├── supabase/migrations/    评论与板块历史缓存的 Supabase 表结构
+├── supabase/migrations/    评论的 Supabase 表结构
 ├── docs/
 │   ├── DEPLOYMENT.md       复盘/候选池云同步（D1）与评论（Supabase）配置
 │   ├── AKSHARE.md          AKTools 接入说明

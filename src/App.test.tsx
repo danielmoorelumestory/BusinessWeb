@@ -20,8 +20,8 @@ afterEach(() => {
 describe('App 路由拆分', () => {
   it('重页面按路由懒加载，不随首包', () => {
     for (const page of [
-      'TradingPhilosophy', 'SectorRotation', 'InvestmentPlan2026', 'Pulse', 'Monitor',
-      'ResearchNotes', 'CompanyDetail', 'Valuation', 'FirstBook', 'LimitUpAnalysis',
+      'TradingPhilosophy', 'InvestmentPlan2026', 'Pulse', 'Monitor',
+      'ResearchNotes', 'CompanyDetail', 'Valuation', 'FirstBook', 'StockToolsMoved',
       'InvestmentStrategy', 'GridMoved', 'IndustryLandscape',
     ]) {
       expect(appSource, page).toMatch(new RegExp(`const ${page} = lazy\\(\\(\\) => import\\('\\./pages/${page}'\\)\\)`))

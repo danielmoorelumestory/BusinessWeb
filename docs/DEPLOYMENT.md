@@ -40,7 +40,7 @@ GitHub Pages 构建线以前通过 `VITE_API_BASE` 调用 Vercel 上的接口；
 只有启用章节评论（`/api/comments`）才需要 Supabase。复盘与候选池用 Cloudflare D1，网格交易用 notes 的 Worker + D1，都不需要它。
 
 1. 新建**独立 BusinessWeb** Supabase Free 项目，不使用其他项目的数据库或 token。
-2. 按需要在 SQL Editor 执行 `supabase/migrations/` 下对应的脚本（均幂等，重复执行不清空数据）：`202610090001_comments.sql`（评论）、`202610020004_sector_history.sql`（板块历史缓存）。
+2. 按需要在 SQL Editor 执行 `supabase/migrations/` 下对应的脚本（均幂等，重复执行不清空数据）：`202610090001_comments.sql`（评论）。
 3. 在 Supabase 的 API Keys 中取得服务端 secret key（`sb_secret_...`）；也兼容 legacy service_role JWT。不要使用 publishable/anon key 代替。
 4. 创建随机 token，可本地运行：
 

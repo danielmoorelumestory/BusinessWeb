@@ -7,6 +7,8 @@
     "src/components/SmartLink.tsx",
     "src/components/SmartLink.test.tsx",
     "src/pages/GridMoved.tsx",
-    "src/pages/GridMoved.test.tsx"
+    "src/pages/GridMoved.test.tsx",
+    "src/pages/StockToolsMoved.tsx",
+    "src/pages/StockToolsMoved.test.tsx"
   ]
 }

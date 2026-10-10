@@ -103,7 +103,7 @@ curl -s "$B/api/grid-market?kind=candles&symbol=sh510300&begin=2026-09-01&end=20
 curl -s "$B/api/macro" | head -c 120
 curl -s "$B/api/indexes" | head -c 120          # 指数价格与成分股 PE，较慢（十几秒）
 curl -s "$B/api/sentiment"
-curl -s "$B/api/cls-plate?date=20260930&up_limit=1" | head -c 120   # 需交易日
+curl -s -w " [%{http_code}]\n" "$B/api/cls-plate?date=20260930&up_limit=1"   # 已移除，应为 404 的 JSON
 
 # 同步类接口：未配置时应为 503；方法不对为 405；陌生来源为 403
 curl -s -w " [%{http_code}]\n" $B/api/grid-sync   # 已移除，应为 404 的 JSON
@@ -126,7 +126,14 @@ curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading/reco
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading/records/abc123  # 302 -> /note/lab/grid-trading/detail/?id=abc123
 ```
 
-先用 302（临时）便于回退；稳定后可以改成 301。GitHub Pages 的构建没有 `/note/`，那里 `/grid-trading*` 显示"网格交易已迁移"的说明页。
+旧的板块轮动与涨停分析同理跳转到 notes 的股市分析 lab（主站自己的实现与 `/api/cls-plate` 已删除）：
+
+```bash
+curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/sector-rotation      # 302 -> /note/lab/stock/#sector-rotation
+curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/limit-up-analysis    # 302 -> /note/lab/stock/#stock-analysis
+```
+
+先用 302（临时）便于回退；稳定后可以改成 301。GitHub Pages 的构建没有 `/note/`，那里 `/grid-trading*`、`/sector-rotation`、`/limit-up-analysis` 显示"已迁移"的说明页，并链接到 Cloudflare 站点上的对应工具。
 
 ## Vercel 已停用
 

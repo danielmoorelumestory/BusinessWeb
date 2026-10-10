@@ -27,9 +27,9 @@ const EXACT: Record<string, RouteSeo> = {
   '/investment-plan-2026': { title: '2026 投资计划', description: '2026 年的资产配置与投资计划。' },
   '/investment-targets': { title: '投资标的清单', description: '美股与港股重点投资标的研究清单。' },
   '/mainland-investment-targets': { title: 'A 股投资标的清单', description: '沪深 A 股重点投资标的研究清单。' },
-  '/limit-up-analysis': { title: '涨停板分析', description: '涨停板数据与题材轮动复盘。' },
+  '/limit-up-analysis': { title: '已迁移', noindex: true },
   '/trading-philosophy': { title: '交易哲学', description: '长期主义的交易原则与纪律。' },
-  '/sector-rotation': { title: '板块轮动', description: '行业板块轮动的观察框架与数据。' },
+  '/sector-rotation': { title: '已迁移', noindex: true },
   '/investment-strategy': { title: '投资策略', description: '长期投资的策略框架与执行方法。' },
   '/first-book': { title: '我的书｜《正念投资》', description: '《正念投资》及相关写作全文在线阅读。' },
   '/future-trends': { title: '未来趋势', description: '影响未来十年的产业与技术趋势研究。' },
@@ -43,6 +43,7 @@ const EXACT: Record<string, RouteSeo> = {
 
 const PREFIX: Array<[string, RouteSeo]> = [
   ['/grid-trading/', { title: '网格交易已迁移', noindex: true }],
+  ['/limit-up-analysis/', { title: '已迁移', noindex: true }],
   ['/first-book/read/', { title: '《正念投资》在线阅读', description: '《正念投资》章节全文在线阅读。' }],
   ['/research-notes/', { title: '公司研究笔记', description: '单家公司的研究笔记、财务与估值要点。' }],
   ['/future-trends/solid-state/', { title: '固态电池｜公司研究', description: '固态电池公司业务敞口、财务质量、估值假设、多空观点与证据。' }],
