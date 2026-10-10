@@ -18,7 +18,7 @@
 - [x] 3.1 运行 `npm run build:cloudflare`，确认通过，`dist/note/lab/grid-trading/`、`saved/`、`detail/`、`minute/` 与 `dist/note/lab/stock/` 都存在，链接检查通过；记录新的文件数、体积与构建耗时，与 1.2 对比。结果：14 秒完成，`dist/note` 从 29 个文件变为 35 个（新增 `lab/stock/` 与 Vue 运行时等资源），链接检查通过；整个 `dist` 4608 个文件、105MB
 - [x] 3.2 用 `npx wrangler pages dev dist --compatibility-date=2026-10-07 --compatibility-flag=nodejs_compat` 提供产物，在浏览器里打开 `/note/lab/grid-trading/`，获取默认示例行情并回测，确认能出数据；打开 `/note/lab/stock/` 确认页面能渲染（行情接口依赖 Worker，失败属预期，只记录）。结果：用独立的无界面 Chrome（通过 CDP 驱动）实测：新版计算器点"开始回测"后沪深 300 ETF 回测成功（21 买 / 31 卖，区间到 2026-10-09，价格曲线与资金曲线完整），说明文字为规则 v5 的措辞；股市分析 lab、已保存标的、分钟线、详情页均无控制台与网络错误。注：MCP 浏览器工具被一个运行了 25 小时的外部 Chrome 进程占用，未强行关闭
 - [x] 3.3 更新 `docs/notes-cohosting.md`：来源提交号改为 `35f3747`，写明新增的 Vue 依赖、Worker 源码有更新（`/cls` 转发、`/stock/*` 接口、`cls_plate_day` 表、收盘 cron 写入）以及"Worker 与 D1 需要使用者自行部署"
-- [ ] 3.4 **（需使用者操作）** 使用者确认或完成：把 `notes-site/workers/grid-trading-sync/schema.sql` 新增的 `cls_plate_day` 表应用到 D1，并重新部署 Worker；如果 notes 的 GitHub Pages 站点已经在使用新版 Worker，只需告知"已是最新"
+- [x] 3.4 **（需使用者操作）** 使用者确认或完成：把 `notes-site/workers/grid-trading-sync/schema.sql` 新增的 `cls_plate_day` 表应用到 D1，并重新部署 Worker；如果 notes 的 GitHub Pages 站点已经在使用新版 Worker，只需告知"已是最新" 结果：2026-10-10 已对线上 D1 `grid-trading-sync` 应用 `schema.sql`（新增 `cls_plate_day`，库内共 7 张表）并 `wrangler deploy` Worker（版本 7617881e），同时把 `businessweb-c0u.pages.dev` 加入来源白名单
 
 ## 4. 替换主站入口与路径
 
@@ -50,7 +50,7 @@
 
 ## 7. 上线
 
-- [ ] 7.1 **（需使用者确认）** 推送前说明：主站有约 53 个未推送的提交（含合并的上游提交）加本变更的提交，将触发 Cloudflare、Vercel、GitHub Pages 各构建一次；使用者确认后再推送
-- [ ] 7.2 推送后验证线上：`/grid-trading*` 的跳转目标、`/note/lab/grid-trading/` 回测、`/note/lab/stock/` 页面、`/api/grid-sync` 为 404、`/api/grid-market`、`pulse-sync`、`candidates-sync` 不受影响
+- [x] 7.1 **（需使用者确认）** 推送前说明：主站有约 53 个未推送的提交（含合并的上游提交）加本变更的提交，将触发 Cloudflare、Vercel、GitHub Pages 各构建一次；使用者确认后再推送 结果：已确认并推送，`main` 推送到 `65bd0d5`
+- [x] 7.2 推送后验证线上：`/grid-trading*` 的跳转目标、`/note/lab/grid-trading/` 回测、`/note/lab/stock/` 页面、`/api/grid-sync` 为 404、`/api/grid-market`、`pulse-sync`、`candidates-sync` 不受影响 结果：线上 `/grid-trading*`、`/sector-rotation`、`/limit-up-analysis` 302 目标正确，`/note/lab/grid-trading/`、`saved/`、`detail/`、`/note/lab/stock/` 为 200，`/api/grid-sync` 为 404，其他接口正常；股市分析 lab 三个工具在线上取到数据
 - [ ] 7.3 **（需使用者操作）** 使用者在 `/note/lab/grid-trading/saved/` 填入同步密钥并同步，确认能从 D1 取回此前的记录，并确认新规则下的计算结果符合预期
 - [x] 7.4 确认回退办法：去掉 `public/_redirects` 并回退相关提交即可恢复入口，302 不会被长期缓存（只在文档中确认，不实际回退线上）。结果：回退办法已写入 `docs/cloudflare-pages.md` 的"网格交易的旧路径"一节与设计文档的回滚段落：去掉 `public/_redirects` 并回退相关提交；302 不会被浏览器长期缓存；删除的代码保留在 Git 历史中
