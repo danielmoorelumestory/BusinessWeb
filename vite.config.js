@@ -7,7 +7,13 @@ import { sentimentMiddleware } from './server/sentiment.mjs'
 import { knowledgeProxyGuard } from './server/knowledge/local-access.mjs'
 import { knowledgePrivateDeny } from './server/knowledge/private-files.mjs'
 
-export default defineConfig({
+// 本地开发（vite dev，非测试）：把 /note/ 代理到本机的 notes-site 开发服务器，入口就和线上一样留在本站同域。
+// 先运行 npm run dev:notes（构建并预览 notes-site，端口 4322；Astro 开发服务器的脚本在根路径，不能挂在 /note 下，所以用构建产物，改了 notes 代码需重跑），再运行 npm run dev。
+const NOTES_DEV_PORT = process.env.NOTES_DEV_PORT || 4322
+
+export default defineConfig(({ command, mode }) => {
+  if (command === 'serve' && mode === 'development' && process.env.VITE_NOTES_PATH === undefined) process.env.VITE_NOTES_PATH = '/note/'
+  return {
   plugins: [react(), { name: 'businessweb-market-api', configureServer(server) { server.middlewares.use(marketMiddleware) } },
     { name: 'businessweb-macro-api', configureServer(server) { server.middlewares.use(macroMiddleware) } },
     { name: 'businessweb-indexes-api', configureServer(server) { server.middlewares.use(indexesMiddleware) } },
@@ -29,6 +35,7 @@ export default defineConfig({
     host: true,
     fs: { deny: knowledgePrivateDeny(process.env.KNOWLEDGE_VAULT) },
     proxy: {
+      '/note': { target: `http://localhost:${NOTES_DEV_PORT}`, changeOrigin: true, ws: true },
       '/api/knowledge': { target: `http://127.0.0.1:${process.env.KNOWLEDGE_PORT || 8789}`, changeOrigin: true,
         headers: { Authorization: `Bearer ${process.env.KNOWLEDGE_TOKEN || ''}` } },
       // Read-only access to the synced cloud library from a local dev page (same-origin for the browser, so no CORS).
@@ -60,4 +67,5 @@ export default defineConfig({
     restoreMocks: true,
     clearMocks: true
   }
+}
 })

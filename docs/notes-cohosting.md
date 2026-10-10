@@ -56,6 +56,8 @@ npx wrangler pages dev dist --compatibility-date=2026-10-07 --compatibility-flag
 # 打开 http://localhost:8788/note/
 ```
 
+本地联调主站和 notes（入口留在 `localhost:5173` 同域，和线上一样）：开两个终端，先 `npm run dev:notes`（构建并预览 notes-site，端口 4322），再 `npm run dev`；开发服务器把 `/note/` 代理到 4322，并默认设置 `VITE_NOTES_PATH=/note/`。改了 notes 代码需重跑 `dev:notes`。
+
 只调 notes：`cd notes-site && npm run dev`（Astro 开发服务器，地址 `http://localhost:4321/note/`）。
 
 ## 搬家前必读：浏览器里的本地数据按域名隔离

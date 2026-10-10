@@ -12,6 +12,7 @@
     "test:knowledge": "node --test server/knowledge/*.test.mjs",
     "test:edge": "node --test server/edge/*.test.mjs && node scripts/check-edge-knowledge.mjs",
     "dev": "vite --host",
+    "dev:notes": "npm --prefix notes-site run build && npm --prefix notes-site run preview -- --port 4322",
     "valuation:server": "node server/valuation/index.mjs",
     "valuation": "node scripts/valuation-cli.mjs",
     "valuation:app": "node scripts/valuation-app.mjs",
