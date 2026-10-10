@@ -7,7 +7,9 @@
 export const NOTES_PATH: string = (typeof import.meta.env !== 'undefined' ? import.meta.env.VITE_NOTES_PATH || '' : '').trim()
 
 /** 部署了 notes 站点的地址（Cloudflare Pages）。没有 /note/ 的构建（本地开发、Vercel、GitHub Pages）靠它直接跳过去 */
-export const NOTES_ORIGIN = 'https://businessweb-c0u.pages.dev'
+const DEFAULT_NOTES_ORIGIN = 'https://businessweb-c0u.pages.dev'
+/** 可用 VITE_NOTES_ORIGIN 覆盖，例如本地调试 notes-site 时设为 http://localhost:4321 */
+export const NOTES_ORIGIN: string = (typeof import.meta.env !== 'undefined' ? import.meta.env.VITE_NOTES_ORIGIN || '' : '').trim().replace(/\/+$/, '') || DEFAULT_NOTES_ORIGIN
 
 /**
  * 网格交易入口：有 notes 的构建（Cloudflare）用站内路径；没有 /note/ 的构建直接指向部署了 notes 的站点上的计算器，
