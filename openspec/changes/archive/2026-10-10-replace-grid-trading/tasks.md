@@ -52,5 +52,5 @@
 
 - [x] 7.1 **（需使用者确认）** 推送前说明：主站有约 53 个未推送的提交（含合并的上游提交）加本变更的提交，将触发 Cloudflare、Vercel、GitHub Pages 各构建一次；使用者确认后再推送 结果：已确认并推送，`main` 推送到 `65bd0d5`
 - [x] 7.2 推送后验证线上：`/grid-trading*` 的跳转目标、`/note/lab/grid-trading/` 回测、`/note/lab/stock/` 页面、`/api/grid-sync` 为 404、`/api/grid-market`、`pulse-sync`、`candidates-sync` 不受影响 结果：线上 `/grid-trading*`、`/sector-rotation`、`/limit-up-analysis` 302 目标正确，`/note/lab/grid-trading/`、`saved/`、`detail/`、`/note/lab/stock/` 为 200，`/api/grid-sync` 为 404，其他接口正常；股市分析 lab 三个工具在线上取到数据
-- [ ] 7.3 **（需使用者操作）** 使用者在 `/note/lab/grid-trading/saved/` 填入同步密钥并同步，确认能从 D1 取回此前的记录，并确认新规则下的计算结果符合预期
+- [x] 7.3 **（需使用者操作）** 使用者在 `/note/lab/grid-trading/saved/` 填入同步密钥并同步，确认能从 D1 取回此前的记录，并确认新规则下的计算结果符合预期 结果：使用者已于 2026-10-10 确认同步成功且 v5 结果符合预期
 - [x] 7.4 确认回退办法：去掉 `public/_redirects` 并回退相关提交即可恢复入口，302 不会被长期缓存（只在文档中确认，不实际回退线上）。结果：回退办法已写入 `docs/cloudflare-pages.md` 的"网格交易的旧路径"一节与设计文档的回滚段落：去掉 `public/_redirects` 并回退相关提交；302 不会被浏览器长期缓存；删除的代码保留在 Git 历史中
