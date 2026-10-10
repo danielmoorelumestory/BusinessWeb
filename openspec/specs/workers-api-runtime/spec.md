@@ -2,7 +2,6 @@
 
 ## Purpose
 api/* 接口在 Cloudflare 的 Workers 运行时（Pages Functions）上提供：保持与 Vercel 版本一致的契约，密钥只在服务端配置，同步接口的 token 鉴权不变，并可按接口回退。
-
 ## Requirements
 ### Requirement: 接口以 Cloudflare Workers 提供并保持契约
 系统 SHALL 以 Cloudflare Workers 提供 `api/*` 中被迁移的接口，请求路径、查询参数、请求体、响应状态码和响应格式 MUST 与迁移前的 Vercel 版本一致。
@@ -27,26 +26,30 @@ api/* 接口在 Cloudflare 的 Workers 运行时（Pages Functions）上提供�
 - **THEN** 该接口恢复到迁移前的行为
 
 ### Requirement: 密钥只在服务端配置
-系统 SHALL 通过 Workers 的环境配置读取 `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`GRID_SYNC_TOKEN`、`PULSE_SYNC_TOKEN` 等服务端变量，这些变量 MUST NOT 带 `VITE_` 前缀，MUST NOT 提交到 Git，也 MUST NOT 出现在前端构建产物中。
+系统 SHALL 通过 Workers 的环境配置读取 `PULSE_SYNC_TOKEN`、`COMMENTS_ADMIN_TOKEN`、`SUPABASE_URL`、`SUPABASE_SECRET_KEY` 等服务端变量，并通过名为 `DB` 的 D1 绑定访问复盘与候选池的存储；这些变量 MUST NOT 带 `VITE_` 前缀，MUST NOT 提交到 Git，也 MUST NOT 出现在前端构建产物中。`SUPABASE_*` 只用于章节评论，复盘与候选池 MUST NOT 依赖 Supabase。
 
 #### Scenario: 构建产物不含密钥
 - **WHEN** 前端构建完成
 - **THEN** `dist/` 中不包含任何服务端密钥的值
 
 #### Scenario: 未配置同步变量
-- **WHEN** 同步类接口所需的变量未配置
+- **WHEN** 同步类接口所需的变量或 D1 绑定未配置
 - **THEN** 接口返回明确的"未启用"错误，而不是崩溃或返回成功
 
+#### Scenario: 复盘与候选池不需要 Supabase
+- **WHEN** 只配置了 `PULSE_SYNC_TOKEN` 与 D1 绑定 `DB`，没有任何 `SUPABASE_*`
+- **THEN** `/api/pulse-sync` 与 `/api/candidates-sync` 正常工作
+
 ### Requirement: 同步接口的 token 鉴权保持不变
-系统 SHALL 对 `grid-sync`、`pulse-sync`、`candidates-sync` 继续要求专用 token，并 MUST 使用常量时间比较校验 token。
+系统 SHALL 对 `pulse-sync`、`candidates-sync` 继续要求专用 token，并 MUST 使用常量时间比较校验 token。（网格同步 `grid-sync` 已随网格交易迁移到 notes 而移除，见 `grid-trading-entry`。）
 
 #### Scenario: token 正确
 - **WHEN** 请求携带正确的专用 token
-- **THEN** 接口按原有逻辑读写 Supabase 并返回成功响应
+- **THEN** 接口按原有逻辑读写 D1 并返回成功响应
 
 #### Scenario: token 错误或缺失
 - **WHEN** 请求缺少 token，或 token 不正确
-- **THEN** 接口返回未授权状态码，且不访问 Supabase
+- **THEN** 接口返回未授权状态码，且不访问 D1
 
 ### Requirement: 迁移前先调研运行时兼容性
 系统的迁移工作 SHALL 在改写 `server/` 相关接口之前，确认 `server/` 下实现不依赖 Workers 不支持的 Node 功能，并确认 Workers 的 CPU 时间限制能满足现有长时接口；无法满足的接口 MUST NOT 强行迁移，而是保留在 Vercel 并记录原因。
@@ -58,3 +61,4 @@ api/* 接口在 Cloudflare 的 Workers 运行时（Pages Functions）上提供�
 #### Scenario: 长时接口超出限制
 - **WHEN** `macro` 或 `sentiment` 在 Workers 上实测超出 CPU 时间限制
 - **THEN** 采用拆分请求、缓存或预生成快照的方式处理，或保留在 Vercel，并记录结论
+

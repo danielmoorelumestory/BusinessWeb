@@ -2,7 +2,6 @@
 
 ## Purpose
 notes 站点（Astro）的静态产物在主站的 `/note/` 路径下与主站同域托管：构建集成、路径与链接、对主站路由与接口的非干扰、主站导航入口、网格后端保持不变，以及从旧域名迁移时对浏览器本地数据的说明。
-
 ## Requirements
 ### Requirement: notes 站点在 `/note/` 路径下与主站同域托管
 系统 SHALL 在 Cloudflare 构建产物的 `dist/note/` 目录下提供 notes 站点的全部静态页面，使其可通过主站域名的 `/note/...` 路径访问，路径与 notes 在 GitHub Pages 上的 `/note` 路径保持一致。
@@ -31,19 +30,19 @@ notes 站点（Astro）的静态产物在主站的 `/note/` 路径下与主站�
 - **THEN** RSS 与规范链接使用当前站点自己的地址，而不是 GitHub Pages 的地址
 
 ### Requirement: 复制 notes 站点不得影响主站
-系统 SHALL 保证 `/note/` 子树的加入不改变主站现有行为：非 `/note/` 且未匹配静态文件的路径仍回退到主站入口页，未知 `/api/*` 仍返回 404 的 JSON，已有 `/api/*` 接口行为不变。
+系统 SHALL 保证 `/note/` 子树的加入不改变主站其余行为：非 `/note/` 且未匹配静态文件的路径仍回退到主站入口页，未知 `/api/*` 仍返回 404 的 JSON，已有 `/api/*` 接口行为不变；主站旧的网格路径 `/grid-trading*` 跳转到 `/note/` 下对应的网格页面（见 `grid-trading-entry`）。
 
 #### Scenario: 主站路由刷新
-- **WHEN** 用户在 `/grid-trading/records` 刷新浏览器
-- **THEN** 系统返回主站入口页，并显示主站的网格记录页面
+- **WHEN** 用户在 `/invest` 刷新浏览器
+- **THEN** 系统返回主站入口页，并显示主站的正念投资页面
 
 #### Scenario: 未知接口仍为 404
 - **WHEN** 客户端请求 `/api/does-not-exist`
 - **THEN** 响应状态码为 404，且响应体不是 HTML 页面
 
-#### Scenario: 主站的网格交易页面保持不变
+#### Scenario: 旧的网格路径跳转到 notes
 - **WHEN** 用户访问主站的 `/grid-trading`
-- **THEN** 系统返回主站现有的网格交易页面，不被 `/note/` 下的同名功能替换
+- **THEN** 系统跳转到 `/note/lab/grid-trading/`，显示 notes 的网格交易计算器
 
 ### Requirement: 主站提供进入 notes 的导航入口
 系统 SHALL 在主站 Header 中提供指向 `/note/` 的入口，并 MUST 通过触发整页加载的普通链接实现，使请求由静态托管返回真实文件，而不是被前端路由接管。
@@ -69,3 +68,4 @@ notes 站点（Astro）的静态产物在主站的 `/note/` 路径下与主站�
 #### Scenario: 迁移文档包含搬家前的操作清单
 - **WHEN** 使用者阅读迁移文档
 - **THEN** 文档列出"先在旧站点同步或导出""新站点填同样的同步密钥再同步"两个步骤，并说明接入自有域名后需要再次做同样的操作
+
