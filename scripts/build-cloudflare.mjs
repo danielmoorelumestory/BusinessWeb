@@ -9,7 +9,8 @@ import { findBrokenNoteLinks } from './check-note-links.mjs'
 
 /** 把 notes 的构建产物复制为 dist/note；先清掉旧的 dist/note，不动 dist 里的其他文件。 */
 export function copyNotesDist({ notesDist, target }) {
-  if (!existsSync(join(notesDist, 'index.html'))) throw new Error(`notes 构建产物不完整，缺少 index.html：${notesDist}`)
+  // notes 只保留 lab 页面（笔记、首页、RSS 已迁入主站），以 lab/index.html 判断构建产物是否完整
+  if (!existsSync(join(notesDist, 'lab', 'index.html'))) throw new Error(`notes 构建产物不完整，缺少 lab/index.html：${notesDist}`)
   rmSync(target, { recursive: true, force: true })
   mkdirSync(target, { recursive: true })
   cpSync(notesDist, target, { recursive: true })
@@ -28,11 +29,12 @@ function main() {
   if (!existsSync(join(notesSite, 'package.json'))) throw new Error('缺少 notes-site/，无法构建 notes')
 
   console.log('[1/4] 构建 BusinessWeb')
-  // 让主站 Header 显示进入 notes 的入口；其他构建（Vercel、GitHub Pages）没有 /note/，不设置此变量
+  // 让主站的网格交易、股市分析入口指向站内的 /note/；其他构建（GitHub Pages、本地开发）没有 /note/，不设置此变量
   run(npm, ['run', 'build'], root, { VITE_NOTES_PATH: '/note/' })
   console.log('[2/4] 安装并构建 notes-site')
   run(npm, ['ci', '--no-audit', '--no-fund'], notesSite)
-  run(npm, ['run', 'build'], notesSite)
+  // MAIN_SITE：notes 页面里「返回主站」等链接的前缀；同域托管时就是站点根
+  run(npm, ['run', 'build'], notesSite, { MAIN_SITE: '/' })
   console.log('[3/4] 复制 notes 产物到 dist/note')
   copyNotesDist({ notesDist: join(notesSite, 'dist'), target: join(root, 'dist', 'note') })
   console.log('[4/4] 检查 notes 内部链接')

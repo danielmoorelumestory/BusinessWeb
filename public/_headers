@@ -9,3 +9,6 @@
 
 /first-book/*.md
   X-Robots-Tag: noindex
+
+/notes/*.md
+  X-Robots-Tag: noindex

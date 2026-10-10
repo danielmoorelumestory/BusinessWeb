@@ -40,6 +40,10 @@ const solidCompanies = new Map(solidSnapshot.companies.map(c => [`/future-trends
 const solidReportsDirectory = resolve(DIST, 'research/solid-state-mcp-2026-10-09/companies')
 mkdirSync(solidReportsDirectory, { recursive: true })
 for (const report of solidCompanies.values()) writeFileSync(resolve(solidReportsDirectory, `${report.id}.json`), JSON.stringify(report, null, 2) + '\n')
+// 行业研究笔记：用 esbuild 读取索引，正文是 public/notes/<slug>.md
+const notesBundle = await build({ entryPoints: [resolve(ROOT, 'src/data/notes.ts')], bundle: true, format: 'esm', write: false })
+const { NOTES } = await import('data:text/javascript;base64,' + Buffer.from(notesBundle.outputFiles[0].text).toString('base64'))
+const notesBySlug = new Map(NOTES.map(n => [`/notes/${n.slug}`, n]))
 function describe(path) {
   const seo = resolveSeo(path)
   const file = path.startsWith('/first-book/read/') && decodeURIComponent(path.slice('/first-book/read/'.length))
@@ -49,6 +53,13 @@ function describe(path) {
       title: `${chapter.title}｜《正念投资》${chapter.no}`,
       description: `《正念投资》${chapter.no}：${chapter.title}。`,
       body: marked.parse(readFileSync(resolve(ROOT, 'public/first-book', file), 'utf8')),
+    }
+  }
+  const note = notesBySlug.get(path)
+  if (note) {
+    return {
+      title: note.title, description: note.summary,
+      body: `<p>${esc(note.date)} · ${esc(note.tags.join(' · '))}</p>${marked.parse(readFileSync(resolve(ROOT, 'public/notes', `${note.slug}.md`), 'utf8'))}`,
     }
   }
   const c = companies.get(path)

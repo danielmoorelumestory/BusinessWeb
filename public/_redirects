@@ -15,3 +15,22 @@
 # 已删除的知识图谱页面 -> 首页
 /knowledge / 302
 /knowledge/ / 302
+
+# notes 站点已精简：首页、笔记、RSS、独立报告迁入主站（变更 migrate-notes-content），旧地址跳转到主站对应页面。
+# 更具体的规则必须写在带占位符的规则前面。写作指南类笔记已删除，回到笔记列表。
+/note/notes/how-to-write /notes 302
+/note/notes/how-to-write/ /notes 302
+/note/notes/how-to-add-a-page /notes 302
+/note/notes/how-to-add-a-page/ /notes 302
+/note/notes/:id /notes/:id 302
+/note/notes/:id/ /notes/:id 302
+/note/notes /notes 302
+/note/notes/ /notes 302
+/note/rss.xml /notes 302
+/note/lab/text-count /notes 302
+/note/lab/text-count/ /notes 302
+/note /notes 302
+/note/ /notes 302
+/note/index.html /notes 302
+/note/reports/ETF%E7%BD%91%E6%A0%BC%E4%BA%A4%E6%98%93%E6%80%BB%E6%96%B9%E6%A1%88-20260923.html /research/etf-grid-master-plan-2026-09-23.html 302
+/note/reports/2027%E6%A0%B8%E5%BF%83%E4%B8%BB%E7%BA%BF%E5%89%8D%E7%9E%BB_%E5%85%AD%E5%BC%A0%E7%BD%91%E4%B8%8E%E5%80%99%E9%80%89%E4%B8%BB%E9%A2%98_20260927.html /research/core-themes-2027-2026-09-27.html 302

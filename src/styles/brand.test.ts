@@ -45,7 +45,7 @@ describe('品牌文件', () => {
   })
 
   it('public 下的静态研究报告也不加载网络字体、不用衬线字体', () => {
-    for (const f of ['public/research/cn-roundtable-2026-09-30.html', 'public/research/sp500-roundtable-2026-09-30.html']) {
+    for (const f of ['public/research/cn-roundtable-2026-09-30.html', 'public/research/sp500-roundtable-2026-09-30.html', 'public/research/etf-grid-master-plan-2026-09-23.html', 'public/research/core-themes-2027-2026-09-27.html']) {
       const html = read(f)
       expect(html, f).not.toMatch(/fonts\.(googleapis|gstatic)\.com/)
       expect(html, f).not.toMatch(/Noto Serif|Source Han Serif|Songti|Georgia/)

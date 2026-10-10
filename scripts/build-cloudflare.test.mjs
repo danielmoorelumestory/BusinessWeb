@@ -16,30 +16,30 @@ function tree(files) {
 }
 
 test('copyNotesDist：把产物复制到目标目录，保持目录结构', () => {
-  const root = tree({ 'src/index.html': 'home', 'src/lab/grid/index.html': 'grid', 'src/_astro/a.css': 'css' })
+  const root = tree({ 'src/lab/index.html': 'labs', 'src/lab/grid/index.html': 'grid', 'src/_astro/a.css': 'css' })
   try {
     copyNotesDist({ notesDist: join(root, 'src'), target: join(root, 'dist/note') })
-    assert.equal(readFileSync(join(root, 'dist/note/index.html'), 'utf8'), 'home')
+    assert.equal(readFileSync(join(root, 'dist/note/lab/index.html'), 'utf8'), 'labs')
     assert.equal(readFileSync(join(root, 'dist/note/lab/grid/index.html'), 'utf8'), 'grid')
     assert.equal(readFileSync(join(root, 'dist/note/_astro/a.css'), 'utf8'), 'css')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
 test('copyNotesDist：替换已有的 dist/note，但不动 dist 里的其他文件', () => {
-  const root = tree({ 'src/index.html': 'new', 'dist/note/old-only.html': 'old', 'dist/index.html': '主站', 'dist/assets/app.js': 'js' })
+  const root = tree({ 'src/lab/index.html': 'new', 'dist/note/old-only.html': 'old', 'dist/index.html': '主站', 'dist/assets/app.js': 'js' })
   try {
     copyNotesDist({ notesDist: join(root, 'src'), target: join(root, 'dist/note') })
     assert.equal(existsSync(join(root, 'dist/note/old-only.html')), false, '旧文件应被清掉')
-    assert.equal(readFileSync(join(root, 'dist/note/index.html'), 'utf8'), 'new')
+    assert.equal(readFileSync(join(root, 'dist/note/lab/index.html'), 'utf8'), 'new')
     assert.equal(readFileSync(join(root, 'dist/index.html'), 'utf8'), '主站')
     assert.equal(readFileSync(join(root, 'dist/assets/app.js'), 'utf8'), 'js')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
-test('copyNotesDist：来源缺少 index.html 时失败，且不会清掉已有的 dist/note', () => {
+test('copyNotesDist：来源缺少 lab/index.html 时失败，且不会清掉已有的 dist/note', () => {
   const root = tree({ 'src/readme.txt': 'x', 'dist/note/index.html': '线上正在用的版本' })
   try {
-    assert.throws(() => copyNotesDist({ notesDist: join(root, 'src'), target: join(root, 'dist/note') }), /index\.html/)
+    assert.throws(() => copyNotesDist({ notesDist: join(root, 'src'), target: join(root, 'dist/note') }), /lab\/index\.html/)
     assert.equal(readFileSync(join(root, 'dist/note/index.html'), 'utf8'), '线上正在用的版本')
     assert.throws(() => copyNotesDist({ notesDist: join(root, 'missing'), target: join(root, 'dist/note') }))
   } finally { rmSync(root, { recursive: true, force: true }) }

@@ -7,11 +7,11 @@ import { isAbsoluteUrl, isNotesPath } from './notesLinks'
 const appSource = readFileSync(resolve(__dirname, '../App.tsx'), 'utf8')
 
 describe('NAV_ITEMS', () => {
-  it('共 5 项，顺序固定', () => {
+  it('共 6 项，顺序固定', () => {
     expect(NAV_ITEMS.map(i => i.label)).toEqual([
-      '首页', '投资', 'AI实验室', '自由空间', '关于',
+      '首页', '投资', 'AI实验室', '自由空间', '关于', '笔记',
     ])
-    expect(NAV_ITEMS.map(i => i.path)).toEqual(['/', '/invest', '/ai', '/life', '/about'])
+    expect(NAV_ITEMS.map(i => i.path)).toEqual(['/', '/invest', '/ai', '/life', '/about', '/notes'])
   })
 })
 
@@ -33,7 +33,7 @@ describe('INVEST_GROUPS', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
       '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
-      '/investment-strategy', '/investment-targets',
+      '/investment-strategy', '/investment-targets', '/notes', '/industry-etf',
       'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking',
       '/mainland-investment-targets', '/monitor', '/pulse', '/research-notes',
       '/trading-philosophy', '/valuation',
@@ -72,7 +72,7 @@ describe('INVEST_GROUPS', () => {
 
   it('选标的组只放研究方法与资料，不放带具体买卖建议的观察池', () => {
     const research = INVEST_GROUPS.find(g => g.id === 'research')!
-    expect(research.links.map(l => l.path)).toEqual(['/research-notes', '/invest/etf', '/future-trends', '/industry-landscape'])
+    expect(research.links.map(l => l.path)).toEqual(['/research-notes', '/invest/etf', '/future-trends', '/industry-landscape', '/notes', '/industry-etf'])
   })
 
   it('宏观温度（原每日监控）归入定规则，和 2026 计划同组', () => {

@@ -25,11 +25,11 @@ describe('Header', () => {
     expect(brand.getAttribute('href')).toBe('/')
   })
 
-  it('主导航共 5 项', () => {
+  it('主导航共 6 项（含笔记）', () => {
     renderAt('/')
     const nav = screen.getByRole('navigation', { name: '主导航' })
     expect(within(nav).getAllByRole('link').map(a => a.textContent)).toEqual([
-      '首页', '投资', 'AI实验室', '自由空间', '关于',
+      '首页', '投资', 'AI实验室', '自由空间', '关于', '笔记',
     ])
   })
 
@@ -104,40 +104,29 @@ function clickIsIntercepted(element: Element): boolean {
   return prevented
 }
 
-describe('Header 的 notes 入口', () => {
-  it('没有设置 VITE_NOTES_PATH 时不显示（Vercel 与 GitHub Pages 的构建没有 /note/）', () => {
-    renderAt('/')
-    expect(screen.queryByRole('link', { name: '笔记' })).toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: '打开菜单' }))
-    expect(screen.queryByRole('link', { name: '笔记' })).toBeNull()
-  })
-
-  it('设置后桌面导航末尾出现指向 /note/ 的入口，不影响原有 6 项', () => {
-    vi.stubEnv('VITE_NOTES_PATH', '/note/')
+describe('Header 的笔记入口', () => {
+  it('所有构建都显示，指向主站 /notes，由前端路由处理（不整页跳到 /note/）', () => {
     renderAt('/')
     const nav = screen.getByRole('navigation', { name: '主导航' })
-    expect(within(nav).getAllByRole('link').map(a => a.textContent)).toEqual([
-      '首页', '投资', 'AI实验室', '自由空间', '关于', '笔记',
-    ])
-    expect(within(nav).getByRole('link', { name: '笔记' }).getAttribute('href')).toBe('/note/')
+    const link = within(nav).getByRole('link', { name: '笔记' })
+    expect(link.getAttribute('href')).toBe('/notes')
+    expect(clickIsIntercepted(link)).toBe(true)
   })
 
-  it('入口是普通链接，点击不会被前端路由拦截；站内导航仍由路由处理', () => {
-    vi.stubEnv('VITE_NOTES_PATH', '/note/')
-    renderAt('/')
+  it('/notes 与笔记详情点亮「笔记」，不点亮「投资」', () => {
+    renderAt('/notes/robotics-industry-research')
     const nav = screen.getByRole('navigation', { name: '主导航' })
-    expect(clickIsIntercepted(within(nav).getByRole('link', { name: '笔记' }))).toBe(false)
-    expect(clickIsIntercepted(within(nav).getByRole('link', { name: '关于' }))).toBe(true)
+    const active = within(nav).getAllByRole('link').filter(a => a.getAttribute('aria-current') === 'page')
+    expect(active.map(a => a.textContent)).toEqual(['笔记'])
   })
 
   it('移动抽屉里也有入口，点击后关闭抽屉', () => {
-    vi.stubEnv('VITE_NOTES_PATH', '/note/')
     renderAt('/')
     fireEvent.click(screen.getByRole('button', { name: '打开菜单' }))
     const drawer = screen.getByRole('navigation', { name: '移动导航' })
     const link = within(drawer).getByRole('link', { name: '笔记' })
-    expect(link.getAttribute('href')).toBe('/note/')
-    expect(clickIsIntercepted(link)).toBe(false)
+    expect(link.getAttribute('href')).toBe('/notes')
+    clickIsIntercepted(link)
     expect(screen.queryByRole('navigation', { name: '移动导航' })).toBeNull()
   })
 })

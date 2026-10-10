@@ -25,6 +25,9 @@ const MyBooks = lazy(() => import('./pages/MyBooks'))
 const ResearchNotes = lazy(() => import('./pages/ResearchNotes'))
 const CompanyDetail = lazy(() => import('./pages/CompanyDetail'))
 // 主站自己的网格交易已由 notes 的网格交易计算器取代，旧路径由 GridMoved 跳转或说明
+const Notes = lazy(() => import('./pages/Notes'))
+const NoteDetail = lazy(() => import('./pages/NoteDetail'))
+const IndustryEtf = lazy(() => import('./pages/IndustryEtf'))
 const GridMoved = lazy(() => import('./pages/GridMoved'))
 // 旧的板块轮动、涨停分析同样已由 notes 的股市分析 lab 取代，旧路径由 StockToolsMoved 跳转或说明
 const StockToolsMoved = lazy(() => import('./pages/StockToolsMoved'))
@@ -91,6 +94,9 @@ export default function App(): JSX.Element {
           <Route path="/life" element={<LifeLab />} />
           <Route path="/about" element={<About />} />
           <Route path="/pulse" element={<Pulse />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/notes/:slug" element={<NoteDetail />} />
+          <Route path="/industry-etf" element={<IndustryEtf />} />
           <Route path="/monitor" element={<Monitor />} />
           <Route path="/investment-plan-2026" element={<InvestmentPlan2026 />} />
           <Route path="/investment-targets" element={<InvestmentTargetsPage />} />

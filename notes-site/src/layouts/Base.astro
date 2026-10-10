@@ -2,16 +2,20 @@
 import '../styles/global.css';
 import { href } from '../lib/url';
 
+// 笔记、行业专栏、RSS 已迁入主站；notes 只保留网格交易与股市分析两个实验页，页头的链接指回主站。
+// 同域托管（Cloudflare 构建）时 MAIN_SITE 是站点根 '/'；其他环境默认指向线上主站。
+const mainSite = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/').replace(/\/?$/, '/');
+
 interface Props {
   title?: string;
   description?: string;
-  current?: 'notes' | 'lab';
+  current?: 'lab';
   /** 宽内容（表格类 lab），放宽 main 最大宽度 */
   wide?: boolean;
 }
 
-const { title, description = '笔记和行业研究专栏。', current, wide = false } = Astro.props;
-const pageTitle = title ? `${title} · 记` : '记 · 笔记与行业研究';
+const { title, description = '网格交易与股市分析。', current, wide = false } = Astro.props;
+const pageTitle = title ? `${title} · 实验` : '实验 · 网格交易与股市分析';
 ---
 
 <html lang="zh-CN">
@@ -20,21 +24,21 @@ const pageTitle = title ? `${title} · 记` : '记 · 笔记与行业研究';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" href={href('favicon.svg')} />
-    <link rel="alternate" type="application/rss+xml" title="记" href={href('rss.xml')} />
     <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
     <header class="site-header">
       <div class="top mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <a class="brand" href={href()}>
-          <span class="brand-icon">记</span>
-          <span class="brand-title">记</span>
-          <span class="brand-tag">知识库 & 专栏</span>
+        <a class="brand" href={mainSite}>
+          <span class="brand-icon">Live</span>
+          <span class="brand-title">返回主站</span>
+          <span class="brand-tag">网格交易 · 股市分析</span>
         </a>
         <nav class="nav">
-          <a href={href('notes')} aria-current={current === 'notes' ? 'page' : undefined}>全部笔记</a>
-          <a href={href('notes#industry')} class="nav-highlight">行业专栏</a>
           <a href={href('lab')} aria-current={current === 'lab' ? 'page' : undefined}>实验</a>
+          <a href={href('lab/grid-trading')}>网格交易</a>
+          <a href={href('lab/stock')}>股市分析</a>
+          <a href={`${mainSite}notes`}>笔记</a>
         </nav>
       </div>
     </header>
@@ -44,12 +48,12 @@ const pageTitle = title ? `${title} · 记` : '记 · 笔记与行业研究';
     <footer class="site-footer">
       <div class="foot-inner mx-auto flex max-w-5xl flex-wrap items-start justify-between gap-4 px-4 py-8 sm:px-6">
         <div>
-          <div class="foot-brand">记 · 个人随笔与行业研究自选池</div>
-          <p class="foot-desc">静态站构建，推到 main 自动发布到 GitHub Pages。</p>
+          <div class="foot-brand">Live · 实验</div>
+          <p class="foot-desc">网格交易与股市分析与主站同域部署，笔记与行业研究在主站。</p>
         </div>
         <div class="foot-links">
-          <a href="https://github.com/danielmoorelumestory/note" target="_blank" rel="noopener">GitHub 仓库</a>
-          <a href={href('rss.xml')}>RSS</a>
+          <a href={mainSite}>主站首页</a>
+          <a href={`${mainSite}notes`}>行业研究笔记</a>
         </div>
       </div>
     </footer>

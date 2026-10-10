@@ -1,6 +1,6 @@
 # notes 站点同域托管
 
-notes（Astro 站点：笔记、行业专栏、网格交易计算器）已整体复制到本仓库的 `notes-site/`，Cloudflare 构建时把它的静态产物放进 `dist/note/`，所以它与主站在同一个域名下：
+notes（Astro 站点）已复制到本仓库的 `notes-site/`；其中的笔记、报告与行业 ETF 清单已并入主站（见下文"内容迁入主站"），`/note/` 现在只提供网格交易计算器与股市分析两个实验页，Cloudflare 构建时把它的静态产物放进 `dist/note/`，所以它与主站在同一个域名下：
 
 - 主站：`https://businessweb-c0u.pages.dev/`
 - notes：`https://businessweb-c0u.pages.dev/note/`（路径与旧站 `https://danielmoorelumestory.github.io/note/` 一致）
@@ -29,14 +29,14 @@ npm run build:cloudflare
 
 依次执行：
 
-1. `npm run build`（主站，设置 `VITE_NOTES_PATH=/note/`，让 Header 出现"笔记"入口）
+1. `npm run build`（主站，设置 `VITE_NOTES_PATH=/note/`，让网格交易、股市分析的入口指向站内的 `/note/`）
 2. 在 `notes-site/` 内 `npm ci` 并构建
 3. 把 `notes-site/dist/` 复制为 `dist/note/`（先清掉旧的 `dist/note/`，不动 `dist` 里的其他文件）
 4. 检查 `dist/note/` 下所有以 `/note/` 开头的内部链接与资源是否存在
 
 任一步失败都会以非零状态退出。**构建失败时 Cloudflare 会保留上一个正常的部署**，线上站点不会被半成品替换。
 
-普通的 `npm run build`、`npm run build:pages`（GitHub Pages）和 Vercel 构建**不受影响**：它们不构建 notes，主站 Header 也不会出现"笔记"入口（那些环境没有 `/note/`）。
+普通的 `npm run build`、`npm run build:pages`（GitHub Pages）和 Vercel 构建**不受影响**：它们不构建 notes，网格交易与股市分析的入口改指向线上 Cloudflare 站点的完整地址（那些环境没有 `/note/`）。
 
 ## Cloudflare 配置
 
@@ -44,7 +44,7 @@ npm run build:cloudflare
 |---|---|
 | 构建命令 | `npm run build:cloudflare` |
 | `NODE_VERSION`（构建变量） | `24`（保持不变） |
-| `SITE_URL`（构建变量，建议设置） | `https://businessweb-c0u.pages.dev`，用于 notes 的 RSS 链接。不设置时会使用每次部署各不相同的临时地址 |
+| `SITE_URL`（构建变量，建议设置） | `https://businessweb-c0u.pages.dev`，用于 notes 页面的规范链接。不设置时会使用每次部署各不相同的临时地址 |
 
 修改构建变量后需要 **Retry deployment** 才会生效。
 
@@ -110,15 +110,33 @@ notes 的网格交易依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 
 ## 新旧站点的关系
 
 - **旧的 GitHub Pages 站点保持不动**：`https://danielmoorelumestory.github.io/note/` 仍然可以访问，notes 仓库也没有被改动。
-- RSS 的订阅地址随站点变化，新站点是一份新的订阅源；旧站点的订阅者不受影响。
+- RSS 不再提供：`/note/rss.xml` 现在 302 到主站 `/notes`；旧 GitHub Pages 站点的订阅源不受影响。
 - 迁移稳定后再决定旧站点的去留（例如在旧站放跳转或"已搬家"提示），不在本阶段。
 
 ## 回退
 
-在 Cloudflare 后台把构建命令改回 `npm run build` 并重新部署：`/note/` 随之消失，主站不受影响，Header 的"笔记"入口也一并消失。旧的 GitHub Pages 站点一直可用。
+在 Cloudflare 后台把构建命令改回 `npm run build` 并重新部署：`/note/` 随之消失，主站不受影响，网格交易与股市分析的入口改指向线上完整地址；主站的笔记（`/notes`）不受影响。旧的 GitHub Pages 站点一直可用。
 
 ## 已知限制与后续
 
 - notes 没有任何测试文件。本阶段是原样托管，不放大这个问题；后续重写网格页面时需要先补测试，才能证明重写没有改变计算结果。
 - 两套前端技术栈（React 与 Astro + Tailwind）并存，视觉不统一。后续按价值逐块重写为 React，重写完一块就把对应的 `/note` 页面下线。
 - 主站自带的 `/grid-trading` 页面本阶段保持不变；以 notes 为准替换它们属于后续变更。
+
+## 内容迁入主站（`migrate-notes-content`）
+
+notes 的内容已并入主站，外观与导航统一；`notes-site/` 里对应的页面已删除。
+
+| 原 notes 地址 | 现在 |
+|---|---|
+| `/note/`、`/note/notes`、`/note/rss.xml`、`/note/lab/text-count` | 302 到主站 `/notes` |
+| `/note/notes/<id>`（3 篇行业笔记） | 302 到 `/notes/<id>`，id 不变 |
+| `/note/notes/how-to-write`、`/note/notes/how-to-add-a-page`（写作指南，已删除） | 302 到 `/notes` |
+| `/note/reports/ETF网格交易总方案-20260923.html` | 302 到 `/research/etf-grid-master-plan-2026-09-23.html` |
+| `/note/reports/2027核心主线前瞻_六张网与候选主题_20260927.html` | 302 到 `/research/core-themes-2027-2026-09-27.html` |
+| notes 的行业 ETF 清单（原在笔记页的"行业专栏"） | 主站 `/industry-etf` |
+
+- 新增笔记：在 `public/notes/` 放 Markdown（不含 front matter），并在 `src/data/notes.ts` 按日期倒序登记；`notes.test.ts` 会检查文件存在、slug 与日期。
+- 两份报告原样迁入 `public/research/`，仍从 jsDelivr 加载 ECharts（外部脚本依赖，离线时图表不显示）。
+- 精简后 `/note/` 只保留 `lab/grid-trading`、`lab/stock` 与 `lab` 索引；`build-cloudflare` 以 `lab/index.html` 判断产物是否完整，notes 页面里指回主站的链接前缀由环境变量 `MAIN_SITE` 决定（Cloudflare 构建传 `/`，`npm run dev:notes` 同样传 `/`，其他环境默认指向线上主站）。
+- 开发服务器的代理键是 `^/note/`（不是 `/note`），否则会把主站的 `/notes` 也代理走。

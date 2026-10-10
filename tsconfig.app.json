@@ -9,6 +9,12 @@
     "src/pages/GridMoved.tsx",
     "src/pages/GridMoved.test.tsx",
     "src/pages/StockToolsMoved.tsx",
-    "src/pages/StockToolsMoved.test.tsx"
+    "src/pages/StockToolsMoved.test.tsx",
+    "src/components/MarkdownView.tsx",
+    "src/data/notes.ts",
+    "src/data/industryEtf.ts",
+    "src/pages/Notes.tsx",
+    "src/pages/NoteDetail.tsx",
+    "src/pages/IndustryEtf.tsx"
   ]
 }

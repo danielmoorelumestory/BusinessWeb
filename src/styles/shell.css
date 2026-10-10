@@ -374,6 +374,17 @@
   font-size: 0.82rem;
 }
 
+button.tag {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.tag--active {
+  background: var(--accent);
+  color: #fff;
+}
+
 .skill-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));

@@ -18,7 +18,7 @@ function run() {
 test('主导航的每个页面都有稳定入口（状态码 200，而不是靠 404.html 兜底）', () => {
   const dir = run()
   try {
-    for (const route of ['invest', 'invest/ai-tools', 'ai', 'life', 'about', 'first-book', 'grid-trading', 'grid-trading/records']) {
+    for (const route of ['invest', 'invest/ai-tools', 'ai', 'life', 'about', 'first-book', 'notes', 'industry-etf', 'grid-trading', 'grid-trading/records']) {
       const f = join(dir, 'dist', route, 'index.html')
       assert.ok(existsSync(f), route)
       assert.equal(readFileSync(f, 'utf8'), '<!doctype html><title>spa</title>', route)

@@ -28,6 +28,7 @@ export const NAV_ITEMS: NavItem[] = [
   { path: '/ai', label: 'AI实验室' },
   { path: '/life', label: '自由空间' },
   { path: '/about', label: '关于' },
+  { path: '/notes', label: '笔记' },
 ]
 
 // 顺序即书里的流程：读书 → 定规则 → 选标的 → 用工具执行 → 少看行情；已舍弃的页面折叠在最后。
@@ -61,6 +62,8 @@ export const INVEST_GROUPS: HubGroup[] = [
       { path: '/invest/etf', label: 'ETF 流派地图', desc: '宽基、因子、主题、债券、商品等流派的主要 ETF 与风险' },
       { path: '/future-trends', label: '未来趋势', desc: 'AI、智驾、机器人、创新药、航空航天、新能源等赛道的产业链与中美参与公司' },
       { path: '/industry-landscape', label: '产业格局', desc: '固态电池、半导体产业链，和一页纸主题研究卡' },
+      { path: '/notes', label: '行业研究笔记', desc: '机器人、猪周期等行业深度笔记，和 ETF 网格总方案等完整报告' },
+      { path: '/industry-etf', label: '行业 ETF 清单', desc: '7 个行业组、59 只 ETF 的代码、子主题与备注' },
     ],
   },
   {
@@ -121,7 +124,9 @@ export function findInvestEntry(pathname: string): { group: HubGroup; link: HubL
 export function isNavActive(itemPath: string, pathname: string): boolean {
   if (itemPath === '/') return pathname === '/'
   if (itemPath === '/invest') {
-    return matchesPath('/invest', pathname) || findInvestEntry(pathname) !== null
+    // 收纳在投资页里、同时又是顶部导航独立一项的页面（如 /notes），只点亮它自己那一项
+    const ownNavItem = NAV_ITEMS.some(i => i.path !== '/' && i.path !== '/invest' && matchesPath(i.path, pathname))
+    return matchesPath('/invest', pathname) || (findInvestEntry(pathname) !== null && !ownNavItem)
   }
   return matchesPath(itemPath, pathname)
 }

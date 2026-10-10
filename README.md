@@ -7,6 +7,7 @@
 
 - **公司估值工作台**：`/valuation`支持本地Pi/Codex/Claude/OpenCode及具体模型版本选择、财务采集、六方法三情景估值、参数复算和报告导出。启动方法见[本地估值说明](docs/valuation-local-setup.md)。
 
+- **行业研究笔记与行业 ETF 清单**：`/notes`（3 篇行业笔记，另含 2 份独立 HTML 完整报告，位于 `public/research/`）与 `/industry-etf`（7 个行业组、59 只 ETF），内容由原 notes 站点迁入；新增笔记的方法见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
 - **网格交易**：由 notes 站点的网格交易计算器提供（`notes-site/`，部署后在 `/note/lab/grid-trading/`），包含回测、已保存标的、详情与分钟线；云同步走自己的 Cloudflare Worker + D1，不依赖 Supabase。主站旧的 `/grid-trading*` 路径会跳转到那里（Cloudflare 上 302，其他构建显示迁移说明）。
 - **AI 投研**：项目自带统一股票分析与交易分析 skill（见 [AI 投研 skills](#ai-投研-skills)），支持深度研究、圆桌观点与交易风险分析。
 - **多市场数据**：通过 MCP（yahoo-finance、baostock）和 `src/services/api.ts` 的本地封装，覆盖美股行情、A 股行情、ETF 实时数据、AkShare 数据字典。

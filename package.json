@@ -7,7 +7,7 @@
     "future-trends:picks": "sh scripts/future-trends-picks/run.sh",
     "test:edge": "node --test server/edge/*.test.mjs",
     "dev": "vite --host",
-    "dev:notes": "npm --prefix notes-site run build && npm --prefix notes-site run preview -- --port 4322",
+    "dev:notes": "MAIN_SITE=/ npm --prefix notes-site run build && npm --prefix notes-site run preview -- --port 4322",
     "valuation:server": "node server/valuation/index.mjs",
     "valuation": "node scripts/valuation-cli.mjs",
     "valuation:app": "node scripts/valuation-app.mjs",
