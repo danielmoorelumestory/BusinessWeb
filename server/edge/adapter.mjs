@@ -118,7 +118,7 @@ const failure = status => new Response(JSON.stringify({ error: '服务内部错�
   headers: { 'content-type': JSON_TYPE, 'cache-control': 'no-store' },
 })
 
-// 与 vercel.json 里 /api/* 的 X-Robots-Tag 一致。Pages 的 _headers 只作用于静态文件，不作用于函数响应，所以在这里加。
+// 所有 /api/* 响应都带 X-Robots-Tag。Pages 的 _headers 只作用于静态文件，不作用于函数响应，所以在这里加。
 const withRobotsTag = response => {
   const out = new Response(response.body, response)
   if (!out.headers.has('x-robots-tag')) out.headers.set('x-robots-tag', 'noindex, nofollow')

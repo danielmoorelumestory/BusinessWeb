@@ -24,13 +24,13 @@ BusinessWeb/
 │   ├── data/               标普500 / 沪深 / 概念板块数据源
 │   ├── services/           API 封装（akshare / 行情代理）
 │   └── hooks/, utils/, types/
-├── api/                    接口处理函数（Vercel 与 Cloudflare 共用）
+├── api/                    接口处理函数（由 functions/api/ 经适配器接入 Cloudflare Pages Functions）
 ├── functions/              Cloudflare Pages Functions 入口（调用 api/ 与 server/edge 适配器）
 ├── server/                 Vite dev 中间件（行情代理）
 ├── d1/schema.sql           复盘与候选池云同步的 D1 表结构
 ├── supabase/migrations/    评论与板块历史缓存的 Supabase 表结构
 ├── docs/
-│   ├── DEPLOYMENT.md       Vercel 部署与复盘/候选池云同步（D1）细节
+│   ├── DEPLOYMENT.md       复盘/候选池云同步（D1）与评论（Supabase）配置
 │   ├── AKSHARE.md          AKTools 接入说明
 │   ├── design/             ETF 网格设计文档
 │   ├── research/           已完成的圆桌报告样例
@@ -46,7 +46,7 @@ npm ci
 npm run dev          # http://localhost:5173
 ```
 
-需要 **Node 24**（已在 `package.json` 的 `engines` 中声明）。开发服务器自带 `/api/grid-market` 行情代理（热力图使用）；`/api/pulse-sync` 等同步接口仅在 `vercel dev` 下运行。
+需要 **Node 24**（已在 `package.json` 的 `engines` 中声明）。开发服务器自带 `/api/grid-market` 行情代理（热力图使用）；`/api/pulse-sync`、`/api/candidates-sync` 需要 D1，开发服务器把它们代理到线上的 Cloudflare 站点。
 
 ## 验证
 
@@ -57,7 +57,7 @@ npm run typecheck
 npm run build
 ```
 
-`typecheck` 覆盖新增的 notes 入口组件、估值与同步服务端；历史页面暂不在该检查范围内。`test:functions` 检查 Vercel Function 的 schema 与环境变量使用。
+`typecheck` 覆盖新增的 notes 入口组件、估值与同步服务端；历史页面暂不在该检查范围内。`test:functions` 检查接口处理函数的加载与未配置时的响应。
 
 ## AI 投研 skills
 
@@ -91,12 +91,11 @@ npm run build
 ## 部署
 
 - **Cloudflare Pages（当前线上）**：推送 `main` 自动构建，前端与 `/api/*`（`functions/api/`）都在 Cloudflare。构建设置、变量、验证命令与回退办法见 [docs/cloudflare-pages.md](docs/cloudflare-pages.md)。
-  - **notes 站点同域托管**：`notes-site/`（Astro）在构建时放进 `/note/`，用 `npm run build:cloudflare` 构建；只影响 Cloudflare 构建，Vercel 与 GitHub Pages 不受影响。搬家前必读的本地数据说明见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
-- **Vercel（回退）**：默认 `npm run build` 输出到根路径；Serverless Functions 处理 `/api/grid-market` 等接口（`/api/pulse-sync`、`/api/candidates-sync` 需要 D1，在 Vercel 上返回 503）。完整步骤见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)，包括 Vercel 免费项目额度、复盘与候选池的 D1 同步与环境变量。
-- **GitHub Pages**：由 [.github/workflows/pages.yml](.github/workflows/pages.yml) 在推送 `main` 时自动测试、构建并发布，也可在 Actions 中手动运行。首次迁移需在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**；若 `github-pages` 环境限制了部署分支，需允许 `main`。不要将 Pages 的来源直接设成 `main` 分支静态目录，React 源码需要先构建。Pages 不运行 Functions，API 继续使用配置的 Vercel 服务。
+  - **notes 站点同域托管**：`notes-site/`（Astro）在构建时放进 `/note/`，用 `npm run build:cloudflare` 构建；只影响 Cloudflare 构建，GitHub Pages 不受影响。搬家前必读的本地数据说明见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
+- **Vercel（已停用）**：不再部署，仓库里的 Vercel 配置已删除；需要在 Vercel 控制台删除项目或断开 Git 集成，见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
+- **GitHub Pages**：由 [.github/workflows/pages.yml](.github/workflows/pages.yml) 在推送 `main` 时自动测试、构建并发布，也可在 Actions 中手动运行。首次迁移需在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**；若 `github-pages` 环境限制了部署分支，需允许 `main`。不要将 Pages 的来源直接设成 `main` 分支静态目录，React 源码需要先构建。Pages 不运行 Functions，没有后端接口（行情走浏览器直连，云同步不可用）。
   - 本地验证：`npm run build:pages`；构建产物上传为 Pages artifact，不提交到 `gh-pages`。`deploy` 脚本与 `gh-pages` 依赖已移除。
   - 确认新工作流部署成功后，才可以删除旧 `gh-pages` 分支。
-  - **Vercel 独立配置**：Production Branch 设为 `main`、Root Directory 清空、Build Command 为 `npm run build`、Output Directory 为 `dist`。修改 Pages 工作流不会自动修正 Vercel 项目设置。
 
 ## 限制与边界
 
@@ -110,7 +109,7 @@ npm run build
 
 ## 相关文档
 
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Vercel 部署与云同步
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — 云同步（D1）与评论（Supabase）配置
 - [docs/AKSHARE.md](docs/AKSHARE.md) — AKTools 接入
 - [docs/design/ETF_GRID_TRADING.md](docs/design/ETF_GRID_TRADING.md) — 网格交易设计
 - [docs/research/](docs/research/) — 圆桌报告样例

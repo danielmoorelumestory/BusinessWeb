@@ -1,10 +1,10 @@
-# 免费部署与可选云同步
+# 云同步配置与 Vercel 停用说明
 
-> 当前线上部署在 Cloudflare Pages，见 [cloudflare-pages.md](cloudflare-pages.md)。本文描述的 Vercel 流程仍然有效，作为回退部署的参考；复盘与候选池的云同步在 Cloudflare D1 上（见本文末尾），章节评论使用 Supabase。
+> 当前线上部署在 Cloudflare Pages，见 [cloudflare-pages.md](cloudflare-pages.md)。Vercel 部署已停用；本文说明云同步（复盘与候选池用 Cloudflare D1，评论用 Supabase）的配置，以及如何彻底下线 Vercel。
 
 ## 当前技术栈
 
-React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。经济脉搏每日复盘（`/api/pulse-sync`）与候选池（`/api/candidates-sync`）的可选云同步存储在 Cloudflare D1（Vercel 与 GitHub Pages 构建线没有 D1，这两个接口在那里返回 503）；章节评论（`/api/comments`）使用 Supabase。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
+React + Vite + TypeScript + React Router；Cloudflare Pages 托管静态页面与 Pages Functions。经济脉搏每日复盘（`/api/pulse-sync`）与候选池（`/api/candidates-sync`）的可选云同步存储在 Cloudflare D1（GitHub Pages 构建线没有 D1，这两个接口在那里返回 503）；章节评论（`/api/comments`）使用 Supabase。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
 
 R2 暂未接入：当前没有附件上传业务。将来需要图片、PDF 等文件时，再接入 R2 并在 Supabase 保存文件元数据。
 
@@ -24,17 +24,16 @@ npm run typecheck
 npm run build
 ```
 
-## 部署 Vercel 免费项目
+## 停用 Vercel（需要你在 Vercel 控制台操作）
 
-1. 将代码推送到自己的 BusinessWeb GitHub 仓库。
-2. 在 Vercel 导入该仓库，Root Directory 选择包含 `package.json` 的目录。
-3. Framework 为 Vite；Build Command 为 `npm run build`；Output 为 `dist`；Node 为 24.x。
-4. 初次部署不用填写 Supabase 变量，页面和本地记录即可工作。
-5. 验证首页与任意前端路由直接访问及刷新。`/grid-trading*` 在没有 notes 站点的构建里显示"网格交易已迁移"的说明页（Cloudflare 上则 302 跳转到 `/note/` 下的网格计算器）。
-6. 打开 `/api/grid-market?kind=quotes&symbols=sh510300`，应返回腾讯行情文本。错误 `/api/...` 应为 404，而不是页面 HTML。
+仓库里的 `vercel.json`、`.vercelignore` 与旧的 `DEPLOY.md` 已删除，代码里的 Vercel 域名也已换成 Cloudflare 域名。但 Vercel 项目本身还在，并且仍连着 GitHub 仓库，**每次推送仍会触发一次构建**。请在 Vercel 控制台二选一：
 
-Vercel Hobby 适用个人非商业用途；实际额度和用途限制以官方页面为准：
-https://vercel.com/docs/plans/hobby
+1. **删除项目（推荐）**：打开项目 → Settings → 最下方 **Delete Project**，输入项目名确认。这会让 `business-web-pi-eight.vercel.app` 不再可访问，并停止构建。
+2. **只断开 Git**：Settings → Git → **Disconnect**，保留项目但不再自动部署。
+
+删除前请确认：线上站点用的是 `https://businessweb-c0u.pages.dev`；Vercel 上没有你还需要的环境变量（上线时核对过为空）。删除后，浏览器里保存在 Vercel 域名下的本地数据（复盘、候选池、同步设置）也随域名不再可用——请先在新站点里同步到云端或导出。
+
+GitHub Pages 构建线以前通过 `VITE_API_BASE` 调用 Vercel 上的接口；Vercel 停用后它没有任何后端，行情走浏览器直连，云同步不可用。
 
 ## 创建自有 Supabase 免费项目（仅章节评论需要）
 
@@ -49,7 +48,7 @@ https://vercel.com/docs/plans/hobby
    node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
    ```
 
-5. 在 Vercel（或 Cloudflare）的 Environment Variables 中设置**服务端变量**，然后重新部署：
+5. 在 Cloudflare Pages 的 Variables and Secrets 中设置**服务端变量**，然后重新部署：
 
    | 变量 | 内容 |
    |---|---|
@@ -71,12 +70,11 @@ npm run build:pages
 ## 仍需独立处理的接口
 
 - 首页/市场脉搏等原有 `src/services/api.ts` 中的 Yahoo、东方财富等接口仍沿用公共代理；本次替换的是网格交易行情。不保证所有公开数据源长期稳定。
-- AKTools 需要 Python 服务，当前未部署，Vercel 不会自动运行本地的 `127.0.0.1:8080`。如需使用，配置可访问的 `VITE_AKTOOLS_BASE_URL`。
+- AKTools 需要 Python 服务，当前未部署，线上站点不会自动运行本地的 `127.0.0.1:8080`。如需使用，配置可访问的 `VITE_AKTOOLS_BASE_URL`。
 - 免费 Supabase 的暂停与用量限制可能影响评论；复盘与候选池用 D1，不会因闲置暂停。失败时本地记录继续可用。
 - 当前交付代码与配置，未创建云账号、执行远端 SQL、设置线上密钥或发布站点。实际云端路由与数据库权限需部署后按上文验证。
 
 参考：
-https://vercel.com/docs/frameworks/frontend/vite
 https://supabase.com/docs/guides/getting-started/api-keys
 https://supabase.com/docs/guides/database/postgres/row-level-security
 https://developers.cloudflare.com/r2/pricing/

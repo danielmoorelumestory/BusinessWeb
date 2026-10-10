@@ -18,7 +18,7 @@
     "build": "vite build && node scripts/prerender-routes.mjs",
     "preview": "vite preview",
     "build:cloudflare": "node scripts/build-cloudflare.mjs",
-    "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true VITE_API_BASE=https://business-web-pi-eight.vercel.app vite build && node scripts/prepare-pages.mjs && node scripts/prerender-routes.mjs",
+    "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true vite build && node scripts/prepare-pages.mjs && node scripts/prerender-routes.mjs",
     "test:functions": "node scripts/check-functions.mjs",
     "test:scripts": "node --test scripts/*.test.mjs",
     "macro:update": "node scripts/macro-snapshot.mjs",

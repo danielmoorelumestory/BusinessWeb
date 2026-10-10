@@ -3,7 +3,7 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const ORIGIN = (process.env.VITE_SITE_URL || 'https://business-web-black.vercel.app').replace(/\/+$/, '')
+const ORIGIN = (process.env.VITE_SITE_URL || 'https://businessweb-c0u.pages.dev').replace(/\/+$/, '')
 
 const STATIC = ['/', '/invest', '/invest/ai-tools', '/invest/etf', '/ai', '/ai/fullstack-roadmap', '/life', '/about', '/pulse',
   '/investment-plan-2026', '/investment-targets', '/mainland-investment-targets', '/limit-up-analysis', '/trading-philosophy',

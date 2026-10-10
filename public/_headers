@@ -1,4 +1,4 @@
-# Cloudflare Pages 静态文件的响应头，对应 vercel.json 里的 headers。
+# Cloudflare Pages 静态文件的响应头，原 Vercel 部署的响应头规则迁移而来。
 # 注意：_headers 只作用于静态文件，不作用于 Pages Functions 的响应；/api/* 的 X-Robots-Tag 在 server/edge/adapter.mjs 里添加。
 /*
   X-Content-Type-Options: nosniff

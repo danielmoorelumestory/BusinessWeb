@@ -8,7 +8,7 @@ import { searchCompanies, validateSecurity } from "./data/identity.mjs";
 // 本地开发页 + 线上站点（线上页面由用户浏览器直连其本机服务，密钥不经过任何服务器）
 const HOSTED_ORIGINS = [
   "https://turbosnails.github.io",
-  "https://business-web-black.vercel.app",
+  "https://businessweb-c0u.pages.dev",
 ];
 function originAllowed(origin) {
   if (/^http:\/\/(localhost|127\.0\.0\.1):(5173|5174|5175|8788)$/.test(origin))

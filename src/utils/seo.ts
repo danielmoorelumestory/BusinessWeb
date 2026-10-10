@@ -2,7 +2,7 @@ import { findDirection } from '../data/aiLab'
 
 export const SITE_NAME = 'Live'
 // canonical 始终指向主站（Vercel）；GitHub Pages 副本也会指向这里，避免重复收录
-export const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL as string | undefined) ?? 'https://business-web-black.vercel.app'
+export const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL as string | undefined) ?? 'https://businessweb-c0u.pages.dev'
 
 export interface RouteSeo {
   title: string

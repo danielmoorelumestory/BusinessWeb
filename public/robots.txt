@@ -8,4 +8,4 @@ Disallow: /downloads/
 Disallow: /ai-skills/
 Disallow: /investment-skills/
 
-Sitemap: https://business-web-black.vercel.app/sitemap.xml
+Sitemap: https://businessweb-c0u.pages.dev/sitemap.xml

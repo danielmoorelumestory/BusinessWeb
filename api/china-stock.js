@@ -1,5 +1,5 @@
 // Vercel Serverless Function - 代理新浪财经 API
-// 部署到 Vercel 后，访问地址：https://your-project.vercel.app/api/china-stock?symbol=sh000001
+// 部署后访问地址：https://<你的站点>/api/china-stock?symbol=sh000001
 
 export default async function handler(req, res) {
   // 设置 CORS 头

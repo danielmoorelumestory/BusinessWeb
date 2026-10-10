@@ -8,7 +8,7 @@ import { marked } from 'marked'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = resolve(ROOT, 'dist')
-const ORIGIN = (process.env.VITE_SITE_URL || 'https://business-web-black.vercel.app').replace(/\/+$/, '')
+const ORIGIN = (process.env.VITE_SITE_URL || 'https://businessweb-c0u.pages.dev').replace(/\/+$/, '')
 
 // 复用前端的路由 SEO 表，保证预渲染与运行时一致
 const bundled = await build({

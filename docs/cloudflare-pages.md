@@ -1,6 +1,6 @@
 # Cloudflare Pages 部署
 
-前端和 `/api/*` 都托管在 Cloudflare Pages：静态页面来自 `dist/`，后端是 `functions/api/*` 下的 Pages Functions（与 Workers 同一个运行时）。Vercel 上的同名接口保留作为回退。迁移过程见 `openspec/changes/deploy-to-cloudflare/`。
+前端和 `/api/*` 都托管在 Cloudflare Pages：静态页面来自 `dist/`，后端是 `functions/api/*` 下的 Pages Functions（与 Workers 同一个运行时）。Vercel 部署已停用（见本文末尾"Vercel 已停用"）。迁移过程见 `openspec/changes/deploy-to-cloudflare/`。
 
 线上地址：https://businessweb-c0u.pages.dev
 
@@ -25,11 +25,9 @@
 
 | 变量 | 当前值 | 说明 |
 |---|---|---|
-| `VITE_API_BASE` | 不设置 | 为空时前端请求同域 `/api/*`，由本站的 Functions 处理。如需临时回退到 Vercel，设为你自己的 Vercel 域名 |
+| `VITE_API_BASE` | 不设置 | 为空时前端请求同域 `/api/*`，由本站的 Functions 处理 |
 | `VITE_MARKET_DIRECT` | 不设置 | 设为 `true` 时热力图的行情由浏览器直连腾讯，绕开 `/api/grid-market` |
 | `SITE_URL` | `https://businessweb-c0u.pages.dev`（建议设置） | 仅 `build:cloudflare` 使用，作为 notes 的 RSS 链接来源；不设置时使用每次部署各不相同的临时地址 |
-
-> 仓库里曾硬编码上游作者的 `business-web-black.vercel.app`，那不是你自己的部署，**不要**把它填进 `VITE_API_BASE`。你自己的 Vercel 域名可在 Vercel 项目 Overview 页查看。
 
 ## 服务端变量（运行时）
 
@@ -56,7 +54,7 @@
 
 - `public/_headers` 对应 `vercel.json` 里的 `headers`：全站 `X-Content-Type-Options: nosniff`、`Referrer-Policy`；`/assets/*` 长期缓存（`immutable`）；`/first-book/*.md` 加 `X-Robots-Tag: noindex`。**`_headers` 只作用于静态文件，不作用于 Functions 的响应。**
 - `/api/*` 的 `X-Robots-Tag: noindex, nofollow` 由 `server/edge/adapter.mjs` 给所有函数响应添加（处理函数自己设置的值不会被覆盖）。
-- **客户端 IP**：评论接口的限流依赖 `x-real-ip` / `x-forwarded-for`。在 Vercel 上它们由平台设置，客户端无法改写；在 Cloudflare 上客户端可以随便发送，限流会被伪造绕过。因此适配器在 Workers 里统一用可信的 `cf-connecting-ip` 覆盖这两个头（拿不到时用 `unknown`，绝不信任客户端自己发来的值）。以后新增依赖客户端 IP 的接口，直接读这两个头即可。
+- **客户端 IP**：评论接口的限流依赖 `x-real-ip` / `x-forwarded-for`。在 Cloudflare 上客户端可以随便发送，限流会被伪造绕过。因此适配器在 Workers 里统一用可信的 `cf-connecting-ip` 覆盖这两个头（拿不到时用 `unknown`，绝不信任客户端自己发来的值）。以后新增依赖客户端 IP 的接口，直接读这两个头即可。
 
 ## 代码结构
 
@@ -65,7 +63,7 @@ functions/api/
 ├── [[path]].js          未知 /api/* 兜底，返回 404 JSON（具体文件优先匹配）
 ├── china-stock.js ...   每个接口入口两行：export const onRequest = toPagesFunction(handler)
 server/edge/adapter.mjs  把 Vercel 风格 handler(req, res) 适配为 Pages Function
-api/*.js、api/*.ts       处理函数本体，Vercel 与 Cloudflare 共用，未做改写
+api/*.js、api/*.ts       处理函数本体（Vercel 风格的 handler(req, res)，由适配器接入 Pages Functions）
 ```
 
 适配器做的事：解析查询参数与请求体、把 Workers 的 `env` 填进 `process.env`、把 `fetch` 的 `redirect: 'error'` 换成 `'manual'` 并在 3xx 时抛错（Workers 不支持 `'error'`）。新增接口时只需在 `functions/api/` 下加一个入口文件。
@@ -82,7 +80,7 @@ npx wrangler pages dev dist --compatibility-date=2026-10-07 --compatibility-flag
 
 ```bash
 npm run test:edge        # 适配器单元测试
-npm run test:functions   # 原有 Vercel 风格函数检查
+npm run test:functions   # 函数加载与未配置时的检查
 ```
 
 ## 验证接口
@@ -115,7 +113,7 @@ curl -s -w " [%{http_code}]\n" "$B/api/comments?slug=a.md"   # 未配置评论�
 curl -s -w " [%{http_code}]\n" -H "Origin: https://evil.example" "$B/api/pulse-sync"
 ```
 
-对比 Vercel 的输出可以确认一致性（Vercel 带 `s-maxage` 缓存，行情里的服务器时间戳可能差几秒）。
+
 
 ## 网格交易的旧路径
 
@@ -128,15 +126,17 @@ curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading/reco
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading/records/abc123  # 302 -> /note/lab/grid-trading/detail/?id=abc123
 ```
 
-先用 302（临时）便于回退；稳定后可以改成 301。Vercel 与 GitHub Pages 的构建没有 `/note/`，那里 `/grid-trading*` 显示"网格交易已迁移"的说明页。
+先用 302（临时）便于回退；稳定后可以改成 301。GitHub Pages 的构建没有 `/note/`，那里 `/grid-trading*` 显示"网格交易已迁移"的说明页。
 
-## 回退
+## Vercel 已停用
 
-任一阶段出问题，把 `VITE_API_BASE` 设为你自己的 Vercel 域名并重新部署，前端即回到 Vercel；Vercel 上的接口一直保留。
+原来的 Vercel 部署已停用：仓库里的 `vercel.json`、`.vercelignore` 与旧的 `DEPLOY.md` 已删除，页面与接口只在 Cloudflare Pages 上提供。在 Vercel 控制台里需要你自己删除项目或断开 Git 集成（否则每次推送仍会触发一次构建），详见 `docs/DEPLOYMENT.md`。
+
+如要回到 Vercel，从 git 历史恢复 `vercel.json` 再导入项目即可；注意复盘与候选池的云同步需要 D1，在 Vercel 上返回 503。
 
 ## 已知限制与后续
 
-- **复盘与候选池的云同步**：存储在 D1，配置步骤见上文"D1 绑定"；Vercel 与 GitHub Pages 构建线没有 D1，这两个接口在那里返回 503。章节评论仍需要 Supabase，未配置时 503。
+- **复盘与候选池的云同步**：存储在 D1，配置步骤见上文"D1 绑定"；GitHub Pages 构建线没有 D1，这两个接口在那里返回 503。章节评论仍需要 Supabase，未配置时 503。
 - **CPU 时间**：Workers 免费计划每次请求的 CPU 时间上限很低（官方文档为 10 ms）。`macro` 在线上连续多次实测未触发，但高峰期是否偶发超限需要观察；如出现 `Error 1102`，可升级 Workers Paid，或改为定时生成快照。
 - **自有域名**：暂未接入，目前使用 `*.pages.dev`。
 - **不上公网**：估值工作台（`npm run valuation:server`）依赖本机文件和 CLI。线上页面访问本地估值服务时，启动需追加 `VALUATION_ALLOWED_ORIGINS=https://businessweb-c0u.pages.dev`，并使用 Chrome 或 Edge。
