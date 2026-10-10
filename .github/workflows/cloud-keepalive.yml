@@ -18,25 +18,25 @@ jobs:
     timeout-minutes: 3
     env:
       SITE_URL: https://business-web-pi-eight.vercel.app
-      GRID_SYNC_TOKEN: ${{ secrets.GRID_SYNC_TOKEN }}
+      PULSE_SYNC_TOKEN: ${{ secrets.PULSE_SYNC_TOKEN }}
     steps:
       - name: Check site and read Supabase snapshot through Vercel
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "$GRID_SYNC_TOKEN" ]]; then
-            echo '::error::Set the repository Actions secret GRID_SYNC_TOKEN to the production sync token.'
+          if [[ -z "$PULSE_SYNC_TOKEN" ]]; then
+            echo '::error::Set the repository Actions secret PULSE_SYNC_TOKEN to the production sync token.'
             exit 1
           fi
           curl --fail --silent --show-error --retry 2 --retry-delay 5 \
             --connect-timeout 10 --max-time 20 --output /dev/null "$SITE_URL/"
-          # Discard the snapshot: never put trading records or credentials in logs.
+          # Discard the snapshot: never put records or credentials in logs.
           # No redirects: do not forward credentials to another origin.
           status=$(curl --silent --show-error --retry 2 --retry-delay 5 \
             --connect-timeout 10 --max-time 20 --output /dev/null \
             --write-out '%{http_code}' \
-            --header "Authorization: Bearer $GRID_SYNC_TOKEN" \
-            "$SITE_URL/api/grid-sync")
+            --header "Authorization: Bearer $PULSE_SYNC_TOKEN" \
+            "$SITE_URL/api/pulse-sync")
           if [[ "$status" != '200' ]]; then
             echo "::error::Cloud snapshot read failed (HTTP $status). Check production configuration and Supabase project status."
             exit 1

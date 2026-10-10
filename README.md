@@ -1,6 +1,6 @@
 # gupiaoWS / BusinessWeb
 
-个人投资研究与网格交易工作台。覆盖 **沪深 A 股 + 美股标普 500**，把多智能体投研流水线（A 股买/卖决策、美股深度覆盖）与本地化网格交易工具整合在一个静态站点里。
+个人投资研究与网格交易工作台。覆盖 **沪深 A 股 + 美股标普 500**，把多智能体投研流水线（A 股买/卖决策、美股深度覆盖）与网格交易工具（notes 站点，`/note/lab/grid-trading/`）整合在一个站点里。
 
 ## 这是什么
 
@@ -8,7 +8,7 @@
 
 - **公司估值工作台**：`/valuation`支持本地Pi/Codex/Claude/OpenCode及具体模型版本选择、财务采集、六方法三情景估值、参数复算和报告导出。启动方法见[本地估值说明](docs/valuation-local-setup.md)。
 
-- **网格交易**：`src/features/grid-trading/` 实现了完整的 ETF / 个股网格模拟器——行情接入、参数求解、回测、记录、导入导出、可选 Supabase 同步。记录默认保存在浏览器，云同步只在手动配置独立 Supabase + token 后才启用。
+- **网格交易**：由 notes 站点的网格交易计算器提供（`notes-site/`，部署后在 `/note/lab/grid-trading/`），包含回测、已保存标的、详情与分钟线；云同步走自己的 Cloudflare Worker + D1，不依赖 Supabase。主站旧的 `/grid-trading*` 路径会跳转到那里（Cloudflare 上 302，其他构建显示迁移说明）。
 - **AI 投研**：项目自带统一股票分析与交易分析 skill（见 [AI 投研 skills](#ai-投研-skills)），支持深度研究、圆桌观点与交易风险分析。
 - **多市场数据**：通过 MCP（yahoo-finance、baostock）和 `src/services/api.ts` 的本地封装，覆盖美股行情、A 股行情、ETF 实时数据、AkShare 数据字典。
 
@@ -19,9 +19,8 @@
 ```
 BusinessWeb/
 ├── src/
-│   ├── pages/              路由页面（Home / ResearchNotes / GridCalculator / GridRecords 等）
+│   ├── pages/              路由页面（Home / ResearchNotes / GridMoved 等）
 │   ├── features/
-│   │   └── grid-trading/   网格交易模块（自包含：模拟、回测、记录、同步、导入导出）
 │   ├── components/         复用组件（Header / Footer / 各市场卡片）
 │   ├── data/               标普500 / 沪深 / 概念板块数据源
 │   ├── services/           API 封装（akshare / 行情代理）
@@ -29,7 +28,7 @@ BusinessWeb/
 ├── api/                    接口处理函数（Vercel 与 Cloudflare 共用）
 ├── functions/              Cloudflare Pages Functions 入口（调用 api/ 与 server/edge 适配器）
 ├── server/                 Vite dev 中间件（行情代理）
-├── supabase/migrations/    网格记录云同步表结构
+├── supabase/migrations/    云同步表结构（脉搏、候选池、评论、资料库等）
 ├── docs/
 │   ├── DEPLOYMENT.md       Vercel + Supabase 部署细节
 │   ├── AKSHARE.md          AKTools 接入说明
@@ -47,7 +46,7 @@ npm ci
 npm run dev          # http://localhost:5173
 ```
 
-需要 **Node 24**（已在 `package.json` 的 `engines` 中声明）。开发服务器自带 `/api/grid-market` 行情代理；`/api/grid-sync` 仅在 `vercel dev` 下运行。
+需要 **Node 24**（已在 `package.json` 的 `engines` 中声明）。开发服务器自带 `/api/grid-market` 行情代理（热力图使用）；`/api/pulse-sync` 等同步接口仅在 `vercel dev` 下运行。
 
 ## 验证
 
@@ -58,7 +57,7 @@ npm run typecheck
 npm run build
 ```
 
-`typecheck` 覆盖网格交易、估值、个人知识中心与新增同步服务端；历史页面暂不在该检查范围内。`test:functions` 检查 Vercel Function 的 schema 与环境变量使用。
+`typecheck` 覆盖新增的 notes 入口组件、估值、个人知识中心与同步服务端；历史页面暂不在该检查范围内。`test:functions` 检查 Vercel Function 的 schema 与环境变量使用。
 
 ## AI 投研 skills
 
@@ -93,7 +92,7 @@ npm run build
 
 - **Cloudflare Pages（当前线上）**：推送 `main` 自动构建，前端与 `/api/*`（`functions/api/`）都在 Cloudflare。构建设置、变量、验证命令与回退办法见 [docs/cloudflare-pages.md](docs/cloudflare-pages.md)。
   - **notes 站点同域托管**：`notes-site/`（Astro）在构建时放进 `/note/`，用 `npm run build:cloudflare` 构建；只影响 Cloudflare 构建，Vercel 与 GitHub Pages 不受影响。搬家前必读的本地数据说明见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
-- **Vercel（回退）**：默认 `npm run build` 输出到根路径；Serverless Functions 处理 `/api/grid-market` 与 `/api/grid-sync`。完整步骤见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)，包括 Vercel 免费项目额度、可选 Supabase 同步与环境变量。
+- **Vercel（回退）**：默认 `npm run build` 输出到根路径；Serverless Functions 处理 `/api/grid-market`、`/api/pulse-sync` 等接口。完整步骤见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)，包括 Vercel 免费项目额度、可选 Supabase 同步与环境变量。
 - **GitHub Pages**：由 [.github/workflows/pages.yml](.github/workflows/pages.yml) 在推送 `main` 时自动测试、构建并发布，也可在 Actions 中手动运行。首次迁移需在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**；若 `github-pages` 环境限制了部署分支，需允许 `main`。不要将 Pages 的来源直接设成 `main` 分支静态目录，React 源码需要先构建。Pages 不运行 Functions，API 继续使用配置的 Vercel 服务。
   - 本地验证：`npm run build:pages`；构建产物上传为 Pages artifact，不提交到 `gh-pages`。`deploy` 脚本与 `gh-pages` 依赖已移除。
   - 确认新工作流部署成功后，才可以删除旧 `gh-pages` 分支。

@@ -40,6 +40,13 @@ describe('SmartLink', () => {
     expect(ref.current?.className).toBe('active')
   })
 
+  it('notesLinks 读取环境变量前先用 typeof 防护：构建期的 Node 步骤会间接导入它，纯 Node 里 import.meta.env 是 undefined', async () => {
+    const { readFileSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const source = readFileSync(resolve(__dirname, '../data/notesLinks.ts'), 'utf8')
+    expect(source).toMatch(/typeof import\.meta\.env !== 'undefined'/)
+  })
+
   it('isNotesPath：只认 /note 与 /note/ 开头，不会把 /notes-x 当成 notes', () => {
     expect(isNotesPath('/note')).toBe(true)
     expect(isNotesPath('/note/lab/')).toBe(true)

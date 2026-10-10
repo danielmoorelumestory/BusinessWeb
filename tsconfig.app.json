@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/vite-env.d.ts",
+    "src/testSetup.ts",
+    "src/data/notesLinks.ts",
+    "src/components/SmartLink.tsx",
+    "src/components/SmartLink.test.tsx",
+    "src/pages/GridMoved.tsx",
+    "src/pages/GridMoved.test.tsx"
+  ]
+}

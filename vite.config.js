@@ -56,7 +56,7 @@ export default defineConfig({
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     passWithNoTests: true,
     globals: true,
-    setupFiles: ['src/features/grid-trading/testSetup.ts'],
+    setupFiles: ['src/testSetup.ts'],
     restoreMocks: true,
     clearMocks: true
   }

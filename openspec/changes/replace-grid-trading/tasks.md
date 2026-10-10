@@ -31,13 +31,13 @@
 
 ## 5. 删除旧的网格实现与 Supabase 网格同步
 
-- [ ] 5.1 用全局搜索列出所有对 `features/grid-trading`、`GridCalculator`、`GridRecords`、`GridRecordDetail`、`gridSync`、`grid-sync`、`GRID_SYNC_TOKEN` 的引用，记录每一处的处理方式；**确认 `api/grid-market`、`functions/api/grid-market.js`、`server/market.mjs` 与 `src/services/heatmapQuotes.ts` 不在删除范围内**
-- [ ] 5.2 删除 `src/pages/GridCalculator*`、`GridRecords*`、`GridRecordDetail*`（含测试）与 `src/features/grid-trading/`（含 `parityFixture.json` 与测试）
-- [ ] 5.3 删除 `src/services/gridSyncApi.test.ts` 及其对应的服务文件（先确认它只服务于网格同步，被 Pulse 等其他模块使用的部分要保留）
-- [ ] 5.4 删除 `api/grid-sync.ts`、`functions/api/grid-sync.js`、`supabase/migrations/202610020001_grid_sync.sql`；从 `scripts/check-functions.mjs` 与 `scripts/check-deployment.mjs` 中移除 `grid-sync` 相关项；从 `.env.example` 移除 `GRID_SYNC_TOKEN`
-- [ ] 5.5 修改 `.github/workflows/cloud-keepalive.yml`：读取目标改为 `/api/pulse-sync`，令牌改为 `PULSE_SYNC_TOKEN`，并相应调整说明文字
-- [ ] 5.6 更新文档：`docs/DEPLOYMENT.md`、`README.md`、`docs/cloudflare-pages.md` 中关于网格同步、`GRID_SYNC_TOKEN`、网格页面的段落；`docs/superpowers/plans/` 下的历史计划文档保持不变
-- [ ] 5.7 全局搜索残留：`features/grid-trading`、`grid-sync`、`gridSync`、`GRID_SYNC_TOKEN`、`/grid-trading`，每一处都要有明确结论（保留的有理由），然后运行类型检查与构建，任何悬空引用都必须报错
+- [x] 5.1 用全局搜索列出所有对 `features/grid-trading`、`GridCalculator`、`GridRecords`、`GridRecordDetail`、`gridSync`、`grid-sync`、`GRID_SYNC_TOKEN` 的引用，记录每一处的处理方式；**确认 `api/grid-market`、`functions/api/grid-market.js`、`server/market.mjs` 与 `src/services/heatmapQuotes.ts` 不在删除范围内**。结果：引用图比设计预想的多——另有 `vite.config.js` 的 `setupFiles` 指向 `src/features/grid-trading/testSetup.ts`（全部测试依赖，已先挪到 `src/testSetup.ts`）、`tsconfig.grid.json`（改造为 `tsconfig.app.json`，覆盖新增的 `SmartLink`、`GridMoved`、`notesLinks` 及其测试）、`tsconfig.server.json` 里两个网格文件、规格里另一条需求（"密钥只在服务端配置"）也列了 `GRID_SYNC_TOKEN`（已补进增量规格）；`api/grid-market` 等保留项确认不在删除范围
+- [x] 5.2 删除 `src/pages/GridCalculator*`、`GridRecords*`、`GridRecordDetail*`（含测试）与 `src/features/grid-trading/`（含 `parityFixture.json` 与测试）。结果：已删除 3 个页面、`src/features/grid-trading/`（含测试与 `parityFixture.json`）；前端测试从 721 项降到 632 项，减少的是被删除的网格测试
+- [x] 5.3 删除 `src/services/gridSyncApi.test.ts` 及其对应的服务文件（先确认它只服务于网格同步，被 Pulse 等其他模块使用的部分要保留）。结果：仅存在 `gridSyncApi.test.ts`（测的是 `api/grid-sync`），没有对应的服务文件；已删除，Pulse 的同步服务不受影响
+- [x] 5.4 删除 `api/grid-sync.ts`、`functions/api/grid-sync.js`、`supabase/migrations/202610020001_grid_sync.sql`；从 `scripts/check-functions.mjs` 与 `scripts/check-deployment.mjs` 中移除 `grid-sync` 相关项；从 `.env.example` 移除 `GRID_SYNC_TOKEN`。结果：已删除 `api/grid-sync.ts`、`functions/api/grid-sync.js`、迁移脚本；`check-functions.mjs` 去掉 `grid-sync` 用例；`check-deployment.mjs` 把 `/api/grid-sync` 检查换成 `/api/pulse-sync`；`.env.example` 改为列出真正在用的 `PULSE_SYNC_TOKEN`、`COMMENTS_ADMIN_TOKEN`
+- [x] 5.5 修改 `.github/workflows/cloud-keepalive.yml`：读取目标改为 `/api/pulse-sync`，令牌改为 `PULSE_SYNC_TOKEN`，并相应调整说明文字。结果：已改为读取 `/api/pulse-sync` 并使用 `PULSE_SYNC_TOKEN`
+- [x] 5.6 更新文档：`docs/DEPLOYMENT.md`、`README.md`、`docs/cloudflare-pages.md` 中关于网格同步、`GRID_SYNC_TOKEN`、网格页面的段落；`docs/superpowers/plans/` 下的历史计划文档保持不变。结果：`DEPLOYMENT.md` 的 Supabase 一节改写为"创建自有 Supabase 免费项目"（去掉网格专属内容，保留对 Pulse、评论等仍有用的步骤）；`README.md`、`cloudflare-pages.md` 同步，并在 `cloudflare-pages.md` 新增"网格交易的旧路径"一节与验证命令；`docs/superpowers/plans/` 历史文档未改
+- [x] 5.7 全局搜索残留：`features/grid-trading`、`grid-sync`、`gridSync`、`GRID_SYNC_TOKEN`、`/grid-trading`，每一处都要有明确结论（保留的有理由），然后运行类型检查与构建，任何悬空引用都必须报错。结果：除历史计划文档、已归档变更，以及 `cloudflare-pages.md` 里有意写的"`/api/grid-sync` 应为 404"之外，残留为 0；主规格里两处 `GRID_SYNC_TOKEN` 与 `grid-sync` 的需求由本变更的增量规格在归档时修改
 
 ## 6. 验证
 

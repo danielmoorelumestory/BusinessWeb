@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": { "types": ["node"], "noEmit": true },
-  "include": ["api/**/*.ts", "src/features/grid-trading/validation.ts", "src/features/grid-trading/types.ts", "src/features/pulse/validation.ts", "src/features/candidates/validation.ts"]
+  "include": ["api/**/*.ts", "src/features/pulse/validation.ts", "src/features/candidates/validation.ts"]
 }

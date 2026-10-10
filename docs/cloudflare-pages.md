@@ -26,7 +26,7 @@
 | 变量 | 当前值 | 说明 |
 |---|---|---|
 | `VITE_API_BASE` | 不设置 | 为空时前端请求同域 `/api/*`，由本站的 Functions 处理。如需临时回退到 Vercel，设为你自己的 Vercel 域名 |
-| `VITE_MARKET_DIRECT` | 不设置 | 设为 `true` 时网格行情由浏览器直连腾讯，绕开 `/api/grid-market` |
+| `VITE_MARKET_DIRECT` | 不设置 | 设为 `true` 时热力图的行情由浏览器直连腾讯，绕开 `/api/grid-market` |
 | `SITE_URL` | `https://businessweb-c0u.pages.dev`（建议设置） | 仅 `build:cloudflare` 使用，作为 notes 的 RSS 链接来源；不设置时使用每次部署各不相同的临时地址 |
 
 > 仓库里曾硬编码上游作者的 `business-web-black.vercel.app`，那不是你自己的部署，**不要**把它填进 `VITE_API_BASE`。你自己的 Vercel 域名可在 Vercel 项目 Overview 页查看。
@@ -38,7 +38,6 @@
 | 变量 | 用途 |
 |---|---|
 | `SUPABASE_URL`、`SUPABASE_SECRET_KEY` | 同步类接口与知识库云端接口访问 Supabase |
-| `GRID_SYNC_TOKEN` | `/api/grid-sync` |
 | `PULSE_SYNC_TOKEN` | `/api/pulse-sync`、`/api/candidates-sync` |
 | `KNOWLEDGE_READ_TOKEN`、`KNOWLEDGE_MCP_TOKEN`、`KNOWLEDGE_UPLOAD_TOKEN`、`KNOWLEDGE_SYNC_TOKEN` | `/api/knowledge`（前三个互不相同，且至少 32 字符） |
 | `COMMENTS_ADMIN_TOKEN` | `/api/comments` 的管理员操作（审核、驳回、删除），至少 32 字符；评论本身也依赖上面的 `SUPABASE_URL`、`SUPABASE_SECRET_KEY` |
@@ -68,7 +67,7 @@ api/*.js、api/*.ts       处理函数本体，Vercel 与 Cloudflare 共用，�
 ```bash
 npm run build
 npx wrangler pages dev dist --compatibility-date=2026-10-07 --compatibility-flag=nodejs_compat
-# 需要服务端变量时追加：--binding SUPABASE_URL=... --binding GRID_SYNC_TOKEN=...
+# 需要服务端变量时追加：--binding SUPABASE_URL=... --binding PULSE_SYNC_TOKEN=...
 ```
 
 `.wrangler/` 是本地缓存，已被 Git 忽略。自动化检查：
@@ -101,7 +100,7 @@ curl -s "$B/api/sentiment"
 curl -s "$B/api/cls-plate?date=20260930&up_limit=1" | head -c 120   # 需交易日
 
 # 同步与知识库：未配置时应为 503；方法不对为 405；陌生来源为 403
-curl -s -w " [%{http_code}]\n" $B/api/grid-sync
+curl -s -w " [%{http_code}]\n" $B/api/grid-sync   # 已移除，应为 404 的 JSON
 curl -s -w " [%{http_code}]\n" $B/api/pulse-sync
 curl -s -w " [%{http_code}]\n" $B/api/candidates-sync
 curl -s -w " [%{http_code}]\n" "$B/api/knowledge?action=status"
@@ -110,6 +109,19 @@ curl -s -w " [%{http_code}]\n" -H "Origin: https://evil.example" "$B/api/knowled
 ```
 
 对比 Vercel 的输出可以确认一致性（Vercel 带 `s-maxage` 缓存，行情里的服务器时间戳可能差几秒）。
+
+## 网格交易的旧路径
+
+主站自己的网格交易已被 notes 的网格交易计算器取代（变更 `replace-grid-trading`）。`public/_redirects` 里是服务端 302 跳转，前端的 `GridMoved` 路由作兜底：
+
+```bash
+B=https://businessweb-c0u.pages.dev
+curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading                 # 302 -> /note/lab/grid-trading/
+curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading/records         # 302 -> /note/lab/grid-trading/saved/
+curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading/records/abc123  # 302 -> /note/lab/grid-trading/detail/?id=abc123
+```
+
+先用 302（临时）便于回退；稳定后可以改成 301。Vercel 与 GitHub Pages 的构建没有 `/note/`，那里 `/grid-trading*` 显示"网格交易已迁移"的说明页。
 
 ## 回退
 

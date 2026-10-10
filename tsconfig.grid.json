@@ -1,4 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "include": ["src/vite-env.d.ts", "src/features/grid-trading/**/*.ts", "src/features/grid-trading/**/*.tsx", "src/pages/Grid*.tsx"]
-}

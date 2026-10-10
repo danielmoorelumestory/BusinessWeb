@@ -4,7 +4,7 @@
 
 ## 当前技术栈
 
-React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。Supabase 仅用于可选的独立同步：网格记录（`/api/grid-sync`）和经济脉搏每日复盘（`/api/pulse-sync`）。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
+React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。Supabase 仅用于可选的独立同步：经济脉搏每日复盘（`/api/pulse-sync`）、候选池（`/api/candidates-sync`）、章节评论（`/api/comments`）和私人资料库（`/api/knowledge`）。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
 
 R2 暂未接入：当前没有附件上传业务。将来需要图片、PDF 等文件时，再接入 R2 并在 Supabase 保存文件元数据。
 
@@ -15,7 +15,7 @@ npm ci
 npm run dev
 ```
 
-使用 Node 24。Vite 开发服务器实现 `/api/grid-market`，可直接运行网格行情。`/api/grid-sync` 是 Vercel Function，本地调试该接口需使用 Vercel CLI 的 `vercel dev`，并将服务端变量保存在忽略的 `.env.local`。普通 `npm run dev` 不启动 Supabase 同步接口。
+使用 Node 24。Vite 开发服务器实现 `/api/grid-market`（热力图的行情代理）。`/api/pulse-sync` 等同步接口是 Vercel Function，本地调试需使用 Vercel CLI 的 `vercel dev`，并将服务端变量保存在忽略的 `.env.local`。普通 `npm run dev` 不启动 Supabase 同步接口。
 
 ```bash
 npm test -- --run
@@ -30,49 +30,44 @@ npm run build
 2. 在 Vercel 导入该仓库，Root Directory 选择包含 `package.json` 的目录。
 3. Framework 为 Vite；Build Command 为 `npm run build`；Output 为 `dist`；Node 为 24.x。
 4. 初次部署不用填写 Supabase 变量，页面和本地记录即可工作。
-5. 验证首页、`/grid-trading`、`/grid-trading/records` 和详情链接直接访问及刷新。
+5. 验证首页与任意前端路由直接访问及刷新。`/grid-trading*` 在没有 notes 站点的构建里显示"网格交易已迁移"的说明页（Cloudflare 上则 302 跳转到 `/note/` 下的网格计算器）。
 6. 打开 `/api/grid-market?kind=quotes&symbols=sh510300`，应返回腾讯行情文本。错误 `/api/...` 应为 404，而不是页面 HTML。
 
 Vercel Hobby 适用个人非商业用途；实际额度和用途限制以官方页面为准：
 https://vercel.com/docs/plans/hobby
 
-## 启用自有 Supabase 免费同步
+## 创建自有 Supabase 免费项目
 
-这是单人/同一拥有者多设备的手动同步，使用专用 token；目前不是多用户登录系统。
+Pulse、候选池、评论、私人资料库共用同一个 Supabase 项目；它们是单人/同一拥有者的手动同步，使用各自专用的 token，不是多用户登录系统。（网格交易的同步已迁到 notes 的 Worker + D1，不再使用 Supabase。）
 
 1. 新建**独立 BusinessWeb** Supabase Free 项目，不使用其他项目的数据库或 token。
-2. 在 SQL Editor 执行 `supabase/migrations/202610020001_grid_sync.sql`。脚本幂等，重复执行不清空记录。
+2. 按需要在 SQL Editor 执行 `supabase/migrations/` 下对应的脚本（均幂等，重复执行不清空数据）：`202610020002_pulse_reviews.sql`（经济脉搏）、`202610020003_candidates.sql`（候选池）、`202610090001_comments.sql`（评论）等。
 3. 在 Supabase 的 API Keys 中取得服务端 secret key（`sb_secret_...`）；也兼容 legacy service_role JWT。不要使用 publishable/anon key 代替。
-4. 为同步创建随机 token，可本地运行：
+4. 为每个同步创建随机 token，可本地运行：
 
    ```bash
    node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
    ```
 
-5. 在 Vercel Environment Variables 中设置以下**服务端变量**，然后重新部署：
+5. 在 Vercel（或 Cloudflare）的 Environment Variables 中设置**服务端变量**，然后重新部署：
 
    | 变量 | 内容 |
    |---|---|
    | `SUPABASE_URL` | 新项目的 `https://<project-ref>.supabase.co` 地址 |
    | `SUPABASE_SECRET_KEY` | 新项目 secret key |
-   | `GRID_SYNC_TOKEN` | 随机专用 token，至少 32 字符 |
+   | `PULSE_SYNC_TOKEN` | 脉搏与候选池同步的随机专用 token，至少 32 字符 |
 
-   不要加 `VITE_` 前缀，不要将密钥提交 Git。建议只为 Production 设置凭证，避免 Preview 与正式站点共用交易数据。
+   不要加 `VITE_` 前缀，不要将密钥提交 Git。建议只为 Production 设置凭证，避免 Preview 与正式站点共用数据。
 
-6. 网站的网格记录页中，手动填写独立同步地址 `https://<你的站点>/api/grid-sync` 与专用 token，确认目标域名并保存。
-7. 点击立即同步。新设备使用相同地址/token。Supabase key 不进入浏览器；token 保存在本机，JSON 导出不包含 token。
-
-同步 GET 返回快照与 ETag，PUT 使用 If-Match 进行原子版本检查。发生并发更新时返回 409，本地数据保留，重新同步即可。相同时间但内容不同的记录仍需按照界面提示解决冲突。每次同步最多 500 条记录（含删除标记），请求体最多 3 MB；达到限制时先导出备份。
-
-表启用 RLS，匿名与登录用户没有直接读取权限，只有服务端 service_role 可以读写。不要将同步 token 分享给其他用户：持有者拥有该独立快照的读写权限。
+同步接口的 GET 返回快照与 ETag，PUT 使用 If-Match 进行原子版本检查，并发更新返回 409，本地数据保留，重新同步即可。表启用 RLS，匿名与登录用户没有直接读取权限，只有服务端 service_role 可以读写。不要将同步 token 分享给其他用户：持有者拥有对应快照的读写权限。
 
 ## GitHub Actions 定时检查与数据库活动
 
 `.github/workflows/cloud-keepalive.yml` 每天 UTC 00:23、08:23、16:23（马来西亚时间 08:23、16:23、次日 00:23）运行，也支持在 Actions 中手动运行 **Cloud keepalive**。
 
-启用前，在 GitHub 仓库 Settings → Secrets and variables → Actions 添加仓库 Secret `GRID_SYNC_TOKEN`，值与 Vercel Production 的同名变量相同。无需向 GitHub 提供 Supabase 服务端密钥。
+启用前，在 GitHub 仓库 Settings → Secrets and variables → Actions 添加仓库 Secret `PULSE_SYNC_TOKEN`，值与 Vercel Production 的同名变量相同。无需向 GitHub 提供 Supabase 服务端密钥。
 
-任务检查正式站点，再通过已认证的 `GET /api/grid-sync` 实际读取 Supabase 快照；不写入数据，不在日志输出 token 或交易记录。缺少 Secret、非 200 响应或网络错误会使任务失败。站点域名变更时更新 workflow 的 `SITE_URL`。
+任务检查正式站点，再通过已认证的 `GET /api/pulse-sync` 实际读取 Supabase 快照；不写入数据，不在日志输出 token 或记录内容。缺少 Secret、非 200 响应或网络错误会使任务失败。站点域名变更时更新 workflow 的 `SITE_URL`。
 
 Supabase 免费项目会因一周内数据库活动不足而暂停；此任务产生数据库读取活动，但不保证永不暂停，也不能恢复已暂停项目（需在 Supabase Dashboard 手动 Resume）。GitHub 定时任务可能延迟，公开仓库连续 60 天没有活动时定时任务可能自动停用，届时需在 Actions 中重新启用。
 
@@ -84,7 +79,7 @@ Supabase 免费项目会因一周内数据库活动不足而暂停；此任务�
 npm run build:pages
 ```
 
-本地仅用于验证构建；线上由 `.github/workflows/pages.yml` 发布。此构建显式使用 `/BusinessWeb/` 资源和 Router 路径，并生成详情路由回退页面。GitHub Pages 不运行 Functions，所以网格行情保留直接访问腾讯（受浏览器 CORS 限制），本次 Vercel 同步接口仅支持同源访问，Pages 网站不能直接跨域使用该接口；如保留 Pages 并需要云同步，需另外配置支持 CORS 的独立同步服务。
+本地仅用于验证构建；线上由 `.github/workflows/pages.yml` 发布。此构建显式使用 `/BusinessWeb/` 资源和 Router 路径，并生成详情路由回退页面。GitHub Pages 不运行 Functions，所以热力图行情保留直接访问腾讯（受浏览器 CORS 限制），本次 Vercel 同步接口仅支持同源访问，Pages 网站不能直接跨域使用该接口；如保留 Pages 并需要云同步，需另外配置支持 CORS 的独立同步服务。
 
 ## 仍需独立处理的接口
 
@@ -105,13 +100,13 @@ https://developers.cloudflare.com/r2/pricing/
 复用上面的同一个 Supabase 项目，但**使用独立的 token 和独立的表**，两处同步互不影响。
 
 1. 在 SQL Editor 执行 `supabase/migrations/202610020002_pulse_reviews.sql`（幂等）。它创建 `businessweb_pulse_snapshot`（当前快照）、`businessweb_pulse_history`（最近 30 个历史版本）和写入函数，所有表对 `anon`/`authenticated` 全部撤权并开启 RLS，仅服务端密钥可访问。
-2. 生成另一个随机 token（不要复用 `GRID_SYNC_TOKEN`）：
+2. 生成随机 token（`PULSE_SYNC_TOKEN`）：
 
    ```bash
    node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
    ```
 
-3. 在 Vercel Environment Variables 增加服务端变量 `PULSE_SYNC_TOKEN`（至少 32 字符），`SUPABASE_URL`、`SUPABASE_SECRET_KEY` 与网格同步共用；重新部署。
+3. 在 Vercel Environment Variables 增加服务端变量 `PULSE_SYNC_TOKEN`（至少 32 字符），`SUPABASE_URL`、`SUPABASE_SECRET_KEY` 与其他 Supabase 同步共用；重新部署。
 4. 打开 Vercel 站点的「经济脉搏」→「云端设置」，填 `https://<你的站点>/api/pulse-sync` 与该 token，确认目标域名并保存，再点「同步」。
 
 ### 增删改的安全措施
