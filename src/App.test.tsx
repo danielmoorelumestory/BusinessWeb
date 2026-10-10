@@ -22,7 +22,7 @@ describe('App 路由拆分', () => {
     for (const page of [
       'TradingPhilosophy', 'SectorRotation', 'InvestmentPlan2026', 'Pulse', 'Monitor',
       'ResearchNotes', 'CompanyDetail', 'Valuation', 'FirstBook', 'LimitUpAnalysis',
-      'InvestmentStrategy', 'GridCalculator', 'IndustryLandscape',
+      'InvestmentStrategy', 'GridMoved', 'IndustryLandscape',
     ]) {
       expect(appSource, page).toMatch(new RegExp(`const ${page} = lazy\\(\\(\\) => import\\('\\./pages/${page}'\\)\\)`))
       expect(appSource, page).not.toMatch(new RegExp(`^import ${page} from`, 'm'))

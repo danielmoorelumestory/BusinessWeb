@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import SmartLink from '../components/SmartLink'
 import { ArrowRight } from 'lucide-react'
 import LabDirectionCard from '../components/lab/LabDirectionCard'
 import { LAB_PRINCIPLE, LAB_SHOWCASE, avoidedDirections, findDirection, labStats, recommendedDirections } from '../data/aiLab'
@@ -63,11 +64,11 @@ export default function AiStudio(): JSX.Element {
         <h2>作品</h2>
         <div className="lab-showcase">
           {LAB_SHOWCASE.map(s => (
-            <Link key={s.path} to={s.path} className="hub-card lab-showcase__item">
+            <SmartLink key={s.path} to={s.path} className="hub-card lab-showcase__item">
               <span className="hub-card__title">{s.title}</span>
               <span className="hub-card__desc">{s.desc}</span>
               <ArrowRight size={16} className="hub-card__arrow" aria-hidden="true" />
-            </Link>
+            </SmartLink>
           ))}
         </div>
       </section>

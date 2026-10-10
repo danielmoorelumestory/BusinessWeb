@@ -22,12 +22,12 @@
 
 ## 4. 替换主站入口与路径
 
-- [ ] 4.1 找出渲染 `siteMap` 与 `aiLab` 入口的组件，使以 `/note/` 开头的路径使用普通 `<a href>`；为这一行为补组件测试（普通链接，点击不被前端路由拦截）
-- [ ] 4.2 修改 `src/data/siteMap.ts` 与 `src/data/aiLab.ts`：设置了 `VITE_NOTES_PATH` 时入口指向 `/note/lab/grid-trading/`，否则指向 `/grid-trading`（由 `GridMoved` 显示迁移说明）
-- [ ] 4.3 新增 `GridMoved` 路由组件并为其写测试：`/grid-trading` → `/note/lab/grid-trading/`、`/grid-trading/records` → `.../saved/`、`/grid-trading/records/:id` → `.../detail/?id=:id`；设置了 `VITE_NOTES_PATH` 时用 `window.location.replace` 跳转，否则显示迁移说明与指向 `https://businessweb-c0u.pages.dev/note/lab/grid-trading/` 的链接
-- [ ] 4.4 修改 `src/App.tsx`：去掉三个网格路由与对应的懒加载导入，加入匹配 `/grid-trading/*` 的 `GridMoved` 路由
-- [ ] 4.5 修改 `src/utils/seo.ts`：`/grid-trading` 与 `/grid-trading/records` 的条目改为迁移页的 `noindex`（或移除），并检查站点地图生成脚本是否列出了 `/grid-trading`，同步修改
-- [ ] 4.6 新增 `public/_redirects`：三条旧路径的 302 跳转（`/grid-trading/records/:id` 目标带 `?id=:id`）；注意 `public/` 的内容会进入所有构建线的产物，Vercel 与 GitHub Pages 会忽略该文件
+- [x] 4.1 找出渲染 `siteMap` 与 `aiLab` 入口的组件，使以 `/note/` 开头的路径使用普通 `<a href>`；为这一行为补组件测试（普通链接，点击不被前端路由拦截）
+- [x] 4.2 修改 `src/data/siteMap.ts` 与 `src/data/aiLab.ts`：设置了 `VITE_NOTES_PATH` 时入口指向 `/note/lab/grid-trading/`，否则指向 `/grid-trading`（由 `GridMoved` 显示迁移说明）
+- [x] 4.3 新增 `GridMoved` 路由组件并为其写测试：`/grid-trading` → `/note/lab/grid-trading/`、`/grid-trading/records` → `.../saved/`、`/grid-trading/records/:id` → `.../detail/?id=:id`；设置了 `VITE_NOTES_PATH` 时用 `window.location.replace` 跳转，否则显示迁移说明与指向 `https://businessweb-c0u.pages.dev/note/lab/grid-trading/` 的链接
+- [x] 4.4 修改 `src/App.tsx`：去掉三个网格路由与对应的懒加载导入，加入匹配 `/grid-trading/*` 的 `GridMoved` 路由
+- [x] 4.5 修改 `src/utils/seo.ts`：`/grid-trading` 与 `/grid-trading/records` 的条目改为迁移页的 `noindex`（或移除），并检查站点地图生成脚本是否列出了 `/grid-trading`，同步修改
+- [x] 4.6 新增 `public/_redirects`：三条旧路径的 302 跳转（`/grid-trading/records/:id` 目标带 `?id=:id`）；注意 `public/` 的内容会进入所有构建线的产物，Vercel 与 GitHub Pages 会忽略该文件
 
 ## 5. 删除旧的网格实现与 Supabase 网格同步
 

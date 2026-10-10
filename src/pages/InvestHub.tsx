@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import SmartLink from '../components/SmartLink'
 import { ArrowRight } from 'lucide-react'
 import { INVEST_GROUPS, type HubGroup } from '../data/siteMap'
 
@@ -7,11 +7,11 @@ function GroupLinks({ group }: { group: HubGroup }): JSX.Element {
   return (
     <div className="hub-grid">
       {group.links.map(l => (
-        <Link key={l.path} to={l.path} className="hub-card">
+        <SmartLink key={l.path} to={l.path} className="hub-card">
           <span className="hub-card__title">{l.label}</span>
           <span className="hub-card__desc">{l.desc}</span>
           <ArrowRight size={16} className="hub-card__arrow" aria-hidden="true" />
-        </Link>
+        </SmartLink>
       ))}
     </div>
   )

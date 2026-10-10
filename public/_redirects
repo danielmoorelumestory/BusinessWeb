@@ -1,0 +1,6 @@
+# Cloudflare Pages 的服务端跳转：主站旧的网格交易路径 -> notes 站点（/note/）下对应的页面。
+# 先用 302 临时跳转，便于回退（301 会被浏览器长期缓存）；稳定后再改成 301。
+# _redirects 先于 SPA 回退生效。Vercel 与 GitHub Pages 会忽略这个文件，那里由前端的 GridMoved 路由显示迁移说明。
+/grid-trading /note/lab/grid-trading/ 302
+/grid-trading/records /note/lab/grid-trading/saved/ 302
+/grid-trading/records/:id /note/lab/grid-trading/detail/?id=:id 302

@@ -1,3 +1,5 @@
+import { GRID_TRADING_PATH } from './notesLinks'
+
 export type LabVerdict = 'strong' | 'recommend' | 'try' | 'experiment' | 'avoid'
 export type LabStatus = '进行中' | '计划中' | '未开始' | '已暂停' | '已停止' | '不做'
 
@@ -52,7 +54,7 @@ export const VERDICT_LABEL: Record<LabVerdict, string> = {
 export const LAB_SHOWCASE: LabShowcaseItem[] = [
   { title: '投资分析 Skill 包', desc: '三套投资分析 Skill 专家，可完整下载', path: '/invest/ai-tools' },
   { title: '公司估值', desc: '六方法三情景估值与报告导出', path: '/valuation' },
-  { title: '网格交易', desc: 'ETF / 个股网格模拟、回测与记录', path: '/grid-trading' },
+  { title: '网格交易', desc: 'ETF / 个股网格模拟、回测与记录', path: GRID_TRADING_PATH },
   { title: '这个网站', desc: '用 React 自己搭的个人站，本身就是第一个作品', path: '/about' },
 ]
 

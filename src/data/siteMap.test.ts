@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { INVEST_GROUPS, NAV_ITEMS, findInvestEntry, isNavActive } from './siteMap'
+import { isNotesPath } from './notesLinks'
 
 const appSource = readFileSync(resolve(__dirname, '../App.tsx'), 'utf8')
 
@@ -39,10 +40,23 @@ describe('INVEST_GROUPS', () => {
     expect(new Set(paths).size).toBe(paths.length)
   })
 
-  it('每个入口路径都在 App.tsx 路由表里', () => {
+  it('每个入口路径都在 App.tsx 路由表里（/note/ 开头的是 notes 站点的静态页面，不在前端路由里；/grid-trading 由通配路由接管）', () => {
     for (const l of allLinks) {
-      expect(appSource, l.path).toContain(`path="${l.path}"`)
+      if (isNotesPath(l.path)) continue
+      expect(appSource.includes(`path="${l.path}"`) || appSource.includes(`path="${l.path}/*"`), l.path).toBe(true)
     }
+  })
+
+  it('没有 VITE_NOTES_PATH 时网格入口指向主站的 /grid-trading（显示迁移说明）；设置后指向 notes 的计算器', async () => {
+    expect(INVEST_GROUPS.flatMap(g => g.links).some(l => l.path === '/grid-trading')).toBe(true)
+    vi.resetModules()
+    vi.stubEnv('VITE_NOTES_PATH', '/note/')
+    const withNotes = await import('./siteMap')
+    const paths = withNotes.INVEST_GROUPS.flatMap(g => g.links).map(l => l.path)
+    expect(paths).toContain('/note/lab/grid-trading/')
+    expect(paths).not.toContain('/grid-trading')
+    vi.unstubAllEnvs()
+    vi.resetModules()
   })
 
   it('分组顺序按书里的流程：读书 → 定规则 → 选标的 → 用工具执行 → 看行情，已舍弃垫底', () => {

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { findInvestEntry } from '../data/siteMap'
+import SmartLink from './SmartLink'
 
 export default function SectionChrome(): JSX.Element | null {
   const { pathname } = useLocation()
@@ -30,7 +31,7 @@ export default function SectionChrome(): JSX.Element | null {
           {group.links.map(l => {
             const active = l.path === link.path
             return (
-              <Link
+              <SmartLink
                 key={l.path}
                 to={l.path}
                 ref={active ? currentRef : undefined}
@@ -38,7 +39,7 @@ export default function SectionChrome(): JSX.Element | null {
                 aria-current={active ? 'page' : undefined}
               >
                 {l.label}
-              </Link>
+              </SmartLink>
             )
           })}
         </nav>

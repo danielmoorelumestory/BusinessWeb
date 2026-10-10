@@ -35,7 +35,7 @@ const EXACT: Record<string, RouteSeo> = {
   '/future-trends': { title: '未来趋势', description: '影响未来十年的产业与技术趋势研究。' },
   '/industry-landscape': { title: '产业格局', description: '重点产业链与竞争格局梳理。' },
   '/research-notes': { title: '研究笔记｜公司与行业研究', description: '沪深 A 股、港股、美股的公司研究笔记与审计报告。' },
-  '/grid-trading': { title: '网格交易计算器', description: 'ETF 与个股网格交易的参数求解、回测与模拟。' },
+  '/grid-trading': { title: '网格交易已迁移', noindex: true },
   '/valuation': { title: '公司估值工作台', noindex: true },
   '/dcf': { title: 'DCF 估值', noindex: true },
   '/knowledge': { title: '知识中心', noindex: true },
@@ -43,7 +43,7 @@ const EXACT: Record<string, RouteSeo> = {
 }
 
 const PREFIX: Array<[string, RouteSeo]> = [
-  ['/grid-trading/records', { title: '网格交易记录', noindex: true }],
+  ['/grid-trading/', { title: '网格交易已迁移', noindex: true }],
   ['/first-book/read/', { title: '《正念投资》在线阅读', description: '《正念投资》章节全文在线阅读。' }],
   ['/research-notes/', { title: '公司研究笔记', description: '单家公司的研究笔记、财务与估值要点。' }],
   ['/future-trends/solid-state/', { title: '固态电池｜公司研究', description: '固态电池公司业务敞口、财务质量、估值假设、多空观点与证据。' }],

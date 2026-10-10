@@ -26,9 +26,8 @@ const FirstBook = lazy(() => import('./pages/FirstBook'))
 const MyBooks = lazy(() => import('./pages/MyBooks'))
 const ResearchNotes = lazy(() => import('./pages/ResearchNotes'))
 const CompanyDetail = lazy(() => import('./pages/CompanyDetail'))
-const GridCalculator = lazy(() => import('./pages/GridCalculator'))
-const GridRecords = lazy(() => import('./pages/GridRecords'))
-const GridRecordDetail = lazy(() => import('./pages/GridRecordDetail'))
+// 主站自己的网格交易已由 notes 的网格交易计算器取代，旧路径由 GridMoved 跳转或说明
+const GridMoved = lazy(() => import('./pages/GridMoved'))
 const Valuation = lazy(() => import('./pages/Valuation'))
 const Dcf = lazy(() => import('./pages/Dcf'))
 const FutureTrends = lazy(() => import('./pages/FutureTrends'))
@@ -112,9 +111,7 @@ export default function App(): JSX.Element {
           <Route path="/industry-landscape" element={<IndustryLandscape />} />
           <Route path="/research-notes" element={<ResearchNotes />} />
           <Route path="/research-notes/:market/:code" element={<CompanyDetail />} />
-          <Route path="/grid-trading" element={<GridCalculator />} />
-          <Route path="/grid-trading/records" element={<GridRecords />} />
-          <Route path="/grid-trading/records/:recordId" element={<GridRecordDetail />} />
+          <Route path="/grid-trading/*" element={<GridMoved />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         </Suspense>

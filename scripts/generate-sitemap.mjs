@@ -7,7 +7,7 @@ const ORIGIN = (process.env.VITE_SITE_URL || 'https://business-web-black.vercel.
 
 const STATIC = ['/', '/invest', '/invest/ai-tools', '/invest/etf', '/ai', '/ai/fullstack-roadmap', '/life', '/about', '/pulse',
   '/investment-plan-2026', '/investment-targets', '/mainland-investment-targets', '/limit-up-analysis', '/trading-philosophy',
-  '/sector-rotation', '/investment-strategy', '/first-book', '/future-trends', '/industry-landscape', '/research-notes', '/grid-trading']
+  '/sector-rotation', '/investment-strategy', '/first-book', '/future-trends', '/industry-landscape', '/research-notes']
 
 // 《正念投资》章节：只收 done/draft，status 为 note 的是审稿与修订记录，不对外收录。
 // 路径用 /first-book/read/，避免和 public/first-book/ 下的原始 Markdown 同名冲突。
