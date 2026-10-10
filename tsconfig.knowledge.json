@@ -1,5 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": { "noEmit": true },
-  "include": ["src/features/knowledge/**/*.ts", "src/features/knowledge/**/*.tsx", "src/pages/KnowledgeCenter.tsx", "src/vite-env.d.ts"]
-}

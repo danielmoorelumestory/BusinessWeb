@@ -42,14 +42,14 @@
 - **THEN** 涨跌颜色随之在红涨绿跌与绿涨红跌之间切换，行为与换肤前一致
 
 ### Requirement: 全站只使用系统无衬线字体
-系统 SHALL 在全站（包括首页大标题与知识图谱页）只使用系统无衬线字体栈（`-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif`），正文字号 15px、行高 1.65；系统 MUST NOT 加载任何 Web 字体，也 MUST NOT 再依赖 `@fontsource/noto-serif-sc`。
+系统 SHALL 在全站（包括首页大标题）只使用系统无衬线字体栈（`-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif`），正文字号 15px、行高 1.65；系统 MUST NOT 加载任何 Web 字体，也 MUST NOT 再依赖 `@fontsource/noto-serif-sc`。
 
 #### Scenario: 不再请求字体文件
 - **WHEN** 加载任一主站页面并查看网络请求
 - **THEN** 没有任何字体文件请求，包括 Noto Serif SC
 
 #### Scenario: 标题不再使用衬线
-- **WHEN** 渲染首页、`/invest`、`/knowledge` 等页面的标题
+- **WHEN** 渲染首页、`/invest`、`/research-notes` 等页面的标题
 - **THEN** 标题的字体栈为系统无衬线字体
 
 #### Scenario: 构建产物不含衬线字体
@@ -90,7 +90,7 @@
 系统 SHALL 保证关键页面在 375px 与 1280px 视口宽度下页面整体不出现横向溢出；宽表格 MUST 在其容器内部滚动。
 
 #### Scenario: 手机宽度
-- **WHEN** 视口宽度为 375px，打开首页、`/invest`、`/monitor`、`/grid-trading`、`/research-notes`、`/knowledge`、`/about`
+- **WHEN** 视口宽度为 375px，打开首页、`/invest`、`/monitor`、`/grid-trading`、`/research-notes`、`/about`
 - **THEN** 页面的 `scrollWidth` 不大于视口宽度
 
 ### Requirement: 品牌文件与站点主题一致

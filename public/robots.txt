@@ -3,7 +3,6 @@ Allow: /
 Disallow: /api/
 Disallow: /valuation
 Disallow: /dcf
-Disallow: /knowledge
 Disallow: /monitor
 Disallow: /downloads/
 Disallow: /ai-skills/

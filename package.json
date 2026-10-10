@@ -5,12 +5,7 @@
   "scripts": {
     "skills:package": "node scripts/generate-investment-method.mjs && node scripts/generate-future-trends-skill.mjs && python3 scripts/package-investment-skills.py",
     "future-trends:picks": "sh scripts/future-trends-picks/run.sh",
-    "knowledge:app": "node scripts/knowledge-app.mjs",
-    "knowledge:server": "node server/knowledge/index.mjs",
-    "knowledge:mcp": "node server/knowledge/mcp.mjs",
-    "knowledge:mcp:http": "node server/knowledge/mcp-http.mjs",
-    "test:knowledge": "node --test server/knowledge/*.test.mjs",
-    "test:edge": "node --test server/edge/*.test.mjs && node scripts/check-edge-knowledge.mjs",
+    "test:edge": "node --test server/edge/*.test.mjs",
     "dev": "vite --host",
     "dev:notes": "npm --prefix notes-site run build && npm --prefix notes-site run preview -- --port 4322",
     "valuation:server": "node server/valuation/index.mjs",
@@ -18,7 +13,7 @@
     "valuation:app": "node scripts/valuation-app.mjs",
     "test:valuation-server": "node --test server/valuation/*.test.mjs",
     "test": "node scripts/run-vitest.mjs",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.server.json && tsc --noEmit -p tsconfig.valuation.json && tsc --noEmit -p tsconfig.knowledge.json",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.server.json && tsc --noEmit -p tsconfig.valuation.json",
     "prebuild": "node scripts/generate-changelog.mjs && node scripts/generate-sitemap.mjs",
     "build": "vite build && node scripts/prerender-routes.mjs",
     "preview": "vite preview",
@@ -26,7 +21,6 @@
     "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true VITE_API_BASE=https://business-web-pi-eight.vercel.app vite build && node scripts/prepare-pages.mjs && node scripts/prerender-routes.mjs",
     "test:functions": "node scripts/check-functions.mjs",
     "test:scripts": "node --test scripts/*.test.mjs",
-    "knowledge:cloud": "node scripts/knowledge-cloud.mjs",
     "macro:update": "node scripts/macro-snapshot.mjs",
     "index:update": "node scripts/index-snapshot.mjs",
     "index:fpe": "node scripts/index-snapshot.mjs fpe",
@@ -34,17 +28,12 @@
     "index:ref-import": "node scripts/index-snapshot.mjs ref-import"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.32.0",
     "@types/react-router-dom": "^5.3.3",
-    "3d-force-graph": "^1.80.1",
-    "highlight.js": "^11.12.0",
     "lucide-react": "^0.562.0",
     "marked": "^18.0.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.30.2",
-    "three": "^0.186.1",
-    "zod": "^4.6.5"
+    "react-router-dom": "^6.30.2"
   },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "^1.0.2",
@@ -53,7 +42,6 @@
     "@types/node": "^24.19.0",
     "@types/react": "^18.2.28",
     "@types/react-dom": "^18.2.7",
-    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^4.0.0",
     "jsdom": "^29.1.1",
     "typescript": "^5.1.0",

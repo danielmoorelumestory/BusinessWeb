@@ -12,7 +12,7 @@
 - **THEN** 接口返回未授权状态码，且不访问 Supabase
 
 ### Requirement: 密钥只在服务端配置
-系统 SHALL 通过 Workers 的环境配置读取 `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`PULSE_SYNC_TOKEN` 及 `KNOWLEDGE_*` 等服务端变量（网格同步的 `GRID_SYNC_TOKEN` 已随网格交易迁移到 notes 而移除），这些变量 MUST NOT 带 `VITE_` 前缀，MUST NOT 提交到 Git，也 MUST NOT 出现在前端构建产物中。
+系统 SHALL 通过 Workers 的环境配置读取 `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`PULSE_SYNC_TOKEN` 等服务端变量（网格同步的 `GRID_SYNC_TOKEN` 已随网格交易迁移到 notes 而移除），这些变量 MUST NOT 带 `VITE_` 前缀，MUST NOT 提交到 Git，也 MUST NOT 出现在前端构建产物中。
 
 #### Scenario: 构建产物不含密钥
 - **WHEN** 前端构建完成

@@ -34,7 +34,6 @@ const FutureTrends = lazy(() => import('./pages/FutureTrends'))
 const SolidStateCompany = lazy(() => import('./pages/SolidStateCompany'))
 const FutureTrendCompany = lazy(() => import('./pages/FutureTrendCompany'))
 const IndustryLandscape = lazy(() => import('./pages/IndustryLandscape'))
-const KnowledgeCenter = lazy(() => import('./pages/KnowledgeCenter'))
 const InvestmentAiTools = lazy(() => import('./pages/InvestmentAiTools'))
 const EtfGuide = lazy(() => import('./pages/EtfGuide'))
 const AiLabDirection = lazy(() => import('./pages/AiLabDirection'))
@@ -89,7 +88,6 @@ export default function App(): JSX.Element {
           <Route path="/ai" element={<AiStudio />} />
           <Route path="/ai/fullstack-roadmap" element={<AiLearningPlan />} />
           <Route path="/ai/:slug" element={<AiLabDirection />} />
-          <Route path="/knowledge" element={<KnowledgeCenter />} />
           <Route path="/life" element={<LifeLab />} />
           <Route path="/about" element={<About />} />
           <Route path="/pulse" element={<Pulse />} />

@@ -25,11 +25,11 @@ describe('Header', () => {
     expect(brand.getAttribute('href')).toBe('/')
   })
 
-  it('主导航含知识图谱，共 6 项', () => {
+  it('主导航共 5 项', () => {
     renderAt('/')
     const nav = screen.getByRole('navigation', { name: '主导航' })
     expect(within(nav).getAllByRole('link').map(a => a.textContent)).toEqual([
-      '首页', '投资', 'AI实验室', '知识图谱', '自由空间', '关于',
+      '首页', '投资', 'AI实验室', '自由空间', '关于',
     ])
   })
 
@@ -94,14 +94,6 @@ describe('Header', () => {
   })
 })
 
-it('知识中心点亮桌面与移动导航', () => {
-  renderAt('/knowledge')
-  expect(screen.getByRole('link', { name: '知识图谱' }).getAttribute('aria-current')).toBe('page')
-  fireEvent.click(screen.getByRole('button', { name: '打开菜单' }))
-  const drawer = screen.getByRole('navigation', { name: '移动导航' })
-  expect(within(drawer).getByRole('link', { name: '知识图谱' }).getAttribute('aria-current')).toBe('page')
-})
-
 // 点击后事件是否被前端路由拦截：React 的处理函数在根容器上先于 document 执行，
 // Link 会调用 preventDefault，普通 <a> 不会（这里在 document 上记录后再阻止，避免 jsdom 真的去导航）
 function clickIsIntercepted(element: Element): boolean {
@@ -125,7 +117,7 @@ describe('Header 的 notes 入口', () => {
     renderAt('/')
     const nav = screen.getByRole('navigation', { name: '主导航' })
     expect(within(nav).getAllByRole('link').map(a => a.textContent)).toEqual([
-      '首页', '投资', 'AI实验室', '知识图谱', '自由空间', '关于', '笔记',
+      '首页', '投资', 'AI实验室', '自由空间', '关于', '笔记',
     ])
     expect(within(nav).getByRole('link', { name: '笔记' }).getAttribute('href')).toBe('/note/')
   })

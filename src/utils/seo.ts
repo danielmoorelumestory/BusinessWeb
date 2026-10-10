@@ -38,7 +38,6 @@ const EXACT: Record<string, RouteSeo> = {
   '/grid-trading': { title: '网格交易已迁移', noindex: true },
   '/valuation': { title: '公司估值工作台', noindex: true },
   '/dcf': { title: 'DCF 估值', noindex: true },
-  '/knowledge': { title: '知识中心', noindex: true },
   '/monitor': { title: '监控面板', noindex: true },
 }
 

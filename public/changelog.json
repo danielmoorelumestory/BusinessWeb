@@ -1,10 +1,40 @@
 {
-  "generatedAt": "2026-10-10T12:35:25.490Z",
+  "generatedAt": "2026-10-10T13:17:44.747Z",
   "versions": [
     {
       "tag": "unreleased",
       "date": null,
       "commits": [
+        {
+          "hash": "7db711b",
+          "subject": "fix(worker): 来源白名单加入 businessweb-c0u.pages.dev",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "a076549",
+          "subject": "fix(notes-site): 从主站入口直达股市分析工具后，返回回到来源页",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "f1cc6f6",
+          "subject": "feat: 本地开发把 /note/ 代理到 notes-site，入口与线上一样留在本站同域",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "249d2b6",
+          "subject": "feat: notes 站点地址可用 VITE_NOTES_ORIGIN 覆盖，便于本地调试",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "ecb5b8c",
+          "subject": "feat: 投资页「看行情」改用 notes 的大涨股解读、板块轮动、板块排行",
+          "author": "train",
+          "date": "2026-10-10"
+        },
         {
           "hash": "622c445",
           "subject": "feat: 没有 notes 的构建里网格入口直接跳转到新计算器",
@@ -152,36 +182,6 @@
         {
           "hash": "8e887b9",
           "subject": "chore: add third-party agent skills (PM packs and others) as reference backup",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "267bf4d",
-          "subject": "fix(navigation): reserve mindfulness investing name for the book",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "3fb7cd6",
-          "subject": "feat(ai-lab): add image tools, mini program and game site experiments",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "89d0c6f",
-          "subject": "feat(future-trends): re-screen nine tracks, split pool into buyable vs rich, core 12 across tracks",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "ef1a035",
-          "subject": "fix(future-trends): make missing evidence and downside clear in reports",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "20b0258",
-          "subject": "refactor(future-trends): clarify recommendations and simplify research UI",
           "author": "hassan",
           "date": "2026-10-09"
         }

@@ -64,7 +64,7 @@ export function trustedClientHeaders(headers) {
 
 export async function toNodeRequest(request) {
   const url = new URL(request.url)
-  // 保留一份未被读取的标准请求，供需要 Web 标准 API 的处理函数使用（例如 MCP 的 Web 标准传输）
+  // 保留一份未被读取的标准请求，供需要 Web 标准 API 的处理函数使用
   const webRequest = request.method === 'GET' || request.method === 'HEAD' ? request : request.clone()
   return {
     method: request.method,
@@ -98,7 +98,7 @@ export function createResponseCollector() {
       state.ended = true
       return res
     },
-    // 处理函数已经生成了完整的标准 Response（例如 MCP 的 Web 标准传输），直接采用
+    // 处理函数已经生成了完整的标准 Response，直接采用
     sendWebResponse(response) {
       state.webResponse = response
       state.ended = true

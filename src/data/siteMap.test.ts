@@ -7,11 +7,11 @@ import { isAbsoluteUrl, isNotesPath } from './notesLinks'
 const appSource = readFileSync(resolve(__dirname, '../App.tsx'), 'utf8')
 
 describe('NAV_ITEMS', () => {
-  it('包含知识图谱，共 6 项，顺序固定', () => {
+  it('共 5 项，顺序固定', () => {
     expect(NAV_ITEMS.map(i => i.label)).toEqual([
-      '首页', '投资', 'AI实验室', '知识图谱', '自由空间', '关于',
+      '首页', '投资', 'AI实验室', '自由空间', '关于',
     ])
-    expect(NAV_ITEMS.map(i => i.path)).toEqual(['/', '/invest', '/ai', '/knowledge', '/life', '/about'])
+    expect(NAV_ITEMS.map(i => i.path)).toEqual(['/', '/invest', '/ai', '/life', '/about'])
   })
 })
 

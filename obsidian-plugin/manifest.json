@@ -1,1 +1,0 @@
-{"id":"businessweb-knowledge-sync","name":"知识同步 · 自己的服务器","version":"0.1.0","minAppVersion":"1.8.0","description":"通过自己的 BusinessWeb 服务器同步 Markdown 笔记，保留冲突与离线修改。","author":"BusinessWeb","isDesktopOnly":true}

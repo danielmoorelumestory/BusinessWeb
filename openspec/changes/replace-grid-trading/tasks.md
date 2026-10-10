@@ -41,7 +41,7 @@
 
 ## 6. 验证
 
-- [x] 6.1 运行 `npm test -- --run`、`npm run test:scripts`、`npm run test:edge`、`npm run test:knowledge`、`npm run test:functions`、`npm run typecheck`，全部通过。结果：前端 632 项、`test:scripts` 39 项、`test:edge` 18 项加知识库端到端、`test:knowledge` 20 项、`test:functions`、`typecheck`（0 错误）全部通过
+- [x] 6.1 运行 `npm test -- --run`、`npm run test:scripts`、`npm run test:edge`、`npm run test:functions`、`npm run typecheck`，全部通过。结果：前端 632 项、`test:scripts` 39 项、`test:edge` 18 项加知识库端到端、`test:knowledge` 20 项、`test:functions`、`typecheck`（0 错误）全部通过
 - [x] 6.2 分别运行 `npm run build`、`npm run build:cloudflare`、`npm run build:pages`，三者都成功；普通构建与 `build:pages` 的产物里没有 `/note/` 入口。结果：三种构建都成功（退出码 0）；普通构建与 `build:pages` 的产物里没有 `/note/` 入口；`build:cloudflare` 14 秒完成并通过链接检查
 - [x] 6.3 用本地 wrangler 实测 `/grid-trading`、`/grid-trading/records`、`/grid-trading/records/abc123` 的 302 目标与带参数的 `?id=abc123`；若 `_redirects` 不支持查询参数占位符，改由 `GridMoved` 补上并把结论写回设计。结果：三条旧路径的 302 目标正确，`?id=` 占位符可用且保持编码；补了 `/grid-trading/` 与 `/grid-trading/records/` 两条尾斜杠规则；去掉 `_redirects` 后前端兜底也能到达正确页面
 - [x] 6.4 实测 `/api/grid-sync` 返回 404 JSON，`/api/grid-market`、`/api/pulse-sync`、`/api/candidates-sync` 行为不变。结果：`/api/grid-sync` 返回 404 JSON；`/api/grid-market`（200 与 400）、`pulse-sync`（503、405）、`candidates-sync`（503）行为不变

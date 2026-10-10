@@ -4,7 +4,7 @@
 
 ## 当前技术栈
 
-React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。Supabase 仅用于可选的独立同步：经济脉搏每日复盘（`/api/pulse-sync`）、候选池（`/api/candidates-sync`）、章节评论（`/api/comments`）和私人资料库（`/api/knowledge`）。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
+React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。Supabase 仅用于可选的独立同步：经济脉搏每日复盘（`/api/pulse-sync`）、候选池（`/api/candidates-sync`）和章节评论（`/api/comments`）。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
 
 R2 暂未接入：当前没有附件上传业务。将来需要图片、PDF 等文件时，再接入 R2 并在 Supabase 保存文件元数据。
 
