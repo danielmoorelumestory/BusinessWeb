@@ -4,3 +4,5 @@
 /grid-trading /note/lab/grid-trading/ 302
 /grid-trading/records /note/lab/grid-trading/saved/ 302
 /grid-trading/records/:id /note/lab/grid-trading/detail/?id=:id 302
+/grid-trading/ /note/lab/grid-trading/ 302
+/grid-trading/records/ /note/lab/grid-trading/saved/ 302

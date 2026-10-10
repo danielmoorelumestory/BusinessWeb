@@ -85,8 +85,18 @@ notes 的详情页用查询参数 `?id=` 取记录 id（已在源码里确认）
 
 回滚：把 `public/_redirects` 里的跳转去掉并回退相关提交即可恢复；因为跳转用的是 302，浏览器不会长期缓存。删除的代码在 Git 历史中。
 
+## 实施中的发现与结论
+
+- **`_redirects` 的查询参数占位符本地可用**：`/grid-trading/records/abc123` 跳到 `/note/lab/grid-trading/detail/?id=abc123`，特殊字符的 id 保持编码（`a%26b` 不会被拆成额外参数）。仍需在线上再实测一次。
+- **尾斜杠变体不会被 `_redirects` 的无斜杠规则匹配**：`/grid-trading/` 与 `/grid-trading/records/` 需要各加一条显式规则，已补上。
+- **前端兜底有效**：去掉 `_redirects` 后，Cloudflare 构建里三条旧路径都由 `GridMoved` 跳到正确的 `/note/` 页面；普通构建显示迁移说明，按钮链接带着记录 id。
+- **引用图比设计预想的多**：`vite.config.js` 的测试 `setupFiles` 指向网格目录里的 `testSetup.ts`（所有测试依赖它，已挪到 `src/testSetup.ts`）；`tsconfig.grid.json` 被 `typecheck` 脚本引用（改造为 `tsconfig.app.json`，覆盖新增文件）；`tsconfig.server.json` 引用了两个网格文件；主规格里另一条需求（"密钥只在服务端配置"）也列了 `GRID_SYNC_TOKEN`，已补进增量规格。
+- **`notesLinks` 必须能在纯 Node 里加载**：构建期有一个 Node 步骤会把 `aiLab.ts` 打包后执行，纯 Node 里 `import.meta.env` 是 `undefined`，直接读属性会让构建退出码变成 1。已改为 `typeof import.meta.env !== 'undefined' ? import.meta.env.VITE_NOTES_PATH || '' : ''`。曾试过改成可选链 `import.meta.env?.…`，会让 Vite 与 vitest 的静态替换失效（4 条测试因此变红），所以没有采用。
+- **字符串搜索不能证明构建产物的行为**：`build:cloudflare` 产物里搜不到 `/note/lab/grid-trading/` 字样（压缩器把它拆成两段字符串），但用真实浏览器渲染 `/invest` 与 `/ai`，网格卡片的 `href` 确实是 `/note/lab/grid-trading/`。
+- 验证新版 notes 页面时，MCP 浏览器工具被一个运行了 25 小时的外部 Chrome 进程占用，没有强行关闭，改用另起的独立无界面 Chrome（通过 CDP 驱动）。
+
 ## Open Questions
 
-- `_redirects` 目标地址里的查询参数占位符能否被 Pages 正确替换，实施时实测。
-- 站点地图（`sitemap`）里是否列出了 `/grid-trading`，需要在实施时检查生成脚本并同步修改。
+- `_redirects` 目标地址里的查询参数占位符：本地已验证可用，待线上再确认一次。
+- 站点地图：生成脚本与已生成的 `sitemap.xml` 都列了 `/grid-trading`，已移除；`robots.txt` 里的 `Disallow: /grid-trading/records` 也已移除。
 - 主站"AI 实验室"与"正念投资"页面里网格入口的卡片，在其他构建线上的文案是否需要调整，实施时看实际渲染再定。
