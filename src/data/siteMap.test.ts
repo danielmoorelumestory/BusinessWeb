@@ -33,9 +33,10 @@ describe('INVEST_GROUPS', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
       '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
-      '/investment-strategy', '/investment-targets', '/limit-up-analysis',
+      '/investment-strategy', '/investment-targets',
+      'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking',
       '/mainland-investment-targets', '/monitor', '/pulse', '/research-notes',
-      '/sector-rotation', '/trading-philosophy', '/valuation',
+      '/trading-philosophy', '/valuation',
     ].sort())
     expect(new Set(paths).size).toBe(paths.length)
   })
@@ -66,7 +67,7 @@ describe('INVEST_GROUPS', () => {
   it('看行情组直接展开，只放行情类页面', () => {
     const watch = INVEST_GROUPS.find(g => g.id === 'watch')!
     expect(watch.collapsed).toBe(false)
-    expect(watch.links.map(l => l.path)).toEqual(['/pulse', '/sector-rotation', '/limit-up-analysis'])
+    expect(watch.links.map(l => l.path)).toEqual(['/pulse', 'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking'])
   })
 
   it('选标的组只放研究方法与资料，不放带具体买卖建议的观察池', () => {
@@ -119,7 +120,7 @@ describe('isNavActive', () => {
 
   it('任何收纳页面都点亮「投资」', () => {
     expect(isNavActive('/invest', '/invest')).toBe(true)
-    expect(isNavActive('/invest', '/sector-rotation')).toBe(true)
+    expect(isNavActive('/invest', '/pulse')).toBe(true)
     expect(isNavActive('/invest', '/first-book/x.md')).toBe(true)
   })
 

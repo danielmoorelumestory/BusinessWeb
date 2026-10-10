@@ -1,10 +1,16 @@
 {
-  "generatedAt": "2026-10-10T12:29:29.086Z",
+  "generatedAt": "2026-10-10T12:35:25.490Z",
   "versions": [
     {
       "tag": "unreleased",
       "date": null,
       "commits": [
+        {
+          "hash": "622c445",
+          "subject": "feat: 没有 notes 的构建里网格入口直接跳转到新计算器",
+          "author": "train",
+          "date": "2026-10-10"
+        },
         {
           "hash": "6743b30",
           "subject": "docs(openspec): 勾选 replace-grid-trading 任务 7.4",
@@ -176,12 +182,6 @@
         {
           "hash": "20b0258",
           "subject": "refactor(future-trends): clarify recommendations and simplify research UI",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "60d7082",
-          "subject": "fix(future-trends): align page checks with routed research views",
           "author": "hassan",
           "date": "2026-10-09"
         }

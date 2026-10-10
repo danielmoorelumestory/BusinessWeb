@@ -34,7 +34,7 @@ describe('Header', () => {
   })
 
   it('旧页面路径点亮「投资」', () => {
-    renderAt('/sector-rotation')
+    renderAt('/pulse')
     const nav = screen.getByRole('navigation', { name: '主导航' })
     const active = within(nav).getAllByRole('link').filter(a => a.getAttribute('aria-current') === 'page')
     expect(active.map(a => a.textContent)).toEqual(['投资'])

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import StockAnalysis from './StockAnalysis.vue'
 import SectorRotation from './SectorRotation.vue'
 import PlateRanking from './PlateRanking.vue'
@@ -50,6 +50,19 @@ const handleBackFromAnalysis = () => {
   if (previousPage.value === 'plate-ranking') goToPlateRanking()
   else goHome()
 }
+
+// 支持 #stock-analysis / #sector-rotation / #plate-ranking 直接打开对应工具（供主站入口使用）
+const applyHash = () => {
+  const key = window.location.hash.replace(/^#/, '')
+  if (key === 'stock-analysis') goToStockAnalysis()
+  else if (key === 'sector-rotation') goToSectorRotation()
+  else if (key === 'plate-ranking') goToPlateRanking()
+}
+onMounted(() => {
+  applyHash()
+  window.addEventListener('hashchange', applyHash)
+})
+onBeforeUnmount(() => window.removeEventListener('hashchange', applyHash))
 
 const handleBackFromPlateList = () => {
   if (previousPage.value === 'plate-ranking') goToPlateRanking()

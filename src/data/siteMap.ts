@@ -1,4 +1,4 @@
-import { GRID_TRADING_PATH } from './notesLinks'
+import { GRID_TRADING_PATH, PLATE_RANKING_PATH, SECTOR_ROTATION_PATH, STOCK_ANALYSIS_PATH } from './notesLinks'
 
 export interface NavItem {
   path: string
@@ -83,8 +83,9 @@ export const INVEST_GROUPS: HubGroup[] = [
     collapsed: false,
     links: [
       { path: '/pulse', label: '全球行情', desc: '全球指数、商品外汇与 A 股涨跌停' },
-      { path: '/sector-rotation', label: '板块轮动', desc: '板块强弱与轮动' },
-      { path: '/limit-up-analysis', label: '涨停分析', desc: '每日板块涨停' },
+      { path: STOCK_ANALYSIS_PATH, label: '大涨股解读', desc: '涨停梯队与各板块涨停个股，可选日期' },
+      { path: SECTOR_ROTATION_PATH, label: '板块轮动', desc: '近 7 个交易日板块涨幅，横向对比每日强弱' },
+      { path: PLATE_RANKING_PATH, label: '板块排行', desc: '近 20 日板块涨幅矩阵，按涨幅 >1% 出现频次排序' },
     ],
   },
   {

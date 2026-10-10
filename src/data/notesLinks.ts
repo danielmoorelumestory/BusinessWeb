@@ -15,6 +15,12 @@ export const NOTES_ORIGIN = 'https://businessweb-c0u.pages.dev'
  */
 export const GRID_TRADING_PATH: string = NOTES_PATH ? `${NOTES_PATH}lab/grid-trading/` : `${NOTES_ORIGIN}/note/lab/grid-trading/`
 
+/** 股市分析 lab（大涨股解读、板块轮动、板块排行），用 # 直接打开某个工具；规则同 GRID_TRADING_PATH */
+export const STOCK_LAB_BASE: string = NOTES_PATH ? `${NOTES_PATH}lab/stock/` : `${NOTES_ORIGIN}/note/lab/stock/`
+export const STOCK_ANALYSIS_PATH = `${STOCK_LAB_BASE}#stock-analysis`
+export const SECTOR_ROTATION_PATH = `${STOCK_LAB_BASE}#sector-rotation`
+export const PLATE_RANKING_PATH = `${STOCK_LAB_BASE}#plate-ranking`
+
 /** 以 /note/ 开头的路径由静态托管提供，不属于前端路由，必须整页加载 */
 export const isNotesPath = (path: string): boolean => path === '/note' || path.startsWith('/note/')
 

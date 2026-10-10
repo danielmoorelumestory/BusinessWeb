@@ -27,7 +27,7 @@ describe('InvestHub', () => {
     const group = screen.getByRole('heading', { name: '看行情（选看）' }).closest('section')
     expect(group?.closest('details')).toBeNull()
     expect(within(group as HTMLElement).getByText(/少看行情/)).toBeTruthy()
-    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(3)
+    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(4)
   })
 
   it('已舍弃组默认折叠，放在页面最后', () => {
