@@ -10,7 +10,7 @@ notes（Astro 站点：笔记、行业专栏、网格交易计算器）已整体
 ## 目录结构
 
 ```
-notes-site/                      notes 的完整源码（来源：notes 仓库 main 的 902f04b）
+notes-site/                      notes 的完整源码（来源：notes 仓库 main 的 35f3747；最初复制自 902f04b，见下方"同步记录"）
 ├── src/ public/ docs/           页面、静态资源与说明
 ├── astro.config.mjs             增加了 Cloudflare 分支（见下）
 ├── workers/grid-trading-sync/   网格后端 Worker 的源码（仍手动部署，见下）
@@ -80,9 +80,25 @@ notes 的"已保存标的"和**同步密钥**存放在浏览器的 `localStorage
 
 `localStorage` 会再换一次，需要再做一遍"搬家前、搬家后"。已同步的数据不受影响。这也是尽早确定最终域名的一个理由。
 
+## 同步记录
+
+| 日期 | 来源提交 | 内容 |
+|---|---|---|
+| 2026-10-07 | `902f04b` | 一次性整体复制进 `notes-site/`（变更 `cohost-notes-site`） |
+| 2026-10-10 | `35f3747` | 同步 notes 的 4 个新提交（变更 `replace-grid-trading`）：网格计算规则 v5（跌破步长线后从极值反弹才成交）、恢复删除成交的二次确认、新增"股市分析 lab"（`/note/lab/stock/`）、板块日数据收盘入库 |
+
+同步方式是对 notes 仓库的 `902f04b..35f3747`（排除 `openspec/`）生成补丁，以 `notes-site/` 为根应用；除 `astro.config.mjs` 外与 notes `35f3747` 逐文件一致，`astro.config.mjs` 在 notes 的版本基础上保留了本仓库的 Cloudflare 分支。notes 的 `rebound-pullback-trigger` 变更已迁入 `openspec/changes/archive/2026-10-09-rebound-pullback-trigger/`，其规格 `grid-trigger-rules` 已成为主规格。
+
+**新增的 Vue 依赖**：股市分析 lab 用 Vue 3 写成，`notes-site/package.json` 新增 `vue` 与 `@astrojs/vue`，`astro.config.mjs` 里启用了 `vue()` 集成。它们只在 `notes-site/` 内部，不影响主站根目录的依赖；`build:cloudflare` 每次会在 `notes-site/` 里 `npm ci`。
+
 ## 网格后端（Worker）仍手动部署
 
-notes 的网格交易依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 数据库 + 每个交易日 3 次的分钟线定时抓取）。**它不随 Pages 部署，本变更没有修改它，也没有重新部署它**，线上的 Worker 与 D1 数据保持原样。
+notes 的网格交易依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 数据库 + 每个交易日 3 次的分钟线定时抓取）。**它不随 Pages 部署，同步 notes 最新版时只更新了它的源码，没有重新部署它。**
+
+**同步到 `35f3747` 之后，Worker 与 D1 需要你自行更新**，否则新页面会调用不存在的接口：
+1. **D1 新表**：应用 `notes-site/workers/grid-trading-sync/schema.sql`，其中新增了 `cls_plate_day` 表（财联社板块日数据，按交易日与是否只看涨停缓存）。`schema.sql` 全部使用 `CREATE TABLE IF NOT EXISTS`，重复执行不会清空已有数据。
+2. **重新部署 Worker**：新版 Worker 增加了 `/cls`（财联社转发与缓存）、`/stock/plate`、`/stock/plates`、`/stock/plate/dates`、`/stock/sync` 接口，以及收盘 cron 把板块日数据写入 `cls_plate_day`。`wrangler.jsonc` 里的 cron 触发时间没有变化。
+3. 网格计算器、已保存标的与分钟线主要使用原有接口；受影响最大的是新的"股市分析 lab"。
 
 - 前端直接访问 `https://grid-trading-sync.danielmoore-b0c.workers.dev`（写在 notes 的前端代码里）。Worker 对所有来源开放跨域，所以新域名可以直接使用，已实测预检通过。
 - Worker 源码现在位于 `notes-site/workers/grid-trading-sync/`。需要修改并重新部署时，进入该目录，使用 wrangler 部署（配置在其中的 `wrangler.jsonc`）。我没有核实你以前具体用哪条命令部署，请以你之前的做法为准。
