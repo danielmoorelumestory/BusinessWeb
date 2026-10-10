@@ -34,7 +34,9 @@ export default defineConfig(({ command, mode }) => {
       '/note': { target: `http://localhost:${NOTES_DEV_PORT}`, changeOrigin: true, ws: true },
       '/api/valuation': { target: `http://127.0.0.1:${process.env.VALUATION_PORT || 8788}`, changeOrigin: true },
       '/api/cls-plate': { target: 'https://business-web-pi-eight.vercel.app', changeOrigin: true },
-      '/api/candidates-sync': { target: 'https://business-web-pi-eight.vercel.app', changeOrigin: true },
+      // 复盘与候选池存储在 Cloudflare D1，本地开发没有 D1，代理到线上的 Cloudflare 站点（同样需要同步 token）
+      '/api/candidates-sync': { target: 'https://businessweb-c0u.pages.dev', changeOrigin: true },
+      '/api/pulse-sync': { target: 'https://businessweb-c0u.pages.dev', changeOrigin: true },
       '/api/proxy': {
         target: 'https://hq.sinajs.cn',
         changeOrigin: true,
@@ -52,7 +54,7 @@ export default defineConfig(({ command, mode }) => {
   test: {
     environment: 'jsdom',
     environmentOptions: { jsdom: { url: 'http://localhost' } },
-    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'api/**/*.test.ts', 'server/**/*.test.ts'],
     passWithNoTests: true,
     globals: true,
     setupFiles: ['src/testSetup.ts'],

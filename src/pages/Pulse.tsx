@@ -619,22 +619,22 @@ export default function Pulse(): JSX.Element {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: 'var(--bg-card)', borderRadius: '12px', padding: '20px', width: '90%', maxWidth: '500px' }}>
             <h3 style={{ margin: '0 0 12px', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Cloud size={20} /> 复盘云同步（Supabase）
+              <Cloud size={20} /> 复盘云同步
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0 0 14px', lineHeight: 1.7 }}>
-              复盘默认只存在本机。开启后通过你自己部署的接口同步到你自己的 Supabase 数据库：同步前先读取云端并合并，
+              复盘默认只存在本机。开启后通过你自己部署的接口同步到你自己的 Cloudflare D1 数据库：同步前先读取云端并合并，
               删除/覆盖需确认，云端保留最近 30 个历史版本。token 仅保存在本机浏览器，请勿在公共电脑使用。
             </p>
             <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }}>同步接口地址（HTTPS）</label>
             <input type="url" value={endpointInput} onChange={e => setEndpointInput(e.target.value)} placeholder="https://你的站点/api/pulse-sync" autoComplete="url"
               style={{ width: '100%', padding: '8px', border: '1px solid var(--border-subtle)', borderRadius: '6px', fontSize: '0.9rem', marginBottom: '14px', boxSizing: 'border-box' }} />
             <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }}>
-              专用 Token（至少 32 位，对应 Vercel 变量 PULSE_SYNC_TOKEN）{syncConfig ? '——已保存，留空表示不修改' : ''}
+              专用 Token（至少 32 位，对应服务端变量 PULSE_SYNC_TOKEN）{syncConfig ? '——已保存，留空表示不修改' : ''}
             </label>
             <input type="password" value={tokenInput} onChange={e => setTokenInput(e.target.value)} placeholder={syncConfig ? '••••••••（已保存）' : '粘贴 token'} autoComplete="new-password"
               style={{ width: '100%', padding: '8px', border: '1px solid var(--border-subtle)', borderRadius: '6px', fontSize: '0.9rem', boxSizing: 'border-box' }} />
             <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: '8px 0 16px', lineHeight: 1.6 }}>
-              接口只允许同源调用：请在部署了该接口的站点（如 Vercel 站点）上同步；GitHub Pages 版本没有后端，不能同步。
+              接口只允许同源调用：请在部署了该接口的站点（Cloudflare Pages 站点）上同步；GitHub Pages 版本没有后端，不能同步。
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
               {syncConfig && (

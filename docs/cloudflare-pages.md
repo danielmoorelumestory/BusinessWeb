@@ -37,11 +37,20 @@
 
 | 变量 | 用途 |
 |---|---|
-| `SUPABASE_URL`、`SUPABASE_SECRET_KEY` | 同步类接口访问 Supabase |
-| `PULSE_SYNC_TOKEN` | `/api/pulse-sync`、`/api/candidates-sync` |
+| `PULSE_SYNC_TOKEN` | `/api/pulse-sync`、`/api/candidates-sync`（至少 32 字符） |
+| `SUPABASE_URL`、`SUPABASE_SECRET_KEY` | 只用于 `/api/comments`（章节评论） |
 | `COMMENTS_ADMIN_TOKEN` | `/api/comments` 的管理员操作（审核、驳回、删除），至少 32 字符；评论本身也依赖上面的 `SUPABASE_URL`、`SUPABASE_SECRET_KEY` |
 
-未配置时这些接口返回 503，这是正常状态：目前尚未启用 Supabase 云同步。
+### D1 绑定（复盘与候选池）
+
+复盘与候选池存储在 Cloudflare D1。Pages 项目没有 `wrangler.toml`，绑定在控制台里添加：
+
+1. 创建数据库并建表：`npx wrangler d1 create businessweb`，再 `npx wrangler d1 execute businessweb --remote --file=d1/schema.sql`（可重复执行，不清数据）。
+2. 项目 Settings → Bindings → Add → D1 database：变量名必须是 `DB`，选 `businessweb`，Production 与 Preview 都加。
+3. 添加 Secret `PULSE_SYNC_TOKEN`（`openssl rand -hex 32`）。
+4. Deployments → Retry deployment，绑定与变量才会生效。
+
+未配置（没有 `DB` 绑定、令牌缺失或短于 32 字符）时这些接口返回 503，这是正常状态。
 
 ## 静态响应头与客户端 IP（合并上游后补充）
 
@@ -66,7 +75,7 @@ api/*.js、api/*.ts       处理函数本体，Vercel 与 Cloudflare 共用，�
 ```bash
 npm run build
 npx wrangler pages dev dist --compatibility-date=2026-10-07 --compatibility-flag=nodejs_compat
-# 需要服务端变量时追加：--binding SUPABASE_URL=... --binding PULSE_SYNC_TOKEN=...
+# 需要服务端变量时追加：--binding PULSE_SYNC_TOKEN=...；需要本地 D1 时追加：--d1 DB=businessweb（先 npx wrangler d1 execute businessweb --local --file=d1/schema.sql）
 ```
 
 `.wrangler/` 是本地缓存，已被 Git 忽略。自动化检查：
@@ -78,7 +87,7 @@ npm run test:functions   # 原有 Vercel 风格函数检查
 
 ## 验证接口
 
-把 `B` 换成你的地址。下表的预期是**未启用 Supabase** 的状态。
+把 `B` 换成你的地址。下表的预期是**尚未绑定 D1 / 未配置令牌**的状态；绑定并配置后，`pulse-sync` 与 `candidates-sync` 无令牌为 401、带令牌 GET 为 200 且带 `ETag`。
 
 ```bash
 B=https://businessweb-c0u.pages.dev
@@ -102,7 +111,7 @@ curl -s "$B/api/cls-plate?date=20260930&up_limit=1" | head -c 120   # 需交易�
 curl -s -w " [%{http_code}]\n" $B/api/grid-sync   # 已移除，应为 404 的 JSON
 curl -s -w " [%{http_code}]\n" $B/api/pulse-sync
 curl -s -w " [%{http_code}]\n" $B/api/candidates-sync
-curl -s -w " [%{http_code}]\n" "$B/api/comments?slug=a.md"   # 未配置 Supabase 时为 503
+curl -s -w " [%{http_code}]\n" "$B/api/comments?slug=a.md"   # 未配置评论所需的 Supabase 时为 503
 curl -s -w " [%{http_code}]\n" -H "Origin: https://evil.example" "$B/api/pulse-sync"
 ```
 
@@ -127,7 +136,7 @@ curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/grid-trading/reco
 
 ## 已知限制与后续
 
-- **Supabase 云同步尚未启用**：Vercel 与 Cloudflare 上的同步类接口都返回 503。启用步骤见 `docs/DEPLOYMENT.md` 的"启用自有 Supabase 免费同步"，把其中的变量配到 Cloudflare 即可，需要用真实 Supabase 做一次端到端验证（openspec 任务 5.5）。
+- **复盘与候选池的云同步**：存储在 D1，配置步骤见上文"D1 绑定"；Vercel 与 GitHub Pages 构建线没有 D1，这两个接口在那里返回 503。章节评论仍需要 Supabase，未配置时 503。
 - **CPU 时间**：Workers 免费计划每次请求的 CPU 时间上限很低（官方文档为 10 ms）。`macro` 在线上连续多次实测未触发，但高峰期是否偶发超限需要观察；如出现 `Error 1102`，可升级 Workers Paid，或改为定时生成快照。
 - **自有域名**：暂未接入，目前使用 `*.pages.dev`。
 - **不上公网**：估值工作台（`npm run valuation:server`）依赖本机文件和 CLI。线上页面访问本地估值服务时，启动需追加 `VALUATION_ALLOWED_ORIGINS=https://businessweb-c0u.pages.dev`，并使用 Chrome 或 Edge。

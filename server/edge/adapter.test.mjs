@@ -149,3 +149,14 @@ test('适配后的处理函数看到的是可信 IP，而不是伪造值（经 c
   await call((req, res) => { seen = { real: req.headers['x-real-ip'], fwd: req.headers['x-forwarded-for'] }; return res.end() }, 'https://x.test/api/a', { headers: { 'cf-connecting-ip': '198.51.100.7', 'x-real-ip': '9.9.9.9', 'x-forwarded-for': '8.8.8.8' } })
   assert.deepEqual(seen, { real: '198.51.100.7', fwd: '198.51.100.7' })
 })
+
+test('Workers 的 env（绑定）作为 req.env 传给处理函数；没有 env 时为 undefined', async () => {
+  const seen = []
+  const fn = toPagesFunction((req, res) => { seen.push(req.env); res.status(204).end() })
+  const db = { prepare() {} }
+  await fn({ request: new Request('https://x.test/api/a'), env: { DB: db, SOME: 'v' } })
+  await fn({ request: new Request('https://x.test/api/a') })
+  assert.equal(seen[0].DB, db)
+  assert.equal(seen[0].SOME, 'v')
+  assert.equal(seen[1], undefined)
+})

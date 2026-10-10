@@ -131,7 +131,8 @@ export function toPagesFunction(handler) {
     installFetchCompat()
     const res = createResponseCollector()
     try {
-      await handler(await toNodeRequest(request), res)
+      // env 是 Workers 的绑定（例如 D1 的 DB），不能放进 process.env，作为只读的 req.env 传给处理函数
+      await handler(Object.assign(await toNodeRequest(request), { env }), res)
     } catch {
       // 不向客户端暴露内部错误细节
       return withRobotsTag(failure(500))

@@ -1,10 +1,10 @@
 # 免费部署与可选云同步
 
-> 当前线上部署在 Cloudflare Pages，见 [cloudflare-pages.md](cloudflare-pages.md)。本文描述的 Vercel + Supabase 流程仍然有效，作为回退部署与 Supabase 同步的配置参考。
+> 当前线上部署在 Cloudflare Pages，见 [cloudflare-pages.md](cloudflare-pages.md)。本文描述的 Vercel 流程仍然有效，作为回退部署的参考；复盘与候选池的云同步在 Cloudflare D1 上（见本文末尾），章节评论使用 Supabase。
 
 ## 当前技术栈
 
-React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。Supabase 仅用于可选的独立同步：经济脉搏每日复盘（`/api/pulse-sync`）、候选池（`/api/candidates-sync`）和章节评论（`/api/comments`）。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
+React + Vite + TypeScript + React Router；Vercel 托管静态页面及 Node 24 Functions。经济脉搏每日复盘（`/api/pulse-sync`）与候选池（`/api/candidates-sync`）的可选云同步存储在 Cloudflare D1（Vercel 与 GitHub Pages 构建线没有 D1，这两个接口在那里返回 503）；章节评论（`/api/comments`）使用 Supabase。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
 
 R2 暂未接入：当前没有附件上传业务。将来需要图片、PDF 等文件时，再接入 R2 并在 Supabase 保存文件元数据。
 
@@ -15,7 +15,7 @@ npm ci
 npm run dev
 ```
 
-使用 Node 24。Vite 开发服务器实现 `/api/grid-market`（热力图的行情代理）。`/api/pulse-sync` 等同步接口是 Vercel Function，本地调试需使用 Vercel CLI 的 `vercel dev`，并将服务端变量保存在忽略的 `.env.local`。普通 `npm run dev` 不启动 Supabase 同步接口。
+使用 Node 24。Vite 开发服务器实现 `/api/grid-market`（热力图的行情代理）。`/api/pulse-sync`、`/api/candidates-sync` 需要 D1，普通 `npm run dev` 把它们代理到线上的 Cloudflare 站点；需要本地 D1 时用 `npx wrangler pages dev dist --d1 DB=businessweb`（见 cloudflare-pages.md）。
 
 ```bash
 npm test -- --run
@@ -36,14 +36,14 @@ npm run build
 Vercel Hobby 适用个人非商业用途；实际额度和用途限制以官方页面为准：
 https://vercel.com/docs/plans/hobby
 
-## 创建自有 Supabase 免费项目
+## 创建自有 Supabase 免费项目（仅章节评论需要）
 
-Pulse、候选池、评论、私人资料库共用同一个 Supabase 项目；它们是单人/同一拥有者的手动同步，使用各自专用的 token，不是多用户登录系统。（网格交易的同步已迁到 notes 的 Worker + D1，不再使用 Supabase。）
+只有启用章节评论（`/api/comments`）才需要 Supabase。复盘与候选池用 Cloudflare D1，网格交易用 notes 的 Worker + D1，都不需要它。
 
 1. 新建**独立 BusinessWeb** Supabase Free 项目，不使用其他项目的数据库或 token。
-2. 按需要在 SQL Editor 执行 `supabase/migrations/` 下对应的脚本（均幂等，重复执行不清空数据）：`202610020002_pulse_reviews.sql`（经济脉搏）、`202610020003_candidates.sql`（候选池）、`202610090001_comments.sql`（评论）等。
+2. 按需要在 SQL Editor 执行 `supabase/migrations/` 下对应的脚本（均幂等，重复执行不清空数据）：`202610090001_comments.sql`（评论）、`202610020004_sector_history.sql`（板块历史缓存）。
 3. 在 Supabase 的 API Keys 中取得服务端 secret key（`sb_secret_...`）；也兼容 legacy service_role JWT。不要使用 publishable/anon key 代替。
-4. 为每个同步创建随机 token，可本地运行：
+4. 创建随机 token，可本地运行：
 
    ```bash
    node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
@@ -55,23 +55,10 @@ Pulse、候选池、评论、私人资料库共用同一个 Supabase 项目；�
    |---|---|
    | `SUPABASE_URL` | 新项目的 `https://<project-ref>.supabase.co` 地址 |
    | `SUPABASE_SECRET_KEY` | 新项目 secret key |
-   | `PULSE_SYNC_TOKEN` | 脉搏与候选池同步的随机专用 token，至少 32 字符 |
+   | `COMMENTS_ADMIN_TOKEN` | 评论管理员操作的随机 token，至少 32 字符 |
 
    不要加 `VITE_` 前缀，不要将密钥提交 Git。建议只为 Production 设置凭证，避免 Preview 与正式站点共用数据。
 
-同步接口的 GET 返回快照与 ETag，PUT 使用 If-Match 进行原子版本检查，并发更新返回 409，本地数据保留，重新同步即可。表启用 RLS，匿名与登录用户没有直接读取权限，只有服务端 service_role 可以读写。不要将同步 token 分享给其他用户：持有者拥有对应快照的读写权限。
-
-## GitHub Actions 定时检查与数据库活动
-
-`.github/workflows/cloud-keepalive.yml` 每天 UTC 00:23、08:23、16:23（马来西亚时间 08:23、16:23、次日 00:23）运行，也支持在 Actions 中手动运行 **Cloud keepalive**。
-
-启用前，在 GitHub 仓库 Settings → Secrets and variables → Actions 添加仓库 Secret `PULSE_SYNC_TOKEN`，值与 Vercel Production 的同名变量相同。无需向 GitHub 提供 Supabase 服务端密钥。
-
-任务检查正式站点，再通过已认证的 `GET /api/pulse-sync` 实际读取 Supabase 快照；不写入数据，不在日志输出 token 或记录内容。缺少 Secret、非 200 响应或网络错误会使任务失败。站点域名变更时更新 workflow 的 `SITE_URL`。
-
-Supabase 免费项目会因一周内数据库活动不足而暂停；此任务产生数据库读取活动，但不保证永不暂停，也不能恢复已暂停项目（需在 Supabase Dashboard 手动 Resume）。GitHub 定时任务可能延迟，公开仓库连续 60 天没有活动时定时任务可能自动停用，届时需在 Actions 中重新启用。
-
-参考：[Supabase project pausing](https://supabase.com/docs/guides/platform/free-project-pausing)、[GitHub scheduled workflows](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)。
 
 ## 保留 GitHub Pages
 
@@ -85,7 +72,7 @@ npm run build:pages
 
 - 首页/市场脉搏等原有 `src/services/api.ts` 中的 Yahoo、东方财富等接口仍沿用公共代理；本次替换的是网格交易行情。不保证所有公开数据源长期稳定。
 - AKTools 需要 Python 服务，当前未部署，Vercel 不会自动运行本地的 `127.0.0.1:8080`。如需使用，配置可访问的 `VITE_AKTOOLS_BASE_URL`。
-- 免费 Supabase 的暂停与用量限制可能影响同步，失败时本地记录继续可用。
+- 免费 Supabase 的暂停与用量限制可能影响评论；复盘与候选池用 D1，不会因闲置暂停。失败时本地记录继续可用。
 - 当前交付代码与配置，未创建云账号、执行远端 SQL、设置线上密钥或发布站点。实际云端路由与数据库权限需部署后按上文验证。
 
 参考：
@@ -95,46 +82,52 @@ https://supabase.com/docs/guides/database/postgres/row-level-security
 https://developers.cloudflare.com/r2/pricing/
 
 
-## 启用每日复盘云同步（经济脉搏）
+## 启用复盘与候选池云同步（Cloudflare D1）
 
-复用上面的同一个 Supabase 项目，但**使用独立的 token 和独立的表**，两处同步互不影响。
+经济脉搏的每日复盘（`/api/pulse-sync`）与研究笔记候选池（`/api/candidates-sync`）共用一个 D1 数据库和同一个 `PULSE_SYNC_TOKEN`。
 
-1. 在 SQL Editor 执行 `supabase/migrations/202610020002_pulse_reviews.sql`（幂等）。它创建 `businessweb_pulse_snapshot`（当前快照）、`businessweb_pulse_history`（最近 30 个历史版本）和写入函数，所有表对 `anon`/`authenticated` 全部撤权并开启 RLS，仅服务端密钥可访问。
-2. 生成随机 token（`PULSE_SYNC_TOKEN`）：
+1. 创建数据库并建表（幂等，重复执行不清数据）：
+
+   ```bash
+   npx wrangler d1 create businessweb
+   npx wrangler d1 execute businessweb --remote --file=d1/schema.sql
+   ```
+
+2. 在 Cloudflare Pages 项目 Settings → Bindings 添加 D1 绑定，变量名必须是 `DB`，Production 与 Preview 都加。
+3. 生成 token 并添加为 Secret `PULSE_SYNC_TOKEN`（至少 32 字符）：
 
    ```bash
    node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
    ```
 
-3. 在 Vercel Environment Variables 增加服务端变量 `PULSE_SYNC_TOKEN`（至少 32 字符），`SUPABASE_URL`、`SUPABASE_SECRET_KEY` 与其他 Supabase 同步共用；重新部署。
-4. 打开 Vercel 站点的「经济脉搏」→「云端设置」，填 `https://<你的站点>/api/pulse-sync` 与该 token，确认目标域名并保存，再点「同步」。
+4. Deployments → Retry deployment。
+5. 打开站点的「经济脉搏」→「云端设置」，填 `https://<你的站点>/api/pulse-sync` 与该 token，确认目标域名并保存，再点「同步」；候选池同理（`/api/candidates-sync`）。
 
 ### 增删改的安全措施
 
 | 风险 | 措施 |
 |---|---|
-| 未授权读写 | 专用 Bearer token，常量时间比较；token ≥ 32 位；未配置时返回 503，不访问数据库 |
-| 密钥泄露 | 数据库密钥只在服务端环境变量；浏览器只持有同步 token，不接触 Supabase 密钥；数据库表对 anon/authenticated 撤权 |
+| 未授权读写 | 专用 Bearer token，常量时间比较；token ≥ 32 位；未绑定数据库或未配置令牌时返回 503；令牌校验先于任何数据库访问 |
+| 密钥泄露 | 令牌只在服务端 Secret；浏览器只持有同步 token；数据库只能由绑定它的 Pages Functions 访问 |
 | 跨站调用 | 接口不发 CORS 头，仅同源可调；GitHub Pages 没有后端，不能同步 |
-| 脏数据/注入 | 服务端与客户端共用严格校验：未知字段、非法日期、负数/小数/NaN、超长字符串、重复日期、超过 500 条、超过 1 MB 一律拒绝；上游地址固定为 `*.supabase.co` 的 HTTPS 根域名 |
-| 多设备互相覆盖 | 读取时返回版本号（ETag），写入必须带 `If-Match`，数据库内用行锁校验，版本不符返回 409，本地数据保持不变 |
+| 脏数据/注入 | 服务端与客户端共用严格校验：未知字段、非法日期、负数/小数/NaN、超长字符串、重复日期、复盘超过 500 条、候选池超过 2000 条、超过 1 MB 一律拒绝；SQL 全部使用参数绑定 |
+| 多设备互相覆盖 | 读取时返回版本号（ETag），写入必须带 `If-Match`，数据库用带版本号条件的更新保证原子性，版本不符返回 409，本地数据保持不变 |
 | 误删/误覆盖 | 删除以「墓碑」同步，同步前列出新增/覆盖/删除并要求确认；写入前把旧版本存入历史表（保留 30 份）；有效记录减少超过一半（现有 ≥ 6 条）时服务端拒绝（422），需二次确认才强制写入；同步成功覆盖本地前先备份本地（`pulse_reviews_backup`） |
 | 同步中途本地被改 | 写回前比对本地快照，已变化则放弃覆盖 |
 | 旧凭证残留 | 页面不再使用 GitHub Gist，并会清除浏览器里遗留的 `pulse_gist_token` |
 
 ### 找回误删的数据
 
-在 Supabase SQL Editor 中查看历史版本，选择想恢复的一份：
+复盘历史在 D1 的 `pulse_history` 表，查看并选择想恢复的一份：
 
-```sql
-select id, revision, saved_at, jsonb_array_length(payload -> 'reviews') as n
-from public.businessweb_pulse_history order by id desc;
+```bash
+npx wrangler d1 execute businessweb --remote --command "select id, revision, saved_at, length(payload) as bytes from pulse_history order by id desc"
 ```
 
-恢复需把对应 `payload` 写回 `businessweb_pulse_snapshot`（同时把 `revision` 加 1），然后各设备重新同步。
+恢复需把对应 `payload` 写回 `sync_snapshot`（`kind = 'pulse'`，同时把 `revision` 加 1），然后各设备重新同步。
 
 ### 已知限制
 
 - 同步是整份快照 + 手动触发，不是实时多人协作；适合单人多设备。
-- 同步 token 保存在浏览器 localStorage，请勿在公共电脑使用；token 泄露后请在 Vercel 更换 `PULSE_SYNC_TOKEN` 并在设备上重新配置。
-- 暂无请求频率限制；token 为 256 位随机值，暴力破解不可行。如需限流可加 Vercel Firewall 规则。
+- 同步 token 保存在浏览器 localStorage，请勿在公共电脑使用；token 泄露后请在 Cloudflare 更换 `PULSE_SYNC_TOKEN` 并在设备上重新配置。
+- 暂无请求频率限制；token 为 256 位随机值，暴力破解不可行。如需限流可加 Cloudflare 的速率限制规则。

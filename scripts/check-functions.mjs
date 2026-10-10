@@ -21,7 +21,7 @@ import china from './api/china-stock.js';
 import cls from './api/cls-plate.js';
 import comments from './api/comments.js';
 const res = () => ({code:200, body:null, setHeader(){}, status(code){this.code=code;return this}, json(body){this.body=body;return this}});
-for (const [handler, request, code] of [[pulse,{method:'GET',headers:{}},503],[pulse,{method:'POST',headers:{}},405],[candidates,{method:'GET',headers:{}},503],[candidates,{method:'POST',headers:{}},405],[market,{method:'GET',query:{}},400],[china,{method:'GET',query:{}},400],[cls,{method:'GET',query:{}},400],[comments,{method:'GET',headers:{},query:{}},503],[comments,{method:'PUT',headers:{}},405]]) {
+for (const [handler, request, code] of [[pulse,{method:'GET',headers:{}},503],[pulse,{method:'GET',headers:{},env:{}},503],[candidates,{method:'GET',headers:{},env:{}},503],[pulse,{method:'POST',headers:{}},405],[candidates,{method:'GET',headers:{}},503],[candidates,{method:'POST',headers:{}},405],[market,{method:'GET',query:{}},400],[china,{method:'GET',query:{}},400],[cls,{method:'GET',query:{}},400],[comments,{method:'GET',headers:{},query:{}},503],[comments,{method:'PUT',headers:{}},405]]) {
  const response=res(); await handler(request,response); assert.equal(response.code,code);
 }
 console.log('Native Node function loading and unconfigured/invalid requests: passed');
