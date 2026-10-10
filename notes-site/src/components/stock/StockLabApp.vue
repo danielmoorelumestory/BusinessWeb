@@ -48,12 +48,26 @@ const handleNavigateToPlateList = (plateName) => {
 
 const handleBackFromAnalysis = () => {
   if (previousPage.value === 'plate-ranking') goToPlateRanking()
-  else goHome()
+  else leaveToEntry()
 }
 
 // 支持 #stock-analysis / #sector-rotation / #plate-ranking 直接打开对应工具（供主站入口使用）
+// 从主站入口用 # 直达某个工具时，「返回」回到来源页（如 /invest），而不是停在 lab 首页；
+// 没有同源来源页（直接打开链接）时才回 lab 首页，并清掉 #
+const enteredByHash = ref(false)
+const leaveToEntry = () => {
+  if (enteredByHash.value && window.history.length > 1 && document.referrer.startsWith(window.location.origin)) {
+    window.history.back()
+    return
+  }
+  enteredByHash.value = false
+  if (window.location.hash) window.history.replaceState(null, '', window.location.pathname + window.location.search)
+  goHome()
+}
+
 const applyHash = () => {
   const key = window.location.hash.replace(/^#/, '')
+  if (['stock-analysis', 'sector-rotation', 'plate-ranking'].includes(key)) enteredByHash.value = true
   if (key === 'stock-analysis') goToStockAnalysis()
   else if (key === 'sector-rotation') goToSectorRotation()
   else if (key === 'plate-ranking') goToPlateRanking()
@@ -66,7 +80,7 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', applyHash))
 
 const handleBackFromPlateList = () => {
   if (previousPage.value === 'plate-ranking') goToPlateRanking()
-  else goHome()
+  else leaveToEntry()
 }
 </script>
 
@@ -112,10 +126,10 @@ const handleBackFromPlateList = () => {
       :initial-date="stockAnalysisDate"
       @back="handleBackFromAnalysis"
     />
-    <SectorRotation v-else-if="currentPage === 'sector-rotation'" @back="goHome" />
+    <SectorRotation v-else-if="currentPage === 'sector-rotation'" @back="leaveToEntry" />
     <PlateRanking
       v-else-if="currentPage === 'plate-ranking'"
-      @back="goHome"
+      @back="leaveToEntry"
       @navigate-to-analysis="handleNavigateToAnalysis"
       @navigate-to-plate-list="handleNavigateToPlateList"
     />
