@@ -28,5 +28,5 @@
 
 ## 5. 上线（需要使用者确认）
 
-- [ ] 5.1 **（需使用者确认）** 推送代码
-- [ ] 5.2 部署后验证线上：两个旧路径 302 目标、`/api/cls-plate` 为 404、`/api/grid-market` 与热力图正常、`/invest` 入口与 lab 三个工具可用
+- [x] 5.1 **（需使用者确认）** 推送代码。结果：已确认并推送，`main` 推送到 `0fc66ae`
+- [x] 5.2 部署后验证线上（结果：两个旧路径含尾斜杠均 302 到正确锚点；`/api/cls-plate` 为 404 的 JSON；`sitemap.xml` 1871 个地址且不含旧路径；`/api/grid-market`、`indexes`、`macro`、`sentiment`、`pulse-sync`、`candidates-sync` 正常，`/api/grid-sync` 404；浏览器里 `/invest/` 入口正确，两个旧路径落在 lab 对应工具并显示数据。注：边缘节点比部署完成晚几秒才切换）：两个旧路径 302 目标、`/api/cls-plate` 为 404、`/api/grid-market` 与热力图正常、`/invest` 入口与 lab 三个工具可用
