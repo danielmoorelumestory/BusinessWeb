@@ -1,17 +1,17 @@
 ## 1. 准备与基线
 
-- [ ] 1.1 确认 notes 仓库（`/Users/train/Documents/notes`）工作区干净、`HEAD` 为 `35f3747`（只读检查，不修改 notes 仓库）
-- [ ] 1.2 记录基线：当前 `npm run build:cloudflare` 的 `dist/note` 文件清单与文件数、构建耗时，以及 `notes-site` 的 `astro.config.mjs` 在默认、`CF_PAGES=1`、`VERCEL=1` 三种环境下构建出的 `base` 与 RSS 站点地址
-- [ ] 1.3 确认 `notes-site/` 与 notes `902f04b` 的差异只有 `astro.config.mjs` 的 Cloudflare 分支（对比 `902f04b` 的文件与 `notes-site` 的文件），确保补丁基线可信
+- [x] 1.1 确认 notes 仓库（`/Users/train/Documents/notes`）工作区干净、`HEAD` 为 `35f3747`（只读检查，不修改 notes 仓库）
+- [x] 1.2 记录基线：当前 `npm run build:cloudflare` 的 `dist/note` 文件清单与文件数、构建耗时，以及 `notes-site` 的 `astro.config.mjs` 在默认、`CF_PAGES=1`、`VERCEL=1` 三种环境下构建出的 `base` 与 RSS 站点地址
+- [x] 1.3 确认 `notes-site/` 与 notes `902f04b` 的差异只有 `astro.config.mjs` 的 Cloudflare 分支（对比 `902f04b` 的文件与 `notes-site` 的文件），确保补丁基线可信
 
 ## 2. 同步 notes 最新版到 `notes-site`
 
-- [ ] 2.1 对 notes 仓库生成 `902f04b..35f3747` 的补丁（排除 `openspec/`），保存到临时目录，核对涉及的文件清单与预期的 27 个文件（排除 `openspec/` 的 5 个后约 22 个）一致
-- [ ] 2.2 以 `notes-site/` 为根应用补丁；对 `astro.config.mjs` 的冲突手工合并，同时保留 `@astrojs/vue` 集成、`isCloudflare` / `SITE_URL` 分支与 `base: '/note'`；其余文件有冲突时逐个处理并记录
-- [ ] 2.3 在 `notes-site/` 内执行 `npm ci`，确认锁文件与 `package.json` 一致；确认 `vue` 与 `@astrojs/vue` 已安装
-- [ ] 2.4 单独构建 `notes-site`：用默认、`CF_PAGES=1`、`VERCEL=1` 三组环境各构建一次，对比 1.2 的基线，确认 `base`、RSS 站点地址与同步前一致
-- [ ] 2.5 核对源码：`notes-site/src/lib/grid-trading.ts` 的规则版本为 5；`notes-site/workers/grid-trading-sync/schema.sql` 含 `cls_plate_day`；`src/pages/lab/stock/index.astro` 存在
-- [ ] 2.6 把 notes 的 `rebound-pullback-trigger` 变更复制到 `openspec/changes/archive/`，目录名使用它在 notes 中最后一次提交的日期作为前缀；把其增量规格 `grid-trigger-rules` 同步为 `openspec/specs/grid-trigger-rules/spec.md`（含 Purpose），运行 `openspec validate --specs`
+- [x] 2.1 对 notes 仓库生成 `902f04b..35f3747` 的补丁（排除 `openspec/`），保存到临时目录，核对涉及的文件清单与预期的 27 个文件（排除 `openspec/` 的 5 个后约 22 个）一致
+- [x] 2.2 以 `notes-site/` 为根应用补丁；对 `astro.config.mjs` 的冲突手工合并，同时保留 `@astrojs/vue` 集成、`isCloudflare` / `SITE_URL` 分支与 `base: '/note'`；其余文件有冲突时逐个处理并记录
+- [x] 2.3 在 `notes-site/` 内执行 `npm ci`，确认锁文件与 `package.json` 一致；确认 `vue` 与 `@astrojs/vue` 已安装
+- [x] 2.4 单独构建 `notes-site`：用默认、`CF_PAGES=1`、`VERCEL=1` 三组环境各构建一次，对比 1.2 的基线，确认 `base`、RSS 站点地址与同步前一致
+- [x] 2.5 核对源码：`notes-site/src/lib/grid-trading.ts` 的规则版本为 5；`notes-site/workers/grid-trading-sync/schema.sql` 含 `cls_plate_day`；`src/pages/lab/stock/index.astro` 存在
+- [x] 2.6 把 notes 的 `rebound-pullback-trigger` 变更复制到 `openspec/changes/archive/`，目录名使用它在 notes 中最后一次提交的日期作为前缀；把其增量规格 `grid-trigger-rules` 同步为 `openspec/specs/grid-trigger-rules/spec.md`（含 Purpose），运行 `openspec validate --specs`
 
 ## 3. 构建验证（同步后、替换前）
 
