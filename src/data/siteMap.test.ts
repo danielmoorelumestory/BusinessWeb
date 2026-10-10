@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
 import { INVEST_GROUPS, NAV_ITEMS, findInvestEntry, isNavActive } from './siteMap'
-import { isNotesPath } from './notesLinks'
+import { isAbsoluteUrl, isNotesPath } from './notesLinks'
 
 const appSource = readFileSync(resolve(__dirname, '../App.tsx'), 'utf8')
 
@@ -32,7 +32,7 @@ describe('INVEST_GROUPS', () => {
   it('收纳全部旧入口和 AI 工具，且无重复', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
-      '/dcf', '/first-book', '/future-trends', '/grid-trading', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
+      '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
       '/investment-strategy', '/investment-targets', '/limit-up-analysis',
       '/mainland-investment-targets', '/monitor', '/pulse', '/research-notes',
       '/sector-rotation', '/trading-philosophy', '/valuation',
@@ -40,21 +40,21 @@ describe('INVEST_GROUPS', () => {
     expect(new Set(paths).size).toBe(paths.length)
   })
 
-  it('每个入口路径都在 App.tsx 路由表里（/note/ 开头的是 notes 站点的静态页面，不在前端路由里；/grid-trading 由通配路由接管）', () => {
+  it('每个入口路径都在 App.tsx 路由表里（/note/ 开头的是 notes 站点的静态页面，不在前端路由里；完整地址属于别的站点）', () => {
     for (const l of allLinks) {
-      if (isNotesPath(l.path)) continue
+      if (isNotesPath(l.path) || isAbsoluteUrl(l.path)) continue
       expect(appSource.includes(`path="${l.path}"`) || appSource.includes(`path="${l.path}/*"`), l.path).toBe(true)
     }
   })
 
-  it('没有 VITE_NOTES_PATH 时网格入口指向主站的 /grid-trading（显示迁移说明）；设置后指向 notes 的计算器', async () => {
-    expect(INVEST_GROUPS.flatMap(g => g.links).some(l => l.path === '/grid-trading')).toBe(true)
+  it('没有 VITE_NOTES_PATH 时网格入口直接指向部署了 notes 的站点上的计算器；设置后指向站内的 /note/ 路径', async () => {
+    expect(INVEST_GROUPS.flatMap(g => g.links).some(l => l.path === 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/')).toBe(true)
     vi.resetModules()
     vi.stubEnv('VITE_NOTES_PATH', '/note/')
     const withNotes = await import('./siteMap')
     const paths = withNotes.INVEST_GROUPS.flatMap(g => g.links).map(l => l.path)
     expect(paths).toContain('/note/lab/grid-trading/')
-    expect(paths).not.toContain('/grid-trading')
+    expect(paths).not.toContain('https://businessweb-c0u.pages.dev/note/lab/grid-trading/')
     vi.unstubAllEnvs()
     vi.resetModules()
   })
@@ -96,7 +96,6 @@ describe('findInvestEntry', () => {
   })
 
   it('深层路径落在父入口所在分组，最长前缀优先', () => {
-    expect(findInvestEntry('/grid-trading/records/xyz')?.link.path).toBe('/grid-trading')
     expect(findInvestEntry('/research-notes/us/AAPL')?.link.path).toBe('/research-notes')
   })
 
@@ -121,7 +120,6 @@ describe('isNavActive', () => {
   it('任何收纳页面都点亮「投资」', () => {
     expect(isNavActive('/invest', '/invest')).toBe(true)
     expect(isNavActive('/invest', '/sector-rotation')).toBe(true)
-    expect(isNavActive('/invest', '/grid-trading/records/1')).toBe(true)
     expect(isNavActive('/invest', '/first-book/x.md')).toBe(true)
   })
 

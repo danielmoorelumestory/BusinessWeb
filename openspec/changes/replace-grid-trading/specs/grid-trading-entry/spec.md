@@ -7,9 +7,9 @@
 - **WHEN** 用户在 Cloudflare 构建的主站点击"网格交易"入口
 - **THEN** 浏览器整页加载 `/note/lab/grid-trading/`，显示 notes 的网格交易计算器，而不是"这一页不存在"
 
-#### Scenario: 没有 notes 的构建线上入口不失效
+#### Scenario: 没有 notes 的构建线上入口直接进入新页面
 - **WHEN** 用户在 Vercel 或 GitHub Pages 构建的主站点击"网格交易"入口
-- **THEN** 入口指向主站的 `/grid-trading`，显示迁移说明，而不是 404
+- **THEN** 入口直接指向 `https://businessweb-c0u.pages.dev/note/lab/grid-trading/`，点击后整页跳转到那里，不经过中间页，也不是 404
 
 ### Requirement: 旧的网格路径跳转到 notes 的对应页面
 系统 SHALL 把主站旧的网格路径跳转到 notes 的对应页面：`/grid-trading` 到 `/note/lab/grid-trading/`；`/grid-trading/records` 到 `/note/lab/grid-trading/saved/`；`/grid-trading/records/:id` 到 `/note/lab/grid-trading/detail/?id=:id`。Cloudflare 上 MUST 由静态托管层以 302 临时跳转完成，使用户无需先加载主站的前端应用。

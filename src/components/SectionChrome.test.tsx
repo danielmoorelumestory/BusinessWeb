@@ -31,10 +31,10 @@ describe('SectionChrome', () => {
   })
 
   it('深层路径仍落在同组并高亮父入口', () => {
-    renderAt('/grid-trading/records/abc')
+    renderAt('/dcf/abc')
     const tabs = screen.getByRole('navigation', { name: '同组页面' })
     const current = within(tabs).getAllByRole('link').find(a => a.getAttribute('aria-current') === 'page')
-    expect(current?.textContent).toBe('网格交易')
+    expect(current?.textContent).toBe('现金流折现 DCF')
   })
 
   it('已舍弃页面顶部显示舍弃说明，正常页面不显示', () => {

@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
 import SmartLink from './SmartLink'
-import { isNotesPath } from '../data/notesLinks'
+import { isAbsoluteUrl, isNotesPath } from '../data/notesLinks'
 
 afterEach(cleanup)
 
@@ -45,6 +45,12 @@ describe('SmartLink', () => {
     const { resolve } = await import('node:path')
     const source = readFileSync(resolve(__dirname, '../data/notesLinks.ts'), 'utf8')
     expect(source).toMatch(/typeof import\.meta\.env !== 'undefined'/)
+  })
+
+  it('isAbsoluteUrl：只认 http(s) 完整地址', () => {
+    expect(isAbsoluteUrl('https://businessweb-c0u.pages.dev/note/')).toBe(true)
+    expect(isAbsoluteUrl('/note/lab/')).toBe(false)
+    expect(isAbsoluteUrl('/valuation')).toBe(false)
   })
 
   it('isNotesPath：只认 /note 与 /note/ 开头，不会把 /notes-x 当成 notes', () => {

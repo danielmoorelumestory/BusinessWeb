@@ -45,7 +45,7 @@ notes 的详情页用查询参数 `?id=` 取记录 id（已在源码里确认）
 
 ### 4. 站内入口用普通链接
 `siteMap` 与 `aiLab` 的入口改指向 `/note/lab/grid-trading/`。渲染这些入口的组件对以 `/note/` 开头的路径必须使用普通 `<a href>`，不能用 React Router 的 `Link`，否则会被前端路由接管而显示"这一页不存在"。这与已有的 Header"笔记"入口原因相同。具体的渲染位置在实施时核对。
-- 其他构建线上这些入口会指向不存在的 `/note/...`，由决策 3 的兜底组件接不住（因为路径本身就以 `/note/` 开头，不会进入 `/grid-trading/*`）。处理办法：入口的目标路径随构建变化——设置了 `VITE_NOTES_PATH` 时指向 `/note/lab/grid-trading/`，否则指向 `/grid-trading`，由兜底组件显示迁移说明。
+- 其他构建线上这些入口会指向不存在的 `/note/...`，由决策 3 的兜底组件接不住（因为路径本身就以 `/note/` 开头，不会进入 `/grid-trading/*`）。处理办法：入口的目标路径随构建变化——设置了 `VITE_NOTES_PATH` 时指向 `/note/lab/grid-trading/`，否则直接指向 `https://businessweb-c0u.pages.dev/note/lab/grid-trading/`（完整地址，用普通 `<a>` 整页跳转，不经过中间页；这是用户在 `/invest` 实测后提出的要求）。`/grid-trading*` 旧路径仍由兜底组件显示迁移说明。
 
 ### 5. 删除范围按"引用图"确定，并以构建失败兜底
 删除 `src/pages/Grid*.tsx`（含测试）、`src/features/grid-trading/`、`src/services/gridSyncApi.test.ts` 及其对应的服务文件（若存在）、`api/grid-sync.ts`、`functions/api/grid-sync.js`、迁移脚本 `supabase/migrations/202610020001_grid_sync.sql`、`scripts/check-functions.mjs` 与 `scripts/check-deployment.mjs` 里的 `grid-sync` 项、`.env.example` 的 `GRID_SYNC_TOKEN`、文档里的相关段落（`DEPLOYMENT.md`、`README.md`、`docs/cloudflare-pages.md`）。历史计划文档 `docs/superpowers/plans/...` 作为历史记录保留不改。

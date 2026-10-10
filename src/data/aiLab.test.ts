@@ -59,6 +59,6 @@ describe('aiLab 数据', () => {
   })
 
   it('作品橱窗 4 个站内链接', () => {
-    expect(LAB_SHOWCASE.map(s => s.path)).toEqual(['/invest/ai-tools', '/valuation', '/grid-trading', '/about'])
+    expect(LAB_SHOWCASE.map(s => s.path)).toEqual(['/invest/ai-tools', '/valuation', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/about'])
   })
 })

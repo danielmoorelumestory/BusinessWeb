@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { NOTES_PATH } from '../data/notesLinks'
+import { NOTES_ORIGIN, NOTES_PATH } from '../data/notesLinks'
 
 // 主站自己的网格交易已经被 notes 的网格交易计算器取代。旧路径对应的 notes 页面：
 //   /grid-trading                → lab/grid-trading/
 //   /grid-trading/records        → lab/grid-trading/saved/
 //   /grid-trading/records/:id    → lab/grid-trading/detail/?id=:id
-const OTHER_BUILDS_ORIGIN = 'https://businessweb-c0u.pages.dev'
 
 /** 旧路径对应的 notes 页面（相对于 /note/，不含前导斜杠） */
 export function notesTargetFor(pathname: string): string {
@@ -36,7 +35,7 @@ export default function GridMoved(): JSX.Element {
       </header>
       <section className="report-card">
         <p>请在包含 notes 站点的部署上使用网格交易：</p>
-        <p><a className="btn-primary" href={`${OTHER_BUILDS_ORIGIN}/note/${target}`}>打开网格交易计算器</a></p>
+        <p><a className="btn-primary" href={`${NOTES_ORIGIN}/note/${target}`}>打开网格交易计算器</a></p>
       </section>
     </main>
   )

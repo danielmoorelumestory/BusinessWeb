@@ -1,10 +1,88 @@
 {
-  "generatedAt": "2026-10-10T08:06:40.904Z",
+  "generatedAt": "2026-10-10T12:29:29.086Z",
   "versions": [
     {
       "tag": "unreleased",
       "date": null,
       "commits": [
+        {
+          "hash": "6743b30",
+          "subject": "docs(openspec): 勾选 replace-grid-trading 任务 7.4",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "280b3c7",
+          "subject": "test(grid): 完成替换后的验证，补充尾斜杠跳转规则并记录结论",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "0ce4e08",
+          "subject": "refactor(grid): 删除主站自己的网格交易实现与 Supabase 网格同步",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "f4a875e",
+          "subject": "feat(grid): 主站网格入口与旧路径改指向 notes 的网格交易计算器",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "ee617f7",
+          "subject": "docs(notes-cohosting): 记录同步到 35f3747，并写明 Vue 依赖与 Worker、D1 需要使用者自行更新",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "f7277da",
+          "subject": "chore(openspec): 迁入 notes 的 rebound-pullback-trigger 变更与 grid-trigger-rules 规格",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "b5135d1",
+          "subject": "feat(notes-site): 同步 notes 最新版（902f04b..35f3747）",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "97056ac",
+          "subject": "docs(openspec): 新增 replace-grid-trading 变更提案",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "24c421b",
+          "subject": "fix(cloudflare): 适配合并上游后新增的接口与响应头，并修复衬线残留",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "cec04ca",
+          "subject": "chore(openspec): 归档 reskin-report-style 并同步规格到主规格",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "850a9ca",
+          "subject": "merge: 同步原项目 upstream/main 最新更新并解决样式与路由冲突",
+          "author": "train",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "8edd307",
+          "subject": "fix(pulse): show only heatmap in market tab",
+          "author": "hassan",
+          "date": "2026-10-10"
+        },
+        {
+          "hash": "0298ee3",
+          "subject": "feat(pulse): split into market overview and daily analysis tabs",
+          "author": "hassan",
+          "date": "2026-10-10"
+        },
         {
           "hash": "2b1382a",
           "subject": "chore: regenerate changelog and sitemap",
@@ -106,84 +184,6 @@
           "subject": "fix(future-trends): align page checks with routed research views",
           "author": "hassan",
           "date": "2026-10-09"
-        },
-        {
-          "hash": "33770af",
-          "subject": "feat(future-trends): add company research pages and diversified core list",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "ed18296",
-          "subject": "feat(macro): 估值位置新增标普 500 等权重（SPW），支持外部查看链接",
-          "author": "hassan",
-          "date": "2026-10-09"
-        },
-        {
-          "hash": "994f6f9",
-          "subject": "feat(macro): 宏观温度新增「估值位置」页签",
-          "author": "hassan",
-          "date": "2026-10-08"
-        },
-        {
-          "hash": "1c1532e",
-          "subject": "data(macro): 更新宏观温度数据 2026-10-08",
-          "author": "github-actions[bot]",
-          "date": "2026-10-08"
-        },
-        {
-          "hash": "ab9e2b8",
-          "subject": "fix(seo): verify Search Console and noindex raw book markdown",
-          "author": "hassan",
-          "date": "2026-10-08"
-        },
-        {
-          "hash": "fbd765e",
-          "subject": "feat(seo): 路由级元信息、sitemap/robots、预渲染，章节路由改到 /first-book/read/",
-          "author": "hassan",
-          "date": "2026-10-08"
-        },
-        {
-          "hash": "eb4d3bf",
-          "subject": "feat(future-trends): 候选池与核心支持下载当前选择公司的 JSON",
-          "author": "hassan",
-          "date": "2026-10-08"
-        },
-        {
-          "hash": "9e5b362",
-          "subject": "feat(future-trends): 九赛道中外公司综合排序、候选池与核心 20",
-          "author": "hassan",
-          "date": "2026-10-08"
-        },
-        {
-          "hash": "83413f0",
-          "subject": "test(sectors): freeze cache refresh clock for reproducible CI",
-          "author": "hassan",
-          "date": "2026-10-07"
-        },
-        {
-          "hash": "c738674",
-          "subject": "fix(deploy): preserve saved changelog in builds without Git metadata",
-          "author": "hassan",
-          "date": "2026-10-07"
-        },
-        {
-          "hash": "2b705c1",
-          "subject": "chore(deploy): exclude local caches and agent installations from Vercel uploads",
-          "author": "hassan",
-          "date": "2026-10-07"
-        },
-        {
-          "hash": "4baca4d",
-          "subject": "feat(research): unify investment skills and expand nine industry research tracks",
-          "author": "hassan",
-          "date": "2026-10-07"
-        },
-        {
-          "hash": "54a42d0",
-          "subject": "feat(research): 补录 SoFi（SOFI）完整版研究页，归入美股非标普",
-          "author": "hassan",
-          "date": "2026-10-07"
         }
       ]
     }

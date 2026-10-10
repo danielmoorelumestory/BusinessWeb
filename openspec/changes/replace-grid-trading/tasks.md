@@ -23,7 +23,7 @@
 ## 4. 替换主站入口与路径
 
 - [x] 4.1 找出渲染 `siteMap` 与 `aiLab` 入口的组件，使以 `/note/` 开头的路径使用普通 `<a href>`；为这一行为补组件测试（普通链接，点击不被前端路由拦截）
-- [x] 4.2 修改 `src/data/siteMap.ts` 与 `src/data/aiLab.ts`：设置了 `VITE_NOTES_PATH` 时入口指向 `/note/lab/grid-trading/`，否则指向 `/grid-trading`（由 `GridMoved` 显示迁移说明）
+- [x] 4.2 修改 `src/data/siteMap.ts` 与 `src/data/aiLab.ts`：设置了 `VITE_NOTES_PATH` 时入口指向 `/note/lab/grid-trading/`，否则直接指向 `https://businessweb-c0u.pages.dev/note/lab/grid-trading/`（`SmartLink` 对完整地址也渲染普通 `<a>`，点击不经过中间页）
 - [x] 4.3 新增 `GridMoved` 路由组件并为其写测试：`/grid-trading` → `/note/lab/grid-trading/`、`/grid-trading/records` → `.../saved/`、`/grid-trading/records/:id` → `.../detail/?id=:id`；设置了 `VITE_NOTES_PATH` 时用 `window.location.replace` 跳转，否则显示迁移说明与指向 `https://businessweb-c0u.pages.dev/note/lab/grid-trading/` 的链接
 - [x] 4.4 修改 `src/App.tsx`：去掉三个网格路由与对应的懒加载导入，加入匹配 `/grid-trading/*` 的 `GridMoved` 路由
 - [x] 4.5 修改 `src/utils/seo.ts`：`/grid-trading` 与 `/grid-trading/records` 的条目改为迁移页的 `noindex`（或移除），并检查站点地图生成脚本是否列出了 `/grid-trading`，同步修改
@@ -45,7 +45,7 @@
 - [x] 6.2 分别运行 `npm run build`、`npm run build:cloudflare`、`npm run build:pages`，三者都成功；普通构建与 `build:pages` 的产物里没有 `/note/` 入口。结果：三种构建都成功（退出码 0）；普通构建与 `build:pages` 的产物里没有 `/note/` 入口；`build:cloudflare` 14 秒完成并通过链接检查
 - [x] 6.3 用本地 wrangler 实测 `/grid-trading`、`/grid-trading/records`、`/grid-trading/records/abc123` 的 302 目标与带参数的 `?id=abc123`；若 `_redirects` 不支持查询参数占位符，改由 `GridMoved` 补上并把结论写回设计。结果：三条旧路径的 302 目标正确，`?id=` 占位符可用且保持编码；补了 `/grid-trading/` 与 `/grid-trading/records/` 两条尾斜杠规则；去掉 `_redirects` 后前端兜底也能到达正确页面
 - [x] 6.4 实测 `/api/grid-sync` 返回 404 JSON，`/api/grid-market`、`/api/pulse-sync`、`/api/candidates-sync` 行为不变。结果：`/api/grid-sync` 返回 404 JSON；`/api/grid-market`（200 与 400）、`pulse-sync`（503、405）、`candidates-sync`（503）行为不变
-- [x] 6.5 在浏览器里验证 `/` 与 `/invest`、AI 实验室里的"网格交易"入口能进入 `/note/lab/grid-trading/`（Cloudflare 构建），在普通构建的开发服务器里入口进入迁移说明页。结果：用真实浏览器渲染确认——Cloudflare 构建里 `/invest` 与 `/ai` 的网格卡片 `href` 为 `/note/lab/grid-trading/`；普通构建里为 `/grid-trading` 并显示"网格交易已迁移"
+- [x] 6.5 在浏览器里验证 `/` 与 `/invest`、AI 实验室里的"网格交易"入口能进入 `/note/lab/grid-trading/`（Cloudflare 构建），在普通构建的开发服务器里入口直接跳到 Cloudflare 站点上的计算器。结果：（已按用户反馈改为直接跳转）用真实浏览器渲染确认——Cloudflare 构建里 `/invest` 与 `/ai` 的网格卡片 `href` 为 `/note/lab/grid-trading/`；普通构建里为完整地址 `https://businessweb-c0u.pages.dev/note/lab/grid-trading/`；`/grid-trading` 旧路径仍显示"网格交易已迁移"
 - [x] 6.6 记录替换前后的变化：主站 bundle 体积、`dist` 文件数、`build:cloudflare` 耗时。结果：相对提案提交，72 个文件变化，新增 329 行、删除 3435 行；普通构建 `dist` 为 4564 个文件、96MB（替换前 4602 个、105MB）
 
 ## 7. 上线
