@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { populateProcessEnv, toPagesFunction, wrapFetch } from './adapter.mjs'
+import { populateProcessEnv, toPagesFunction, trustedClientHeaders, wrapFetch } from './adapter.mjs'
 
 const call = (handler, url, init = {}, env = {}) => toPagesFunction(handler)({ request: new Request(url, init), env })
 
@@ -120,4 +120,32 @@ test('wrapFetch：其他调用保持不变，包装是幂等的', async () => {
   assert.equal((await safe('https://a.test/', { redirect: 'follow' })).status, 302) // 非 error 不拦截
   assert.equal((await safe('https://a.test/')).status, 302)
   assert.deepEqual(calls, [{ redirect: 'follow' }, undefined])
+})
+
+test('所有函数响应都带 X-Robots-Tag: noindex, nofollow，处理函数自己设置的值不被覆盖', async () => {
+  const normal = await call((req, res) => res.status(200).json({ a: 1 }), 'https://x.test/api/a')
+  const error = await call(() => { throw new Error('x') }, 'https://x.test/api/a')
+  const own = await call((req, res) => { res.setHeader('X-Robots-Tag', 'all'); return res.end() }, 'https://x.test/api/a')
+  assert.equal(normal.headers.get('x-robots-tag'), 'noindex, nofollow')
+  assert.equal(error.headers.get('x-robots-tag'), 'noindex, nofollow')
+  assert.equal(own.headers.get('x-robots-tag'), 'all')
+  assert.deepEqual(await normal.json(), { a: 1 })
+})
+
+test('trustedClientHeaders：有 cf-connecting-ip 时覆盖客户端伪造的 x-real-ip 与 x-forwarded-for', () => {
+  const out = trustedClientHeaders({ 'cf-connecting-ip': '203.0.113.9', 'x-real-ip': '1.1.1.1', 'x-forwarded-for': '2.2.2.2, 3.3.3.3', accept: '*/*' })
+  assert.equal(out['x-real-ip'], '203.0.113.9')
+  assert.equal(out['x-forwarded-for'], '203.0.113.9')
+  assert.equal(out.accept, '*/*')
+})
+
+test('trustedClientHeaders：非 Workers 环境且没有 cf-connecting-ip 时保持原样', () => {
+  const input = { 'x-real-ip': '1.1.1.1' }
+  assert.deepEqual(trustedClientHeaders(input), input)
+})
+
+test('适配后的处理函数看到的是可信 IP，而不是伪造值（经 cf-connecting-ip）', async () => {
+  let seen
+  await call((req, res) => { seen = { real: req.headers['x-real-ip'], fwd: req.headers['x-forwarded-for'] }; return res.end() }, 'https://x.test/api/a', { headers: { 'cf-connecting-ip': '198.51.100.7', 'x-real-ip': '9.9.9.9', 'x-forwarded-for': '8.8.8.8' } })
+  assert.deepEqual(seen, { real: '198.51.100.7', fwd: '198.51.100.7' })
 })

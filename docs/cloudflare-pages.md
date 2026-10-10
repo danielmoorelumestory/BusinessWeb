@@ -41,8 +41,15 @@
 | `GRID_SYNC_TOKEN` | `/api/grid-sync` |
 | `PULSE_SYNC_TOKEN` | `/api/pulse-sync`、`/api/candidates-sync` |
 | `KNOWLEDGE_READ_TOKEN`、`KNOWLEDGE_MCP_TOKEN`、`KNOWLEDGE_UPLOAD_TOKEN`、`KNOWLEDGE_SYNC_TOKEN` | `/api/knowledge`（前三个互不相同，且至少 32 字符） |
+| `COMMENTS_ADMIN_TOKEN` | `/api/comments` 的管理员操作（审核、驳回、删除），至少 32 字符；评论本身也依赖上面的 `SUPABASE_URL`、`SUPABASE_SECRET_KEY` |
 
 未配置时这些接口返回 503，这是正常状态：目前尚未启用 Supabase 云同步。
+
+## 静态响应头与客户端 IP（合并上游后补充）
+
+- `public/_headers` 对应 `vercel.json` 里的 `headers`：全站 `X-Content-Type-Options: nosniff`、`Referrer-Policy`；`/assets/*` 长期缓存（`immutable`）；`/first-book/*.md` 加 `X-Robots-Tag: noindex`。**`_headers` 只作用于静态文件，不作用于 Functions 的响应。**
+- `/api/*` 的 `X-Robots-Tag: noindex, nofollow` 由 `server/edge/adapter.mjs` 给所有函数响应添加（处理函数自己设置的值不会被覆盖）。
+- **客户端 IP**：评论接口的限流依赖 `x-real-ip` / `x-forwarded-for`。在 Vercel 上它们由平台设置，客户端无法改写；在 Cloudflare 上客户端可以随便发送，限流会被伪造绕过。因此适配器在 Workers 里统一用可信的 `cf-connecting-ip` 覆盖这两个头（拿不到时用 `unknown`，绝不信任客户端自己发来的值）。以后新增依赖客户端 IP 的接口，直接读这两个头即可。
 
 ## 代码结构
 
@@ -89,6 +96,7 @@ curl -s "$B/api/china-stock?symbol=sh000001" | head -c 120
 curl -s "$B/api/grid-market?kind=quotes&symbols=sh510300" | iconv -f gbk -t utf-8 | head -c 120
 curl -s "$B/api/grid-market?kind=candles&symbol=sh510300&begin=2026-09-01&end=2026-10-07" | head -c 120
 curl -s "$B/api/macro" | head -c 120
+curl -s "$B/api/indexes" | head -c 120          # 指数价格与成分股 PE，较慢（十几秒）
 curl -s "$B/api/sentiment"
 curl -s "$B/api/cls-plate?date=20260930&up_limit=1" | head -c 120   # 需交易日
 
@@ -97,6 +105,7 @@ curl -s -w " [%{http_code}]\n" $B/api/grid-sync
 curl -s -w " [%{http_code}]\n" $B/api/pulse-sync
 curl -s -w " [%{http_code}]\n" $B/api/candidates-sync
 curl -s -w " [%{http_code}]\n" "$B/api/knowledge?action=status"
+curl -s -w " [%{http_code}]\n" "$B/api/comments?slug=a.md"   # 未配置 Supabase 时为 503
 curl -s -w " [%{http_code}]\n" -H "Origin: https://evil.example" "$B/api/knowledge?action=status"
 ```
 

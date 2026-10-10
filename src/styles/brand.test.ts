@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
@@ -53,8 +53,17 @@ describe('品牌文件', () => {
     }
   })
 
-  it('全站只用系统无衬线：不再定义或引用 --font-serif，也没有衬线字体名', () => {
-    const files = ['src/index.css', 'src/styles/shell.css', 'src/styles/report.css', 'src/styles/ai-learning.css', 'src/features/knowledge/knowledge.css', 'src/features/macro/macro.css', 'src/features/grid-trading/gridTrading.css', 'src/components/valuation/valuation.css']
+  it('全站只用系统无衬线：任何 CSS 都不再引用 --font-serif，也没有衬线字体名（扫描 src 下全部 CSS，包括以后新增的）', () => {
+    const files: string[] = []
+    const walk = (dir: string): void => {
+      for (const name of readdirSync(resolve(__dirname, '../../', dir))) {
+        const rel = `${dir}/${name}`
+        if (statSync(resolve(__dirname, '../../', rel)).isDirectory()) walk(rel)
+        else if (name.endsWith('.css')) files.push(rel)
+      }
+    }
+    walk('src')
+    expect(files.length).toBeGreaterThan(5)
     for (const f of files) {
       const css = read(f)
       expect(css, f).not.toMatch(/--font-serif/)

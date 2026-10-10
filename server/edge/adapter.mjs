@@ -52,6 +52,16 @@ async function bodyOf(request) {
   try { return JSON.parse(text) } catch { return text }
 }
 
+// 客户端 IP：Vercel 的 x-real-ip / x-forwarded-for 由平台设置，客户端无法改写；
+// 在 Cloudflare 上这两个头可以由客户端随便发送，限流之类依赖 IP 的逻辑会被伪造绕过。
+// 因此统一用 Cloudflare 可信的 cf-connecting-ip 覆盖它们（拿不到时用 'unknown'，绝不信任客户端自己发来的值）。
+export function trustedClientHeaders(headers) {
+  const trusted = headers['cf-connecting-ip']
+  if (trusted === undefined && !inWorkers()) return headers // 非 Workers 环境（本地单测）保持原样
+  const ip = trusted || 'unknown'
+  return { ...headers, 'x-real-ip': ip, 'x-forwarded-for': ip }
+}
+
 export async function toNodeRequest(request) {
   const url = new URL(request.url)
   // 保留一份未被读取的标准请求，供需要 Web 标准 API 的处理函数使用（例如 MCP 的 Web 标准传输）
@@ -59,7 +69,7 @@ export async function toNodeRequest(request) {
   return {
     method: request.method,
     url: url.pathname + url.search,
-    headers: Object.fromEntries(request.headers),
+    headers: trustedClientHeaders(Object.fromEntries(request.headers)),
     query: queryOf(url),
     body: await bodyOf(request),
     webRequest,
@@ -108,6 +118,13 @@ const failure = status => new Response(JSON.stringify({ error: '服务内部错�
   headers: { 'content-type': JSON_TYPE, 'cache-control': 'no-store' },
 })
 
+// 与 vercel.json 里 /api/* 的 X-Robots-Tag 一致。Pages 的 _headers 只作用于静态文件，不作用于函数响应，所以在这里加。
+const withRobotsTag = response => {
+  const out = new Response(response.body, response)
+  if (!out.headers.has('x-robots-tag')) out.headers.set('x-robots-tag', 'noindex, nofollow')
+  return out
+}
+
 export function toPagesFunction(handler) {
   return async ({ request, env }) => {
     populateProcessEnv(env)
@@ -117,9 +134,9 @@ export function toPagesFunction(handler) {
       await handler(await toNodeRequest(request), res)
     } catch {
       // 不向客户端暴露内部错误细节
-      return failure(500)
+      return withRobotsTag(failure(500))
     }
     // 处理函数没有结束响应（Vercel 上会一直挂起），这里明确返回 500，避免静默的空响应
-    return res.ended ? res.toResponse(request.method) : failure(500)
+    return withRobotsTag(res.ended ? res.toResponse(request.method) : failure(500))
   }
 }
