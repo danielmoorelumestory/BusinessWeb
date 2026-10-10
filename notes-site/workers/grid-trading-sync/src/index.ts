@@ -293,7 +293,8 @@ function clsOriginAllowed(origin: string | null) {
   try {
     const { protocol, hostname } = new URL(origin);
     if (hostname === 'localhost' || hostname === '127.0.0.1') return true;
-    return protocol === 'https:' && (hostname === 'danielmoorelumestory.github.io' || hostname.endsWith('.vercel.app'));
+    // businessweb-c0u.pages.dev 是 BusinessWeb 在 Cloudflare Pages 上的正式地址，其预览部署为 <hash>.businessweb-c0u.pages.dev
+    return protocol === 'https:' && (hostname === 'danielmoorelumestory.github.io' || hostname.endsWith('.vercel.app') || hostname === 'businessweb-c0u.pages.dev' || hostname.endsWith('.businessweb-c0u.pages.dev'));
   } catch {
     return false;
   }

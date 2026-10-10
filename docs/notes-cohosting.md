@@ -100,6 +100,7 @@ notes 的网格交易依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 
 **同步到 `35f3747` 之后，Worker 与 D1 需要你自行更新**，否则新页面会调用不存在的接口：
 1. **D1 新表**：应用 `notes-site/workers/grid-trading-sync/schema.sql`，其中新增了 `cls_plate_day` 表（财联社板块日数据，按交易日与是否只看涨停缓存）。`schema.sql` 全部使用 `CREATE TABLE IF NOT EXISTS`，重复执行不会清空已有数据。
 2. **重新部署 Worker**：新版 Worker 增加了 `/cls`（财联社转发与缓存）、`/stock/plate`、`/stock/plates`、`/stock/plate/dates`、`/stock/sync` 接口，以及收盘 cron 把板块日数据写入 `cls_plate_day`。`wrangler.jsonc` 里的 cron 触发时间没有变化。
+3. **来源白名单**：Worker 的 `/cls`、`/stock/*` 等接口只接受白名单来源（`clsOriginAllowed`），已加入 `businessweb-c0u.pages.dev`；不重新部署 Worker，线上股市分析 lab 会显示"来源不允许"。
 3. 网格计算器、已保存标的与分钟线主要使用原有接口；受影响最大的是新的"股市分析 lab"。
 
 - 前端直接访问 `https://grid-trading-sync.danielmoore-b0c.workers.dev`（写在 notes 的前端代码里）。Worker 对所有来源开放跨域，所以新域名可以直接使用，已实测预检通过。
