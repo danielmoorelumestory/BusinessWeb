@@ -125,19 +125,55 @@ const withRobotsTag = response => {
   return out
 }
 
+// 边缘缓存：Pages Functions 的动态响应不会因为 Cache-Control: s-maxage 自动进缓存（那是 Vercel 的行为），
+// 所以在这里用 Cache API 显式缓存。只缓存成功（200）且带 s-maxage、未声明 no-store/private 的 GET 响应，缓存时长取 s-maxage。
+// 缓存键是完整地址（含查询参数）。没有 caches.default 的环境（本地单测、开发）自动跳过。
+const edgeCache = () => (typeof caches !== 'undefined' && caches.default) || null
+
+export function cacheTtlOf(response) {
+  if (response.status !== 200) return 0
+  const control = response.headers.get('cache-control') || ''
+  if (/(^|,)\s*(no-store|private)\b/i.test(control)) return 0
+  const match = /(?:^|,)\s*s-maxage=(\d+)/i.exec(control)
+  return match ? Number(match[1]) : 0
+}
+
+const withCacheTag = (response, tag) => {
+  const out = new Response(response.body, response)
+  out.headers.set('x-edge-cache', tag)
+  return out
+}
+
 export function toPagesFunction(handler) {
-  return async ({ request, env }) => {
+  return async ({ request, env, waitUntil }) => {
     populateProcessEnv(env)
     installFetchCompat()
-    const res = createResponseCollector()
-    try {
-      // env 是 Workers 的绑定（例如 D1 的 DB），不能放进 process.env，作为只读的 req.env 传给处理函数
-      await handler(Object.assign(await toNodeRequest(request), { env }), res)
-    } catch {
-      // 不向客户端暴露内部错误细节
-      return withRobotsTag(failure(500))
+    const cache = request.method === 'GET' ? edgeCache() : null
+    const cacheKey = new Request(request.url)
+    if (cache) {
+      try {
+        const hit = await cache.match(cacheKey)
+        if (hit) return withCacheTag(hit, 'HIT')
+      } catch { /* 缓存读取失败时当作未命中 */ }
     }
-    // 处理函数没有结束响应（Vercel 上会一直挂起），这里明确返回 500，避免静默的空响应
-    return withRobotsTag(res.ended ? res.toResponse(request.method) : failure(500))
+    const response = await respond(handler, request, env)
+    if (!cache || cacheTtlOf(response) <= 0) return response
+    // 先存一份不带标记的副本，再给返回的响应加 MISS 标记
+    const store = cache.put(cacheKey, response.clone()).catch(() => {})
+    if (waitUntil) waitUntil(store); else await store
+    return withCacheTag(response, 'MISS')
   }
+}
+
+async function respond(handler, request, env) {
+  const res = createResponseCollector()
+  try {
+    // env 是 Workers 的绑定（例如 D1 的 DB），不能放进 process.env，作为只读的 req.env 传给处理函数
+    await handler(Object.assign(await toNodeRequest(request), { env }), res)
+  } catch {
+    // 不向客户端暴露内部错误细节
+    return withRobotsTag(failure(500))
+  }
+  // 处理函数没有结束响应（Vercel 上会一直挂起），这里明确返回 500，避免静默的空响应
+  return withRobotsTag(res.ended ? res.toResponse(request.method) : failure(500))
 }

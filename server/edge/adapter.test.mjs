@@ -160,3 +160,92 @@ test('Workers 的 env（绑定）作为 req.env 传给处理函数；没有 env 
   assert.equal(seen[0].SOME, 'v')
   assert.equal(seen[1], undefined)
 })
+
+// ---------- 边缘缓存 ----------
+
+// 用 Map 模拟 Workers 的 caches.default；测试结束后还原。
+const withFakeCache = async run => {
+  const store = new Map()
+  const fake = {
+    match: async key => { const hit = store.get(key.url); return hit ? hit.clone() : undefined },
+    put: async (key, response) => { store.set(key.url, response) },
+  }
+  const previous = globalThis.caches
+  globalThis.caches = { default: fake }
+  try { await run(store) } finally { if (previous === undefined) delete globalThis.caches; else globalThis.caches = previous }
+}
+const cachedHandler = (counter, control = 'public, max-age=0, s-maxage=30', status = 200) => (req, res) => {
+  counter.n++
+  if (control) res.setHeader('Cache-Control', control)
+  return res.status(status).json({ n: counter.n, q: req.query.symbol ?? null })
+}
+
+test('带 s-maxage 的 GET 响应：第一次 MISS 并写入缓存，第二次 HIT 且不再执行处理函数', async () => {
+  await withFakeCache(async () => {
+    const counter = { n: 0 }, handler = cachedHandler(counter)
+    const first = await call(handler, 'https://x.test/api/a?symbol=sh000001')
+    assert.equal(first.headers.get('x-edge-cache'), 'MISS')
+    const second = await call(handler, 'https://x.test/api/a?symbol=sh000001')
+    assert.equal(second.headers.get('x-edge-cache'), 'HIT')
+    assert.deepEqual(await second.json(), { n: 1, q: 'sh000001' })
+    assert.equal(counter.n, 1)
+    assert.equal(second.headers.get('x-robots-tag'), 'noindex, nofollow')
+  })
+})
+
+test('不同查询参数使用不同的缓存键', async () => {
+  await withFakeCache(async () => {
+    const counter = { n: 0 }, handler = cachedHandler(counter)
+    await call(handler, 'https://x.test/api/a?symbol=sh000001')
+    const other = await call(handler, 'https://x.test/api/a?symbol=sz399001')
+    assert.equal(other.headers.get('x-edge-cache'), 'MISS')
+    assert.deepEqual(await other.json(), { n: 2, q: 'sz399001' })
+  })
+})
+
+test('no-store、private、没有 s-maxage、非 200 的响应都不缓存', async () => {
+  await withFakeCache(async store => {
+    for (const [control, status] of [['no-store', 200], ['private, s-maxage=30', 200], ['public, max-age=60', 200], ['public, s-maxage=30', 502], [null, 200]]) {
+      const counter = { n: 0 }, url = `https://x.test/api/${store.size}-${status}`
+      const handler = cachedHandler(counter, control, status)
+      const first = await call(handler, url), second = await call(handler, url)
+      assert.equal(first.headers.get('x-edge-cache'), null, `${control}/${status}`)
+      assert.equal(second.headers.get('x-edge-cache'), null)
+      assert.equal(counter.n, 2)
+    }
+    assert.equal(store.size, 0)
+  })
+})
+
+test('非 GET 请求不读取也不写入缓存', async () => {
+  await withFakeCache(async store => {
+    const counter = { n: 0 }, handler = cachedHandler(counter)
+    await call(handler, 'https://x.test/api/a', { method: 'POST' })
+    const again = await call(handler, 'https://x.test/api/a', { method: 'POST' })
+    assert.equal(again.headers.get('x-edge-cache'), null)
+    assert.equal(counter.n, 2)
+    assert.equal(store.size, 0)
+  })
+})
+
+test('缓存读写抛错时不影响响应', async () => {
+  const previous = globalThis.caches
+  globalThis.caches = { default: { match: async () => { throw new Error('读失败') }, put: async () => { throw new Error('写失败') } } }
+  try {
+    const counter = { n: 0 }
+    const response = await call(cachedHandler(counter), 'https://x.test/api/a')
+    assert.equal(response.status, 200)
+    assert.deepEqual(await response.json(), { n: 1, q: null })
+  } finally { if (previous === undefined) delete globalThis.caches; else globalThis.caches = previous }
+})
+
+test('提供 waitUntil 时缓存写入交给它，不阻塞响应', async () => {
+  await withFakeCache(async store => {
+    const pending = []
+    const response = await toPagesFunction(cachedHandler({ n: 0 }))({ request: new Request('https://x.test/api/w'), env: {}, waitUntil: p => pending.push(p) })
+    assert.equal(response.headers.get('x-edge-cache'), 'MISS')
+    assert.equal(pending.length, 1)
+    await Promise.all(pending)
+    assert.equal(store.size, 1)
+  })
+})

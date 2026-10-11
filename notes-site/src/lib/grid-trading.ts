@@ -159,23 +159,27 @@ async function downloadCandles(code: string, from: string): Promise<Candle[]> {
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
+/** 云端日K最后一根早于“今天往前这么多天”就视为定时任务停摆，不再采用，回退直连行情。 */
+const CLOUD_MAX_STALE_DAYS = 5;
+const daysBefore = (date: string, days: number) => { const day = new Date(`${date}T00:00:00Z`); day.setUTCDate(day.getUTCDate() - days); return day.toISOString().slice(0, 10); };
+
 /**
- * 读取某代码自 begin 起的前复权日线。缓存中已有当天日K时直接复用；没有时才补取，避免盘中先取到昨日数据后当天不再刷新。
- * 优先从云端读取；云端日K通常收盘后更新，若还没有当天数据则直连腾讯行情补取。前复权会因分红改写历史价格，
- * 所以不做增量拼接；同一代码的多条记录共享同一份缓存，并发请求合并为一次。
+ * 读取某代码自 begin 起的前复权日线。缓存按自然日有效：当天已取过且起点覆盖所需起点就直接复用（周末、节假日也不会反复下载）。
+ * 优先从云端读取；云端日K由收盘后的定时任务写入，盘中或非交易日最后一根是上一个交易日，这种情况照常采用云端数据，
+ * 当天这一根由调用方用 mergeQuote（实时报价）补齐，不再整段重新下载；只有云端不可用、起点没覆盖、或最后一根过旧（超过 5 天）才直连腾讯。
+ * 前复权会因分红改写历史价格，所以不做增量拼接；同一代码的多条记录共享同一份缓存，并发请求合并为一次。
  */
 export async function getCandles(code: string, begin: string, { force = false } = {}): Promise<Candle[]> {
   const key = `${CANDLE_CACHE_PREFIX}${code.trim()}`, today = marketToday();
   const cached = readJson<CandleCache | null>(key, null);
-  const hasToday = cached?.candles.some(candle => candle.date === today) ?? false;
-  if (!force && cached?.from <= begin && cached.candles.length && hasToday) return cached.candles.filter(candle => candle.date >= begin);
+  if (!force && cached && cached.from <= begin && cached.candles.length && cached.fetchedOn === today) return cached.candles.filter(candle => candle.date >= begin);
   // 同一代码取所有请求中最早的起始日，保证缓存能覆盖各条记录。
   const from = cached && cached.from < begin ? cached.from : begin;
   let request = candleRequests.get(key);
   if (!request) {
     request = (fetchDailyBars(code.trim(), from).then(async cloud => {
-      // 云端日K由定时任务更新，盘中或任务尚未运行时可能只到昨天；此时补取当天行情。
-      return cloud?.some(candle => candle.date === today) ? cloud : downloadCandles(code, from);
+      const fresh = !!cloud?.length && cloud.at(-1)!.date >= daysBefore(today, CLOUD_MAX_STALE_DAYS);
+      return fresh ? cloud! : downloadCandles(code, from);
     })).then(candles => {
       const entry = { fetchedOn: today, from, candles };
       if (candles.length) writeJson(key, entry);
