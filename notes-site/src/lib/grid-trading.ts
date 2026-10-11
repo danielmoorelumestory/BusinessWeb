@@ -55,11 +55,15 @@ export type Backup = {
   manualTrades?: ManualTrade[]; removedTrades?: string[];
 };
 /** 价格区间（支撑或压力）：下沿、上沿与可选备注；上下沿相同表示一条价格线。 */
-export type Level = { low: number; high: number; note?: string };
+/** 区间强度：1 弱、2 中、3 强；缺省按 2（中）处理，所以旧记录无需迁移。 */
+export type LevelStrength = 1 | 2 | 3;
+export const DEFAULT_STRENGTH: LevelStrength = 2;
+export type Level = { low: number; high: number; note?: string; strength?: LevelStrength };
+const strengthOf = (value: unknown): LevelStrength => [1, 2, 3].includes(Number(value)) ? Number(value) as LevelStrength : DEFAULT_STRENGTH;
 /** 支撑区间与压力区间，数量由用户增减（每侧最多 MAX_LEVELS 个，不含空项）。只用于显示，不参与回测。 */
 export type Levels = { support: Level[]; resistance: Level[] };
 export const MAX_LEVELS = 10;
-export type LevelInput = { low: string; high: string; note: string };
+export type LevelInput = { low: string; high: string; note: string; strength?: string };
 
 /** 按设置面板的输入校验并规整：全空的行忽略；其余行必须同时填写上下沿、价格为大于 0 的数字、下沿不大于上沿；全部为空时返回 levels: undefined。 */
 export function parseLevels(input: { support: LevelInput[]; resistance: LevelInput[] }): { levels?: Levels; error?: string } {
@@ -75,8 +79,8 @@ export function parseLevels(input: { support: LevelInput[]; resistance: LevelInp
       const low = Number(lowText), high = Number(highText);
       if (!(low > 0) || !(high > 0) || !Number.isFinite(low) || !Number.isFinite(high)) return { error: `${name} 的价格必须是大于 0 的数字` };
       if (low > high) return { error: `${name} 的下沿不能大于上沿` };
-      const note = row.note.trim();
-      result[kind].push(note ? { low, high, note: note.slice(0, 30) } : { low, high });
+      const note = row.note.trim(), strength = strengthOf(row.strength);
+      result[kind].push(note ? { low, high, note: note.slice(0, 30), strength } : { low, high, strength });
     }
   }
   return result.support.length || result.resistance.length ? { levels: result } : { levels: undefined };
@@ -87,7 +91,8 @@ export function normalizeLevels(raw: unknown): Levels | undefined {
   if (!raw || typeof raw !== 'object') return undefined;
   const pick = (list: unknown): Level[] => (Array.isArray(list) ? list : []).flatMap((item: Partial<Level> | null): Level[] => {
     if (!item || !(Number(item.low) > 0) || !(Number(item.high) > 0) || Number(item.low) > Number(item.high)) return [];
-    return [item.note ? { low: Number(item.low), high: Number(item.high), note: String(item.note).slice(0, 30) } : { low: Number(item.low), high: Number(item.high) }];
+    const strength = strengthOf(item.strength);
+    return [item.note ? { low: Number(item.low), high: Number(item.high), note: String(item.note).slice(0, 30), strength } : { low: Number(item.low), high: Number(item.high), strength }];
   }).slice(0, MAX_LEVELS);
   const levels = { support: pick((raw as Levels).support), resistance: pick((raw as Levels).resistance) };
   return levels.support.length || levels.resistance.length ? levels : undefined;
@@ -896,14 +901,16 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     return out;
   };
   const ZONE_COLORS = { support: ['#0d9488', '#0f766e'], resistance: ['#ea580c', '#c2410c'] } as const; // [填充/线, 文字]
-  const ZONE_OPACITY = [.2, .14, .09];
-  const zoneText = (zone: { name: string; low: number; high: number; note?: string }) => `${zone.name} ${zone.low === zone.high ? zone.low.toFixed(3) : `${zone.low.toFixed(3)}~${zone.high.toFixed(3)}`}${zone.note ? ` ${zone.note}` : ''}`;
+  // 强度（弱/中/强）用三种视觉量一起表达：填充透明度、边线宽度与虚实、标签星级
+  const STRENGTH_FILL = [.07, .15, .26], STRENGTH_EDGE = [.6, .9, 1.6], STRENGTH_LINE = [1, 1.4, 2.2], STRENGTH_STARS = ['★☆☆', '★★☆', '★★★'];
+  const strengthIndex = (zone: { strength?: LevelStrength }) => (zone.strength ?? DEFAULT_STRENGTH) - 1;
+  const zoneText = (zone: { name: string; low: number; high: number; note?: string; strength?: LevelStrength }) => `${zone.name} ${STRENGTH_STARS[strengthIndex(zone)]} ${zone.low === zone.high ? zone.low.toFixed(3) : `${zone.low.toFixed(3)}~${zone.high.toFixed(3)}`}${zone.note ? ` ${zone.note}` : ''}`;
   const priceBottom = priceTop + priceHeight;
   const zoneBands = zonesIn.map(zone => {
     const [color] = ZONE_COLORS[zone.kind], top = Math.max(priceTop, priceY(Math.min(zone.high, priceMax))), bottom = Math.min(priceBottom, priceY(Math.max(zone.low, priceMin)));
-    if (zone.low === zone.high) return `<line x1="${left}" x2="${width - right}" y1="${top.toFixed(1)}" y2="${top.toFixed(1)}" stroke="${color}" stroke-width="1.4" opacity=".85"/>`;
-    return `<rect x="${left}" y="${top.toFixed(1)}" width="${chartWidth}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}" fill-opacity="${ZONE_OPACITY[Math.min(zone.index, ZONE_OPACITY.length - 1)]}"/>`
-      + `<line x1="${left}" x2="${width - right}" y1="${top.toFixed(1)}" y2="${top.toFixed(1)}" stroke="${color}" stroke-width=".8" opacity=".5"/><line x1="${left}" x2="${width - right}" y1="${bottom.toFixed(1)}" y2="${bottom.toFixed(1)}" stroke="${color}" stroke-width=".8" opacity=".5"/>`;
+    if (zone.low === zone.high) return `<line x1="${left}" x2="${width - right}" y1="${top.toFixed(1)}" y2="${top.toFixed(1)}" stroke="${color}" stroke-width="${STRENGTH_LINE[strengthIndex(zone)]}" opacity=".85"/>`;
+    return `<rect x="${left}" y="${top.toFixed(1)}" width="${chartWidth}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}" fill-opacity="${STRENGTH_FILL[strengthIndex(zone)]}"/>`
+      + [top, bottom].map(yy => `<line x1="${left}" x2="${width - right}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="${color}" stroke-width="${STRENGTH_EDGE[strengthIndex(zone)]}" opacity="${[.4, .6, .9][strengthIndex(zone)]}"${strengthIndex(zone) === 0 ? ' stroke-dasharray="3 3"' : ''}/>`).join('');
   }).join('');
   // 标签画在色带内左侧（右侧留给买/卖标签）；色带太窄时放在色带上方；靠得近的标签依次下移 11px 避让。
   let lastLabelY = -Infinity;
