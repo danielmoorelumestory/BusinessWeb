@@ -1,0 +1,49 @@
+---
+import Base from './Base.astro';
+import { href } from '../lib/url';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<Base title={frontmatter.title} current="lab" description={frontmatter.description}>
+  <a class="report-back" href={href('lab/grid-trading/saved')}>← 返回已保存标的</a>
+  <article class="prose report-article">
+    <slot />
+  </article>
+</Base>
+
+<style>
+  .report-back {
+    display: inline-block;
+    margin-bottom: 1.25rem;
+    color: #0369a1;
+    font-size: 0.8125rem;
+    text-decoration: none;
+  }
+  .report-back:hover { text-decoration: underline; }
+  .report-article {
+    max-width: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    box-shadow: 0 1px 3px rgb(15 23 42 / 0.05);
+  }
+  .report-article :global(h1) { margin-top: 0; }
+  .report-article :global(table) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  @media (max-width: 640px) {
+    .report-article { padding: 1rem; }
+  }
+</style>

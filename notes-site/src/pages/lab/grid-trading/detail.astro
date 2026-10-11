@@ -216,8 +216,11 @@ const savedUrl = href('lab/grid-trading/saved');
     const buyHint = [buyArmed ? `已跌破步长线 · 最低 ¥${result.lowSince!.toFixed(3)} · 反弹到 ¥${result.nextBuy.toFixed(3)} 即买入 · ${gap(result.nextBuy)}` : `需先跌到 ¥${buyLine.toFixed(3)}，再反弹 ¥${row.rebound.toFixed(3)} 即买入 · ${gap(buyLine)}`, moveLine('反弹', row.rebound)];
     const sellHint = [sellArmed ? `已突破步长线 · 最高 ¥${result.highSince!.toFixed(3)} · 回落到 ¥${result.nextSell.toFixed(3)} 即卖出 · ${gap(result.nextSell)}` : `需先涨到 ¥${sellLine.toFixed(3)}，再回落 ¥${row.pullback.toFixed(3)} 即卖出 · ${gap(sellLine)}`, moveLine('回落', row.pullback)];
     const hint = (lines: string[]) => lines.map(line => `<span class="step-hint">${line}</span>`).join('');
+    const currentPrice = row.code.trim() === '159146'
+      ? `<a class="price-report-link" href="../reports/159146/" target="_blank" rel="noopener" title="查看 159146 独立复核报告"><strong>${price(current)}</strong><small>查看独立复核</small></a>`
+      : `<strong>${price(current)}</strong>`;
     document.querySelector('#stats')!.innerHTML = `
-      <div><span>当前价格</span><strong>${price(current)}</strong></div>
+      <div><span>当前价格</span>${currentPrice}</div>
       <div><span>上次成交价</span><strong>${price(result.lastTrade)}</strong></div>
       <div><span class="${buyReached ? 'warn' : ''}">预计下次买入</span><strong class="down">${price(result.nextBuy)}</strong>${hint(buyHint)}</div>
       <div><span class="${sellReached ? 'warn' : ''}">预计下次卖出</span><strong class="up">${price(result.nextSell)}</strong>${hint(sellHint)}</div>
@@ -724,6 +727,11 @@ const savedUrl = href('lab/grid-trading/saved');
   .stats span { display: block; margin-bottom: 4px; color: #94a3b8; font-size: 12px; transition: color .15s ease; }
   .stats span.warn { color: #d97706 !important; font-weight: 700; }
   .stats strong { display: block; font-size: 19px; font-weight: 700; line-height: 1.25; font-variant-numeric: tabular-nums; color: #1e293b; }
+  .stats .price-report-link { display:block; color:#0369a1; text-decoration:none; }
+  .stats .price-report-link strong { color:inherit; }
+  .stats .price-report-link small { display:block; margin-top:4px; font-size:11px; font-weight:600; color:#0284c7; }
+  .stats .price-report-link:hover strong, .stats .price-report-link:hover small { text-decoration:underline; }
+  .stats .price-report-link:focus-visible { border-radius:4px; outline:2px solid #38bdf8; outline-offset:3px; }
   .stats .step-hint { margin-top: 4px; margin-bottom: 0; font-size: 11px; color: #94a3b8; line-height: 1.3; }
   .stats .step-hint + .step-hint { margin-top: 2px; }
   .stats .up { color: #dc2626 !important; font-weight: 600; }
