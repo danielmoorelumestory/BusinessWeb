@@ -12,6 +12,13 @@ export type NoteMeta = {
 
 export const NOTES: NoteMeta[] = [
   {
+    slug: '600989-baofeng-energy-analysis',
+    title: '600989 宝丰能源：短期 / 中期买卖点分析（审核修订版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的复权与不复权日周线，复核回调修复、分层确认位和动态风险边界，并与项目既有基本面研究明确区分。',
+    tags: ['个股', '煤化工', '技术分析', '交易研究'],
+  },
+  {
     slug: '516650-nonferrous-metals-etf-analysis',
     title: '516650 有色金属ETF华夏：短期 / 中期买卖点分析（最终版）',
     date: '2026-10-11',

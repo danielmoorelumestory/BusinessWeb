@@ -48,6 +48,7 @@ describe('NOTES 索引', () => {
     expect(allNoteTags()).toContainEqual({ tag: 'ETF', count: 3 })
     expect(findNote('159146-electric-power-etf-analysis')?.title).toContain('最终版')
     expect(findNote('516650-nonferrous-metals-etf-analysis')?.title).toContain('最终版')
+    expect(findNote('600989-baofeng-energy-analysis')?.title).toContain('审核修订版')
     expect(allNoteTags().every(t => t.count >= 1)).toBe(true)
   })
 })
