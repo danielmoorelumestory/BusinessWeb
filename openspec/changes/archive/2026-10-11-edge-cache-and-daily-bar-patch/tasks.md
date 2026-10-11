@@ -15,4 +15,4 @@
 
 - [x] 3.1 跑 `npm test -- --run`、`npm run typecheck`、`npm run test:edge`、`npm run test:functions` 与三个构建；本地用 `wrangler pages dev` 连续请求同一接口确认命中
 - [x] 3.2 用浏览器模拟「云端缺当天」和「周末重复打开」，确认没有整段下载请求
-- [ ] 3.3 推送（需用户确认）后线上验证：同一 `/api/*` 地址连续两次请求第二次为 HIT，详情页正常
+- [x] 3.3 推送（需用户确认）后线上验证：同一 `/api/*` 地址连续两次请求第二次为 HIT，详情页正常
