@@ -11,6 +11,14 @@ const renderAt = (path: string) => render(
 const stubFetch = (impl: (url: string) => Promise<Response>) => { const f = vi.fn(impl); vi.stubGlobal('fetch', f); return f }
 
 describe('NoteDetail', () => {
+  it('与 ETF 等标准栏目共用全局 container 宽度，不设置页面级窄宽度', () => {
+    stubFetch(async () => new Response('正文'))
+    const { container } = renderAt('/notes/robotics-industry-research')
+    const main = container.querySelector('main')
+    expect(main?.classList.contains('container')).toBe(true)
+    expect(main?.getAttribute('style')).toBeNull()
+  })
+
   it('读取并渲染 Markdown：标题、日期、标签、表格与 <br>', async () => {
     const f = stubFetch(async () => new Response('## 小标题\n\n| 列A | 列B |\n| --- | --- |\n| 值1 | 行一<br>行二 |\n'))
     renderAt('/notes/robotics-industry-research')

@@ -27,7 +27,7 @@ export default function NoteDetail(): JSX.Element {
   if (!note) return <NotFound />
 
   return (
-    <main className="container animate-fade-in" style={{ maxWidth: 900 }}>
+    <main className="container animate-fade-in">
       <Link to="/notes" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
         <ArrowLeft size={15} /> 全部笔记
       </Link>
