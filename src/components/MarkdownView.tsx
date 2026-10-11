@@ -4,14 +4,17 @@ import React from 'react'
 
 function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = []
-  const pattern = /(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`|<br\s*\/?>)/g
+  const pattern = /(\[[^\]]+\]\(https?:\/\/[^)\s]+\)|\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`|<br\s*\/?>)/g
   let last = 0
   let m: RegExpExecArray | null
   let i = 0
   while ((m = pattern.exec(text)) !== null) {
     if (m.index > last) nodes.push(text.slice(last, m.index))
     const token = m[0]
-    if (token.startsWith('<br')) {
+    if (token.startsWith('[')) {
+      const link = token.match(/^\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)$/)!
+      nodes.push(<a key={`${keyPrefix}-a${i}`} href={link[2]} target="_blank" rel="noopener noreferrer">{link[1]}</a>)
+    } else if (token.startsWith('<br')) {
       nodes.push(<br key={`${keyPrefix}-br${i}`} />)
     } else if (token.startsWith('**')) {
       nodes.push(<strong key={`${keyPrefix}-b${i}`}>{token.slice(2, -2)}</strong>)

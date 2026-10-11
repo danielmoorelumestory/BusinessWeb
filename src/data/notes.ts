@@ -12,6 +12,13 @@ export type NoteMeta = {
 
 export const NOTES: NoteMeta[] = [
   {
+    slug: '159146-electric-power-etf-analysis',
+    title: '159146 电力ETF华宝：短期 / 中期买卖点分析（最终版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的日线、周线、量价、Fib 与产品数据，梳理短中期确认位、支撑压力和情景化操作框架。',
+    tags: ['ETF', '电力', '技术分析', '交易研究'],
+  },
+  {
     slug: 'etf-grid-trading-master-plan',
     title: 'ETF网格交易总方案（含逐只绝对价格网格）',
     date: '2026-09-23',

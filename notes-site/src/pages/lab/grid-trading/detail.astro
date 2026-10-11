@@ -217,7 +217,7 @@ const savedUrl = href('lab/grid-trading/saved');
     const sellHint = [sellArmed ? `已突破步长线 · 最高 ¥${result.highSince!.toFixed(3)} · 回落到 ¥${result.nextSell.toFixed(3)} 即卖出 · ${gap(result.nextSell)}` : `需先涨到 ¥${sellLine.toFixed(3)}，再回落 ¥${row.pullback.toFixed(3)} 即卖出 · ${gap(sellLine)}`, moveLine('回落', row.pullback)];
     const hint = (lines: string[]) => lines.map(line => `<span class="step-hint">${line}</span>`).join('');
     const currentPrice = row.code.trim() === '159146'
-      ? `<a class="price-report-link" href="../reports/159146/" target="_blank" rel="noopener" title="查看 159146 独立复核报告"><strong>${price(current)}</strong><small>查看独立复核</small></a>`
+      ? `<a class="price-report-link" href="https://businessweb-c0u.pages.dev/notes/159146-electric-power-etf-analysis" target="_blank" rel="noopener" title="查看 159146 短中期买卖点分析最终版"><strong>${price(current)}</strong><small>查看最终分析</small></a>`
       : `<strong>${price(current)}</strong>`;
     document.querySelector('#stats')!.innerHTML = `
       <div><span>当前价格</span>${currentPrice}</div>

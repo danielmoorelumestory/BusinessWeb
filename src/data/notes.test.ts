@@ -45,6 +45,7 @@ describe('NOTES 索引', () => {
     expect(findNote('nope')).toBeUndefined()
     expect(findNote(undefined)).toBeUndefined()
     expect(allNoteTags()[0]).toEqual({ tag: '行业研究', count: 2 })
+    expect(findNote('159146-electric-power-etf-analysis')?.title).toContain('最终版')
     expect(allNoteTags().every(t => t.count >= 1)).toBe(true)
   })
 })

@@ -23,6 +23,15 @@ describe('NoteDetail', () => {
     expect(screen.queryByRole('link', { name: '打开完整报告' })).toBeNull()
   })
 
+  it('把正文中的外部 Markdown 链接渲染为安全的新窗口链接', async () => {
+    stubFetch(async () => new Response('[数据来源](https://example.com/source)'))
+    renderAt('/notes/159146-electric-power-etf-analysis')
+    const link = await screen.findByRole('link', { name: '数据来源' })
+    expect(link.getAttribute('href')).toBe('https://example.com/source')
+    expect(link.getAttribute('target')).toBe('_blank')
+    expect(link.getAttribute('rel')).toBe('noopener noreferrer')
+  })
+
   it('带完整报告的笔记顶部有「打开完整报告」，指向 research 下的 HTML', async () => {
     stubFetch(async () => new Response('正文'))
     renderAt('/notes/etf-grid-trading-master-plan')
