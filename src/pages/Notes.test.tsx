@@ -9,9 +9,10 @@ const renderAt = (path = '/notes') => render(<MemoryRouter initialEntries={[path
 const titles = () => within(screen.getByRole('region', { name: '笔记列表' })).getAllByRole('heading', { level: 3 }).map(h => h.textContent)
 
 describe('Notes 列表', () => {
-  it('按日期倒序列出 3 篇，每篇有日期、摘要、标签，标题链接到详情', () => {
+  it('按日期倒序列出 4 篇，每篇有日期、摘要、标签，标题链接到详情', () => {
     renderAt()
     expect(titles()).toEqual([
+      '159146 电力ETF华宝：短期 / 中期买卖点分析（最终版）',
       'ETF网格交易总方案（含逐只绝对价格网格）',
       '机器人行业研究：562500 与 159530 对比及产业链验证全景研报',
       '猪肉价格周期与头部生猪养殖企业股价联动及分化全景研报',
@@ -27,8 +28,8 @@ describe('Notes 列表', () => {
     fireEvent.click(screen.getByRole('button', { name: /^行业研究 2$/ }))
     expect(titles()).toHaveLength(2)
     expect(screen.getByRole('button', { name: /^行业研究 2$/ }).getAttribute('aria-pressed')).toBe('true')
-    fireEvent.click(screen.getByRole('button', { name: /^全部 3$/ }))
-    expect(titles()).toHaveLength(3)
+    fireEvent.click(screen.getByRole('button', { name: /^全部 4$/ }))
+    expect(titles()).toHaveLength(4)
   })
 
   it('地址里的 ?tag= 直接生效；没有匹配时提示', () => {
