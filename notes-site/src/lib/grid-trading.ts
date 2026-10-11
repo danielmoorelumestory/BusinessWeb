@@ -3,7 +3,7 @@
 
 import { SYNC_ENDPOINT } from './endpoints';
 
-export type Candle = { date: string; close: number; high: number; low: number };
+export type Candle = { date: string; open: number; close: number; high: number; low: number };
 export type Trade = {
   // manual/id：手动添加的成交记录（详情页“添加记录”），其余为网格模拟成交。
   manual?: boolean; id?: string;
@@ -72,7 +72,7 @@ export const RECORDS_KEY = 'grid-trading-saved-v1';
 export const SYNC_KEY_STORAGE = 'grid-trading-sync-key-v1';
 const DELETED_KEY = 'grid-trading-deleted-v1';
 const EXTREMES_CACHE_PREFIX = 'grid-trading-extremes-v1:';
-const CANDLE_CACHE_PREFIX = 'grid-trading-candles-v2:';
+const CANDLE_CACHE_PREFIX = 'grid-trading-candles-v3:';
 const QUOTE_CACHE_KEY = 'grid-trading-quotes-v1';
 const QUOTE_TTL = 60 * 1000;
 const TOMBSTONE_TTL = 180 * 24 * 3600 * 1000;
@@ -134,7 +134,8 @@ type CandleCache = { fetchedOn: string; from: string; candles: Candle[] };
 const candleRequests = new Map<string, Promise<CandleCache>>();
 
 // 旧版缓存按“代码 + 建仓日”分别保存，同一标的会重复下载；改为按代码缓存后清理旧键。
-try { Object.keys(localStorage).filter(key => key.startsWith('grid-trading-market-cache-v1:')).forEach(key => localStorage.removeItem(key)); } catch { /* ignore */ }
+// v2 日线缓存没有开盘价，同样清理，页面会重新取数。
+try { Object.keys(localStorage).filter(key => key.startsWith('grid-trading-market-cache-v1:') || key.startsWith('grid-trading-candles-v2:')).forEach(key => localStorage.removeItem(key)); } catch { /* ignore */ }
 
 async function downloadCandles(code: string, from: string): Promise<Candle[]> {
   const symbol = symbolOf(code);
@@ -153,7 +154,7 @@ async function downloadCandles(code: string, from: string): Promise<Candle[]> {
     const previous = new Date(`${firstDate}T00:00:00Z`); previous.setUTCDate(previous.getUTCDate() - 1); end = previous.toISOString().slice(0, 10);
   }
   return [...new Map(lines.map(line => [line[0], line])).values()]
-    .map(line => ({ date: line[0], close: Number(line[2]), high: Number(line[3]), low: Number(line[4]) }))
+    .map(line => ({ date: line[0], open: Number(line[1]), close: Number(line[2]), high: Number(line[3]), low: Number(line[4]) }))
     .filter(candle => candle.date >= from && Number.isFinite(candle.close))
     .sort((a, b) => a.date.localeCompare(b.date));
 }
@@ -206,7 +207,7 @@ export async function getFourYearExtremes(code: string): Promise<{ high: number;
   return range;
 }
 
-export type Quote = { code: string; name: string; price: number; high: number; low: number; date: string };
+export type Quote = { code: string; name: string; price: number; high: number; low: number; date: string; open?: number };
 
 /** 批量获取实时报价：多只标的合并为一次请求；结果在本会话内缓存 60 秒，页面间切换不重复请求。 */
 export async function fetchQuotes(codes: string[]): Promise<Map<string, Quote>> {
@@ -225,7 +226,7 @@ export async function fetchQuotes(codes: string[]): Promise<Map<string, Quote>> 
     const text = new TextDecoder('gbk').decode(await response.arrayBuffer());
     for (const match of text.matchAll(/v_(?:sh|sz)(\d{6})="([^"]*)"/g)) {
       const fields = match[2].split('~'), stamp = fields[30] ?? '';
-      const quote: Quote = { code: match[1], name: fields[1]?.trim() ?? '', price: Number(fields[3]), high: Number(fields[33]), low: Number(fields[34]), date: `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}` };
+      const quote: Quote = { code: match[1], name: fields[1]?.trim() ?? '', price: Number(fields[3]), open: Number(fields[5]), high: Number(fields[33]), low: Number(fields[34]), date: `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}` };
       // 停牌或未开盘时报价可能为 0，此时不参与合并。
       if (!(quote.price > 0 && quote.high > 0 && quote.low > 0) || stamp.length < 8) continue;
       result.set(quote.code, quote);
@@ -242,10 +243,10 @@ export function mergeQuote(candles: Candle[], quote?: Quote): Candle[] {
   const index = candles.findIndex(candle => candle.date === quote.date);
   if (index >= 0) {
     const merged = [...candles], previous = candles[index];
-    merged[index] = { date: quote.date, close: quote.price, high: Math.max(previous.high, quote.high), low: Math.min(previous.low, quote.low) };
+    merged[index] = { date: quote.date, open: previous.open, close: quote.price, high: Math.max(previous.high, quote.high), low: Math.min(previous.low, quote.low) };
     return merged;
   }
-  return !candles.length || quote.date > candles.at(-1)!.date ? [...candles, { date: quote.date, close: quote.price, high: quote.high, low: quote.low }] : candles;
+  return !candles.length || quote.date > candles.at(-1)!.date ? [...candles, { date: quote.date, open: quote.open && quote.open > 0 ? quote.open : quote.price, close: quote.price, high: quote.high, low: quote.low }] : candles;
 }
 
 // ---------- 网格计算 ----------
@@ -625,9 +626,9 @@ async function fetchDailyBars(code: string, from: string): Promise<Candle[] | nu
   try {
     const response = await fetch(`${SYNC_ENDPOINT}/daily?code=${encodeURIComponent(code)}&from=${from}&adjust=qfq`, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000) });
     if (!response.ok) return null;
-    const payload = await response.json() as { coveredFrom: string | null; bars: { date: string; close: number; high: number; low: number }[] };
+    const payload = await response.json() as { coveredFrom: string | null; bars: { date: string; open?: number; close: number; high: number; low: number }[] };
     if (!payload.bars?.length || !payload.coveredFrom || payload.coveredFrom > from) return null;
-    return payload.bars.map(bar => ({ date: bar.date, close: bar.close, high: bar.high, low: bar.low }));
+    return payload.bars.map(bar => ({ date: bar.date, open: Number.isFinite(bar.open) ? bar.open! : bar.close, close: bar.close, high: bar.high, low: bar.low }));
   } catch { return null; }
 }
 
@@ -785,28 +786,38 @@ function hardenTouch(svg: SVGSVGElement) {
 
 /**
  * 绘制走势图，分上下两张图并共用同一条时间轴：
- * 上图“价格”（收盘价、预计买入/卖出价），下图“资金”（持仓市值、占用本金阶梯线、总盈亏）。
+ * 上图“价格”（日K线：红涨绿跌，加预计买入/卖出价与步长线），下图“资金”（持仓市值、占用本金阶梯线、总盈亏）。
  * 各自有边框、标题和纵轴，不再把两套刻度叠在一起；十字光标与备份点竖线同时穿过两张图。
+ * 时间轴以 candles（显示用日线）为准，可通过 range 截取区间；区间可以早于建仓日，此时建仓前只有K线、资金线留空。
+ * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
-export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }) {
+export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }) {
+  const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
   if (!series.length || !Number.isFinite(nextBuy) || !Number.isFinite(nextSell)) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">暂无完整曲线数据</text>'; return; }
+  if (!bars.length) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">所选区间内没有行情数据</text>'; return; }
   const buyLevel = nextBuy!, sellLevel = nextSell!;
   const width = chartWidthOf(svg), compact = width < 600, left = compact ? 56 : 62, right = compact ? 70 : 70, chartWidth = width - left - right;
-  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep));
+  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range));
   const priceTop = 30, priceHeight = 150, moneyTop = 218, moneyHeight = 150, plotBottom = moneyTop + moneyHeight, height = plotBottom + 30;
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   hardenTouch(svg);
-  // 资金：始终包含 0 轴；价格：包含收盘价与预计买卖价。
-  const values = series.flatMap(point => [point.positionValue, point.capitalUsed, point.pnl]);
-  const min = Math.min(0, ...values), max = Math.max(...values), span = max - min || 1, yMin = min - span * .06, yMax = max + span * .06;
-  const priceMinRaw = Math.min(...series.map(point => point.current), buyLevel), priceMaxRaw = Math.max(...series.map(point => point.current), sellLevel);
+  const count = bars.length, slot = chartWidth / count;
+  const seriesByDate = new Map(series.map(point => [point.date, point]));
+  const points = bars.map(bar => seriesByDate.get(bar.date)); // 建仓日之前为 undefined
+  const visible = points.filter((point): point is EquityPoint => !!point);
+  // 资金：始终包含 0 轴；价格：包含K线最高/最低价与预计买卖价。
+  const values = visible.flatMap(point => [point.positionValue, point.capitalUsed, point.pnl]);
+  const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1, yMin = min - span * .06, yMax = max + span * .06;
+  const priceMinRaw = Math.min(...bars.map(bar => bar.low), buyLevel), priceMaxRaw = Math.max(...bars.map(bar => bar.high), sellLevel);
   const priceSpan = priceMaxRaw - priceMinRaw || Math.max(priceMaxRaw * .02, .01), priceMin = priceMinRaw - priceSpan * .08, priceMax = priceMaxRaw + priceSpan * .08;
-  const x = (index: number) => left + index / Math.max(1, series.length - 1) * chartWidth;
+  const x = (index: number) => left + (index + .5) * slot; // K线居中于各自的槽位
   const y = (value: number) => moneyTop + (yMax - value) / (yMax - yMin) * moneyHeight;
   const priceY = (value: number) => priceTop + (priceMax - value) / (priceMax - priceMin) * priceHeight;
-  const path = (valueOf: (point: EquityPoint) => number, scale = y) => series.map((point, index) => `${index ? 'L' : 'M'}${x(index).toFixed(1)},${scale(valueOf(point)).toFixed(1)}`).join('');
+  // 资金线只在有回测数据的日期上画（建仓日起连续）。
+  const firstIndex = points.findIndex(Boolean);
+  const path = (valueOf: (point: EquityPoint) => number) => points.map((point, index) => point ? `${index === firstIndex ? 'M' : 'L'}${x(index).toFixed(1)},${y(valueOf(point)).toFixed(1)}` : '').join('');
   // 占用本金只在成交日跳变：先沿上一日数值水平延伸，到成交日再竖直跳到新值（阶梯线）。
-  const capitalPath = series.map((point, index) => index ? `H${x(index).toFixed(1)}V${y(point.capitalUsed).toFixed(1)}` : `M${x(0).toFixed(1)},${y(point.capitalUsed).toFixed(1)}`).join('');
+  const capitalPath = points.map((point, index) => point ? (index === firstIndex ? `M${x(index).toFixed(1)},${y(point.capitalUsed).toFixed(1)}` : `H${x(index).toFixed(1)}V${y(point.capitalUsed).toFixed(1)}`) : '').join('');
   // 简约风格：不画方框，只留很淡的横向网格线和每张图的底线；标题与刻度统一用中性灰。
   const frame = (top: number, h: number) => `<line x1="${left}" x2="${width - right}" y1="${top + h}" y2="${top + h}" stroke="#e2e8f0"/>`;
   const title = (top: number, text: string, color: string) => `<text x="${left}" y="${top - 10}" fill="${color}" font-size="11" font-weight="600">${text}</text>`;
@@ -819,8 +830,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 0 轴：实线、深色，并在纵轴上标出“0”，盈亏正负一目了然。
   const zero = `<line x1="${left}" x2="${width - right}" y1="${y(0)}" y2="${y(0)}" stroke="#475569" stroke-width="1.3"/><text x="${left - 8}" y="${y(0) + 4}" text-anchor="end" fill="#334155" font-size="10" font-weight="700">0</text>`;
   const level = (value: number, color: string, label: string) => `<line x1="${left}" x2="${width - right}" y1="${priceY(value)}" y2="${priceY(value)}" stroke="${color}" stroke-width="1" stroke-dasharray="4 3"/><text x="${width - right + 8}" y="${priceY(value) + 4}" fill="${color}" font-size="10" font-weight="500">${label} ${value.toFixed(3)}</text>`;
-  // 步长线：从预计买入价向下、预计卖出价向上，按“步长 − 反弹/回落”的间距逐格延伸，直到覆盖区间内的最低/最高收盘价。
-  const lowClose = Math.min(...series.map(point => point.current)), highClose = Math.max(...series.map(point => point.current));
+  // 步长线：从预计买入价向下、预计卖出价向上，按“步长 − 反弹/回落”的间距逐格延伸，直到覆盖区间内的最低/最高价。
+  const lowPrice = Math.min(...bars.map(bar => bar.low)), highPrice = Math.max(...bars.map(bar => bar.high));
   const stepLines = (from: number, gap: number, dir: 1 | -1, limit: number, color: string) => {
     if (!(gap > 0) || !Number.isFinite(gap)) return '';
     const pixelGap = gap / (priceMax - priceMin) * priceHeight;
@@ -833,20 +844,30 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     }
     return out;
   };
-  const stepSvg = gridStep ? stepLines(buyLevel, gridStep.down, -1, lowClose, '#10b981') + stepLines(sellLevel, gridStep.up, 1, highClose, '#f97316') : '';
-  const labels = [0, Math.floor((series.length - 1) / 2), series.length - 1].map(index => `<text x="${x(index)}" y="${plotBottom + 18}" text-anchor="middle" fill="#94a3b8" font-size="10">${series[index].date}</text>`).join('');
-  // 备份点：在备份日画一条竖线（穿过两张图）并标注，便于区分备份时的数据与之后按网格续跑的走向。
-  const markerIndex = marker ? series.findIndex(point => point.date >= marker.date) : -1;
+  const BUY_COLOR = '#2563eb', SELL_COLOR = '#9333ea', UP_COLOR = '#ef4444', DOWN_COLOR = '#16a34a'; // K线红涨绿跌，买卖线避开红绿
+  const stepSvg = gridStep ? stepLines(buyLevel, gridStep.down, -1, lowPrice, BUY_COLOR) + stepLines(sellLevel, gridStep.up, 1, highPrice, SELL_COLOR) : '';
+  const labels = [0, Math.floor((count - 1) / 2), count - 1].map((index, order) => `<text x="${x(index)}" y="${plotBottom + 18}" text-anchor="${count > 1 ? (order === 0 ? 'start' : order === 2 ? 'end' : 'middle') : 'middle'}" fill="#94a3b8" font-size="10">${bars[index].date}</text>`).join('');
+  // K线：影线 + 实体，收盘不低于开盘为红；实体至少 1px，开盘等于收盘时仍可见。
+  const bodyWidth = Math.max(1, Math.min(14, slot * .62));
+  const candleSvg = bars.map((bar, index) => {
+    const color = bar.close >= bar.open ? UP_COLOR : DOWN_COLOR, xx = x(index);
+    const top = priceY(Math.max(bar.open, bar.close)), bottom = priceY(Math.min(bar.open, bar.close));
+    return `<line x1="${xx.toFixed(1)}" x2="${xx.toFixed(1)}" y1="${priceY(bar.high).toFixed(1)}" y2="${priceY(bar.low).toFixed(1)}" stroke="${color}" stroke-width="1"/>`
+      + `<rect x="${(xx - bodyWidth / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bodyWidth.toFixed(1)}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}"/>`;
+  }).join('');
+  // 备份点：在备份日画一条竖线（穿过两张图）并标注，便于区分备份时的数据与之后按网格续跑的走向；备份日不在区间内时不画。
+  const markerIndex = marker && marker.date >= bars[0].date ? bars.findIndex(bar => bar.date >= marker.date) : -1;
   const markerSvg = marker && markerIndex >= 0
-    ? `<line x1="${x(markerIndex)}" x2="${x(markerIndex)}" y1="${priceTop}" y2="${plotBottom}" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="4 3"/><text x="${x(markerIndex) + (markerIndex > series.length * .8 ? -5 : 5)}" y="${priceTop + 11}" text-anchor="${markerIndex > series.length * .8 ? 'end' : 'start'}" fill="#0ea5e9" font-size="10" font-weight="600">${marker.label}</text>` : '';
-  const tipLines = ['date', 'trade', 'current', 'position', 'capital', 'profit'];
-  svg.innerHTML = `<g>${title(priceTop, '价格（元）· 收盘价 / 预计买卖价', '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
-    + `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}`
-    + `${stepSvg}${level(buyLevel, '#10b981', '买')}${level(sellLevel, '#f97316', '卖')}${markerSvg}</g>`
-    + `<path d="${path(point => point.current, priceY)}" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linejoin="round"/>`
-    + `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>${labels}`
+    ? `<line x1="${x(markerIndex)}" x2="${x(markerIndex)}" y1="${priceTop}" y2="${plotBottom}" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="4 3"/><text x="${x(markerIndex) + (markerIndex > count * .8 ? -5 : 5)}" y="${priceTop + 11}" text-anchor="${markerIndex > count * .8 ? 'end' : 'start'}" fill="#0ea5e9" font-size="10" font-weight="600">${marker.label}</text>` : '';
+  const noMoney = visible.length ? '' : `<text x="${(left + width - right) / 2}" y="${moneyTop + moneyHeight / 2}" text-anchor="middle" fill="#94a3b8" font-size="12">所选区间在建仓日之前，没有资金数据</text>`;
+  const tipLines = ['date', 'trade', 'open', 'low', 'position', 'capital', 'profit'];
+  svg.innerHTML = `<g>${title(priceTop, '价格（元）· 日K / 预计买卖价', '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
+    + `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`
+    + `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}${markerSvg}</g>`
+    + candleSvg
+    + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
     + `<g class="chart-crosshair" visibility="hidden" pointer-events="none"><line class="crosshair-v" y1="${priceTop}" y2="${plotBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/><line class="crosshair-h" x1="${left}" x2="${width - right}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
-    + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e', 'current:#6366f1'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')
+    + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')
     + `<g class="chart-tooltip"><rect fill="#ffffff" fill-opacity=".97" stroke="#e2e8f0" rx="6"/>${tipLines.map((name, index) => `<text class="tip-${name}" x="10" y="${17 + index * 18}" fill="${index ? '#475569' : '#0f172a'}" font-size="10"${index ? '' : ' font-weight="700"'}/>`).join('')}</g></g>`
     + `<rect class="chart-hit-area" x="${left}" y="${priceTop}" width="${chartWidth}" height="${plotBottom - priceTop}" fill="transparent" style="cursor:crosshair;touch-action:pan-y"/>`;
   const crosshair = svg.querySelector('.chart-crosshair') as SVGGElement, tooltip = svg.querySelector('.chart-tooltip') as SVGGElement;
@@ -856,21 +877,21 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const showPoint = (event: PointerEvent) => {
     const bounds = svg.getBoundingClientRect();
     const pointerX = (event.clientX - bounds.left) * width / bounds.width, pointerY = (event.clientY - bounds.top) * height / bounds.height;
-    const index = Math.max(0, Math.min(series.length - 1, Math.round((pointerX - left) / chartWidth * (series.length - 1))));
-    const point = series[index], xx = x(index), trade = tradeByDate.get(point.date);
+    const index = Math.max(0, Math.min(count - 1, Math.floor((pointerX - left) / slot)));
+    const bar = bars[index], point = points[index], xx = x(index), trade = tradeByDate.get(bar.date);
     const inPanel = (pointerY >= priceTop && pointerY <= priceTop + priceHeight) || (pointerY >= moneyTop && pointerY <= plotBottom);
     set('.crosshair-v', { x1: xx, x2: xx });
     set('.crosshair-h', { y1: pointerY, y2: pointerY, visibility: inPanel ? 'visible' : 'hidden' }); // 横向十字线只在两张图内显示
-    set('.dot-position', { cx: xx, cy: y(point.positionValue) });
-    set('.dot-capital', { cx: xx, cy: y(point.capitalUsed) });
-    set('.dot-profit', { cx: xx, cy: y(point.pnl) });
-    set('.dot-current', { cx: xx, cy: priceY(point.current) });
-    setText('date', point.date);
+    for (const [name, valueOf] of [['position', (p: EquityPoint) => p.positionValue], ['capital', (p: EquityPoint) => p.capitalUsed], ['profit', (p: EquityPoint) => p.pnl]] as const) {
+      set(`.dot-${name}`, point ? { cx: xx, cy: y(valueOf(point)), visibility: 'visible' } : { visibility: 'hidden' });
+    }
+    setText('date', bar.date);
     setText('trade', trade ? `成交  ${trade.side} ${trade.price.toFixed(3)} · ¥${formatAmount(trade.amount)}` : '成交  —');
-    setText('current', `收盘价  ${point.current.toFixed(3)}`);
-    setText('position', `持仓市值  ¥${formatAmount(point.positionValue)}`);
-    setText('capital', `占用本金  ¥${formatAmount(point.capitalUsed)}`);
-    setText('profit', `总盈亏  ${formatMoney(point.pnl)}`);
+    setText('open', `开 ${bar.open.toFixed(3)}   高 ${bar.high.toFixed(3)}`);
+    setText('low', `低 ${bar.low.toFixed(3)}   收 ${bar.close.toFixed(3)}`);
+    setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
+    setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
+    setText('profit', point ? `总盈亏  ${formatMoney(point.pnl)}` : '总盈亏  —');
     const tooltipWidth = 200, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
     const tooltipY = Math.max(priceTop, Math.min(plotBottom - tooltipHeight, pointerY - tooltipHeight / 2));
