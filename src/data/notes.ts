@@ -12,6 +12,13 @@ export type NoteMeta = {
 
 export const NOTES: NoteMeta[] = [
   {
+    slug: '516650-nonferrous-metals-etf-analysis',
+    title: '516650 有色金属ETF华夏：短期 / 中期买卖点分析（最终版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的日线、周线、量价、Fib 与基金产品数据，复核短期反抽、中期确认位及分层风险框架。',
+    tags: ['ETF', '有色金属', '技术分析', '交易研究'],
+  },
+  {
     slug: '159146-electric-power-etf-analysis',
     title: '159146 电力ETF华宝：短期 / 中期买卖点分析（最终版）',
     date: '2026-10-11',

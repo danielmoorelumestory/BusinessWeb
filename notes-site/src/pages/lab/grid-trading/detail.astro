@@ -291,8 +291,13 @@ const savedUrl = href('lab/grid-trading/saved');
     const buyHint = [buyArmed ? `已跌破步长线 · 最低 ¥${result.lowSince!.toFixed(3)} · 反弹到 ¥${result.nextBuy.toFixed(3)} 即买入 · ${gap(result.nextBuy)}` : `需先跌到 ¥${buyLine.toFixed(3)}，再反弹 ¥${row.rebound.toFixed(3)} 即买入 · ${gap(buyLine)}`, moveLine('反弹', row.rebound)];
     const sellHint = [sellArmed ? `已突破步长线 · 最高 ¥${result.highSince!.toFixed(3)} · 回落到 ¥${result.nextSell.toFixed(3)} 即卖出 · ${gap(result.nextSell)}` : `需先涨到 ¥${sellLine.toFixed(3)}，再回落 ¥${row.pullback.toFixed(3)} 即卖出 · ${gap(sellLine)}`, moveLine('回落', row.pullback)];
     const hint = (lines: string[]) => lines.map(line => `<span class="step-hint">${line}</span>`).join('');
-    const currentPrice = row.code.trim() === '159146'
-      ? `<a class="price-report-link" href="https://businessweb-c0u.pages.dev/notes/159146-electric-power-etf-analysis" target="_blank" rel="noopener" title="查看 159146 短中期买卖点分析最终版"><strong>${price(current)}</strong><small>查看最终分析</small></a>`
+    const reportLinks: Record<string, { href: string; title: string }> = {
+      '159146': { href: 'https://businessweb-c0u.pages.dev/notes/159146-electric-power-etf-analysis', title: '查看 159146 短中期买卖点分析最终版' },
+      '516650': { href: 'https://businessweb-c0u.pages.dev/notes/516650-nonferrous-metals-etf-analysis', title: '查看 516650 短中期买卖点分析最终版' },
+    };
+    const reportLink = reportLinks[row.code.trim()];
+    const currentPrice = reportLink
+      ? `<a class="price-report-link" href="${reportLink.href}" target="_blank" rel="noopener" title="${reportLink.title}"><strong>${price(current)}</strong><small>查看最终分析</small></a>`
       : `<strong>${price(current)}</strong>`;
     document.querySelector('#stats')!.innerHTML = `
       <div><span>当前价格</span>${currentPrice}</div>
