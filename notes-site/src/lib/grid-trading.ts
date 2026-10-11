@@ -912,13 +912,13 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     return `<rect x="${left}" y="${top.toFixed(1)}" width="${chartWidth}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}" fill-opacity="${STRENGTH_FILL[strengthIndex(zone)]}"/>`
       + [top, bottom].map(yy => `<line x1="${left}" x2="${width - right}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="${color}" stroke-width="${STRENGTH_EDGE[strengthIndex(zone)]}" opacity="${[.4, .6, .9][strengthIndex(zone)]}"${strengthIndex(zone) === 0 ? ' stroke-dasharray="3 3"' : ''}/>`).join('');
   }).join('');
-  // 标签画在色带内左侧（右侧留给买/卖标签）；色带太窄时放在色带上方；靠得近的标签依次下移 11px 避让。
+  // 标签画在色带正中（水平、垂直都居中）；色带或价格线太窄、装不下一行字时画在上方；仍重叠的依次下移 11px 避让。窄屏（手机）不带备注，避免超出图宽。
   let lastLabelY = -Infinity;
   const zoneLabels = [...zonesIn].sort((a, b) => b.high - a.high).map(zone => {
     const [, textColor] = ZONE_COLORS[zone.kind], top = Math.max(priceTop, priceY(Math.min(zone.high, priceMax))), bottom = Math.min(priceBottom, priceY(Math.max(zone.low, priceMin)));
-    let yy = bottom - top >= 14 ? top + 10 : top - 3;
+    let yy = bottom - top >= 12 ? (top + bottom) / 2 + 3 : top - 3; // 9px 字体的基线比垂直中心低约 3px
     yy = Math.max(yy, lastLabelY + 11, priceTop + 8); lastLabelY = yy;
-    return `<text x="${left + 6}" y="${yy.toFixed(1)}" fill="${textColor}" font-size="9" font-weight="600">${zoneText(zone)}</text>`;
+    return `<text x="${(left + chartWidth / 2).toFixed(1)}" y="${yy.toFixed(1)}" text-anchor="middle" fill="${textColor}" font-size="9" font-weight="600">${zoneText(compact ? { ...zone, note: undefined } : zone)}</text>`;
   }).join('');
   // 完全在价格范围之外的区间：在价格图上/下边缘用箭头与编号提示（靠右，避开左侧标签与备份点标注）。
   const edgeNote = (list: typeof zones, above: boolean) => [...list].sort((a, b) => above ? a.low - b.low : b.high - a.high).map((zone, order) =>
