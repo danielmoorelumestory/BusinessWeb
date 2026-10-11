@@ -12,6 +12,13 @@ export type NoteMeta = {
 
 export const NOTES: NoteMeta[] = [
   {
+    slug: '600096-yuntianhua-analysis',
+    title: '600096 云天化：短期 / 中期买卖点分析（审核修订版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的复权与不复权日周线，复核升浪回调、分层确认位和动态风险边界，并与项目既有基本面研究明确区分。',
+    tags: ['个股', '磷化工', '技术分析', '交易研究'],
+  },
+  {
     slug: '600989-baofeng-energy-analysis',
     title: '600989 宝丰能源：短期 / 中期买卖点分析（审核修订版）',
     date: '2026-10-11',
