@@ -50,6 +50,7 @@ describe('NOTES 索引', () => {
     expect(findNote('516650-nonferrous-metals-etf-analysis')?.title).toContain('最终版')
     expect(findNote('600989-baofeng-energy-analysis')?.title).toContain('审核修订版')
     expect(findNote('600096-yuntianhua-analysis')?.title).toContain('审核修订版')
+    expect(findNote('601318-ping-an-analysis')?.title).toContain('审核修订版')
     expect(allNoteTags().every(t => t.count >= 1)).toBe(true)
   })
 })

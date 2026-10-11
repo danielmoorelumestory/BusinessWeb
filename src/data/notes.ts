@@ -12,6 +12,13 @@ export type NoteMeta = {
 
 export const NOTES: NoteMeta[] = [
   {
+    slug: '601318-ping-an-analysis',
+    title: '601318 中国平安：短期 / 中期买卖点分析（审核修订版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的复权与不复权日周线，复核区间震荡、分层确认位和复权敏感风险边界，并与项目既有保险基本面研究明确区分。',
+    tags: ['个股', '保险', '技术分析', '交易研究'],
+  },
+  {
     slug: '600096-yuntianhua-analysis',
     title: '600096 云天化：短期 / 中期买卖点分析（审核修订版）',
     date: '2026-10-11',
