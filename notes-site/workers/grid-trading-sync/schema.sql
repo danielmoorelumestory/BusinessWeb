@@ -69,3 +69,14 @@ CREATE TABLE IF NOT EXISTS cls_plate_day (
   fetched_at INTEGER NOT NULL,
   PRIMARY KEY (date, up_limit)
 ) WITHOUT ROWID;
+
+-- 分析笔记的结论（短期、中期最终判断）：由 scripts/sync-note-analysis.mjs 从笔记的「结论速览」写入，每个标的代码一行。
+CREATE TABLE IF NOT EXISTS note_analysis (
+  code TEXT PRIMARY KEY,
+  slug TEXT NOT NULL,
+  title TEXT NOT NULL,
+  as_of TEXT NOT NULL,
+  short_judgment TEXT NOT NULL,
+  mid_judgment TEXT NOT NULL,
+  updated_at INTEGER NOT NULL
+) WITHOUT ROWID;

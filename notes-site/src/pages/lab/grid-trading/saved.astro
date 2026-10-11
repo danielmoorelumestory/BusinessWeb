@@ -4,6 +4,8 @@ import { href } from '../../../lib/url';
 
 const calculatorUrl = href('lab/grid-trading');
 const detailUrl = href('lab/grid-trading/detail');
+// 分析笔记在主站：Cloudflare 构建 MAIN_SITE 为 '/'，本地预览为线上地址（与 Base.astro 一致）
+const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/').replace(/\/?$/, '/') + 'notes/';
 ---
 
 <Base title="已保存标的" current="lab" description="已保存的网格回测结果">
@@ -20,15 +22,15 @@ const detailUrl = href('lab/grid-trading/detail');
     <button id="sync-records" class="sync-primary" type="button">同步云端</button>
     <span id="sync-status" role="status"></span>
   </section>
-  <div id="content-area" data-detail-url={detailUrl} data-calc-url={calculatorUrl}></div>
+  <div id="content-area" data-detail-url={detailUrl} data-calc-url={calculatorUrl} data-notes-base={notesBase}></div>
 </Base>
 
 <script>
   import {
     readRecords, writeRecords, saveRecord, refreshRecord, refreshRecords, removeRecords, syncAll, pushRecord, withParamChange,
     gridStatus, openingOf, formatMoney, formatPrice, tick, marketSessionOpen, marketToday, SYNC_KEY_STORAGE,
-    blockCopy, getFourYearExtremes, fetchCloudExtremes,
-    type SavedRecord,
+    blockCopy, getFourYearExtremes, fetchCloudExtremes, fetchNoteAnalysis,
+    type SavedRecord, type NoteAnalysis,
   } from '../../../lib/grid-trading';
 
   blockCopy(); // 屏蔽页面内容复制
@@ -36,6 +38,7 @@ const detailUrl = href('lab/grid-trading/detail');
   const container = document.querySelector('#content-area') as HTMLElement;
   const detailUrl = container.dataset.detailUrl!;
   const calcUrl = container.dataset.calcUrl!;
+  const notesBase = container.dataset.notesBase!;
   const marketStatus = document.querySelector('#market-status') as HTMLElement;
   const formatInt = new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 0 });
   const lastBuyDate = (item: SavedRecord) => [...(item.result.trades ?? [])].reverse().find(trade => trade.side === '买入')?.date ?? '—';
@@ -56,6 +59,39 @@ const detailUrl = href('lab/grid-trading/detail');
   let sortField: SortField | null = null;
   let sortOrder: 'asc' | 'desc' = 'desc';
   const sortMark = (field: SortField) => sortField === field ? (sortOrder === 'asc' ? ' ↑' : ' ↓') : '';
+  // 分析笔记的短期/中期判断：按代码异步读取，到达后只更新这两列（不整表重绘，保留排序与滚动位置）；没有数据时显示“—”。
+  const analysis = new Map<string, NoteAnalysis>();
+  const analysisRequested = new Set<string>();
+  const escapeHtml = (text: string) => text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
+  const analysisCell = (item: SavedRecord, kind: 'short' | 'mid') => {
+    const note = analysis.get(item.row.code);
+    if (!note) return `<td class="analysis-cell muted" data-analysis="${kind}">—</td>`;
+    const tip = escapeHtml(`${note[kind]}（数据基准 ${note.asOf || '—'} · 点击查看完整分析）`);
+    return `<td class="analysis-cell" data-analysis="${kind}" title="${tip}"><a class="analysis-link" href="${notesBase}${encodeURIComponent(note.slug)}/" target="_blank" rel="noopener">${escapeHtml(note[kind])}</a></td>`;
+  };
+  function paintAnalysis() {
+    const byId = new Map(readRecords().map(item => [item.id, item]));
+    const template = document.createElement('template');
+    container.querySelectorAll<HTMLTableRowElement>('tbody tr[data-id]').forEach(row => {
+      const item = byId.get(row.dataset.id!);
+      if (!item) return;
+      for (const kind of ['short', 'mid'] as const) {
+        template.innerHTML = analysisCell(item, kind);
+        const cell = template.content.firstElementChild;
+        if (cell) row.querySelector(`[data-analysis="${kind}"]`)?.replaceWith(cell);
+      }
+    });
+  }
+  async function loadAnalysis() {
+    const codes = [...new Set(readRecords().map(item => item.row.code))].filter(code => !analysisRequested.has(code));
+    if (!codes.length) return;
+    codes.forEach(code => analysisRequested.add(code));
+    const found = await fetchNoteAnalysis(codes);
+    if (!found.size) return;
+    for (const [code, note] of found) analysis.set(code, note);
+    paintAnalysis();
+  }
+
   // 近四年最高/最低价：按代码异步加载；距离按“当前价到高/低点 ÷ 对应方向的网格间距”折算成格数，
   // 间距与走势图步长线一致（向上为 步长−回落，向下为 步长−反弹）。
   const extremes = new Map<string, { high: number; low: number } | null>();
@@ -167,6 +203,8 @@ const detailUrl = href('lab/grid-trading/detail');
             <tr>
               <th>代码</th>
               <th>名称</th>
+              <th>短期判断</th>
+              <th>中期判断</th>
               <th><button class="sort-button" data-sort="status" type="button">当前状态${sortMark('status')}</button></th>
               <th><button class="sort-button" data-sort="to-high" type="button">四年最高${sortMark('to-high')}</button></th>
               <th><button class="sort-button" data-sort="to-low" type="button">四年最低${sortMark('to-low')}</button></th>
@@ -193,6 +231,8 @@ const detailUrl = href('lab/grid-trading/detail');
               <tr data-id="${item.id}">
                 <td class="code-cell">${item.row.code}</td>
                 <td class="stock-name">${item.row.name || item.row.code}</td>
+                ${analysisCell(item, 'short')}
+                ${analysisCell(item, 'mid')}
                 ${statusCell(item)}
                 ${stepsCell(item, 'high')}
                 ${stepsCell(item, 'low')}
@@ -248,7 +288,7 @@ const detailUrl = href('lab/grid-trading/detail');
       render();
       syncStatus.textContent = afterDelete ? `删除已同步到云端，现有 ${records.length} 条记录。` : `同步完成，共 ${records.length} 条记录。`;
       // 云端带来的新记录可能是其它设备的旧快照，同步后按最新行情重算一次。
-      if (!afterDelete) void refreshMarket();
+      if (!afterDelete) { void refreshMarket(); void loadAnalysis(); }
     } catch {
       syncStatus.textContent = afterDelete ? '已在本机删除，但同步云端失败；稍后点击“同步云端”即可补同步。' : '同步失败，请检查网络和同步密钥。';
     } finally { button.disabled = false; }
@@ -283,6 +323,8 @@ const detailUrl = href('lab/grid-trading/detail');
 
   container.addEventListener('click', event => {
     const target = event.target as HTMLElement;
+    // 分析笔记链接在新窗口打开，不触发整行跳转。
+    if (target.closest('.analysis-link')) return;
     // 参数输入框和确认按钮不触发整行跳转。
     if (target.closest('.param-cell')) {
       const button = target.closest('.confirm-param') as HTMLButtonElement | null;
@@ -325,6 +367,7 @@ const detailUrl = href('lab/grid-trading/detail');
   render();
   void refreshMarket();
   void loadExtremes();
+  void loadAnalysis();
 </script>
 
 <style>
@@ -369,6 +412,9 @@ const detailUrl = href('lab/grid-trading/detail');
   .grid-table tr:last-child td { border-bottom: 0; }
 
   .grid-table .muted { color:#94a3b8; }
+  .grid-table td.analysis-cell { width: 220px; min-width: 220px; max-width: 220px; white-space: normal; text-align: left; line-height: 1.45; }
+  .grid-table .analysis-link { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; color: #334155; text-decoration: none; }
+  .grid-table .analysis-link:hover { color: #0369a1; text-decoration: underline; }
   .grid-table .sub { display:block; color:#94a3b8; font-size:11px; }
   .grid-table .code-cell { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 500; }
   .grid-table .stock-name { width: 84px; max-width: 84px; white-space: normal; word-break: break-all; line-height: 1.3; color: #475569 !important; text-align: left; }

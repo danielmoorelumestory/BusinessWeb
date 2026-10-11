@@ -682,6 +682,31 @@ async function fetchDailyBars(code: string, from: string): Promise<Candle[] | nu
   } catch { return null; }
 }
 
+/** 分析笔记里的结论（短期、中期最终判断），由 scripts/sync-note-analysis.mjs 写入云端。 */
+export type NoteAnalysis = { slug: string; title: string; asOf: string; short: string; mid: string };
+
+/**
+ * 从云端读取多个标的的分析结论。没有同步密钥、请求失败/超时、或旧版 Worker 没有这个接口时返回空结果，
+ * 调用方显示“—”即可，不影响其余功能；没有对应笔记的标的不在结果里。
+ */
+export async function fetchNoteAnalysis(codes: string[]): Promise<Map<string, NoteAnalysis>> {
+  const result = new Map<string, NoteAnalysis>();
+  const token = readSyncKey();
+  const unique = [...new Set(codes.map(code => code.trim()).filter(code => /^\d{6}$/.test(code)))].slice(0, 50);
+  if (token.length < 16 || !unique.length) return result;
+  try {
+    const response = await fetch(`${SYNC_ENDPOINT}/analysis?codes=${unique.join(',')}`, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000) });
+    if (!response.ok) return result;
+    const payload = await response.json() as { analysis?: Record<string, Partial<NoteAnalysis>> };
+    for (const [code, item] of Object.entries(payload.analysis ?? {})) {
+      if (item && typeof item.slug === 'string' && typeof item.short === 'string' && typeof item.mid === 'string') {
+        result.set(code, { slug: item.slug, title: String(item.title ?? ''), asOf: String(item.asOf ?? ''), short: item.short, mid: item.mid });
+      }
+    }
+  } catch { /* 云端不可用时显示“—” */ }
+  return result;
+}
+
 /**
  * 一次从云端读取多个标的的四年前复权最高/最低价（由云端日K 聚合）。没有同步密钥、请求失败/超时、或旧版 Worker 没有这个接口时返回空结果；
  * 云端没有的标的（未回填、未保存）不在结果里，调用方对它们回退到 getFourYearExtremes 直连。

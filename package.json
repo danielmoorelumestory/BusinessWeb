@@ -21,6 +21,7 @@
     "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true vite build && node scripts/prepare-pages.mjs && node scripts/prerender-routes.mjs",
     "test:functions": "node scripts/check-functions.mjs",
     "test:scripts": "node --test scripts/*.test.mjs",
+    "sync:analysis": "node scripts/sync-note-analysis.mjs",
     "macro:update": "node scripts/macro-snapshot.mjs",
     "index:update": "node scripts/index-snapshot.mjs",
     "index:fpe": "node scripts/index-snapshot.mjs fpe",

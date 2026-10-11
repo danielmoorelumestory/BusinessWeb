@@ -265,6 +265,24 @@ async function readDailyBars(env: Env, owner: string, url: URL) {
  * 窗口为“今年及前四个自然年”（今年 2026 年则从 2022-01-01 起），前复权价 = 价格 − 当日偏移，最低价排除 ≤ 0 的值。
  * 只返回该密钥名下已保存且已回填（有 daily_meta）的标的，不触发任何抓取或写入；其余标的不出现在结果里，由前端回退。
  */
+/**
+ * 读取分析笔记的结论：GET /analysis?codes=516650,159865（一次最多 50 个）。
+ * 数据由 scripts/sync-note-analysis.mjs 从 public/notes 的「结论速览」写入 note_analysis；没有数据的代码不出现在结果里。
+ * 表还没创建时返回空结果而不是报错，便于先部署 Worker、后入库。
+ */
+async function readAnalysis(env: Env, url: URL) {
+  const codes = [...new Set((url.searchParams.get('codes') ?? '').split(',').map(code => code.trim()).filter(code => /^\d{6}$/.test(code)))].slice(0, 50);
+  if (!codes.length) return json({ analysis: {} });
+  try {
+    const { results } = await env.DB.prepare(
+      `SELECT code, slug, title, as_of AS asOf, short_judgment AS short, mid_judgment AS mid FROM note_analysis WHERE code IN (${codes.map(() => '?').join(',')})`,
+    ).bind(...codes).all<{ code: string; slug: string; title: string; asOf: string; short: string; mid: string }>();
+    return json({ analysis: Object.fromEntries(results.map(row => [row.code, { slug: row.slug, title: row.title, asOf: row.asOf, short: row.short, mid: row.mid }])) });
+  } catch {
+    return json({ analysis: {} });
+  }
+}
+
 async function readExtremes(env: Env, owner: string, url: URL) {
   const requested = [...new Set((url.searchParams.get('codes') ?? '').split(',').map(code => code.trim()).filter(code => /^\d{6}$/.test(code)))].slice(0, 50);
   const from = `${Number(beijingToday().slice(0, 4)) - 4}-01-01`;
@@ -551,6 +569,7 @@ export default {
     if (!owner) return json({ error: '请提供至少 16 位同步密钥。' }, 401);
     if (request.method === 'GET' && url.pathname === '/minute') return readMinuteBars(env, url);
     if (request.method === 'GET' && url.pathname === '/daily/extremes') return readExtremes(env, owner, url);
+    if (request.method === 'GET' && url.pathname === '/analysis') return readAnalysis(env, url);
     if (request.method === 'GET' && url.pathname === '/daily') return readDailyBars(env, owner, url);
     if (request.method === 'GET' && url.pathname === '/minute/status') return readMinuteStatus(env, url);
     // 手动补抓：详情页可指定当前标的，避免该标的尚未写入 records 时漏抓；未指定时兼容旧客户端，抓该密钥下全部标的。

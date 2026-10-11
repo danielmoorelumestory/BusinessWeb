@@ -140,3 +140,11 @@ notes 的内容已并入主站，外观与导航统一；`notes-site/` 里对应
 - 两份报告原样迁入 `public/research/`，仍从 jsDelivr 加载 ECharts（外部脚本依赖，离线时图表不显示）。
 - 精简后 `/note/` 只保留 `lab/grid-trading`、`lab/stock` 与 `lab` 索引；`build-cloudflare` 以 `lab/index.html` 判断产物是否完整，notes 页面里指回主站的链接前缀由环境变量 `MAIN_SITE` 决定（Cloudflare 构建传 `/`，`npm run dev:notes` 同样传 `/`，其他环境默认指向线上主站）。
 - 开发服务器的代理键是 `^/note/`（不是 `/note`），否则会把主站的 `/notes` 也代理走。
+
+## 笔记结论入库（`note-analysis-columns`）
+
+「已保存标的」页的「短期判断」「中期判断」两列，数据来自云端 D1 的 `note_analysis` 表，由脚本从各标的分析笔记的「## 一、结论速览」表里提取：
+
+- 取第一列以「短期」开头的行、以「中期（」开头的行的「最终判断」列；标的代码取文件名开头的 6 位数字，数据基准日取正文「数据基准：YYYY-MM-DD」；同一代码有多篇笔记时取基准日最新的一篇。
+- **笔记发布或修改后需要手动运行一次**：`npm run sync:analysis` 先预览（不改数据库），确认后 `npm run sync:analysis -- --write` 写入线上 D1（需要已登录 wrangler）。脚本幂等，重复运行只会覆盖，不会产生重复行；结构不符（缺短期或中期行）的笔记会被跳过并列出。
+- Worker 的 `GET /analysis?codes=…`（需要同步密钥）读取这些数据；Worker 是手动部署的（见上文「网格后端仍手动部署」），改动接口后要重新 `wrangler deploy`。页面读取失败或没有对应笔记时显示「—」，不影响其他功能。
