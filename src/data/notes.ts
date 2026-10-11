@@ -12,6 +12,27 @@ export type NoteMeta = {
 
 export const NOTES: NoteMeta[] = [
   {
+    slug: '562500-robot-etf-analysis',
+    title: '562500 机器人ETF华夏：短期 / 中期买卖点分析（审核修订版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的日周线复算，修正阶段高点、ATR口径及确认位与压力位倒挂，保留短中期下跌未止的核心判断。',
+    tags: ['ETF', '机器人', '技术分析', '交易研究'],
+  },
+  {
+    slug: '159566-energy-storage-battery-etf-analysis',
+    title: '159566 储能电池ETF易方达：短期 / 中期买卖点分析（审核修订版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的日周线复算，校正 ATR、突破确认区与申赎判断边界，保留短中期偏空的核心结论。',
+    tags: ['ETF', '储能电池', '技术分析', '交易研究'],
+  },
+  {
+    slug: '516750-building-materials-etf-analysis',
+    title: '516750 建材ETF富国：短期 / 中期买卖点分析（审核修订版）',
+    date: '2026-10-11',
+    summary: '基于截至 2026-10-09 的日周线与流动性复核，修正周MA120、双底颈线和目标区口径，保留箱体筑底候选判断。',
+    tags: ['ETF', '建筑材料', '技术分析', '交易研究'],
+  },
+  {
     slug: '601318-ping-an-analysis',
     title: '601318 中国平安：短期 / 中期买卖点分析（审核修订版）',
     date: '2026-10-11',
