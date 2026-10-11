@@ -20,20 +20,13 @@ const savedUrl = href('lab/grid-trading/saved');
     </div>
     <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>
     <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
-      <div class="levels-head"><h3>支撑 / 压力区间</h3><span>只用于在价格图上显示，不参与回测；留空的行不显示；只有一个价位时，下沿和上沿填同一个价格</span></div>
+      <div class="levels-head"><h3>支撑 / 压力区间</h3><span>数量自己增减（每侧最多 10 个），只用于在价格图上显示，不参与回测；全空的行保存时忽略；只有一个价位时，下沿和上沿填同一个价格</span></div>
       <div class="levels-grid">
         {(['support', 'resistance'] as const).map(kind => (
           <div class={`levels-col ${kind}`}>
             <h4>{kind === 'support' ? '支撑区间' : '压力区间'}</h4>
-            {[1, 2, 3].map(n => (
-              <div class="level-row">
-                <b>{kind === 'support' ? 'S' : 'R'}{n}</b>
-                <input type="number" step="0.001" min="0" inputmode="decimal" placeholder="下沿" data-kind={kind} data-index={n - 1} data-field="low" aria-label={`${kind === 'support' ? 'S' : 'R'}${n} 下沿`} />
-                <span>~</span>
-                <input type="number" step="0.001" min="0" inputmode="decimal" placeholder="上沿" data-kind={kind} data-index={n - 1} data-field="high" aria-label={`${kind === 'support' ? 'S' : 'R'}${n} 上沿`} />
-                <input type="text" maxlength="30" placeholder="备注（可选）" class="level-note" data-kind={kind} data-index={n - 1} data-field="note" aria-label={`${kind === 'support' ? 'S' : 'R'}${n} 备注`} />
-              </div>
-            ))}
+            <div class="level-rows" data-kind={kind}></div>
+            <button type="button" class="level-add" data-kind={kind}>+ 添加{kind === 'support' ? '支撑' : '压力'}区间</button>
           </div>
         ))}
       </div>
@@ -100,7 +93,7 @@ const savedUrl = href('lab/grid-trading/saved');
 <script>
   import {
     calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord,
-    renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, type Candle, type Levels, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
+    renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, MAX_LEVELS, type Candle, type Levels, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
     blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar,
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
   } from '../../../lib/grid-trading';
@@ -189,19 +182,44 @@ const savedUrl = href('lab/grid-trading/saved');
   const levelsPanel = document.querySelector('#levels-panel') as HTMLElement;
   const levelsNote = document.querySelector('#levels-note') as HTMLElement;
   let levelsDirty = false; // 用户正在输入、尚未保存时，别的刷新不覆盖输入框
-  const levelInputs = () => [...document.querySelectorAll<HTMLInputElement>('#levels-panel input')];
+  type LevelKind = 'support' | 'resistance';
+  const levelPrefix = (kind: LevelKind) => kind === 'support' ? 'S' : 'R';
+  const rowsOf = (kind: LevelKind) => document.querySelector(`#levels-panel .level-rows[data-kind="${kind}"]`) as HTMLElement;
   const showLevelsNote = (text: string, tone: 'error' | 'hint' | 'ok' = 'error') => { levelsNote.textContent = text; levelsNote.hidden = !text; levelsNote.className = `levels-note${tone === 'error' ? '' : ` ${tone}`}`; };
+  // 编号按列表顺序生成，增删后重新编号；达到上限时禁用“添加”
+  function renumberLevels(kind: LevelKind) {
+    const rows = [...rowsOf(kind).children] as HTMLElement[];
+    rows.forEach((row, index) => {
+      const name = `${levelPrefix(kind)}${index + 1}`;
+      (row.querySelector('b') as HTMLElement).textContent = name;
+      row.querySelectorAll('input').forEach(input => input.setAttribute('aria-label', `${name} ${({ low: '下沿', high: '上沿', note: '备注' } as Record<string, string>)[input.dataset.field!]}`));
+    });
+    (document.querySelector(`#levels-panel .level-add[data-kind="${kind}"]`) as HTMLButtonElement).disabled = rows.length >= MAX_LEVELS;
+  }
+  function addLevelRow(kind: LevelKind, level?: { low: number; high: number; note?: string }) {
+    const row = document.createElement('div');
+    row.className = 'level-row';
+    row.innerHTML = '<b></b><input type="number" step="0.001" min="0" inputmode="decimal" placeholder="下沿" data-field="low"><span>~</span>'
+      + '<input type="number" step="0.001" min="0" inputmode="decimal" placeholder="上沿" data-field="high">'
+      + '<input type="text" maxlength="30" placeholder="备注（可选）" class="level-note" data-field="note"><button type="button" class="level-del" aria-label="删除">×</button>';
+    (row.querySelector('[data-field="low"]') as HTMLInputElement).value = level ? String(level.low) : '';
+    (row.querySelector('[data-field="high"]') as HTMLInputElement).value = level ? String(level.high) : '';
+    (row.querySelector('[data-field="note"]') as HTMLInputElement).value = level?.note ?? '';
+    rowsOf(kind).append(row);
+    renumberLevels(kind);
+  }
   function fillLevels(levels?: Levels) {
-    for (const input of levelInputs()) {
-      const level = levels?.[input.dataset.kind as 'support' | 'resistance']?.[Number(input.dataset.index)];
-      const field = input.dataset.field as 'low' | 'high' | 'note';
-      input.value = level ? String(level[field] ?? '') : '';
+    for (const kind of ['support', 'resistance'] as const) {
+      rowsOf(kind).replaceChildren();
+      const list = levels?.[kind] ?? [];
+      list.forEach(level => addLevelRow(kind, level));
+      if (!list.length) addLevelRow(kind); // 没有区间时默认留一个空行，方便直接填写
     }
   }
   function readLevelsForm() {
     const form = { support: [] as { low: string; high: string; note: string }[], resistance: [] as { low: string; high: string; note: string }[] };
-    for (const kind of ['support', 'resistance'] as const) for (let index = 0; index < 3; index++) {
-      const get = (field: string) => (document.querySelector(`#levels-panel input[data-kind="${kind}"][data-index="${index}"][data-field="${field}"]`) as HTMLInputElement).value;
+    for (const kind of ['support', 'resistance'] as const) for (const row of [...rowsOf(kind).children]) {
+      const get = (field: string) => (row.querySelector(`[data-field="${field}"]`) as HTMLInputElement).value;
       form[kind].push({ low: get('low'), high: get('high'), note: get('note') });
     }
     return form;
@@ -213,11 +231,12 @@ const savedUrl = href('lab/grid-trading/saved');
     saveRecord(record);
     levelsDirty = false;
     chartInput = { ...chartInput, levels };
+    fillLevels(levels); // 按保存后的结果重建列表：忽略的空行消失，编号重新排列
     void drawEquity(); // 只重绘曲线，不重算回测
     // 支撑高于现价、压力低于现价：只提示，不拦截（突破后角色会互换）
     const current = record.result.current, odd = [
-      ...(levels?.support ?? []).flatMap((level, index) => level && level.low > current ? [`S${index + 1}`] : []),
-      ...(levels?.resistance ?? []).flatMap((level, index) => level && level.high < current ? [`R${index + 1}`] : []),
+      ...(levels?.support ?? []).flatMap((level, index) => level.low > current ? [`S${index + 1}`] : []),
+      ...(levels?.resistance ?? []).flatMap((level, index) => level.high < current ? [`R${index + 1}`] : []),
     ];
     const oddText = odd.length ? `提示：${odd.join('、')} 的位置与现价关系和名称相反，仍按你的设置显示。` : '';
     showLevelsNote('已保存到本机，正在同步到云端数据库…', 'hint');
@@ -227,13 +246,25 @@ const savedUrl = href('lab/grid-trading/saved');
   }
   function bindLevels() {
     levelsPanel.addEventListener('input', () => { levelsDirty = true; showLevelsNote(''); });
+    levelsPanel.addEventListener('click', event => {
+      const target = event.target as HTMLElement;
+      const add = target.closest('.level-add') as HTMLButtonElement | null;
+      if (add) { addLevelRow(add.dataset.kind as LevelKind); levelsDirty = true; showLevelsNote(''); return; }
+      const del = target.closest('.level-del');
+      if (del) {
+        const row = del.closest('.level-row') as HTMLElement, kind = (row.parentElement as HTMLElement).dataset.kind as LevelKind;
+        row.remove();
+        if (!rowsOf(kind).children.length) addLevelRow(kind); // 删光后留一个空行
+        renumberLevels(kind); levelsDirty = true; showLevelsNote('');
+      }
+    });
     document.querySelector('#levels-save')!.addEventListener('click', () => {
       const { levels, error } = parseLevels(readLevelsForm());
       if (error) { showLevelsNote(error); return; }
       void saveLevels(levels);
     });
     document.querySelector('#levels-clear')!.addEventListener('click', () => {
-      if (!levelInputs().some(input => input.value)) return;
+      if (!chartInput?.levels && !levelsDirty) return;
       fillLevels(undefined);
       void saveLevels(undefined);
     });
@@ -886,6 +917,11 @@ const savedUrl = href('lab/grid-trading/saved');
   .level-row input { min-width:0; border:1px solid #cbd5e1; border-radius:6px; padding:4px 6px; background:#fff; color:#334155; font-size:12px; }
   .level-row input[type=number] { width:78px; }
   .level-row input.level-note { flex:1; }
+  .level-del { flex:none; width:22px; height:22px; border:0; border-radius:50%; background:#f1f5f9; color:#64748b; font-size:14px; line-height:1; cursor:pointer; }
+  .level-del:hover { background:#fee2e2; color:#dc2626; }
+  .level-add { margin-top:2px; border:1px dashed #94a3b8; border-radius:6px; padding:4px 10px; background:#fff; color:#475569; font-size:12px; cursor:pointer; }
+  .level-add:hover:not(:disabled) { border-color:#6366f1; color:#4338ca; }
+  .level-add:disabled { opacity:.45; cursor:not-allowed; }
   .levels-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:4px; }
   .levels-btn { border:1px solid #6366f1; border-radius:6px; padding:5px 14px; background:#6366f1; color:#fff; font-size:12px; cursor:pointer; }
   .levels-note { font-size:12px; color:#dc2626; }

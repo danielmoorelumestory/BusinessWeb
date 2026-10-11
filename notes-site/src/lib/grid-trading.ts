@@ -56,19 +56,21 @@ export type Backup = {
 };
 /** 价格区间（支撑或压力）：下沿、上沿与可选备注；上下沿相同表示一条价格线。 */
 export type Level = { low: number; high: number; note?: string };
-/** 3 个支撑区间与 3 个压力区间；某一项为 null 表示该行留空。只用于显示，不参与回测。 */
-export type Levels = { support: (Level | null)[]; resistance: (Level | null)[] };
-export const LEVEL_COUNT = 3;
+/** 支撑区间与压力区间，数量由用户增减（每侧最多 MAX_LEVELS 个，不含空项）。只用于显示，不参与回测。 */
+export type Levels = { support: Level[]; resistance: Level[] };
+export const MAX_LEVELS = 10;
 export type LevelInput = { low: string; high: string; note: string };
 
-/** 按设置面板的输入校验并规整：同时填写或同时留空、价格为大于 0 的数字、下沿不大于上沿；全部留空时返回 levels: undefined。 */
+/** 按设置面板的输入校验并规整：全空的行忽略；其余行必须同时填写上下沿、价格为大于 0 的数字、下沿不大于上沿；全部为空时返回 levels: undefined。 */
 export function parseLevels(input: { support: LevelInput[]; resistance: LevelInput[] }): { levels?: Levels; error?: string } {
   const result: Levels = { support: [], resistance: [] };
   for (const [kind, prefix] of [['support', 'S'], ['resistance', 'R']] as const) {
-    for (let index = 0; index < LEVEL_COUNT; index++) {
-      const row = input[kind][index] ?? { low: '', high: '', note: '' }, name = `${prefix}${index + 1}`;
+    const rows = input[kind];
+    if (rows.length > MAX_LEVELS) return { error: `每侧最多设置 ${MAX_LEVELS} 个区间` };
+    for (let index = 0; index < rows.length; index++) {
+      const row = rows[index], name = `${prefix}${index + 1}`;
       const lowText = row.low.trim(), highText = row.high.trim();
-      if (!lowText && !highText) { result[kind].push(null); continue; }
+      if (!lowText && !highText) continue; // 全空的行忽略（备注单独填写也忽略）
       if (!lowText || !highText) return { error: `${name} 需要同时填写下沿和上沿（只有一个价位时两个都填同一个价格）` };
       const low = Number(lowText), high = Number(highText);
       if (!(low > 0) || !(high > 0) || !Number.isFinite(low) || !Number.isFinite(high)) return { error: `${name} 的价格必须是大于 0 的数字` };
@@ -77,20 +79,18 @@ export function parseLevels(input: { support: LevelInput[]; resistance: LevelInp
       result[kind].push(note ? { low, high, note: note.slice(0, 30) } : { low, high });
     }
   }
-  const empty = [...result.support, ...result.resistance].every(level => !level);
-  return empty ? { levels: undefined } : { levels: result };
+  return result.support.length || result.resistance.length ? { levels: result } : { levels: undefined };
 }
 
-/** 读取云端或本机记录里的区间时的容错：结构不对或数值不合法的项一律当作留空。 */
+/** 读取云端或本机记录里的区间时的容错：结构不对或数值不合法的项丢弃，超出上限的截断；兼容早期按固定 3 项（含 null）保存的格式。 */
 export function normalizeLevels(raw: unknown): Levels | undefined {
   if (!raw || typeof raw !== 'object') return undefined;
-  const pick = (list: unknown): (Level | null)[] => Array.from({ length: LEVEL_COUNT }, (_, index) => {
-    const item = Array.isArray(list) ? list[index] as Partial<Level> | null : null;
-    if (!item || !(Number(item.low) > 0) || !(Number(item.high) > 0) || Number(item.low) > Number(item.high)) return null;
-    return item.note ? { low: Number(item.low), high: Number(item.high), note: String(item.note).slice(0, 30) } : { low: Number(item.low), high: Number(item.high) };
-  });
+  const pick = (list: unknown): Level[] => (Array.isArray(list) ? list : []).flatMap((item: Partial<Level> | null): Level[] => {
+    if (!item || !(Number(item.low) > 0) || !(Number(item.high) > 0) || Number(item.low) > Number(item.high)) return [];
+    return [item.note ? { low: Number(item.low), high: Number(item.high), note: String(item.note).slice(0, 30) } : { low: Number(item.low), high: Number(item.high) }];
+  }).slice(0, MAX_LEVELS);
   const levels = { support: pick((raw as Levels).support), resistance: pick((raw as Levels).resistance) };
-  return [...levels.support, ...levels.resistance].some(Boolean) ? levels : undefined;
+  return levels.support.length || levels.resistance.length ? levels : undefined;
 }
 
 export type SavedRecord = {
@@ -856,7 +856,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const barMin = Math.min(...bars.map(bar => bar.low), buyLevel), barMax = Math.max(...bars.map(bar => bar.high), sellLevel);
   // 支撑/压力区间：与“K线与买卖价范围向两侧各扩 15%”有重叠的纳入纵轴（只取窗口内的部分，超出的裁剪），完全在窗口外的不撑大纵轴，改在边缘用箭头提示。
   const zoneWindow = (barMax - barMin || Math.max(barMax * .02, .01)) * .15, windowLow = barMin - zoneWindow, windowHigh = barMax + zoneWindow;
-  const zones = (['support', 'resistance'] as const).flatMap(kind => (levels?.[kind] ?? []).map((level, index) => level ? { kind, name: `${kind === 'support' ? 'S' : 'R'}${index + 1}`, index, ...level } : null)).filter((zone): zone is NonNullable<typeof zone> => !!zone);
+  const zones = (['support', 'resistance'] as const).flatMap(kind => (levels?.[kind] ?? []).map((level, index) => ({ kind, name: `${kind === 'support' ? 'S' : 'R'}${index + 1}`, index, ...level })));
   const zonesIn = zones.filter(zone => zone.high >= windowLow && zone.low <= windowHigh);
   const zonesAbove = zones.filter(zone => zone.low > windowHigh), zonesBelow = zones.filter(zone => zone.high < windowLow);
   const priceMinRaw = Math.min(barMin, ...zonesIn.map(zone => Math.max(zone.low, windowLow))), priceMaxRaw = Math.max(barMax, ...zonesIn.map(zone => Math.min(zone.high, windowHigh)));
@@ -902,7 +902,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const zoneBands = zonesIn.map(zone => {
     const [color] = ZONE_COLORS[zone.kind], top = Math.max(priceTop, priceY(Math.min(zone.high, priceMax))), bottom = Math.min(priceBottom, priceY(Math.max(zone.low, priceMin)));
     if (zone.low === zone.high) return `<line x1="${left}" x2="${width - right}" y1="${top.toFixed(1)}" y2="${top.toFixed(1)}" stroke="${color}" stroke-width="1.4" opacity=".85"/>`;
-    return `<rect x="${left}" y="${top.toFixed(1)}" width="${chartWidth}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}" fill-opacity="${ZONE_OPACITY[zone.index]}"/>`
+    return `<rect x="${left}" y="${top.toFixed(1)}" width="${chartWidth}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}" fill-opacity="${ZONE_OPACITY[Math.min(zone.index, ZONE_OPACITY.length - 1)]}"/>`
       + `<line x1="${left}" x2="${width - right}" y1="${top.toFixed(1)}" y2="${top.toFixed(1)}" stroke="${color}" stroke-width=".8" opacity=".5"/><line x1="${left}" x2="${width - right}" y1="${bottom.toFixed(1)}" y2="${bottom.toFixed(1)}" stroke="${color}" stroke-width=".8" opacity=".5"/>`;
   }).join('');
   // 标签画在色带内左侧（右侧留给买/卖标签）；色带太窄时放在色带上方；靠得近的标签依次下移 11px 避让。
