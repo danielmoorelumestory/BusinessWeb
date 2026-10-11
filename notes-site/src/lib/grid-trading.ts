@@ -54,8 +54,49 @@ export type Backup = {
   priceOverrides?: Overrides; amountOverrides?: Overrides; sharesOverrides?: Overrides; paramHistory?: ParamStage[];
   manualTrades?: ManualTrade[]; removedTrades?: string[];
 };
+/** 价格区间（支撑或压力）：下沿、上沿与可选备注；上下沿相同表示一条价格线。 */
+export type Level = { low: number; high: number; note?: string };
+/** 3 个支撑区间与 3 个压力区间；某一项为 null 表示该行留空。只用于显示，不参与回测。 */
+export type Levels = { support: (Level | null)[]; resistance: (Level | null)[] };
+export const LEVEL_COUNT = 3;
+export type LevelInput = { low: string; high: string; note: string };
+
+/** 按设置面板的输入校验并规整：同时填写或同时留空、价格为大于 0 的数字、下沿不大于上沿；全部留空时返回 levels: undefined。 */
+export function parseLevels(input: { support: LevelInput[]; resistance: LevelInput[] }): { levels?: Levels; error?: string } {
+  const result: Levels = { support: [], resistance: [] };
+  for (const [kind, prefix] of [['support', 'S'], ['resistance', 'R']] as const) {
+    for (let index = 0; index < LEVEL_COUNT; index++) {
+      const row = input[kind][index] ?? { low: '', high: '', note: '' }, name = `${prefix}${index + 1}`;
+      const lowText = row.low.trim(), highText = row.high.trim();
+      if (!lowText && !highText) { result[kind].push(null); continue; }
+      if (!lowText || !highText) return { error: `${name} 需要同时填写下沿和上沿（只有一个价位时两个都填同一个价格）` };
+      const low = Number(lowText), high = Number(highText);
+      if (!(low > 0) || !(high > 0) || !Number.isFinite(low) || !Number.isFinite(high)) return { error: `${name} 的价格必须是大于 0 的数字` };
+      if (low > high) return { error: `${name} 的下沿不能大于上沿` };
+      const note = row.note.trim();
+      result[kind].push(note ? { low, high, note: note.slice(0, 30) } : { low, high });
+    }
+  }
+  const empty = [...result.support, ...result.resistance].every(level => !level);
+  return empty ? { levels: undefined } : { levels: result };
+}
+
+/** 读取云端或本机记录里的区间时的容错：结构不对或数值不合法的项一律当作留空。 */
+export function normalizeLevels(raw: unknown): Levels | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const pick = (list: unknown): (Level | null)[] => Array.from({ length: LEVEL_COUNT }, (_, index) => {
+    const item = Array.isArray(list) ? list[index] as Partial<Level> | null : null;
+    if (!item || !(Number(item.low) > 0) || !(Number(item.high) > 0) || Number(item.low) > Number(item.high)) return null;
+    return item.note ? { low: Number(item.low), high: Number(item.high), note: String(item.note).slice(0, 30) } : { low: Number(item.low), high: Number(item.high) };
+  });
+  const levels = { support: pick((raw as Levels).support), resistance: pick((raw as Levels).resistance) };
+  return [...levels.support, ...levels.resistance].some(Boolean) ? levels : undefined;
+}
+
 export type SavedRecord = {
   id: string; savedAt: string; updatedAt?: string;
+  /** 价格图上的支撑/压力区间，只用于显示。 */
+  levels?: Levels;
   priceOverrides?: Overrides; amountOverrides?: Overrides; sharesOverrides?: Overrides; paramHistory?: ParamStage[];
   manualTrades?: ManualTrade[]; removedTrades?: string[];
   // 已确认删除：removedTrades 里用户确认“就是要删除、不再提示”的日期，成交保持删除，只是不再出现在“恢复已删除”的待处理列表里。
@@ -729,18 +770,18 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
   return records;
 }
 
-/** 只把一条记录合并进云端（云端版本更新时不覆盖）；返回需要提示的失败信息，成功时为空字符串。 */
-export async function pushRecord(record: SavedRecord): Promise<string> {
+/** 只把一条记录合并进云端（云端版本更新时不覆盖）；返回需要提示的失败信息，成功时为空字符串。what 是提示里对本次改动的称呼。 */
+export async function pushRecord(record: SavedRecord, what = '修正'): Promise<string> {
   const token = readSyncKey();
-  if (token.length < 16) return '修正已保存到本机；尚未设置同步密钥，未同步到云端。';
+  if (token.length < 16) return `${what}已保存到本机；尚未设置同步密钥，未同步到云端。`;
   try {
     const remote = await cloudRequest(token);
     const existing = remote.find(item => item.id === record.id);
-    if (existing && stamp(existing) > stamp(record)) return '云端有更新的版本，本次修正未上传，请到“已保存标的”页手动同步。';
+    if (existing && stamp(existing) > stamp(record)) return `云端有更新的版本，本次${what}未上传，请到“已保存标的”页手动同步。`;
     await cloudRequest(token, { records: existing ? remote.map(item => item.id === record.id ? record : item) : [record, ...remote] });
     return '';
   } catch {
-    return '修正已保存到本机，但同步云端失败，请稍后在“已保存标的”页手动同步。';
+    return `${what}已保存到本机，但同步云端失败，请稍后在“已保存标的”页手动同步。`;
   }
 }
 
@@ -795,14 +836,14 @@ function hardenTouch(svg: SVGSVGElement) {
  * 时间轴以 candles（显示用日线）为准，可通过 range 截取区间；区间可以早于建仓日，此时建仓前只有K线、资金线留空。
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
-export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }) {
+export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels) {
   const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
   if (!series.length || !Number.isFinite(nextBuy) || !Number.isFinite(nextSell)) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">暂无完整曲线数据</text>'; return; }
   if (!bars.length) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">所选区间内没有行情数据</text>'; return; }
   const buyLevel = nextBuy!, sellLevel = nextSell!;
   const width = chartWidthOf(svg), compact = width < 600, left = compact ? 56 : 62, right = compact ? 70 : 70, chartWidth = width - left - right;
-  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range));
-  const priceTop = 30, priceHeight = 150, moneyTop = 218, moneyHeight = 150, plotBottom = moneyTop + moneyHeight, height = plotBottom + 30;
+  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range, levels));
+  const priceTop = 30, priceHeight = compact ? 220 : 280, moneyTop = priceTop + priceHeight + 38, moneyHeight = 150, plotBottom = moneyTop + moneyHeight, height = plotBottom + 30;
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   hardenTouch(svg);
   const count = bars.length, slot = chartWidth / count;
@@ -812,7 +853,13 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 资金：始终包含 0 轴；价格：包含K线最高/最低价与预计买卖价。
   const values = visible.flatMap(point => [point.positionValue, point.capitalUsed, point.pnl]);
   const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1, yMin = min - span * .06, yMax = max + span * .06;
-  const priceMinRaw = Math.min(...bars.map(bar => bar.low), buyLevel), priceMaxRaw = Math.max(...bars.map(bar => bar.high), sellLevel);
+  const barMin = Math.min(...bars.map(bar => bar.low), buyLevel), barMax = Math.max(...bars.map(bar => bar.high), sellLevel);
+  // 支撑/压力区间：与“K线与买卖价范围向两侧各扩 15%”有重叠的纳入纵轴（只取窗口内的部分，超出的裁剪），完全在窗口外的不撑大纵轴，改在边缘用箭头提示。
+  const zoneWindow = (barMax - barMin || Math.max(barMax * .02, .01)) * .15, windowLow = barMin - zoneWindow, windowHigh = barMax + zoneWindow;
+  const zones = (['support', 'resistance'] as const).flatMap(kind => (levels?.[kind] ?? []).map((level, index) => level ? { kind, name: `${kind === 'support' ? 'S' : 'R'}${index + 1}`, index, ...level } : null)).filter((zone): zone is NonNullable<typeof zone> => !!zone);
+  const zonesIn = zones.filter(zone => zone.high >= windowLow && zone.low <= windowHigh);
+  const zonesAbove = zones.filter(zone => zone.low > windowHigh), zonesBelow = zones.filter(zone => zone.high < windowLow);
+  const priceMinRaw = Math.min(barMin, ...zonesIn.map(zone => Math.max(zone.low, windowLow))), priceMaxRaw = Math.max(barMax, ...zonesIn.map(zone => Math.min(zone.high, windowHigh)));
   const priceSpan = priceMaxRaw - priceMinRaw || Math.max(priceMaxRaw * .02, .01), priceMin = priceMinRaw - priceSpan * .08, priceMax = priceMaxRaw + priceSpan * .08;
   const x = (index: number) => left + (index + .5) * slot; // K线居中于各自的槽位
   const y = (value: number) => moneyTop + (yMax - value) / (yMax - yMin) * moneyHeight;
@@ -848,6 +895,28 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     }
     return out;
   };
+  const ZONE_COLORS = { support: ['#0d9488', '#0f766e'], resistance: ['#ea580c', '#c2410c'] } as const; // [填充/线, 文字]
+  const ZONE_OPACITY = [.2, .14, .09];
+  const zoneText = (zone: { name: string; low: number; high: number; note?: string }) => `${zone.name} ${zone.low === zone.high ? zone.low.toFixed(3) : `${zone.low.toFixed(3)}~${zone.high.toFixed(3)}`}${zone.note ? ` ${zone.note}` : ''}`;
+  const priceBottom = priceTop + priceHeight;
+  const zoneBands = zonesIn.map(zone => {
+    const [color] = ZONE_COLORS[zone.kind], top = Math.max(priceTop, priceY(Math.min(zone.high, priceMax))), bottom = Math.min(priceBottom, priceY(Math.max(zone.low, priceMin)));
+    if (zone.low === zone.high) return `<line x1="${left}" x2="${width - right}" y1="${top.toFixed(1)}" y2="${top.toFixed(1)}" stroke="${color}" stroke-width="1.4" opacity=".85"/>`;
+    return `<rect x="${left}" y="${top.toFixed(1)}" width="${chartWidth}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}" fill-opacity="${ZONE_OPACITY[zone.index]}"/>`
+      + `<line x1="${left}" x2="${width - right}" y1="${top.toFixed(1)}" y2="${top.toFixed(1)}" stroke="${color}" stroke-width=".8" opacity=".5"/><line x1="${left}" x2="${width - right}" y1="${bottom.toFixed(1)}" y2="${bottom.toFixed(1)}" stroke="${color}" stroke-width=".8" opacity=".5"/>`;
+  }).join('');
+  // 标签画在色带内左侧（右侧留给买/卖标签）；色带太窄时放在色带上方；靠得近的标签依次下移 11px 避让。
+  let lastLabelY = -Infinity;
+  const zoneLabels = [...zonesIn].sort((a, b) => b.high - a.high).map(zone => {
+    const [, textColor] = ZONE_COLORS[zone.kind], top = Math.max(priceTop, priceY(Math.min(zone.high, priceMax))), bottom = Math.min(priceBottom, priceY(Math.max(zone.low, priceMin)));
+    let yy = bottom - top >= 14 ? top + 10 : top - 3;
+    yy = Math.max(yy, lastLabelY + 11, priceTop + 8); lastLabelY = yy;
+    return `<text x="${left + 6}" y="${yy.toFixed(1)}" fill="${textColor}" font-size="9" font-weight="600">${zoneText(zone)}</text>`;
+  }).join('');
+  // 完全在价格范围之外的区间：在价格图上/下边缘用箭头与编号提示（靠右，避开左侧标签与备份点标注）。
+  const edgeNote = (list: typeof zones, above: boolean) => [...list].sort((a, b) => above ? a.low - b.low : b.high - a.high).map((zone, order) =>
+    `<text x="${width - right - 6}" y="${above ? priceTop + 10 + order * 11 : priceBottom - 4 - order * 11}" text-anchor="end" fill="${ZONE_COLORS[zone.kind][1]}" font-size="9" font-weight="600">${above ? '▲' : '▼'} ${zoneText(zone)}</text>`).join('');
+  const zoneEdges = edgeNote(zonesAbove, true) + edgeNote(zonesBelow, false);
   const BUY_COLOR = '#2563eb', SELL_COLOR = '#9333ea', UP_COLOR = '#ef4444', DOWN_COLOR = '#16a34a'; // K线红涨绿跌，买卖线避开红绿
   const stepSvg = gridStep ? stepLines(buyLevel, gridStep.down, -1, lowPrice, BUY_COLOR) + stepLines(sellLevel, gridStep.up, 1, highPrice, SELL_COLOR) : '';
   const labels = [0, Math.floor((count - 1) / 2), count - 1].map((index, order) => `<text x="${x(index)}" y="${plotBottom + 18}" text-anchor="${count > 1 ? (order === 0 ? 'start' : order === 2 ? 'end' : 'middle') : 'middle'}" fill="#94a3b8" font-size="10">${bars[index].date}</text>`).join('');
@@ -867,8 +936,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const tipLines = ['date', 'trade', 'open', 'low', 'position', 'capital', 'profit'];
   svg.innerHTML = `<g>${title(priceTop, '价格（元）· 日K / 预计买卖价', '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`
-    + `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}${markerSvg}</g>`
-    + candleSvg
+    + `${zoneBands}${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}${markerSvg}</g>`
+    + candleSvg + zoneLabels + zoneEdges
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
     + `<g class="chart-crosshair" visibility="hidden" pointer-events="none"><line class="crosshair-v" y1="${priceTop}" y2="${plotBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/><line class="crosshair-h" x1="${left}" x2="${width - right}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
     + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')

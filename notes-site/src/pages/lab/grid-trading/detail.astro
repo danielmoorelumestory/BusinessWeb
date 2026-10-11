@@ -10,7 +10,7 @@ const savedUrl = href('lab/grid-trading/saved');
   <a class="back" id="back-link" href={savedUrl}>← 返回已保存标的</a>
   <section id="stats" class="stats"></section>
   <section class="chart-panel">
-    <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="kline-swatch up"></span>涨 <span class="kline-swatch down"></span>跌 <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>
+    <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="kline-swatch up"></span>涨 <span class="kline-swatch down"></span>跌 <span class="zone-swatch support"></span>支撑区间 <span class="zone-swatch resistance"></span>压力区间 <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>
     <div class="range-bar" id="range-bar" aria-label="曲线时间区间">
       <div class="range-presets" role="group" aria-label="快捷区间">
         <button type="button" data-range="1">近 1 月</button><button type="button" data-range="3">近 3 月</button><button type="button" data-range="6">近半年</button><button type="button" data-range="12">近 1 年</button><button type="button" data-range="all" class="active">全部</button>
@@ -19,6 +19,26 @@ const savedUrl = href('lab/grid-trading/saved');
       <span id="range-note" class="range-note" hidden></span>
     </div>
     <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>
+    <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
+      <div class="levels-head"><h3>支撑 / 压力区间</h3><span>只用于在价格图上显示，不参与回测；留空的行不显示；只有一个价位时，下沿和上沿填同一个价格</span></div>
+      <div class="levels-grid">
+        {(['support', 'resistance'] as const).map(kind => (
+          <div class={`levels-col ${kind}`}>
+            <h4>{kind === 'support' ? '支撑区间' : '压力区间'}</h4>
+            {[1, 2, 3].map(n => (
+              <div class="level-row">
+                <b>{kind === 'support' ? 'S' : 'R'}{n}</b>
+                <input type="number" step="0.001" min="0" inputmode="decimal" placeholder="下沿" data-kind={kind} data-index={n - 1} data-field="low" aria-label={`${kind === 'support' ? 'S' : 'R'}${n} 下沿`} />
+                <span>~</span>
+                <input type="number" step="0.001" min="0" inputmode="decimal" placeholder="上沿" data-kind={kind} data-index={n - 1} data-field="high" aria-label={`${kind === 'support' ? 'S' : 'R'}${n} 上沿`} />
+                <input type="text" maxlength="30" placeholder="备注（可选）" class="level-note" data-kind={kind} data-index={n - 1} data-field="note" aria-label={`${kind === 'support' ? 'S' : 'R'}${n} 备注`} />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div class="levels-actions"><button id="levels-save" class="levels-btn" type="button">保存区间</button><button id="levels-clear" class="tool-link" type="button">清空</button><span id="levels-note" class="levels-note" hidden></span></div>
+    </section>
   </section>
   <section class="minute-panel" aria-label="分钟线">
     <div class="minute-head">
@@ -80,7 +100,7 @@ const savedUrl = href('lab/grid-trading/saved');
 <script>
   import {
     calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord,
-    renderEquityChart, renderCompareChart, type Candle, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
+    renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, type Candle, type Levels, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
     blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar,
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
   } from '../../../lib/grid-trading';
@@ -99,7 +119,7 @@ const savedUrl = href('lab/grid-trading/saved');
 
   // ---------- 资金与K线曲线：时间区间 ----------
   // 区间与建仓日无关：默认从建仓日到最新；可以选到建仓日之前，此时多取一段只用于显示的日线（不参与回测）。
-  type ChartInput = { series: EquityPoint[]; nextBuy: number; nextSell: number; trades: Trade[]; marker?: { date: string; label: string }; gridStep: { down: number; up: number }; code: string; openDate: string };
+  type ChartInput = { series: EquityPoint[]; nextBuy: number; nextSell: number; trades: Trade[]; marker?: { date: string; label: string }; gridStep: { down: number; up: number }; code: string; openDate: string; levels?: Levels };
   let chartInput: ChartInput | undefined;
   let chartCandles: { code: string; begin: string; candles: Candle[] } | undefined;
   let rangeFrom: string | undefined, rangeTo: string | undefined, rangeKey = 'all', chartRun = 0;
@@ -136,7 +156,7 @@ const savedUrl = href('lab/grid-trading/saved');
     rangeFromInput.value = from; rangeToInput.value = rangeTo ?? latest;
     rangeFromInput.max = rangeToInput.max = latest; rangeFromInput.min = rangeToInput.min = first;
     document.querySelectorAll<HTMLButtonElement>('.range-presets button').forEach(button => button.classList.toggle('active', button.dataset.range === rangeKey));
-    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo });
+    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, input.levels);
   }
 
   function bindRange() {
@@ -164,6 +184,61 @@ const savedUrl = href('lab/grid-trading/saved');
     rangeToInput.addEventListener('change', onDateChange);
   }
   bindRange();
+
+  // ---------- 支撑 / 压力区间 ----------
+  const levelsPanel = document.querySelector('#levels-panel') as HTMLElement;
+  const levelsNote = document.querySelector('#levels-note') as HTMLElement;
+  let levelsDirty = false; // 用户正在输入、尚未保存时，别的刷新不覆盖输入框
+  const levelInputs = () => [...document.querySelectorAll<HTMLInputElement>('#levels-panel input')];
+  const showLevelsNote = (text: string, tone: 'error' | 'hint' | 'ok' = 'error') => { levelsNote.textContent = text; levelsNote.hidden = !text; levelsNote.className = `levels-note${tone === 'error' ? '' : ` ${tone}`}`; };
+  function fillLevels(levels?: Levels) {
+    for (const input of levelInputs()) {
+      const level = levels?.[input.dataset.kind as 'support' | 'resistance']?.[Number(input.dataset.index)];
+      const field = input.dataset.field as 'low' | 'high' | 'note';
+      input.value = level ? String(level[field] ?? '') : '';
+    }
+  }
+  function readLevelsForm() {
+    const form = { support: [] as { low: string; high: string; note: string }[], resistance: [] as { low: string; high: string; note: string }[] };
+    for (const kind of ['support', 'resistance'] as const) for (let index = 0; index < 3; index++) {
+      const get = (field: string) => (document.querySelector(`#levels-panel input[data-kind="${kind}"][data-index="${index}"][data-field="${field}"]`) as HTMLInputElement).value;
+      form[kind].push({ low: get('low'), high: get('high'), note: get('note') });
+    }
+    return form;
+  }
+  async function saveLevels(levels: Levels | undefined) {
+    if (!record || viewBackup || !chartInput) return;
+    editRevision++; // 保存期间到达的行情刷新结果会被丢弃，避免覆盖
+    record = { ...record, levels, updatedAt: new Date().toISOString() };
+    saveRecord(record);
+    levelsDirty = false;
+    chartInput = { ...chartInput, levels };
+    void drawEquity(); // 只重绘曲线，不重算回测
+    // 支撑高于现价、压力低于现价：只提示，不拦截（突破后角色会互换）
+    const current = record.result.current, odd = [
+      ...(levels?.support ?? []).flatMap((level, index) => level && level.low > current ? [`S${index + 1}`] : []),
+      ...(levels?.resistance ?? []).flatMap((level, index) => level && level.high < current ? [`R${index + 1}`] : []),
+    ];
+    const oddText = odd.length ? `提示：${odd.join('、')} 的位置与现价关系和名称相反，仍按你的设置显示。` : '';
+    showLevelsNote('已保存到本机，正在同步到云端数据库…', 'hint');
+    const problem = await pushRecord(record, '区间');
+    if (problem) showLevelsNote(`${problem}${oddText}`, 'hint');
+    else showLevelsNote(`已保存，并已同步到云端数据库。${oddText}`, odd.length ? 'hint' : 'ok');
+  }
+  function bindLevels() {
+    levelsPanel.addEventListener('input', () => { levelsDirty = true; showLevelsNote(''); });
+    document.querySelector('#levels-save')!.addEventListener('click', () => {
+      const { levels, error } = parseLevels(readLevelsForm());
+      if (error) { showLevelsNote(error); return; }
+      void saveLevels(levels);
+    });
+    document.querySelector('#levels-clear')!.addEventListener('click', () => {
+      if (!levelInputs().some(input => input.value)) return;
+      fillLevels(undefined);
+      void saveLevels(undefined);
+    });
+  }
+  bindLevels();
   function drawCompare() {
     if (!compareBackup) return;
     renderCompareChart(document.querySelector('#compare-chart') as SVGSVGElement, pureSeries, liveSeries, compareMetric, { date: compareBackup.date, label: '备份点' });
@@ -332,7 +407,9 @@ const savedUrl = href('lab/grid-trading/saved');
     const confirmedDates = new Set(item.removedConfirmed ?? []), pendingCount = (item.removedTrades ?? []).filter(date => !confirmedDates.has(date)).length;
     restore.hidden = !removedCount; restore.textContent = pendingCount ? `恢复已删除的 ${pendingCount} 条网格成交` : `查看已确认删除的 ${removedCount} 条`;
     if (!removedCount) (document.querySelector('#removed-panel') as HTMLElement).hidden = true;
-    chartInput = { series: result.series ?? [], nextBuy: result.nextBuy, nextSell: result.nextSell, trades: result.trades, marker: viewBackup ? { date: viewBackup.date, label: '备份点' } : undefined, gridStep: { down: row.step - row.rebound, up: row.step - row.pullback }, code: row.code, openDate: row.date };
+    chartInput = { series: result.series ?? [], nextBuy: result.nextBuy, nextSell: result.nextSell, trades: result.trades, marker: viewBackup ? { date: viewBackup.date, label: '备份点' } : undefined, gridStep: { down: row.step - row.rebound, up: row.step - row.pullback }, code: row.code, openDate: row.date, levels: normalizeLevels(item.levels) };
+    levelsPanel.hidden = !!viewBackup;
+    if (!levelsDirty) fillLevels(chartInput.levels);
     void drawEquity();
     if (!viewBackup) void renderBackups(item);
   }
@@ -521,6 +598,7 @@ const savedUrl = href('lab/grid-trading/saved');
   const backupRecordOf = (source: SavedRecord, backup: Backup, result: GridResult): SavedRecord => ({
     id: source.id, savedAt: backup.at, row: backup.row, result, priceOverrides: backup.priceOverrides, amountOverrides: backup.amountOverrides,
     sharesOverrides: backup.sharesOverrides, paramHistory: backup.paramHistory, manualTrades: backup.manualTrades, removedTrades: backup.removedTrades,
+    levels: source.levels, // 备份视图只读显示该记录当前的支撑/压力区间
   });
 
   // 手动增删记录只影响总盈亏、持仓和占用本金：卖出份额不能超过当时持仓，删除也不能让持仓变成负数。
@@ -784,7 +862,7 @@ const savedUrl = href('lab/grid-trading/saved');
   .axis-legend { flex-direction: column; align-items: flex-end; gap: 6px; }.legend-row { display: flex; flex-wrap: nowrap; white-space: nowrap; align-items: center; justify-content: flex-end; gap: 7px; }.axis-tag { padding: 1px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }.axis-tag.tag-money { background: #f1f5f9; color: #334155; }.axis-tag.tag-price { background: #eef2ff; color: #4f46e5; }
   /* 移动端长按图表不弹出复制/选择菜单 */
   .chart-scroll { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
-  .chart-panel { margin-top:28px; padding:18px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }.chart-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:8px; }.chart-head h2 { margin:0 0 3px; color:#1e293b; font-size:16px; }.chart-head p { margin:0; color:#94a3b8; font-size:12px; }.legend { display:flex; flex-wrap:wrap; gap:7px; align-items:center; color:#64748b; font-size:12px; }.line { display:inline-block; width:14px; height:2px; margin-left:5px; }.line.position { background:#3b82f6; }.line.capital { background:#f59e0b; }.line.profit { background:#f43f5e; }.line.close { background:#6366f1; }.kline-swatch { display:inline-block; width:8px; height:12px; margin-left:5px; border-radius:1px; vertical-align:-2px; }.kline-swatch.up { background:#ef4444; }.kline-swatch.down { background:#16a34a; }.line.buy-level { border-top:1.5px dashed #2563eb; background:none; height:0; }.line.step-level { border-top:1.5px dotted #94a3b8; background:none; height:0; }.line.sell-level { border-top:1.5px dashed #9333ea; background:none; height:0; }.chart-scroll { overflow-x:auto; }.chart-scroll svg { display:block; width:100%; height:auto; }
+  .chart-panel { margin-top:28px; padding:18px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }.chart-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:8px; }.chart-head h2 { margin:0 0 3px; color:#1e293b; font-size:16px; }.chart-head p { margin:0; color:#94a3b8; font-size:12px; }.legend { display:flex; flex-wrap:wrap; gap:7px; align-items:center; color:#64748b; font-size:12px; }.line { display:inline-block; width:14px; height:2px; margin-left:5px; }.line.position { background:#3b82f6; }.line.capital { background:#f59e0b; }.line.profit { background:#f43f5e; }.line.close { background:#6366f1; }.kline-swatch { display:inline-block; width:8px; height:12px; margin-left:5px; border-radius:1px; vertical-align:-2px; }.kline-swatch.up { background:#ef4444; }.kline-swatch.down { background:#16a34a; }.zone-swatch { display:inline-block; width:14px; height:10px; margin-left:5px; border-radius:2px; vertical-align:-1px; }.zone-swatch.support { background:rgba(13,148,136,.35); border:1px solid #0d9488; }.zone-swatch.resistance { background:rgba(234,88,12,.35); border:1px solid #ea580c; }.line.buy-level { border-top:1.5px dashed #2563eb; background:none; height:0; }.line.step-level { border-top:1.5px dotted #94a3b8; background:none; height:0; }.line.sell-level { border-top:1.5px dashed #9333ea; background:none; height:0; }.chart-scroll { overflow-x:auto; }.chart-scroll svg { display:block; width:100%; height:auto; }
   @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
   /* 手机：图表适配屏幕宽度；标题与图例上下排列，图例可换行 */
   @media (max-width: 720px) { .chart-head { flex-direction: column; gap: 10px; }.axis-legend { align-items: flex-start; }.legend-row { flex-wrap: wrap; justify-content: flex-start; white-space: normal; } }
@@ -795,6 +873,25 @@ const savedUrl = href('lab/grid-trading/saved');
   .minute-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
   .minute-head h2 { margin:0 0 3px; color:#1e293b; font-size:16px; }
   .minute-head p { margin:0; color:#94a3b8; font-size:12px; }
+  .levels-panel { margin-top:14px; padding-top:12px; border-top:1px dashed #e2e8f0; }
+  .levels-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 12px; margin-bottom:8px; }
+  .levels-head h3 { margin:0; font-size:13px; color:#334155; }
+  .levels-head span { color:#94a3b8; font-size:12px; }
+  .levels-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; }
+  .levels-col h4 { margin:0 0 6px; font-size:12px; color:#475569; }
+  .levels-col.support h4 { color:#0f766e; }
+  .levels-col.resistance h4 { color:#c2410c; }
+  .level-row { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+  .level-row b { width:22px; font-size:12px; color:#475569; }
+  .level-row input { min-width:0; border:1px solid #cbd5e1; border-radius:6px; padding:4px 6px; background:#fff; color:#334155; font-size:12px; }
+  .level-row input[type=number] { width:78px; }
+  .level-row input.level-note { flex:1; }
+  .levels-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:4px; }
+  .levels-btn { border:1px solid #6366f1; border-radius:6px; padding:5px 14px; background:#6366f1; color:#fff; font-size:12px; cursor:pointer; }
+  .levels-note { font-size:12px; color:#dc2626; }
+  .levels-note.hint { color:#b45309; }
+  .levels-note.ok { color:#15803d; }
+  @media (max-width: 720px) { .levels-grid { grid-template-columns:1fr; } .level-row input[type=number] { width:70px; } }
   .range-bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:6px 0 4px; color:#475569; font-size:13px; }
   .range-presets { display:flex; flex-wrap:wrap; gap:6px; }
   .range-presets button { border:1px solid #cbd5e1; border-radius:6px; padding:4px 10px; background:#fff; color:#334155; font-size:12px; cursor:pointer; }
