@@ -996,8 +996,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     const prevIndex = candles.findIndex(candle => candle.date === bar.date) - 1;
     const base = prevIndex >= 0 ? candles[prevIndex].close : bar.open;
     const pctOf = (value: number) => base > 0 ? `${value >= base ? '+' : ''}${((value / base - 1) * 100).toFixed(2)}%` : '—';
-    setText('open', `开 ${bar.open.toFixed(3)} ${pctOf(bar.open)}   高 ${bar.high.toFixed(3)} ${pctOf(bar.high)}`);
-    setText('low', `低 ${bar.low.toFixed(3)} ${pctOf(bar.low)}   收 ${bar.close.toFixed(3)} ${pctOf(bar.close)}`);
+    setText('open', `开 ${bar.open.toFixed(3)} ${pctOf(bar.open)}   收 ${bar.close.toFixed(3)} ${pctOf(bar.close)}`);
+    setText('low', `高 ${bar.high.toFixed(3)} ${pctOf(bar.high)}   低 ${bar.low.toFixed(3)} ${pctOf(bar.low)}`);
     setText('change', `涨幅 ${pctOf(bar.close)}   振幅 ${base > 0 ? ((bar.high - bar.low) / base * 100).toFixed(2) + '%' : '—'}`);
     setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
     setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
