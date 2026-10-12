@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { autoFib, fibFromDates, fibLines, normalizeFib, normalizeFibSets, normalizeView, parseFib, type Candle } from '../../notes-site/src/lib/grid-trading'
+import { fibFromDates, fibLines, normalizeFib, normalizeFibSets, normalizeView, parseFib, type Candle } from '../../notes-site/src/lib/grid-trading'
 
 const price = (fib: ReturnType<typeof parseFib>['fib'], ratio: number) => fibLines(fib!).find(line => line.ratio === ratio)!.price
 const input = (startPrice: string, endPrice: string, extra = {}) => ({ startPrice, endPrice, ext: [1.272, 1.382, 1.618], ...extra })
@@ -41,44 +41,6 @@ describe('斐波那契计算', () => {
     expect(normalizeFib({ start: { price: 10, date: '2026-01-02' }, end: { price: 20 }, ext: [1.618, 9] })).toEqual({ start: { price: 10, date: '2026-01-02' }, end: { price: 20 }, ext: [1.618] })
     expect(normalizeView({ levels: false, fib: 'x' })).toEqual({ levels: false })
     expect(normalizeView({})).toBeUndefined()
-  })
-})
-
-// 构造 n 根日线：最低价 low、最高价 high 取自指定位置，其余是价格为 base 的平盘；日期只需互不相同。
-const bars = (n: number, base: number, spikes: Record<number, { high?: number; low?: number }> = {}): Candle[] =>
-  Array.from({ length: n }, (_, i) => ({ date: `d${String(i).padStart(3, '0')}`, open: base, close: base, high: spikes[i]?.high ?? base, low: spikes[i]?.low ?? base }))
-
-describe('自动设置', () => {
-  it('30 日内振幅够大就选 30 日窗口，先低后高为上涨波段', () => {
-    const candles = bars(300, 10, { 275: { low: 9 }, 290: { high: 11 } })
-    const fib = autoFib(candles)!
-    expect(fib.lookback).toBe(30)
-    expect(fib.start.price).toBe(9)
-    expect(fib.end.price).toBe(11)
-    expect(fib.start.date).toBe(candles[275].date)
-  })
-
-  it('先高后低为下跌波段', () => {
-    const fib = autoFib(bars(300, 10, { 275: { high: 11 }, 290: { low: 9 } }))!
-    expect(fib.start.price).toBe(11)
-    expect(fib.end.price).toBe(9)
-  })
-
-  it('短窗口振幅不足时扩大到 90 日', () => {
-    const fib = autoFib(bars(300, 10, { 205: { low: 9 }, 250: { high: 10.5 } }))!
-    // 30/60 日窗口内是平盘（无法形成高低点），90 日窗口振幅 > 10%：高点需够高
-    expect(fib.lookback).toBeGreaterThanOrEqual(90)
-  })
-
-  it('所有窗口都不足 10% 时取振幅最大的', () => {
-    const fib = autoFib(bars(300, 10, { 100: { low: 9.7 }, 150: { high: 10.1 }, 280: { low: 9.95 }, 290: { high: 10.02 } }))!
-    expect(fib.lookback).toBe(250)
-  })
-
-  it('数据不足时返回 undefined 或用全部数据', () => {
-    expect(autoFib([])).toBeUndefined()
-    expect(autoFib(bars(1, 10))).toBeUndefined()
-    expect(autoFib(bars(10, 10, { 2: { low: 8 }, 7: { high: 12 } }))!.lookback).toBe(10)
   })
 })
 

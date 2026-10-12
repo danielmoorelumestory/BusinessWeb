@@ -102,7 +102,7 @@ export function normalizeLevels(raw: unknown): Levels | undefined {
 export type FibPoint = { price: number; date?: string };
 export const FIB_RETRACEMENTS = [0.236, 0.382, 0.5, 0.618, 0.786] as const;
 export const FIB_EXTENSIONS = [1.272, 1.382, 1.618] as const;
-export type Fib = { start: FibPoint; end: FibPoint; ext: number[]; lookback?: number };
+export type Fib = { start: FibPoint; end: FibPoint; ext: number[] };
 export type FibLine = { ratio: number; price: number; kind: 'retr' | 'ext' };
 /** 叠加内容的显示开关；字段缺省时：手动区间显示，斐波那契在已配置时显示。 */
 export type View = { levels?: boolean; fib?: boolean; grid?: boolean; fibActive?: string };
@@ -110,7 +110,7 @@ export type View = { levels?: boolean; fib?: boolean; grid?: boolean; fibActive?
 export type FibSet = { id: string; name: string; fib: Fib };
 export const MAX_FIB_SETS = 8;
 export const MAX_FIB_NAME = 12;
-export type FibInput = { startPrice: string; startDate?: string; endPrice: string; endDate?: string; ext: number[]; lookback?: number };
+export type FibInput = { startPrice: string; startDate?: string; endPrice: string; endDate?: string; ext: number[] };
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const extOf = (list: unknown): number[] => FIB_EXTENSIONS.filter(item => Array.isArray(list) && list.map(Number).includes(item));
 
@@ -124,9 +124,8 @@ export function parseFib(input: FibInput): { fib?: Fib; error?: string } {
   if (start === end) return { error: '起点与终点价格不能相同' };
   const dates = [input.startDate?.trim() || undefined, input.endDate?.trim() || undefined];
   if (dates.some(date => date && !DATE_RE.test(date))) return { error: '日期格式应为 YYYY-MM-DD' };
-  const lookback = Number.isInteger(input.lookback) && input.lookback! > 0 ? input.lookback : undefined;
   const point = (price: number, date?: string): FibPoint => date ? { price, date } : { price };
-  return { fib: { start: point(start, dates[0]), end: point(end, dates[1]), ext: extOf(input.ext), ...(lookback ? { lookback } : {}) } };
+  return { fib: { start: point(start, dates[0]), end: point(end, dates[1]), ext: extOf(input.ext) } };
 }
 
 /** 读取云端或本机记录里的斐波那契设置时的容错：结构不对或价格不合法返回 undefined。 */
@@ -140,8 +139,7 @@ export function normalizeFib(raw: unknown): Fib | undefined {
   };
   const start = point(item.start), end = point(item.end);
   if (!start || !end || start.price === end.price) return undefined;
-  const lookback = Number.isInteger(item.lookback) && item.lookback! > 0 ? item.lookback : undefined;
-  return { start, end, ext: extOf(item.ext), ...(lookback ? { lookback } : {}) };
+  return { start, end, ext: extOf(item.ext) };
 }
 
 export function normalizeView(raw: unknown): View | undefined {
@@ -198,29 +196,6 @@ export function fibFromDates(candles: Candle[], dateA: string, dateB: string): {
   const start: FibPoint = aIsHigh ? { price: a.high, date: a.date } : { price: a.low, date: a.date };
   const end: FibPoint = aIsHigh ? { price: b.low, date: b.date } : { price: b.high, date: b.date };
   return { fib: { start, end, ext: [...FIB_EXTENSIONS] } };
-}
-
-export const FIB_LOOKBACKS = [30, 60, 90, 120, 250] as const;
-const FIB_MIN_AMPLITUDE = 0.1;
-/**
- * 自动设置：依次试 30/60/90/120/250 日窗口，选第一个振幅（高−低）/低 ≥ 10% 且最高、最低不在同一根 K 线的；
- * 都不满足时取振幅最大的。先低后高为上涨波段（起点=低点），先高后低为下跌波段。
- */
-export function autoFib(candles: Candle[]): Fib | undefined {
-  let best: { fib: Fib; amplitude: number } | undefined;
-  for (const size of FIB_LOOKBACKS) {
-    const win = candles.slice(-size);
-    if (win.length < 2) continue;
-    let hi = 0, lo = 0;
-    win.forEach((bar, index) => { if (bar.high > win[hi].high) hi = index; if (bar.low < win[lo].low) lo = index; });
-    if (hi === lo || !(win[lo].low > 0)) continue;
-    const amplitude = (win[hi].high - win[lo].low) / win[lo].low;
-    const high: FibPoint = { price: win[hi].high, date: win[hi].date }, low: FibPoint = { price: win[lo].low, date: win[lo].date };
-    const fib: Fib = { start: lo < hi ? low : high, end: lo < hi ? high : low, ext: [...FIB_EXTENSIONS], lookback: win.length };
-    if (amplitude >= FIB_MIN_AMPLITUDE) return fib;
-    if (!best || amplitude > best.amplitude) best = { fib, amplitude };
-  }
-  return best?.fib;
 }
 
 export type SavedRecord = {
