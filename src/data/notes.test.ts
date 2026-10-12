@@ -56,7 +56,7 @@ describe('NOTES 索引', () => {
     expect(findNote('516750-building-materials-etf-analysis')?.title).toContain('审核修订版')
     expect(findNote('159865-livestock-etf-analysis')?.title).toContain('审核修订版')
     expect(findNote('159259-growth-etf-analysis')?.title).toContain('审核修订版')
-    expect(findNote('159928-consumer-etf-analysis')?.title).toContain('审核修订版')
+    expect(findNote('159928-consumer-etf-analysis')?.title).toContain('完善版')
     expect(findNote('513180-hang-seng-tech-etf-analysis')?.title).toContain('审核修订版')
     expect(allNoteTags().every(t => t.count >= 1)).toBe(true)
   })
