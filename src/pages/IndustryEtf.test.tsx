@@ -25,6 +25,16 @@ describe('IndustryEtf', () => {
     expect(link.getAttribute('target')).toBeNull()
   })
 
+  it('有研究笔记的 ETF，代码和名称都能点进对应笔记', () => {
+    renderPage()
+    const row = screen.getByText('159928').closest('tr')!
+    const links = within(row).getAllByRole('link')
+    expect(links.map(a => a.getAttribute('href'))).toEqual(Array(links.length).fill('/notes/159928-consumer-etf-analysis'))
+    expect(links.length).toBe(3)
+    expect(screen.getByRole('link', { name: '562500' }).getAttribute('href')).toBe('/notes/562500-robot-etf-analysis')
+    expect(screen.getByRole('link', { name: '159865' }).getAttribute('href')).toBe('/notes/159865-livestock-etf-analysis')
+  })
+
   it('外部参考链接在新标签页打开并带 rel=noopener noreferrer', () => {
     renderPage()
     for (const a of screen.getAllByRole('link').filter(a => /^https?:\/\//.test(a.getAttribute('href') ?? ''))) {

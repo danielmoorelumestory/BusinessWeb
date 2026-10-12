@@ -1,13 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { NOTES } from '../data/notes'
 import { INDUSTRY_ETF_DISCLAIMER, INDUSTRY_GROUPS, TOTAL_ETF_COUNT, internalNoteSlug, type EtfItem } from '../data/industryEtf'
 
+// 该 ETF 自己的研究笔记：笔记 slug 以「代码-」开头（如 159928-consumer-etf-analysis）。
+const etfNoteOf = (item: EtfItem) => NOTES.find(note => note.slug.startsWith(`${item.code}-`))
+
 function Reference({ item }: { item: EtfItem }): JSX.Element | null {
-  if (!item.referenceUrl) return null
+  const own = etfNoteOf(item)
+  if (!item.referenceUrl) return own ? <Link to={`/notes/${own.slug}`}>{own.title}</Link> : null
   const slug = internalNoteSlug(item.referenceUrl)
   const label = item.referenceTitle || '参考'
   if (slug) return <Link to={`/notes/${slug}`}>{label}</Link>
   return <a href={item.referenceUrl} target="_blank" rel="noopener noreferrer">{label}</a>
+}
+
+function NoteCells({ item }: { item: EtfItem }): JSX.Element {
+  // 有研究笔记就点代码/名称直接跳转；优先该 ETF 自己的分析笔记，其次是清单里登记的站内参考。
+  const slug = etfNoteOf(item)?.slug ?? internalNoteSlug(item.referenceUrl)
+  if (!slug) return <><td>{item.code}</td><td>{item.name}</td></>
+  const to = `/notes/${slug}`
+  return <><td><Link to={to}>{item.code}</Link></td><td><Link to={to}>{item.name}</Link></td></>
 }
 
 export default function IndustryEtf(): JSX.Element {
@@ -33,8 +46,7 @@ export default function IndustryEtf(): JSX.Element {
               <tbody>
                 {group.items.map(item => (
                   <tr key={`${item.code}-${item.market}`}>
-                    <td>{item.code}</td>
-                    <td>{item.name}</td>
+                    <NoteCells item={item} />
                     <td>{item.market}</td>
                     <td>{item.subTheme}</td>
                     <td>{item.remark}</td>
