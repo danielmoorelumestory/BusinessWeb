@@ -402,18 +402,18 @@ const savedUrl = href('lab/grid-trading/saved');
     const sellHint = [sellArmed ? `已突破步长线 · 最高 ¥${result.highSince!.toFixed(3)} · 回落到 ¥${result.nextSell.toFixed(3)} 即卖出 · ${gap(result.nextSell)}` : `需先涨到 ¥${sellLine.toFixed(3)}，再回落 ¥${row.pullback.toFixed(3)} 即卖出 · ${gap(sellLine)}`, moveLine('回落', row.pullback)];
     const hint = (lines: string[]) => lines.map(line => `<span class="step-hint">${line}</span>`).join('');
     const reportLinks: Record<string, { href: string; title: string }> = {
-      '159146': { href: 'https://businessweb-c0u.pages.dev/notes/159146-electric-power-etf-analysis', title: '查看 159146 短中期买卖点分析最终版' },
-      '516650': { href: 'https://businessweb-c0u.pages.dev/notes/516650-nonferrous-metals-etf-analysis', title: '查看 516650 短中期买卖点分析最终版' },
+      '159146': { href: 'https://businessweb-c0u.pages.dev/notes/159146-electric-power-etf-analysis', title: '查看 159146 估值、持仓与趋势全面分析完善版' },
+      '516650': { href: 'https://businessweb-c0u.pages.dev/notes/516650-nonferrous-metals-etf-analysis', title: '查看 516650 估值、持仓与趋势全面分析完善版' },
       '600096': { href: 'https://businessweb-c0u.pages.dev/notes/600096-yuntianhua-analysis', title: '查看 600096 短中期买卖点分析审核修订版' },
       '600989': { href: 'https://businessweb-c0u.pages.dev/notes/600989-baofeng-energy-analysis', title: '查看 600989 短中期买卖点分析审核修订版' },
       '601318': { href: 'https://businessweb-c0u.pages.dev/notes/601318-ping-an-analysis', title: '查看 601318 短中期买卖点分析审核修订版' },
-      '562500': { href: 'https://businessweb-c0u.pages.dev/notes/562500-robot-etf-analysis', title: '查看 562500 短中期买卖点分析审核修订版' },
-      '159566': { href: 'https://businessweb-c0u.pages.dev/notes/159566-energy-storage-battery-etf-analysis', title: '查看 159566 短中期买卖点分析审核修订版' },
-      '516750': { href: 'https://businessweb-c0u.pages.dev/notes/516750-building-materials-etf-analysis', title: '查看 516750 短中期买卖点分析审核修订版' },
-      '159865': { href: 'https://businessweb-c0u.pages.dev/notes/159865-livestock-etf-analysis', title: '查看 159865 短中期买卖点分析审核修订版' },
-      '159259': { href: 'https://businessweb-c0u.pages.dev/notes/159259-growth-etf-analysis', title: '查看 159259 短中期买卖点分析审核修订版' },
+      '562500': { href: 'https://businessweb-c0u.pages.dev/notes/562500-robot-etf-analysis', title: '查看 562500 估值、持仓与趋势全面分析完善版' },
+      '159566': { href: 'https://businessweb-c0u.pages.dev/notes/159566-energy-storage-battery-etf-analysis', title: '查看 159566 估值、持仓与趋势全面分析完善版' },
+      '516750': { href: 'https://businessweb-c0u.pages.dev/notes/516750-building-materials-etf-analysis', title: '查看 516750 估值、持仓与趋势全面分析完善版' },
+      '159865': { href: 'https://businessweb-c0u.pages.dev/notes/159865-livestock-etf-analysis', title: '查看 159865 估值、持仓与趋势全面分析完善版' },
+      '159259': { href: 'https://businessweb-c0u.pages.dev/notes/159259-growth-etf-analysis', title: '查看 159259 估值、持仓与趋势全面分析完善版' },
       '159928': { href: 'https://businessweb-c0u.pages.dev/notes/159928-consumer-etf-analysis', title: '查看 159928 估值、持仓与趋势全面分析完善版' },
-      '513180': { href: 'https://businessweb-c0u.pages.dev/notes/513180-hang-seng-tech-etf-analysis', title: '查看 513180 短中期买卖点分析审核修订版' },
+      '513180': { href: 'https://businessweb-c0u.pages.dev/notes/513180-hang-seng-tech-etf-analysis', title: '查看 513180 估值、持仓与趋势全面分析完善版' },
     };
     const reportLink = reportLinks[row.code.trim()];
     const currentPrice = reportLink
