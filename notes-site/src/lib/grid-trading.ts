@@ -965,7 +965,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const markerSvg = marker && markerIndex >= 0
     ? `<line x1="${x(markerIndex)}" x2="${x(markerIndex)}" y1="${priceTop}" y2="${plotBottom}" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="4 3"/><text x="${x(markerIndex) + (markerIndex > count * .8 ? -5 : 5)}" y="${priceTop + 11}" text-anchor="${markerIndex > count * .8 ? 'end' : 'start'}" fill="#0ea5e9" font-size="10" font-weight="600">${marker.label}</text>` : '';
   const noMoney = visible.length ? '' : `<text x="${(left + width - right) / 2}" y="${moneyTop + moneyHeight / 2}" text-anchor="middle" fill="#94a3b8" font-size="12">所选区间在建仓日之前，没有资金数据</text>`;
-  const tipLines = ['date', 'trade', 'open', 'low', 'position', 'capital', 'profit'];
+  const tipLines = ['date', 'trade', 'open', 'low', 'change', 'position', 'capital', 'profit'];
   svg.innerHTML = `<g>${title(priceTop, '价格（元）· 日K / 预计买卖价', '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`
     + `${zoneBands}${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}${markerSvg}</g>`
@@ -992,12 +992,17 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     }
     setText('date', bar.date);
     setText('trade', trade ? `成交  ${trade.side} ${trade.price.toFixed(3)} · ¥${formatAmount(trade.amount)}` : '成交  —');
-    setText('open', `开 ${bar.open.toFixed(3)}   高 ${bar.high.toFixed(3)}`);
-    setText('low', `低 ${bar.low.toFixed(3)}   收 ${bar.close.toFixed(3)}`);
+    // 涨跌幅以前一交易日收盘价为基准（区间内第一根也取区间外的前一根）；没有前收时退回当日开盘价。
+    const prevIndex = candles.findIndex(candle => candle.date === bar.date) - 1;
+    const base = prevIndex >= 0 ? candles[prevIndex].close : bar.open;
+    const pctOf = (value: number) => base > 0 ? `${value >= base ? '+' : ''}${((value / base - 1) * 100).toFixed(2)}%` : '—';
+    setText('open', `开 ${bar.open.toFixed(3)} ${pctOf(bar.open)}   高 ${bar.high.toFixed(3)} ${pctOf(bar.high)}`);
+    setText('low', `低 ${bar.low.toFixed(3)} ${pctOf(bar.low)}   收 ${bar.close.toFixed(3)} ${pctOf(bar.close)}`);
+    setText('change', `涨幅 ${pctOf(bar.close)}   振幅 ${base > 0 ? ((bar.high - bar.low) / base * 100).toFixed(2) + '%' : '—'}`);
     setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
     setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
     setText('profit', point ? `总盈亏  ${formatMoney(point.pnl)}` : '总盈亏  —');
-    const tooltipWidth = 200, tooltipHeight = 18 * tipLines.length + 8;
+    const tooltipWidth = 236, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
     const tooltipY = Math.max(priceTop, Math.min(plotBottom - tooltipHeight, pointerY - tooltipHeight / 2));
     tooltip.setAttribute('transform', `translate(${tooltipX},${tooltipY})`);

@@ -147,7 +147,9 @@ const savedUrl = href('lab/grid-trading/saved');
     if (rangeFrom && first && rangeFrom < first) rangeFrom = first;
     const from = rangeFrom ?? input.openDate;
     rangeFromInput.value = from; rangeToInput.value = rangeTo ?? latest;
-    rangeFromInput.max = rangeToInput.max = latest; rangeFromInput.min = rangeToInput.min = first;
+    // 上限放到「今天」（北京时间）：盘前、休市或行情未更新时最新日线可能早于今天，但仍应能选到今天。
+    const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
+    rangeFromInput.max = rangeToInput.max = latest > today ? latest : today; rangeFromInput.min = rangeToInput.min = first;
     document.querySelectorAll<HTMLButtonElement>('.range-presets button').forEach(button => button.classList.toggle('active', button.dataset.range === rangeKey));
     renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, input.levels);
   }
@@ -410,7 +412,7 @@ const savedUrl = href('lab/grid-trading/saved');
       '516750': { href: 'https://businessweb-c0u.pages.dev/notes/516750-building-materials-etf-analysis', title: '查看 516750 短中期买卖点分析审核修订版' },
       '159865': { href: 'https://businessweb-c0u.pages.dev/notes/159865-livestock-etf-analysis', title: '查看 159865 短中期买卖点分析审核修订版' },
       '159259': { href: 'https://businessweb-c0u.pages.dev/notes/159259-growth-etf-analysis', title: '查看 159259 短中期买卖点分析审核修订版' },
-      '159928': { href: 'https://businessweb-c0u.pages.dev/notes/159928-consumer-etf-analysis', title: '查看 159928 短中期买卖点分析审核修订版' },
+      '159928': { href: 'https://businessweb-c0u.pages.dev/notes/159928-consumer-etf-analysis', title: '查看 159928 估值、持仓与趋势全面分析完善版' },
       '513180': { href: 'https://businessweb-c0u.pages.dev/notes/513180-hang-seng-tech-etf-analysis', title: '查看 513180 短中期买卖点分析审核修订版' },
     };
     const reportLink = reportLinks[row.code.trim()];
