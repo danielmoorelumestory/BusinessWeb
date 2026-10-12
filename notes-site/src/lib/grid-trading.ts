@@ -98,10 +98,137 @@ export function normalizeLevels(raw: unknown): Levels | undefined {
   return levels.support.length || levels.resistance.length ? levels : undefined;
 }
 
+/** 斐波那契：起点、终点（价格必填，日期可选）与要显示的延长线；回撤位固定显示。只用于显示，不参与回测。 */
+export type FibPoint = { price: number; date?: string };
+export const FIB_RETRACEMENTS = [0.236, 0.382, 0.5, 0.618, 0.786] as const;
+export const FIB_EXTENSIONS = [1.272, 1.382, 1.618] as const;
+export type Fib = { start: FibPoint; end: FibPoint; ext: number[]; lookback?: number };
+export type FibLine = { ratio: number; price: number; kind: 'retr' | 'ext' };
+/** 叠加内容的显示开关；字段缺省时：手动区间显示，斐波那契在已配置时显示。 */
+export type View = { levels?: boolean; fib?: boolean; grid?: boolean; fibActive?: string };
+/** 一条记录可保存多组斐波那契（如「上涨波段」「近期下跌」），图中一次显示选中的一组。 */
+export type FibSet = { id: string; name: string; fib: Fib };
+export const MAX_FIB_SETS = 8;
+export const MAX_FIB_NAME = 12;
+export type FibInput = { startPrice: string; startDate?: string; endPrice: string; endDate?: string; ext: number[]; lookback?: number };
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const extOf = (list: unknown): number[] => FIB_EXTENSIONS.filter(item => Array.isArray(list) && list.map(Number).includes(item));
+
+/** 校验面板输入：价格必须是大于 0 的数字且起终点不能相同；日期为空或 YYYY-MM-DD。 */
+export function parseFib(input: FibInput): { fib?: Fib; error?: string } {
+  const startText = input.startPrice.trim(), endText = input.endPrice.trim();
+  if (!startText && !endText) return { fib: undefined };
+  if (!startText || !endText) return { error: '斐波那契需要同时填写起点价格和终点价格' };
+  const start = Number(startText), end = Number(endText);
+  if (!(start > 0) || !(end > 0) || !Number.isFinite(start) || !Number.isFinite(end)) return { error: '起点、终点价格必须是大于 0 的数字' };
+  if (start === end) return { error: '起点与终点价格不能相同' };
+  const dates = [input.startDate?.trim() || undefined, input.endDate?.trim() || undefined];
+  if (dates.some(date => date && !DATE_RE.test(date))) return { error: '日期格式应为 YYYY-MM-DD' };
+  const lookback = Number.isInteger(input.lookback) && input.lookback! > 0 ? input.lookback : undefined;
+  const point = (price: number, date?: string): FibPoint => date ? { price, date } : { price };
+  return { fib: { start: point(start, dates[0]), end: point(end, dates[1]), ext: extOf(input.ext), ...(lookback ? { lookback } : {}) } };
+}
+
+/** 读取云端或本机记录里的斐波那契设置时的容错：结构不对或价格不合法返回 undefined。 */
+export function normalizeFib(raw: unknown): Fib | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const item = raw as Partial<Fib>;
+  const point = (value: unknown): FibPoint | undefined => {
+    const p = value as Partial<FibPoint> | null;
+    if (!p || !(Number(p.price) > 0)) return undefined;
+    return typeof p.date === 'string' && DATE_RE.test(p.date) ? { price: Number(p.price), date: p.date } : { price: Number(p.price) };
+  };
+  const start = point(item.start), end = point(item.end);
+  if (!start || !end || start.price === end.price) return undefined;
+  const lookback = Number.isInteger(item.lookback) && item.lookback! > 0 ? item.lookback : undefined;
+  return { start, end, ext: extOf(item.ext), ...(lookback ? { lookback } : {}) };
+}
+
+export function normalizeView(raw: unknown): View | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const item = raw as View, view: View = {};
+  if (typeof item.levels === 'boolean') view.levels = item.levels;
+  if (typeof item.fib === 'boolean') view.fib = item.fib;
+  if (typeof item.grid === 'boolean') view.grid = item.grid;
+  if (typeof item.fibActive === 'string' && item.fibActive) view.fibActive = item.fibActive.slice(0, 40);
+  return Object.keys(view).length ? view : undefined;
+}
+
+/** 读取记录里的多组斐波那契；兼容早期只有单个 `fib` 字段的记录（作为一组「斐波那契 1」）。id 缺失或重复的项丢弃，超出上限截断。 */
+export function normalizeFibSets(record: { fibs?: unknown; fib?: unknown }): FibSet[] {
+  const sets: FibSet[] = [], seen = new Set<string>();
+  if (Array.isArray(record.fibs)) {
+    for (const item of record.fibs as Partial<FibSet>[]) {
+      const fib = normalizeFib(item?.fib);
+      if (!item || typeof item.id !== 'string' || !item.id || seen.has(item.id) || !fib) continue;
+      seen.add(item.id);
+      sets.push({ id: item.id.slice(0, 40), name: String(item.name ?? '').trim().slice(0, MAX_FIB_NAME) || `斐波那契 ${sets.length + 1}`, fib });
+    }
+  } else {
+    const legacy = normalizeFib(record.fib);
+    if (legacy) sets.push({ id: 'fib-1', name: '斐波那契 1', fib: legacy });
+  }
+  return sets.slice(0, MAX_FIB_SETS);
+}
+
+/** 回撤位 end − d×r，延长位 start + d×e（d = end − start）；上涨与下跌波段同一公式。 */
+export function fibLines(fib: Fib): FibLine[] {
+  const diff = fib.end.price - fib.start.price;
+  return [
+    ...FIB_RETRACEMENTS.map(ratio => ({ ratio, price: fib.end.price - diff * ratio, kind: 'retr' as const })),
+    ...fib.ext.map(ratio => ({ ratio, price: fib.start.price + diff * ratio, kind: 'ext' as const })),
+  ].filter(line => line.price > 0);
+}
+
+/**
+ * 只给两个日期：自动判断哪个是高点、哪个是低点。两根 K 线按中间价 (高+低)/2 比较，较高的一根是高点、取它的最高价，
+ * 另一根是低点、取它的最低价；时间靠前的是起点、靠后的是终点。日期不是交易日时取它之前最近的交易日（休市日属于上一个交易日）。
+ */
+export function fibFromDates(candles: Candle[], dateA: string, dateB: string): { fib?: Fib; error?: string } {
+  if (!DATE_RE.test(dateA) || !DATE_RE.test(dateB)) return { error: '日期格式应为 YYYY-MM-DD' };
+  if (dateA === dateB) return { error: '起点与终点不能是同一天' };
+  const barOf = (date: string) => [...candles].reverse().find(bar => bar.date <= date);
+  const [first, second] = dateA < dateB ? [dateA, dateB] : [dateB, dateA];
+  const a = barOf(first), b = barOf(second);
+  if (!a || !b) return { error: `${!a ? first : second} 早于已有行情的第一天，没有可用的K线` };
+  if (a.date === b.date) return { error: '两个日期落在同一个交易日，请选不同的交易日' };
+  const mid = (bar: Candle) => (bar.high + bar.low) / 2;
+  if (mid(a) === mid(b)) return { error: '两根K线的价格位置相同，无法判断高低点，请手动输入价格' };
+  const aIsHigh = mid(a) > mid(b);
+  const start: FibPoint = aIsHigh ? { price: a.high, date: a.date } : { price: a.low, date: a.date };
+  const end: FibPoint = aIsHigh ? { price: b.low, date: b.date } : { price: b.high, date: b.date };
+  return { fib: { start, end, ext: [...FIB_EXTENSIONS] } };
+}
+
+export const FIB_LOOKBACKS = [30, 60, 90, 120, 250] as const;
+const FIB_MIN_AMPLITUDE = 0.1;
+/**
+ * 自动设置：依次试 30/60/90/120/250 日窗口，选第一个振幅（高−低）/低 ≥ 10% 且最高、最低不在同一根 K 线的；
+ * 都不满足时取振幅最大的。先低后高为上涨波段（起点=低点），先高后低为下跌波段。
+ */
+export function autoFib(candles: Candle[]): Fib | undefined {
+  let best: { fib: Fib; amplitude: number } | undefined;
+  for (const size of FIB_LOOKBACKS) {
+    const win = candles.slice(-size);
+    if (win.length < 2) continue;
+    let hi = 0, lo = 0;
+    win.forEach((bar, index) => { if (bar.high > win[hi].high) hi = index; if (bar.low < win[lo].low) lo = index; });
+    if (hi === lo || !(win[lo].low > 0)) continue;
+    const amplitude = (win[hi].high - win[lo].low) / win[lo].low;
+    const high: FibPoint = { price: win[hi].high, date: win[hi].date }, low: FibPoint = { price: win[lo].low, date: win[lo].date };
+    const fib: Fib = { start: lo < hi ? low : high, end: lo < hi ? high : low, ext: [...FIB_EXTENSIONS], lookback: win.length };
+    if (amplitude >= FIB_MIN_AMPLITUDE) return fib;
+    if (!best || amplitude > best.amplitude) best = { fib, amplitude };
+  }
+  return best?.fib;
+}
+
 export type SavedRecord = {
   id: string; savedAt: string; updatedAt?: string;
   /** 价格图上的支撑/压力区间，只用于显示。 */
   levels?: Levels;
+  /** 价格图上的斐波那契设置（fibs 多组；fib 是早期单组格式，只读兼容）与叠加内容显示开关，只用于显示。 */
+  fibs?: FibSet[]; fib?: Fib; view?: View;
   priceOverrides?: Overrides; amountOverrides?: Overrides; sharesOverrides?: Overrides; paramHistory?: ParamStage[];
   manualTrades?: ManualTrade[]; removedTrades?: string[];
   // 已确认删除：removedTrades 里用户确认“就是要删除、不再提示”的日期，成交保持删除，只是不再出现在“恢复已删除”的待处理列表里。
@@ -800,6 +927,18 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
   return records;
 }
 
+/** 读取云端里这条记录；云端版本比本机新（修改时间更晚）时返回云端版本，否则（没有同步密钥、读取失败、云端没有或不比本机新）返回 undefined。不写本机，由调用方决定。 */
+export async function pullRecord(id: string): Promise<SavedRecord | undefined> {
+  const token = readSyncKey();
+  if (token.length < 16) return undefined;
+  try {
+    const remote = (await cloudRequest(token)).find(item => item.id === id);
+    if (!remote || isTombstone(remote)) return undefined;
+    const local = readRecords().find(item => item.id === id);
+    return !local || stamp(remote) > stamp(local) ? remote : undefined;
+  } catch { return undefined; }
+}
+
 /** 只把一条记录合并进云端（云端版本更新时不覆盖）；返回需要提示的失败信息，成功时为空字符串。what 是提示里对本次改动的称呼。 */
 export async function pushRecord(record: SavedRecord, what = '修正'): Promise<string> {
   const token = readSyncKey();
@@ -866,13 +1005,13 @@ function hardenTouch(svg: SVGSVGElement) {
  * 时间轴以 candles（显示用日线）为准，可通过 range 截取区间；区间可以早于建仓日，此时建仓前只有K线、资金线留空。
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
-export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels) {
+export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true) {
   const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
   if (!series.length || !Number.isFinite(nextBuy) || !Number.isFinite(nextSell)) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">暂无完整曲线数据</text>'; return; }
   if (!bars.length) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">所选区间内没有行情数据</text>'; return; }
   const buyLevel = nextBuy!, sellLevel = nextSell!;
   const width = chartWidthOf(svg), compact = width < 600, left = compact ? 56 : 62, right = compact ? 70 : 70, chartWidth = width - left - right;
-  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range, levels));
+  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range, levels, fib, showGrid));
   const priceTop = 30, priceHeight = compact ? 220 : 280, moneyTop = priceTop + priceHeight + 38, moneyHeight = 150, plotBottom = moneyTop + moneyHeight, height = plotBottom + 30;
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   hardenTouch(svg);
@@ -883,13 +1022,18 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 资金：始终包含 0 轴；价格：包含K线最高/最低价与预计买卖价。
   const values = visible.flatMap(point => [point.positionValue, point.capitalUsed, point.pnl]);
   const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1, yMin = min - span * .06, yMax = max + span * .06;
-  const barMin = Math.min(...bars.map(bar => bar.low), buyLevel), barMax = Math.max(...bars.map(bar => bar.high), sellLevel);
+  // 预计买卖线隐藏时不再参与纵轴范围。
+  const barMin = Math.min(...bars.map(bar => bar.low), ...(showGrid ? [buyLevel] : [])), barMax = Math.max(...bars.map(bar => bar.high), ...(showGrid ? [sellLevel] : []));
   // 支撑/压力区间：与“K线与买卖价范围向两侧各扩 15%”有重叠的纳入纵轴（只取窗口内的部分，超出的裁剪），完全在窗口外的不撑大纵轴，改在边缘用箭头提示。
   const zoneWindow = (barMax - barMin || Math.max(barMax * .02, .01)) * .15, windowLow = barMin - zoneWindow, windowHigh = barMax + zoneWindow;
   const zones = (['support', 'resistance'] as const).flatMap(kind => (levels?.[kind] ?? []).map((level, index) => ({ kind, name: `${kind === 'support' ? 'S' : 'R'}${index + 1}`, index, ...level })));
   const zonesIn = zones.filter(zone => zone.high >= windowLow && zone.low <= windowHigh);
   const zonesAbove = zones.filter(zone => zone.low > windowHigh), zonesBelow = zones.filter(zone => zone.high < windowLow);
-  const priceMinRaw = Math.min(barMin, ...zonesIn.map(zone => Math.max(zone.low, windowLow))), priceMaxRaw = Math.max(barMax, ...zonesIn.map(zone => Math.min(zone.high, windowHigh)));
+  // 斐波那契位同理：窗口内的纳入纵轴，窗口外的在边缘提示。
+  const fibAll = fib ? fibLines(fib) : [];
+  const fibIn = fibAll.filter(line => line.price >= windowLow && line.price <= windowHigh);
+  const fibAbove = fibAll.filter(line => line.price > windowHigh), fibBelow = fibAll.filter(line => line.price < windowLow);
+  const priceMinRaw = Math.min(barMin, ...zonesIn.map(zone => Math.max(zone.low, windowLow)), ...fibIn.map(line => line.price)), priceMaxRaw = Math.max(barMax, ...zonesIn.map(zone => Math.min(zone.high, windowHigh)), ...fibIn.map(line => line.price));
   const priceSpan = priceMaxRaw - priceMinRaw || Math.max(priceMaxRaw * .02, .01), priceMin = priceMinRaw - priceSpan * .08, priceMax = priceMaxRaw + priceSpan * .08;
   const x = (index: number) => left + (index + .5) * slot; // K线居中于各自的槽位
   const y = (value: number) => moneyTop + (yMax - value) / (yMax - yMin) * moneyHeight;
@@ -949,6 +1093,23 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const edgeNote = (list: typeof zones, above: boolean) => [...list].sort((a, b) => above ? a.low - b.low : b.high - a.high).map((zone, order) =>
     `<text x="${width - right - 6}" y="${above ? priceTop + 10 + order * 11 : priceBottom - 4 - order * 11}" text-anchor="end" fill="${ZONE_COLORS[zone.kind][1]}" font-size="9" font-weight="600">${above ? '▲' : '▼'} ${zoneText(zone)}</text>`).join('');
   const zoneEdges = edgeNote(zonesAbove, true) + edgeNote(zonesBelow, false);
+  // 斐波那契：细虚线（回撤紫、延长玫红）+ 靠右的「比例 价格」标签，与手动色带区分；标签从上到下依次避让 10px。
+  const FIB_COLORS = { retr: '#7c3aed', ext: '#db2777' } as const;
+  const fibText = (line: FibLine) => `${line.kind === 'ext' ? '延' : '回'} ${line.ratio} ${line.price.toFixed(3)}`;
+  let lastFibY = -Infinity;
+  const fibSvg = [...fibIn].sort((a, b) => b.price - a.price).map(line => {
+    const yy = priceY(line.price), color = FIB_COLORS[line.kind];
+    const labelY = Math.max(yy - 2, lastFibY + 10, priceTop + 8); lastFibY = labelY;
+    return `<line x1="${left}" x2="${width - right}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="${color}" stroke-width="1" stroke-dasharray="${line.kind === 'ext' ? '6 3' : '2 3'}" opacity=".85"/>`
+      + `<text x="${width - right - 4}" y="${labelY.toFixed(1)}" text-anchor="end" fill="${color}" font-size="9" font-weight="600">${fibText(line)}</text>`;
+  }).join('');
+  const fibEdge = (list: FibLine[], above: boolean) => [...list].sort((a, b) => above ? a.price - b.price : b.price - a.price).map((line, order) =>
+    `<text x="${left + 6}" y="${above ? priceTop + 10 + order * 11 : priceBottom - 4 - order * 11}" fill="${FIB_COLORS[line.kind]}" font-size="9" font-weight="600">${above ? '▲' : '▼'} ${fibText(line)}</text>`).join('');
+  // 起终点在区间内时各画一个小圆点标记。
+  const fibAnchors = fib ? [fib.start, fib.end].map((point, order) => {
+    const index = point.date ? bars.findIndex(bar => bar.date === point.date) : -1;
+    return index >= 0 && point.price >= priceMin && point.price <= priceMax ? `<circle cx="${x(index).toFixed(1)}" cy="${priceY(point.price).toFixed(1)}" r="3.5" fill="#fff" stroke="#7c3aed" stroke-width="1.6"><title>${order ? '终点' : '起点'} ${point.price.toFixed(3)}</title></circle>` : '';
+  }).join('') : '';
   const BUY_COLOR = '#2563eb', SELL_COLOR = '#9333ea', UP_COLOR = '#ef4444', DOWN_COLOR = '#16a34a'; // K线红涨绿跌，买卖线避开红绿
   const stepSvg = gridStep ? stepLines(buyLevel, gridStep.down, -1, lowPrice, BUY_COLOR) + stepLines(sellLevel, gridStep.up, 1, highPrice, SELL_COLOR) : '';
   const labels = [0, Math.floor((count - 1) / 2), count - 1].map((index, order) => `<text x="${x(index)}" y="${plotBottom + 18}" text-anchor="${count > 1 ? (order === 0 ? 'start' : order === 2 ? 'end' : 'middle') : 'middle'}" fill="#94a3b8" font-size="10">${bars[index].date}</text>`).join('');
@@ -968,8 +1129,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const tipLines = ['date', 'trade', 'open', 'low', 'change', 'position', 'capital', 'profit'];
   svg.innerHTML = `<g>${title(priceTop, '价格（元）· 日K / 预计买卖价', '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`
-    + `${zoneBands}${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}${markerSvg}</g>`
-    + candleSvg + zoneLabels + zoneEdges
+    + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
+    + candleSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
     + `<g class="chart-crosshair" visibility="hidden" pointer-events="none"><line class="crosshair-v" y1="${priceTop}" y2="${plotBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/><line class="crosshair-h" x1="${left}" x2="${width - right}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
     + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')

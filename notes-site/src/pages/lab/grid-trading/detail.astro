@@ -10,13 +10,19 @@ const savedUrl = href('lab/grid-trading/saved');
   <a class="back" id="back-link" href={savedUrl}>← 返回已保存标的</a>
   <section id="stats" class="stats"></section>
   <section class="chart-panel">
-    <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="kline-swatch up"></span>涨 <span class="kline-swatch down"></span>跌 <span class="zone-swatch support"></span>支撑区间 <span class="zone-swatch resistance"></span>压力区间（★ 越多越强） <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>
+    <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="kline-swatch up"></span>涨 <span class="kline-swatch down"></span>跌 <span class="zone-swatch support"></span>支撑区间 <span class="zone-swatch resistance"></span>压力区间（★ 越多越强） <span class="line fib-sw-retr"></span>斐波那契回撤 <span class="line fib-sw-ext"></span>延长线 <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>
     <div class="range-bar" id="range-bar" aria-label="曲线时间区间">
       <div class="range-presets" role="group" aria-label="快捷区间">
         <button type="button" data-range="1">近 1 月</button><button type="button" data-range="3">近 3 月</button><button type="button" data-range="6">近半年</button><button type="button" data-range="12">近 1 年</button><button type="button" data-range="all" class="active">全部</button>
       </div>
       <label>起 <input id="range-from" type="date"></label><label>止 <input id="range-to" type="date"></label>
       <span id="range-note" class="range-note" hidden></span>
+    </div>
+    <div class="view-bar" aria-label="叠加内容显示">
+      <span>显示：</span>
+      <label><input id="view-levels" type="checkbox" checked> 手动支撑压力</label>
+      <label><input id="view-fib" type="checkbox"> 斐波那契</label>
+      <label><input id="view-grid" type="checkbox" checked> 预计买卖线</label>
     </div>
     <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>
     <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
@@ -31,6 +37,21 @@ const savedUrl = href('lab/grid-trading/saved');
         ))}
       </div>
       <div class="levels-actions"><button id="levels-save" class="levels-btn" type="button">保存区间</button><button id="levels-clear" class="tool-link" type="button">清空</button><span id="levels-note" class="levels-note" hidden></span></div>
+    </section>
+    <section class="levels-panel fib-panel" id="fib-panel" aria-label="斐波那契">
+      <div class="levels-head"><h3>斐波那契回撤 / 延长线</h3><span>可以直接填价格，也可以只填起点、终点两个日期、价格留空：程序自动判断哪天是高点（取当天最高价）、哪天是低点（取当天最低价）；上涨波段起点是低点、终点是高点，下跌波段反过来。回撤位 0.236 / 0.382 / 0.5 / 0.618 / 0.786 始终显示，延长线可选；只用于在价格图上显示，不参与回测</span></div>
+      <div class="fib-sets">
+        <label>设置 <select id="fib-set" aria-label="选择斐波那契设置"></select></label>
+        <input id="fib-name" type="text" maxlength="12" placeholder="名称" aria-label="本组名称">
+        <button id="fib-new" class="tool-button" type="button">＋ 新增一组</button>
+        <button id="fib-delete" class="tool-link" type="button">删除此组</button>
+      </div>
+      <div class="fib-form">
+        <div class="fib-point"><b>起点</b><input id="fib-start-date" type="date" aria-label="起点日期"><input id="fib-start-price" type="number" step="0.001" min="0" inputmode="decimal" placeholder="价格（可留空）" aria-label="起点价格"></div>
+        <div class="fib-point"><b>终点</b><input id="fib-end-date" type="date" aria-label="终点日期"><input id="fib-end-price" type="number" step="0.001" min="0" inputmode="decimal" placeholder="价格（可留空）" aria-label="终点价格"></div>
+        <div class="fib-ext"><span>延长线</span><label><input type="checkbox" name="fib-ext" value="1.272" checked> 1.272</label><label><input type="checkbox" name="fib-ext" value="1.382" checked> 1.382</label><label><input type="checkbox" name="fib-ext" value="1.618" checked> 1.618</label></div>
+      </div>
+      <div class="levels-actions"><button id="fib-auto" class="tool-button" type="button">自动设置</button><button id="fib-confirm" class="tool-button" type="button">确认（图中显示）</button><button id="fib-save" class="levels-btn" type="button">保存到云端</button><span id="fib-note" class="levels-note" hidden></span></div>
     </section>
   </section>
   <section class="minute-panel" aria-label="分钟线">
@@ -92,8 +113,8 @@ const savedUrl = href('lab/grid-trading/saved');
 
 <script>
   import {
-    calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord,
-    renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, MAX_LEVELS, type Candle, type Levels, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
+    calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord, pullRecord,
+    renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, parseFib, fibFromDates, normalizeFibSets, normalizeView, autoFib, MAX_FIB_SETS, type FibSet, MAX_LEVELS, type Candle, type Levels, type Fib, type View, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
     blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar,
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
   } from '../../../lib/grid-trading';
@@ -112,7 +133,7 @@ const savedUrl = href('lab/grid-trading/saved');
 
   // ---------- 资金与K线曲线：时间区间 ----------
   // 区间与建仓日无关：默认从建仓日到最新；可以选到建仓日之前，此时多取一段只用于显示的日线（不参与回测）。
-  type ChartInput = { series: EquityPoint[]; nextBuy: number; nextSell: number; trades: Trade[]; marker?: { date: string; label: string }; gridStep: { down: number; up: number }; code: string; openDate: string; levels?: Levels };
+  type ChartInput = { series: EquityPoint[]; nextBuy: number; nextSell: number; trades: Trade[]; marker?: { date: string; label: string }; gridStep: { down: number; up: number }; code: string; openDate: string; levels?: Levels; fib?: Fib; view?: View };
   let chartInput: ChartInput | undefined;
   let chartCandles: { code: string; begin: string; candles: Candle[] } | undefined;
   let rangeFrom: string | undefined, rangeTo: string | undefined, rangeKey = 'all', chartRun = 0;
@@ -123,6 +144,8 @@ const savedUrl = href('lab/grid-trading/saved');
   const showRangeNote = (text: string) => { rangeNote.textContent = text; rangeNote.hidden = !text; };
   const monthsBefore = (date: string, months: number) => { const day = new Date(`${date}T00:00:00Z`); day.setUTCMonth(day.getUTCMonth() - months); return day.toISOString().slice(0, 10); };
 
+  // 手动区间缺省显示；斐波那契缺省在已配置时显示。
+  const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: input.view?.grid !== false });
   async function drawEquity() {
     const input = chartInput;
     if (!input) return;
@@ -151,7 +174,7 @@ const savedUrl = href('lab/grid-trading/saved');
     const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
     rangeFromInput.max = rangeToInput.max = latest > today ? latest : today; rangeFromInput.min = rangeToInput.min = first;
     document.querySelectorAll<HTMLButtonElement>('.range-presets button').forEach(button => button.classList.toggle('active', button.dataset.range === rangeKey));
-    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, input.levels);
+    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid);
   }
 
   function bindRange() {
@@ -274,6 +297,175 @@ const savedUrl = href('lab/grid-trading/saved');
     });
   }
   bindLevels();
+
+  // ---------- 斐波那契 ----------
+  const fibPanel = document.querySelector('#fib-panel') as HTMLElement;
+  const fibNote = document.querySelector('#fib-note') as HTMLElement;
+  const viewLevelsBox = document.querySelector('#view-levels') as HTMLInputElement;
+  const viewFibBox = document.querySelector('#view-fib') as HTMLInputElement;
+  const viewGridBox = document.querySelector('#view-grid') as HTMLInputElement;
+  const fibEl = (id: string) => document.querySelector(`#fib-${id}`) as HTMLInputElement;
+  const fibSelect = document.querySelector('#fib-set') as HTMLSelectElement;
+  const fibExtBoxes = () => [...document.querySelectorAll<HTMLInputElement>('input[name="fib-ext"]')];
+  let fibSets: FibSet[] = []; // 已保存的各组
+  let fibNewId: string | undefined; // 正在新建、尚未保存的一组
+  let fibDraft: Fib | undefined; // 已「确认」但尚未保存的斐波那契：只在图中显示，刷新行情时保持
+  let fibDirty = false, fibLookback: number | undefined; // 自动设置后记录所选天数；手动改动输入后清除
+  const activeSetOf = (sets: FibSet[], view?: View) => sets.find(item => item.id === view?.fibActive) ?? sets[0];
+  // 图中显示的斐波那契：已确认的草稿优先；新建中没有草稿则不显示；否则是选中的那一组。
+  const fibNow = (item: SavedRecord) => fibDraft ?? (fibNewId ? undefined : activeSetOf(normalizeFibSets(item), normalizeView(item.view))?.fib);
+  const newFibId = () => `f${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`;
+  const showFibNote = (text: string, tone: 'error' | 'hint' | 'ok' = 'error') => { fibNote.textContent = text; fibNote.hidden = !text; fibNote.className = `levels-note${tone === 'error' ? '' : ` ${tone}`}`; };
+  function fillFib(fib?: Fib) {
+    fibEl('start-date').value = fib?.start.date ?? ''; fibEl('start-price').value = fib ? String(fib.start.price) : '';
+    fibEl('end-date').value = fib?.end.date ?? ''; fibEl('end-price').value = fib ? String(fib.end.price) : '';
+    fibExtBoxes().forEach(box => { box.checked = fib ? fib.ext.includes(Number(box.value)) : true; });
+    fibLookback = fib?.lookback;
+  }
+  function readFibForm() {
+    return { startPrice: fibEl('start-price').value, startDate: fibEl('start-date').value, endPrice: fibEl('end-price').value, endDate: fibEl('end-date').value, ext: fibExtBoxes().filter(box => box.checked).map(box => Number(box.value)), lookback: fibLookback };
+  }
+  // 读取并校验输入；价格都留空而两个日期都填了时，按日期从日线里自动取高低点并回填输入框。
+  async function resolveFibForm(): Promise<{ fib?: Fib; error?: string }> {
+    const form = readFibForm();
+    const noPrice = !form.startPrice.trim() && !form.endPrice.trim();
+    if (!noPrice || (!form.startDate && !form.endDate)) return parseFib(form);
+    if (!form.startDate || !form.endDate) return { error: '只按日期设置时，起点和终点两个日期都要填' };
+    if (!chartInput) return { error: '页面还没加载完' };
+    showFibNote('正在按日期读取K线…', 'hint');
+    try {
+      const begin = new Date(`${[form.startDate, form.endDate].sort()[0]}T00:00:00Z`); begin.setUTCDate(begin.getUTCDate() - 10); // 往前多取几天，便于非交易日取前一个交易日
+      const candles = mergeQuote(await getCandles(chartInput.code, begin.toISOString().slice(0, 10)), (await fetchQuotes([chartInput.code])).get(chartInput.code));
+      const result = fibFromDates(candles, form.startDate, form.endDate);
+      if (!result.fib) return result;
+      const fib = { ...result.fib, ext: form.ext };
+      fillFib(fib); // 回填取到的价格与实际的交易日期，延长线勾选保持用户的选择
+      fibDirty = true;
+      return { fib };
+    } catch { return { error: '行情获取失败，请稍后再试或手动输入价格' }; }
+  }
+  // 下拉与名称框：列出已保存的各组，新建中追加一项「（新建，未保存）」。
+  function renderFibSelect(setName = true) {
+    const active = activeSetOf(fibSets, chartInput?.view);
+    fibSelect.innerHTML = fibSets.map(item => `<option value="${item.id}">${item.name.replace(/[<>&"]/g, '')}</option>`).join('')
+      + (fibNewId || !fibSets.length ? '<option value="__new">（新建，未保存）</option>' : '');
+    fibSelect.value = fibNewId || !fibSets.length ? '__new' : active!.id;
+    if (setName) fibEl('name').value = fibNewId || !fibSets.length ? `斐波那契 ${fibSets.length + 1}` : active!.name;
+    (document.querySelector('#fib-new') as HTMLButtonElement).disabled = fibSets.length >= MAX_FIB_SETS;
+    (document.querySelector('#fib-delete') as HTMLButtonElement).hidden = !fibSets.length && !fibNewId;
+  }
+  function syncViewBoxes() {
+    if (!chartInput) return;
+    const now = shown(chartInput);
+    viewLevelsBox.checked = now.levels; viewFibBox.checked = now.fib; viewGridBox.checked = now.grid;
+  }
+  // 保存本记录的修改（本机 + 云端）；备份视图只读，不保存。
+  async function persistRecord(patch: Partial<SavedRecord>, what: string, note: (text: string, tone?: 'error' | 'hint' | 'ok') => void) {
+    if (!record || viewBackup) return;
+    editRevision++; // 保存期间到达的行情刷新结果会被丢弃，避免覆盖
+    record = { ...record, ...patch, updatedAt: new Date().toISOString() };
+    saveRecord(record);
+    note('已保存到本机，正在同步到云端数据库…', 'hint');
+    const problem = await pushRecord(record, what);
+    if (problem) note(problem, 'hint'); else note('已保存，并已同步到云端数据库。', 'ok');
+  }
+  // 写入各组并选中其中一组（sets 为空表示全部删除）；早期单组字段 fib 一并清掉。
+  async function commitFibSets(sets: FibSet[], activeId: string | undefined) {
+    if (!record || viewBackup || !chartInput) return;
+    const view: View = { ...chartInput.view, ...(activeId ? { fib: true, fibActive: activeId } : { fibActive: undefined }) };
+    fibSets = sets; fibNewId = undefined; fibDraft = undefined; fibDirty = false;
+    const active = activeSetOf(sets, view);
+    chartInput = { ...chartInput, fib: active?.fib, view };
+    fillFib(active?.fib); renderFibSelect(); syncViewBoxes();
+    void drawEquity();
+    await persistRecord({ fibs: sets.length ? sets : undefined, fib: undefined, view }, '斐波那契', showFibNote);
+  }
+  async function autoSetFib() {
+    if (!chartInput) return;
+    showFibNote('正在读取日线…', 'hint');
+    try {
+      // 回看最长 250 个交易日，多取一些自然日；getCandles 带本地缓存。
+      const begin = new Date(`${marketToday()}T00:00:00Z`); begin.setUTCDate(begin.getUTCDate() - 400);
+      const candles = mergeQuote(await getCandles(chartInput.code, begin.toISOString().slice(0, 10)), (await fetchQuotes([chartInput.code])).get(chartInput.code));
+      const fib = autoFib(candles);
+      if (!fib) { showFibNote('行情数据不足，无法自动识别波段，请手动输入起止位置'); return; }
+      fillFib(fib); fibDirty = true;
+      const trend = fib.end.price > fib.start.price ? '上涨' : '下跌';
+      showFibNote(`已自动选取最近 ${fib.lookback} 日（${trend}波段：${fib.start.date} → ${fib.end.date}），可调整后点“确认”在图中查看`, 'hint');
+    } catch {
+      showFibNote('行情获取失败，请稍后再试或手动输入');
+    }
+  }
+  function bindFib() {
+    fibPanel.addEventListener('input', () => { fibDirty = true; fibLookback = undefined; showFibNote(fibDraft ? '输入已修改，点“确认”更新图中显示' : '', 'hint'); });
+    document.querySelector('#fib-auto')!.addEventListener('click', () => void autoSetFib());
+    // 切换设置：选中另一组，输入框与图中显示都换成那一组，并把选择保存（只改显示选择，不改各组内容）。
+    fibSelect.addEventListener('change', () => {
+      if (!chartInput || fibSelect.value === '__new') return;
+      const picked = fibSets.find(item => item.id === fibSelect.value);
+      if (!picked) return;
+      fibNewId = undefined; fibDraft = undefined; fibDirty = false; showFibNote('');
+      const view: View = { ...chartInput.view, fib: true, fibActive: picked.id };
+      chartInput = { ...chartInput, fib: picked.fib, view };
+      fillFib(picked.fib); renderFibSelect(); syncViewBoxes(); void drawEquity();
+      if (!viewBackup) void persistRecord({ view }, '斐波那契切换', showFibNote);
+    });
+    document.querySelector('#fib-new')!.addEventListener('click', () => {
+      if (!chartInput || fibSets.length >= MAX_FIB_SETS) return;
+      fibNewId = newFibId(); fibDraft = undefined; fibDirty = false;
+      chartInput = { ...chartInput, fib: undefined };
+      fillFib(undefined); renderFibSelect(); void drawEquity();
+      showFibNote('已新建一组：填写起点、终点后点“确认”看效果，满意再“保存到云端”', 'hint');
+    });
+    document.querySelector('#fib-delete')!.addEventListener('click', () => {
+      if (!chartInput) return;
+      if (fibNewId || !fibSets.length) { // 放弃新建中的一组，回到已保存的选中项
+        fibNewId = undefined; fibDraft = undefined; fibDirty = false; showFibNote('');
+        const active = activeSetOf(fibSets, chartInput.view);
+        chartInput = { ...chartInput, fib: active?.fib };
+        fillFib(active?.fib); renderFibSelect(); void drawEquity();
+        return;
+      }
+      const active = activeSetOf(fibSets, chartInput.view)!;
+      if (!confirm(`删除斐波那契设置「${active.name}」？`)) return;
+      const rest = fibSets.filter(item => item.id !== active.id);
+      void commitFibSets(rest, rest[0]?.id);
+    });
+    // 确认：按当前输入在图中显示，先看效果；不保存、不上传，刷新页面即恢复为已保存的设置。
+    document.querySelector('#fib-confirm')!.addEventListener('click', async () => {
+      if (!chartInput) return;
+      const { fib, error } = await resolveFibForm();
+      if (error) { showFibNote(error); return; }
+      if (!fib) { showFibNote('请填写起点、终点价格，或只填两个日期由程序自动取高低点'); return; }
+      fibDraft = fib; fibDirty = false;
+      chartInput = { ...chartInput, fib, view: { ...chartInput.view, fib: true } };
+      syncViewBoxes(); void drawEquity();
+      showFibNote('已在图中显示（尚未保存）；满意后点“保存到云端”', 'hint');
+    });
+    document.querySelector('#fib-save')!.addEventListener('click', async () => {
+      const { fib, error } = await resolveFibForm();
+      if (error) { showFibNote(error); return; }
+      if (!fib) { showFibNote('请填写起点、终点价格，或只填两个日期由程序自动取高低点'); return; }
+      const name = fibEl('name').value.trim().slice(0, 12) || `斐波那契 ${fibSets.length + 1}`;
+      const active = fibNewId || !fibSets.length ? undefined : activeSetOf(fibSets, chartInput?.view);
+      if (active) { void commitFibSets(fibSets.map(item => item.id === active.id ? { ...item, name, fib } : item), active.id); return; }
+      if (fibSets.length >= MAX_FIB_SETS) { showFibNote(`最多保存 ${MAX_FIB_SETS} 组`); return; }
+      const id = fibNewId ?? newFibId();
+      void commitFibSets([...fibSets, { id, name, fib }], id);
+    });
+    // 显示开关：立即重绘并保存（备份视图只读，只临时切换）
+    const onView = () => {
+      if (!chartInput) return;
+      const view: View = { ...chartInput.view, levels: viewLevelsBox.checked, fib: viewFibBox.checked, grid: viewGridBox.checked };
+      chartInput = { ...chartInput, view };
+      void drawEquity();
+      if (!viewBackup) void persistRecord({ view }, '显示设置', showFibNote);
+    };
+    viewLevelsBox.addEventListener('change', onView);
+    viewFibBox.addEventListener('change', onView);
+    viewGridBox.addEventListener('change', onView);
+  }
+  bindFib();
   function drawCompare() {
     if (!compareBackup) return;
     renderCompareChart(document.querySelector('#compare-chart') as SVGSVGElement, pureSeries, liveSeries, compareMetric, { date: compareBackup.date, label: '备份点' });
@@ -452,9 +644,12 @@ const savedUrl = href('lab/grid-trading/saved');
     const confirmedDates = new Set(item.removedConfirmed ?? []), pendingCount = (item.removedTrades ?? []).filter(date => !confirmedDates.has(date)).length;
     restore.hidden = !removedCount; restore.textContent = pendingCount ? `恢复已删除的 ${pendingCount} 条网格成交` : `查看已确认删除的 ${removedCount} 条`;
     if (!removedCount) (document.querySelector('#removed-panel') as HTMLElement).hidden = true;
-    chartInput = { series: result.series ?? [], nextBuy: result.nextBuy, nextSell: result.nextSell, trades: result.trades, marker: viewBackup ? { date: viewBackup.date, label: '备份点' } : undefined, gridStep: { down: row.step - row.rebound, up: row.step - row.pullback }, code: row.code, openDate: row.date, levels: normalizeLevels(item.levels) };
-    levelsPanel.hidden = !!viewBackup;
+    chartInput = { series: result.series ?? [], nextBuy: result.nextBuy, nextSell: result.nextSell, trades: result.trades, marker: viewBackup ? { date: viewBackup.date, label: '备份点' } : undefined, gridStep: { down: row.step - row.rebound, up: row.step - row.pullback }, code: row.code, openDate: row.date, levels: normalizeLevels(item.levels), fib: fibNow(item), view: fibDraft ? { ...normalizeView(item.view), fib: true } : normalizeView(item.view) };
+    levelsPanel.hidden = fibPanel.hidden = !!viewBackup;
     if (!levelsDirty) fillLevels(chartInput.levels);
+    fibSets = normalizeFibSets(item);
+    if (!fibDirty) fillFib(chartInput.fib);
+    renderFibSelect(!fibDirty); syncViewBoxes();
     void drawEquity();
     if (!viewBackup) void renderBackups(item);
   }
@@ -643,7 +838,7 @@ const savedUrl = href('lab/grid-trading/saved');
   const backupRecordOf = (source: SavedRecord, backup: Backup, result: GridResult): SavedRecord => ({
     id: source.id, savedAt: backup.at, row: backup.row, result, priceOverrides: backup.priceOverrides, amountOverrides: backup.amountOverrides,
     sharesOverrides: backup.sharesOverrides, paramHistory: backup.paramHistory, manualTrades: backup.manualTrades, removedTrades: backup.removedTrades,
-    levels: source.levels, // 备份视图只读显示该记录当前的支撑/压力区间
+    levels: source.levels, fibs: source.fibs, fib: source.fib, view: source.view, // 备份视图只读显示该记录当前的支撑/压力区间与斐波那契
   });
 
   // 手动增删记录只影响总盈亏、持仓和占用本金：卖出份额不能超过当时持仓，删除也不能让持仓变成负数。
@@ -872,13 +1067,24 @@ const savedUrl = href('lab/grid-trading/saved');
     bindTradeTools();
     bindBackups();
     // 先显示已保存快照，再用最新行情（日线按天缓存、报价 60 秒缓存）重算并原地更新。
-    const snapshot = record, revision = editRevision;
-    refreshRecord(snapshot).then(updated => {
-      if (editRevision !== revision) return; // 刷新期间用户已修正，以修正结果为准
-      // 刷新期间可能已升级备份，保留最新的备份列表。
-      record = { ...updated, backups: record?.backups ?? updated.backups }; saveRecord(record); render(record);
-    }).catch(() => { subtitle.textContent = `${snapshot.result.range} · 行情刷新失败，当前显示已保存快照`; })
-      .finally(() => { (document.querySelector('#backup-now') as HTMLButtonElement).disabled = false; });
+    const refreshView = () => {
+      const snapshot = record!, revision = editRevision;
+      refreshRecord(snapshot).then(updated => {
+        if (editRevision !== revision) return; // 刷新期间用户已修正（或已拉取云端新版本），以修正结果为准
+        // 只更新回测结果，其余字段（备份列表、区间、斐波那契等）取当前最新的记录。
+        record = { ...(record ?? updated), result: updated.result }; saveRecord(record); render(record);
+      }).catch(() => { subtitle.textContent = `${snapshot.result.range} · 行情刷新失败，当前显示已保存快照`; })
+        .finally(() => { (document.querySelector('#backup-now') as HTMLButtonElement).disabled = false; });
+    };
+    refreshView();
+    // 页面打开时读取云端：云端版本更新（如斐波那契、支撑压力、显示设置在别处改过）就以云端为准，覆盖本机并重绘。
+    void pullRecord(record.id).then(remote => {
+      if (!remote) return;
+      editRevision++; // 丢弃仍在途中的行情刷新结果
+      fibDraft = undefined; fibNewId = undefined; fibDirty = false; levelsDirty = false;
+      record = remote; saveRecord(record); render(record);
+      refreshView();
+    });
   }
 </script>
 
@@ -943,6 +1149,20 @@ const savedUrl = href('lab/grid-trading/saved');
   .levels-note.hint { color:#b45309; }
   .levels-note.ok { color:#15803d; }
   @media (max-width: 720px) { .levels-grid { grid-template-columns:1fr; } .level-row { flex-wrap:wrap; } .level-row input[type=number] { width:70px; } .level-row input.level-note { flex:1 1 100%; order:9; } }
+  .view-bar { display:flex; flex-wrap:wrap; align-items:center; gap:6px 16px; margin:2px 0 6px; color:#475569; font-size:13px; }
+  .view-bar label { display:flex; align-items:center; gap:5px; cursor:pointer; }
+  .fib-sets { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-bottom:8px; font-size:12px; color:#475569; }
+  .fib-sets label { display:flex; align-items:center; gap:6px; }
+  .fib-sets select, .fib-sets input { border:1px solid #cbd5e1; border-radius:6px; padding:4px 6px; background:#fff; color:#334155; font-size:12px; }
+  .fib-sets input { width:120px; }
+  .fib-form { display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px; margin-bottom:8px; }
+  .fib-point, .fib-ext { display:flex; align-items:center; gap:6px; font-size:12px; color:#475569; }
+  .fib-point b { color:#334155; }
+  .fib-point input { min-width:0; border:1px solid #cbd5e1; border-radius:6px; padding:4px 6px; background:#fff; color:#334155; font-size:12px; }
+  .fib-point input[type=number] { width:104px; }
+  .fib-ext label { display:flex; align-items:center; gap:3px; cursor:pointer; }
+  .line.fib-sw-retr { border-top:1.5px dotted #7c3aed; background:none; height:0; }
+  .line.fib-sw-ext { border-top:1.5px dashed #db2777; background:none; height:0; }
   .range-bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:6px 0 4px; color:#475569; font-size:13px; }
   .range-presets { display:flex; flex-wrap:wrap; gap:6px; }
   .range-presets button { border:1px solid #cbd5e1; border-radius:6px; padding:4px 10px; background:#fff; color:#334155; font-size:12px; cursor:pointer; }
