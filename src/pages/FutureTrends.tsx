@@ -2,7 +2,7 @@ import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import FutureCompanyLink from '../components/FutureCompanyLink'
 import { researchForCompany, researchPercent } from '../data/futureTrendsResearch'
-import { PageTabs, PageTitle } from '../components/ui/PageTabs'
+import { PageTabs } from '../components/ui/PageTabs'
 import { ADAS_LEVELS, ADAS_PICKS, ADAS_PICKS_ASOF, ADAS_RISK_RULES, ADAS_SUMMARY } from '../data/futureTrendsAdasPicks'
 import { AI_LEVELS, AI_PICKS, AI_PICKS_ASOF, AI_RISK_RULES, AI_PICKS_PRICE_DATE, AI_PICKS_SUMMARY } from '../data/futureTrendsAiPicks'
 import type { AiLevel, AiPick } from '../data/futureTrendsAiPicks'
@@ -135,11 +135,14 @@ export default function FutureTrends(): JSX.Element {
   const coverage = trendCoverage()
   const selectedCoverage = trendCoverage([trend])
   return (
-    <main>
-      <PageTitle>未来趋势</PageTitle>
+    <main className="container animate-fade-in ft-page">
+      <header className="page-head">
+        <h1>未来趋势</h1>
+        <p>AI、智驾、机器人、创新药、航空航天、新能源等赛道的产业链与中美参与公司。</p>
+      </header>
       <PageTabs label="未来趋势赛道" value={id} onChange={setId}
         items={[{ id: CORE_ID, label: '核心' }, { id: POOL_ID, label: '候选池' }, { id: SOLID_ID, label: '固态电池' }, ...TRENDS.map(t => ({ id: t.id, label: t.name.replace(/（.*?）/, '').replace(/，.*/, '') }))]} />
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 16px 32px' }}>
+      <div>
         {id !== POOL_ID && id !== CORE_ID && id !== SOLID_ID && <p role="note" style={{ color: 'var(--text-secondary)', fontSize: 13, margin: '14px 0' }}>产业目录截至 {FUTURE_TRENDS_ASOF}。点击公司名称查看详细研究；查看推荐顺序请进入核心或候选池。</p>}
 
         {id === SOLID_ID ? <FutureTrendsSolidState /> : id === POOL_ID ? <FutureTrendsPool /> : id === CORE_ID ? <FutureTrendsCore /> : (<>
