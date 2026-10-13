@@ -1490,7 +1490,7 @@ const InvestmentPlan2026 = () => {
     <main className="container animate-fade-in page-shell plan-page">
       <PageTitle desc="三笔钱、再平衡、红线与回撤补仓">2026 投资计划</PageTitle>
       <PageTabs label="2026 投资计划栏目" items={TABS} value={tab} onChange={setTab} />
-      <div style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '0 16px 64px', boxSizing: 'border-box' }}>
+      <div style={{ width: '100%', padding: '0 0 64px', boxSizing: 'border-box' }}>
       <div className="page-toolbar">
         <span className="page-toolbar__note">不预测，先划线：用事前写好的规则代替年初的剧本</span>
         <span>风险阶段：<b style={{ color: 'var(--text-primary)' }}>{entered < 3 ? '待填写' : stage.name}</b></span>

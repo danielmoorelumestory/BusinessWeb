@@ -103,7 +103,7 @@ export default function InvestmentStrategy(): JSX.Element {
         items={tabs.map(t => ({ id: t.id, label: t.label, icon: <t.icon size={14} /> }))} />
 
       {/* 内容区 */}
-      <div style={{ maxWidth: '760px', margin: '0 auto', padding: '28px 20px' }}>
+      <div style={{ maxWidth: '760px', padding: '28px 0' }}>
 
         {/* ── 策略基因 ── */}
         {activeTab === 'dna' && (

@@ -459,7 +459,7 @@ export default function ResearchNotes(): JSX.Element {
         items={tabs.map(t => ({ id: t.id, label: t.label, icon: <t.icon size={14} /> }))} />
 
       {/* 内容区 */}
-      <div style={{ maxWidth: '960px', margin: '0 auto', padding: '24px 16px' }}>
+      <div style={{ padding: '24px 0' }}>
 
         {/* ── 配置笔记：投资框架 + 家庭组合 ── */}
         {activeTab === 'notes' && (

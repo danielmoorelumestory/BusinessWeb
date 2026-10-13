@@ -105,7 +105,7 @@ export default function IndustryLandscape(): JSX.Element {
       <PageTitle desc="行业结构、龙头与格局：固态电池、半导体产业链，和一页纸主题研究卡">产业格局</PageTitle>
       <PageTabs label="产业格局栏目" value={tab} onChange={id => { setTab(id); setQ('') }}
         items={[...(Object.keys(SOURCES) as SourceId[]).map(id => ({ id: id as TabId, label: SOURCES[id].label })), { id: 'cards' as TabId, label: '主题研究卡' }]} />
-      {tab === 'cards' ? <ThemeCards /> : <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 16px 32px' }}>
+      {tab === 'cards' ? <ThemeCards /> : <div style={{ padding: '0 0 32px' }}>
         <p role="note" style={{ margin: '0 0 12px', padding: '10px 14px', borderRadius: 10, background: 'var(--bg-primary)', color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.7 }}>
           这里是产业结构和技术路线的资料整理，用来看懂产业，不是买入清单。节点里出现的公司只是产业参与者；数据和预测多为早期整理，未逐条注明来源与日期，用前请自行核对。产业增长不等于公司盈利，更不等于股价回报，研究方法见书第31章；主题投资只放主动额度（第9章）。不构成投资建议。
         </p>

@@ -118,7 +118,7 @@ export default function Monitor(): JSX.Element {
     <main className="container animate-fade-in page-shell">
       <PageTitle desc="中美经济温度、周期阶段与对应动作">宏观温度</PageTitle>
       <PageTabs label="宏观温度栏目" items={TABS} value={tab} onChange={id => go({ tab: id === 'overview' ? null : id, old: null })} />
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 16px 40px' }}>
+      <div style={{ padding: '0 0 40px' }}>
         {needsData && !snap && <p role={error ? 'alert' : 'status'} className="macro-muted">{error || '正在加载宏观数据…'}</p>}
         {snap && needsData && (
           <div className="page-toolbar">

@@ -36,7 +36,7 @@ export default function ThemeCards(): JSX.Element {
   const total = capTotal(cards)
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 16px 32px' }}>
+    <div style={{ padding: '0 0 32px' }}>
       <p role="note" style={{ margin: '0 0 12px', padding: '10px 14px', borderRadius: 10, background: 'var(--bg-primary)', color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.7 }}>
         对应书第31章 31.12 的「一页纸未来产业研究卡」。这里不预设任何产业判断，每一项由你自己填，并写明依据和日期；内容只保存在这台设备的浏览器里。主题只放主动额度（第9章），每年复核一次（31.13）。不构成投资建议。
       </p>
