@@ -1487,8 +1487,8 @@ const InvestmentPlan2026 = () => {
   const nextEvent = CALENDAR.find(e => dayDiff(new Date(e.date), today) >= 0)
 
   return (
-    <div className="plan-page" style={{ minHeight: '100vh', background: 'var(--bg-primary)', fontFamily: 'var(--font-family)' }}>
-      <PageTitle>2026 投资计划</PageTitle>
+    <main className="container animate-fade-in page-shell plan-page">
+      <PageTitle desc="三笔钱、再平衡、红线与回撤补仓">2026 投资计划</PageTitle>
       <PageTabs label="2026 投资计划栏目" items={TABS} value={tab} onChange={setTab} />
       <div style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '0 16px 64px', boxSizing: 'border-box' }}>
       <div className="page-toolbar">
@@ -1512,7 +1512,7 @@ const InvestmentPlan2026 = () => {
         本页为个人投资纪律与学习工具，阈值与比例均为示例，不构成投资建议。投资有风险，决策请结合自身情况。
       </p>
       </div>
-    </div>
+    </main>
   )
 }
 

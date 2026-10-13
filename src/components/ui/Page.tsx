@@ -4,16 +4,17 @@ import { PageTitle } from './PageTabs'
 const cx = (...names: Array<string | false | undefined>): string => names.filter(Boolean).join(' ')
 
 /** 页面根节点：统一 1100 宽（与顶栏、面包屑对齐）并提供唯一的 main；阅读型页面用 reading（760 宽） */
-export function Page({ children, variant = 'default', className, title }: {
+export function Page({ children, variant = 'default', className, title, description }: {
   children: React.ReactNode
   variant?: 'default' | 'reading'
   className?: string
-  /** 视觉隐藏的 h1；页面名由面包屑显示 */
+  /** 页面标题（大标题 + 说明） */
   title?: string
+  description?: string
 }): JSX.Element {
   return (
     <main id="main-content" className={cx('container page', variant === 'reading' && 'page--reading', className)}>
-      {title && <PageTitle>{title}</PageTitle>}
+      {title && <PageTitle desc={description}>{title}</PageTitle>}
       {children}
     </main>
   )

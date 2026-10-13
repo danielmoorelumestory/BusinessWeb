@@ -89,8 +89,8 @@ export default function TradingPhilosophy(): JSX.Element {
   ]
 
   return (
-    <main className="container" style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px 16px', position: 'relative' }}>
-      <PageTitle>道与术（短线策略）</PageTitle>
+    <main className="container animate-fade-in page-shell" style={{ position: 'relative' }}>
+      <PageTitle desc="早期短线交易体系">道与术（短线策略）</PageTitle>
       <PageTabs label="章节" width={1000} value={activeSection} onChange={scrollToSection}
         items={sections.map(section => ({ id: section.id, label: section.title.replace(/[一二三四五六七八]、/, ''), icon: section.icon }))} />
 

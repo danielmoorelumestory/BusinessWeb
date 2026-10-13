@@ -18,7 +18,7 @@
 .container.page {
   max-width: var(--page-max);
   min-height: 50vh;
-  padding-top: var(--space-4);
+  padding-top: 32px;
 }
 
 /* 吸顶页签在页面内部时：页签与正文左对齐，底色用阴影、底线用 border-image-outset 延伸到两侧

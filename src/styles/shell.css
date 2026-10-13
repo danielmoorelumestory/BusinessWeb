@@ -1289,3 +1289,13 @@ a.chapter-nav__item:hover {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ---------- 统一页面外壳：与行业 ETF 清单一致（1100 宽，32/24/60 内边距，大标题 + 说明） ---------- */
+.container.page-shell,
+.container.page { padding: 32px 24px 60px; }
+.container.page-shell .page-tabs__inner,
+.container.page .page-tabs__inner { max-width: none; padding: 0; }
+@media (max-width: 640px) {
+  .container.page-shell,
+  .container.page { padding: 24px 16px 40px; }
+}

@@ -67,7 +67,12 @@ export function Segmented<T extends string>({ items, value, onChange, label }: {
   )
 }
 
-/** 页面名由面包屑显示，这里只给读屏和搜索引擎一个标题 */
-export function PageTitle({ children }: { children: React.ReactNode }): JSX.Element {
-  return <h1 className="visually-hidden">{children}</h1>
+/** 页面标题：与行业 ETF 清单一致的大标题加一行说明（.page-head） */
+export function PageTitle({ children, desc }: { children: React.ReactNode; desc?: string }): JSX.Element {
+  return (
+    <header className="page-head">
+      <h1>{children}</h1>
+      {desc && <p>{desc}</p>}
+    </header>
+  )
 }

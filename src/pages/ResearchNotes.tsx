@@ -453,9 +453,9 @@ export default function ResearchNotes(): JSX.Element {
   const maxCount = Math.max(...sp500Sectors.map(s => s.count))
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: '80px' }}>
-      <PageTitle>公司研究</PageTitle>
-      <PageTabs label="公司研究栏目" width={960} value={activeTab} onChange={setActiveTab}
+    <main className="container animate-fade-in page-shell">
+      <PageTitle desc="四个市场的公司库、候选池与研究方法">公司研究</PageTitle>
+      <PageTabs label="公司研究栏目" value={activeTab} onChange={setActiveTab}
         items={tabs.map(t => ({ id: t.id, label: t.label, icon: <t.icon size={14} /> }))} />
 
       {/* 内容区 */}
@@ -1008,6 +1008,6 @@ export default function ResearchNotes(): JSX.Element {
           ↑
         </button>
       )}
-    </div>
+    </main>
   )
 }

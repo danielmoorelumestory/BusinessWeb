@@ -14,11 +14,11 @@ describe('Page', () => {
     expect(mains[0].id).toBe('main-content')
     expect(mains[0].className).toBe('container page x-page')
   })
-  it('reading 变体与视觉隐藏标题', () => {
+  it('reading 变体与页面标题', () => {
     render(<Page variant="reading" title="公司详情">x</Page>)
     expect(screen.getByRole('main').className).toContain('page--reading')
     const h1 = screen.getByRole('heading', { level: 1, name: '公司详情' })
-    expect(h1.className).toBe('visually-hidden')
+    expect(h1.closest('header')?.className).toBe('page-head')
   })
 })
 

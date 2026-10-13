@@ -97,8 +97,8 @@ export default function InvestmentStrategy(): JSX.Element {
   )
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: '80px' }}>
-      <PageTitle>综合投资策略框架</PageTitle>
+    <main className="container animate-fade-in page-shell">
+      <PageTitle desc="巴菲特 · 邓普顿 · 双阶段轮动">综合投资策略框架</PageTitle>
       <PageTabs label="策略框架栏目" width={760} value={activeTab} onChange={setActiveTab}
         items={tabs.map(t => ({ id: t.id, label: t.label, icon: <t.icon size={14} /> }))} />
 
@@ -419,6 +419,6 @@ export default function InvestmentStrategy(): JSX.Element {
           ↑
         </button>
       )}
-    </div>
+    </main>
   )
 }

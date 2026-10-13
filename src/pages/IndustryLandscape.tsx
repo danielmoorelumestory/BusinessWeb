@@ -101,8 +101,8 @@ export default function IndustryLandscape(): JSX.Element {
 
   const total = useMemo(() => (tree ? countNodes(tree) : 0), [tree])
   return (
-    <main>
-      <PageTitle>产业格局</PageTitle>
+    <main className="container animate-fade-in page-shell">
+      <PageTitle desc="行业结构、龙头与格局：固态电池、半导体产业链，和一页纸主题研究卡">产业格局</PageTitle>
       <PageTabs label="产业格局栏目" value={tab} onChange={id => { setTab(id); setQ('') }}
         items={[...(Object.keys(SOURCES) as SourceId[]).map(id => ({ id: id as TabId, label: SOURCES[id].label })), { id: 'cards' as TabId, label: '主题研究卡' }]} />
       {tab === 'cards' ? <ThemeCards /> : <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 16px 32px' }}>

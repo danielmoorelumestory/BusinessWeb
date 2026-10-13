@@ -269,8 +269,8 @@ export default function Dcf(): JSX.Element {
     formatScaleHint(toBaseShares(parseNumber(form.values.shares), form.shareUnit));
 
   return (
-    <main className="dcf-page">
-      <PageTitle>现金流折现估值（含 WACC）</PageTitle>
+    <main className="dcf-page container animate-fade-in page-shell">
+      <PageTitle desc="WACC + 五年现金流折现估值与安全边际，可保存记录">现金流折现估值（含 WACC）</PageTitle>
       <div className="page-toolbar">
         <span className="page-toolbar__note">
           五年现金流折现 + 终值 + 股权桥接，口径与原表一致；记录只存在当前浏览器。

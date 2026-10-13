@@ -300,9 +300,9 @@ export default function Valuation() {
     }
   }
   return (
-    <main className="valuation-page">
+    <main className="valuation-page container animate-fade-in page-shell">
       <div className="valuation-shell">
-        <PageTitle>公司估值工作台</PageTitle>
+        <PageTitle desc="六方法三情景估值与报告导出">公司估值工作台</PageTitle>
         <section className="valuation-card">
           <div className="valuation-section-head">
             <h2>开始一次估值</h2>

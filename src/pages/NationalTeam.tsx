@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { PageTabs, PageTitle, type TabItem } from '../components/ui/PageTabs'
+import { PageTabs, type TabItem } from '../components/ui/PageTabs'
 import EtfView from '../features/national-team/EtfView'
 import GuideView from '../features/national-team/GuideView'
 import IndustriesView from '../features/national-team/IndustriesView'
@@ -56,10 +56,8 @@ export default function NationalTeam(): JSX.Element {
   const m = meta.data
   const failed = meta.error
   return (
-    <div className="nt-page">
-      <PageTitle>国家队持仓</PageTitle>
+    <Page title="国家队持仓" description="汇金、证金、社保等持有哪些 A 股：按机构、行业、个股看持仓与季度变化" className="nt-main">
       <PageTabs label="国家队持仓栏目" items={TABS} value={tab} onChange={id => go({ tab: id === 'overview' ? null : id })} />
-      <Page className="nt-main">
         {failed && <p className="nt-alert" role="alert">数据加载失败，请刷新重试。</p>}
         {!m && !failed && <p className="nt-muted">加载中…</p>}
         {m && (
@@ -84,7 +82,6 @@ export default function NationalTeam(): JSX.Element {
             {tab === 'guide' && <GuideView meta={m} />}
           </>
         )}
-      </Page>
-    </div>
+    </Page>
   )
 }

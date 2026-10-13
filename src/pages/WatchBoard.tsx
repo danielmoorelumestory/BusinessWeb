@@ -231,7 +231,7 @@ export default function WatchBoard(): JSX.Element {
   const busy = quotesLoading || dailyLoading
   return (
     <Page className="watch-page">
-      <PageTitle>观察盘</PageTitle>
+      <PageTitle desc="宏观阶段、全球主要指数与商品汇率、A 股涨跌停与资金流向，一页看完">观察盘</PageTitle>
       <PageToolbar note={`一页看完宏观、全球和 A 股。看环境，不据此下单：只有宏观阶段变化才调整计划。${updatedAt ? ` 行情更新于 ${updatedAt}` : ''}`}>
         <button type="button" className="tool-btn tool-btn--primary" disabled={busy} onClick={() => setTick(n => n + 1)}>
           <RefreshCw size={15} aria-hidden="true" className={busy ? 'animate-spin' : undefined} />{busy ? '正在更新…' : '刷新'}

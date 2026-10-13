@@ -25,8 +25,8 @@ const pdfUrl = (file: string): string => `${import.meta.env.BASE_URL}first-book/
 
 export default function MyBooks({ showPdf = PDF_ENTRY_ENABLED }: { showPdf?: boolean }): JSX.Element {
   return (
-    <main className="container" style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px 16px' }}>
-      <PageTitle>我的书</PageTitle>
+    <main className="container animate-fade-in page-shell">
+      <PageTitle desc="《正念投资：普通人用规则代替盯盘的投资方法》全文与目录">我的书</PageTitle>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {BOOKS.map(book => (
           <article key={book.id} className="book-card">

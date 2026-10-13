@@ -3,17 +3,11 @@ import { PageTitle } from '../components/ui/PageTabs'
 import AIDiffusion from '../components/AIDiffusion'
 
 export default function MainlandInvestmentTargets(): JSX.Element {
-  const containerStyle: React.CSSProperties = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '20px 16px'
-  }
-
   return (
-    <div style={containerStyle}>
-      <PageTitle>A 股观察池</PageTitle>
+    <main className="container animate-fade-in page-shell">
+      <PageTitle desc="2026 年 1 月的 AI 主题标的清单">A 股观察池</PageTitle>
 
       <AIDiffusion />
-    </div>
+    </main>
   )
 }

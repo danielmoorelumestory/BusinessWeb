@@ -42,7 +42,7 @@ export default function DailyAnalysis(): JSX.Element {
     return () => clearInterval(timer)
   }, [selected, loading, data?.session])
 
-  return <Page title="每日分析" className="daily-analysis">
+  return <Page title="每日分析" description="自动获取 A 股行情、涨跌停与连板复盘，保留交易日快照" className="daily-analysis">
     <PageToolbar note="A 股自动复盘 · 进入页面自动获取，盘中每分钟更新">
       <button className="tool-btn tool-btn--primary" type="button" disabled={loading} onClick={() => setRefresh(value => value + 1)}><RefreshCw size={15} aria-hidden="true" />{loading ? '正在获取…' : '刷新数据'}</button>
     </PageToolbar>
