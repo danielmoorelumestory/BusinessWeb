@@ -1,10 +1,28 @@
 {
-  "generatedAt": "2026-10-13T12:51:04.544Z",
+  "generatedAt": "2026-10-13T15:21:10.000Z",
   "versions": [
     {
       "tag": "unreleased",
       "date": null,
       "commits": [
+        {
+          "hash": "6c14c3b",
+          "subject": "feat(etf): add broad ETF selection and ten research reports",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "1eac240",
+          "subject": "feat(etf): show dated research judgments with trend colors",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "123ab9a",
+          "subject": "feat(etf): complete 59 ETF reports and quantified trend summaries",
+          "author": "train",
+          "date": "2026-10-13"
+        },
         {
           "hash": "6463256",
           "subject": "docs(etf): publish industry ETF research notes",
@@ -164,24 +182,6 @@
         {
           "hash": "a9b11d3",
           "subject": "feat: 公开行情接口加边缘缓存，日线读取不再因缺当天而整段重下（edge-cache-and-daily-bar-patch）",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "6ad04b0",
-          "subject": "chore(openspec): 归档 migrate-notes-content 与 grid-chart-kline-range，修正笔记列表测试为 4 篇",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "911a2ac",
-          "subject": "feat(grid): 回测详情曲线支持时间区间，价格改为日K线（grid-chart-kline-range）",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "2063471",
-          "subject": "style(notes): align detail width with standard pages",
           "author": "train",
           "date": "2026-10-11"
         }

@@ -65,4 +65,32 @@ describe('NoteDetail', () => {
     renderAt('/notes/swine-poultry-research')
     await waitFor(() => expect(screen.getByRole('alert')).toBeTruthy())
   })
+
+  it('ETF 专属分析笔记详情大标题包含 ETF 代码（如 科创芯片ETF（588200））', () => {
+    stubFetch(async () => new Response('正文'))
+    renderAt('/notes/588200-star-chip-etf-analysis')
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('科创芯片ETF（588200）')
+  })
+
+  it('已有代码的笔记不重复追加代码，通用研究笔记保持原标题', () => {
+    stubFetch(async () => new Response('正文'))
+    renderAt('/notes/159928-consumer-etf-analysis')
+    const heading = screen.getByRole('heading', { level: 1 }).textContent
+    expect(heading).toContain('159928')
+    expect(heading).not.toContain('（159928）')
+
+    cleanup()
+    stubFetch(async () => new Response('正文'))
+    renderAt('/notes/swine-poultry-research')
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toContain('猪肉价格周期')
+  })
+
+  it('ETF 专属分析笔记显示行情·网格入口，链接参数包含正确的 code 与 name', () => {
+    stubFetch(async () => new Response('正文'))
+    renderAt('/notes/588200-star-chip-etf-analysis')
+    const gridLink = screen.getByRole('link', { name: '行情·网格 ↗' })
+    expect(gridLink).toBeTruthy()
+    expect(gridLink.getAttribute('href')).toBe('/note/lab/grid-trading/detail/?code=588200&name=%E7%A7%91%E5%88%9B%E8%8A%AF%E7%89%87ETF%E5%98%89%E5%AE%9E')
+  })
 })
+

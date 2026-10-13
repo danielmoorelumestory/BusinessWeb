@@ -8,13 +8,16 @@ afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 const renderPage = () => render(<MemoryRouter><IndustryEtf /></MemoryRouter>)
 
 describe('IndustryEtf', () => {
-  it('显示 7 个行业组与 59 只 ETF，总数与各组数量一致', () => {
+  it('显示 7 个行业组与 59 只 ETF，总数与各组数量一致，且行业组为二级分类', () => {
     renderPage()
     expect(screen.getByText(/7 个行业组，共 59 只 ETF/)).toBeTruthy()
     expect(screen.getAllByRole('table')).toHaveLength(8)
     const rows = screen.getAllByRole('row').filter(r => !r.closest('#broad-etf') && within(r).queryAllByRole('columnheader').length === 0)
     expect(rows).toHaveLength(59)
-    expect(screen.getByRole('heading', { name: /TMT科技/ })).toBeTruthy()
+    // 一级分类：行业 ETF
+    expect(screen.getByRole('heading', { level: 2, name: '行业 ETF' })).toBeTruthy()
+    // 二级分类：TMT科技等
+    expect(screen.getByRole('heading', { level: 3, name: /TMT科技/ })).toBeTruthy()
   })
 
   it('宽基只显示文档综合判断，不显示费用和原选择理由', async () => {

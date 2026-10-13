@@ -185,6 +185,7 @@ export default function IndustryEtf(): JSX.Element {
           </div>
         </section>
       ))}
+      </section>
     </main>
   )
 }
