@@ -29,6 +29,7 @@ export const NAV_ITEMS: NavItem[] = [
   { path: '/life', label: '自由空间' },
   { path: '/about', label: '关于' },
   { path: '/notes', label: '笔记' },
+  { path: '/blog', label: '博客' },
 ]
 
 // 顺序即书里的流程：读书 → 定规则 → 选标的 → 用工具执行 → 少看行情；已舍弃的页面折叠在最后。
@@ -64,6 +65,7 @@ export const INVEST_GROUPS: HubGroup[] = [
       { path: '/industry-landscape', label: '产业格局', desc: '固态电池、半导体产业链，和一页纸主题研究卡' },
       { path: '/notes', label: '行业研究笔记', desc: '机器人、猪周期等行业深度笔记，和 ETF 网格总方案等完整报告' },
       { path: '/industry-etf', label: '行业 ETF 清单', desc: '7 个行业组、59 只 ETF 的代码、行业分布与备注' },
+      { path: '/invest/national-team', label: '国家队持仓', desc: '汇金、证金、社保等持有哪些 A 股：按机构、行业、个股看持仓与季度变化' },
     ],
   },
   {
@@ -84,7 +86,9 @@ export const INVEST_GROUPS: HubGroup[] = [
     hint: '书里主张少看行情，这几页只作参考。',
     collapsed: false,
     links: [
+      { path: '/watch', label: '观察盘', desc: '宏观阶段、全球主要指数与商品汇率、A 股涨跌停与资金流向，一页看完' },
       { path: '/pulse', label: '全球行情', desc: '全球指数、商品外汇与 A 股涨跌停' },
+      { path: '/daily-analysis', label: 'A股每日复盘', desc: '自动获取 A 股行情、涨跌停与连板复盘，保留交易日快照' },
       { path: STOCK_ANALYSIS_PATH, label: '大涨股解读', desc: '涨停梯队与各板块涨停个股，可选日期' },
       { path: SECTOR_ROTATION_PATH, label: '板块轮动', desc: '近 7 个交易日板块涨幅，横向对比每日强弱' },
       { path: PLATE_RANKING_PATH, label: '板块排行', desc: '近 20 日板块涨幅矩阵，按涨幅 >1% 出现频次排序' },

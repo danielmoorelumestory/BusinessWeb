@@ -25,11 +25,11 @@ describe('Header', () => {
     expect(brand.getAttribute('href')).toBe('/')
   })
 
-  it('主导航共 6 项（含笔记）', () => {
+  it('主导航共 7 项（含笔记、博客）', () => {
     renderAt('/')
     const nav = screen.getByRole('navigation', { name: '主导航' })
     expect(within(nav).getAllByRole('link').map(a => a.textContent)).toEqual([
-      '首页', '投资', 'AI实验室', '自由空间', '关于', '笔记',
+      '首页', '投资', 'AI实验室', '自由空间', '关于', '笔记', '博客',
     ])
   })
 
