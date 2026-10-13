@@ -334,6 +334,12 @@
   word-break: break-word;
 }
 
+.industry-etf-table .etf-trend-summary {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
 .industry-etf-table .etf-ref-link {
   display: inline-block;
   max-width: 100%;

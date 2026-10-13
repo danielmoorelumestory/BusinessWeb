@@ -1,189 +1,189 @@
 {
-  "generatedAt": "2026-10-10T13:17:44.747Z",
+  "generatedAt": "2026-10-13T12:51:04.544Z",
   "versions": [
     {
       "tag": "unreleased",
       "date": null,
       "commits": [
         {
-          "hash": "7db711b",
-          "subject": "fix(worker): 来源白名单加入 businessweb-c0u.pages.dev",
+          "hash": "6463256",
+          "subject": "docs(etf): publish industry ETF research notes",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-13"
         },
         {
-          "hash": "a076549",
-          "subject": "fix(notes-site): 从主站入口直达股市分析工具后，返回回到来源页",
+          "hash": "ddcc2a0",
+          "subject": "feat(industry-etf): 每只 ETF 增加网格详情入口，没有网格的只显示行情与支撑压力/斐波那契",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-13"
         },
         {
-          "hash": "f1cc6f6",
-          "subject": "feat: 本地开发把 /note/ 代理到 notes-site，入口与线上一样留在本站同域",
+          "hash": "8580b07",
+          "subject": "feat(industry-etf): 优化行业ETF清单页面排版与列对齐，移除市场列与免责提示",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-13"
         },
         {
-          "hash": "249d2b6",
-          "subject": "feat: notes 站点地址可用 VITE_NOTES_ORIGIN 覆盖，便于本地调试",
+          "hash": "ce4bd8c",
+          "subject": "feat(grid): 斐波那契去掉自动设置，确认/保存按钮上移，切换设置不再上传云端",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "ecb5b8c",
-          "subject": "feat: 投资页「看行情」改用 notes 的大涨股解读、板块轮动、板块排行",
+          "hash": "c964347",
+          "subject": "feat(grid): 价格图斐波那契回撤/延长线（多组、确认与保存、按日期自动取高低点、云端读取），预计买卖线与手动区间可勾选显示",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "622c445",
-          "subject": "feat: 没有 notes 的构建里网格入口直接跳转到新计算器",
+          "hash": "23628b5",
+          "subject": "docs(etf): refine holdings valuation tables and analysis",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "6743b30",
-          "subject": "docs(openspec): 勾选 replace-grid-trading 任务 7.4",
+          "hash": "7c8fde8",
+          "subject": "docs(etf): 完善八只ETF估值持仓与趋势分析",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "280b3c7",
-          "subject": "test(grid): 完成替换后的验证，补充尾斜杠跳转规则并记录结论",
+          "hash": "3e5708d",
+          "subject": "feat(industry-etf): 有研究笔记的 ETF，代码与名称可点击跳转到对应笔记",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "0ce4e08",
-          "subject": "refactor(grid): 删除主站自己的网格交易实现与 Supabase 网格同步",
+          "hash": "a83b603",
+          "subject": "feat(notes): expand 159928 consumer ETF analysis",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "f4a875e",
-          "subject": "feat(grid): 主站网格入口与旧路径改指向 notes 的网格交易计算器",
+          "hash": "83add01",
+          "subject": "feat(grid): K线悬浮窗价格按 开收 / 高低 排列",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "ee617f7",
-          "subject": "docs(notes-cohosting): 记录同步到 35f3747，并写明 Vue 依赖与 Worker、D1 需要使用者自行更新",
+          "hash": "fe182b4",
+          "subject": "feat(grid): 日期框可选到今天；K线悬浮窗显示开高低收涨跌幅与振幅",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "f7277da",
-          "subject": "chore(openspec): 迁入 notes 的 rebound-pullback-trigger 变更与 grid-trigger-rules 规格",
+          "hash": "1a7d894",
+          "subject": "chore(openspec): 归档 note-analysis-columns，同步主规格 note-analysis-store 与 saved-analysis-columns",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-12"
         },
         {
-          "hash": "b5135d1",
-          "subject": "feat(notes-site): 同步 notes 最新版（902f04b..35f3747）",
+          "hash": "c9c1b35",
+          "subject": "feat: 已保存标的页新增短期/中期判断两列，结论从分析笔记入库到 D1（note-analysis-columns）",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-11"
         },
         {
-          "hash": "97056ac",
-          "subject": "docs(openspec): 新增 replace-grid-trading 变更提案",
+          "hash": "b890822",
+          "subject": "feat: publish four reviewed ETF analyses",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-11"
         },
         {
-          "hash": "24c421b",
-          "subject": "fix(cloudflare): 适配合并上游后新增的接口与响应头，并修复衬线残留",
+          "hash": "291b76e",
+          "subject": "feat: publish three reviewed ETF analyses",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-11"
         },
         {
-          "hash": "cec04ca",
-          "subject": "chore(openspec): 归档 reskin-report-style 并同步规格到主规格",
+          "hash": "2747fb7",
+          "subject": "feat: publish reviewed Ping An analysis",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-11"
         },
         {
-          "hash": "850a9ca",
-          "subject": "merge: 同步原项目 upstream/main 最新更新并解决样式与路由冲突",
+          "hash": "2068c4e",
+          "subject": "feat: publish reviewed Yuntianhua analysis",
           "author": "train",
-          "date": "2026-10-10"
+          "date": "2026-10-11"
         },
         {
-          "hash": "8edd307",
-          "subject": "fix(pulse): show only heatmap in market tab",
-          "author": "hassan",
-          "date": "2026-10-10"
+          "hash": "f754a57",
+          "subject": "fix(grid): 支撑/压力色带标签改回靠左，仅垂直方向居中",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "0298ee3",
-          "subject": "feat(pulse): split into market overview and daily analysis tabs",
-          "author": "hassan",
-          "date": "2026-10-10"
+          "hash": "7e1a3ef",
+          "subject": "feat: publish reviewed Baofeng Energy analysis",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "2b1382a",
-          "subject": "chore: regenerate changelog and sitemap",
-          "author": "hassan",
-          "date": "2026-10-10"
+          "hash": "13363cc",
+          "subject": "feat(grid): 支撑/压力色带标签水平垂直居中，窄屏不带备注",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "fc30c51",
-          "subject": "feat(indexes): CN CSI300/500/ChiNext member lists and history refresh",
-          "author": "hassan",
-          "date": "2026-10-10"
+          "hash": "b485e82",
+          "subject": "chore(openspec): 归档 grid-chart-support-resistance，同步主规格 grid-support-resistance",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "e342a11",
-          "subject": "feat(ai-studio): add principle and loop sections",
-          "author": "hassan",
-          "date": "2026-10-10"
+          "hash": "6de1253",
+          "subject": "feat(grid): 支撑/压力区间增加强度（弱/中/强）",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "762b330",
-          "subject": "feat(comments): moderated chapter comments backed by Supabase",
-          "author": "hassan",
-          "date": "2026-10-10"
+          "hash": "a20aec0",
+          "subject": "feat(grid): 支撑/压力区间改为可自行增减（每侧最多 10 个）",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "713e133",
-          "subject": "feat(future-trends): demote 4 core names, flag Runze and Kingsoft Office earnings quality",
-          "author": "hassan",
-          "date": "2026-10-10"
+          "hash": "715d2af",
+          "subject": "feat(grid): 价格图支持 3 条支撑区间与 3 条压力区间，并拉长价格图（grid-chart-support-resistance）",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "76624ab",
-          "subject": "feat(research): publish solid-state core candidate review with refreshed MCP evidence",
-          "author": "hassan",
-          "date": "2026-10-09"
+          "hash": "fc1ae3f",
+          "subject": "feat: publish 516650 ETF analysis",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "c04d92f",
-          "subject": "Merge origin/main into main",
-          "author": "hassan",
-          "date": "2026-10-09"
+          "hash": "c2076b4",
+          "subject": "chore(openspec): 归档 edge-cache-and-daily-bar-patch，同步主规格",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "f513c88",
-          "subject": "feat(research): publish solid-state battery company research pages",
-          "author": "hassan",
-          "date": "2026-10-09"
+          "hash": "a9b11d3",
+          "subject": "feat: 公开行情接口加边缘缓存，日线读取不再因缺当天而整段重下（edge-cache-and-daily-bar-patch）",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "bb885d6",
-          "subject": "feat(research): add solid-state battery tab with MCP company analysis",
-          "author": "hassan",
-          "date": "2026-10-09"
+          "hash": "6ad04b0",
+          "subject": "chore(openspec): 归档 migrate-notes-content 与 grid-chart-kline-range，修正笔记列表测试为 4 篇",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "7c4cb83",
-          "subject": "feat(research): show price anchor date and age on company detail",
-          "author": "hassan",
-          "date": "2026-10-09"
+          "hash": "911a2ac",
+          "subject": "feat(grid): 回测详情曲线支持时间区间，价格改为日K线（grid-chart-kline-range）",
+          "author": "train",
+          "date": "2026-10-11"
         },
         {
-          "hash": "8e887b9",
-          "subject": "chore: add third-party agent skills (PM packs and others) as reference backup",
-          "author": "hassan",
-          "date": "2026-10-09"
+          "hash": "2063471",
+          "subject": "style(notes): align detail width with standard pages",
+          "author": "train",
+          "date": "2026-10-11"
         }
       ]
     }

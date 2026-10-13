@@ -65,8 +65,16 @@ function NoteCells({ item }: { item: EtfItem }): JSX.Element {
 // /note/ 是 notes 站点的静态页面，必须整页加载，所以用普通 <a>。
 const gridDetailHref = (item: EtfItem) => `/note/lab/grid-trading/detail/?code=${item.code}&name=${encodeURIComponent(item.name)}`
 
+function splitSubTheme(subTheme: string): string[] {
+  if (subTheme.includes('%')) {
+    const list = subTheme.split(/(?<=%)[、\s]*/).map(s => s.trim()).filter(Boolean)
+    if (list.length > 0) return list
+  }
+  return subTheme.includes('、') ? subTheme.split('、').map(s => s.trim()).filter(Boolean) : [subTheme]
+}
+
 function SubThemeCell({ subTheme }: { subTheme: string }): JSX.Element {
-  const items = subTheme.includes('、') ? subTheme.split('、').map(s => s.trim()).filter(Boolean) : [subTheme]
+  const items = splitSubTheme(subTheme)
   if (items.length <= 1) {
     return (
       <td className="etf-subtheme-cell">
@@ -139,7 +147,10 @@ export default function IndustryEtf(): JSX.Element {
                     <tr key={`${item.code}-${item.name}`}>
                       <NoteCells item={item} />
                       <SubThemeCell subTheme={item.subTheme} />
-                      <td className="etf-remark-cell">{item.remark}</td>
+                      <td className="etf-remark-cell">
+                        {item.trendSummary && <p className="etf-trend-summary">{item.trendSummary}</p>}
+                        {item.remark}
+                      </td>
                       <td className="etf-ref-cell">
                         <Reference item={item} />
                       </td>

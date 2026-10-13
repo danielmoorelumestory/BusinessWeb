@@ -48,6 +48,26 @@ describe('IndustryEtf', () => {
     const aiLinks = within(aiRow).getAllByRole('link')
     expect(aiLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159819-ai-etf-analysis'))
     expect(aiLinks[2].textContent).toBe('人工智能ETF')
+    const softwareRow = screen.getByText('159852').closest('tr')!
+    const softwareLinks = within(softwareRow).getAllByRole('link')
+    expect(softwareLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159852-software-etf-analysis'))
+    expect(softwareLinks[2].textContent).toBe('软件ETF嘉实')
+    const cloudRow = screen.getByText('516510').closest('tr')!
+    const cloudLinks = within(cloudRow).getAllByRole('link')
+    expect(cloudLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/516510-cloud-computing-etf-analysis'))
+    expect(cloudLinks[2].textContent).toBe('云计算ETF易方达')
+    const consumerElectronicsRow = screen.getByText('159732').closest('tr')!
+    const consumerElectronicsLinks = within(consumerElectronicsRow).getAllByRole('link')
+    expect(consumerElectronicsLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159732-consumer-electronics-etf-analysis'))
+    expect(consumerElectronicsLinks[2].textContent).toBe('消费电子ETF华夏')
+    const mediaRow = screen.getByText('512980').closest('tr')!
+    const mediaLinks = within(mediaRow).getAllByRole('link')
+    expect(mediaLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/512980-media-etf-analysis'))
+    expect(mediaLinks[2].textContent).toBe('传媒ETF广发')
+    const gameRow = screen.getByText('159869').closest('tr')!
+    const gameLinks = within(gameRow).getAllByRole('link')
+    expect(gameLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159869-game-etf-analysis'))
+    expect(gameLinks[2].textContent).toBe('游戏ETF华夏')
   })
 
   it('每只 ETF 都有网格详情入口，按代码打开（整页加载的 /note/ 地址）', () => {
