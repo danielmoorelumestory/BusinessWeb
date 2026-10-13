@@ -334,10 +334,23 @@
   word-break: break-word;
 }
 
-.industry-etf-table .etf-trend-summary {
-  margin: 0 0 0.5rem;
-  font-weight: 600;
-  color: var(--text-strong);
+.industry-etf-table .etf-trend {
+  font-weight: 700;
+}
+
+.industry-etf-table .etf-trend--up {
+  color: #dc2626;
+}
+
+.industry-etf-table .etf-trend--sideways {
+  color: #a16207;
+  background: #fef9c3;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+.industry-etf-table .etf-trend--down {
+  color: #16a34a;
 }
 
 .industry-etf-table .etf-ref-link {

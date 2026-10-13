@@ -4,7 +4,6 @@ import rawData from './industryEtf.json'
 export type EtfItem = {
   code: string; name: string; market: string; subTheme: string; remark: string
   referenceUrl?: string; referenceTitle?: string
-  trendSummary?: string
 }
 export type IndustryGroup = { id: string; index: string; name: string; count: number; items: EtfItem[] }
 
