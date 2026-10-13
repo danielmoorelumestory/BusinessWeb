@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "688126.SS",
+      "688146.SS",
+      "688150.SS",
+      "688160.SS",
+      "688165.SS",
+      "688166.SS",
+      "688167.SS",
+      "688169.SS",
+      "688172.SS",
+      "688180.SS",
+      "688183.SS",
+      "688185.SS"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:51:49.439706+00:00",
+  "retrievedAt": "2026-10-13T08:51:52.877091+00:00",
+  "data": {
+    "symbols": [
+      "688126.SS",
+      "688146.SS",
+      "688150.SS",
+      "688160.SS",
+      "688165.SS",
+      "688166.SS",
+      "688167.SS",
+      "688169.SS",
+      "688172.SS",
+      "688180.SS",
+      "688183.SS",
+      "688185.SS"
+    ],
+    "results": {
+      "688126.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688146.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688150.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688160.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688165.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688166.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688167.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688169.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688172.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688180.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688183.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "688185.SS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

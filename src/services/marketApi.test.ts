@@ -14,6 +14,49 @@ function response() {
 }
 afterEach(() => vi.unstubAllGlobals())
 describe('restricted market APIs', () => {
+  it('成交额历史只允许沪深综合指数，转发包含实际成交额的腾讯接口', async () => {
+    const fetchImpl = vi.fn(async (_url: string) => new Response(JSON.stringify({ data: {} })))
+    vi.stubGlobal('fetch', fetchImpl)
+    for (const symbol of ['sh000001', 'sz399106']) {
+      for (const period of ['day', 'week', 'month']) {
+        const res = response()
+        await handleMarket({ method: 'GET', query: { kind: 'index-amount-history', symbol, period } }, res)
+        expect(res.statusCode).toBe(200)
+        const url = new URL(fetchImpl.mock.calls[fetchImpl.mock.calls.length - 1][0])
+        expect(url.pathname).toBe('/appstock/app/newfqkline/get')
+        expect(url.searchParams.get('param')).toBe(`${symbol},${period},,,${period === 'month' ? 800 : 640},qfq`)
+      }
+    }
+    fetchImpl.mockClear()
+    for (const query of [
+      { kind: 'index-amount-history', symbol: 'sh000300', period: 'day' },
+      { kind: 'index-amount-history', symbol: 'sh000001', period: 'year' },
+      { kind: 'index-amount-history', symbol: ['sh000001'], period: 'day' },
+    ]) {
+      const res = response()
+      await handleMarket({ method: 'GET', query }, res)
+      expect(res.statusCode).toBe(400)
+    }
+    expect(fetchImpl).not.toHaveBeenCalled()
+  })
+  it('提供白名单指数的日周月历史，拒绝其他证券及任意周期', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ data: {} }))))
+    const accepted = response()
+    await handleMarket({ method: 'GET', query: { kind: 'index-history', symbol: 'sh000852', period: 'month' } }, accepted)
+    expect(accepted.statusCode).toBe(200)
+    for (const symbol of ['sz399001', 'sz399006']) {
+      const ok = response(); await handleMarket({ method: 'GET', query: { kind: 'index-history', symbol, period: 'day' } }, ok)
+      expect(ok.statusCode).toBe(200)
+    }
+    for (const query of [
+      { kind: 'index-history', symbol: 'sh600000', period: 'day' },
+      { kind: 'index-history', symbol: 'sh000300', period: 'year' },
+      { kind: 'index-history', symbol: 'sh000300', period: ['day'] },
+    ]) {
+      const rejected = response(); await handleMarket({ method: 'GET', query }, rejected)
+      expect(rejected.statusCode).toBe(400)
+    }
+  })
   it('rejects unsupported methods and invalid symbols before fetching', async () => {
     const fetchImpl = vi.fn(); vi.stubGlobal('fetch', fetchImpl)
     for (const query of [{ symbol: 'http://localhost' }, { symbol: ['sh000001'] }, { symbol: 'sh000001&list=sz000001' }]) {

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true },
+  "include": ["src/features/daily-analysis/**/*.ts", "src/features/daily-analysis/**/*.tsx", "src/pages/DailyAnalysis*.tsx", "src/services/dailyAnalysisApi.test.ts", "src/vite-env.d.ts"]
+}

@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "MDLZ",
+      "MDT",
+      "MELI",
+      "MET",
+      "META",
+      "MGM",
+      "MKC",
+      "MLM",
+      "MMM",
+      "MNSO",
+      "MNST",
+      "MO"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:27.232441+00:00",
+  "retrievedAt": "2026-10-13T08:52:30.696910+00:00",
+  "data": {
+    "symbols": [
+      "MDLZ",
+      "MDT",
+      "MELI",
+      "MET",
+      "META",
+      "MGM",
+      "MKC",
+      "MLM",
+      "MMM",
+      "MNSO",
+      "MNST",
+      "MO"
+    ],
+    "results": {
+      "MDLZ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MDT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MELI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MET": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "META": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MGM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MKC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MLM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MMM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MNSO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MNST": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

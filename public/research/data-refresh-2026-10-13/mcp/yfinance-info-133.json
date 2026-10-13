@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "MSTR",
+      "MTB",
+      "MTD",
+      "MTRN",
+      "MU",
+      "MUFG",
+      "NBIS",
+      "NCLH",
+      "NDAQ",
+      "NDSN",
+      "NEE",
+      "NEL.OL"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:30.697708+00:00",
+  "retrievedAt": "2026-10-13T08:52:33.825954+00:00",
+  "data": {
+    "symbols": [
+      "MSTR",
+      "MTB",
+      "MTD",
+      "MTRN",
+      "MU",
+      "MUFG",
+      "NBIS",
+      "NCLH",
+      "NDAQ",
+      "NDSN",
+      "NEE",
+      "NEL.OL"
+    ],
+    "results": {
+      "MSTR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MTB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MTD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MTRN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MU": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "MUFG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NBIS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NCLH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NDAQ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NDSN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NEE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NEL.OL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

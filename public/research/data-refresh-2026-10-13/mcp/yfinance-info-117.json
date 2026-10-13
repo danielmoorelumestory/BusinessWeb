@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "EVEX",
+      "EVRG",
+      "EW",
+      "EXC",
+      "EXE",
+      "EXPD",
+      "EXPE",
+      "EXR",
+      "F",
+      "FANG",
+      "FAST",
+      "FCX"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:16.526998+00:00",
+  "retrievedAt": "2026-10-13T08:52:19.909844+00:00",
+  "data": {
+    "symbols": [
+      "EVEX",
+      "EVRG",
+      "EW",
+      "EXC",
+      "EXE",
+      "EXPD",
+      "EXPE",
+      "EXR",
+      "F",
+      "FANG",
+      "FAST",
+      "FCX"
+    ],
+    "results": {
+      "EVEX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EVRG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EXC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EXE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EXPD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EXPE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EXR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "F": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FANG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FAST": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FCX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

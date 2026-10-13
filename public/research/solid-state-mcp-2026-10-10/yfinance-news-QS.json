@@ -1,0 +1,15 @@
+{
+  "server": "yfinance",
+  "tool": "get_stock_news",
+  "arguments": {
+    "symbol": "QS",
+    "limit": 6
+  },
+  "retrievedAt": "2026-10-10T07:23:53.565457+00:00",
+  "isError": false,
+  "data": {
+    "symbol": "QS",
+    "news_count": 0,
+    "news": []
+  }
+}

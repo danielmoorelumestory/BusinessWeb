@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "COHR",
+      "COIN",
+      "COO",
+      "COP",
+      "COR",
+      "COST",
+      "CPAY",
+      "CPNG",
+      "CPRT",
+      "CPT",
+      "CRH",
+      "CRL"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:09.876127+00:00",
+  "retrievedAt": "2026-10-13T08:52:13.326292+00:00",
+  "data": {
+    "symbols": [
+      "COHR",
+      "COIN",
+      "COO",
+      "COP",
+      "COR",
+      "COST",
+      "CPAY",
+      "CPNG",
+      "CPRT",
+      "CPT",
+      "CRH",
+      "CRL"
+    ],
+    "results": {
+      "COHR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "COIN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "COO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "COP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "COR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "COST": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CPAY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CPNG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CPRT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CPT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CRH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CRL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

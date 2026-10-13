@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "ECL",
+      "ED",
+      "EDU",
+      "EFX",
+      "EG",
+      "EH",
+      "EIX",
+      "EL",
+      "ELV",
+      "EME",
+      "EMR",
+      "ENPH"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:13.326464+00:00",
+  "retrievedAt": "2026-10-13T08:52:16.526162+00:00",
+  "data": {
+    "symbols": [
+      "ECL",
+      "ED",
+      "EDU",
+      "EFX",
+      "EG",
+      "EH",
+      "EIX",
+      "EL",
+      "ELV",
+      "EME",
+      "EMR",
+      "ENPH"
+    ],
+    "results": {
+      "ECL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ED": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EDU": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EFX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EIX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ELV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EME": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EMR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ENPH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

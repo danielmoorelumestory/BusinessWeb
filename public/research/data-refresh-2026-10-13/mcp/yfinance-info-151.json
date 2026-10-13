@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "UBER",
+      "UDR",
+      "UHS",
+      "UL",
+      "ULTA",
+      "UMI.BR",
+      "UNH",
+      "UNP",
+      "UPS",
+      "URI",
+      "USB",
+      "V"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:43.869457+00:00",
+  "retrievedAt": "2026-10-13T08:52:47.333929+00:00",
+  "data": {
+    "symbols": [
+      "UBER",
+      "UDR",
+      "UHS",
+      "UL",
+      "ULTA",
+      "UMI.BR",
+      "UNH",
+      "UNP",
+      "UPS",
+      "URI",
+      "USB",
+      "V"
+    ],
+    "results": {
+      "UBER": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "UDR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "UHS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "UL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ULTA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "UMI.BR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "UNH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "UNP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "UPS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "URI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "USB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "V": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

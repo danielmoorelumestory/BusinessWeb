@@ -1,0 +1,869 @@
+[
+  {
+    "name": "get_stock_info",
+    "title": "Get Stock Info",
+    "description": "Get comprehensive company information for a stock ticker.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol (e.g., 'AAPL', 'MSFT')"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_stock_history",
+    "title": "Get Stock History",
+    "description": "Get historical stock price data.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        },
+        "period": {
+          "default": "1mo",
+          "type": "string",
+          "description": "Time period (1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max)"
+        },
+        "interval": {
+          "default": "1d",
+          "type": "string",
+          "description": "Data interval (1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo)"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Start date (YYYY-MM-DD format)"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "End date (YYYY-MM-DD format)"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_multiple_stocks_history",
+    "title": "Get Multiple Stocks History",
+    "description": "Get historical data for multiple stocks at once.",
+    "input_schema": {
+      "properties": {
+        "symbols": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of stock ticker symbols"
+        },
+        "period": {
+          "default": "1mo",
+          "type": "string",
+          "description": "Time period"
+        },
+        "interval": {
+          "default": "1d",
+          "type": "string",
+          "description": "Data interval"
+        }
+      },
+      "required": [
+        "symbols"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_income_statement",
+    "title": "Get Income Statement",
+    "description": "Get income statement data.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        },
+        "quarterly": {
+          "default": false,
+          "type": "boolean",
+          "description": "Get quarterly data instead of annual"
+        },
+        "ttm": {
+          "default": false,
+          "type": "boolean",
+          "description": "Get trailing twelve months data"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_balance_sheet",
+    "title": "Get Balance Sheet",
+    "description": "Get balance sheet data.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        },
+        "quarterly": {
+          "default": false,
+          "type": "boolean",
+          "description": "Get quarterly data instead of annual"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_cash_flow",
+    "title": "Get Cash Flow",
+    "description": "Get cash flow statement data.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        },
+        "quarterly": {
+          "default": false,
+          "type": "boolean",
+          "description": "Get quarterly data instead of annual"
+        },
+        "ttm": {
+          "default": false,
+          "type": "boolean",
+          "description": "Get trailing twelve months data"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_analyst_recommendations",
+    "title": "Get Analyst Recommendations",
+    "description": "Get analyst recommendations and upgrades/downgrades.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_analyst_price_targets",
+    "title": "Get Analyst Price Targets",
+    "description": "Get analyst price targets.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_earnings_estimates",
+    "title": "Get Earnings Estimates",
+    "description": "Get earnings and revenue estimates.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_ownership_data",
+    "title": "Get Ownership Data",
+    "description": "Get ownership data including institutional and insider holdings.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_dividends_and_splits",
+    "title": "Get Dividends And Splits",
+    "description": "Get dividend and stock split history.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_options_chain",
+    "title": "Get Options Chain",
+    "description": "Get options chain data.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        },
+        "expiration_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Specific expiration date (YYYY-MM-DD), uses nearest if not specified"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_stock_news",
+    "title": "Get Stock News",
+    "description": "Get recent news for a stock.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        },
+        "limit": {
+          "default": 10,
+          "type": "integer",
+          "description": "Maximum number of news articles to return"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_earnings_calendar",
+    "title": "Get Earnings Calendar",
+    "description": "Get earnings calendar and dates.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_fund_data",
+    "title": "Get Fund Data",
+    "description": "Get fund/ETF specific data including holdings.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Fund/ETF ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_sustainability_data",
+    "title": "Get Sustainability Data",
+    "description": "Get ESG and sustainability data.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "screen_stocks",
+    "title": "Screen Stocks",
+    "description": "Screen stocks based on fundamental criteria.\nNote: This is a basic implementation. For advanced screening, consider using yfinance.screen",
+    "input_schema": {
+      "properties": {
+        "market_cap_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum market cap"
+        },
+        "market_cap_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum market cap  "
+        },
+        "pe_ratio_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum P/E ratio"
+        },
+        "dividend_yield_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum dividend yield"
+        },
+        "sector": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sector filter"
+        },
+        "limit": {
+          "default": 50,
+          "type": "integer",
+          "description": "Maximum results to return"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "search_stocks",
+    "title": "Search Stocks",
+    "description": "Search for stocks by company name or ticker.\nNote: This requires the yfinance.Search class",
+    "input_schema": {
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Search term (company name or ticker)"
+        },
+        "limit": {
+          "default": 10,
+          "type": "integer",
+          "description": "Maximum results to return"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_fast_info",
+    "title": "Get Fast Info",
+    "description": "Get fast access to key stock metrics.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_isin",
+    "title": "Get Isin",
+    "description": "Get ISIN (International Securities Identification Number) for a stock.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_sec_filings",
+    "title": "Get Sec Filings",
+    "description": "Get SEC filings for a stock.",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker symbol"
+        }
+      },
+      "required": [
+        "symbol"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "get_multiple_tickers_info",
+    "title": "Get Multiple Tickers Info",
+    "description": "Get basic info for multiple tickers at once.",
+    "input_schema": {
+      "properties": {
+        "symbols": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of stock ticker symbols"
+        }
+      },
+      "required": [
+        "symbols"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "configure_yfinance",
+    "title": "Configure Yfinance",
+    "description": "Configure yfinance global settings.",
+    "input_schema": {
+      "properties": {
+        "proxy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Proxy server URL"
+        },
+        "enable_debug": {
+          "default": false,
+          "type": "boolean",
+          "description": "Enable debug logging"
+        },
+        "tz_cache_location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Custom timezone cache location"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  }
+]

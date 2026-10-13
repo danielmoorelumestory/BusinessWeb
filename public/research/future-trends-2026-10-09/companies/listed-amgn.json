@@ -7,18 +7,18 @@
   "depth": "公司证据摘录＋情景草稿",
   "rating": "观察／等待估值证据",
   "headline": "2026Q2 收入逾 100 亿美元，+约 10%；非 GAAP EPS 6.29（+4%），GAAP EPS 4.37；非 GAAP 营业利润率 48.4%；Repatha 9.53 亿（+37%），Evenity 7.14 亿（+38%），Prolia/Xgeva 受生物类似药冲击 -33%。2026 年收入指引 382–394 亿，非 GAAP EPS 22.30–23.50；资本开支约 26 亿，MariTide 9 项三期在研。",
-  "price": 407.44,
-  "priceText": "USD 407.44",
-  "priceDate": "2026-10-08 16:00:01",
+  "price": 417.57,
+  "priceText": "USD 417.57",
+  "priceDate": "2026-10-12T16:00:02-04:00",
   "currency": "USD",
   "ratio": null,
-  "up": -0.00782937365010794,
-  "down": 0.3710730414294129,
+  "up": -0.03189884330770887,
+  "down": 0.38633043561558544,
   "threshold": 305.5833333333333,
   "breakEven": null,
-  "winRate": "假设胜率 25%（情景价 ≥ 现价 +10% 的概率合计；悲观/基准/乐观 = 25/50/25，主观研究概率，非历史回测）",
-  "expected": -0.03191267425878652,
-  "valuationStatus": "正常化 EPS 情景草稿；第二独立方法缺失，未认证",
+  "winRate": "假设胜率 25%（原研究主观情景概率按新报价复算；非历史回测，模型未重新认证）",
+  "expected": -0.05539789735852674,
+  "valuationStatus": "正常化 EPS 情景草稿；第二独立方法缺失，未认证；行情刷新不等于重估，旧情景未重新认证",
   "primaryTrend": "创新药",
   "riskGroup": "全球药品专利与研发",
   "core": false,
@@ -26,6 +26,11 @@
   "concern": "Prolia 生物类似药侵蚀；MariTide 三期结果二元性；美国药价政策；资本开支与研发费用抬升。",
   "certainty": "证据中等／估值低，非综合高确定性",
   "sources": [
+    {
+      "title": "本轮行情原始证据",
+      "url": "/research/data-refresh-2026-10-13/tencent-quotes.json",
+      "status": "行情 2026-10-12T16:00:02-04:00；核验 2026-10-13T08:49:33.417319+00:00；腾讯延迟行情，不代表财报或模型已重估"
+    },
     {
       "title": "本次公司级核对的业绩披露",
       "url": "https://www.sec.gov/Archives/edgar/data/0000318154/000031815426000124/amgn-20260630earningsrelea.htm",
@@ -72,11 +77,15 @@
   "metrics": [
     [
       "本次价格",
-      "USD 407.44"
+      "USD 417.57"
     ],
     [
       "价格时间",
-      "2026-10-08 16:00:01"
+      "2026-10-12T16:00:02-04:00"
+    ],
+    [
+      "行情核验时间",
+      "2026-10-13T08:49:33.417319+00:00；来源 research/data-refresh-2026-10-13/tencent-quotes.json；研究与模型仍为 2026-10-09"
     ],
     [
       "一手事实摘录",
@@ -205,5 +214,9 @@
   "prior": [
     "旧资料只作审计轨迹，不沿用旧买入评级：未匹配既有研究页",
     "旧程序化输入：public/research/future-trends-2026-10-09/input-pool.json；其中旧赔率与固定胜率已撤回。"
-  ]
+  ],
+  "priceCheckedAt": "2026-10-13T08:49:33.417319+00:00",
+  "priceSource": "research/data-refresh-2026-10-13/tencent-quotes.json",
+  "modelAsOf": "2026-10-09",
+  "marketRefreshStatus": "行情已刷新；原研究模型未重估，不认证买入或胜率"
 }

@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_balance_sheet",
+  "arguments": {
+    "symbol": "TSLA",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:53:21.622362+00:00",
+  "retrievedAt": "2026-10-13T08:53:22.148829+00:00",
+  "data": {
+    "symbol": "TSLA",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_balance_sheet",
+  "arguments": {
+    "symbol": "BMW.DE",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:53:20.036533+00:00",
+  "retrievedAt": "2026-10-13T08:53:20.576135+00:00",
+  "data": {
+    "symbol": "BMW.DE",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

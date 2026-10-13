@@ -18,7 +18,7 @@ export function priceLabel(n: number | null, currency: string): string {
 }
 export function percentLabel(n: number | null): string { return n === null ? '待核实' : new Intl.NumberFormat('zh-CN', { style: 'percent', maximumFractionDigits: 1, signDisplay: 'exceptZero' }).format(n) }
 export function dateLabel(value: string): string {
-  const m = value.match(/(\d{4})[-/](\d{2})[-/](\d{2})(?: (\d{2}):(\d{2}))?/)
+  const m = value.match(/(\d{4})[-/](\d{2})[-/](\d{2})(?:[ T](\d{2}):(\d{2}))?/)
   if (!m) return '报价待补充'
   const date = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] ?? 0), +(m[5] ?? 0)))
   return new Intl.DateTimeFormat('zh-CN', { timeZone: 'UTC', month: 'numeric', day: 'numeric', ...(m[4] ? { hour: '2-digit', minute: '2-digit', hour12: false } as const : {}) }).format(date)

@@ -1,5 +1,5 @@
-// 纳指100：成分名单取自维基百科「List of NASDAQ-100 companies」（2026-08 更新版，100 个证券条目，GOOGL/GOOG 为同一公司两类股）。
-// 其中 90 家已在「标普500」或「美股非标普」有研究页，纳指100 页签直接引用；其余 10 家为本页新增，详情见 details/ndx.ts。
+// 名单以 Invesco 官方 QQQ 持仓作代理（2026-10-09，2026-10-13核验），并核对 Nasdaq 的 MRNA 纳入公告。
+// 101只权益证券、100家公司（GOOG/GOOGL同一发行人）；不是Nasdaq GIW官方权重导出。详情见下方源与边界。
 import type { Company } from './companies'
 
 export const NDX_CODES: string[] = [
@@ -9,13 +9,29 @@ export const NDX_CODES: string[] = [
   'COST', 'CRWD', 'CSX', 'DDOG', 'DXCM', 'FANG', 'DASH', 'EXC', 'FAST', 'FER',
   'FTNT', 'GEHC', 'GILD', 'HONA', 'HON', 'IDXX', 'INTC', 'INTU', 'ISRG', 'KDP',
   'KLAC', 'LRCX', 'LIN', 'LITE', 'MAR', 'MRVL', 'MELI', 'META', 'MCHP', 'MU',
-  'MSFT', 'MSTR', 'MDLZ', 'MPWR', 'MNST', 'NBIS', 'NFLX', 'NVDA', 'NXPI', 'ORLY',
+  'MSFT', 'MSTR', 'MDLZ', 'MPWR', 'MNST', 'MRNA', 'NBIS', 'NFLX', 'NVDA', 'NXPI', 'ORLY',
   'ODFL', 'PCAR', 'PLTR', 'PANW', 'PAYX', 'PYPL', 'PDD', 'PEP', 'QCOM', 'REGN',
   'RKLB', 'ROP', 'ROST', 'SNDK', 'STX', 'SHOP', 'SPCX', 'SBUX', 'SNPS', 'TMUS',
   'TTWO', 'TER', 'TSLA', 'TXN', 'TRI', 'VRTX', 'WMT', 'WDC', 'WDAY', 'XEL',
 ]
 
-export const NDX_ASOF = '价格 2026-10-06 美股收盘；财务为公司 2026Q2（或 H1）公告摘要与 aktools 单季财务；成分名单来自维基百科（2026-08 更新），未与纳斯达克官方名单逐项核对。情景价格为研究假设，不是目标价。'
+export const NDX_ASOF = '名单采用2026-10-09 Invesco官方QQQ持仓代理，2026-10-13核验：101只权益证券、100家公司，GOOG/GOOGL合并为一家；新增MRNA与Nasdaq 10-09生效公告一致。现金、期货等5项已排除；不是Nasdaq GIW官方成分权重导出。各公司最新行情时间另列，财务与旧情景模型保留各自原期间，行情刷新不等于完成重估。'
+
+// checkedAt 只表示查源时间；旧名单日期不可被核验日覆盖。
+export const NDX_MEMBERSHIP_CHECK = {
+  checkedAt: '2026-10-13',
+  snapshotAsOf: '2026-10-09',
+  status: 'issuer-holdings-proxy-verified',
+  source: 'https://dng-api.invesco.com/cache/v1/accounts/en_US/shareclasses/QQQ/holdings/fund?idType=ticker&interval=monthly&productType=ETF',
+  evidence: 'research/data-refresh-2026-10-13/official/qqq-equity-members-2026-10-09.json',
+  securityCount: 101,
+  companyCount: 100,
+  reason: '发行人原始106项中筛选101只权益证券；GOOG/GOOGL合并为一家。Nasdaq公开接口404、GIW全表需登录，故明确使用基金持仓代理。',
+  confirmedChanges: [{
+    publishedAt: '2026-10-01', effectiveAt: '2026-10-09', added: 'MRNA', removed: 'WBD',
+    source: 'https://ir.nasdaq.com/node/111076/pdf',
+  }],
+} as const
 
 // 纳指100 新增 10 家的基础记录；评级、结论、情景等由 details/ndx.ts 覆盖。
 const NEW: [string, string, string][] = [

@@ -55,6 +55,8 @@ export const sp500AiEvidence = [
 ]
 
 export function applySp500Reassessment(company: Company): Company {
+  // 最新Q3原件复核优先于9月圆桌；后者仍保留在日期报告中。
+  if (company.code === 'PEP' && /2026Q3/.test(company.asOf) && /2026-10-13/.test(company.asOf)) return company
   if (company.market !== 'us') return company
   // 保证初始手工数据与异步加载数据一致；重复应用不会重复追加档案。
   if (company.metrics.some(([key]) => key === '圆桌复核日期')) return company

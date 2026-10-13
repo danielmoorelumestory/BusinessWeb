@@ -8,10 +8,13 @@ import { applyCnSectorResearch } from './cnSectorResearch'
 import { applySp500Reassessment } from './sp500Reassessment'
 import { applySectorFactReview } from './sectorFactReview'
 import { ndxBase } from './ndx100'
+import marketSnapshot from './companyMarketSnapshot.json'
+import { applyCompanyMarketRefresh, type MarketRefreshQuote } from './companyMarketRefresh'
 
 export type Market = 'us' | 'cn' | 'hk' | 'adr' | 'ndx'
 
 export interface Company {
+  marketRefresh?: { adapterVersion?: number; checkedAt: string; evidenceCheckedAt?: string; priceDate: string; price: number; source: string; originalAsOf: string; programmatic?: boolean; tradability?: 'unverified' | 'no-known-restriction'; quoteDateKind?: 'provider-label' | 'provider-market-time' }
   code: string
   name: string
   market: Market
@@ -571,10 +574,12 @@ const cnBase: Company[] = [...cnCoreBase, ...cnChain.filter(c => !cnKnown.has(c.
 
 // 用 companyDetails.ts 里补全的深度内容覆盖
 const withDetails = (list: Company[]): Company[] => list.map(c => (companyDetails[c.market + ':' + c.code] ? { ...c, ...companyDetails[c.market + ':' + c.code] } : c))
-export const usCompanies: Company[] = withDetails(usBase).map(applySp500Reassessment).map(applySectorFactReview)
-export const cnCompanies: Company[] = withDetails(cnBase).map(applyCnReassessment).map(applyCnSectorResearch)
+const currentMarket = marketSnapshot as Record<string, MarketRefreshQuote>
+const refreshMarket = (c: Company): Company => applyCompanyMarketRefresh(c, currentMarket[`${c.market}:${c.code}`])
+export const usCompanies: Company[] = withDetails(usBase).map(applySp500Reassessment).map(applySectorFactReview).map(refreshMarket)
+export const cnCompanies: Company[] = withDetails(cnBase).map(applyCnReassessment).map(applyCnSectorResearch).map(refreshMarket)
 // 纳指100 新增（不在标普500 / 美股非标普池内）的公司，全部为手工研究页
-export const ndxCompanies: Company[] = withDetails(ndxBase)
+export const ndxCompanies: Company[] = withDetails(ndxBase).map(refreshMarket)
 
 const baseOf = (market: Market): Company[] => (market === 'us' ? usCompanies : market === 'cn' ? cnCompanies : market === 'ndx' ? ndxCompanies : [])
 export const findCompany = (market: Market, code: string): Company | undefined =>
@@ -599,7 +604,7 @@ export const loadCompanies = (market: Market): Promise<Company[]> => {
         const d = companyDetails[g.market + ':' + g.code] // 手工研究页（details/*.ts）覆盖程序化页
         map.set(g.code, d && d.scenarios && d.scenarios.length ? { ...g, ...d, auto: false } : { ...g, auto: g.auto === false ? false : true }) // auto:false = 已按公司复核重写的页（如 cn-itucd-2026-10-07）
       }
-      return Array.from(map.values()).map(applySp500Reassessment).map(applySectorFactReview).map(applyCnReassessment).map(applyCnSectorResearch)
+      return Array.from(map.values()).map(applySp500Reassessment).map(applySectorFactReview).map(applyCnReassessment).map(applyCnSectorResearch).map(refreshMarket)
     })
   genCache[market] = p
   return p

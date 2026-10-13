@@ -37,9 +37,9 @@ describe('AiLabDirection', () => {
   it('无货源电商显示实验边界', () => {
     at('/ai/dropshipping')
     expect(screen.getByRole('heading', { level: 2, name: '实验边界' })).toBeTruthy()
-    expect(screen.getByText('¥5000')).toBeTruthy()
-    expect(screen.getByText('3 个月')).toBeTruthy()
-    expect(screen.getByText('到期未盈利即停')).toBeTruthy()
+    expect(screen.getByText('30 天；累计投入不超过 30 小时')).toBeTruthy()
+    expect(screen.getByText(/首轮建议 ¥2000/)).toBeTruthy()
+    expect(screen.getByText(/触及损失或工时上限、平台准入不明确/)).toBeTruthy()
   })
 
   it('不推荐方向：为什么不做，无日志块、无实验边界', () => {

@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_income_statement",
+  "arguments": {
+    "symbol": "603659.SS",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:52:56.313252+00:00",
+  "retrievedAt": "2026-10-13T08:52:56.911673+00:00",
+  "data": {
+    "symbol": "603659.SS",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

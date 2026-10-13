@@ -7,18 +7,18 @@
   "depth": "逐家初筛／既有研究复核，未认证",
   "rating": "观察／等待估值证据",
   "headline": "既有研究待核：最近季营收 +21%、盈利 −63%，毛利率 29%、营业利润率 21%、ROE 114%；52 周 990–1586。",
-  "price": null,
-  "priceText": "[MISSING]",
-  "priceDate": "旧目录价截至 2026-10-07；本次未取得可核实时点行情",
-  "currency": "",
+  "price": 1394.6,
+  "priceText": "GBp 1,394.60",
+  "priceDate": "2026-10-13T09:43:19+01:00",
+  "currency": "GBp",
   "ratio": null,
   "up": null,
   "down": null,
   "threshold": null,
   "breakEven": null,
-  "winRate": "[MISSING] 未经历史样本校准；不沿用固定 45% / 50%",
+  "winRate": "[MISSING] 未取得可校准的情景概率",
   "expected": null,
-  "valuationStatus": "旧程序化赔率撤回；公司级估值待补",
+  "valuationStatus": "旧程序化赔率撤回；公司级估值待补；行情刷新不等于重估，旧情景未重新认证",
   "primaryTrend": "航空航天",
   "riskGroup": "航空航天",
   "core": false,
@@ -26,6 +26,11 @@
   "concern": "EPS −63%（一次性）。 盈利同比下滑超 20%，模型按营收外推偏乐观，降为观察。",
   "certainty": "待核",
   "sources": [
+    {
+      "title": "本轮行情原始证据",
+      "url": "/research/data-refresh-2026-10-13/yahoo-quote-batch.json",
+      "status": "行情 2026-10-13T09:43:19+01:00；核验 2026-10-13T08:58:25.577Z；Yahoo Finance 延迟报价，不代表财报或模型已重估"
+    },
     {
       "title": "所属交易所检索入口（须按公司名/代码检索）",
       "url": "https://www.londonstockexchange.com/",
@@ -63,11 +68,15 @@
   "metrics": [
     [
       "本次价格",
-      "[MISSING]"
+      "GBp 1,394.60"
     ],
     [
       "价格时间",
-      "旧目录价截至 2026-10-07；本次未取得可核实时点行情"
+      "2026-10-13T09:43:19+01:00"
+    ],
+    [
+      "行情核验时间",
+      "2026-10-13T08:58:25.577Z；来源 research/data-refresh-2026-10-13/yahoo-quote-batch.json；研究与模型仍为 2026-10-09"
     ],
     [
       "一手事实摘录",
@@ -199,5 +208,9 @@
   "prior": [
     "旧资料只作审计轨迹，不沿用旧买入评级：未匹配既有研究页",
     "旧程序化输入：public/research/future-trends-2026-10-09/input-pool.json；其中旧赔率与固定胜率已撤回。"
-  ]
+  ],
+  "priceCheckedAt": "2026-10-13T08:58:25.577Z",
+  "priceSource": "research/data-refresh-2026-10-13/yahoo-quote-batch.json",
+  "modelAsOf": "2026-10-09",
+  "marketRefreshStatus": "行情已刷新；原研究模型未重估，不认证买入或胜率"
 }

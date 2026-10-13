@@ -1,0 +1,7 @@
+.skill-guide-page { min-width: 0; }
+.skill-guide-toc { margin: 24px 0; padding: 16px 20px; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-card); }
+.skill-guide-toc ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; margin: 0; padding: 0; list-style: none; }
+.skill-guide-toc a { display: block; padding: 6px 0; color: var(--accent-ink); font-size: 14px; line-height: 1.8; text-underline-offset: 4px; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .skill-guide-toc ol { grid-template-columns: 1fr; }
+}

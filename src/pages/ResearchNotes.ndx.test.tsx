@@ -78,21 +78,22 @@ describe('纳指100：单独分类', () => {
     }
   })
 
-  it('纳指100 成分名单 100 个条目无重复，且都能解析到研究页', async () => {
-    expect(NDX_CODES).toHaveLength(100)
-    expect(new Set(NDX_CODES).size).toBe(100)
+  it('纳指100的QQQ持仓代理包含101只证券、100家公司，全部可解析到研究页', async () => {
+    expect(NDX_CODES).toHaveLength(101)
+    expect(new Set(NDX_CODES).size).toBe(101)
+    expect(new Set(NDX_CODES.map(code => code === 'GOOG' ? 'GOOGL' : code)).size).toBe(100)
     const [us, adr] = await Promise.all([loadCompanies('us'), loadCompanies('adr')])
     const known = new Set([...us, ...adr, ...ndxCompanies].map(c => c.code))
     expect(NDX_CODES.filter(c => !known.has(c))).toEqual([])
   })
 
-  it('页签单独存在，列表显示 100 个条目并标明来源，新增公司不出现在标普500 列表', async () => {
+  it('页签单独存在，列表显示101只权益证券并标明持仓代理来源', async () => {
     renderAt('/research-notes?tab=category&m=ndx')
     await waitFor(() => expect(screen.getAllByText(/Alnylam/).length).toBeGreaterThan(0), { timeout: 8000 })
     expect(screen.getByRole('button', { name: '纳指100' })).toBeTruthy()
     expect(screen.getAllByText('纳指新增').length).toBe(10)
     expect(screen.getAllByText('同属标普500').length).toBeGreaterThan(40)
-    expect(screen.getAllByRole('button', { name: /^全部 100$/ }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('button', { name: /^全部 101$/ }).length).toBeGreaterThan(0)
     cleanup()
     const us = await loadCompanies('us')
     expect(us.some(c => NEW_CODES.includes(c.code))).toBe(false)

@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "AUR",
+      "AVGO",
+      "AVY",
+      "AWK",
+      "AXON",
+      "AXP",
+      "AZN",
+      "AZO",
+      "Amyris",
+      "Apptronik",
+      "BA",
+      "BABA"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:03.880498+00:00",
+  "retrievedAt": "2026-10-13T08:52:06.582916+00:00",
+  "data": {
+    "symbols": [
+      "AUR",
+      "AVGO",
+      "AVY",
+      "AWK",
+      "AXON",
+      "AXP",
+      "AZN",
+      "AZO",
+      "Amyris",
+      "Apptronik",
+      "BA",
+      "BABA"
+    ],
+    "results": {
+      "AUR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AVGO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AVY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AWK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AXON": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AXP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AZN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AZO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "Amyris": {
+        "error": "'Amyris'"
+      },
+      "Apptronik": {
+        "error": "'Apptronik'"
+      },
+      "BA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BABA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

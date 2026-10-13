@@ -28,6 +28,12 @@ const CompanyDetail = lazy(() => import('./pages/CompanyDetail'))
 const Notes = lazy(() => import('./pages/Notes'))
 const NoteDetail = lazy(() => import('./pages/NoteDetail'))
 const IndustryEtf = lazy(() => import('./pages/IndustryEtf'))
+const BlogIndex = lazy(() => import('./pages/BlogIndex'))
+const BlogArticle = lazy(() => import('./pages/BlogArticle'))
+const DailyAnalysis = lazy(() => import('./pages/DailyAnalysis'))
+const WatchBoard = lazy(() => import('./pages/WatchBoard'))
+const NationalTeam = lazy(() => import('./pages/NationalTeam'))
+const DevTeamGuide = lazy(() => import('./pages/DevTeamGuide'))
 const GridMoved = lazy(() => import('./pages/GridMoved'))
 // 旧的板块轮动、涨停分析同样已由 notes 的股市分析 lab 取代，旧路径由 StockToolsMoved 跳转或说明
 const StockToolsMoved = lazy(() => import('./pages/StockToolsMoved'))
@@ -97,6 +103,12 @@ export default function App(): JSX.Element {
           <Route path="/notes" element={<Notes />} />
           <Route path="/notes/:slug" element={<NoteDetail />} />
           <Route path="/industry-etf" element={<IndustryEtf />} />
+          <Route path="/blog" element={<BlogIndex />} />
+          <Route path="/blog/:slug" element={<BlogArticle />} />
+          <Route path="/daily-analysis" element={<DailyAnalysis />} />
+          <Route path="/watch" element={<WatchBoard />} />
+          <Route path="/invest/national-team" element={<NationalTeam />} />
+          <Route path="/ai/dev-team" element={<DevTeamGuide />} />
           <Route path="/monitor" element={<Monitor />} />
           <Route path="/investment-plan-2026" element={<InvestmentPlan2026 />} />
           <Route path="/investment-targets" element={<InvestmentTargetsPage />} />

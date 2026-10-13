@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "DPZ",
+      "DRI",
+      "DSY.PA",
+      "DTE",
+      "DUK",
+      "DUOL",
+      "DVA",
+      "DVN",
+      "DXCM",
+      "E",
+      "EBAY",
+      "ECHO"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:13.326114+00:00",
+  "retrievedAt": "2026-10-13T08:52:16.615969+00:00",
+  "data": {
+    "symbols": [
+      "DPZ",
+      "DRI",
+      "DSY.PA",
+      "DTE",
+      "DUK",
+      "DUOL",
+      "DVA",
+      "DVN",
+      "DXCM",
+      "E",
+      "EBAY",
+      "ECHO"
+    ],
+    "results": {
+      "DPZ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DRI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DSY.PA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DTE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DUK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DUOL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DVA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DVN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DXCM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "E": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EBAY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ECHO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

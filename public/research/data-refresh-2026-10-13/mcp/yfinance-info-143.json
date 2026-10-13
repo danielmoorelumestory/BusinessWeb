@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "RY",
+      "RYAAY",
+      "SAF.PA",
+      "SAP",
+      "SBAC",
+      "SBUX",
+      "SCHW",
+      "SDGR",
+      "SE",
+      "SERV",
+      "SGO.PA",
+      "SHEL"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:37.447404+00:00",
+  "retrievedAt": "2026-10-13T08:52:40.750497+00:00",
+  "data": {
+    "symbols": [
+      "RY",
+      "RYAAY",
+      "SAF.PA",
+      "SAP",
+      "SBAC",
+      "SBUX",
+      "SCHW",
+      "SDGR",
+      "SE",
+      "SERV",
+      "SGO.PA",
+      "SHEL"
+    ],
+    "results": {
+      "RY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RYAAY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SAF.PA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SAP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SBAC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SBUX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SCHW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SDGR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SERV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SGO.PA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SHEL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

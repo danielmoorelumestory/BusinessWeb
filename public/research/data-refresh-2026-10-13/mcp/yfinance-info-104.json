@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "BAC",
+      "BALL",
+      "BAX",
+      "BB",
+      "BBY",
+      "BDX",
+      "BE",
+      "BEKE",
+      "BEN",
+      "BF-B",
+      "BG",
+      "BHP"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:05.006894+00:00",
+  "retrievedAt": "2026-10-13T08:52:08.679641+00:00",
+  "data": {
+    "symbols": [
+      "BAC",
+      "BALL",
+      "BAX",
+      "BB",
+      "BBY",
+      "BDX",
+      "BE",
+      "BEKE",
+      "BEN",
+      "BF-B",
+      "BG",
+      "BHP"
+    ],
+    "results": {
+      "BAC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BALL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BAX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BBY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BDX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BEKE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BEN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BF-B": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BHP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

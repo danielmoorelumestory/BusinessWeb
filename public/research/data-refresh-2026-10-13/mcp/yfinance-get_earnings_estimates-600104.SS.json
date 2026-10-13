@@ -1,0 +1,13 @@
+{
+  "server": "yfinance",
+  "tool": "get_earnings_estimates",
+  "arguments": {
+    "symbol": "600104.SS"
+  },
+  "requestedAt": "2026-10-13T08:53:06.118685+00:00",
+  "retrievedAt": "2026-10-13T08:53:06.482983+00:00",
+  "data": {
+    "error": "Too Many Requests. Rate limited. Try after a while.",
+    "symbol": "600104.SS"
+  }
+}

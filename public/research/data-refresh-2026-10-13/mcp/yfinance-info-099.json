@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "ADP",
+      "ADSK",
+      "AEE",
+      "AEP",
+      "AER",
+      "AES",
+      "AFL",
+      "AIG",
+      "AIR.PA",
+      "AIZ",
+      "AJG",
+      "AKAM"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:00.498273+00:00",
+  "retrievedAt": "2026-10-13T08:52:03.880165+00:00",
+  "data": {
+    "symbols": [
+      "ADP",
+      "ADSK",
+      "AEE",
+      "AEP",
+      "AER",
+      "AES",
+      "AFL",
+      "AIG",
+      "AIR.PA",
+      "AIZ",
+      "AJG",
+      "AKAM"
+    ],
+    "results": {
+      "ADP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ADSK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AEE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AEP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AER": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AES": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AFL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AIG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AIR.PA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AIZ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AJG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AKAM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

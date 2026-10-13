@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "IT",
+      "ITUB",
+      "ITW",
+      "IVZ",
+      "J",
+      "JBHT",
+      "JBL",
+      "JCI",
+      "JD",
+      "JKHY",
+      "JNJ",
+      "JOBY"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:23.575010+00:00",
+  "retrievedAt": "2026-10-13T08:52:27.164991+00:00",
+  "data": {
+    "symbols": [
+      "IT",
+      "ITUB",
+      "ITW",
+      "IVZ",
+      "J",
+      "JBHT",
+      "JBL",
+      "JCI",
+      "JD",
+      "JKHY",
+      "JNJ",
+      "JOBY"
+    ],
+    "results": {
+      "IT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ITUB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ITW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IVZ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "J": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "JBHT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "JBL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "JCI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "JD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "JKHY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "JNJ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "JOBY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

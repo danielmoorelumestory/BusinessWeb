@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "BIDU",
+      "BIIB",
+      "BILI",
+      "BK",
+      "BKNG",
+      "BKR",
+      "BLDP",
+      "BLK",
+      "BMRN",
+      "BMW.DE",
+      "BMY",
+      "BNTX"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:06.280824+00:00",
+  "retrievedAt": "2026-10-13T08:52:09.821844+00:00",
+  "data": {
+    "symbols": [
+      "BIDU",
+      "BIIB",
+      "BILI",
+      "BK",
+      "BKNG",
+      "BKR",
+      "BLDP",
+      "BLK",
+      "BMRN",
+      "BMW.DE",
+      "BMY",
+      "BNTX"
+    ],
+    "results": {
+      "BIDU": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BIIB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BILI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BKNG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BKR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BLDP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BLK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BMRN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BMW.DE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BMY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BNTX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

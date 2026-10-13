@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "FDS",
+      "FDX",
+      "FDXF",
+      "FE",
+      "FER",
+      "FERG",
+      "FFIV",
+      "FICO",
+      "FIG",
+      "FIS",
+      "FISV",
+      "FITB"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:16.616263+00:00",
+  "retrievedAt": "2026-10-13T08:52:20.144071+00:00",
+  "data": {
+    "symbols": [
+      "FDS",
+      "FDX",
+      "FDXF",
+      "FE",
+      "FER",
+      "FERG",
+      "FFIV",
+      "FICO",
+      "FIG",
+      "FIS",
+      "FISV",
+      "FITB"
+    ],
+    "results": {
+      "FDS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FDX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FDXF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FER": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FERG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FFIV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FICO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FIG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FIS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FISV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FITB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

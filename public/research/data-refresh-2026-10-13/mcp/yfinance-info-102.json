@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "APP",
+      "APTV",
+      "ARE",
+      "ARES",
+      "ARM",
+      "ARRY",
+      "ASM.AS",
+      "ASML",
+      "ASTS",
+      "ASX",
+      "ATI",
+      "ATO"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:03.124639+00:00",
+  "retrievedAt": "2026-10-13T08:52:06.657778+00:00",
+  "data": {
+    "symbols": [
+      "APP",
+      "APTV",
+      "ARE",
+      "ARES",
+      "ARM",
+      "ARRY",
+      "ASM.AS",
+      "ASML",
+      "ASTS",
+      "ASX",
+      "ATI",
+      "ATO"
+    ],
+    "results": {
+      "APP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "APTV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ARE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ARES": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ARM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ARRY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ASM.AS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ASML": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ASTS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ASX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ATI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ATO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

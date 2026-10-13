@@ -1,11 +1,20 @@
 {
   "asOf": "2026-10-09",
-  "companies": 491,
-  "listed": 465,
+  "companies": 651,
+  "listed": 625,
   "unlistedOrUncertain": 26,
-  "freshQuotes": 426,
-  "companyEvidenceDrafts": 46,
+  "freshQuotes": 625,
+  "companyEvidenceDrafts": 65,
   "certifiedValuations": 0,
   "actualWinRatesCalibrated": 0,
-  "missing": "详见每家公司二级页；覆盖不等于完成深度认证"
+  "missing": "详见每家公司二级页；覆盖不等于完成深度认证",
+  "priceMissing": 26,
+  "marketCheckedAt": "2026-10-13T09:35:00.147247+00:00",
+  "marketDateRange": [
+    "2026-10-09",
+    "2026-10-12",
+    "2026-10-13"
+  ],
+  "researchAsOf": "2026-10-09",
+  "maintenanceNote": "10-13仅更新行情与旧假设的条件算术；研究日和未认证估值状态保留。非上市26家不补造报价。"
 }

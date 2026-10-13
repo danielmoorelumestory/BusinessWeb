@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "SHOP",
+      "SHW",
+      "SIE.DE",
+      "SJM",
+      "SKHY",
+      "SLB",
+      "SLDP",
+      "SMCI",
+      "SMFG",
+      "SMR",
+      "SNA",
+      "SNAP"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:39.174998+00:00",
+  "retrievedAt": "2026-10-13T08:52:42.751360+00:00",
+  "data": {
+    "symbols": [
+      "SHOP",
+      "SHW",
+      "SIE.DE",
+      "SJM",
+      "SKHY",
+      "SLB",
+      "SLDP",
+      "SMCI",
+      "SMFG",
+      "SMR",
+      "SNA",
+      "SNAP"
+    ],
+    "results": {
+      "SHOP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SHW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SIE.DE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SJM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SKHY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SLB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SLDP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SMCI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SMFG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SMR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SNA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SNAP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

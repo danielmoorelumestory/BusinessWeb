@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "AAPL",
+      "ABBN.SW",
+      "ABBV",
+      "ABNB",
+      "ABT",
+      "ACGL",
+      "ACHR",
+      "ACLS",
+      "ACN",
+      "ADBE",
+      "ADI",
+      "ADM"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:51:59.761535+00:00",
+  "retrievedAt": "2026-10-13T08:52:03.124141+00:00",
+  "data": {
+    "symbols": [
+      "AAPL",
+      "ABBN.SW",
+      "ABBV",
+      "ABNB",
+      "ABT",
+      "ACGL",
+      "ACHR",
+      "ACLS",
+      "ACN",
+      "ADBE",
+      "ADI",
+      "ADM"
+    ],
+    "results": {
+      "AAPL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ABBN.SW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ABBV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ABNB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ABT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ACGL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ACHR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ACLS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ACN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ADBE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ADI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ADM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

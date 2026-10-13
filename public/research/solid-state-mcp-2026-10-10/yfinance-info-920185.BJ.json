@@ -1,0 +1,12 @@
+{
+  "server": "yfinance",
+  "tool": "get_stock_info",
+  "arguments": {
+    "symbol": "920185.BJ"
+  },
+  "retrievedAt": "2026-10-10T07:23:33.127591+00:00",
+  "isError": false,
+  "data": {
+    "trailingPegRatio": null
+  }
+}

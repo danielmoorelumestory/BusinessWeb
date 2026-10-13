@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "GDDY",
+      "GE",
+      "GEHC",
+      "GEN",
+      "GEV",
+      "GILD",
+      "GIS",
+      "GL",
+      "GLW",
+      "GM",
+      "GNRC",
+      "GOOG"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:18.864979+00:00",
+  "retrievedAt": "2026-10-13T08:52:22.478286+00:00",
+  "data": {
+    "symbols": [
+      "GDDY",
+      "GE",
+      "GEHC",
+      "GEN",
+      "GEV",
+      "GILD",
+      "GIS",
+      "GL",
+      "GLW",
+      "GM",
+      "GNRC",
+      "GOOG"
+    ],
+    "results": {
+      "GDDY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GEHC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GEN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GEV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GILD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GIS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GLW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GNRC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GOOG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

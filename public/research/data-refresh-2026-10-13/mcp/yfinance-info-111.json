@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "CRM",
+      "CRS",
+      "CRSP",
+      "CRWD",
+      "CRWV",
+      "CSCO",
+      "CSGP",
+      "CSTM",
+      "CSX",
+      "CTAS",
+      "CTSH",
+      "CTVA"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:10.006657+00:00",
+  "retrievedAt": "2026-10-13T08:52:13.325754+00:00",
+  "data": {
+    "symbols": [
+      "CRM",
+      "CRS",
+      "CRSP",
+      "CRWD",
+      "CRWV",
+      "CSCO",
+      "CSGP",
+      "CSTM",
+      "CSX",
+      "CTAS",
+      "CTSH",
+      "CTVA"
+    ],
+    "results": {
+      "CRM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CRS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CRSP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CRWD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CRWV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CSCO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CSGP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CSTM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CSX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CTAS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CTSH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CTVA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "HWM",
+      "HXL",
+      "IBKR",
+      "IBM",
+      "IBN",
+      "ICE",
+      "IDXX",
+      "IEX",
+      "IFF",
+      "IFX.DE",
+      "ILMN",
+      "INCY"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:22.478738+00:00",
+  "retrievedAt": "2026-10-13T08:52:25.909739+00:00",
+  "data": {
+    "symbols": [
+      "HWM",
+      "HXL",
+      "IBKR",
+      "IBM",
+      "IBN",
+      "ICE",
+      "IDXX",
+      "IEX",
+      "IFF",
+      "IFX.DE",
+      "ILMN",
+      "INCY"
+    ],
+    "results": {
+      "HWM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HXL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IBKR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IBM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IBN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ICE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IDXX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IEX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IFF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IFX.DE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ILMN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "INCY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

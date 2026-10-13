@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "AMGN",
+      "AMKR",
+      "AMP",
+      "AMT",
+      "AMZN",
+      "ANET",
+      "AON",
+      "AOS",
+      "APA",
+      "APD",
+      "APH",
+      "APO"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:02.983175+00:00",
+  "retrievedAt": "2026-10-13T08:52:06.280225+00:00",
+  "data": {
+    "symbols": [
+      "AMGN",
+      "AMKR",
+      "AMP",
+      "AMT",
+      "AMZN",
+      "ANET",
+      "AON",
+      "AOS",
+      "APA",
+      "APD",
+      "APH",
+      "APO"
+    ],
+    "results": {
+      "AMGN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMKR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMZN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ANET": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AON": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AOS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "APA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "APD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "APH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "APO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

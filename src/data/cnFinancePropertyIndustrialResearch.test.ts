@@ -22,7 +22,8 @@ describe('金融、房地产、工业复核的证据边界', () => {
     for (const row of audit.companies) {
       const company = list.find(c => c.code === row.code)!
       expect(company.sector).toBe(row.sector)
-      expect(company.headline).toBe(cnFinancePropertyIndustrialResearch[row.code].headline)
+      expect(company.headline).toContain(cnFinancePropertyIndustrialResearch[row.code].headline)
+      expect(company.headline).toContain('原研究')
       expect(company.researchReport).toBe(`research/cn-finance-property-industrial-2026-10-07/${row.code}.md`)
       expect(company.scenarios).toHaveLength(3)
       expect(company.discipline?.zone).toContain('[MISSING]')

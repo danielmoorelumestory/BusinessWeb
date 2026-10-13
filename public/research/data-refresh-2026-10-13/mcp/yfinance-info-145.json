@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "SNDK",
+      "SNOW",
+      "SNPS",
+      "SNY",
+      "SO",
+      "SOFI",
+      "SOLV",
+      "SONY",
+      "SPCX",
+      "SPG",
+      "SPGI",
+      "SPOT"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:40.343230+00:00",
+  "retrievedAt": "2026-10-13T08:52:43.797461+00:00",
+  "data": {
+    "symbols": [
+      "SNDK",
+      "SNOW",
+      "SNPS",
+      "SNY",
+      "SO",
+      "SOFI",
+      "SOLV",
+      "SONY",
+      "SPCX",
+      "SPG",
+      "SPGI",
+      "SPOT"
+    ],
+    "results": {
+      "SNDK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SNOW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SNPS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SNY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SOFI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SOLV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SONY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SPCX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SPG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SPGI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SPOT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

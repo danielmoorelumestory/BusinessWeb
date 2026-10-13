@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "CAH",
+      "CARR",
+      "CASY",
+      "CAT",
+      "CB",
+      "CBOE",
+      "CBRE",
+      "CBRS",
+      "CCEP",
+      "CCI",
+      "CCJ",
+      "CCL"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:06.658671+00:00",
+  "retrievedAt": "2026-10-13T08:52:10.006381+00:00",
+  "data": {
+    "symbols": [
+      "CAH",
+      "CARR",
+      "CASY",
+      "CAT",
+      "CB",
+      "CBOE",
+      "CBRE",
+      "CBRS",
+      "CCEP",
+      "CCI",
+      "CCJ",
+      "CCL"
+    ],
+    "results": {
+      "CAH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CARR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CASY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CAT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CBOE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CBRE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CBRS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CCEP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CCI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CCJ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CCL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

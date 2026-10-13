@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "VALE",
+      "VCT.L",
+      "VEEV",
+      "VGNT",
+      "VICI",
+      "VIPS",
+      "VKTX",
+      "VLO",
+      "VLTO",
+      "VMC",
+      "VMRK",
+      "VRSK"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:46.370645+00:00",
+  "retrievedAt": "2026-10-13T08:52:49.341687+00:00",
+  "data": {
+    "symbols": [
+      "VALE",
+      "VCT.L",
+      "VEEV",
+      "VGNT",
+      "VICI",
+      "VIPS",
+      "VKTX",
+      "VLO",
+      "VLTO",
+      "VMC",
+      "VMRK",
+      "VRSK"
+    ],
+    "results": {
+      "VALE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VCT.L": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VEEV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VGNT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VICI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VIPS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VKTX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VLO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VLTO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VMC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VMRK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "VRSK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

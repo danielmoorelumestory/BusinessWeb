@@ -1,0 +1,327 @@
+{
+  "server": "yfinance",
+  "tool": "get_earnings_estimates",
+  "arguments": {
+    "symbol": "688116.SS"
+  },
+  "retrievedAt": "2026-10-10T07:23:39.931052+00:00",
+  "isError": false,
+  "data": {
+    "symbol": "688116.SS",
+    "earnings_estimate": {
+      "columns": [
+        "avg",
+        "low",
+        "high",
+        "yearAgoEps",
+        "numberOfAnalysts",
+        "growth",
+        "currency"
+      ],
+      "indexName": "period",
+      "rows": [
+        {
+          "metric": "0q",
+          "values": [
+            0.35007,
+            0.35007,
+            0.35007,
+            0.22,
+            1,
+            0.5912,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1q",
+          "values": [
+            0.50874,
+            0.50874,
+            0.50874,
+            0.08,
+            1,
+            5.3593,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "0y",
+          "values": [
+            1.08,
+            1.08,
+            1.08,
+            0.54,
+            1,
+            1.0,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1y",
+          "values": [
+            1.61,
+            1.61,
+            1.61,
+            1.08,
+            1,
+            0.4907,
+            "CNY"
+          ]
+        }
+      ]
+    },
+    "revenue_estimate": {
+      "columns": [
+        "avg",
+        "low",
+        "high",
+        "numberOfAnalysts",
+        "yearAgoRevenue",
+        "growth",
+        "currency"
+      ],
+      "indexName": "period",
+      "rows": [
+        {
+          "metric": "0q",
+          "values": [
+            537634970,
+            537634970,
+            537634970,
+            1,
+            347306740,
+            0.548,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1q",
+          "values": [
+            652129470,
+            652129470,
+            652129470,
+            1,
+            296467640,
+            1.1997,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "0y",
+          "values": [
+            1824998300,
+            1541000000,
+            1925000000,
+            6,
+            1297376630,
+            0.4067,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1y",
+          "values": [
+            2419161500,
+            1879000000,
+            2770000000,
+            6,
+            1824998300,
+            0.32560003,
+            "CNY"
+          ]
+        }
+      ]
+    },
+    "earnings_history": {
+      "columns": [
+        "epsActual",
+        "epsEstimate",
+        "epsDifference",
+        "surprisePercent"
+      ],
+      "indexName": "quarter",
+      "rows": [
+        {
+          "metric": "2025-09-30T00:00:00",
+          "values": [
+            0.22,
+            0.44463,
+            -0.22,
+            -0.5052
+          ]
+        },
+        {
+          "metric": "2025-12-31T00:00:00",
+          "values": [
+            0.08,
+            0.27487,
+            -0.19,
+            -0.709
+          ]
+        },
+        {
+          "metric": "2026-03-31T00:00:00",
+          "values": [
+            0.15,
+            0.41631,
+            -0.27,
+            -0.6397
+          ]
+        }
+      ]
+    },
+    "eps_trend": {
+      "columns": [
+        "current",
+        "7daysAgo",
+        "30daysAgo",
+        "60daysAgo",
+        "90daysAgo",
+        "currency"
+      ],
+      "indexName": "period",
+      "rows": [
+        {
+          "metric": "0q",
+          "values": [
+            0.35007,
+            0.0,
+            0.0,
+            0.0,
+            0.41631,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1q",
+          "values": [
+            0.50874,
+            0.0,
+            0.0,
+            0.0,
+            0.41631,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "0y",
+          "values": [
+            1.08,
+            1.81,
+            1.81,
+            1.81,
+            1.81,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1y",
+          "values": [
+            1.61,
+            2.44,
+            2.44,
+            2.44,
+            2.44,
+            "CNY"
+          ]
+        }
+      ]
+    },
+    "eps_revisions": {
+      "columns": [
+        "upLast7days",
+        "upLast30days",
+        "downLast30days",
+        "downLast7Days",
+        "currency"
+      ],
+      "indexName": "period",
+      "rows": [
+        {
+          "metric": "0q",
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1q",
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "0y",
+          "values": [
+            0,
+            0,
+            1,
+            1,
+            "CNY"
+          ]
+        },
+        {
+          "metric": "+1y",
+          "values": [
+            0,
+            0,
+            1,
+            1,
+            "CNY"
+          ]
+        }
+      ]
+    },
+    "growth_estimates": {
+      "columns": [
+        "stockTrend",
+        "indexTrend"
+      ],
+      "indexName": "period",
+      "rows": [
+        {
+          "metric": "0q",
+          "values": [
+            null,
+            0.2433
+          ]
+        },
+        {
+          "metric": "+1q",
+          "values": [
+            null,
+            0.26
+          ]
+        },
+        {
+          "metric": "0y",
+          "values": [
+            1.0,
+            0.3229
+          ]
+        },
+        {
+          "metric": "+1y",
+          "values": [
+            0.4907,
+            0.16430001
+          ]
+        },
+        {
+          "metric": "LTG",
+          "values": [
+            null,
+            0.122
+          ]
+        }
+      ]
+    }
+  }
+}

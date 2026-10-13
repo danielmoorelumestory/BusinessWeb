@@ -1,0 +1,82 @@
+{
+  "auditDate": "2026-10-13",
+  "normalizedAt": "2026-10-13T10:03:14.474677+00:00",
+  "mcpInfoSuccess": 1863,
+  "mcpInfoErrors": 883,
+  "quoteSymbols": 1870,
+  "companyRecordsCovered": 1540,
+  "companyRecordsRequested": 1540,
+  "macroUpdatedFields": {
+    "us": [
+      "curve",
+      "hy",
+      "vix",
+      "dd",
+      "tenYear",
+      "dxy",
+      "gold",
+      "silver",
+      "wti"
+    ],
+    "cn": [
+      "marginGdp",
+      "marginMcap"
+    ],
+    "hk": [
+      "hsiDd",
+      "hsi12m",
+      "south"
+    ]
+  },
+  "futureUpdated": 625,
+  "solidListingsUpdated": 68,
+  "solidReviewFinancialAbstractsUpdated": 46,
+  "lynchPeUpdated": 1517,
+  "unresolvedMcpSymbols": [
+    "832522.BJ",
+    "835185.BJ",
+    "873593.BJ",
+    "920185.BJ",
+    "920522.BJ",
+    "Amyris",
+    "Apptronik",
+    "BK",
+    "GWH",
+    "Neuralink",
+    "PSTG",
+    "Schunk",
+    "Synchron",
+    "ZF",
+    "maxon",
+    "中国商飞",
+    "中科海钠",
+    "九识智能",
+    "博睿康",
+    "卫蓝新能源",
+    "大疆",
+    "天科合达",
+    "小鹏汇天",
+    "峰飞航空",
+    "本源量子",
+    "清陶能源",
+    "脑虎科技",
+    "蓝箭航天",
+    "长江存储",
+    "长鑫存储"
+  ],
+  "rejected": [
+    {
+      "symbol": "832522.BJ",
+      "reason": "Obsolete BSE ticker; use the verified 920 code, not the same-day 09:00 stub"
+    },
+    {
+      "symbol": "835185.BJ",
+      "reason": "Obsolete BSE ticker; use the verified 920 code, not the same-day 09:00 stub"
+    },
+    {
+      "symbol": "ZF",
+      "reason": "Quote older than live research quote"
+    }
+  ],
+  "researchBoundary": "仅行情和实际返回摘要字段更新；原模型、原件精度、研究日期保留；空表/限流不能算财报更新"
+}

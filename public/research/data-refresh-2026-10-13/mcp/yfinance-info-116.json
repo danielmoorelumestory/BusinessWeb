@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "ENR.DE",
+      "ENTG",
+      "EOG",
+      "EOSE",
+      "EQIX",
+      "EQT",
+      "ERIE",
+      "ES",
+      "ESS",
+      "ESTC",
+      "ETN",
+      "ETR"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:15.482850+00:00",
+  "retrievedAt": "2026-10-13T08:52:18.864250+00:00",
+  "data": {
+    "symbols": [
+      "ENR.DE",
+      "ENTG",
+      "EOG",
+      "EOSE",
+      "EQIX",
+      "EQT",
+      "ERIE",
+      "ES",
+      "ESS",
+      "ESTC",
+      "ETN",
+      "ETR"
+    ],
+    "results": {
+      "ENR.DE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ENTG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EOG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EOSE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EQIX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "EQT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ERIE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ES": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ESS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ESTC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ETN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ETR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

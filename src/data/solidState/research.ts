@@ -128,7 +128,7 @@ export const PERSPECTIVES = [
   ['逆向 · 观望', '延迟或亏损并不自动说明技术无效，须区分融资约束和工艺问题。', '反证：现金减少与反复融资可能形成价值陷阱；按下一期现金消耗与每股稀释重评。'],
 ]
 
-export const PRICE_DATE = '2026-10-09 MCP 抓取；逐证券市场时间见公司池。贝特瑞旧价本轮未能复核'
+export const PRICE_DATE = '2026-10-13行情核验；逐证券实际市场时间见公司池，原研究假设未重估。贝特瑞使用920185新代码报价'
 
 export interface Valuation {
   id: string; name: string; code: string; price: number; currency: string

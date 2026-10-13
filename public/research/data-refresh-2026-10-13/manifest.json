@@ -1,0 +1,3218 @@
+{
+  "checkedAt": "2026-10-13T10:06:51.369550+00:00",
+  "auditDate": "2026-10-13",
+  "timezone": "Asia/Yerevan",
+  "files": [
+    {
+      "path": "public/research/data-refresh-2026-10-13/before/index-history.json",
+      "bytes": 325623,
+      "sha256": "54640827dfc7544d5d0b64a9d7a0c45426393e7f25549a3db51f518a932e6ff7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/before/macro-cn.json",
+      "bytes": 13963,
+      "sha256": "b28a3a4946a71767990d4a65016e803d48deb38fefb1b687a930418d169259e5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/before/macro-hk.json",
+      "bytes": 3408,
+      "sha256": "1c082e8588878746ce7f98fed53317bdaebf7ac04eeeef53d03f70ccee6f55b1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/before/macro-us.json",
+      "bytes": 57735,
+      "sha256": "7a991bfc5ca316c32a321a0f407f4913f7b6510120bd62eaaa1385b0c9767ca6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/changes-initial.json",
+      "bytes": 523492,
+      "sha256": "a36e187cbfe15a7922ded3da6dfe652780e5195fa6e8c2da05182721d035ba3c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/changes.json",
+      "bytes": 569170,
+      "sha256": "ad9ba06ff108f37c55a0817447560342958540b73ce4068696aa1ebb3a9c69d8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/company-json-results.json",
+      "bytes": 394,
+      "sha256": "e95c4700fc25d94e6700e9fa7af1050ac6d44f27c7d5613a0dd17bbd92240694"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/company-universe-after.json",
+      "bytes": 7833106,
+      "sha256": "fc5b57ce008e5cbe598f71ed1b03bbfb6fa870865ce9b27452d18d0db61b9910"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/company-universe.json",
+      "bytes": 5007844,
+      "sha256": "4d22b642342fa2ce9837d668a531178651320d08e09e54836839784a1942ea57"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/etf-quotes.json",
+      "bytes": 112615,
+      "sha256": "5f4b523a2c3be58da10a146b7cd29525ff59388695471520a697dfb1d244f2a8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/indexes-collected.json",
+      "bytes": 976461,
+      "sha256": "17a304ad0506f44faf6e8f2f6ee0525eb71573315ddb8343ee13b810f5cf559c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/job-results.json",
+      "bytes": 477,
+      "sha256": "8628147e8e2cb7df058755eff189b4437f9f9671a397c55f2db775e7bb3dc502"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/macro-collected.json",
+      "bytes": 236564,
+      "sha256": "6d080f0615b3bf1b0ca890e803ea1109b250bfb308bb0c5cc7bfcd13e4bbb9a9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-000408.json",
+      "bytes": 62271,
+      "sha256": "5a1f4cc80be15c65dfc13d87cc4bfc23ae30ceb4af52ed11dfe37e04a3652b30"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-000762.json",
+      "bytes": 61538,
+      "sha256": "97520d3a5d0734f661a55fdd2a37553710b60f08a1b3a22f1e2a40a03df26314"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-000792.json",
+      "bytes": 60986,
+      "sha256": "8f82a61df470404f428f09d33cf270a5f65139b7b1f1649d6a111fad3157546f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002009.json",
+      "bytes": 52406,
+      "sha256": "467205d8d37b804848ab98b7f155f7e1d04ee6345227cb1615f6ce387b63f614"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002074.json",
+      "bytes": 47420,
+      "sha256": "761544ceba726efc118dba3cd536aae5c3e4c6d54259ec359ad0d236ebc23777"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002192.json",
+      "bytes": 45015,
+      "sha256": "2be251a60c65b8479e0bc5087f544042594854539abfa043fe764d4191a38acc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002240.json",
+      "bytes": 44331,
+      "sha256": "6e66f0dd1abf5a50a84c8ece26546e95f0c6f7105210917fb8365c5d93fd4417"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002340.json",
+      "bytes": 40690,
+      "sha256": "1c19981816883edfb08062e8cd123d6e4a86250675e86133a57b90bbf0c70899"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002460.json",
+      "bytes": 39262,
+      "sha256": "85e6d53b0d703674a07b8db19581b702ea1e347d1978ff0b8b78a5502786354d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002466.json",
+      "bytes": 38922,
+      "sha256": "f4543b291c221054bd726115d3bcb4a4369b57214676a504e1262c6efa3812ce"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002497.json",
+      "bytes": 38497,
+      "sha256": "4c9763e6219d3f6796792f83c666d729010d0876f455cf6a5dead79f88850529"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002594.json",
+      "bytes": 37627,
+      "sha256": "df03302759c389ae98fe4f816c0c4523e793cd2e4c1e9bc5c443791ec709508a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002632.json",
+      "bytes": 36483,
+      "sha256": "7515f3628681f972f0cab256ce56da329467bb59c58614d6f0994e123692586d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002709.json",
+      "bytes": 40128,
+      "sha256": "34a05e4341322ebacfd814638c0232c1fdc20d9fceac3ff3ebb186c5f76a91e1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002738.json",
+      "bytes": 32238,
+      "sha256": "8e968fb609ee87a40ad7ebe8369697c35df758ab5950ba0ab82235a7e1d791db"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002756.json",
+      "bytes": 32387,
+      "sha256": "ada156c3febf67330a04e12a8b4880a9e74bea5c6e6c6729726e398f65c34115"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002812.json",
+      "bytes": 27332,
+      "sha256": "f66d092f8acf1d6e4ef5e01bcc17284f4dfa0d07dc48aed0d1e3fb6947f16d01"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-002846.json",
+      "bytes": 26279,
+      "sha256": "b070e367760b68ff5215312c0f1e42d2d99bc78437919494a9e49ab752eb6aaa"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300014.json",
+      "bytes": 40859,
+      "sha256": "c8480928c92d859f73ae15e8d4ac164773f5a3a5d1dba72f22d97b07272f95b2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300037.json",
+      "bytes": 40731,
+      "sha256": "2dc7a562bbb2d596e5143b249cd23a74423f9a04bb6aa332863e30ada65a71fc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300068.json",
+      "bytes": 39803,
+      "sha256": "920eed7f2d11cb5dbe60baf294b7a23da103d1c6ca1286348fef061b74157d3f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300073.json",
+      "bytes": 39763,
+      "sha256": "8621e1b761eaa0e96a82fb212296a397a0173e3180aa805b89c910ec079f5918"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300207.json",
+      "bytes": 37438,
+      "sha256": "ad4e8bc7eac56317fb691690f4b54a202a75c18191d8198294bf9880f86e7287"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300274.json",
+      "bytes": 36550,
+      "sha256": "fb79f01c2c0c3f470d6d6f02cb9ec8afc4dfb68d9d0f0ec6d2aeae2a039c5723"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300409.json",
+      "bytes": 29586,
+      "sha256": "67b157e3323e8ef53bfb5d33d7e2368906900be7e44d275ff251264a4cb51900"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300450.json",
+      "bytes": 29487,
+      "sha256": "cc37f2f95feb1896933169e15859bc815a82d66317c11a26b4322ba247bd38ab"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300457.json",
+      "bytes": 29410,
+      "sha256": "af97efbd05e12ec799b482874a28439dee5760875191a5b6e4492307b63260fb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300568.json",
+      "bytes": 26204,
+      "sha256": "ca59fb7b7e634ea996fe22e794b5d50cfc297244a082d620580a4133d3ce1ec8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-300750.json",
+      "bytes": 23106,
+      "sha256": "61d1c7e855379bca2a4437cf53584992b2f87494afc4d9ee23d1dfe4ce11d70c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-301238.json",
+      "bytes": 15878,
+      "sha256": "88bf59849302553e21d34fb54ad3658c7a0397d8d086bff923ca3cbb5393ece9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-600104.json",
+      "bytes": 60845,
+      "sha256": "a7585c60e8b20f42a64061b67f5b037c6089b3e461956f9e6368811e6c93ae9b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-600884.json",
+      "bytes": 63187,
+      "sha256": "56a53846122e21767ae839bf1df2b5eac0ebaf2ebc651a215b38b0fadda37257"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-601127.json",
+      "bytes": 30966,
+      "sha256": "02f80aeb15202be6606fd521428f352b1f61b647279b6bfdd1ae334e4142f472"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-601238.json",
+      "bytes": 41605,
+      "sha256": "d8b1e46bac177fca9ccaff77f194fbb42d76e5ad5b5c36cf36f4ef4011a9489d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-603200.json",
+      "bytes": 25755,
+      "sha256": "d9e32e1413fc3bd9356ca6291523d52b080bba1ec4706e4a1dae8fb726088f44"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-603659.json",
+      "bytes": 24536,
+      "sha256": "b2fc25d1482ee805183ce4b0a341bdc863b7351d11ec081fd78fabd91234586c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-603663.json",
+      "bytes": 27906,
+      "sha256": "86bc2398272718d578b053c57046a26a81c2ac9b5f8a9e359bb68eb1c589dc00"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-603799.json",
+      "bytes": 35323,
+      "sha256": "2a957953e13160789cf760f8682b9e923b0bb60c295c1c377b866882b5c7e9fe"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688005.json",
+      "bytes": 20239,
+      "sha256": "a24b0b687cde4f666140bea52b6bb2fbdea38416bc95cc96fce3cbe6c4c74728"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688116.json",
+      "bytes": 19704,
+      "sha256": "4ad0e3b0c1998173460cfb477a9c6fbcc6c673bbd95b1ac6c87b0f5fd69443ce"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688388.json",
+      "bytes": 26739,
+      "sha256": "709bcdb5cd51af401645540f0f25dc4e94ce2e78a62b66d0cf8ebf2699b9b4a4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688499.json",
+      "bytes": 17176,
+      "sha256": "abc4e3ae563e8aa03680ec139f5bf241c4c71de524c02da919ad071969a7f647"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688559.json",
+      "bytes": 18741,
+      "sha256": "f668cb3dbb4dcba95e69ced0705792834bb3721b59e4a889497b20f925aa6286"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688567.json",
+      "bytes": 18856,
+      "sha256": "e9588ac56272a83a3484c8bb18b959deec76dda4f7093ec0adfe289f48c74dff"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688778.json",
+      "bytes": 17937,
+      "sha256": "4eba205c1eaf551cac514049f5e6c4616f70766f3cd838e083d176f106dff2a1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-financial-688779.json",
+      "bytes": 16969,
+      "sha256": "8db142ebc56d752a8619a2444164ab689a9f1f4cfcfdda8964fbe03e5389532c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-probe-stock_financial_abstract_ths.json",
+      "bytes": 29487,
+      "sha256": "d93fb1c1328c37413ba1baf4d3712e38530908ddd385053f4af68a9737d16b4c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-probe-stock_zh_a_hist_tx.json",
+      "bytes": 982,
+      "sha256": "bdf44e98b5094ac76064043ffacd5163aac2c07178c79944e80859ead7a0e29d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/akshare-tools.json",
+      "bytes": 12155,
+      "sha256": "58930d70dae580bbf48ad57f9e7d92d8e358c7677c1edca51527ddc38ab29de1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-300037.SZ.json",
+      "bytes": 17390,
+      "sha256": "3cc3c0812e352c7290c95f9abc42c7412815989c29741c58bc43c139c1cbf580"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-300073.SZ.json",
+      "bytes": 16295,
+      "sha256": "cb3783aca8c9ba7e960ed33105633932c0cc3fb8f22b0b2e72495e53591b87ae"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-300450.SZ.json",
+      "bytes": 16050,
+      "sha256": "83773e13166c97cb35a0c4e7109ebea8640e99dc9dd2044ffba6d19db51667cf"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-300457.SZ.json",
+      "bytes": 15876,
+      "sha256": "9d4893216a25db8a61a70748a486c820932817504c295406bcaf3a3a971ba7d0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-300750.SZ.json",
+      "bytes": 17639,
+      "sha256": "fda25b09c30f3c38552d1df2293c0dbb90cb51eb32cd698ca96558e70aca28bb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-603659.SS.json",
+      "bytes": 16985,
+      "sha256": "9ba2ed1b4f416d2d13a7280999799a514e383e9a475b2dd677c7acdd90424ffb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-688116.SS.json",
+      "bytes": 15868,
+      "sha256": "1055ba6541034cc8683832180353bc8eec6a752c9d2f6b749a69d58b6df33b24"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-688778.SS.json",
+      "bytes": 15722,
+      "sha256": "3a1ffd987a870958441b89f5840eee31f9d15cd1490f7b0c2d893f7d09dca45c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_balance_sheet-PEP.json",
+      "bytes": 17866,
+      "sha256": "75fd7277e0a4ca66f9794a0ee984d0c433df7ab32fef4246ca47100905c0f594"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-300037.SZ.json",
+      "bytes": 7975,
+      "sha256": "e538a1924aade32ba1fa6090dafb3df95e825bf24708e73253aef6383b24f8b1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-300073.SZ.json",
+      "bytes": 7380,
+      "sha256": "27b38814dec25c104928b5afdd74d3aa4bb7b78a5d7a135e80dc0742248e8103"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-300450.SZ.json",
+      "bytes": 7837,
+      "sha256": "04f4e84037a9d623cfede7c59450d751aec5bf9e1f273618f02b005d42b1c70c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-300457.SZ.json",
+      "bytes": 7640,
+      "sha256": "3754d068a609434b9417194a1e0f6602a285f808719b2fd858b7d7d0d182c52d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-300750.SZ.json",
+      "bytes": 9193,
+      "sha256": "3eaf44852e017171bc2ac4e8b21a1b9ce7374cc88c57dce6e52f2f0d0177fb7d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-603659.SS.json",
+      "bytes": 8090,
+      "sha256": "eb11eb3d92d2dcc0f6368fab4c70106743d47768a877b856f0ca4cb269b580fd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-688116.SS.json",
+      "bytes": 7906,
+      "sha256": "cd8ccedde2ab4571ba20f9c33834eb8295762f2c1da800b1c30b81ee600966b6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-688778.SS.json",
+      "bytes": 7566,
+      "sha256": "7390514c7a5eb2345ba2159ffcb9bf1155f81221896f822c70f90b8a21cd50c0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_cash_flow-PEP.json",
+      "bytes": 15123,
+      "sha256": "0d096941b6be3ab75048f849ebf566904961fb27c7df330763d817d5debf8e10"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-300037.SZ.json",
+      "bytes": 6129,
+      "sha256": "c32b268d8e9fc4fd2c8e813991de77038ef4ca650aa09dfaf78fe71893ba9bd8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-300073.SZ.json",
+      "bytes": 6090,
+      "sha256": "dc1f00f1197605a54ee7190b214e1a055135bca08fa4a60f9a0a1ed4185a1074"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-300450.SZ.json",
+      "bytes": 6111,
+      "sha256": "92df2b266cab87824746ebaed3c9c5a821309f4d54f9e3b6bb674d83d876a8bd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-300457.SZ.json",
+      "bytes": 6123,
+      "sha256": "b5a5a683b0ee83fcfef452a5ae3fd8c2767bc30ecf85ac68a1d95fabb5c910e4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-300750.SZ.json",
+      "bytes": 6154,
+      "sha256": "a4df9f20f1cc6d49224a9ba133fbe569e2006a83415df6e55f46bd57049bd965"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-603659.SS.json",
+      "bytes": 6073,
+      "sha256": "0b26b7e031350ff5eadbfeb0ff09370ec4551da47df7a432f2bdc61d5c4c568d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-688116.SS.json",
+      "bytes": 5864,
+      "sha256": "4511d44adb178a5ff67cc5c51d47d0940a06be70fb5e4bf1b31de0b77cb5df43"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-688778.SS.json",
+      "bytes": 5218,
+      "sha256": "d10f62cb0b9050b272435d91f32ee0d82677252d1df1204f0c86c3b609443a41"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_earnings_estimates-PEP.json",
+      "bytes": 6138,
+      "sha256": "c5a438b1b485f522e352422376dbb94035abba343e02b2eb73c31bdf888b722e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-300037.SZ.json",
+      "bytes": 12303,
+      "sha256": "4ac861da30507f3b5cde8e796faa070aad74f1e59639a8e4f41cb23475cd132f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-300073.SZ.json",
+      "bytes": 11991,
+      "sha256": "3fbf3a5b3c411bf5ac183183b41e5dde1c98d07fcd61fcb99d246c049a6b9974"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-300450.SZ.json",
+      "bytes": 11162,
+      "sha256": "56688f36796b36ce0b54f4d2b50b2d1d6b84257edf0d087d21842146f6877d59"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-300457.SZ.json",
+      "bytes": 12256,
+      "sha256": "0a521f0432bd04774db89323c3a43e155e52bea4faeec095f665000323fc22a0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-300750.SZ.json",
+      "bytes": 11785,
+      "sha256": "78c2d12101b5c0ac0402af3b533f87112d464f1d8e37ce193f9ad81544330bf3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-603659.SS.json",
+      "bytes": 11425,
+      "sha256": "799b978d0e4b7cb366c1a8c35616db19ea59299cb4968871e6efb516b2fb81c8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-688116.SS.json",
+      "bytes": 11194,
+      "sha256": "7ae639d380f9a3a50c7b90986860ad21d5370c52b0b374ff0d259aa4655eb690"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-688778.SS.json",
+      "bytes": 12269,
+      "sha256": "bbbbfdc86758ae186dab66de878bf71ac468c99d9ed238232603e8937b8ccf53"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-get_income_statement-PEP.json",
+      "bytes": 10776,
+      "sha256": "3f7e1f8255bae7a7f02b89c4bfca06371462958958b61cefb4cbce2a4f5e3f88"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-000.json",
+      "bytes": 84606,
+      "sha256": "7b80a1bf928075f5d83e28f6e340281b5f8e32a1878a198e7ab23343a430e6d0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-001.json",
+      "bytes": 87106,
+      "sha256": "70a7732a5787c5ef1443fc937a42340acdcdcb01cdad48c2b3ace73cde5beca5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-002.json",
+      "bytes": 84889,
+      "sha256": "ca485425875d9baa5d8eaf21205bb6570b2ac79522e413ea3267f7deebf08a3d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-003.json",
+      "bytes": 91214,
+      "sha256": "9f8d9a85a1895daecba90e47ba008f63429340d8943a9e3c96f55380f64f832d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-004.json",
+      "bytes": 85598,
+      "sha256": "3bad31798a9f44bb80a2ba34b8d6304adfb110facd13bddb2fb1dc2fd5fb9d19"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-005.json",
+      "bytes": 86265,
+      "sha256": "1befe121de04a9bef9458c58c0c5cb8512be0ae8228eb0b18b1b940a76b86808"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-006.json",
+      "bytes": 84041,
+      "sha256": "fc4a0b1bba389daf85464679da1668250fe4f8e4f3656ae047e907ef86d093b6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-007.json",
+      "bytes": 86019,
+      "sha256": "8e8a0c8ab73595862771866768485b7e10b2c79e294dbaf8a0d44a1ccebd3692"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-008.json",
+      "bytes": 86356,
+      "sha256": "291eea981f88fca5fee7a78bd5e2992342e894219f50997f9b55bc7bf763ff61"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-009.json",
+      "bytes": 82055,
+      "sha256": "739496480b80a0c454ac2012d5e90f912c034143f9f40b54055e764059a67c1e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-010.json",
+      "bytes": 84819,
+      "sha256": "d070c5367a56de266baea385a31541e051f144540f0c2d05adfcf38e978b5eff"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-011.json",
+      "bytes": 86677,
+      "sha256": "af0821f5d7e3b3f4b1093f054eb1cc1788769fdaea367e3d338eae47b3cd251c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-012.json",
+      "bytes": 85269,
+      "sha256": "ffd97eb5caafd468282832ef348f036e3058ec4a258db7c67c68934901e256de"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-013.json",
+      "bytes": 92240,
+      "sha256": "f9948ca2a748c1893530d3e5b0164ff851950ee7c1ac95d257fb943235749fc7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-014.json",
+      "bytes": 52429,
+      "sha256": "e5722610dac335ebd048f9ea3721932fe555af1c04d700dbf217b1ca6d50b312"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-015.json",
+      "bytes": 93830,
+      "sha256": "21a837c923607dc55e2f8e43172f51ac6dcf9f8b16d3c16f6f77880f0fa96808"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-016.json",
+      "bytes": 107958,
+      "sha256": "f67a3a195bab4cf267d1748c860ce5cbe6d5510c082fffdc909e8804409f244b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-017.json",
+      "bytes": 115420,
+      "sha256": "b0d5b525957eece546954db97b4652a2c92de7b706d6575f59eacd84655ab362"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-018.json",
+      "bytes": 112169,
+      "sha256": "35869d88a2df05b784c26454851e06c3c45f5e3a93cd578c7ac7e99e8e536224"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-019.json",
+      "bytes": 114369,
+      "sha256": "16d1a9b036f6e7179f7639b1d97362455782ccf753db8ed59b0ab08b4541f4cd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-020.json",
+      "bytes": 116562,
+      "sha256": "c835ce2f138b33b5706e2eafdec4c054858cfc6e96c24e4ba72e22b36925d2d9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-021.json",
+      "bytes": 109007,
+      "sha256": "bb4d20e970123732e6f115b1ec566cbf674dbff567ea2b4fb1b951c94686ad35"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-022.json",
+      "bytes": 109999,
+      "sha256": "d8a0716647bd9160520e6e0868bd9627c0368e627cb4b0b0d357c92d47d97345"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-023.json",
+      "bytes": 114020,
+      "sha256": "92fe503b08c1399e0ea3874bcd1222c67db83294e48e2a00daafc7c1efc27667"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-024.json",
+      "bytes": 109790,
+      "sha256": "bf989f9ba392df255ba0cd903b7e7924480f70ed2c3c343795f16af0db4e669b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-025.json",
+      "bytes": 101363,
+      "sha256": "6ab877fd20e02f99ab31b64ee0e2e82ec9e5804dc9eb1b881e38e3df636661cb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-026.json",
+      "bytes": 117882,
+      "sha256": "4859f1b1cdcb12e98296159de8dce2abba00796f00bc22b26b8e72ef62f51455"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-027.json",
+      "bytes": 116411,
+      "sha256": "83c40600421034ed757414c3475d990b8dfd981a6469827e6d611823288925f8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-028.json",
+      "bytes": 111236,
+      "sha256": "e516ad86c0229e7039711f5533e27fd325cca25c6f193fbf1f5489e0f85f7214"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-029.json",
+      "bytes": 116865,
+      "sha256": "1f1adedfb5d06a3fe9702dcef240944e75cc2d71a651368b0cdf18d5ec4263f5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-030.json",
+      "bytes": 110998,
+      "sha256": "ae84a595f312187f4cd40ecee55dbd7987c2ecaa60aea34db88ff15c105d0e1c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-031.json",
+      "bytes": 110588,
+      "sha256": "b1e485ca167e16d3eb122c9c77969bd9840cba6cbc444e7fc083c37cd4f87a96"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-032.json",
+      "bytes": 112899,
+      "sha256": "18dfc7242526e157b7bfbb212d65bd70c286f54ad77d03d4bc211a680e44d845"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-033.json",
+      "bytes": 111804,
+      "sha256": "d9f7f0d9256d5add2057de0c0a911e17e005e1143b7d6a349d7a2345a8b4cbc4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-034.json",
+      "bytes": 115425,
+      "sha256": "3acd7d5ba2d937056752680d5a13925ae55eb9d8723d7651d2cd5be95376a042"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-035.json",
+      "bytes": 109164,
+      "sha256": "e3b1d0bf229870796799ec86f2790a5e228b595ac6839574e379e51ed8716bb8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-036.json",
+      "bytes": 110113,
+      "sha256": "10603fe9ee0b2350113d31783558a2b61f1c21a58c9c232873463e9c067acffe"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-037.json",
+      "bytes": 111232,
+      "sha256": "416049769d37905ad341dec65e93c1503a19dae1beee06128b2316011ce95445"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-038.json",
+      "bytes": 106696,
+      "sha256": "71c97e75e1c69def0ddc4688ac800d9577bda6419a1aab52a499055bd4d4c949"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-039.json",
+      "bytes": 108958,
+      "sha256": "4eb38184b49fd678fe2799c0a66c54e561eb6c6818097c40c061a9f01710e6a7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-040.json",
+      "bytes": 109892,
+      "sha256": "2dca5c0569cccd7478a9d183ee5132af8133a7cf68814bf89dff5533c75e5fa3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-041.json",
+      "bytes": 104970,
+      "sha256": "c98bf9b36974c48da0cbe4e27a986441838a16174ef61f13ecfb4714e1d4be6c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-042.json",
+      "bytes": 108850,
+      "sha256": "fd9f489adde66da5cdc8a9b9698283ac980052c704c06fb9382849ded0186ce9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-043.json",
+      "bytes": 115687,
+      "sha256": "a7c78270304e1775f8f2ce24f08ba4a0ea3e22930c6c54bac36e3f4c515861c6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-044.json",
+      "bytes": 108380,
+      "sha256": "db357e2dd9b5379de36a1054e2dedb7104e1a8118652b5e83f6a17a29473d00a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-045.json",
+      "bytes": 116243,
+      "sha256": "6b16d1b2b4f81e63a7f5837277ac2c64cb04652a014b6a25e8c6c74fad1007b4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-046.json",
+      "bytes": 111015,
+      "sha256": "ad907d8a2baafc103c0c207db5f51e556a317b72a12cc8c781b06315f0c58d46"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-047.json",
+      "bytes": 112972,
+      "sha256": "2493214e9b44fe645a32d3094424b1f516384890f4ecc13022964f48f05341ef"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-048.json",
+      "bytes": 116968,
+      "sha256": "0509fdb608d95bc39fdc9a80d9b53216cfc822e8a051bcce4a01e2162b67a637"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-049.json",
+      "bytes": 112736,
+      "sha256": "f1f1c401fe23562e51b865b59b126043a04ddd215fc50e8bfe2c4f6dcd4ce1ad"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-050.json",
+      "bytes": 115435,
+      "sha256": "6f96044592fe74b04d3c01e3bf422afd3fa58571045e97ed7b7a8f8f24f61d86"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-051.json",
+      "bytes": 117001,
+      "sha256": "6744f8a16ae4d862cac840aa27959ab909bfef22ca598f2661bca90450e4c5e0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-052.json",
+      "bytes": 111610,
+      "sha256": "f8f56c737067ebaebdfc535e218c86fac96d8167dc548de4725f878f39348e9d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-053.json",
+      "bytes": 113787,
+      "sha256": "7156a48a6fc18b427c1e698fa8b716cac276b008f99102f8d5baddcf2776d61b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-054.json",
+      "bytes": 109965,
+      "sha256": "f2410135e36ebe6a6193f50527ee8fbf2d971ee578d8bf4bb8b3feac968e298d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-055.json",
+      "bytes": 112865,
+      "sha256": "24603ca967f38c2ca69095b4aed99d061ebb43288c5a5ca9929d6aec75fb8234"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-056.json",
+      "bytes": 113515,
+      "sha256": "5a94ab04d1ee8a393c63cc233e36af006d270e53ead5928a7dc4709f7d6d5011"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-057.json",
+      "bytes": 113546,
+      "sha256": "9f1d5677dbb300b1c0bf4706e30fbb4a06b7b4d8ba324bd111e0d75395573df0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-058.json",
+      "bytes": 115517,
+      "sha256": "607483acf7a6c31d7988dfe4674747184f50859fb96af3acac1a198419e7caa0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-059.json",
+      "bytes": 110302,
+      "sha256": "aa50770adc0cb23acaaa9de61bdd64437e02232a0311b8e7b2c5872cabc0bac7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-060.json",
+      "bytes": 112510,
+      "sha256": "9837e4ab0fe1b831138ff4543afb937a94d1e8670c2b4e0b94bed5dfcc421c06"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-061.json",
+      "bytes": 112231,
+      "sha256": "f7deeb7e0d32618ed719f539d1e1aeabd6483285f2eced4ca4052321797a14e4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-062.json",
+      "bytes": 112470,
+      "sha256": "7e711688367d6b80aba45f4b5b7cd6b0de6e5fa1ac4d33bfbdf04b7eac4c5a03"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-063.json",
+      "bytes": 108557,
+      "sha256": "cb1904f50e6fbb7dc6228b73c2b34408cd87fa3338e924f99d8fbe2a919c725c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-064.json",
+      "bytes": 114782,
+      "sha256": "bf883580add7cf20d3a0dcaaa69aa0e0ca1175fedd852ceba6f572dba51041ba"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-065.json",
+      "bytes": 107156,
+      "sha256": "8b627e729e2282de548a31c5da259ac9a711e047d5f370d7d25c54ebc2cb899c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-066.json",
+      "bytes": 99000,
+      "sha256": "030bed895e258500c81182f447ee3c4ed530ddc52125f21443cd4c3a25e2272d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-067.json",
+      "bytes": 106613,
+      "sha256": "0521f81e4666e040f500a67709982ebe4086cd027a1f9c08aa90d174cc798f93"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-068.json",
+      "bytes": 107028,
+      "sha256": "e34d0705dfcb8742ed6bdcc65d616bb8dd860d2f89c0e14c013a5003b20b30bd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-069.json",
+      "bytes": 112431,
+      "sha256": "53ddca4e1693f8d216c907a308055f9e61990719d0ff4b4fdb239482ffbd888c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-070.json",
+      "bytes": 113788,
+      "sha256": "c9907cbcce11b66ec7ca61ba9acb0b8cc06ed63a3b30a6621810ecc9bb2cff4a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-071.json",
+      "bytes": 109665,
+      "sha256": "e43dfda0dbea1e825c5c0e1921052f9cb4aa8da8615c63094aff4e6bd855676f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-072.json",
+      "bytes": 109720,
+      "sha256": "b7b25161c9ea09051a1974b8c1225e2195d897f0d211a84fe3c9259a2c32f37d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-073.json",
+      "bytes": 110576,
+      "sha256": "9c2fbc5a3abdbc7779b7d5fa9386acc972b06376530e364a398a5513d06dcb06"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-074.json",
+      "bytes": 112654,
+      "sha256": "b63d18013c04bdacc8e115349b4d8bd3a01e5c333d122b0e572fe369becb257b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-075.json",
+      "bytes": 107156,
+      "sha256": "e7e67fa1c4adbda71a918084625f1bb6daa01a213eb4df3899efdc472fab5d4e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-076.json",
+      "bytes": 114414,
+      "sha256": "3eb0c6f62315013c86b637b2d1763d7af592d2bff303515945d8fe9efa43401a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-077.json",
+      "bytes": 109806,
+      "sha256": "9e38fbf63f7f54c1aeaae35992fda8f50853c913695e6d306f10107c57741ab7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-078.json",
+      "bytes": 114533,
+      "sha256": "81ffa1f459b30c5befd408d5a015fa7febc6545e714209d0c08a8211825fced6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-079.json",
+      "bytes": 111369,
+      "sha256": "4d66eb2ae7ba1135e6f1fa709e041f4c4c5e4ccc5bf61da56467dab69908a01e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-080.json",
+      "bytes": 112354,
+      "sha256": "59188aa7aa05bb386cf4737d04bb2db44e925b330573b5d31594cdc284fd9c01"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-081.json",
+      "bytes": 102103,
+      "sha256": "d6b68b2258441554f31c97331b9878626bc8c18b03c916dcb5223d5ce1276341"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-082.json",
+      "bytes": 112105,
+      "sha256": "e8e56ff836bf723b7d107f51e9af8c496b820a50d07983186a88f6d7ed6508d8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-083.json",
+      "bytes": 112805,
+      "sha256": "34ad67849c925c09124582de1c780d39f5e87177130f9f774d437907248d215d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-084.json",
+      "bytes": 113211,
+      "sha256": "a07f13775967f957a33673f93bf965001cdc96865b6736eb84e6b54d22c0fee8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-085.json",
+      "bytes": 99746,
+      "sha256": "1a97accca9e93f9b17344f6c7e3dcef6544ace3159a818b343da398d5dec797f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/retry-info-086.json",
+      "bytes": 21502,
+      "sha256": "a5ab47e7bfa50d3a8a67637a712721ac688d5735a5ed85dbfbb6414467dd8164"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-000408.SZ.json",
+      "bytes": 387,
+      "sha256": "cf33bd5a1cc8aed55c9cb6877bc9712c9279b2d4ce3956f35fd45440a9d8701e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-000762.SZ.json",
+      "bytes": 387,
+      "sha256": "b638c0090b98fa3c7eba462538f20fcef0bf68ae3dcd1b2a31f9c8df6832a955"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-000792.SZ.json",
+      "bytes": 387,
+      "sha256": "cfe90f7ceefacc56510b8da982cb42888a565179fbafa05e5cd40395b3757f51"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002009.SZ.json",
+      "bytes": 387,
+      "sha256": "3b71a8119f4159f6e96383f2eddc0f9b911b91576f29acfcaf14cd9894723ad1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002074.SZ.json",
+      "bytes": 387,
+      "sha256": "111d6d778e9dc7050b0bed58bc01b8373d8b2b70e81be4d176ff78d93e62a605"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002192.SZ.json",
+      "bytes": 387,
+      "sha256": "2f23bb41600164e76a4fd555d48469b15d4adbf23008859a5a75eafc7404bfab"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002240.SZ.json",
+      "bytes": 387,
+      "sha256": "0977645d9904e2d1dde838f87792a6fbfe5f4e016d95b3a791a8386190fa14a2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002340.SZ.json",
+      "bytes": 387,
+      "sha256": "e4eacbc78a1b66951c6cfce8a0c0215f658a746c3ee4da43210ab8c7b04e903b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002460.SZ.json",
+      "bytes": 387,
+      "sha256": "a7b896b9cd616cc5f7f667652e914b5082820930e35d90d8fcb5356a6bdcff30"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002466.SZ.json",
+      "bytes": 387,
+      "sha256": "6f1fc12ded1ca16d59e887065d4d6c098bd057ec343c0c0ae2be91dae410dd64"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002497.SZ.json",
+      "bytes": 387,
+      "sha256": "f2943194c7cea61e05931b3aa3f742785107b8f0441b18e36f6f0c03cde6ff81"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002594.SZ.json",
+      "bytes": 387,
+      "sha256": "ec3f98afa6e7da6b74c04f34236364c919ef9a55143c6918db49da557ba89a7e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002632.SZ.json",
+      "bytes": 387,
+      "sha256": "c4162b1abad8fcfb98879f225e98bf0ec2c06256afd2ab836052f9a5f614dcc7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002709.SZ.json",
+      "bytes": 387,
+      "sha256": "8964709f25e14a768c465ec42909f39cb9c6f4ed92ce5f4e3b0b4438db4eecbb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002738.SZ.json",
+      "bytes": 387,
+      "sha256": "f5772d89a08a7c1b4b750be52d2307dccb9a6e428c5400701804003edbb31608"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002756.SZ.json",
+      "bytes": 387,
+      "sha256": "db12e48b06bb5062075d8fb11ad6ed547a6ce317ae9a4600bcfbc71e6f1b3656"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002812.SZ.json",
+      "bytes": 387,
+      "sha256": "4394cb157d3f78c45ebcd9fde3e8289c3d27339bbe521f557db79a9c195bfd64"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-002846.SZ.json",
+      "bytes": 387,
+      "sha256": "ad382220da94c427249bdce19326574a49f61bf1a90e5a990eec56b6a1646171"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-0175.HK.json",
+      "bytes": 383,
+      "sha256": "56b62fc18d2c43a4d0a61a226d1d0b2b1d3db4db508b014199bd4d0b0a2cca25"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-0470.HK.json",
+      "bytes": 383,
+      "sha256": "1db06308f2502d74b267b807d4d86bcc0da9b11c485000e7aa92f588d4022839"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-1211.HK.json",
+      "bytes": 383,
+      "sha256": "2b8b0a3e9951f532cccb1c8a20716938af24b395d0c2f58d50ff4dd72b2e0d7b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-1772.HK.json",
+      "bytes": 383,
+      "sha256": "12d0ac1b9a9dd5c05e89bfaadde403f483b40c6befbf1c168ba9fbf517ce8a2a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-1810.HK.json",
+      "bytes": 383,
+      "sha256": "253889ebe6b4f794a71d384fc44216df44fa5f62ba854e87f497b4a00d3eac19"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-2238.HK.json",
+      "bytes": 383,
+      "sha256": "fc9450afa77ea410952d4f0f998c2afd68e3b71bd727bfa181ba7213df6eb7fc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300014.SZ.json",
+      "bytes": 387,
+      "sha256": "e24ff4b8b0498ce1e5047c24760aaf5b56b36c100c8ea9107ae8002c75f0b0fa"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300037.SZ.json",
+      "bytes": 387,
+      "sha256": "a08506f68510bd571cde188f55ae48abd872bb220bb36355571fdccf6d802262"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300068.SZ.json",
+      "bytes": 387,
+      "sha256": "1aa75e2c6cc43464468f2a7b61d014933ad3f52d9e93769be13844a093b3898b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300073.SZ.json",
+      "bytes": 387,
+      "sha256": "752e877324bc5425b68cb574322c9e828d0f2f9583e4c98eb6d4f4c3a9d9272e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300207.SZ.json",
+      "bytes": 387,
+      "sha256": "05868795dec3da851e28f1692d76311d9a124966841da1b7311b68bc6af8241c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300274.SZ.json",
+      "bytes": 387,
+      "sha256": "8c9f376712b241754be0c6ce6a8f1b8ddabe1df5cc82937410205dbd1fea8d7a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300409.SZ.json",
+      "bytes": 387,
+      "sha256": "4c189d42e286fb39a6632a26195ad6ccbcbbc7e8fae8fa83ed6b56b58534c6dc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300450.SZ.json",
+      "bytes": 387,
+      "sha256": "3498c9fc27194bf691bd5dbe5591120eaa8c3f88d32f1dbc7e137ba354f5eb96"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300457.SZ.json",
+      "bytes": 387,
+      "sha256": "af1a21bca48f6ae56108a9d8c4cc2a67a90fce3093dbcc97fd3a94d33eb77129"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300568.SZ.json",
+      "bytes": 387,
+      "sha256": "da687d6c1bb4731ab230d60af9345d77c8084c50669ccc8dc0054bbdba8755f2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-300750.SZ.json",
+      "bytes": 387,
+      "sha256": "727a0085ac8ba204cf8ea5725cadaa7ed297ea9f05dbc6be2220fe43db08986b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-301238.SZ.json",
+      "bytes": 387,
+      "sha256": "16a10a7d1ed85c99e9ef986262f1f263701aa3dc6a89ad8b8edc1124e8be3d32"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-3750.HK.json",
+      "bytes": 383,
+      "sha256": "b636898875849886d31c32da59295cc11b390226ea670a864a79a5869247e66a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-600104.SS.json",
+      "bytes": 387,
+      "sha256": "57c73036b6ad93024a55512345aa67b90bfc77ddb3c9a0f4d72926a230112444"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-600884.SS.json",
+      "bytes": 387,
+      "sha256": "0f09c883b00b93821a8baceffca481e6481ef6f7b1db32eb80a0e4b99926ae42"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-601127.SS.json",
+      "bytes": 387,
+      "sha256": "78ef5fb417dc7158bfcca50f40ceff97396b3f56112a822447a7b05c569ec148"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-601238.SS.json",
+      "bytes": 387,
+      "sha256": "c587713057d4fbe7599fda47411857fe2db6e9f1536aed7af263c1711e172c14"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-603200.SS.json",
+      "bytes": 387,
+      "sha256": "a8ba313953821e8594859a541ee74b1abebd4a79990b5453a487e842ff6749aa"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-603659.SS.json",
+      "bytes": 387,
+      "sha256": "0b8293179cfb06a9afc372f815ba159dd06a499fad2cd945c5feac75c75dd730"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-603663.SS.json",
+      "bytes": 387,
+      "sha256": "09cb88fb2a1316ebcb44ef34669d5d483a6cfd15d1f190c3dac7a767c76754b4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-603799.SS.json",
+      "bytes": 387,
+      "sha256": "dc5971562aa4848d8f517836cc71647c187a88db84528de5564d637457b9d574"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688005.SS.json",
+      "bytes": 387,
+      "sha256": "461ba61d92ad65d47384a5e5dd80b6545b3ff24d8117b70aff467710ba7db2c5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688116.SS.json",
+      "bytes": 387,
+      "sha256": "74ea7cc3df437abe59eae2ebf733d41eeac6951beffb2353b4cccf46e0ce5683"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688388.SS.json",
+      "bytes": 387,
+      "sha256": "1dc6d17efc7a59bd0dba5c94f6b7e00a0df0218a7f8087264fa736d03942f5d9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688499.SS.json",
+      "bytes": 387,
+      "sha256": "210f1c05fb13e54c8e3f1f8fc7b7d589168ba1f74d480560059b9164f1e866b2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688559.SS.json",
+      "bytes": 387,
+      "sha256": "b9eca38d8a3d7f1be97ddc43c9684324a91809bd398771d9342698c202ab5952"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688567.SS.json",
+      "bytes": 387,
+      "sha256": "cac723f164f3bf68aab0ae8051497a48f2dce7a5a41bcd2c46433fbcf0d44871"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688778.SS.json",
+      "bytes": 387,
+      "sha256": "d3eba277a84204740d953d0b560c258ea7130576188918dc80fa4950c739bbf0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-688779.SS.json",
+      "bytes": 387,
+      "sha256": "723494e99cf13befe7f489550ef0129c5dfd41f9de7dfe9ea798a2be8f2b5e50"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-7203.T.json",
+      "bytes": 381,
+      "sha256": "8b34db6197ea90993d12772b947a8d12e237b4d3793385c4d1a9fb8a3dfa1254"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-9696.HK.json",
+      "bytes": 383,
+      "sha256": "111fda7e2d6b5cf2e2a3668e7412769edfd89986e9b0a5ff38c04a261332d61b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-9866.HK.json",
+      "bytes": 383,
+      "sha256": "839818aae1623958f44769d2c7fd1dd2ceb1a71b0903594b792146eabb3d3721"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-9880.HK.json",
+      "bytes": 383,
+      "sha256": "b75a5362446eb031b4a32755b9b201c6bc4c96de53b7660dd787e1067ed83acf"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-ALB.json",
+      "bytes": 375,
+      "sha256": "60c96dbaaf66bd34fcd175bfe743076a38d26de8518c5ad0e07a3b4b46cf213d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-BMW.DE.json",
+      "bytes": 381,
+      "sha256": "9ab65a9c2f7f995927c16cb482ab8137bf2a867c7ee838e6d6b677342c5cf341"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-MBG.DE.json",
+      "bytes": 381,
+      "sha256": "093d8dabd37be45a2a2b631c3ace976dc22fd65937980ae7d33c17752d59fee6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-NIO.json",
+      "bytes": 375,
+      "sha256": "8dbf4439dd23aa7f59056d6263d6dc7948f5338c362f5cd217e7d2a70018b570"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-PEP.json",
+      "bytes": 375,
+      "sha256": "834fee199f9a9b684c70ef4a953039adbf0e4b92a7debb57ff0005e7cb277aa8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-PLS.AX.json",
+      "bytes": 381,
+      "sha256": "1407ec4dac06653efe1dec948a46f6a2e5bd3f172b6efcdbacad9e3faf3ce330"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-QS.json",
+      "bytes": 373,
+      "sha256": "1879d3978baf0d4c88c50e2462d70c111041654716735290fb3b2cf62e1755cd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-SLDP.json",
+      "bytes": 377,
+      "sha256": "21cd118cb70b5829ee858a0d62de532e45455f5f003263f2011df9cf054f96e8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-SQM.json",
+      "bytes": 375,
+      "sha256": "3d1216981dc75344bc8ec6907589b46e34a5f96a41e2422ff418fffa24b7ae58"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_balance_sheet-TSLA.json",
+      "bytes": 377,
+      "sha256": "89221a6205c785aa2ff47c669f5df7a880e9a96590895c8906329cef1e403a9f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-000408.SZ.json",
+      "bytes": 383,
+      "sha256": "5f6ab0899cab1a4b9eaa9f9cd84546de45c7a267e761c5d7b8d54124bc802c77"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-000762.SZ.json",
+      "bytes": 383,
+      "sha256": "84599832948a80a9352fa960a1c00cb920610e1fe121a5223f1e78f87078a850"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-000792.SZ.json",
+      "bytes": 383,
+      "sha256": "e35ad619bcd2c3a1c91797e717a82c9130ef20937c6821908a28e1f0d2227e8f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002009.SZ.json",
+      "bytes": 383,
+      "sha256": "f5554d511b0428027476606c271981c348931127b759264748183f005b8f634e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002074.SZ.json",
+      "bytes": 383,
+      "sha256": "0e1fa223529911ca65bd28bd99f4038ae3621ff8fea41f235f3e97bcaaec8b4f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002192.SZ.json",
+      "bytes": 383,
+      "sha256": "cdac42d83cbe1fbb3f708a2664d736cc1024eafcd7d10a4756b8fc7ba4aefb38"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002240.SZ.json",
+      "bytes": 383,
+      "sha256": "9c5de335e8df55efbb13ba60412eb0bb393bc2faf001ca13c3e960fffffb65a3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002340.SZ.json",
+      "bytes": 383,
+      "sha256": "f75e40802b34699d7d79eb693f6547c0bdea3b1131980d106f414d0d2a3890d7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002460.SZ.json",
+      "bytes": 383,
+      "sha256": "3933b0fd22e54cd62f8bebd269a2884b7803e23dc5d0a33a8ac8dfa6a36557b5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002466.SZ.json",
+      "bytes": 383,
+      "sha256": "3e54929468638c2a6c14ae2c041f069f207fe5164ab6e2dbe9f6f16128d1bb8d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002497.SZ.json",
+      "bytes": 383,
+      "sha256": "3a2c818dc347c8bedc9570c86b49461f7900d55aacd436fab65134cd85c32271"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002594.SZ.json",
+      "bytes": 383,
+      "sha256": "b67e04fd42bc28d27c5ce98667ba337004e97ba05515038babda2cdcd1218f95"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002632.SZ.json",
+      "bytes": 383,
+      "sha256": "9a4b2a4af1a77a1d5add32608ac475605d927c3fb4eee911b7b9dcd9176e92ca"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002709.SZ.json",
+      "bytes": 383,
+      "sha256": "13eb99ccb4e7d31eaaf821ce282a70e64b4965feab8edd344455c3fd55f353ec"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002738.SZ.json",
+      "bytes": 383,
+      "sha256": "e724e4deed188bd784c787b1d76ca9de191bdb47953322bbadc397fac5cd0910"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002756.SZ.json",
+      "bytes": 383,
+      "sha256": "fb1c5c7d1a5294d478389dd3f1eacad84b2e00c4b64373138d0e9ea064ad866e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002812.SZ.json",
+      "bytes": 383,
+      "sha256": "51d7c37f76de1b4753329403cc6ae323309c35218040156f55ac742f70b6eb21"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-002846.SZ.json",
+      "bytes": 383,
+      "sha256": "506e1e1c6b68d19d578b58afda61afd1b4898f6931a7a6cabede117934c2f309"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-0175.HK.json",
+      "bytes": 379,
+      "sha256": "00ce3c50bd0aa76b1147f5469cd72ad1b0e4fbe1482768f7143bed3e1dbb9a7f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-0470.HK.json",
+      "bytes": 379,
+      "sha256": "1201cf67933369b8d79da21af728aee527bcf5171e47a04343d330a896df7a50"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-1211.HK.json",
+      "bytes": 379,
+      "sha256": "923b35b3250f9de090b90e8b54b9b09775e81d975947c2ba8724301203c660d8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-1772.HK.json",
+      "bytes": 379,
+      "sha256": "a06d882a93ecf35d767e9229ba855891abe24a58d7eb3e7239d62b97b4ec25ce"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-1810.HK.json",
+      "bytes": 379,
+      "sha256": "0d2e63de2877be5bfd9b5b63c1a54b21ce40a9c4ba667e95bae40cfd96a263f8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-2238.HK.json",
+      "bytes": 379,
+      "sha256": "2547561f4ded9442202ee222930dcde6de7e1a7b3499ef4916c47d968490e2a9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300014.SZ.json",
+      "bytes": 383,
+      "sha256": "48749f610b15179e86efc996338fc24f397525e46b6e0b5855ca3c8cd570cde1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300037.SZ.json",
+      "bytes": 383,
+      "sha256": "30908256402be99f43613ff977bcb6482521c370cf1e7960e1ea2111a31a3b8f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300068.SZ.json",
+      "bytes": 383,
+      "sha256": "9f9a547e72f83bed5b8dae0f82dbf16972b3feadb1d2db85885df2f55e9e8d82"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300073.SZ.json",
+      "bytes": 383,
+      "sha256": "283602a2c52d22fbababd19355f434cbff4a7118274415cefd7113180a99c3f8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300207.SZ.json",
+      "bytes": 383,
+      "sha256": "41fa5378c2124aa5753a2f2bc0a7bdbe48c16a0bd12c7a9aba951df930df8c75"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300274.SZ.json",
+      "bytes": 383,
+      "sha256": "9994189e21b6305cf628b1d623699f1fb146f5d4a1ffdb7a63fdefd285d32113"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300409.SZ.json",
+      "bytes": 383,
+      "sha256": "d36b3baee498f717459575bb498137a4c96c9ee3caf71afdedc622b339431d83"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300450.SZ.json",
+      "bytes": 383,
+      "sha256": "8c1ffcf9ecc9d981da0f0c5961a7fe9b18f9e6a6124981edb9e63ffc55f30e02"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300457.SZ.json",
+      "bytes": 383,
+      "sha256": "d51f72e3fd9733ea6af7174f2e9e21d24d5e31f34a27a310a8e9e268391eed4f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300568.SZ.json",
+      "bytes": 383,
+      "sha256": "36c0f3435e07f94307cb115e1934a24ff369ce4f26cc9def17a1416479bbc806"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-300750.SZ.json",
+      "bytes": 383,
+      "sha256": "16f401167818c40350d179522a0738fdfa2ca96fe2b717f529a1d136b514a5b8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-301238.SZ.json",
+      "bytes": 383,
+      "sha256": "8549eacdf5f710217d4b9f29d814f546c270f197a38abb9b70896119dd13fef4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-3750.HK.json",
+      "bytes": 379,
+      "sha256": "54813f8f5e0ee397394c56dc9989da74542bbf960b549fa4a57138dc0d8cf0c9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-600104.SS.json",
+      "bytes": 383,
+      "sha256": "903b494a02ae06f15f903f5c7e3e5f356718563bfb3ffc3fab3b9b1124458b2d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-600884.SS.json",
+      "bytes": 383,
+      "sha256": "654399b0f9a2eb3f4389ab26d07c2d8139e36bdc65e58db3256d35110d6a629e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-601127.SS.json",
+      "bytes": 383,
+      "sha256": "f1e40372b62244187fe824ca6abccc88b325dd465f4e7738d8f615ed5f5a7f98"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-601238.SS.json",
+      "bytes": 383,
+      "sha256": "8e59aded96783950331627b7cac4f9110bbfebc80dc0d6392edfd9a061bf6d86"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-603200.SS.json",
+      "bytes": 383,
+      "sha256": "7e4ac8d95e2d4e4ef7b288382e4556436525ddc51bdb64e2255fac6d96a8807a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-603659.SS.json",
+      "bytes": 383,
+      "sha256": "af40938eef1192ebba5781d23a80696e06bfaa19abf6d1261d54fff1bc5784b6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-603663.SS.json",
+      "bytes": 383,
+      "sha256": "4e97cb6fa8d4d3552bf960afe31a92e2c8fa9a218d1db216f93846c2d2b26555"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-603799.SS.json",
+      "bytes": 383,
+      "sha256": "4055a181c4de58a80843602b2898ee763f68f19786feb74978ac6450d5920afa"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688005.SS.json",
+      "bytes": 383,
+      "sha256": "872b5a5fc2d12b7f37f1bfc09059baac98412026895d3f609e29f82fe14e7dd8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688116.SS.json",
+      "bytes": 383,
+      "sha256": "1406155005fc41389c13c527dda0ccef3b50070803d7648242e2f7c4b19768eb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688388.SS.json",
+      "bytes": 383,
+      "sha256": "c8126637f56400052b7e181fc0f9ba8f8486be4cfd27c73432c6524479cd67d1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688499.SS.json",
+      "bytes": 383,
+      "sha256": "b6944a324a0290812d0f8e4bc10b64a9216df30304a9c858c23292b20b35f50e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688559.SS.json",
+      "bytes": 383,
+      "sha256": "4b3767a7d7580e92dd9e16ea07509471a08b1e579d716aafca7d97370e3e921e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688567.SS.json",
+      "bytes": 383,
+      "sha256": "d1b495446f0c3d64c4f5d4372d4e745fc738432f4c536a94f64a61b06cef5845"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688778.SS.json",
+      "bytes": 383,
+      "sha256": "4d23b2fc68544a67368aa6a1ae30f78c9c3dd899df76494fa1990d61acd3abb9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-688779.SS.json",
+      "bytes": 383,
+      "sha256": "b7d14ed36e37396fb2e96a04550ef386f5c6d71bad68d1c203fa0f60e110dfe1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-7203.T.json",
+      "bytes": 377,
+      "sha256": "4427e035440405d1882271ec6ed80cf1f6602313530d29403bad2a3990d4d6a0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-9696.HK.json",
+      "bytes": 379,
+      "sha256": "b3f3cc057b580b2e6ef9b85c402c6b4c703aa7a9f5413a6cf672591c5f3dfd01"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-9866.HK.json",
+      "bytes": 379,
+      "sha256": "71c234157b63803789896a0e5239bd7625ee552f891832924ebae82b6a9d1b11"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-9880.HK.json",
+      "bytes": 379,
+      "sha256": "7b165b5d147ee4c2e80b8159ea7c1573397bbe7cdadcc5365731b544a22e1dce"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-ALB.json",
+      "bytes": 371,
+      "sha256": "b5a0f740e73bc8ef969a84267cc5d79e0ac73ad450391826a28071eb41acc325"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-BMW.DE.json",
+      "bytes": 377,
+      "sha256": "4ec9bfc5ae460f6e5a92b8fa2055b7c62f62611623564cf6001dfa574cfdee34"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-MBG.DE.json",
+      "bytes": 377,
+      "sha256": "72d8c15886250d62b153a8ae5914a12570daa4a4cb461d5a5aab92fee179ddb3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-NIO.json",
+      "bytes": 371,
+      "sha256": "d433e261d261d1f518b9f10cb88a403189b596d68e7e46b562d23abd420c078e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-PEP.json",
+      "bytes": 371,
+      "sha256": "23d1665acdaf0c2d96f62a675419566c25096fc7ea734288e782d6ccde219fbe"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-PLS.AX.json",
+      "bytes": 377,
+      "sha256": "2460d1ad2de34e03c3635c1d3e3853eee34d182becdc4d86294385eb1b5ceaad"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-QS.json",
+      "bytes": 369,
+      "sha256": "249bfa0845e99d0c51c2aab5c3200add9ac65e240ec18645ccb9265146ea97a9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-SLDP.json",
+      "bytes": 373,
+      "sha256": "f8d2885102527b671bc0482de57c12067a7833b80f6a39525c3450308170ab0e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-SQM.json",
+      "bytes": 371,
+      "sha256": "c21567635e394104d51dbf7bb6fc2a7b98639c96794ce941f208a462ccc68f31"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_cash_flow-TSLA.json",
+      "bytes": 373,
+      "sha256": "3551424fc9285b0dbe3e1cda2f3dbc8da39786eda994436a9f8ae98e598a6099"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-000408.SZ.json",
+      "bytes": 328,
+      "sha256": "387b0322fe6dcd2fe3fc354a621df444a32ddc888e6748e55b72e94248a79845"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-000762.SZ.json",
+      "bytes": 328,
+      "sha256": "5b98ece606fe49af0a46d96cdbc4a6504dd588ef9fc2fc94362d2040bd9bb870"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-000792.SZ.json",
+      "bytes": 328,
+      "sha256": "c95ac911bccdd39ab5514343b905eb9788479b9ccba2abb02b9e733484b8f57f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002009.SZ.json",
+      "bytes": 328,
+      "sha256": "96de17c436ca70ad936069c33970c7defede7cf6182844e6c5dd4d3a373e8a89"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002074.SZ.json",
+      "bytes": 328,
+      "sha256": "43f173d5988904229ba112d38c3b09f71348cb5ae511030969170eea2cc1c21b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002192.SZ.json",
+      "bytes": 328,
+      "sha256": "98800853030718c5486ae7b9ed927e2b418244a8f90862135f1327095d77c582"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002240.SZ.json",
+      "bytes": 328,
+      "sha256": "6ddf2adc4b7ffa75c57dbd03aad0f01680b20950a76fce11d2d1e37e8d18c973"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002340.SZ.json",
+      "bytes": 328,
+      "sha256": "428e0ae5053c44d94b3c8495bf43c0ccb3af23d18840de64842ac78ca1d01f6f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002460.SZ.json",
+      "bytes": 328,
+      "sha256": "1a36862382fc86d6d38ade5b128c5d1517720eb525c584699763e98ab8586431"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002466.SZ.json",
+      "bytes": 328,
+      "sha256": "7b4f57336b600db33189a8c78b7790b1a41c2ccde725bf82567767ba6e1b0789"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002497.SZ.json",
+      "bytes": 328,
+      "sha256": "4626440d7a470f8a2e0e9e81abe71adb1da7dfdc419f871f50573f2e422a19e1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002594.SZ.json",
+      "bytes": 328,
+      "sha256": "fe0390ce8e59ad6853b4f477c48e560d337b164a126d34485b3c174b8584c31d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002632.SZ.json",
+      "bytes": 328,
+      "sha256": "c992dfb36f0631d1f79fee08cbfcef6d7739c9c515b1f6f1465c3885a045fd60"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002709.SZ.json",
+      "bytes": 328,
+      "sha256": "e0bd88757430a72697876efff8bdcbb7f1a346a7a7f0b4a8e276182cec12c882"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002738.SZ.json",
+      "bytes": 328,
+      "sha256": "c712badde977a79b9f26fc4a3e09a218c0499cefc93618192fe57b4bd2a8609c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002756.SZ.json",
+      "bytes": 328,
+      "sha256": "8fcd942682f0085f314b3efb98035cd76181eb3d99799054fac5bef28f0e8c2e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002812.SZ.json",
+      "bytes": 328,
+      "sha256": "52a7241a17a4f795a8d1f155e0a8754c74c2a2d8f622819bf2d31ddf9acb6839"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-002846.SZ.json",
+      "bytes": 328,
+      "sha256": "bf127bc4015b5389e201bf38407d1676cf1bdb44cb8f3d0f8cf1bb3a56a5bb20"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-0175.HK.json",
+      "bytes": 324,
+      "sha256": "116f91f15c5fbd1ba2589d05b691eb5825cbc00ad82841c330f5fd899a39af24"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-0470.HK.json",
+      "bytes": 324,
+      "sha256": "6f04c4703d9c44e7942d58a4b0a85794cdbd1919f7d241b6baf2931787a91f49"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-1211.HK.json",
+      "bytes": 324,
+      "sha256": "b7d3b233e1e9136377a028bf616d905e67424895e315703985f1bd95c313e7a7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-1772.HK.json",
+      "bytes": 324,
+      "sha256": "ae587d037f3b2d70f52301d4a4ae21141e3c039d65e73734debe23ad68e6b7bc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-1810.HK.json",
+      "bytes": 324,
+      "sha256": "041f384084a2aef8deb71006235421d2f8eb3e4456d8869ddfc055102ce8a8e6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-2238.HK.json",
+      "bytes": 324,
+      "sha256": "86fa8fa70d9643ad8ac816af210980980c2e77e2e8b79d5f67261312053f82c9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300014.SZ.json",
+      "bytes": 328,
+      "sha256": "5499a9c86bf7b582672db587d8189b778ba0db5ca08a3c2662d92567e05378f9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300037.SZ.json",
+      "bytes": 328,
+      "sha256": "b630d7ffb9aed1d42a72d3d09459c2b9a21bb7c6ba2f3532363fa8be1293ea86"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300068.SZ.json",
+      "bytes": 328,
+      "sha256": "2db0b8e98b0bfcb828ed1184520d121f234021cb70bac97ec4fa1f69a38d1d0a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300073.SZ.json",
+      "bytes": 328,
+      "sha256": "cb5a8b575f2369b4699ce146f3831d054f1de22b19ba07948a445c8bbc2361ec"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300207.SZ.json",
+      "bytes": 328,
+      "sha256": "3b61f7825ba50edc5e6c4fb23292c9ee1112e40f78196ceb18c379713167b6f6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300274.SZ.json",
+      "bytes": 328,
+      "sha256": "f445c5c764bbf905564a3430f62dc8087f94a9882e1d50c8faea154184f44480"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300409.SZ.json",
+      "bytes": 328,
+      "sha256": "acaad5ebc385701526a65ea08c094a80cdffac0f58d77bf4ecff91869a4a9d3d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300450.SZ.json",
+      "bytes": 328,
+      "sha256": "73c8debbcdcbe86a20bbcc759b6317274ffe1017bebb9c0c8207d853450915ef"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300457.SZ.json",
+      "bytes": 328,
+      "sha256": "cde3f455acde1302ae8cad246155d4b8fe16e07e342fddaf0a73c3aef1eecff4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300568.SZ.json",
+      "bytes": 328,
+      "sha256": "f3ae971bc2ddd95f20fad21482c71260b1c5aa482aa1fcc1b12ea2a963b4a483"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-300750.SZ.json",
+      "bytes": 328,
+      "sha256": "57255a557a4d22f3e05d6a1598aedb8b034ebd46f2ae2856ee0f80fd91219b62"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-301238.SZ.json",
+      "bytes": 328,
+      "sha256": "2dd11df55c7a45c5f8cd20ef4ede4ff7f87e5190bc700e873565227ffe911082"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-3750.HK.json",
+      "bytes": 324,
+      "sha256": "fb670d5f2f337ce8d703a00dcbfc4167c09772bc546ac5681ba0cd3940384646"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-600104.SS.json",
+      "bytes": 328,
+      "sha256": "c4dfe67acdc204315c614cae6e7207543e11682db1da6088f3df0834c24a99fc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-600884.SS.json",
+      "bytes": 328,
+      "sha256": "bc30f683476c6bfc31236b47be84746c1258a791660be37856656f732c3be1ca"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-601127.SS.json",
+      "bytes": 328,
+      "sha256": "55d3d9871aa075b6968e340ac9198379341107134f7fdffb5c25a51140d8fb78"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-601238.SS.json",
+      "bytes": 328,
+      "sha256": "fc37c5c29f06d9d57d0edbd8a8da58971aab82451fdbf6c2aed62feb7a34cd72"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-603200.SS.json",
+      "bytes": 328,
+      "sha256": "601059cf579a01761eea229dc7bafeda533a836893f75d5f122dd4ee784e90bd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-603659.SS.json",
+      "bytes": 328,
+      "sha256": "67a6d118cc57601c49e146e350aed9b5d2236648b7fa35aba3fb9f3b3297bc6c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-603663.SS.json",
+      "bytes": 328,
+      "sha256": "219dda39a4f0b9a7b1e5632e59990808357071b0ed2e1c62a9a1be68e821e429"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-603799.SS.json",
+      "bytes": 328,
+      "sha256": "8f7dde4f40eda6931ccb411cb71a1b902f28e06d5449c33ec0805f42de9a4b04"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688005.SS.json",
+      "bytes": 328,
+      "sha256": "85c071ca4de77c74bfaa87b11485a40cba2f82934d312fd745fd4d6c2fe8e65d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688116.SS.json",
+      "bytes": 328,
+      "sha256": "cc176d30c0f683d2fa2d52c42b94355bccb83d0cb53acd1459a68c27b10746d2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688388.SS.json",
+      "bytes": 328,
+      "sha256": "92479703266fec88b1a8df7877dd3a10e7de00678ac3b59acbb11261dc049c78"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688499.SS.json",
+      "bytes": 328,
+      "sha256": "0436696539b647508e48c663de998fa57fc1c559d681cc6d1f4ef779ea3c5a0d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688559.SS.json",
+      "bytes": 328,
+      "sha256": "2b29bf3b2dd0fac151029acbdbb37fcd76f05771b2c6ce3eefe636fd1274198b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688567.SS.json",
+      "bytes": 328,
+      "sha256": "e086f077c68c32bc8279b37042bb574de31e6cb4db890c2cc50ffd7d2e269834"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688778.SS.json",
+      "bytes": 328,
+      "sha256": "482dee55c4755e1322ef36b56e61af50227b7ca7e446df8e113bd1e30a135c64"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-688779.SS.json",
+      "bytes": 328,
+      "sha256": "49f3243cc50c6ee58c70e267c4a08cacf105af5eebb9a84dce1436e57653ce67"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-7203.T.json",
+      "bytes": 322,
+      "sha256": "51e53bfb320d6e35dee162f7a65bffe98244f7c114298a8c39e468387ac69ecd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-9696.HK.json",
+      "bytes": 324,
+      "sha256": "dccfccd8afcc57ffac4d6c3c0ec07bb2d6375b926da918723ffe31e3094a4bf1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-9866.HK.json",
+      "bytes": 324,
+      "sha256": "27be98ca2a721f2e7ea0c4c1d1510ef5023bc4ff1d675dddc8e406903e0aa251"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-9880.HK.json",
+      "bytes": 324,
+      "sha256": "8927c12b17444de50c6eacb9e1c6ebc666b671795a3751ba9e381174c5af777e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-ALB.json",
+      "bytes": 316,
+      "sha256": "9ebe048addc3bcb93a173c7c6e3c09ad89647219dd0f10198cd07339194cd03b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-BMW.DE.json",
+      "bytes": 322,
+      "sha256": "9fd2d24091e64a21e52ed407da4e5b7861ed4f11f8b9d6e3179c0475bbc7a5fa"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-MBG.DE.json",
+      "bytes": 322,
+      "sha256": "e81e89eb6ec76cc4b6728ffd99c8a07b5b8c2b3560b19deb33da5b969a505300"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-NIO.json",
+      "bytes": 316,
+      "sha256": "7f9523b2ee429936117e270163cfe3074d5d93acec7b443164b538cdf456c0ee"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-PEP.json",
+      "bytes": 316,
+      "sha256": "c1ea450b76fac56c2c12b8fd909fa368119869511c3db3681a7f0979d9979a2a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-PLS.AX.json",
+      "bytes": 322,
+      "sha256": "6f55e879b12aeb5d18c8b1656bc4e16919e16e3ace0631fe0c13c93803b75b42"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-QS.json",
+      "bytes": 314,
+      "sha256": "1e945fd9dc70beb5f65034195cb8ca59c95442d44cb019845adc35c3f4ccfe3e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-SLDP.json",
+      "bytes": 318,
+      "sha256": "3552b5c1a5b05b86ef4dc9856d0f6cb510f8587a914739106d79cbe27a7f5e19"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-SQM.json",
+      "bytes": 316,
+      "sha256": "e0a31fec186eb4abb4560ca979dafd1440562a1734c5fd218c3bac7a9a5f4f15"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_earnings_estimates-TSLA.json",
+      "bytes": 318,
+      "sha256": "740d1551035c1bc8068f211e0fe4beb00756ad100824a485286d1619979a980f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-000408.SZ.json",
+      "bytes": 390,
+      "sha256": "6b57a8347d9a1d19b7b6cc9763e09648dc3134e0a3837b6ee0f6bddc3dba9b27"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-000762.SZ.json",
+      "bytes": 390,
+      "sha256": "bfd9cce0fd4a6488db7f3194630ad318865713d799bbab9e31879e9e9e9df210"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-000792.SZ.json",
+      "bytes": 390,
+      "sha256": "24f128df391f376a25adf66e5870efae9bd2eaea8edeb41e6a8be251a3a1aa0f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002009.SZ.json",
+      "bytes": 390,
+      "sha256": "8bed7ed9d2b663afdb38b65de5710b56abbb452e065b9bd7c0ebdf3bcafbc00f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002074.SZ.json",
+      "bytes": 390,
+      "sha256": "155f41039998bd2a797b70719fb70fc1a4e0984a1121054d3d604bc70ca5ba8c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002192.SZ.json",
+      "bytes": 390,
+      "sha256": "f5654bb39e89b8eca26090777619984ba0330553f0d50509adf8b7da42cedd52"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002240.SZ.json",
+      "bytes": 390,
+      "sha256": "ae9cffca5d64cebea2eecef214cf0defd148a78ded2625f35e5113313ea4827d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002340.SZ.json",
+      "bytes": 390,
+      "sha256": "c8448c2570597db1370bfbcde7879ab2734fd7a98f96ed12c9ce15e0902e9ce3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002460.SZ.json",
+      "bytes": 390,
+      "sha256": "78ebb74946b96d2ba2f9108b51bc51cc49990fb6979058b027f7b0e02a35fb56"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002466.SZ.json",
+      "bytes": 390,
+      "sha256": "29a10b547f325c0df809d06b4ccbc7718dcfce850d50cc8a553d220a7452f724"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002497.SZ.json",
+      "bytes": 390,
+      "sha256": "3d73436c9d726ac102fe8b0f56400797741a261bc7fc65a3aa547b703feec750"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002594.SZ.json",
+      "bytes": 390,
+      "sha256": "3b0993db1b271a5f26133dee668ccbbbb20c4967b3afd34714d5c1b9f3d78189"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002632.SZ.json",
+      "bytes": 390,
+      "sha256": "6139d2c1ebbca5257fba27491655a3370d7f9d0c1645e6d73c035a744776f669"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002709.SZ.json",
+      "bytes": 390,
+      "sha256": "49f22cd3f88d81b8e0d6e52db2b2a47f5c4e8b3ccfde2781aa9b9ad0be0f803f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002738.SZ.json",
+      "bytes": 390,
+      "sha256": "1da2d8f56057dc24f462b8d5fe5c09fea694bcedd496700e821e6d450608d370"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002756.SZ.json",
+      "bytes": 390,
+      "sha256": "8a85cfba8e2bd3c094ede134f466832db0c2407f7a1b5fbecee621b39934b66c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002812.SZ.json",
+      "bytes": 390,
+      "sha256": "22468f7a0295ec482f732e2be51658a70f024c903acb8b6a7ff44ee1b91ef53d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-002846.SZ.json",
+      "bytes": 390,
+      "sha256": "629b428ec56b7725f8fe2d0c9638923a3ed63258d4a6561a4104bd310d48e8c2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-0175.HK.json",
+      "bytes": 386,
+      "sha256": "5fd8448f866f6e763f88b2678331036e88742b402712127e0db65da8097ab244"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-0470.HK.json",
+      "bytes": 386,
+      "sha256": "30dc3ad6bbb60ea4f42a335b10da971f663cb3c3182d78ccb10f87dc07ae9952"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-1211.HK.json",
+      "bytes": 386,
+      "sha256": "d40cd7693ed471124037084a2b66340bdccaae58fb0ef7e0f6ded7ea95704c24"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-1772.HK.json",
+      "bytes": 386,
+      "sha256": "7b7939c65e218f9988fbd66a254796a96f8a37c4ad03b8b23e4afb27d70be2e9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-1810.HK.json",
+      "bytes": 386,
+      "sha256": "ddea29c9fc135706f6ae3bbace218ccb088c6b2270525d3b0c436f5232935d03"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-2238.HK.json",
+      "bytes": 386,
+      "sha256": "1188f8b8dfad97aea84dff2fda473e1a12e0631e5f475716dc6458bca32887f5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300014.SZ.json",
+      "bytes": 390,
+      "sha256": "4d35a0e404b1b5fc4ebcf4423f157838a804621778bf248865a298065815ab6a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300037.SZ.json",
+      "bytes": 390,
+      "sha256": "b53337d5c2f9a83f10397365867c9653529f12dbff14a0c702d0079f9823bb15"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300068.SZ.json",
+      "bytes": 390,
+      "sha256": "3b730dbcb6f0f7d15b41fa76ba27d88a9250549ba5491bfc67ec764db9121037"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300073.SZ.json",
+      "bytes": 390,
+      "sha256": "00a26deb9ce8261cfe9ca5b305e8e67a469a61a76af1901437219c6e093f2475"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300207.SZ.json",
+      "bytes": 390,
+      "sha256": "98ebc78f8ec5bc35842bbba05fa9a2ace5f18fb5332e588647a425f91281bd47"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300274.SZ.json",
+      "bytes": 390,
+      "sha256": "4567335e1d8b355d759783bfb44b698a23c78bf8dbcf7b447bf1b8fe74515fd2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300409.SZ.json",
+      "bytes": 390,
+      "sha256": "51fe6749808cae58db9568f752c8a2a911ad500868690cb594cbe81dbdc4536b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300450.SZ.json",
+      "bytes": 390,
+      "sha256": "c04abef9cbac5f3fb846541c99bddfeef49baee9ad6b8f55ff0bba27ab2c8af5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300457.SZ.json",
+      "bytes": 390,
+      "sha256": "6e3a804f22d863398c8a5ff58f625490123931075b8f92796621d523e7c31f66"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300568.SZ.json",
+      "bytes": 390,
+      "sha256": "9f151d96962cbb8e05e67e6d570a43643cee9558b8ad054fc4fd5dfedc746300"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-300750.SZ.json",
+      "bytes": 390,
+      "sha256": "91ea84eb78e571bf0449c266a318e0601bd77d9539f574d15d16e25c754d7589"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-301238.SZ.json",
+      "bytes": 390,
+      "sha256": "eeb8c94eac28ed1b235395d6e3fd5781425eda5bb89e31a85f278112e0d5e195"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-3750.HK.json",
+      "bytes": 386,
+      "sha256": "17d06d6bf4309b1e15207b60590834c8fd8925da003e951a9961f37825aac57f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-600104.SS.json",
+      "bytes": 390,
+      "sha256": "2bd08608774bb760b26294f7fe30f2652f40f7c22a684df4ebce8d7c3d43cf10"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-600884.SS.json",
+      "bytes": 390,
+      "sha256": "c86ed18a16d2bfb2b045c43a2e92822d72d597e1a4c873c7ffde9b99d02dc02b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-601127.SS.json",
+      "bytes": 390,
+      "sha256": "04c46098d1b5348f24d538fd4eaf48c2099128c51a8de5f821d5f951b20871c3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-601238.SS.json",
+      "bytes": 390,
+      "sha256": "60d23772f1e808ff4d6490e00496cf5235709574a9413477075bdbcb56e1d340"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-603200.SS.json",
+      "bytes": 390,
+      "sha256": "4e77b6b1cf7c025fc4b17636a0d0c1fc8eb28a085f7cfc0b718fe81b71320cb1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-603659.SS.json",
+      "bytes": 390,
+      "sha256": "b46ec4de5cb38a15a84b8946df249fed6444112a418368fd87aa6ec16808e2c0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-603663.SS.json",
+      "bytes": 390,
+      "sha256": "46cb00db844bcb36027d6134f01fd09c615e5c0a99af12caf95e67b75aafc655"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-603799.SS.json",
+      "bytes": 390,
+      "sha256": "2b894aace9509e0223d02fb4ff8ded8acd57123ac7166978d5276788a574e48d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688005.SS.json",
+      "bytes": 390,
+      "sha256": "b8dd131e2b214dfdefce5fc939e3b5828b3bfffbb7abaf76aab01feda60e1b51"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688116.SS.json",
+      "bytes": 390,
+      "sha256": "e513e0d4cfbd483024c82829593df1cae6ddd10208ff32582de4c6113f98ee77"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688388.SS.json",
+      "bytes": 390,
+      "sha256": "dcaa3487d720c7d47496cf1723aff642809da47da18c7f20d2e955581af674a0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688499.SS.json",
+      "bytes": 390,
+      "sha256": "74654778ef68d50b57e511291c9ab53285ad33fc7d59b7af690c9fe171a6f50c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688559.SS.json",
+      "bytes": 390,
+      "sha256": "4c1a1abe216bed82443ac6ea28885f33def393a832aaf55322afeee21a8fa2f7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688567.SS.json",
+      "bytes": 390,
+      "sha256": "4772c4472e6606f53f3f8b71312d38f9a68d4ce05b36164b1baac65450cae5c1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688778.SS.json",
+      "bytes": 390,
+      "sha256": "7637e58af26533c3277fb24ba0e93a52889cdc20facce87e01f4ecee35835704"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-688779.SS.json",
+      "bytes": 390,
+      "sha256": "301dedb11ed0ce494ebd58e929ae1b88a26e385457693244a7b23c09837c3c13"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-7203.T.json",
+      "bytes": 384,
+      "sha256": "1e0441d249e0095a5363c32f592c695bbb8055a20c4e3895cb004ad2bec8ea73"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-9696.HK.json",
+      "bytes": 386,
+      "sha256": "ef7bf1f63610bb6f76170a3b1591b5f398f5e97e26d228f4509d800b6ac04485"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-9866.HK.json",
+      "bytes": 386,
+      "sha256": "6d4b16d65b7304e7c31de645941548adf4b02176250b64f4d1b2a62201653a36"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-9880.HK.json",
+      "bytes": 386,
+      "sha256": "86ef12270ff240c097e55450e565a241c086202877dd65090f3e04d3f975fb3f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-ALB.json",
+      "bytes": 378,
+      "sha256": "49d75a9e56677cad4db1f64dd7240f14187885bbc493105989c9f6d0ada28db4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-BMW.DE.json",
+      "bytes": 384,
+      "sha256": "0318ec6ed376efd3e742c6d148f45b753461a68490c52bc6a48f0f9db8271ad0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-MBG.DE.json",
+      "bytes": 384,
+      "sha256": "3231edc30b550319141db476a6ac93d50a1a4122fdea4a4b59db6a61e901c848"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-NIO.json",
+      "bytes": 378,
+      "sha256": "3ac53f9a4ab582d547e207a81ad32c5cfab5a605cc390e3b19d6037bb1dbb812"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-PEP.json",
+      "bytes": 378,
+      "sha256": "7f22bfe14fc3c2d207dae7c52c81fdbe8380135e3df386c0da2fed06b37fcc13"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-PLS.AX.json",
+      "bytes": 384,
+      "sha256": "353e7984c6604bfae4888764a177900ff9d4db648c071d51015ae95b0d85d298"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-QS.json",
+      "bytes": 376,
+      "sha256": "1196d84068d89d5b664f93838875dee2a0112e9280af6636cb7d892c616185cc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-SLDP.json",
+      "bytes": 380,
+      "sha256": "11772b0e6c7e3d3267c7e2052a901700c1d6f192ff7ffaab6641046973bc282b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-SQM.json",
+      "bytes": 378,
+      "sha256": "854b11e6727a3aa1abef65228adba1d9baa659b0fc195307ae5fddb274bd99a4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-get_income_statement-TSLA.json",
+      "bytes": 380,
+      "sha256": "d6ce8d4757579ecbf6a48b6147ac5b32f2ac2658e533a0dc5baad45032700514"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-000.json",
+      "bytes": 106285,
+      "sha256": "19a35ccec046b1be48b997ab65625db2fe4eb4f0fe8601cd834d8cc13bbb712e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-001.json",
+      "bytes": 119314,
+      "sha256": "32e4bd13a8eb86f09ac51bb0d7c927d45622be97f5e248e0cfab7b8cefecd1e1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-002.json",
+      "bytes": 107685,
+      "sha256": "bd44354b26ee7cf7dd6a2130ab200e4de51f0b91cd19634ae7cde2af954bf182"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-003.json",
+      "bytes": 104489,
+      "sha256": "4f74bd96d0935aab3d9a3cd3bd4caee5e631a4066b6cbd5e16239fffa078666c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-004.json",
+      "bytes": 106182,
+      "sha256": "d5608720e394774100eabfd83716f3a0ac4fbdc1b0a406fdd68b433338351b73"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-005.json",
+      "bytes": 105977,
+      "sha256": "9844f159ad63069bd3102ba1585b1b60ff275ae70cfeb10121aba555846df32b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-006.json",
+      "bytes": 104507,
+      "sha256": "5cdc265a77771cc8257a328c1232f6a751a5c755baf5b03e889b9a22082260d8"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-007.json",
+      "bytes": 105480,
+      "sha256": "ff05e82e4535b292aadd32a536843978ac49fc188364ad31bccee8f2079069a4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-008.json",
+      "bytes": 104449,
+      "sha256": "72ab149474f0cc817e4af485475381d6e67fcf47fff4f6e110b40bb0af9e4fbc"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-009.json",
+      "bytes": 101216,
+      "sha256": "26d01cf576029bf5a3b19e699f179e441517c54f3780742d6f8c450719ea23aa"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-010.json",
+      "bytes": 113298,
+      "sha256": "3a8da7e98dec0456fc658dc6b3232bf4c414d662a02db2fa2a36bd6d46da3013"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-011.json",
+      "bytes": 109587,
+      "sha256": "46c75b3f097e11cf0d9b01899585fedc4e86d39ca63ad43593a32e1e76b86a24"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-012.json",
+      "bytes": 109401,
+      "sha256": "084d110366b13c3624ccb03c3d1088f7193100def5fb824ce750a1814beb9289"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-013.json",
+      "bytes": 104503,
+      "sha256": "89f3602851862e526b41f1d9ccfee498701d1fc04084fea467834b5b8ded5832"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-014.json",
+      "bytes": 106768,
+      "sha256": "808899f7beefe7da51248cf64f37fa9fc4443f4b392d3119843d648cf155b574"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-015.json",
+      "bytes": 106633,
+      "sha256": "05d1481368c98c3d43245edcedb9fa59ba02d3ddd99a7c1f641306b54f7a947d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-016.json",
+      "bytes": 110867,
+      "sha256": "a78b48ae19905a9381c31af2a2227b96af44bdf0295eb504169708b407831edf"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-017.json",
+      "bytes": 107155,
+      "sha256": "59384df2b99e4e8dbcbeb1d289be4365104aac423960a7e2e2d681bd8a9c6a10"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-018.json",
+      "bytes": 108956,
+      "sha256": "4676edfac7477caac3ad172b9f9af6436886ee3fb0bfa21f1e9f290e7052f379"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-019.json",
+      "bytes": 105878,
+      "sha256": "e63adacfd7771a2659eec8e9f6693a0b166d1741ee800c3046f94c9802616aee"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-020.json",
+      "bytes": 104149,
+      "sha256": "80c205a1f94970792c67fafed515bb632f27c639ad0f4e005982827052db72a2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-021.json",
+      "bytes": 107538,
+      "sha256": "91d21ac2a7715005e68863023158c8750a4aa3d0723a87d46b33ceab1e009560"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-022.json",
+      "bytes": 101730,
+      "sha256": "f1fa72ea4b0d5f1a71c31f8932666ed3d767ad8b4bd05ec8479c9f19d59057e0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-023.json",
+      "bytes": 103630,
+      "sha256": "264c707d910093bec032cc56e7d22c6ecd46eacfa49d5015da1580cbab834972"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-024.json",
+      "bytes": 117021,
+      "sha256": "766a71297b52c2303185b99974af499dc21f07101ee08ac6ae84d5c039fa2d2b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-025.json",
+      "bytes": 124564,
+      "sha256": "79a116e9fbb980c38bba1754b1ff621ce9edda9369235ab27a1bc9dccf6472b6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-026.json",
+      "bytes": 122570,
+      "sha256": "5d9404cf6c31ae8bc724b5dddceccd8737d1b7ea761860ae265be077e3a0b0e9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-027.json",
+      "bytes": 122922,
+      "sha256": "532570076875ad1c5552e431b72197d7478864b225b2763198fea0628bc10346"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-028.json",
+      "bytes": 126059,
+      "sha256": "aad5dbd89dae2fa1a1f6ba22c6d92c44592065c663ef70483788b8ddae9490f7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-029.json",
+      "bytes": 116857,
+      "sha256": "69961e56b5e31621ee9054ac3cf7e0a09a0e22bd786d4e903975840b4a1afa9b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-030.json",
+      "bytes": 118276,
+      "sha256": "abdcdf43d3c719ad85bbe3deb2ef0181ce8805ed9ccd7311c72e40b0634d34b5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-031.json",
+      "bytes": 121251,
+      "sha256": "cd9bebfdb1ac8d30ced85ec3c36ae0a64108c28f4eb2cfb146afd8e81f9d7304"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-032.json",
+      "bytes": 111792,
+      "sha256": "2718d92fb96e983c6d53a9af0b0a46d4ec7178ebb6bcf437ff1e90c9d137c43c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-033.json",
+      "bytes": 117006,
+      "sha256": "2fe3283dfea8763ec11ab1163815c909489d8454cd3660bee9a49d5c97cd4c06"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-034.json",
+      "bytes": 107947,
+      "sha256": "ec328d51cee1361d64a04402e3fe7cce7d9e0bf66f381ae6877d986f5c0ec41d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-035.json",
+      "bytes": 102491,
+      "sha256": "267c70087f5f4be74838fa7508202adcd5bb9015323a55f2fbc099e4e0ee6109"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-036.json",
+      "bytes": 108393,
+      "sha256": "acb9feeb823a84846751ca5cbdabbd03f524625b5a3840e99b9588319f1a801d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-037.json",
+      "bytes": 109143,
+      "sha256": "8322e20a19665bbc7277056c6ab28d5d131de210efd7fa8415ea6c61dfa03bb7"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-038.json",
+      "bytes": 102034,
+      "sha256": "d3e7d48ce79824e69772401d4cd4d17bf2797230c86b627909279c47caf3ca6f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-039.json",
+      "bytes": 100315,
+      "sha256": "bc57b07bb4d967ca945423360de7ad2f230450277999d0ad40891d4f08d3bb5a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-040.json",
+      "bytes": 105818,
+      "sha256": "988312a90e596a273ae7b0681543fb6a369565c721c771731f719ec23a1a27cd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-041.json",
+      "bytes": 102398,
+      "sha256": "ec78edd96b244e9ed404fd0d8ae69d7b4da58a50e6f22e094b384e675fde67c1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-042.json",
+      "bytes": 104865,
+      "sha256": "683e8f5d7f6b516c704d60f904fc849b8c68b764c997f6d05a8812726b5ce63b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-043.json",
+      "bytes": 99545,
+      "sha256": "439c294a7bedd807be696fcfb7bfdfb8bcc9db4152d52a888e444b92cb0870be"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-044.json",
+      "bytes": 105476,
+      "sha256": "d61efe235adab8c77ac0661bfb421d630f225da47e32f5d559ecebbb8154dc1f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-045.json",
+      "bytes": 101341,
+      "sha256": "993a239292a74f72716077c6cf9ab5d7d30478c61a68f4cb8cc17e98134ea90e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-046.json",
+      "bytes": 126537,
+      "sha256": "bb5e61ea91c3f8d18be49ff65c54efeb7d1f4bb7e494e38d57a3ee05a15b9c36"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-047.json",
+      "bytes": 117767,
+      "sha256": "8b201f8cbdfc0872cdfc7bc826c56d0c0c7990f342f9f20d19ef51cd7523edd6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-048.json",
+      "bytes": 115219,
+      "sha256": "016a9e1ebc8cd8998d886d6ebbf4e906923b783036b480cdb192f29ecc6452e3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-049.json",
+      "bytes": 102354,
+      "sha256": "83d91d72ae06faf40230543fdc003e35a96ebbd3aa53d40fd9b041b5a74e351b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-050.json",
+      "bytes": 109245,
+      "sha256": "8894d8a6e0c2202d33cb9477a55dca244f60b68a450d57bfe31798b863364b4d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-051.json",
+      "bytes": 104131,
+      "sha256": "929fc608e2798a9e7df49172bfcab14b693e9d759e0661e391d4afab3abba041"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-052.json",
+      "bytes": 109166,
+      "sha256": "1be43866682042f1c49beacef60658a19bc2ca21c8f8cef36821c597b7adafe3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-053.json",
+      "bytes": 106757,
+      "sha256": "9c1bdc37c280e17e650a8612ccd0b49f02756b1c23b6c008d53d27d0a40c78e5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-054.json",
+      "bytes": 102744,
+      "sha256": "5de6807fd9efa3ff325421d343e6af76a0b5d05791a29198a156b803fec2f792"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-055.json",
+      "bytes": 102855,
+      "sha256": "21024d934f16a3a7af83ab51b4a45d57cbcaf8043a7a715acf7de774390e944e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-056.json",
+      "bytes": 101456,
+      "sha256": "2eb411693502138b1837383079503f7cc9b5af0a39b9aaa76a748b1e8114eaac"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-057.json",
+      "bytes": 105189,
+      "sha256": "9c3ed9dab3667ab517e462c6332d3f1055982a1649541b7ce98c7e8e2b46ca95"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-058.json",
+      "bytes": 106653,
+      "sha256": "3485fc968c510643095d36f98424235451dd4737762d355b0040a825f2e8b625"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-059.json",
+      "bytes": 101288,
+      "sha256": "21fb34d2e4918013fd8d9b8047dc5917d5e13f2723c9cd28d1f51811269f4055"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-060.json",
+      "bytes": 105943,
+      "sha256": "0b0fb86c4a2a0d94786acd71b169661bdcc5d206494b1ea44532685cfd9be44c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-061.json",
+      "bytes": 102492,
+      "sha256": "ec5094bf1ec1635a4bec328187ff2f4878aabd84685ad819fe7d011e7cc2896e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-062.json",
+      "bytes": 105126,
+      "sha256": "b8793480aa7602920d02b31809603355a75cb176b4fd6477bcfb03207ea6bb10"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-063.json",
+      "bytes": 108308,
+      "sha256": "56238a6669b69465ce17e6a455023d7963b5a74de57a8b2575344d6eaf721d55"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-064.json",
+      "bytes": 108509,
+      "sha256": "6dbe5865d528364aeebc382106a4f5503aef57ded45789292fa8c78f1abcb9eb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-065.json",
+      "bytes": 110889,
+      "sha256": "9006c292ba1ed6505aa53df43bbe21051bd6d7268c38ac4db2e7d270fb745b2e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-066.json",
+      "bytes": 106204,
+      "sha256": "4edcfd980ef8b6d05152580f708657e3066663943be88aa978dbc2074eaef5a6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-067.json",
+      "bytes": 109491,
+      "sha256": "37b0b5fbc4cba98b987fcca8200189ecd0d5b100542dd827253137941e32b2df"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-068.json",
+      "bytes": 115645,
+      "sha256": "74ac1646e06afcb20605012f3e38f32cd93c043bda04d448635f6041a11e05c1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-069.json",
+      "bytes": 113042,
+      "sha256": "a33a9186dfe962cacf693a70c71e99eb216e8ebaba8ccb73cb0acb211b7233d6"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-070.json",
+      "bytes": 113043,
+      "sha256": "d3c6bec834684acce2b5751e457383666d0f2eb621add39b028cc5b92d75280c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-071.json",
+      "bytes": 118584,
+      "sha256": "7e777b4ee550993677d1ef0e59e43a6f175465db8682726028baa5fba735a651"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-072.json",
+      "bytes": 114655,
+      "sha256": "9e87c84317d200d8775abe89820078e66f9b2ee0e33c13119e8386bf8b0a6426"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-073.json",
+      "bytes": 118710,
+      "sha256": "c79ce7077532ab5ee0804f62e35906e5f707112c5f4046d79925bf9079d667b4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-074.json",
+      "bytes": 114475,
+      "sha256": "9ad0b836ea7c0c737f178fea8a2876f97953a84ecfe7601d2a552813acb1029d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-075.json",
+      "bytes": 101053,
+      "sha256": "00906b95240bcb8e19807c2a01b8f3a217e40ca7e0bbf4955a74e201f977d59e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-076.json",
+      "bytes": 109068,
+      "sha256": "ecae3f501d3bf94e65a39e367f1c7cae9bfa1206f86b0b19e39709c298ef4052"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-077.json",
+      "bytes": 105409,
+      "sha256": "5e6b8d11c6eef5886a6ce8e9304b6979a93b11c381eda9b60db133b686a254ac"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-078.json",
+      "bytes": 110840,
+      "sha256": "88de0543af8edd6fc7a758d35c1592a93abcd4472833a682b602d231626b596f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-079.json",
+      "bytes": 101537,
+      "sha256": "476bf4e9adab7df6a008a5cc4743d7935a43d19d10b726b7df438a161399a3e3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-080.json",
+      "bytes": 106019,
+      "sha256": "feda7ae4144cdeb6f86653cba723bd3bd40d16c7f08151779ac3a6841bd3a1f9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-081.json",
+      "bytes": 112982,
+      "sha256": "533c9d847d134a967f13681e4bda85e982cc473750eda05c32a96d09dd020a93"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-082.json",
+      "bytes": 126392,
+      "sha256": "7d2fbbab36354bcf853f7784a5dc0bf3a9395d4f6d6f928c0cc611b7dc81279d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-083.json",
+      "bytes": 68135,
+      "sha256": "2f254acf7f45222cc463375337e0aca617c1a688ed3ca29b07a5ce1d7b235fab"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-084.json",
+      "bytes": 53238,
+      "sha256": "b20b73bb42fc94a386c5558f5f5d9bf3e04aa5fe374feb21415b7fa3987789e9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-085.json",
+      "bytes": 1940,
+      "sha256": "7d446d31c3464f2621ed167783ca32134813996db4ff45eed0ab245745eb8407"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-086.json",
+      "bytes": 1946,
+      "sha256": "030526906b2e7e3ec55a10f8528045fc9e082d8295f0c9f08dd841b0ff968994"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-087.json",
+      "bytes": 1946,
+      "sha256": "d732e1a89d6f754283fda663e5b70f2978300b3c0a39765cfbea1ed9280ef622"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-088.json",
+      "bytes": 1946,
+      "sha256": "212cfeefb812afafe5a9f90e8fcf78b85ec92f068f86081e85d45c06ecc4f541"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-089.json",
+      "bytes": 1946,
+      "sha256": "8559ffca820765fdb6ca05ff3bfe87992c9cb5dfb223df0b6ed2096b45dc992d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-090.json",
+      "bytes": 1946,
+      "sha256": "2a317294c7bac211beef749390caa48c120149b0bed447a949f6dd2eb94f2970"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-091.json",
+      "bytes": 1946,
+      "sha256": "bb79da0b16d0cf84384ce71657ca970630c9077acc8bf4c9e2ddc898e9249425"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-092.json",
+      "bytes": 1946,
+      "sha256": "caf1b017df8a0cdbb095c862f4dac5c772d33b2a1c33f35abc1488ffb2c8ed72"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-093.json",
+      "bytes": 1946,
+      "sha256": "6ae3e2aa217efe047aea9792addace18f1f2233cc2c814e757b52931c4188d62"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-094.json",
+      "bytes": 1946,
+      "sha256": "861b3a2fccb64354a188b0202458a8b39f58f909e03e6145ab2e3586df860b49"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-095.json",
+      "bytes": 1895,
+      "sha256": "d1f6ab8c043994c28abd9fd0662c9f04eddfb97a968e74587da0eeb0cd021235"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-096.json",
+      "bytes": 1901,
+      "sha256": "e9fb8932302968c6904c642fb58a783f4a755a497bf2a05063b7a7bdce799f8d"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-097.json",
+      "bytes": 1856,
+      "sha256": "fa3e462b3a5dfcdfe4da53889a2cde51a4aedd8a09e96298b52604a5973d1141"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-098.json",
+      "bytes": 1763,
+      "sha256": "f860e3150f5378def24efd6e5c9f1ddbda9d44d65266b13ec9c5d1100918a78a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-099.json",
+      "bytes": 1745,
+      "sha256": "07121f65ba3d3dd19707b1750fccc4aa33bec25faf7df2d50d6f48bf22cbdc44"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-100.json",
+      "bytes": 1760,
+      "sha256": "fd66c610b3ec9501204cae6342f82541b47bbc6aaed88d338596cf998e1649c3"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-101.json",
+      "bytes": 1742,
+      "sha256": "f234b996b493f94583a331a9fca28c6ba7d1bbcc59d104f41e8b33093d6b46bf"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-102.json",
+      "bytes": 1754,
+      "sha256": "681c33ad7fd33b1c5ec67624f1e8751a76951a7671f874ae276e170fb143fa77"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-103.json",
+      "bytes": 1680,
+      "sha256": "07c978c2d7b8b72fc89243518f78b525c07d5f3e8293cf5767c3c764bd5ad5db"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-104.json",
+      "bytes": 1730,
+      "sha256": "6cd6f647fda50b9bc1df78825652d1e233200f091215cec3f9b80770b12da034"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-105.json",
+      "bytes": 1757,
+      "sha256": "d3a370b461b3c8dac69b7b6de756b7fa4677639407b916ed5c2c19904829b289"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-106.json",
+      "bytes": 1724,
+      "sha256": "a17bb38a7b6e5d71e87cba76d93ebd2fd3337d0df808f9537107386c97582796"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-107.json",
+      "bytes": 1745,
+      "sha256": "c988ea239440f48c19b424a6820f4674a904ed7013984c5d87f7b2716ab3ab93"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-108.json",
+      "bytes": 1742,
+      "sha256": "e46cad1fe78aa05d99f767ed1bd69bf88ee99daba699132ad2bf987d57ca91c0"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-109.json",
+      "bytes": 1736,
+      "sha256": "581dd9fda0428747ac6eec06c5564a378942185ac96e482f00c7eca236628fac"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-110.json",
+      "bytes": 1748,
+      "sha256": "e2df6bfc4984b5e4e4be32f46b882200b06db7f66e7be9aa01f3882c6e6841bb"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-111.json",
+      "bytes": 1757,
+      "sha256": "876805692293dff2ce5553f0df46a95393ad6c083b9abade806519b3145bf483"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-112.json",
+      "bytes": 1733,
+      "sha256": "f32e0dbe4a0ee2340616b3a4c7936ca39e5d6d9c50e7f0cc2dae2380835269ed"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-113.json",
+      "bytes": 1733,
+      "sha256": "1df3699c76778b47179b1c025acbf134039d638ff1fce4bcebeca800b8951aae"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-114.json",
+      "bytes": 1745,
+      "sha256": "02da92352f17053105f24629f03d74092a8fdfcc8d0239389072925f4f667281"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-115.json",
+      "bytes": 1721,
+      "sha256": "186c608b9970f9d7e4579fcf1d921c1f5408b944f0eb977cff0ac84d6384df99"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-116.json",
+      "bytes": 1751,
+      "sha256": "87721121165c33cbcc9cee5b1e9aad307c865ec85d3d984348caa71465f9ace4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-117.json",
+      "bytes": 1739,
+      "sha256": "9ce97a0a03b3a38452256cb339623acb6b4639d1bbcb9dd0b66dec8a900cb934"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-118.json",
+      "bytes": 1745,
+      "sha256": "d00e4782cae5037beed645c0c071d52d0e74926556b4112a7e07eeef741f31be"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-119.json",
+      "bytes": 1748,
+      "sha256": "a8a4aa83de94e76453e22f4f5c57a7e46dfc9a65b8d31ca9603664fa2767d067"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-120.json",
+      "bytes": 1736,
+      "sha256": "892c2b060116f6a6787c65f206f4caed007f62bdc433feb9f1a46629afe39dac"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-121.json",
+      "bytes": 1745,
+      "sha256": "bcb5d7982404e7c9abb3ede6dc29df61caf72fc69c813890bae908fd3ec3c9fd"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-122.json",
+      "bytes": 1733,
+      "sha256": "7918be594e7966667e11dcaa5c4225b0c95a1218b37857d5b221b7512680758f"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-123.json",
+      "bytes": 1748,
+      "sha256": "992c69b61c239d14aced239cfed378391750ddbd3e508d60a6da2bf8687b39f9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-124.json",
+      "bytes": 1751,
+      "sha256": "f7661f8bebe64200a9b043714815db9addab36b2076ca4786a2dd38c2078a1f1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-125.json",
+      "bytes": 1748,
+      "sha256": "da5d8f699b2c3c5c3c909af40c0a06e7e037038bee502bdca86cf82cc0d3b85b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-126.json",
+      "bytes": 1730,
+      "sha256": "21471d27ab74fe73eda1a11c35334e27e2f656d1ed0dfd02bda723e9071efbd4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-127.json",
+      "bytes": 1730,
+      "sha256": "c4a241d154ec61fbbb33789f95b063a8ce13209dba138743ae4ba7cf101313a9"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-128.json",
+      "bytes": 1730,
+      "sha256": "f9a7c7936f5a01a5ab1afe78f0ddc5b0371e23a853769e1e466ce9e43c9cfb83"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-129.json",
+      "bytes": 1745,
+      "sha256": "08de44ef06d2650e48c922d9d33b9e399cc81763e1c51dd16a78a0df8d2259f2"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-130.json",
+      "bytes": 1751,
+      "sha256": "fad8f12f5c87720aa6aa935950e48258f775721180ea22cb99b1ed8d216fdd0e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-131.json",
+      "bytes": 1742,
+      "sha256": "f7e8db8b89d8c0ff9b5a400773ef2f3fd3f3e6ba388dafa9e3f81255bc13b78b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-132.json",
+      "bytes": 1742,
+      "sha256": "c479d00cd9dab81379576c5afca44578af7dfb2b448072f399edf7012e351101"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-133.json",
+      "bytes": 1757,
+      "sha256": "5c7d6cb07bedfeda9e0efa40b1fa88d2f32cfe30827f0634aa2705a095097b72"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-134.json",
+      "bytes": 1736,
+      "sha256": "953206bb0773b5f2bebc5218bbdeed55c48d23baa22d4c4e6819a05368f9e091"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-135.json",
+      "bytes": 1760,
+      "sha256": "cae8f679a75bacd3ad16e54094cdbaa215808a5156ce27172453752ae8a74a1a"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-136.json",
+      "bytes": 1717,
+      "sha256": "3d85f1ce7dbfee3b65173637a4075a54b26c89d1eacf779cbdb3abd2b8cbe418"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-137.json",
+      "bytes": 1751,
+      "sha256": "7ae84fc951390a7797968e4b8c004cbe3f5c8d7ae445f1e9ebc957618e49f05e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-138.json",
+      "bytes": 1724,
+      "sha256": "12c25ef833f9b0db360b8c10166642a18127dd6f1f079349fc195ee2c5b09463"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-139.json",
+      "bytes": 1748,
+      "sha256": "eabd488fc3d86125f373dc8c7bcd82e2a3bc449d6bf8a3b240740927755b8483"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-140.json",
+      "bytes": 1742,
+      "sha256": "a012817d461146e521d762c0d61ba2f71b48c6cf26eca4ff841b775cb184c911"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-141.json",
+      "bytes": 1742,
+      "sha256": "81ebb98a0c95322826e2cdf32b5c35d61e08df539ee58073c77697e22119618e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-142.json",
+      "bytes": 1742,
+      "sha256": "032dfafb924af238c0b88681a1406f4fc0ba2ce46645fc9171975f3d85752c83"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-143.json",
+      "bytes": 1766,
+      "sha256": "d97526a68d71a799316dd2688e9db5e38edf0517157872cfcb287a04d6971941"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-144.json",
+      "bytes": 1757,
+      "sha256": "06d3ba898c3066dcdbe0fea66ea1c69ac3a9e9d02482f506d3cb8f1834836017"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-145.json",
+      "bytes": 1754,
+      "sha256": "0c7f431c660884f267a66abd5242813dff50152e0739531561aeae99d633251e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-146.json",
+      "bytes": 1739,
+      "sha256": "cd766ab90b68204a2e09becee8834a18d83575e14aa24e33ef7f4d59f8ca682c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-147.json",
+      "bytes": 1682,
+      "sha256": "afc037a8a4aa1567b5bd905c4bcb1f0c66d211c638eb788d154acf982e5a9b16"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-148.json",
+      "bytes": 1733,
+      "sha256": "a2e978b85397351d5d57b01b8e6e82159757863baf46a0fbc5334cfc14cd1da5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-149.json",
+      "bytes": 1748,
+      "sha256": "4a72827ea643cdca7f1cfade78c3f9d61996d54723f3928c5c9f6482d6fa2e17"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-150.json",
+      "bytes": 1730,
+      "sha256": "c5808f7dc9d4ccf860c5c1cde94bac6de7547c65f08d978a436dcc1ca62ac0f4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-151.json",
+      "bytes": 1736,
+      "sha256": "ad45bd4f7bfec7e1bdf64b9cabc5f199ed064ae59c067329828867271eb41e4c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-152.json",
+      "bytes": 1763,
+      "sha256": "f05ad2196ba058063347eea71d425c0e5bd2caca598a3774ac0e49c535e13b34"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-153.json",
+      "bytes": 1751,
+      "sha256": "95093ebbfb71320793a16455492631e7ad6f89b0df7e9202c4bd1144a276f177"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-154.json",
+      "bytes": 1733,
+      "sha256": "9e93ca124e67707af84a144b693fe7748232a8f754d888c0b0572ad07e8a968e"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-155.json",
+      "bytes": 1736,
+      "sha256": "2530f5dd8c8e91797e7398f82b427eff04722fca6a3702d442e8e78e69417557"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-156.json",
+      "bytes": 1833,
+      "sha256": "85c87f89d2385c30a7dec1413f49d33e7fc92efc26c3bb5356d7010da34c3297"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-info-157.json",
+      "bytes": 1610,
+      "sha256": "8843250cb4e08c8af8afb9f66c1313f71dd688860af40a1d2fb9e886900054d4"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-probe-get_earnings_estimates.json",
+      "bytes": 6138,
+      "sha256": "ca7cd14127101ae3760b60602ad348545d26718eec6622a3d2ac11e92a49afb1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-probe-get_multiple_tickers_info.json",
+      "bytes": 46095,
+      "sha256": "50b6f35abca8ebf2ed56725b6df92e6bfad32c1d6e3f038b52825508b988d484"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/mcp/yfinance-tools.json",
+      "bytes": 19211,
+      "sha256": "e4bd5f0b08e69314583639bd9d4bcf2d5027f82a7524865ce608fb2df91ff88c"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/normalization-summary.json",
+      "bytes": 1728,
+      "sha256": "16de46900f07de5d9f6b45d8802dead50fc4d75fe5999277014ca3648637def1"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/official/510050-2026H1-official.pdf",
+      "bytes": 1384365,
+      "sha256": "ca53e166e98ef4ba2d9c8cc8f392feff83ca19baa83e20353ded9b9de99b1280"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/official/510300-2026H1-official.pdf",
+      "bytes": 2323200,
+      "sha256": "b77ce47ece834f968b085c6823c72ffaa635f82d80793cc6c2ebafce301221c5"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/official/510500-2026H1-official.pdf",
+      "bytes": 542690,
+      "sha256": "01136d5f27e09722b45876afe96bc30070635b76495c95d656b0c34b44a07861"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/official/etf-holder-structures-2026H1.json",
+      "bytes": 2019,
+      "sha256": "d2416803979ed136ce847984a6b43955dcd72a825a64e79bf3317efad76fdc5b"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/official/manifest-etf-sources.json",
+      "bytes": 3940,
+      "sha256": "ae374477e8f9c96f12741004e29e974bf7f16c6f853396296407305b2fb82e46"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/official/qqq-equity-members-2026-10-09.json",
+      "bytes": 21528,
+      "sha256": "baf3f63f1765c55846c67ee98150867106ea5323adfa1d0c151b8cd9122ea640"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/official/qqq-holdings-official-2026-10-09.json",
+      "bytes": 30302,
+      "sha256": "3b7ebbc964a48f1067710fa73312848c75944b192dca09962f40fb9410ba06ec"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/tencent-quotes.json",
+      "bytes": 3445267,
+      "sha256": "4f2df0c118a61133234498886797301b51373d4604ef6621ddddfe405fa47666"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/universe-symbols.json",
+      "bytes": 24130,
+      "sha256": "f78c2a46532097f2246d0bf21492d4ff5551cd27f94ff75fc54d9818dced5e28"
+    },
+    {
+      "path": "public/research/data-refresh-2026-10-13/yahoo-quote-batch.json",
+      "bytes": 6416617,
+      "sha256": "c97fded499f7e551cc937bb94afd8e3debc175eaec4b1e52484d4807d5d9f513"
+    }
+  ],
+  "summary": {
+    "auditDate": "2026-10-13",
+    "normalizedAt": "2026-10-13T10:03:14.474677+00:00",
+    "mcpInfoSuccess": 1863,
+    "mcpInfoErrors": 883,
+    "quoteSymbols": 1870,
+    "companyRecordsCovered": 1540,
+    "companyRecordsRequested": 1540,
+    "macroUpdatedFields": {
+      "us": [
+        "curve",
+        "hy",
+        "vix",
+        "dd",
+        "tenYear",
+        "dxy",
+        "gold",
+        "silver",
+        "wti"
+      ],
+      "cn": [
+        "marginGdp",
+        "marginMcap"
+      ],
+      "hk": [
+        "hsiDd",
+        "hsi12m",
+        "south"
+      ]
+    },
+    "futureUpdated": 625,
+    "solidListingsUpdated": 68,
+    "solidReviewFinancialAbstractsUpdated": 46,
+    "lynchPeUpdated": 1517,
+    "unresolvedMcpSymbols": [
+      "832522.BJ",
+      "835185.BJ",
+      "873593.BJ",
+      "920185.BJ",
+      "920522.BJ",
+      "Amyris",
+      "Apptronik",
+      "BK",
+      "GWH",
+      "Neuralink",
+      "PSTG",
+      "Schunk",
+      "Synchron",
+      "ZF",
+      "maxon",
+      "中国商飞",
+      "中科海钠",
+      "九识智能",
+      "博睿康",
+      "卫蓝新能源",
+      "大疆",
+      "天科合达",
+      "小鹏汇天",
+      "峰飞航空",
+      "本源量子",
+      "清陶能源",
+      "脑虎科技",
+      "蓝箭航天",
+      "长江存储",
+      "长鑫存储"
+    ],
+    "rejected": [
+      {
+        "symbol": "832522.BJ",
+        "reason": "Obsolete BSE ticker; use the verified 920 code, not the same-day 09:00 stub"
+      },
+      {
+        "symbol": "835185.BJ",
+        "reason": "Obsolete BSE ticker; use the verified 920 code, not the same-day 09:00 stub"
+      },
+      {
+        "symbol": "ZF",
+        "reason": "Quote older than live research quote"
+      }
+    ],
+    "researchBoundary": "仅行情和实际返回摘要字段更新；原模型、原件精度、研究日期保留；空表/限流不能算财报更新"
+  },
+  "companyQuoteRecords": 1540,
+  "restrictedHistoricalQuoteRecords": 2,
+  "sourceJsonRecords": 1299,
+  "note": "证据文件哈希仅用于完整性校验；文件/抓取日期不替代数据观测期。原始失败记录保留。"
+}

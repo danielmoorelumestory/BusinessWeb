@@ -88,7 +88,7 @@ describe('未来趋势', () => {
       fireEvent.click(screen.getByRole('button', { name: '海外' }))
       fireEvent.click(screen.getByRole('button', { name: '导出筛选结果 JSON' }))
       const pool = JSON.parse(await blobs[0].text())
-      expect(pool).toHaveLength(4)
+      expect(pool).toHaveLength(3)
       expect(pool.every((x: { key: string }) => x.key.startsWith('海外:'))).toBe(true)
       expect(pool[0]).toHaveProperty('valuationStatus')
       fireEvent.click(screen.getByRole('tab', { name: '核心' }))

@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "920522.BJ",
+    "quarterly": true
+  },
+  "retrievedAt": "2026-10-10T07:24:00.345569+00:00",
+  "isError": false,
+  "data": {
+    "symbol": "920522.BJ",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

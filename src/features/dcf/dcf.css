@@ -1,7 +1,4 @@
 .dcf-page {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 28px 20px 80px;
   color: var(--text-primary);
 }
 .dcf-page h1 {
@@ -271,3 +268,8 @@
   font-size: 0.85rem;
   line-height: 1.6;
 }
+
+.dcf-gap { margin-top: 14px; }
+.dcf-gap-sm { margin-top: 8px; }
+.dcf-sens__swatch.is-high { background: color-mix(in srgb, var(--up) 30%, transparent); }
+.dcf-sens__swatch.is-low { background: color-mix(in srgb, var(--down) 30%, transparent); }

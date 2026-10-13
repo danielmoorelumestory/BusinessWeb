@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "TME",
+      "TMO",
+      "TMUS",
+      "TPL",
+      "TPR",
+      "TRGP",
+      "TRI",
+      "TRMB",
+      "TROW",
+      "TRV",
+      "TSCO",
+      "TSLA"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:43.729999+00:00",
+  "retrievedAt": "2026-10-13T08:52:47.094956+00:00",
+  "data": {
+    "symbols": [
+      "TME",
+      "TMO",
+      "TMUS",
+      "TPL",
+      "TPR",
+      "TRGP",
+      "TRI",
+      "TRMB",
+      "TROW",
+      "TRV",
+      "TSCO",
+      "TSLA"
+    ],
+    "results": {
+      "TME": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TMO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TMUS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TPL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TPR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TRGP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TRI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TRMB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TROW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TRV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TSCO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TSLA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

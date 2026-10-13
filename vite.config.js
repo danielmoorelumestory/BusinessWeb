@@ -4,6 +4,7 @@ import { marketMiddleware } from './server/market.mjs'
 import { macroMiddleware } from './server/macro.mjs'
 import { indexesMiddleware } from './server/indexes.mjs'
 import { sentimentMiddleware } from './server/sentiment.mjs'
+import { dailyAnalysisMiddleware } from './server/daily-analysis.mjs'
 
 // 本地开发（vite dev，非测试）：把 /note/ 代理到本机的 notes-site 开发服务器，入口就和线上一样留在本站同域。
 // 先运行 npm run dev:notes（构建并预览 notes-site，端口 4322；Astro 开发服务器的脚本在根路径，不能挂在 /note 下，所以用构建产物，改了 notes 代码需重跑），再运行 npm run dev。
@@ -15,7 +16,8 @@ export default defineConfig(({ command, mode }) => {
   plugins: [react(), { name: 'businessweb-market-api', configureServer(server) { server.middlewares.use(marketMiddleware) } },
     { name: 'businessweb-macro-api', configureServer(server) { server.middlewares.use(macroMiddleware) } },
     { name: 'businessweb-indexes-api', configureServer(server) { server.middlewares.use(indexesMiddleware) } },
-    { name: 'businessweb-sentiment-api', configureServer(server) { server.middlewares.use(sentimentMiddleware) } }],
+    { name: 'businessweb-sentiment-api', configureServer(server) { server.middlewares.use(sentimentMiddleware) } },
+    { name: 'businessweb-daily-analysis-api', configureServer(server) { server.middlewares.use(dailyAnalysisMiddleware) } }],
   base: process.env.VITE_BASE_PATH || '/',
   define: {
     __BUILD_TIME__: JSON.stringify(new Date().toLocaleString('zh-CN', { 

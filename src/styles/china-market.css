@@ -1,0 +1,27 @@
+.china-market-charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-bottom: var(--space-5); }
+.china-chart { min-width: 0; }
+.china-chart__toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.china-chart__periods { display: flex; gap: 2px; padding: 3px; background: var(--bg-secondary); border-radius: var(--radius-md); }
+.china-chart__periods button { min-height: 34px; padding: 4px 12px; border: 1px solid transparent; border-radius: var(--radius-sm); background: transparent; color: var(--text-secondary); cursor: pointer; font: inherit; font-size: .8rem; }
+.china-chart__periods button[aria-pressed="true"] { background: var(--bg-card); color: var(--text-primary); border-color: var(--border-subtle); font-weight: 600; }
+.china-chart__range, .china-chart__unit { font-size: .75rem; color: var(--text-secondary); }
+.china-chart__range select { min-height: 32px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-primary); font: inherit; padding: 0 5px; }
+.china-chart__unit { margin-left: auto; }
+.china-chart__readout { display: flex; flex-direction: column; gap: 6px; min-height: 55px; font-size: .8rem; font-variant-numeric: tabular-nums; }
+.china-chart__readout small { color: var(--text-tertiary); }
+.china-chart__readout strong { font-size: 1.15rem; }
+.china-chart__ohlc { line-height: 1.7; }
+.china-chart__plot { display: block; width: 100%; min-height: 180px; overflow: visible; }
+.china-chart__plot text { fill: var(--text-secondary); font-size: 12px; font-variant-numeric: tabular-nums; }
+.china-chart__gridline { stroke: var(--border-subtle); stroke-dasharray: 3 4; }
+.china-chart__crosshair { stroke: var(--text-tertiary); stroke-dasharray: 3 3; pointer-events: none; }
+.china-chart__up { color: var(--up); }
+.china-chart__down { color: var(--down); }
+.china-chart__volume { color: var(--accent); }
+.china-chart__scrub { display: flex; gap: 10px; align-items: center; font-size: .75rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.china-chart__scrub input { flex: 1; min-width: 40px; accent-color: var(--accent); min-height: 32px; cursor: pointer; }
+.china-chart__foot { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; color: var(--text-tertiary); font-size: .7rem; line-height: 1.6; }
+.china-chart__status { min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-secondary); font-size: .85rem; }
+.china-chart button:focus-visible, .china-chart select:focus-visible, .china-chart input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 960px) { .china-market-charts { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .china-chart__periods button { padding-inline: 10px; } .china-chart__unit { margin-left: 0; } .china-chart__readout { font-size: .75rem; } }

@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "LLY",
+      "LMT",
+      "LNT",
+      "LOW",
+      "LRCX",
+      "LULU",
+      "LUV",
+      "LVS",
+      "LYB",
+      "LYC.AX",
+      "LYG",
+      "LYV"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:27.107646+00:00",
+  "retrievedAt": "2026-10-13T08:52:30.766281+00:00",
+  "data": {
+    "symbols": [
+      "LLY",
+      "LMT",
+      "LNT",
+      "LOW",
+      "LRCX",
+      "LULU",
+      "LUV",
+      "LVS",
+      "LYB",
+      "LYC.AX",
+      "LYG",
+      "LYV"
+    ],
+    "results": {
+      "LLY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LMT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LNT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LOW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LRCX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LULU": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LUV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LVS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LYB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LYC.AX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LYG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LYV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

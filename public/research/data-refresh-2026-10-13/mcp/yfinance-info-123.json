@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "HOOD",
+      "HPE",
+      "HPQ",
+      "HRL",
+      "HSAI",
+      "HSBC",
+      "HSIC",
+      "HST",
+      "HSY",
+      "HTHT",
+      "HUBB",
+      "HUM"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:20.369809+00:00",
+  "retrievedAt": "2026-10-13T08:52:23.941998+00:00",
+  "data": {
+    "symbols": [
+      "HOOD",
+      "HPE",
+      "HPQ",
+      "HRL",
+      "HSAI",
+      "HSBC",
+      "HSIC",
+      "HST",
+      "HSY",
+      "HTHT",
+      "HUBB",
+      "HUM"
+    ],
+    "results": {
+      "HOOD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HPE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HPQ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HRL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HSAI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HSBC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HSIC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HST": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HSY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HTHT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HUBB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HUM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

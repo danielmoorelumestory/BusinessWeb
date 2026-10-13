@@ -111,6 +111,8 @@ export const thresholdText = (ind: Indicator<string>, unit: string): string => {
 }
 
 export interface SeriesData {
+  checkedAt?: string
+  refreshStatus?: string
   fred?: string
   source?: string
   unit: string
@@ -124,6 +126,7 @@ export interface SeriesData {
 }
 
 export interface MacroSnapshot<K extends string = SeriesKey> {
+  checkedAt?: string
   generatedAt: string
   /** 实时刷新时才有：精确到秒的拉取时间 */
   fetchedAt?: string

@@ -159,3 +159,6 @@
 .macro-val__row:hover { background: color-mix(in srgb, var(--text-primary) 4%, transparent); }
 .macro-val__row.is-open { background: color-mix(in srgb, var(--text-primary) 6%, transparent); }
 @media (prefers-reduced-motion: reduce) { .macro-val__chev { transition: none; } }
+
+/* 卡片标题行里的链接：触控目标不小于 32px */
+.macro-card__head a { display: inline-flex; align-items: center; min-height: 32px; }

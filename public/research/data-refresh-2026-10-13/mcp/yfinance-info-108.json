@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "CDNS",
+      "CDW",
+      "CEG",
+      "CF",
+      "CFG",
+      "CGNX",
+      "CHD",
+      "CHPT",
+      "CHRW",
+      "CHTR",
+      "CI",
+      "CIEN"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:08.680042+00:00",
+  "retrievedAt": "2026-10-13T08:52:11.961693+00:00",
+  "data": {
+    "symbols": [
+      "CDNS",
+      "CDW",
+      "CEG",
+      "CF",
+      "CFG",
+      "CGNX",
+      "CHD",
+      "CHPT",
+      "CHRW",
+      "CHTR",
+      "CI",
+      "CIEN"
+    ],
+    "results": {
+      "CDNS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CDW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CEG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CFG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CGNX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CHD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CHPT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CHRW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CHTR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CIEN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

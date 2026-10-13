@@ -1,0 +1,187 @@
+[
+  {
+    "name": "stock_financial_abstract_ths",
+    "title": "Stock Financial Abstract Ths",
+    "description": "同花顺-财务指标-主要指标\nhttps://basic.10jqka.com.cn/new/000063/finance.html",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "000063",
+          "type": "string",
+          "description": "股票代码"
+        },
+        "indicator": {
+          "default": "按报告期",
+          "type": "string",
+          "description": "指标；choice of {\"按报告期\", \"按年度\", \"按单季度\"}"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_hk_financial_indicator_em",
+    "title": "Stock Hk Financial Indicator Em",
+    "description": "东方财富-港股-核心必读-最新指标\nhttps://emweb.securities.eastmoney.com/PC_HKF10/pages/home/index.html?code=03900&type=web&color=w#/CoreReading",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "03900",
+          "type": "string",
+          "description": "股票代码"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_individual_info_em",
+    "title": "Stock Individual Info Em",
+    "description": "东方财富-个股-股票信息\nhttps://quote.eastmoney.com/concept/sh603777.html?from=classic",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "603777",
+          "type": "string",
+          "description": "股票代码"
+        },
+        "timeout": {
+          "default": null,
+          "type": "number",
+          "description": "choice of None or a positive float number"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_news_em",
+    "title": "Stock News Em",
+    "description": "东方财富-个股新闻-最近 100 条新闻\nhttps://so.eastmoney.com/news/s?keyword=603777",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "603777",
+          "type": "string",
+          "description": "股票代码"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_notice_report",
+    "title": "Stock Notice Report",
+    "description": "东方财富网-数据中心-公告大全-沪深京 A 股公告\nhttps://data.eastmoney.com/notices/hsa/5.html",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "全部",
+          "type": "string",
+          "description": "报告类型；choice of {\"全部\", \"重大事项\", \"财务报告\", \"融资公告\", \"风险提示\", \"资产重组\", \"信息变更\", \"持股变动\"}"
+        },
+        "date": {
+          "default": "20220511",
+          "type": "string",
+          "description": "制定日期"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_zh_a_hist_tx",
+    "title": "Stock Zh A Hist Tx",
+    "description": "腾讯证券-日频-股票历史数据\nhttps://gu.qq.com/sh000919/zs",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "sz000001",
+          "type": "string",
+          "description": "带市场标识的股票或者指数代码"
+        },
+        "start_date": {
+          "default": "19000101",
+          "type": "string",
+          "description": "开始日期"
+        },
+        "end_date": {
+          "default": "20500101",
+          "type": "string",
+          "description": "结束日期"
+        },
+        "adjust": {
+          "default": "",
+          "type": "string",
+          "description": "choice of {\"qfq\": \"前复权\", \"hfq\": \"后复权\", \"\": \"不复权\"}"
+        },
+        "timeout": {
+          "default": null,
+          "type": "number",
+          "description": "choice of None or a positive float number"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  }
+]

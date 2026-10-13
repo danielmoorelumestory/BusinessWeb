@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_income_statement",
+  "arguments": {
+    "symbol": "SQM",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:53:14.279979+00:00",
+  "retrievedAt": "2026-10-13T08:53:14.812067+00:00",
+  "data": {
+    "symbol": "SQM",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "天科合达",
+      "小鹏汇天",
+      "峰飞航空",
+      "本源量子",
+      "清陶能源",
+      "脑虎科技",
+      "蓝箭航天",
+      "长江存储",
+      "长鑫存储"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:49.847380+00:00",
+  "retrievedAt": "2026-10-13T08:52:52.329044+00:00",
+  "data": {
+    "symbols": [
+      "天科合达",
+      "小鹏汇天",
+      "峰飞航空",
+      "本源量子",
+      "清陶能源",
+      "脑虎科技",
+      "蓝箭航天",
+      "长江存储",
+      "长鑫存储"
+    ],
+    "results": {
+      "天科合达": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "小鹏汇天": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "峰飞航空": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "本源量子": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "清陶能源": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "脑虎科技": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "蓝箭航天": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "长江存储": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "长鑫存储": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

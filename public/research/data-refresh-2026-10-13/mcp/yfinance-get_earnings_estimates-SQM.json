@@ -1,0 +1,13 @@
+{
+  "server": "yfinance",
+  "tool": "get_earnings_estimates",
+  "arguments": {
+    "symbol": "SQM"
+  },
+  "requestedAt": "2026-10-13T08:53:14.436156+00:00",
+  "retrievedAt": "2026-10-13T08:53:14.807944+00:00",
+  "data": {
+    "error": "Too Many Requests. Rate limited. Try after a while.",
+    "symbol": "SQM"
+  }
+}

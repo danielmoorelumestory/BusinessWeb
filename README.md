@@ -11,6 +11,7 @@
 - **网格交易**：由 notes 站点的网格交易计算器提供（`notes-site/`，部署后在 `/note/lab/grid-trading/`），包含回测、已保存标的、详情与分钟线；云同步走自己的 Cloudflare Worker + D1，不依赖 Supabase。主站旧的 `/grid-trading*` 路径会跳转到那里（Cloudflare 上 302，其他构建显示迁移说明）。
 - **AI 投研**：项目自带统一股票分析与交易分析 skill（见 [AI 投研 skills](#ai-投研-skills)），支持深度研究、圆桌观点与交易风险分析。
 - **多市场数据**：通过 MCP（yahoo-finance、baostock）和 `src/services/api.ts` 的本地封装，覆盖美股行情、A 股行情、ETF 实时数据、AkShare 数据字典。
+- **每日分析**：`/daily-analysis` 自动获取 A 股指数、涨跌停、连板梯队和榜单，保存交易日快照；原手工记录保留在「历史旧版」。数据口径与定时归档见[每日分析说明](docs/daily-analysis.md)。
 
 栈：React 18 · Vite 5 · TypeScript · React Router 6 · Vitest · Node 24。
 
@@ -59,6 +60,22 @@ npm run build
 ```
 
 `typecheck` 覆盖新增的 notes 入口组件、估值与同步服务端；历史页面暂不在该检查范围内。`test:functions` 检查接口处理函数的加载与未配置时的响应。
+
+## Orca 开发团队 dev_team
+
+项目内置 [dev-team 技能](.agents/skills/dev-team/SKILL.md)：当前 agent 作为唯一管理入口，通过 Orca 协调 Codex、Claude、Kimi、Antigravity 与 OpenCode MiniMax M3。Android、Web 前端、后端分别生成需求、设计与测试流程，全栈按契约组织并行；按场景加载文档，支持额度不足时交接与替补。
+
+在项目对话中输入 `$dev-team <开发目标>`（Claude Code 用 `/dev-team`，Kimi 用 `/skill:dev-team`）。网站「AI 实验室 › AI 工具 / Skill / Agent」与「AI 工具 › 开发协作」提供介绍、提示词、安装说明和下载入口。[操作与迁移说明](.agents/skills/dev-team/references/operations.md) 包含初始化、路由、真实派工、M3 兼容启动和恢复步骤。可分享 [独立 ZIP 包](public/ai-skills/dev-team.zip)，解压后在其他项目安装：
+
+```bash
+node /path/to/dev-team/scripts/dev-team.mjs init --project /path/to/other-project
+```
+
+依赖 Node 20+、支持 orchestration 的 Orca 和至少一个可用执行器；需在 Orca 打开目标项目后派工。当前网站下载包包含 `dev-team/` 与独立 [README 使用说明](src/content/dev-team-README.md)，介绍自检、项目配置、日常操作与验证范围。网站 `/ai/dev-team` 渲染完整说明，并提供 ZIP 与 Markdown 原文下载；旧原文阅读链接转向网页说明。`pack` 仅输出技能本体，更新网站下载包时需同时保留独立 README；项目运行记录与凭据不随包发布。
+
+## 无货源电商实施方案
+
+AI 实验室的 `/ai/dropshipping` 提供一件代发模式说明、30 天试验步骤、交互利润测算和订单记账模板。正文维护在 [src/content/dropshipping-strategy.md](src/content/dropshipping-strategy.md)，预算与首页摘要维护在 `src/data/aiLab.ts`；平台规则引用官方资料并标注核对日期。页面保持“未开始”，实际经营后再更新实验日志。
 
 ## AI 投研 skills
 
@@ -110,6 +127,7 @@ npm run build
 
 ## 相关文档
 
+- [docs/data-maintenance.md](docs/data-maintenance.md) — 数据过期盘点、更新台账、维护周期与验收方法
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — 云同步（D1）与评论（Supabase）配置
 - [docs/AKSHARE.md](docs/AKSHARE.md) — AKTools 接入
 - [docs/design/ETF_GRID_TRADING.md](docs/design/ETF_GRID_TRADING.md) — 网格交易设计

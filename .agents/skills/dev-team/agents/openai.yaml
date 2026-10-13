@@ -1,0 +1,4 @@
+interface:
+  display_name: "dev_team · Orca 开发团队"
+  short_description: "以一个管理入口协调多家执行器，完成 Android、前端与后端开发并支持额度接力"
+  default_prompt: "使用 $dev-team 在当前项目中组织开发团队，按平台拆分任务并通过 Orca 派工、审查和验收。"

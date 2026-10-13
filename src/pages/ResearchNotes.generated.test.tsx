@@ -35,7 +35,7 @@ const renderAt = (path: string): void => {
 
 describe('补全公司：研究笔记列表与详情', () => {
   it('圆桌复核同时覆盖手工与异步补全，撤回未验证的达标标签', async () => {
-    expect(findCompany('us', 'PEP')?.headline).toContain('基准赔率未达标')
+    expect(findCompany('us', 'PEP')?.headline).toContain('2026Q3 已披露')
     const list = await loadCompanies('us')
     for (const code of ['ZTS', 'SPGI', 'CVS', 'AES', 'CINF', 'OMC', 'UHS']) {
       const company = list.find(c => c.code === code)
@@ -43,7 +43,7 @@ describe('补全公司：研究笔记列表与详情', () => {
       expect(company?.scenarios || []).toHaveLength(0)
       expect(company?.metrics.some(([key]) => key === '上轮结论（存档）')).toBe(true)
     }
-    expect(list.find(c => c.code === 'PEP')?.ratioNote).toContain('0.73')
+    expect(list.find(c => c.code === 'PEP')?.ratioNote).toContain('已撤回')
     for (const code of ['MSFT', 'NVDA', 'ORCL']) {
       expect(list.find(c => c.code === code)?.metrics.some(([key]) => key === '本轮一手现金流证据')).toBe(true)
     }

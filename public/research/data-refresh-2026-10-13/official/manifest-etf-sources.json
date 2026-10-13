@@ -1,0 +1,103 @@
+{
+  "checkedAt": "2026-10-13T09:19:54Z",
+  "timezone": "UTC",
+  "files": [
+    {
+      "file": "510300-2026H1-official.pdf",
+      "sha256": "b77ce47ece834f968b085c6823c72ffaa635f82d80793cc6c2ebafce301221c5",
+      "bytes": 2323200,
+      "checkedAt": "2026-10-13T09:19:54Z",
+      "source": "https://www.huatai-pb.com/upload/pdf/1787926200985-154-1kz36weu05hur.pdf",
+      "kind": "issuer-report-original",
+      "publishedAt": "2026-08-29",
+      "reportPeriodEnd": "2026-06-30",
+      "pdfPages": 67,
+      "holderSectionPrintedPages": [
+        59,
+        60
+      ],
+      "holderSectionPdfPages": [
+        59,
+        60
+      ],
+      "namedTop10HoldersAvailable": false,
+      "note": "本期§8只有机构/个人/联接等匿名结构，未取得国家队实名份额；缺失不代表零持有。"
+    },
+    {
+      "file": "510500-2026H1-official.pdf",
+      "sha256": "01136d5f27e09722b45876afe96bc30070635b76495c95d656b0c34b44a07861",
+      "bytes": 542690,
+      "checkedAt": "2026-10-13T09:19:54Z",
+      "source": "https://www.nffund.com/main/files/2026/08/28/223078883675.pdf",
+      "kind": "issuer-report-original",
+      "publishedAt": "2026-08-31",
+      "reportPeriodEnd": "2026-06-30",
+      "pdfPages": 67,
+      "holderSectionPrintedPages": [
+        60,
+        61
+      ],
+      "holderSectionPdfPages": [
+        61,
+        62
+      ],
+      "namedTop10HoldersAvailable": false,
+      "note": "本期§8只有机构/个人/联接等匿名结构，未取得国家队实名份额；缺失不代表零持有。"
+    },
+    {
+      "file": "510050-2026H1-official.pdf",
+      "sha256": "ca53e166e98ef4ba2d9c8cc8f392feff83ca19baa83e20353ded9b9de99b1280",
+      "bytes": 1384365,
+      "checkedAt": "2026-10-13T09:19:54Z",
+      "source": "https://www.chinaamc.com/upload/resources/file/2026/08/31/6986d7fe7403476986686b75f048986d.pdf",
+      "kind": "issuer-report-original",
+      "publishedAt": "2026-08-31",
+      "reportPeriodEnd": "2026-06-30",
+      "pdfPages": 51,
+      "holderSectionPrintedPages": [
+        47
+      ],
+      "holderSectionPdfPages": [
+        47
+      ],
+      "namedTop10HoldersAvailable": false,
+      "note": "本期§8只有机构/个人/联接等匿名结构，未取得国家队实名份额；缺失不代表零持有。"
+    },
+    {
+      "file": "qqq-holdings-official-2026-10-09.json",
+      "sha256": "3b7ebbc964a48f1067710fa73312848c75944b192dca09962f40fb9410ba06ec",
+      "bytes": 30302,
+      "checkedAt": "2026-10-13T09:19:54Z",
+      "source": "https://dng-api.invesco.com/cache/v1/accounts/en_US/shareclasses/QQQ/holdings/fund?idType=ticker&interval=monthly&productType=ETF",
+      "kind": "issuer-daily-holdings-original",
+      "sourcePage": "https://www.invesco.com/qqq-etf/en/about.html",
+      "effectiveBusinessDate": "2026-10-09",
+      "effectiveDate": "2026-10-10",
+      "rawHoldingCount": 106,
+      "note": "发行人官网data-holding-api公开接口；monthly与daily参数返回相同有效业务日，不能把参数名当观测频率。QQQ权益持仓是指数名单代理，非Nasdaq GIW成员导出。"
+    },
+    {
+      "file": "qqq-equity-members-2026-10-09.json",
+      "sha256": "baf3f63f1765c55846c67ee98150867106ea5323adfa1d0c151b8cd9122ea640",
+      "bytes": 21528,
+      "checkedAt": "2026-10-13T09:19:54Z",
+      "kind": "derived-equity-proxy-list",
+      "source": "https://dng-api.invesco.com/cache/v1/accounts/en_US/shareclasses/QQQ/holdings/fund?idType=ticker&interval=monthly&productType=ETF",
+      "asOf": "2026-10-09"
+    }
+  ],
+  "nasdaqPublicApiAttempt": {
+    "source": "https://api.nasdaq.com/api/nasdaq100list",
+    "status": "HTTP 404"
+  },
+  "changesToSourceCode": false,
+  "qqqComparison": {
+    "comparedLocalFile": "src/data/ndx100.ts",
+    "comparedLocalSha256": "23d01115d774e807b91e260577281749de1d63fc2a7e61c75759c9c6db40fdd1",
+    "oldSecurityCount": 100,
+    "added": [
+      "MRNA"
+    ],
+    "removed": []
+  }
+}

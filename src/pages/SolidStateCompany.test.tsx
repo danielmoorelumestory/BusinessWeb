@@ -15,7 +15,7 @@ describe('固态电池公司二级研究页', () => {
     expect(screen.getByRole('heading', { level: 1, name: '先导智能' })).toBeTruthy()
     expect(screen.getByRole('heading', { name: '季度趋势 · 金额为财报币种的亿' })).toBeTruthy()
     expect(screen.getAllByText('81.89 亿').length).toBeGreaterThan(0)
-    expect(screen.getByRole('heading', { name: 'EPS × PE 敏感性（不属于第二种独立估值）' })).toBeTruthy()
+    expect(screen.queryByRole('heading', { name: 'EPS × PE 敏感性（不属于第二种独立估值）' })).toBeNull()
     expect(screen.getByRole('button', { name: '下载本公司研究 JSON' })).toBeTruthy()
     fireEvent.click(screen.getByRole('link', { name: '← 返回固态电池专题' }))
     expect(screen.getByRole('tab', { name: '固态电池' }).getAttribute('aria-selected')).toBe('true')

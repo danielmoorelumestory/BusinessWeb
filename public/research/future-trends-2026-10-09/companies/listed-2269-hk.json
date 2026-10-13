@@ -7,18 +7,18 @@
   "depth": "逐家初筛／既有研究复核，未认证",
   "rating": "观察／等待估值证据",
   "headline": "既有研究待核：H1 营收 117.9 亿（+18%），归母 24.40 亿（+4%），毛利率 46.2%；52 周 28.48–58。",
-  "price": 53.4,
-  "priceText": "HKD 53.40",
-  "priceDate": "2026/10/09 15:01:06",
+  "price": 51.25,
+  "priceText": "HKD 51.25",
+  "priceDate": "2026-10-13T16:08:29+08:00",
   "currency": "HKD",
   "ratio": null,
   "up": null,
   "down": null,
   "threshold": null,
   "breakEven": null,
-  "winRate": "[MISSING] 未经历史样本校准；不沿用固定 45% / 50%",
+  "winRate": "[MISSING] 未取得可校准的情景概率",
   "expected": null,
-  "valuationStatus": "旧程序化赔率撤回；公司级估值待补",
+  "valuationStatus": "旧程序化赔率撤回；公司级估值待补；行情刷新不等于重估，旧情景未重新认证",
   "primaryTrend": "创新药",
   "riskGroup": "创新药",
   "core": false,
@@ -26,6 +26,11 @@
   "concern": "归母仅 +4.3%；美国生物安全法案；PE 43× 处 52 周高位。",
   "certainty": "待核",
   "sources": [
+    {
+      "title": "本轮行情原始证据",
+      "url": "/research/data-refresh-2026-10-13/tencent-quotes.json",
+      "status": "行情 2026-10-13T16:08:29+08:00；核验 2026-10-13T08:49:25.018273+00:00；腾讯延迟行情，不代表财报或模型已重估"
+    },
     {
       "title": "腾讯延迟行情原始快照",
       "url": "https://qt.gtimg.cn/q=sh688165,sz002896,sh603667,sz301413,bj873593,sh603259,usONC,hk01801,hk03692,hk02269,hk09926,hk09995,hk06990,usLEGN,sh688506,sh600276,hk01177,hk01093,sh688185,hk01530,sz300759,hk01548,sz002821,sh688114,usHCM,sz300347,hk02126,sz300122,sh688238,sh600893",
@@ -80,11 +85,15 @@
   "metrics": [
     [
       "本次价格",
-      "HKD 53.40"
+      "HKD 51.25"
     ],
     [
       "价格时间",
-      "2026/10/09 15:01:06"
+      "2026-10-13T16:08:29+08:00"
+    ],
+    [
+      "行情核验时间",
+      "2026-10-13T08:49:25.018273+00:00；来源 research/data-refresh-2026-10-13/tencent-quotes.json；研究与模型仍为 2026-10-09"
     ],
     [
       "一手事实摘录",
@@ -268,5 +277,9 @@
   "prior": [
     "旧资料只作审计轨迹，不沿用旧买入评级：观察（事实已复核，估值待证）：经营毛利改善未等比例转化净利，处置、融资及调整项目需桥接。",
     "旧程序化输入：public/research/future-trends-2026-10-09/input-pool.json；其中旧赔率与固定胜率已撤回。"
-  ]
+  ],
+  "priceCheckedAt": "2026-10-13T08:49:25.018273+00:00",
+  "priceSource": "research/data-refresh-2026-10-13/tencent-quotes.json",
+  "modelAsOf": "2026-10-09",
+  "marketRefreshStatus": "行情已刷新；原研究模型未重估，不认证买入或胜率"
 }

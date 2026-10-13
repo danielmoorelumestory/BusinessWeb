@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "MBG.DE",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:53:19.666004+00:00",
+  "retrievedAt": "2026-10-13T08:53:20.193645+00:00",
+  "data": {
+    "symbol": "MBG.DE",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

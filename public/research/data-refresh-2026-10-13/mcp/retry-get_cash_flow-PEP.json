@@ -1,0 +1,676 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "PEP",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T09:23:23.027858+00:00",
+  "retrievedAt": "2026-10-13T09:23:23.258905+00:00",
+  "data": {
+    "symbol": "PEP",
+    "type": "quarterly",
+    "data": {
+      "columns": [
+        "2026-06-30T00:00:00",
+        "2026-03-31T00:00:00",
+        "2025-12-31T00:00:00",
+        "2025-09-30T00:00:00",
+        "2025-06-30T00:00:00",
+        "2025-03-31T00:00:00"
+      ],
+      "indexName": null,
+      "rows": [
+        {
+          "metric": "Free Cash Flow",
+          "values": [
+            1505000000.0,
+            -406000000.0,
+            4703000000.0,
+            3480000000.0,
+            1065000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Repurchase Of Capital Stock",
+          "values": [
+            -297000000.0,
+            -182000000.0,
+            -248000000.0,
+            -258000000.0,
+            -311000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Repayment Of Debt",
+          "values": [
+            -1666000000.0,
+            -2305000000.0,
+            -3340000000.0,
+            -3627000000.0,
+            -1375000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Issuance Of Debt",
+          "values": [
+            2133000000.0,
+            6099000000.0,
+            1598000000.0,
+            2942000000.0,
+            3676000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Capital Expenditure",
+          "values": [
+            -819000000.0,
+            -447000000.0,
+            -1916000000.0,
+            -992000000.0,
+            -904000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "End Cash Position",
+          "values": [
+            10303000000.0,
+            10551000000.0,
+            9204000000.0,
+            8171000000.0,
+            7712000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Beginning Cash Position",
+          "values": [
+            10551000000.0,
+            9204000000.0,
+            8171000000.0,
+            7712000000.0,
+            8319000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Effect Of Exchange Rate Changes",
+          "values": [
+            135000000.0,
+            121000000.0,
+            27000000.0,
+            -27000000.0,
+            219000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Changes In Cash",
+          "values": [
+            -383000000.0,
+            1226000000.0,
+            1006000000.0,
+            486000000.0,
+            -826000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Financing Cash Flow",
+          "values": [
+            -1792000000.0,
+            1662000000.0,
+            -3971000000.0,
+            -2876000000.0,
+            100000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Cash Flow From Continuing Financing Activities",
+          "values": [
+            -1792000000.0,
+            1662000000.0,
+            -3971000000.0,
+            -2876000000.0,
+            100000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Other Financing Charges",
+          "values": [
+            -20000000.0,
+            -77000000.0,
+            -56000000.0,
+            -2000000.0,
+            -37000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Proceeds From Stock Option Exercised",
+          "values": [
+            6000000.0,
+            93000000.0,
+            21000000.0,
+            18000000.0,
+            8000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Cash Dividends Paid",
+          "values": [
+            -1948000000.0,
+            -1966000000.0,
+            -1946000000.0,
+            -1949000000.0,
+            -1861000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Common Stock Dividend Paid",
+          "values": [
+            -1948000000.0,
+            -1966000000.0,
+            -1946000000.0,
+            -1949000000.0,
+            -1861000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Common Stock Issuance",
+          "values": [
+            -297000000.0,
+            -182000000.0,
+            -248000000.0,
+            -258000000.0,
+            -311000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Common Stock Payments",
+          "values": [
+            -297000000.0,
+            -182000000.0,
+            -248000000.0,
+            -258000000.0,
+            -311000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Issuance Payments Of Debt",
+          "values": [
+            467000000.0,
+            3794000000.0,
+            -1742000000.0,
+            -685000000.0,
+            2301000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Short Term Debt Issuance",
+          "values": [
+            1049000000.0,
+            2459000000.0,
+            -915000000.0,
+            -4641000000.0,
+            3287000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Short Term Debt Payments",
+          "values": [
+            -1074000000.0,
+            -676000000.0,
+            -2503000000.0,
+            -2925000000.0,
+            -373000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Short Term Debt Issuance",
+          "values": [
+            2123000000.0,
+            3135000000.0,
+            1588000000.0,
+            -1716000000.0,
+            3660000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Long Term Debt Issuance",
+          "values": [
+            -582000000.0,
+            1335000000.0,
+            -827000000.0,
+            3956000000.0,
+            -986000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Long Term Debt Payments",
+          "values": [
+            -592000000.0,
+            -1629000000.0,
+            -837000000.0,
+            -702000000.0,
+            -1002000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Long Term Debt Issuance",
+          "values": [
+            10000000.0,
+            2964000000.0,
+            10000000.0,
+            4658000000.0,
+            16000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Investing Cash Flow",
+          "values": [
+            -915000000.0,
+            -477000000.0,
+            -1642000000.0,
+            -1110000000.0,
+            -2895000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Cash Flow From Continuing Investing Activities",
+          "values": [
+            -915000000.0,
+            -477000000.0,
+            -1642000000.0,
+            -1110000000.0,
+            -2895000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Other Investing Changes",
+          "values": [
+            0.0,
+            19000000.0,
+            17000000.0,
+            -11000000.0,
+            -104000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Investment Purchase And Sale",
+          "values": [
+            -73000000.0,
+            5000000.0,
+            182000000.0,
+            -169000000.0,
+            6000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Sale Of Investment",
+          "values": [
+            8000000.0,
+            14000000.0,
+            182000000.0,
+            21000000.0,
+            6000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Purchase Of Investment",
+          "values": [
+            -81000000.0,
+            -9000000.0,
+            0.0,
+            -190000000.0,
+            null,
+            null
+          ]
+        },
+        {
+          "metric": "Net Business Purchase And Sale",
+          "values": [
+            -81000000.0,
+            -67000000.0,
+            -181000000.0,
+            -41000000.0,
+            -1930000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Sale Of Business",
+          "values": [
+            null,
+            null,
+            34000000.0,
+            0.0,
+            3000000.0,
+            2000000.0
+          ]
+        },
+        {
+          "metric": "Purchase Of Business",
+          "values": [
+            -81000000.0,
+            -67000000.0,
+            -215000000.0,
+            -46000000.0,
+            -1930000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net PPE Purchase And Sale",
+          "values": [
+            58000000.0,
+            13000000.0,
+            256000000.0,
+            103000000.0,
+            37000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Sale Of PPE",
+          "values": [
+            58000000.0,
+            13000000.0,
+            256000000.0,
+            103000000.0,
+            37000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Capital Expenditure Reported",
+          "values": [
+            -819000000.0,
+            -447000000.0,
+            -1916000000.0,
+            -992000000.0,
+            -904000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Operating Cash Flow",
+          "values": [
+            2324000000.0,
+            41000000.0,
+            6619000000.0,
+            4472000000.0,
+            1969000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Cash Flow From Continuing Operating Activities",
+          "values": [
+            2324000000.0,
+            41000000.0,
+            6619000000.0,
+            4472000000.0,
+            1969000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Taxes Refund Paid",
+          "values": [
+            null,
+            null,
+            0.0,
+            0.0,
+            null,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Working Capital",
+          "values": [
+            -850000000.0,
+            -2967000000.0,
+            2415000000.0,
+            344000000.0,
+            -1093000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Payables And Accrued Expense",
+          "values": [
+            829000000.0,
+            -1716000000.0,
+            531000000.0,
+            27000000.0,
+            780000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Payable",
+          "values": [
+            829000000.0,
+            -1716000000.0,
+            531000000.0,
+            27000000.0,
+            780000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Account Payable",
+          "values": [
+            647000000.0,
+            -1847000000.0,
+            970000000.0,
+            436000000.0,
+            588000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Tax Payable",
+          "values": [
+            182000000.0,
+            131000000.0,
+            -439000000.0,
+            -409000000.0,
+            192000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Income Tax Payable",
+          "values": [
+            182000000.0,
+            131000000.0,
+            -439000000.0,
+            -409000000.0,
+            192000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Prepaid Assets",
+          "values": [
+            135000000.0,
+            -406000000.0,
+            418000000.0,
+            131000000.0,
+            -47000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Inventory",
+          "values": [
+            -487000000.0,
+            -315000000.0,
+            299000000.0,
+            351000000.0,
+            -562000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Change In Receivables",
+          "values": [
+            -1327000000.0,
+            -530000000.0,
+            1167000000.0,
+            -165000000.0,
+            -1264000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Other Non Cash Items",
+          "values": [
+            -301000000.0,
+            -625000000.0,
+            -64000000.0,
+            -41000000.0,
+            -101000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Stock Based Compensation",
+          "values": [
+            69000000.0,
+            93000000.0,
+            81000000.0,
+            76000000.0,
+            54000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Asset Impairment Charge",
+          "values": [
+            0.0,
+            59000000.0,
+            -123000000.0,
+            122000000.0,
+            1945000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Deferred Tax",
+          "values": [
+            268000000.0,
+            226000000.0,
+            41000000.0,
+            290000000.0,
+            -371000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Deferred Income Tax",
+          "values": [
+            268000000.0,
+            226000000.0,
+            41000000.0,
+            290000000.0,
+            -371000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Depreciation Amortization Depletion",
+          "values": [
+            1082000000.0,
+            904000000.0,
+            1374000000.0,
+            998000000.0,
+            977000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Depreciation And Amortization",
+          "values": [
+            1082000000.0,
+            904000000.0,
+            1374000000.0,
+            998000000.0,
+            977000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Depreciation",
+          "values": [
+            1082000000.0,
+            904000000.0,
+            1374000000.0,
+            998000000.0,
+            977000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Operating Gains Losses",
+          "values": [
+            17000000.0,
+            13000000.0,
+            340000000.0,
+            65000000.0,
+            51000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Pension And Employee Benefit Expense",
+          "values": [
+            17000000.0,
+            13000000.0,
+            340000000.0,
+            65000000.0,
+            51000000.0,
+            null
+          ]
+        },
+        {
+          "metric": "Net Income From Continuing Operations",
+          "values": [
+            3004000000.0,
+            2338000000.0,
+            2555000000.0,
+            2618000000.0,
+            1279000000.0,
+            null
+          ]
+        }
+      ]
+    }
+  }
+}

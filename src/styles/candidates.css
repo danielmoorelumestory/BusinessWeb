@@ -1,0 +1,268 @@
+/* 候选池页：我的候选 + 研究筛出 */
+.cand-lead {
+  max-width: 46rem;
+  margin: 0 0 var(--space-4);
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.cand-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+}
+
+.cand-stats > div {
+  padding: 12px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.cand-stats dt {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.cand-stats dd {
+  margin: 4px 0 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.cand-stats dd small {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.cand-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: cand-step;
+}
+
+.cand-flow li {
+  position: relative;
+  padding: 10px 12px 10px 40px;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  counter-increment: cand-step;
+}
+
+.cand-flow li::before {
+  content: counter(cand-step);
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-ink);
+  color: var(--bg-card);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.cand-flow strong {
+  display: block;
+  color: var(--text-primary);
+}
+
+.cand-flow a {
+  color: var(--accent-ink);
+}
+
+/* 表格：公司、结论、进度三列 */
+.cand-table .cand-company {
+  min-width: 9rem;
+}
+
+.cand-table .cand-company small {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.cand-table .cand-verdict {
+  min-width: 12rem;
+  max-width: 18rem;
+}
+
+.cand-verdict strong {
+  display: block;
+  font-size: 0.82rem;
+}
+
+.cand-verdict span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.cand-progress-cell {
+  min-width: 10rem;
+}
+
+.cand-progress {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.6;
+}
+
+.cand-progress li + li {
+  margin-top: 4px;
+}
+
+.cand-progress li > span {
+  display: inline-block;
+  min-width: 2.6em;
+  margin-right: 4px;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}
+
+.cand-progress small {
+  display: block;
+  color: var(--text-tertiary, var(--text-secondary));
+  font-size: 0.7rem;
+}
+
+.cand-progress em {
+  font-style: normal;
+}
+
+.cand-progress .is-good {
+  color: var(--system-green);
+}
+
+.cand-progress .is-bad {
+  color: var(--system-red);
+}
+
+.cand-progress--empty {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.cand-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cand-tools .tool-btn {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cand-confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+}
+
+.cand-empty {
+  padding: var(--space-5) 0;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.cand-empty p {
+  margin: 0 0 6px;
+}
+
+.cand-foot {
+  margin: var(--space-3) 0 0;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+/* 研究筛出：每行的「加入我的池」 */
+.ft-row-action {
+  margin-top: 10px;
+}
+
+.cand-add {
+  min-height: 32px;
+  padding: 4px 10px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--accent-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.cand-add:hover {
+  background: var(--accent-soft);
+}
+
+.cand-add[aria-pressed='true'] {
+  border-color: transparent;
+  background: var(--accent-soft);
+}
+
+.cand-add--off {
+  display: inline-block;
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+.cand-add--off:hover {
+  background: var(--bg-card);
+}
+
+@media (max-width: 860px) {
+  .cand-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .cand-stats {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-2);
+  }
+
+  .cand-stats > div {
+    padding: 10px;
+  }
+
+  .cand-stats dd {
+    font-size: 1.2rem;
+  }
+
+  .cand-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .cand-add {
+    min-height: 40px;
+  }
+}

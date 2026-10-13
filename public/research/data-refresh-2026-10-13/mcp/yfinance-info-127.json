@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "JPM",
+      "KDP",
+      "KEY",
+      "KEYS",
+      "KHC",
+      "KIM",
+      "KKR",
+      "KLAC",
+      "KMB",
+      "KMI",
+      "KO",
+      "KR"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:23.942779+00:00",
+  "retrievedAt": "2026-10-13T08:52:27.231944+00:00",
+  "data": {
+    "symbols": [
+      "JPM",
+      "KDP",
+      "KEY",
+      "KEYS",
+      "KHC",
+      "KIM",
+      "KKR",
+      "KLAC",
+      "KMB",
+      "KMI",
+      "KO",
+      "KR"
+    ],
+    "results": {
+      "JPM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KDP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KEY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KEYS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KHC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KIM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KKR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KLAC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KMB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KMI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "KR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

@@ -21,6 +21,7 @@ export function solidCompanyReport(c: McpCompany) {
   const sources: Array<{ title: string; url: string; status: string }> = [
     { title: '产业格局原始树', url: 'industry/solid-state.json', status: `原目录只支持研究线索；${original?.path ?? c.origin}，不证明固态收入。` },
     ...c.listings.map(l => ({ title: `${l.symbol} · MCP 公司资料及行情`, url: l.source, status: `${l.retrievedAt ?? '抓取时间缺失'}；市场时间 ${l.marketTime ?? '[MISSING]'}；第三方数据需核实原文。` })),
+    ...(c.latestFinancialTables?.tables ?? []).map(t => ({ title: `本轮供应商单季表 · ${t.tool}`, url: t.source, status: `期间 ${t.latestProviderPeriod}；核验 ${t.checkedAt}；未覆盖已核H1原件控制值。` })),
     ...(f?.sources ?? []).map((url, i) => ({ title: f?.sourceKind === 'filing' ? '公司半年报原件摘录与字段出处' : ['MCP 利润表', 'MCP 资产负债表', 'MCP 现金流量表'][i], url, status: f?.sourceKind === 'filing' ? '摘要原件直接披露 H1 累计；非 MCP 数据，未取得资本支出与季度表。' : '供应商单季标准化；H1=Q1+Q2，资产负债表为6月末；部分指标原件核对见下。' })),
     ...(focus?.sources ?? []).filter(id => id !== 'mcp').map(id => { const s = SOURCES.find(s => s.id === id)!; return { title: s.title, url: s.url, status: `${s.date}；${s.status}` } }),
   ]

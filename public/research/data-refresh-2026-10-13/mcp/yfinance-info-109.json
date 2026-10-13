@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "CINF",
+      "CL",
+      "CLX",
+      "CMCSA",
+      "CME",
+      "CMG",
+      "CMI",
+      "CMS",
+      "CNC",
+      "CNI",
+      "CNP",
+      "COF"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:09.822471+00:00",
+  "retrievedAt": "2026-10-13T08:52:13.164844+00:00",
+  "data": {
+    "symbols": [
+      "CINF",
+      "CL",
+      "CLX",
+      "CMCSA",
+      "CME",
+      "CMG",
+      "CMI",
+      "CMS",
+      "CNC",
+      "CNI",
+      "CNP",
+      "COF"
+    ],
+    "results": {
+      "CINF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CLX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CMCSA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CME": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CMG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CMI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CMS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CNC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CNI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CNP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "COF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

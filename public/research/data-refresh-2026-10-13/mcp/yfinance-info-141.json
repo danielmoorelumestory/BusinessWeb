@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "QS",
+      "QUBT",
+      "RBLX",
+      "RCL",
+      "RDDT",
+      "REG",
+      "REGN",
+      "RF",
+      "RGEN",
+      "RGTI",
+      "RIO",
+      "RJF"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:37.268305+00:00",
+  "retrievedAt": "2026-10-13T08:52:40.342892+00:00",
+  "data": {
+    "symbols": [
+      "QS",
+      "QUBT",
+      "RBLX",
+      "RCL",
+      "RDDT",
+      "REG",
+      "REGN",
+      "RF",
+      "RGEN",
+      "RGTI",
+      "RIO",
+      "RJF"
+    ],
+    "results": {
+      "QS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "QUBT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RBLX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RCL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RDDT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "REG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "REGN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RGEN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RGTI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RIO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "RJF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

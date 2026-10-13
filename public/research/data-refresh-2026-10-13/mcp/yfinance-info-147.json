@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "SWKS",
+      "SYENS.BR",
+      "SYF",
+      "SYK",
+      "SYM",
+      "SYY",
+      "Schunk",
+      "Synchron",
+      "T",
+      "TAL",
+      "TCOM",
+      "TD"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:40.751318+00:00",
+  "retrievedAt": "2026-10-13T08:52:43.729120+00:00",
+  "data": {
+    "symbols": [
+      "SWKS",
+      "SYENS.BR",
+      "SYF",
+      "SYK",
+      "SYM",
+      "SYY",
+      "Schunk",
+      "Synchron",
+      "T",
+      "TAL",
+      "TCOM",
+      "TD"
+    ],
+    "results": {
+      "SWKS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SYENS.BR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SYF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SYK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SYM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "SYY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "Schunk": {
+        "error": "'Schunk'"
+      },
+      "Synchron": {
+        "error": "'Synchron'"
+      },
+      "T": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TAL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TCOM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "TD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

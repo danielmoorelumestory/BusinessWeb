@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_income_statement",
+  "arguments": {
+    "symbol": "TSLA",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:53:21.476959+00:00",
+  "retrievedAt": "2026-10-13T08:53:22.001210+00:00",
+  "data": {
+    "symbol": "TSLA",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

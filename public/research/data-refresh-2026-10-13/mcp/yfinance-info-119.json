@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "FIX",
+      "FLEX",
+      "FLNC",
+      "FORM",
+      "FOX",
+      "FOXA",
+      "FRT",
+      "FSLR",
+      "FTNT",
+      "FTV",
+      "FUTU",
+      "GD"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:17.063349+00:00",
+  "retrievedAt": "2026-10-13T08:52:20.368918+00:00",
+  "data": {
+    "symbols": [
+      "FIX",
+      "FLEX",
+      "FLNC",
+      "FORM",
+      "FOX",
+      "FOXA",
+      "FRT",
+      "FSLR",
+      "FTNT",
+      "FTV",
+      "FUTU",
+      "GD"
+    ],
+    "results": {
+      "FIX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FLEX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FLNC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FORM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FOX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FOXA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FRT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FSLR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FTNT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FTV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "FUTU": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

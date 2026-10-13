@@ -1,5 +1,5 @@
 /**
- * 九个赛道的产业链观察池。catalog 同时生成 stock-analysis 的按赛道参考文件。
+ * 十个赛道的产业链观察池。catalog 同时生成 stock-analysis 的按赛道参考文件。
  * 候选业务关联不代表已验证收入、盈利或股价受益；证据边界逐条列示。
  */
 import catalog from './futureTrends.catalog.json'

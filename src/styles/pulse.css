@@ -1,0 +1,530 @@
+/* 全球行情（热力图、复盘、板块、行情卡片）。卡片外壳与按钮用 ui.css。
+   全球行情按美股习惯绿涨红跌，颜色用中性的 system-green / system-red，不借用 A 股的 --up / --down。 */
+
+.heatmap-section,
+.pulse-review,
+.pulse-sector,
+.pulse-sources {
+  margin-bottom: var(--space-5);
+}
+
+.heatmap-countdown {
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr));
+  gap: var(--space-3);
+}
+
+.heatmap-tabs {
+  margin-bottom: var(--space-3);
+}
+
+.heatmap-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 10px 12px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.heatmap-card.is-fullscreen {
+  height: 100vh;
+  border: 0;
+  border-radius: 0;
+}
+
+.heatmap-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.heatmap-card__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.heatmap-card__fs {
+  min-height: 30px;
+  margin-left: auto;
+  padding: 0 8px;
+  font-size: 0.75rem;
+}
+
+.heatmap-card__body {
+  min-height: 0;
+}
+
+.heatmap-card.is-fullscreen .heatmap-card__body {
+  flex: 1;
+}
+
+/* 行情卡片 */
+.pulse-category {
+  margin-bottom: var(--space-5);
+}
+
+.pulse-category__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  border-left: 3px solid transparent;
+  border-radius: var(--radius-sm);
+}
+
+.pulse-category__icon {
+  display: inline-flex;
+}
+
+.pulse-category__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pulse-category__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.pulse-category__empty {
+  grid-column: 1 / -1;
+  padding: var(--space-4);
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.pulse-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pulse-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pulse-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.pulse-card__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pulse-card__rsi,
+.pulse-sector-card__rsi {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.is-hot.pulse-card__rsi,
+.is-hot.pulse-sector-card__rsi {
+  background: var(--system-red-light);
+  color: var(--system-red);
+}
+
+.is-cold.pulse-card__rsi,
+.is-cold.pulse-sector-card__rsi {
+  background: var(--system-green-light);
+  color: var(--system-green);
+}
+
+.pulse-card__price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pulse-card__change {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.pulse-card__pct {
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.pulse-card__pct.is-up { background: var(--system-green-light); }
+.pulse-card__pct.is-down { background: var(--system-red-light); }
+
+/* 每日复盘表（A 股数据：涨停红、跌停绿） */
+.pulse-muted {
+  color: var(--text-tertiary);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.pulse-review__table {
+  min-width: 1200px;
+  font-size: 0.78rem;
+}
+
+.pulse-review__table th,
+.pulse-review__table td {
+  padding: 8px 6px;
+  text-align: center;
+}
+
+.pulse-strong { font-weight: 600; }
+.pulse-zt { color: var(--system-red); font-weight: 600; }
+.pulse-zt--max { font-weight: 700; }
+.pulse-dt { color: var(--system-green); font-weight: 600; }
+.pulse-vol { color: var(--accent-warm); font-weight: 600; }
+.pulse-accent { color: var(--accent); font-weight: 600; }
+.pulse-zt-text { color: var(--system-red); }
+.pulse-dt-text { color: var(--system-green); }
+
+.pulse-review__table td.pulse-flow {
+  max-width: 100px;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pulse-row-actions {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.pulse-row-actions .tool-btn {
+  min-height: 28px;
+  padding: 0 8px;
+  font-size: 0.72rem;
+}
+
+/* 板块涨跌 */
+.pulse-sector__group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 6px 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pulse-sector__group.is-up { color: var(--system-green); }
+.pulse-sector__group.is-down { color: var(--system-red); margin-top: var(--space-5); }
+
+.pulse-sector__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 10px;
+}
+
+.pulse-sector-card {
+  padding: 12px;
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pulse-sector-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pulse-sector-card.is-up { border-left-color: var(--system-green); }
+.pulse-sector-card.is-down { border-left-color: var(--system-red); }
+
+.pulse-sector-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.pulse-sector-card__name {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pulse-sector-card__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pulse-sector-card__pct {
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pulse-sector-card.is-up .pulse-sector-card__pct { color: var(--system-green); }
+.pulse-sector-card.is-down .pulse-sector-card__pct { color: var(--system-red); }
+
+.pulse-sector-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.pulse-sector-card__meta strong {
+  color: var(--text-primary);
+}
+
+.pulse-note {
+  margin: 10px 0 0;
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* 消息源 */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 10px;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.news-card.is-high { border-left-color: var(--system-red); }
+.news-card.is-medium { border-left-color: var(--accent-warm); }
+.news-card.is-disabled { opacity: 0.6; background: var(--bg-secondary); }
+.news-card.is-disabled:hover { transform: none; box-shadow: none; }
+
+.news-card__name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.news-card__name a {
+  overflow: hidden;
+  color: var(--text-primary);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.news-card__name a:hover {
+  text-decoration: underline;
+}
+
+.news-card__desc {
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.news-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.news-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+}
+
+.news-tag.is-high { border-color: transparent; background: var(--system-red-light); color: var(--system-red); }
+.news-tag.is-medium { border-color: transparent; background: var(--accent-warm-soft); color: var(--warm-ink); }
+
+.news-card__actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.news-card__actions .tool-btn {
+  flex: 1;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 6px;
+  font-size: 0.72rem;
+}
+
+.news-disabled {
+  margin-top: var(--space-4);
+}
+
+.news-disabled > summary {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  line-height: 36px;
+  cursor: pointer;
+}
+
+.news-disabled[open] > summary {
+  margin-bottom: var(--space-3);
+}
+
+/* 指数树图外围（树图内部的色块、深色画布属于数据可视化配色，在 IndexHeatmap 里按数据计算） */
+.ihm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.ihm__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 2px 2px 8px;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.ihm__legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.ihm__legend-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ihm__swatch {
+  width: 22px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.ihm__legend-label,
+.ihm__fetched {
+  color: var(--text-tertiary);
+  font-size: 0.62rem;
+}
+
+.ihm__fetched {
+  margin-left: var(--space-2);
+  font-size: 0.72rem;
+}
+
+.ihm__time {
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}
+
+.ihm__time.is-stale {
+  color: var(--warm-ink);
+}
+
+.ihm__canvas {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: #1f2937;
+}
+
+.ihm__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: #9ca3af;
+}
+
+.ihm__overlay.is-error {
+  color: #fca5a5;
+}
+
+.ihm__foot {
+  margin-top: 6px;
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 767px) {
+  .ihm__legend {
+    margin-left: 0;
+  }
+}
+
+@media (pointer: coarse) {
+  .heatmap-card__fs {
+    min-height: 40px;
+  }
+}

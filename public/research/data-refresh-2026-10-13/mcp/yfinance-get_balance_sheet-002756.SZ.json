@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_balance_sheet",
+  "arguments": {
+    "symbol": "002756.SZ",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:53:10.755618+00:00",
+  "retrievedAt": "2026-10-13T08:53:11.291877+00:00",
+  "data": {
+    "symbol": "002756.SZ",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

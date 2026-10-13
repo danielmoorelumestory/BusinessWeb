@@ -1,0 +1,3733 @@
+{
+  "asOf": "2026-10-10",
+  "rule": "初筛规则：H1 归母为正且不低于去年同期；经营现金流为正且不低于归母的 0.3 倍；有 2027 年一致预期；H1 ROE≥4%（约年化 8%）。未通过者保留初筛，不代表质量差，只是不适合现阶段建模。",
+  "companies": [
+    {
+      "code": "000970",
+      "name": "中科三环",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 过低）",
+      "metrics": {
+        "h1Revenue": 36.14,
+        "h1RevenueYoY": 24,
+        "h1NetProfit": 0.49,
+        "h1NetProfitYoY": 12,
+        "grossMargin": 12.5,
+        "roe": 0.76,
+        "ocf": 0.32,
+        "debtRatio": 26.3,
+        "fy25Eps": 0.0759,
+        "fy25NetProfit": 0.91,
+        "peTtm": "140.04",
+        "price": 11.12,
+        "priceTime": "20261009161421",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": 0.11,
+            "mean": 0.14,
+            "hi": 0.16
+          },
+          "2027": {
+            "n": 3,
+            "lo": 0.16,
+            "mean": 0.22,
+            "hi": 0.28
+          },
+          "2028": {
+            "n": 3,
+            "lo": 0.25,
+            "mean": 0.29,
+            "hi": 0.33
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000970&announcementId=1225488280&orgId=gssz0000970&announcementTime=2026-08-22",
+        "pePercentile5y": 74
+      }
+    },
+    {
+      "code": "300224",
+      "name": "正海磁材",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 过低）",
+      "metrics": {
+        "h1Revenue": 34.54,
+        "h1RevenueYoY": 13,
+        "h1NetProfit": 1.37,
+        "h1NetProfitYoY": 21,
+        "grossMargin": 12.5,
+        "roe": 2.64,
+        "ocf": 1.5,
+        "debtRatio": 47.5,
+        "fy25Eps": 0.36,
+        "fy25NetProfit": 3.07,
+        "peTtm": "31.80",
+        "price": 11.31,
+        "priceTime": "20261009161430",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 0.42,
+            "mean": 0.46,
+            "hi": 0.49
+          },
+          "2027": {
+            "n": 2,
+            "lo": 0.5,
+            "mean": 0.64,
+            "hi": 0.78
+          },
+          "2028": {
+            "n": 2,
+            "lo": 0.6,
+            "mean": 0.82,
+            "hi": 1.04
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300224&announcementId=1225522344&orgId=9900019287&announcementTime=2026-08-28",
+        "pePercentile5y": 44
+      }
+    },
+    {
+      "code": "000795",
+      "name": "英洛华",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 22.13,
+        "h1RevenueYoY": 28,
+        "h1NetProfit": 1.29,
+        "h1NetProfitYoY": -10,
+        "grossMargin": 19.7,
+        "roe": 4.75,
+        "ocf": -1.1,
+        "debtRatio": 43.5,
+        "fy25Eps": 0.2278,
+        "fy25NetProfit": 2.5,
+        "peTtm": "39.39",
+        "price": 8.29,
+        "priceTime": "20261009161445",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000795&announcementId=1225504710&orgId=gssz0000795&announcementTime=2026-08-26",
+        "pePercentile5y": 24
+      }
+    },
+    {
+      "code": "688077",
+      "name": "大地熊",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 9.84,
+        "h1RevenueYoY": 36,
+        "h1NetProfit": 0.34,
+        "h1NetProfitYoY": 54,
+        "grossMargin": 16.5,
+        "roe": 3.09,
+        "ocf": 0.27,
+        "debtRatio": 60.9,
+        "fy25Eps": 0.5,
+        "fy25NetProfit": 0.57,
+        "peTtm": "43.99",
+        "price": 26.71,
+        "priceTime": "20261009161459",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688077&announcementId=1225476830&orgId=9900035313&announcementTime=2026-08-18",
+        "pePercentile5y": 43
+      }
+    },
+    {
+      "code": "600392",
+      "name": "盛和资源",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 87.59,
+        "h1RevenueYoY": 42,
+        "h1NetProfit": 8.87,
+        "h1NetProfitYoY": 135,
+        "grossMargin": 12.6,
+        "roe": 6.8,
+        "ocf": -6.38,
+        "debtRatio": 39.7,
+        "fy25Eps": 0.4787,
+        "fy25NetProfit": 8.39,
+        "peTtm": "25.78",
+        "price": 19.84,
+        "priceTime": "20261009161452",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.89,
+            "mean": 0.89,
+            "hi": 0.89
+          },
+          "2027": {
+            "n": 1,
+            "lo": 1.13,
+            "mean": 1.13,
+            "hi": 1.13
+          },
+          "2028": {
+            "n": 1,
+            "lo": 1.41,
+            "mean": 1.41,
+            "hi": 1.41
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600392&announcementId=1225525089&orgId=gssh0600392&announcementTime=2026-08-29",
+        "pePercentile5y": 27
+      }
+    },
+    {
+      "code": "600259",
+      "name": "中稀有色",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 25.06,
+        "h1RevenueYoY": -6,
+        "h1NetProfit": 4.03,
+        "h1NetProfitYoY": 457,
+        "grossMargin": 11.8,
+        "roe": 10.92,
+        "ocf": -1.76,
+        "debtRatio": 52.2,
+        "fy25Eps": 0.38,
+        "fy25NetProfit": 1.28,
+        "peTtm": "52.02",
+        "price": 70.9,
+        "priceTime": "20261009161453",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600259&announcementId=1225506251&orgId=gssh0600259&announcementTime=2026-08-26",
+        "pePercentile5y": 22
+      }
+    },
+    {
+      "code": "300777",
+      "name": "中简科技",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "metrics": {
+        "h1Revenue": 1.79,
+        "h1RevenueYoY": -61,
+        "h1NetProfit": -0.49,
+        "h1NetProfitYoY": -124,
+        "grossMargin": 27.0,
+        "roe": -1.09,
+        "ocf": -0.18,
+        "debtRatio": 7.2,
+        "fy25Eps": 0.72,
+        "fy25NetProfit": 3.15,
+        "peTtm": "152.72",
+        "price": 19.69,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.47,
+            "mean": 0.47,
+            "hi": 0.47
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.67,
+            "mean": 0.67,
+            "hi": 0.67
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.83,
+            "mean": 0.83,
+            "hi": 0.83
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300777&announcementId=1225515429&orgId=9900034129&announcementTime=2026-08-27",
+        "pePercentile5y": 97
+      }
+    },
+    {
+      "code": "000420",
+      "name": "吉林化纤",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 27.54,
+        "h1RevenueYoY": 5,
+        "h1NetProfit": 0.32,
+        "h1NetProfitYoY": 45,
+        "grossMargin": 11.0,
+        "roe": 0.72,
+        "ocf": -0.65,
+        "debtRatio": 66.9,
+        "fy25Eps": 0.0092,
+        "fy25NetProfit": 0.23,
+        "peTtm": "286.41",
+        "price": 3.81,
+        "priceTime": "20261009161415",
+        "cons": {
+          "2026": {
+            "n": 4,
+            "lo": 0.04,
+            "mean": 0.06,
+            "hi": 0.07
+          },
+          "2027": {
+            "n": 4,
+            "lo": 0.08,
+            "mean": 0.1,
+            "hi": 0.11
+          },
+          "2028": {
+            "n": 4,
+            "lo": 0.12,
+            "mean": 0.13,
+            "hi": 0.14
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000420&announcementId=1225508966&orgId=gssz0000420&announcementTime=2026-08-27",
+        "pePercentile5y": 85
+      }
+    },
+    {
+      "code": "002171",
+      "name": "楚江新材",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 401.38,
+        "h1RevenueYoY": 39,
+        "h1NetProfit": 3.04,
+        "h1NetProfitYoY": 21,
+        "grossMargin": 3.5,
+        "roe": 3.41,
+        "ocf": -19.83,
+        "debtRatio": 61.2,
+        "fy25Eps": 0.25,
+        "fy25NetProfit": 3.83,
+        "peTtm": "35.85",
+        "price": 9.63,
+        "priceTime": "20261009161500",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 0.28,
+            "mean": 0.3,
+            "hi": 0.31
+          },
+          "2027": {
+            "n": 2,
+            "lo": 0.34,
+            "mean": 0.36,
+            "hi": 0.37
+          },
+          "2028": {
+            "n": 2,
+            "lo": 0.39,
+            "mean": 0.42,
+            "hi": 0.44
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002171&announcementId=1225518604&orgId=9900003622&announcementTime=2026-08-28",
+        "pePercentile5y": 46
+      }
+    },
+    {
+      "code": "605589",
+      "name": "圣泉集团",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 60.85,
+        "h1RevenueYoY": 14,
+        "h1NetProfit": 4.47,
+        "h1NetProfitYoY": -11,
+        "grossMargin": 24.6,
+        "roe": 4.18,
+        "ocf": -9.75,
+        "debtRatio": 41.3,
+        "fy25Eps": 1.19,
+        "fy25NetProfit": 10.07,
+        "peTtm": "30.20",
+        "price": 34.01,
+        "priceTime": "20261009161459",
+        "cons": {
+          "2026": {
+            "n": 15,
+            "lo": 1.32,
+            "mean": 1.53,
+            "hi": 1.74
+          },
+          "2027": {
+            "n": 15,
+            "lo": 1.75,
+            "mean": 1.95,
+            "hi": 2.26
+          },
+          "2028": {
+            "n": 14,
+            "lo": 2.03,
+            "mean": 2.42,
+            "hi": 2.93
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=605589&announcementId=1225475121&orgId=9900028008&announcementTime=2026-08-15",
+        "pePercentile5y": 82
+      }
+    },
+    {
+      "code": "688146",
+      "name": "中船特气",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 19.04,
+        "h1RevenueYoY": 83,
+        "h1NetProfit": 3.48,
+        "h1NetProfitYoY": 96,
+        "grossMargin": 31.8,
+        "roe": 5.86,
+        "ocf": -2.41,
+        "debtRatio": 21.4,
+        "fy25Eps": 0.65,
+        "fy25NetProfit": 3.46,
+        "peTtm": "182.57",
+        "price": 177.8,
+        "priceTime": "20261009161454",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": 1.02,
+            "mean": 1.44,
+            "hi": 2.09
+          },
+          "2027": {
+            "n": 3,
+            "lo": 1.27,
+            "mean": 2.95,
+            "hi": 5.8
+          },
+          "2028": {
+            "n": 3,
+            "lo": 1.54,
+            "mean": 3.99,
+            "hi": 8.06
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688146&announcementId=1225429785&orgId=9900056077&announcementTime=2026-07-18",
+        "pePercentile5y": 88
+      }
+    },
+    {
+      "code": "002549",
+      "name": "凯美特气",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 3.16,
+        "h1RevenueYoY": 2,
+        "h1NetProfit": 0.22,
+        "h1NetProfitYoY": -61,
+        "grossMargin": 31.1,
+        "roe": 1.06,
+        "ocf": 0.54,
+        "debtRatio": 28.0,
+        "fy25Eps": 0.0986,
+        "fy25NetProfit": 0.69,
+        "peTtm": "247.37",
+        "price": 12.32,
+        "priceTime": "20261009161403",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002549&announcementId=1225446033&orgId=9900017827&announcementTime=2026-07-30",
+        "pePercentile5y": 88
+      }
+    },
+    {
+      "code": "300316",
+      "name": "晶盛机电",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 34.52,
+        "h1RevenueYoY": -40,
+        "h1NetProfit": 2.32,
+        "h1NetProfitYoY": -64,
+        "grossMargin": 30.4,
+        "roe": 1.35,
+        "ocf": 13.66,
+        "debtRatio": 36.4,
+        "fy25Eps": 0.68,
+        "fy25NetProfit": 8.85,
+        "peTtm": "97.70",
+        "price": 35.66,
+        "priceTime": "20261009161451",
+        "cons": {
+          "2026": {
+            "n": 9,
+            "lo": 0.46,
+            "mean": 0.7,
+            "hi": 0.86
+          },
+          "2027": {
+            "n": 9,
+            "lo": 0.63,
+            "mean": 0.9,
+            "hi": 1.05
+          },
+          "2028": {
+            "n": 8,
+            "lo": 0.81,
+            "mean": 1.14,
+            "hi": 1.35
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300316&announcementId=1225491885&orgId=9900022122&announcementTime=2026-08-22",
+        "pePercentile5y": 82
+      }
+    },
+    {
+      "code": "002617",
+      "name": "露笑科技",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 19.5,
+        "h1RevenueYoY": 11,
+        "h1NetProfit": 1.15,
+        "h1NetProfitYoY": -24,
+        "grossMargin": 20.5,
+        "roe": 1.78,
+        "ocf": 0.1,
+        "debtRatio": 38.5,
+        "fy25Eps": 0.1105,
+        "fy25NetProfit": 2.12,
+        "peTtm": "76.23",
+        "price": 7.04,
+        "priceTime": "20261009161439",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002617&announcementId=1225501877&orgId=9900021430&announcementTime=2026-08-26",
+        "pePercentile5y": 76
+      }
+    },
+    {
+      "code": "002324",
+      "name": "普利特",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 56.27,
+        "h1RevenueYoY": 38,
+        "h1NetProfit": 0.84,
+        "h1NetProfitYoY": -60,
+        "grossMargin": 10.6,
+        "roe": 1.79,
+        "ocf": -1.92,
+        "debtRatio": 63.6,
+        "fy25Eps": 0.3349,
+        "fy25NetProfit": 3.67,
+        "peTtm": "39.86",
+        "price": 8.74,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 0.18,
+            "mean": 0.27,
+            "hi": 0.36
+          },
+          "2027": {
+            "n": 2,
+            "lo": 0.32,
+            "mean": 0.48,
+            "hi": 0.64
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.86,
+            "mean": 0.86,
+            "hi": 0.86
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002324&announcementId=1225502407&orgId=9900009450&announcementTime=2026-08-26",
+        "pePercentile5y": 38
+      }
+    },
+    {
+      "code": "002838",
+      "name": "道恩股份",
+      "status": "未建模",
+      "reason": "现金流/利润低于 0.3",
+      "metrics": {
+        "h1Revenue": 39.78,
+        "h1RevenueYoY": 38,
+        "h1NetProfit": 2.37,
+        "h1NetProfitYoY": 182,
+        "grossMargin": 16.2,
+        "roe": 6.3,
+        "ocf": 0.36,
+        "debtRatio": 52.0,
+        "fy25Eps": 0.41,
+        "fy25NetProfit": 1.89,
+        "peTtm": "36.71",
+        "price": 26.23,
+        "priceTime": "20261009161433",
+        "cons": {
+          "2026": {
+            "n": 7,
+            "lo": 0.87,
+            "mean": 1.04,
+            "hi": 1.24
+          },
+          "2027": {
+            "n": 7,
+            "lo": 1.12,
+            "mean": 1.42,
+            "hi": 2.26
+          },
+          "2028": {
+            "n": 7,
+            "lo": 1.28,
+            "mean": 1.67,
+            "hi": 2.42
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002838&announcementId=1225504486&orgId=9900022768&announcementTime=2026-08-26",
+        "pePercentile5y": 29
+      }
+    },
+    {
+      "code": "600458",
+      "name": "时代新材",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 104.67,
+        "h1RevenueYoY": 13,
+        "h1NetProfit": 3.46,
+        "h1NetProfitYoY": 14,
+        "grossMargin": 15.3,
+        "roe": 4.29,
+        "ocf": -10.88,
+        "debtRatio": 66.5,
+        "fy25Eps": 0.59,
+        "fy25NetProfit": 5.14,
+        "peTtm": "19.29",
+        "price": 11.27,
+        "priceTime": "20261009161458",
+        "cons": {
+          "2026": {
+            "n": 7,
+            "lo": 0.64,
+            "mean": 0.68,
+            "hi": 0.72
+          },
+          "2027": {
+            "n": 7,
+            "lo": 0.78,
+            "mean": 0.85,
+            "hi": 0.93
+          },
+          "2028": {
+            "n": 6,
+            "lo": 0.91,
+            "mean": 1.02,
+            "hi": 1.14
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600458&announcementId=1225482328&orgId=gssh0600458&announcementTime=2026-08-20",
+        "pePercentile5y": 12
+      }
+    },
+    {
+      "code": "300855",
+      "name": "图南股份",
+      "status": "未建模",
+      "reason": "现金流/利润低于 0.3",
+      "metrics": {
+        "h1Revenue": 10.23,
+        "h1RevenueYoY": 71,
+        "h1NetProfit": 2.49,
+        "h1NetProfitYoY": 168,
+        "grossMargin": 40.1,
+        "roe": 11.68,
+        "ocf": 0.1,
+        "debtRatio": 43.5,
+        "fy25Eps": 0.39,
+        "fy25NetProfit": 1.55,
+        "peTtm": "40.58",
+        "price": 31.95,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 15,
+            "lo": 0.97,
+            "mean": 1.1,
+            "hi": 1.29
+          },
+          "2027": {
+            "n": 15,
+            "lo": 1.22,
+            "mean": 1.42,
+            "hi": 1.61
+          },
+          "2028": {
+            "n": 15,
+            "lo": 1.43,
+            "mean": 1.79,
+            "hi": 2.08
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300855&announcementId=1225479346&orgId=gfbj0832729&announcementTime=2026-08-19",
+        "pePercentile5y": 33
+      }
+    },
+    {
+      "code": "688231",
+      "name": "隆达股份",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 13.45,
+        "h1RevenueYoY": 62,
+        "h1NetProfit": 1.07,
+        "h1NetProfitYoY": 102,
+        "grossMargin": 21.0,
+        "roe": 3.82,
+        "ocf": -2.28,
+        "debtRatio": 39.4,
+        "fy25Eps": 0.31,
+        "fy25NetProfit": 0.74,
+        "peTtm": "72.24",
+        "price": 29.0,
+        "priceTime": "20261009161457",
+        "cons": {
+          "2026": {
+            "n": 6,
+            "lo": 0.55,
+            "mean": 0.76,
+            "hi": 1.64
+          },
+          "2027": {
+            "n": 6,
+            "lo": 0.84,
+            "mean": 1.18,
+            "hi": 2.55
+          },
+          "2028": {
+            "n": 6,
+            "lo": 1.1,
+            "mean": 1.27,
+            "hi": 1.65
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688231&announcementId=1225505163&orgId=9900048065&announcementTime=2026-08-26",
+        "pePercentile5y": 46
+      }
+    },
+    {
+      "code": "603308",
+      "name": "应流股份",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 18.3,
+        "h1RevenueYoY": 32,
+        "h1NetProfit": 2.21,
+        "h1NetProfitYoY": 18,
+        "grossMargin": 34.0,
+        "roe": 4.28,
+        "ocf": -1.45,
+        "debtRatio": 60.4,
+        "fy25Eps": 0.51,
+        "fy25NetProfit": 3.49,
+        "peTtm": "65.43",
+        "price": 34.28,
+        "priceTime": "20261009161450",
+        "cons": {
+          "2026": {
+            "n": 18,
+            "lo": 0.69,
+            "mean": 0.83,
+            "hi": 1.28
+          },
+          "2027": {
+            "n": 18,
+            "lo": 1.03,
+            "mean": 1.24,
+            "hi": 1.45
+          },
+          "2028": {
+            "n": 17,
+            "lo": 1.45,
+            "mean": 1.85,
+            "hi": 2.16
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603308&announcementId=1225524368&orgId=9900023247&announcementTime=2026-08-29",
+        "pePercentile5y": 75
+      }
+    },
+    {
+      "code": "688433",
+      "name": "华曙高科",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 3.41,
+        "h1RevenueYoY": 42,
+        "h1NetProfit": 0.08,
+        "h1NetProfitYoY": 87,
+        "grossMargin": 42.3,
+        "roe": 0.4,
+        "ocf": -0.79,
+        "debtRatio": 26.1,
+        "fy25Eps": 0.17,
+        "fy25NetProfit": 0.69,
+        "peTtm": "408.67",
+        "price": 71.6,
+        "priceTime": "20261009161453",
+        "cons": {
+          "2026": {
+            "n": 5,
+            "lo": 0.26,
+            "mean": 0.31,
+            "hi": 0.36
+          },
+          "2027": {
+            "n": 5,
+            "lo": 0.45,
+            "mean": 0.57,
+            "hi": 0.76
+          },
+          "2028": {
+            "n": 4,
+            "lo": 0.62,
+            "mean": 0.77,
+            "hi": 0.99
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688433&announcementId=1225468733&orgId=9900056217&announcementTime=2026-08-12",
+        "pePercentile5y": 67
+      }
+    },
+    {
+      "code": "688786",
+      "name": "悦安新材",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 2.33,
+        "h1RevenueYoY": 15,
+        "h1NetProfit": 0.36,
+        "h1NetProfitYoY": -4,
+        "grossMargin": 39.6,
+        "roe": 4.64,
+        "ocf": 0.25,
+        "debtRatio": 26.0,
+        "fy25Eps": 0.58,
+        "fy25NetProfit": 0.83,
+        "peTtm": "54.00",
+        "price": 25.31,
+        "priceTime": "20261009161442",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688786&announcementId=1225494478&orgId=9900041628&announcementTime=2026-08-25",
+        "pePercentile5y": 79
+      }
+    },
+    {
+      "code": "603256",
+      "name": "宏和科技",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "605006",
+      "name": "山东玻纤",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 过低）",
+      "metrics": {
+        "h1Revenue": 15.6,
+        "h1RevenueYoY": 38,
+        "h1NetProfit": 0.29,
+        "h1NetProfitYoY": 235,
+        "grossMargin": 16.2,
+        "roe": 1.1,
+        "ocf": 1.06,
+        "debtRatio": 61.2,
+        "fy25Eps": -0.02,
+        "fy25NetProfit": -0.13,
+        "peTtm": "1273.37",
+        "price": 13.77,
+        "priceTime": "20261009161454",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.2,
+            "mean": 0.2,
+            "hi": 0.2
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.28,
+            "mean": 0.28,
+            "hi": 0.28
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.38,
+            "mean": 0.38,
+            "hi": 0.38
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=605006&announcementId=1225479528&orgId=9900033212&announcementTime=2026-08-19",
+        "pePercentile5y": 97
+      }
+    },
+    {
+      "code": "300196",
+      "name": "长海股份",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 16.11,
+        "h1RevenueYoY": 11,
+        "h1NetProfit": 1.56,
+        "h1NetProfitYoY": -10,
+        "grossMargin": 24.4,
+        "roe": 3.21,
+        "ocf": 4.87,
+        "debtRatio": 37.9,
+        "fy25Eps": 0.81,
+        "fy25NetProfit": 3.26,
+        "peTtm": "21.73",
+        "price": 16.43,
+        "priceTime": "20261009161448",
+        "cons": {
+          "2026": {
+            "n": 4,
+            "lo": 0.83,
+            "mean": 0.94,
+            "hi": 1.0
+          },
+          "2027": {
+            "n": 4,
+            "lo": 1.03,
+            "mean": 1.11,
+            "hi": 1.23
+          },
+          "2028": {
+            "n": 4,
+            "lo": 1.2,
+            "mean": 1.33,
+            "hi": 1.53
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300196&announcementId=1225491673&orgId=9900017150&announcementTime=2026-08-22",
+        "pePercentile5y": 82
+      }
+    },
+    {
+      "code": "603601",
+      "name": "再升科技",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 6.52,
+        "h1RevenueYoY": -1,
+        "h1NetProfit": 0.45,
+        "h1NetProfitYoY": -26,
+        "grossMargin": 19.4,
+        "roe": 1.8,
+        "ocf": 0.8,
+        "debtRatio": 13.7,
+        "fy25Eps": 0.0548,
+        "fy25NetProfit": 0.56,
+        "peTtm": "260.36",
+        "price": 9.27,
+        "priceTime": "20261009161459",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": 0.05,
+            "mean": 0.06,
+            "hi": 0.07
+          },
+          "2027": {
+            "n": 3,
+            "lo": 0.07,
+            "mean": 0.08,
+            "hi": 0.09
+          },
+          "2028": {
+            "n": 3,
+            "lo": 0.09,
+            "mean": 0.11,
+            "hi": 0.12
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603601&announcementId=1225498073&orgId=9900023779&announcementTime=2026-08-25",
+        "pePercentile5y": 82
+      }
+    },
+    {
+      "code": "600549",
+      "name": "厦门钨业",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 350.14,
+        "h1RevenueYoY": 82,
+        "h1NetProfit": 22.01,
+        "h1NetProfitYoY": 127,
+        "grossMargin": 21.8,
+        "roe": 12.15,
+        "ocf": -24.63,
+        "debtRatio": 59.2,
+        "fy25Eps": 1.4546,
+        "fy25NetProfit": 23.09,
+        "peTtm": "19.30",
+        "price": 43.05,
+        "priceTime": "20261009161456",
+        "cons": {
+          "2026": {
+            "n": 9,
+            "lo": 2.59,
+            "mean": 2.97,
+            "hi": 3.26
+          },
+          "2027": {
+            "n": 9,
+            "lo": 3.16,
+            "mean": 3.62,
+            "hi": 4.12
+          },
+          "2028": {
+            "n": 8,
+            "lo": 3.7,
+            "mean": 4.39,
+            "hi": 5.1
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600549&announcementId=1225485968&orgId=gssh0600549&announcementTime=2026-08-21",
+        "pePercentile5y": 44
+      }
+    },
+    {
+      "code": "000657",
+      "name": "中钨高新",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 163.85,
+        "h1RevenueYoY": 109,
+        "h1NetProfit": 20.76,
+        "h1NetProfitYoY": 281,
+        "grossMargin": 30.4,
+        "roe": 19.29,
+        "ocf": -12.55,
+        "debtRatio": 60.5,
+        "fy25Eps": 0.58,
+        "fy25NetProfit": 12.81,
+        "peTtm": "41.44",
+        "price": 51.13,
+        "priceTime": "20261009161500",
+        "cons": {
+          "2026": {
+            "n": 15,
+            "lo": 1.59,
+            "mean": 1.96,
+            "hi": 2.25
+          },
+          "2027": {
+            "n": 15,
+            "lo": 1.87,
+            "mean": 2.29,
+            "hi": 2.81
+          },
+          "2028": {
+            "n": 13,
+            "lo": 2.25,
+            "mean": 2.65,
+            "hi": 3.21
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000657&announcementId=1225490814&orgId=gssz0000657&announcementTime=2026-08-24",
+        "pePercentile5y": 78
+      }
+    },
+    {
+      "code": "002378",
+      "name": "章源钨业",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 58.47,
+        "h1RevenueYoY": 144,
+        "h1NetProfit": 6.88,
+        "h1NetProfitYoY": 497,
+        "grossMargin": 25.2,
+        "roe": 25.61,
+        "ocf": -2.05,
+        "debtRatio": 71.6,
+        "fy25Eps": 0.24,
+        "fy25NetProfit": 2.9,
+        "peTtm": "29.04",
+        "price": 20.86,
+        "priceTime": "20261009161448",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.92,
+            "mean": 0.92,
+            "hi": 0.92
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.97,
+            "mean": 0.97,
+            "hi": 0.97
+          },
+          "2028": {
+            "n": 1,
+            "lo": 1.0,
+            "mean": 1.0,
+            "hi": 1.0
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002378&announcementId=1225494558&orgId=9900011447&announcementTime=2026-08-25",
+        "pePercentile5y": 9
+      }
+    },
+    {
+      "code": "603993",
+      "name": "洛阳钼业",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "002428",
+      "name": "云南锗业",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 7.32,
+        "h1RevenueYoY": 38,
+        "h1NetProfit": 0.74,
+        "h1NetProfitYoY": 235,
+        "grossMargin": 27.9,
+        "roe": 4.96,
+        "ocf": -1.57,
+        "debtRatio": 59.1,
+        "fy25Eps": 0.03,
+        "fy25NetProfit": 0.2,
+        "peTtm": "794.05",
+        "price": 87.86,
+        "priceTime": "20261009161424",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 0.15,
+            "mean": 0.33,
+            "hi": 0.51
+          },
+          "2027": {
+            "n": 2,
+            "lo": 0.2,
+            "mean": 0.96,
+            "hi": 1.71
+          },
+          "2028": {
+            "n": 2,
+            "lo": 0.26,
+            "mean": 1.42,
+            "hi": 2.57
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002428&announcementId=1225520955&orgId=9900012834&announcementTime=2026-08-28",
+        "pePercentile5y": 68
+      }
+    },
+    {
+      "code": "600497",
+      "name": "驰宏锌锗",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "000960",
+      "name": "锡业股份",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "600301",
+      "name": "华锡有色",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "002155",
+      "name": "湖南黄金",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 320.29,
+        "h1RevenueYoY": 13,
+        "h1NetProfit": 9.57,
+        "h1NetProfitYoY": 46,
+        "grossMargin": 5.6,
+        "roe": 11.14,
+        "ocf": -1.06,
+        "debtRatio": 12.4,
+        "fy25Eps": 0.95,
+        "fy25NetProfit": 14.88,
+        "peTtm": "20.92",
+        "price": 23.96,
+        "priceTime": "20261009161415",
+        "cons": {
+          "2026": {
+            "n": 8,
+            "lo": 1.06,
+            "mean": 1.33,
+            "hi": 1.6
+          },
+          "2027": {
+            "n": 8,
+            "lo": 1.17,
+            "mean": 1.5,
+            "hi": 1.88
+          },
+          "2028": {
+            "n": 8,
+            "lo": 1.29,
+            "mean": 1.82,
+            "hi": 2.49
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002155&announcementId=1225485722&orgId=9900003428&announcementTime=2026-08-21",
+        "pePercentile5y": 2
+      }
+    },
+    {
+      "code": "000962",
+      "name": "东方钽业",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 10.4,
+        "h1RevenueYoY": 30,
+        "h1NetProfit": 1.22,
+        "h1NetProfitYoY": -16,
+        "grossMargin": 18.8,
+        "roe": 3.06,
+        "ocf": -5.4,
+        "debtRatio": 27.6,
+        "fy25Eps": 0.5145,
+        "fy25NetProfit": 2.58,
+        "peTtm": "117.54",
+        "price": 52.55,
+        "priceTime": "20261009161430",
+        "cons": {
+          "2026": {
+            "n": 13,
+            "lo": 0.56,
+            "mean": 0.75,
+            "hi": 0.88
+          },
+          "2027": {
+            "n": 13,
+            "lo": 0.95,
+            "mean": 1.07,
+            "hi": 1.26
+          },
+          "2028": {
+            "n": 12,
+            "lo": 1.11,
+            "mean": 1.38,
+            "hi": 1.91
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000962&announcementId=1225495254&orgId=gssz0000962&announcementTime=2026-08-25",
+        "pePercentile5y": 95
+      }
+    },
+    {
+      "code": "600206",
+      "name": "有研新材",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 61.58,
+        "h1RevenueYoY": 50,
+        "h1NetProfit": 1.83,
+        "h1NetProfitYoY": 41,
+        "grossMargin": 7.4,
+        "roe": 4.22,
+        "ocf": -9.5,
+        "debtRatio": 32.7,
+        "fy25Eps": 0.313,
+        "fy25NetProfit": 2.65,
+        "peTtm": "127.65",
+        "price": 47.95,
+        "priceTime": "20261009161454",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.53,
+            "mean": 0.53,
+            "hi": 0.53
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.72,
+            "mean": 0.72,
+            "hi": 0.72
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.85,
+            "mean": 0.85,
+            "hi": 0.85
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600206&announcementId=1225457439&orgId=gssh0600206&announcementTime=2026-08-05",
+        "pePercentile5y": 96
+      }
+    },
+    {
+      "code": "300666",
+      "name": "江丰电子",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "300706",
+      "name": "阿石创",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 7.83,
+        "h1RevenueYoY": 16,
+        "h1NetProfit": 0.37,
+        "h1NetProfitYoY": null,
+        "grossMargin": 13.2,
+        "roe": 5.35,
+        "ocf": -1.2,
+        "debtRatio": 65.1,
+        "fy25Eps": -0.36,
+        "fy25NetProfit": -0.55,
+        "peTtm": "572.88",
+        "price": 42.11,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.34,
+            "mean": 0.34,
+            "hi": 0.34
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.54,
+            "mean": 0.54,
+            "hi": 0.54
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.92,
+            "mean": 0.92,
+            "hi": 0.92
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300706&announcementId=1225504051&orgId=9900032566&announcementTime=2026-08-26",
+        "pePercentile5y": 91
+      }
+    },
+    {
+      "code": "300655",
+      "name": "晶瑞电材",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 9.49,
+        "h1RevenueYoY": 24,
+        "h1NetProfit": 0.49,
+        "h1NetProfitYoY": -30,
+        "grossMargin": 23.6,
+        "roe": 1.83,
+        "ocf": 0.43,
+        "debtRatio": 27.2,
+        "fy25Eps": 0.14,
+        "fy25NetProfit": 1.49,
+        "peTtm": "100.28",
+        "price": 11.46,
+        "priceTime": "20261009161427",
+        "cons": {
+          "2026": {
+            "n": 4,
+            "lo": 0.1,
+            "mean": 0.13,
+            "hi": 0.18
+          },
+          "2027": {
+            "n": 4,
+            "lo": 0.11,
+            "mean": 0.16,
+            "hi": 0.22
+          },
+          "2028": {
+            "n": 4,
+            "lo": 0.12,
+            "mean": 0.22,
+            "hi": 0.32
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300655&announcementId=1225510304&orgId=9900031917&announcementTime=2026-08-27",
+        "pePercentile5y": 80
+      }
+    },
+    {
+      "code": "300236",
+      "name": "上海新阳",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "300576",
+      "name": "容大感光",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 5.72,
+        "h1RevenueYoY": 13,
+        "h1NetProfit": 0.42,
+        "h1NetProfitYoY": -40,
+        "grossMargin": 34.2,
+        "roe": 2.41,
+        "ocf": 0.86,
+        "debtRatio": 18.8,
+        "fy25Eps": 0.32,
+        "fy25NetProfit": 1.18,
+        "peTtm": "111.29",
+        "price": 25.04,
+        "priceTime": "20261009161439",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300576&announcementId=1225503909&orgId=9900030080&announcementTime=2026-08-26",
+        "pePercentile5y": 31
+      }
+    },
+    {
+      "code": "688545",
+      "name": "兴福电子",
+      "status": "未建模",
+      "reason": "现金流/利润低于 0.3",
+      "metrics": {
+        "h1Revenue": 9.66,
+        "h1RevenueYoY": 44,
+        "h1NetProfit": 1.23,
+        "h1NetProfitYoY": 18,
+        "grossMargin": 23.4,
+        "roe": 4.11,
+        "ocf": 0.12,
+        "debtRatio": 36.7,
+        "fy25Eps": 0.59,
+        "fy25NetProfit": 2.07,
+        "peTtm": "103.57",
+        "price": 64.88,
+        "priceTime": "20261009161456",
+        "cons": {
+          "2026": {
+            "n": 7,
+            "lo": 0.79,
+            "mean": 0.87,
+            "hi": 0.99
+          },
+          "2027": {
+            "n": 7,
+            "lo": 1.19,
+            "mean": 1.31,
+            "hi": 1.58
+          },
+          "2028": {
+            "n": 7,
+            "lo": 1.66,
+            "mean": 1.85,
+            "hi": 2.44
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688545&announcementId=1225478626&orgId=9900058649&announcementTime=2026-08-18",
+        "pePercentile5y": 74
+      }
+    },
+    {
+      "code": "603078",
+      "name": "江化微",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 6.8,
+        "h1RevenueYoY": 17,
+        "h1NetProfit": 0.47,
+        "h1NetProfitYoY": -2,
+        "grossMargin": 24.7,
+        "roe": 2.36,
+        "ocf": 0.87,
+        "debtRatio": 28.4,
+        "fy25Eps": 0.2718,
+        "fy25NetProfit": 1.05,
+        "peTtm": "102.77",
+        "price": 27.63,
+        "priceTime": "20261009161459",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": 0.29,
+            "mean": 0.34,
+            "hi": 0.37
+          },
+          "2027": {
+            "n": 3,
+            "lo": 0.35,
+            "mean": 0.41,
+            "hi": 0.49
+          },
+          "2028": {
+            "n": 3,
+            "lo": 0.41,
+            "mean": 0.5,
+            "hi": 0.64
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603078&announcementId=1225503228&orgId=9900030584&announcementTime=2026-08-26",
+        "pePercentile5y": 81
+      }
+    },
+    {
+      "code": "688535",
+      "name": "华海诚科",
+      "status": "未建模",
+      "reason": "现金流/利润低于 0.3",
+      "metrics": {
+        "h1Revenue": 4.69,
+        "h1RevenueYoY": 162,
+        "h1NetProfit": 0.4,
+        "h1NetProfitYoY": 188,
+        "grossMargin": 30.3,
+        "roe": 1.81,
+        "ocf": 0.11,
+        "debtRatio": 25.8,
+        "fy25Eps": 0.3,
+        "fy25NetProfit": 0.24,
+        "peTtm": "254.49",
+        "price": 89.1,
+        "priceTime": "20261009161443",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 0.75,
+            "mean": 0.75,
+            "hi": 0.75
+          },
+          "2027": {
+            "n": 2,
+            "lo": 0.97,
+            "mean": 1.41,
+            "hi": 1.85
+          },
+          "2028": {
+            "n": 2,
+            "lo": 1.32,
+            "mean": 2.57,
+            "hi": 3.83
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688535&announcementId=1225529572&orgId=9900032633&announcementTime=2026-08-29",
+        "pePercentile5y": 68
+      }
+    },
+    {
+      "code": "688378",
+      "name": "奥来德",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "688150",
+      "name": "莱特光电",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 3.07,
+        "h1RevenueYoY": 5,
+        "h1NetProfit": 1.1,
+        "h1NetProfitYoY": -13,
+        "grossMargin": 71.2,
+        "roe": 5.54,
+        "ocf": 0.77,
+        "debtRatio": 14.8,
+        "fy25Eps": 0.55,
+        "fy25NetProfit": 2.19,
+        "peTtm": "69.78",
+        "price": 35.15,
+        "priceTime": "20261009161451",
+        "cons": {
+          "2026": {
+            "n": 10,
+            "lo": 0.7,
+            "mean": 0.81,
+            "hi": 1.0
+          },
+          "2027": {
+            "n": 10,
+            "lo": 0.93,
+            "mean": 1.19,
+            "hi": 1.43
+          },
+          "2028": {
+            "n": 8,
+            "lo": 1.55,
+            "mean": 1.71,
+            "hi": 2.02
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688150&announcementId=1225535079&orgId=gfbj0835249&announcementTime=2026-08-31",
+        "pePercentile5y": 50
+      }
+    },
+    {
+      "code": "688550",
+      "name": "瑞联新材",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 8.25,
+        "h1RevenueYoY": 2,
+        "h1NetProfit": 1.29,
+        "h1NetProfitYoY": -22,
+        "grossMargin": 41.2,
+        "roe": 3.86,
+        "ocf": 1.61,
+        "debtRatio": 11.4,
+        "fy25Eps": 1.79,
+        "fy25NetProfit": 3.09,
+        "peTtm": "22.30",
+        "price": 34.48,
+        "priceTime": "20261009161446",
+        "cons": {
+          "2026": {
+            "n": 8,
+            "lo": 1.47,
+            "mean": 1.99,
+            "hi": 2.23
+          },
+          "2027": {
+            "n": 8,
+            "lo": 1.98,
+            "mean": 2.49,
+            "hi": 2.83
+          },
+          "2028": {
+            "n": 8,
+            "lo": 2.37,
+            "mean": 3.05,
+            "hi": 3.9
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688550&announcementId=1225487486&orgId=gfbj0835406&announcementTime=2026-08-21",
+        "pePercentile5y": 16
+      }
+    },
+    {
+      "code": "002643",
+      "name": "万润股份",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 19.83,
+        "h1RevenueYoY": 6,
+        "h1NetProfit": 1.77,
+        "h1NetProfitYoY": -19,
+        "grossMargin": 36.8,
+        "roe": 2.48,
+        "ocf": 3.73,
+        "debtRatio": 28.7,
+        "fy25Eps": 0.31,
+        "fy25NetProfit": 2.84,
+        "peTtm": "45.84",
+        "price": 12.2,
+        "priceTime": "20261009161418",
+        "cons": {
+          "2026": {
+            "n": 10,
+            "lo": 0.37,
+            "mean": 0.46,
+            "hi": 0.52
+          },
+          "2027": {
+            "n": 10,
+            "lo": 0.45,
+            "mean": 0.55,
+            "hi": 0.64
+          },
+          "2028": {
+            "n": 9,
+            "lo": 0.53,
+            "mean": 0.64,
+            "hi": 0.77
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002643&announcementId=1225489604&orgId=9900021848&announcementTime=2026-08-22",
+        "pePercentile5y": 76
+      }
+    },
+    {
+      "code": "300429",
+      "name": "强力新材",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "metrics": {
+        "h1Revenue": 5.36,
+        "h1RevenueYoY": 17,
+        "h1NetProfit": -0.62,
+        "h1NetProfitYoY": null,
+        "grossMargin": 18.9,
+        "roe": -3.47,
+        "ocf": 0.71,
+        "debtRatio": 39.9,
+        "fy25Eps": -0.2375,
+        "fy25NetProfit": -1.27,
+        "peTtm": "-32.85",
+        "price": 10.14,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": -0.0018,
+            "mean": 0.03,
+            "hi": 0.07
+          },
+          "2027": {
+            "n": 2,
+            "lo": 0.05,
+            "mean": 0.16,
+            "hi": 0.26
+          },
+          "2028": {
+            "n": 2,
+            "lo": 0.1,
+            "mean": 0.28,
+            "hi": 0.46
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300429&announcementId=1225524033&orgId=9900023915&announcementTime=2026-08-29",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "002876",
+      "name": "三利谱",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 22.27,
+        "h1RevenueYoY": 33,
+        "h1NetProfit": 0.7,
+        "h1NetProfitYoY": 85,
+        "grossMargin": 16.6,
+        "roe": 2.91,
+        "ocf": -0.37,
+        "debtRatio": 62.9,
+        "fy25Eps": 0.27,
+        "fy25NetProfit": 0.47,
+        "peTtm": "65.34",
+        "price": 29.84,
+        "priceTime": "20261009161500",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 0.69,
+            "mean": 0.7,
+            "hi": 0.7
+          },
+          "2027": {
+            "n": 2,
+            "lo": 1.0,
+            "mean": 1.0,
+            "hi": 1.0
+          },
+          "2028": {
+            "n": 2,
+            "lo": 1.38,
+            "mean": 1.38,
+            "hi": 1.38
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002876&announcementId=1225512190&orgId=9900030828&announcementTime=2026-08-27",
+        "pePercentile5y": 58
+      }
+    },
+    {
+      "code": "600884",
+      "name": "杉杉股份",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 121.3,
+        "h1RevenueYoY": 23,
+        "h1NetProfit": 8.22,
+        "h1NetProfitYoY": 297,
+        "grossMargin": 20.1,
+        "roe": 3.692,
+        "ocf": 8.35,
+        "debtRatio": 48.5,
+        "fy25Eps": 0.21,
+        "fy25NetProfit": 4.58,
+        "peTtm": "25.09",
+        "price": 11.99,
+        "priceTime": "20261009161459",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600884&announcementId=1225521372&orgId=gssh0600884&announcementTime=2026-08-28",
+        "pePercentile5y": 85
+      }
+    },
+    {
+      "code": "300566",
+      "name": "激智科技",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 10.81,
+        "h1RevenueYoY": 1,
+        "h1NetProfit": 1.15,
+        "h1NetProfitYoY": -1,
+        "grossMargin": 25.3,
+        "roe": 5.18,
+        "ocf": 3.58,
+        "debtRatio": 32.1,
+        "fy25Eps": 0.78,
+        "fy25NetProfit": 2.04,
+        "peTtm": "27.87",
+        "price": 21.54,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 1.04,
+            "mean": 1.04,
+            "hi": 1.04
+          },
+          "2027": {
+            "n": 1,
+            "lo": 1.3,
+            "mean": 1.3,
+            "hi": 1.3
+          },
+          "2028": {
+            "n": 1,
+            "lo": 1.65,
+            "mean": 1.65,
+            "hi": 1.65
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300566&announcementId=1225488691&orgId=9900029668&announcementTime=2026-08-22",
+        "pePercentile5y": 39
+      }
+    },
+    {
+      "code": "002585",
+      "name": "双星新材",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 27.29,
+        "h1RevenueYoY": 4,
+        "h1NetProfit": 0.46,
+        "h1NetProfitYoY": null,
+        "grossMargin": 10.2,
+        "roe": 0.55,
+        "ocf": 5.81,
+        "debtRatio": 32.1,
+        "fy25Eps": -0.462,
+        "fy25NetProfit": -5.27,
+        "peTtm": "-34.70",
+        "price": 10.1,
+        "priceTime": "20261009161409",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002585&announcementId=1225499470&orgId=9900019959&announcementTime=2026-08-25",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "688323",
+      "name": "瑞华泰",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "metrics": {
+        "h1Revenue": 2.26,
+        "h1RevenueYoY": 24,
+        "h1NetProfit": -0.39,
+        "h1NetProfitYoY": null,
+        "grossMargin": 18.2,
+        "roe": -4.56,
+        "ocf": 0.11,
+        "debtRatio": 54.0,
+        "fy25Eps": -0.51,
+        "fy25NetProfit": -0.92,
+        "peTtm": "-46.04",
+        "price": 22.45,
+        "priceTime": "20261009161452",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.26,
+            "mean": 0.26,
+            "hi": 0.26
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.63,
+            "mean": 0.63,
+            "hi": 0.63
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688323&announcementId=1225490709&orgId=9900041792&announcementTime=2026-08-22",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "000636",
+      "name": "风华高科",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 偏低）",
+      "metrics": {
+        "h1Revenue": 35.0,
+        "h1RevenueYoY": 26,
+        "h1NetProfit": 2.9,
+        "h1NetProfitYoY": 74,
+        "grossMargin": 18.8,
+        "roe": 2.3,
+        "ocf": 1.61,
+        "debtRatio": 25.2,
+        "fy25Eps": 0.25,
+        "fy25NetProfit": 2.83,
+        "peTtm": "133.06",
+        "price": 47.17,
+        "priceTime": "20261009161500",
+        "cons": {
+          "2026": {
+            "n": 5,
+            "lo": 0.58,
+            "mean": 0.68,
+            "hi": 0.8
+          },
+          "2027": {
+            "n": 5,
+            "lo": 0.7,
+            "mean": 1.05,
+            "hi": 1.43
+          },
+          "2028": {
+            "n": 5,
+            "lo": 0.84,
+            "mean": 1.22,
+            "hi": 1.7
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000636&announcementId=1225518982&orgId=gssz0000636&announcementTime=2026-08-28",
+        "pePercentile5y": 87
+      }
+    },
+    {
+      "code": "603678",
+      "name": "火炬电子",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 31.07,
+        "h1RevenueYoY": 75,
+        "h1NetProfit": 2.43,
+        "h1NetProfitYoY": -7,
+        "grossMargin": 18.7,
+        "roe": 3.86,
+        "ocf": -2.26,
+        "debtRatio": 36.0,
+        "fy25Eps": 0.68,
+        "fy25NetProfit": 3.2,
+        "peTtm": "62.72",
+        "price": 39.7,
+        "priceTime": "20261009161449",
+        "cons": {
+          "2026": {
+            "n": 13,
+            "lo": 1.03,
+            "mean": 1.18,
+            "hi": 1.35
+          },
+          "2027": {
+            "n": 13,
+            "lo": 1.35,
+            "mean": 1.54,
+            "hi": 1.82
+          },
+          "2028": {
+            "n": 13,
+            "lo": 1.66,
+            "mean": 1.99,
+            "hi": 2.63
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603678&announcementId=1225493592&orgId=9900023660&announcementTime=2026-08-22",
+        "pePercentile5y": 77
+      }
+    },
+    {
+      "code": "603267",
+      "name": "鸿远电子",
+      "status": "未建模",
+      "reason": "现金流/利润低于 0.3",
+      "metrics": {
+        "h1Revenue": 9.23,
+        "h1RevenueYoY": -9,
+        "h1NetProfit": 2.19,
+        "h1NetProfitYoY": 19,
+        "grossMargin": 43.3,
+        "roe": 4.85,
+        "ocf": 0.66,
+        "debtRatio": 13.2,
+        "fy25Eps": 1.08,
+        "fy25NetProfit": 2.5,
+        "peTtm": "35.76",
+        "price": 44.16,
+        "priceTime": "20261009161458",
+        "cons": {
+          "2026": {
+            "n": 6,
+            "lo": 1.3,
+            "mean": 1.48,
+            "hi": 1.9
+          },
+          "2027": {
+            "n": 6,
+            "lo": 1.64,
+            "mean": 1.94,
+            "hi": 2.71
+          },
+          "2028": {
+            "n": 5,
+            "lo": 1.94,
+            "mean": 2.31,
+            "hi": 3.23
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603267&announcementId=1225526640&orgId=9900035340&announcementTime=2026-08-29",
+        "pePercentile5y": 46
+      }
+    },
+    {
+      "code": "003031",
+      "name": "中瓷电子",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "688021",
+      "name": "奥福科技",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 偏低）",
+      "metrics": {
+        "h1Revenue": 1.76,
+        "h1RevenueYoY": 0,
+        "h1NetProfit": 0.18,
+        "h1NetProfitYoY": null,
+        "grossMargin": 37.9,
+        "roe": 2.05,
+        "ocf": 0.45,
+        "debtRatio": 24.1,
+        "fy25Eps": 0.19,
+        "fy25NetProfit": 0.15,
+        "peTtm": "42.44",
+        "price": 19.57,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.88,
+            "mean": 0.88,
+            "hi": 0.88
+          },
+          "2027": {
+            "n": 1,
+            "lo": 1.05,
+            "mean": 1.05,
+            "hi": 1.05
+          },
+          "2028": {
+            "n": 1,
+            "lo": 1.23,
+            "mean": 1.23,
+            "hi": 1.23
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688021&announcementId=1225488604&orgId=9900039287&announcementTime=2026-08-22",
+        "pePercentile5y": 57
+      }
+    },
+    {
+      "code": "600160",
+      "name": "巨化股份",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "603379",
+      "name": "三美股份",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "605020",
+      "name": "永和股份",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "002326",
+      "name": "永太科技",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 37.46,
+        "h1RevenueYoY": 44,
+        "h1NetProfit": 2.74,
+        "h1NetProfitYoY": 366,
+        "grossMargin": 25.0,
+        "roe": 9.75,
+        "ocf": 5.79,
+        "debtRatio": 75.2,
+        "fy25Eps": -0.05,
+        "fy25NetProfit": -0.46,
+        "peTtm": "94.13",
+        "price": 17.19,
+        "priceTime": "20261009161500",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002326&announcementId=1225503439&orgId=9900009510&announcementTime=2026-08-26",
+        "pePercentile5y": 79
+      }
+    },
+    {
+      "code": "002407",
+      "name": "多氟多",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "002915",
+      "name": "中欣氟材",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 7.95,
+        "h1RevenueYoY": 3,
+        "h1NetProfit": 0.04,
+        "h1NetProfitYoY": -18,
+        "grossMargin": 15.3,
+        "roe": 0.31,
+        "ocf": -0.83,
+        "debtRatio": 51.9,
+        "fy25Eps": 0.0578,
+        "fy25NetProfit": 0.19,
+        "peTtm": "313.17",
+        "price": 16.66,
+        "priceTime": "20261009161500",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002915&announcementId=1225494102&orgId=9900033856&announcementTime=2026-08-25",
+        "pePercentile5y": 91
+      }
+    },
+    {
+      "code": "603260",
+      "name": "合盛硅业",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 过低）",
+      "metrics": {
+        "h1Revenue": 101.6,
+        "h1RevenueYoY": 4,
+        "h1NetProfit": 3.24,
+        "h1NetProfitYoY": null,
+        "grossMargin": 18.4,
+        "roe": 1.1,
+        "ocf": 26.35,
+        "debtRatio": 62.5,
+        "fy25Eps": -2.55,
+        "fy25NetProfit": -29.91,
+        "peTtm": "-17.21",
+        "price": 33.04,
+        "priceTime": "20261009161457",
+        "cons": {
+          "2026": {
+            "n": 11,
+            "lo": 0.29,
+            "mean": 0.87,
+            "hi": 1.51
+          },
+          "2027": {
+            "n": 11,
+            "lo": 0.58,
+            "mean": 1.46,
+            "hi": 2.5
+          },
+          "2028": {
+            "n": 9,
+            "lo": 0.99,
+            "mean": 2.09,
+            "hi": 3.58
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603260&announcementId=1225505925&orgId=9900031901&announcementTime=2026-08-26",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "600596",
+      "name": "新安股份",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 过低）",
+      "metrics": {
+        "h1Revenue": 85.63,
+        "h1RevenueYoY": 6,
+        "h1NetProfit": 2.54,
+        "h1NetProfitYoY": 268,
+        "grossMargin": 14.4,
+        "roe": 2.02,
+        "ocf": 1.54,
+        "debtRatio": 38.8,
+        "fy25Eps": 0.1088,
+        "fy25NetProfit": 1.47,
+        "peTtm": "44.51",
+        "price": 10.95,
+        "priceTime": "20261009161441",
+        "cons": {
+          "2026": {
+            "n": 10,
+            "lo": 0.38,
+            "mean": 0.45,
+            "hi": 0.49
+          },
+          "2027": {
+            "n": 10,
+            "lo": 0.53,
+            "mean": 0.66,
+            "hi": 0.72
+          },
+          "2028": {
+            "n": 9,
+            "lo": 0.63,
+            "mean": 0.84,
+            "hi": 0.95
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600596&announcementId=1225497008&orgId=gssh0600596&announcementTime=2026-08-25",
+        "pePercentile5y": 69
+      }
+    },
+    {
+      "code": "605399",
+      "name": "晨光新材",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "metrics": {
+        "h1Revenue": 6.77,
+        "h1RevenueYoY": 31,
+        "h1NetProfit": -0.39,
+        "h1NetProfitYoY": null,
+        "grossMargin": 12.1,
+        "roe": -1.89,
+        "ocf": -0.72,
+        "debtRatio": 35.7,
+        "fy25Eps": -0.3,
+        "fy25NetProfit": -0.95,
+        "peTtm": "-31.50",
+        "price": 13.06,
+        "priceTime": "20261009161437",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.08,
+            "mean": 0.08,
+            "hi": 0.08
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.17,
+            "mean": 0.17,
+            "hi": 0.17
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.22,
+            "mean": 0.22,
+            "hi": 0.22
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=605399&announcementId=1225508344&orgId=9900039742&announcementTime=2026-08-27",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "300041",
+      "name": "回天新材",
+      "status": "未建模",
+      "reason": "现金流/利润低于 0.3",
+      "metrics": {
+        "h1Revenue": 23.66,
+        "h1RevenueYoY": 9,
+        "h1NetProfit": 1.67,
+        "h1NetProfitYoY": 17,
+        "grossMargin": 23.1,
+        "roe": 5.27,
+        "ocf": 0.11,
+        "debtRatio": 52.9,
+        "fy25Eps": 0.3979,
+        "fy25NetProfit": 2.21,
+        "peTtm": "24.87",
+        "price": 10.89,
+        "priceTime": "20261009161457",
+        "cons": {
+          "2026": {
+            "n": 8,
+            "lo": 0.48,
+            "mean": 0.56,
+            "hi": 0.78
+          },
+          "2027": {
+            "n": 7,
+            "lo": 0.56,
+            "mean": 0.65,
+            "hi": 0.73
+          },
+          "2028": {
+            "n": 7,
+            "lo": 0.65,
+            "mean": 0.8,
+            "hi": 0.94
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300041&announcementId=1225486150&orgId=9900009192&announcementTime=2026-08-21",
+        "pePercentile5y": 38
+      }
+    },
+    {
+      "code": "002601",
+      "name": "龙佰集团",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 144.22,
+        "h1RevenueYoY": 8,
+        "h1NetProfit": 8.44,
+        "h1NetProfitYoY": -39,
+        "grossMargin": 20.0,
+        "roe": 3.58,
+        "ocf": 18.5,
+        "debtRatio": 55.6,
+        "fy25Eps": 0.52,
+        "fy25NetProfit": 12.45,
+        "peTtm": "50.59",
+        "price": 14.92,
+        "priceTime": "20261009161500",
+        "cons": {
+          "2026": {
+            "n": 19,
+            "lo": 0.43,
+            "mean": 0.71,
+            "hi": 0.81
+          },
+          "2027": {
+            "n": 19,
+            "lo": 0.78,
+            "mean": 1.07,
+            "hi": 1.6
+          },
+          "2028": {
+            "n": 18,
+            "lo": 0.98,
+            "mean": 1.33,
+            "hi": 2.01
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002601&announcementId=1225513321&orgId=9900020849&announcementTime=2026-08-27",
+        "pePercentile5y": 94
+      }
+    },
+    {
+      "code": "002145",
+      "name": "钛能化学",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 偏低）",
+      "metrics": {
+        "h1Revenue": 45.57,
+        "h1RevenueYoY": 21,
+        "h1NetProfit": 4.2,
+        "h1NetProfitYoY": 62,
+        "grossMargin": 17.9,
+        "roe": 3.43,
+        "ocf": 3.55,
+        "debtRatio": 37.8,
+        "fy25Eps": 0.0985,
+        "fy25NetProfit": 3.57,
+        "peTtm": "34.88",
+        "price": 4.74,
+        "priceTime": "20261009161500",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.27,
+            "mean": 0.27,
+            "hi": 0.27
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.34,
+            "mean": 0.34,
+            "hi": 0.34
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.42,
+            "mean": 0.42,
+            "hi": 0.42
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002145&announcementId=1225456799&orgId=9900003342&announcementTime=2026-08-05",
+        "pePercentile5y": 58
+      }
+    },
+    {
+      "code": "002978",
+      "name": "安宁股份",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 10.15,
+        "h1RevenueYoY": -8,
+        "h1NetProfit": 3.41,
+        "h1NetProfitYoY": -23,
+        "grossMargin": 60.9,
+        "roe": 3.87,
+        "ocf": 3.11,
+        "debtRatio": 48.1,
+        "fy25Eps": 1.5283,
+        "fy25NetProfit": 7.2,
+        "peTtm": "19.56",
+        "price": 25.68,
+        "priceTime": "20261009161448",
+        "cons": {
+          "2026": {
+            "n": 4,
+            "lo": 1.37,
+            "mean": 1.62,
+            "hi": 2.11
+          },
+          "2027": {
+            "n": 3,
+            "lo": 1.57,
+            "mean": 1.65,
+            "hi": 1.72
+          },
+          "2028": {
+            "n": 3,
+            "lo": 1.82,
+            "mean": 1.87,
+            "hi": 1.96
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002978&announcementId=1225523042&orgId=9900034946&announcementTime=2026-08-28",
+        "pePercentile5y": 90
+      }
+    },
+    {
+      "code": "300891",
+      "name": "惠云钛业",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 9.32,
+        "h1RevenueYoY": 12,
+        "h1NetProfit": 0.07,
+        "h1NetProfitYoY": 46,
+        "grossMargin": 12.0,
+        "roe": 0.58,
+        "ocf": 2.63,
+        "debtRatio": 59.1,
+        "fy25Eps": -0.16,
+        "fy25NetProfit": -0.63,
+        "peTtm": "-50.32",
+        "price": 7.58,
+        "priceTime": "20261009161430",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300891&announcementId=1225496590&orgId=gfbj0839598&announcementTime=2026-08-25",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "600105",
+      "name": "永鼎股份",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "600577",
+      "name": "精达股份",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 153.01,
+        "h1RevenueYoY": 29,
+        "h1NetProfit": 3.25,
+        "h1NetProfitYoY": 6,
+        "grossMargin": 5.6,
+        "roe": 5.21,
+        "ocf": -0.7,
+        "debtRatio": 61.1,
+        "fy25Eps": 0.28,
+        "fy25NetProfit": 5.99,
+        "peTtm": "31.30",
+        "price": 8.66,
+        "priceTime": "20261009161449",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.35,
+            "mean": 0.35,
+            "hi": 0.35
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.4,
+            "mean": 0.4,
+            "hi": 0.4
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.44,
+            "mean": 0.44,
+            "hi": 0.44
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600577&announcementId=1225496800&orgId=gssh0600577&announcementTime=2026-08-25",
+        "pePercentile5y": 79
+      }
+    },
+    {
+      "code": "688190",
+      "name": "云路股份",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 9.98,
+        "h1RevenueYoY": 1,
+        "h1NetProfit": 1.26,
+        "h1NetProfitYoY": -26,
+        "grossMargin": 23.5,
+        "roe": 4.74,
+        "ocf": 0.86,
+        "debtRatio": 21.3,
+        "fy25Eps": 2.4532,
+        "fy25NetProfit": 2.94,
+        "peTtm": "31.68",
+        "price": 66.17,
+        "priceTime": "20261009161440",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 2.59,
+            "mean": 2.81,
+            "hi": 3.02
+          },
+          "2027": {
+            "n": 2,
+            "lo": 2.84,
+            "mean": 3.0,
+            "hi": 3.16
+          },
+          "2028": {
+            "n": 2,
+            "lo": 3.07,
+            "mean": 3.2,
+            "hi": 3.33
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688190&announcementId=1225527740&orgId=9900041682&announcementTime=2026-08-29",
+        "pePercentile5y": 40
+      }
+    },
+    {
+      "code": "002318",
+      "name": "久立特材",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "metrics": {
+        "h1Revenue": 38.84,
+        "h1RevenueYoY": -36,
+        "h1NetProfit": 3.93,
+        "h1NetProfitYoY": -53,
+        "grossMargin": 21.2,
+        "roe": 4.54,
+        "ocf": 0.65,
+        "debtRatio": 37.7,
+        "fy25Eps": 1.59,
+        "fy25NetProfit": 15.09,
+        "peTtm": "16.17",
+        "price": 17.78,
+        "priceTime": "20261009161457",
+        "cons": {
+          "2026": {
+            "n": 9,
+            "lo": 0.88,
+            "mean": 1.19,
+            "hi": 1.93
+          },
+          "2027": {
+            "n": 8,
+            "lo": 0.97,
+            "mean": 1.29,
+            "hi": 1.95
+          },
+          "2028": {
+            "n": 8,
+            "lo": 1.07,
+            "mean": 1.56,
+            "hi": 2.53
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002318&announcementId=1225499949&orgId=9900009190&announcementTime=2026-08-25",
+        "pePercentile5y": 65
+      }
+    },
+    {
+      "code": "600399",
+      "name": "抚顺特钢",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "metrics": {
+        "h1Revenue": 41.96,
+        "h1RevenueYoY": 10,
+        "h1NetProfit": -2.53,
+        "h1NetProfitYoY": null,
+        "grossMargin": 2.6,
+        "roe": -4.69,
+        "ocf": -8.89,
+        "debtRatio": 58.6,
+        "fy25Eps": -0.41,
+        "fy25NetProfit": -8.05,
+        "peTtm": "-10.80",
+        "price": 4.27,
+        "priceTime": "20261009161449",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": 0.04,
+            "mean": 0.16,
+            "hi": 0.23
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.14,
+            "mean": 0.14,
+            "hi": 0.14
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.15,
+            "mean": 0.15,
+            "hi": 0.15
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600399&announcementId=1225481817&orgId=gssh0600399&announcementTime=2026-08-20",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "600172",
+      "name": "黄河旋风",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "metrics": {
+        "h1Revenue": 8.07,
+        "h1RevenueYoY": 15,
+        "h1NetProfit": -2.22,
+        "h1NetProfitYoY": null,
+        "grossMargin": 16.0,
+        "roe": -49.5,
+        "ocf": 0.98,
+        "debtRatio": 94.6,
+        "fy25Eps": -0.6824,
+        "fy25NetProfit": -9.5,
+        "peTtm": "-22.48",
+        "price": 13.61,
+        "priceTime": "20261009161445",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600172&announcementId=1225511927&orgId=gssh0600172&announcementTime=2026-08-27",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "000519",
+      "name": "中兵红箭",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负",
+      "metrics": {
+        "h1Revenue": 30.3,
+        "h1RevenueYoY": 38,
+        "h1NetProfit": 0.37,
+        "h1NetProfitYoY": null,
+        "grossMargin": 18.5,
+        "roe": 0.36,
+        "ocf": -5.58,
+        "debtRatio": 43.3,
+        "fy25Eps": 0.0299,
+        "fy25NetProfit": 0.42,
+        "peTtm": "164.86",
+        "price": 14.16,
+        "priceTime": "20261009161418",
+        "cons": {
+          "2026": {
+            "n": 5,
+            "lo": 0.29,
+            "mean": 0.34,
+            "hi": 0.4
+          },
+          "2027": {
+            "n": 5,
+            "lo": 0.41,
+            "mean": 0.5,
+            "hi": 0.59
+          },
+          "2028": {
+            "n": 5,
+            "lo": 0.53,
+            "mean": 0.65,
+            "hi": 0.77
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000519&announcementId=1225486606&orgId=gssz0000519&announcementTime=2026-08-21",
+        "pePercentile5y": 97
+      }
+    },
+    {
+      "code": "301071",
+      "name": "力量钻石",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线（ROE 过低）",
+      "metrics": {
+        "h1Revenue": 4.38,
+        "h1RevenueYoY": 81,
+        "h1NetProfit": 0.9,
+        "h1NetProfitYoY": 248,
+        "grossMargin": 34.4,
+        "roe": 1.69,
+        "ocf": 2.07,
+        "debtRatio": 19.5,
+        "fy25Eps": 0.43,
+        "fy25NetProfit": 1.09,
+        "peTtm": "82.14",
+        "price": 56.0,
+        "priceTime": "20261009161445",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": 0.73,
+            "mean": 0.86,
+            "hi": 0.96
+          },
+          "2027": {
+            "n": 3,
+            "lo": 1.03,
+            "mean": 1.44,
+            "hi": 1.9
+          },
+          "2028": {
+            "n": 3,
+            "lo": 1.23,
+            "mean": 2.2,
+            "hi": 3.08
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=301071&announcementId=1225444454&orgId=fzqy1028970&announcementTime=2026-07-29",
+        "pePercentile5y": 72
+      }
+    },
+    {
+      "code": "300179",
+      "name": "四方达",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线"
+    },
+    {
+      "code": "300070",
+      "name": "碧水源",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 27.95,
+        "h1RevenueYoY": -5,
+        "h1NetProfit": 0.3,
+        "h1NetProfitYoY": null,
+        "grossMargin": 25.4,
+        "roe": 0.11,
+        "ocf": 0.27,
+        "debtRatio": 62.8,
+        "fy25Eps": 0.0168,
+        "fy25NetProfit": 0.61,
+        "peTtm": "62.83",
+        "price": 3.44,
+        "priceTime": "20261009161436",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300070&announcementId=1225497169&orgId=9900011168&announcementTime=2026-08-25",
+        "pePercentile5y": 66
+      }
+    },
+    {
+      "code": "300631",
+      "name": "久吾高科",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 2.99,
+        "h1RevenueYoY": 11,
+        "h1NetProfit": 0.37,
+        "h1NetProfitYoY": -3,
+        "grossMargin": 36.1,
+        "roe": 2.77,
+        "ocf": 0.12,
+        "debtRatio": 32.6,
+        "fy25Eps": 0.6012,
+        "fy25NetProfit": 0.74,
+        "peTtm": "37.90",
+        "price": 21.94,
+        "priceTime": "20261009161454",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300631&announcementId=1225494927&orgId=9900029008&announcementTime=2026-08-25",
+        "pePercentile5y": 4
+      }
+    },
+    {
+      "code": "688101",
+      "name": "三达膜",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 9.11,
+        "h1RevenueYoY": 27,
+        "h1NetProfit": 1.84,
+        "h1NetProfitYoY": -6,
+        "grossMargin": 38.4,
+        "roe": 4.1,
+        "ocf": -0.49,
+        "debtRatio": 25.1,
+        "fy25Eps": 1.14,
+        "fy25NetProfit": 3.78,
+        "peTtm": "12.94",
+        "price": 14.29,
+        "priceTime": "20261009161442",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688101&announcementId=1225485083&orgId=9900026794&announcementTime=2026-08-21",
+        "pePercentile5y": 4
+      }
+    },
+    {
+      "code": "300829",
+      "name": "金丹科技",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "metrics": {
+        "h1Revenue": 8.26,
+        "h1RevenueYoY": 6,
+        "h1NetProfit": 0.52,
+        "h1NetProfitYoY": -46,
+        "grossMargin": 17.6,
+        "roe": 2.15,
+        "ocf": 1.67,
+        "debtRatio": 34.8,
+        "fy25Eps": 0.55,
+        "fy25NetProfit": 1.15,
+        "peTtm": "74.90",
+        "price": 23.35,
+        "priceTime": "20261009161418",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300829&announcementId=1225494159&orgId=gfbj0832821&announcementTime=2026-08-25",
+        "pePercentile5y": 99
+      }
+    },
+    {
+      "code": "688095",
+      "name": "福昕软件",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 4.71,
+        "h1RevenueYoY": 11,
+        "h1NetProfit": 0.14,
+        "h1NetProfitYoY": null,
+        "grossMargin": 91.6,
+        "roe": 0.53,
+        "ocf": 0.38,
+        "debtRatio": 25.9,
+        "fy25Eps": 0.3358,
+        "fy25NetProfit": 0.3,
+        "peTtm": "104.92",
+        "price": 56.36,
+        "priceTime": "20261009161454",
+        "cons": {
+          "2026": {
+            "n": 8,
+            "lo": 0.34,
+            "mean": 1.26,
+            "hi": 1.85
+          },
+          "2027": {
+            "n": 8,
+            "lo": 1.31,
+            "mean": 1.93,
+            "hi": 2.57
+          },
+          "2028": {
+            "n": 7,
+            "lo": 1.68,
+            "mean": 2.78,
+            "hi": 3.94
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688095&announcementId=1225522225&orgId=gfbj0832422&announcementTime=2026-08-28",
+        "pePercentile5y": 46
+      }
+    },
+    {
+      "code": "603039",
+      "name": "泛微网络",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 8.49,
+        "h1RevenueYoY": 5,
+        "h1NetProfit": 1.15,
+        "h1NetProfitYoY": 75,
+        "grossMargin": 94.2,
+        "roe": 4.39,
+        "ocf": -0.32,
+        "debtRatio": 38.0,
+        "fy25Eps": 1.14,
+        "fy25NetProfit": 2.89,
+        "peTtm": "31.63",
+        "price": 34.73,
+        "priceTime": "20261009161447",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 1.2,
+            "mean": 1.24,
+            "hi": 1.28
+          },
+          "2027": {
+            "n": 2,
+            "lo": 1.37,
+            "mean": 1.4,
+            "hi": 1.43
+          },
+          "2028": {
+            "n": 2,
+            "lo": 1.51,
+            "mean": 1.57,
+            "hi": 1.63
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603039&announcementId=1225485065&orgId=9900029865&announcementTime=2026-08-21",
+        "pePercentile5y": 4
+      }
+    },
+    {
+      "code": "300624",
+      "name": "万兴科技",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 7.06,
+        "h1RevenueYoY": -7,
+        "h1NetProfit": -0.69,
+        "h1NetProfitYoY": null,
+        "grossMargin": 86.6,
+        "roe": -6.95,
+        "ocf": -0.89,
+        "debtRatio": 38.2,
+        "fy25Eps": -0.47,
+        "fy25NetProfit": -0.91,
+        "peTtm": "-88.13",
+        "price": 48.96,
+        "priceTime": "20261009161406",
+        "cons": {
+          "2026": {
+            "n": 8,
+            "lo": -0.5,
+            "mean": 0.06,
+            "hi": 0.4
+          },
+          "2027": {
+            "n": 8,
+            "lo": 0.01,
+            "mean": 0.36,
+            "hi": 0.7
+          },
+          "2028": {
+            "n": 8,
+            "lo": 0.11,
+            "mean": 0.55,
+            "hi": 1.0
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300624&announcementId=1225490024&orgId=9900035179&announcementTime=2026-08-24",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "301236",
+      "name": "软通动力",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 186.07,
+        "h1RevenueYoY": 18,
+        "h1NetProfit": -2.65,
+        "h1NetProfitYoY": null,
+        "grossMargin": 9.6,
+        "roe": -2.03,
+        "ocf": -39.51,
+        "debtRatio": 61.5,
+        "fy25Eps": 0.22,
+        "fy25NetProfit": 2.06,
+        "peTtm": "435.99",
+        "price": 35.4,
+        "priceTime": "20261009161454",
+        "cons": {
+          "2026": {
+            "n": 11,
+            "lo": 0.25,
+            "mean": 0.34,
+            "hi": 0.47
+          },
+          "2027": {
+            "n": 11,
+            "lo": 0.35,
+            "mean": 0.49,
+            "hi": 0.7
+          },
+          "2028": {
+            "n": 11,
+            "lo": 0.49,
+            "mean": 0.66,
+            "hi": 0.97
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=301236&announcementId=1225506928&orgId=9900046983&announcementTime=2026-08-26",
+        "pePercentile5y": 90
+      }
+    },
+    {
+      "code": "601360",
+      "name": "三六零",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 41.72,
+        "h1RevenueYoY": 9,
+        "h1NetProfit": 2.16,
+        "h1NetProfitYoY": null,
+        "grossMargin": 69.7,
+        "roe": 0.74,
+        "ocf": -0.57,
+        "debtRatio": 22.8,
+        "fy25Eps": 0.04,
+        "fy25NetProfit": 2.63,
+        "peTtm": "83.85",
+        "price": 9.11,
+        "priceTime": "20261009161444",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 0.08,
+            "mean": 0.09,
+            "hi": 0.1
+          },
+          "2027": {
+            "n": 2,
+            "lo": 0.09,
+            "mean": 0.11,
+            "hi": 0.12
+          },
+          "2028": {
+            "n": 2,
+            "lo": 0.11,
+            "mean": 0.13,
+            "hi": 0.14
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=601360&announcementId=1225483359&orgId=9900021962&announcementTime=2026-08-20",
+        "pePercentile5y": 93
+      }
+    },
+    {
+      "code": "300418",
+      "name": "昆仑万维",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 53.59,
+        "h1RevenueYoY": 44,
+        "h1NetProfit": 10.88,
+        "h1NetProfitYoY": null,
+        "grossMargin": 65.6,
+        "roe": 7.92,
+        "ocf": -4.67,
+        "debtRatio": 23.6,
+        "fy25Eps": -1.28,
+        "fy25NetProfit": -15.93,
+        "peTtm": "150.73",
+        "price": 41.15,
+        "priceTime": "20261009161427",
+        "cons": {
+          "2026": {
+            "n": 15,
+            "lo": -0.94,
+            "mean": -0.19,
+            "hi": 1.29
+          },
+          "2027": {
+            "n": 15,
+            "lo": -0.47,
+            "mean": 0.04,
+            "hi": 0.66
+          },
+          "2028": {
+            "n": 15,
+            "lo": -0.01,
+            "mean": 0.53,
+            "hi": 1.18
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300418&announcementId=1225483546&orgId=9900023869&announcementTime=2026-08-20",
+        "pePercentile5y": 86
+      }
+    },
+    {
+      "code": "300058",
+      "name": "蓝色光标",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 345.62,
+        "h1RevenueYoY": 7,
+        "h1NetProfit": 2.11,
+        "h1NetProfitYoY": 119,
+        "grossMargin": 2.9,
+        "roe": 2.66,
+        "ocf": -0.56,
+        "debtRatio": 73.0,
+        "fy25Eps": 0.063,
+        "fy25NetProfit": 2.25,
+        "peTtm": "136.02",
+        "price": 12.87,
+        "priceTime": "20261009161430",
+        "cons": {
+          "2026": {
+            "n": 5,
+            "lo": 0.06,
+            "mean": 0.08,
+            "hi": 0.1
+          },
+          "2027": {
+            "n": 5,
+            "lo": 0.07,
+            "mean": 0.09,
+            "hi": 0.12
+          },
+          "2028": {
+            "n": 4,
+            "lo": 0.09,
+            "mean": 0.11,
+            "hi": 0.14
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300058&announcementId=1225523931&orgId=9900010147&announcementTime=2026-08-29",
+        "pePercentile5y": 71
+      }
+    },
+    {
+      "code": "000681",
+      "name": "视觉中国",
+      "status": "未建模",
+      "reason": "无一致预期",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 3.7,
+        "h1RevenueYoY": -7,
+        "h1NetProfit": 1.01,
+        "h1NetProfitYoY": 131,
+        "grossMargin": 42.4,
+        "roe": 2.78,
+        "ocf": 0.09,
+        "debtRatio": 17.0,
+        "fy25Eps": 0.1188,
+        "fy25NetProfit": 0.83,
+        "peTtm": "80.56",
+        "price": 16.14,
+        "priceTime": "20261009161430",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=000681&announcementId=1225498474&orgId=gssz0000681&announcementTime=2026-08-25",
+        "pePercentile5y": 44
+      }
+    },
+    {
+      "code": "002315",
+      "name": "焦点科技",
+      "status": "未建模",
+      "reason": "H1 归母同比下滑",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 10.59,
+        "h1RevenueYoY": 15,
+        "h1NetProfit": 2.6,
+        "h1NetProfitYoY": -12,
+        "grossMargin": 79.1,
+        "roe": 9.56,
+        "ocf": 2.9,
+        "debtRatio": 40.6,
+        "fy25Eps": 1.5874,
+        "fy25NetProfit": 5.04,
+        "peTtm": "22.09",
+        "price": 25.08,
+        "priceTime": "20261009161451",
+        "cons": {
+          "2026": {
+            "n": 10,
+            "lo": 1.2,
+            "mean": 1.29,
+            "hi": 1.37
+          },
+          "2027": {
+            "n": 10,
+            "lo": 1.54,
+            "mean": 1.65,
+            "hi": 1.73
+          },
+          "2028": {
+            "n": 10,
+            "lo": 1.89,
+            "mean": 2.02,
+            "hi": 2.25
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002315&announcementId=1225501362&orgId=9900009170&announcementTime=2026-08-26",
+        "pePercentile5y": 38
+      }
+    },
+    {
+      "code": "688365",
+      "name": "光云科技",
+      "status": "未建模",
+      "reason": "通过现金流与增长初筛，但 H1 ROE 未过质量线",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 3.02,
+        "h1RevenueYoY": 15,
+        "h1NetProfit": 0.12,
+        "h1NetProfitYoY": null,
+        "grossMargin": 73.1,
+        "roe": 1.22,
+        "ocf": 0.3,
+        "debtRatio": 44.9,
+        "fy25Eps": -0.06,
+        "fy25NetProfit": -0.26,
+        "peTtm": "-2777.85",
+        "price": 15.17,
+        "priceTime": "20261009161433",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": 0.05,
+            "mean": 0.05,
+            "hi": 0.05
+          },
+          "2027": {
+            "n": 1,
+            "lo": 0.09,
+            "mean": 0.09,
+            "hi": 0.09
+          },
+          "2028": {
+            "n": 1,
+            "lo": 0.24,
+            "mean": 0.24,
+            "hi": 0.24
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688365&announcementId=1225493492&orgId=9900039491&announcementTime=2026-08-22",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "002517",
+      "name": "恺英网络",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线",
+      "sector": "AI应用"
+    },
+    {
+      "code": "002558",
+      "name": "巨人网络",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线",
+      "sector": "AI应用"
+    },
+    {
+      "code": "600570",
+      "name": "恒生电子",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 21.44,
+        "h1RevenueYoY": -12,
+        "h1NetProfit": 2.61,
+        "h1NetProfitYoY": 0,
+        "grossMargin": 69.4,
+        "roe": 2.65,
+        "ocf": -9.82,
+        "debtRatio": 29.1,
+        "fy25Eps": 0.65,
+        "fy25NetProfit": 12.31,
+        "peTtm": "30.02",
+        "price": 19.49,
+        "priceTime": "20261009161432",
+        "cons": {
+          "2026": {
+            "n": 10,
+            "lo": 0.66,
+            "mean": 0.72,
+            "hi": 0.76
+          },
+          "2027": {
+            "n": 10,
+            "lo": 0.72,
+            "mean": 0.85,
+            "hi": 0.93
+          },
+          "2028": {
+            "n": 10,
+            "lo": 0.79,
+            "mean": 0.99,
+            "hi": 1.2
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=600570&announcementId=1225505909&orgId=gssh0600570&announcementTime=2026-08-26",
+        "pePercentile5y": 12
+      }
+    },
+    {
+      "code": "300033",
+      "name": "同花顺",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线",
+      "sector": "AI应用"
+    },
+    {
+      "code": "300059",
+      "name": "东方财富",
+      "status": "已建三情景",
+      "reason": "通过初筛与质量线",
+      "sector": "AI应用"
+    },
+    {
+      "code": "603171",
+      "name": "税友股份",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 10.12,
+        "h1RevenueYoY": 10,
+        "h1NetProfit": 0.94,
+        "h1NetProfitYoY": 32,
+        "grossMargin": 62.2,
+        "roe": 3.65,
+        "ocf": -2.98,
+        "debtRatio": 40.0,
+        "fy25Eps": 0.34,
+        "fy25NetProfit": 1.36,
+        "peTtm": "101.45",
+        "price": 39.8,
+        "priceTime": "20261009161457",
+        "cons": {
+          "2026": {
+            "n": 15,
+            "lo": 0.43,
+            "mean": 0.6,
+            "hi": 1.01
+          },
+          "2027": {
+            "n": 15,
+            "lo": 0.57,
+            "mean": 0.86,
+            "hi": 1.3
+          },
+          "2028": {
+            "n": 14,
+            "lo": 0.7,
+            "mean": 1.16,
+            "hi": 1.81
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=603171&announcementId=1225484533&orgId=9900041900&announcementTime=2026-08-21",
+        "pePercentile5y": 45
+      }
+    },
+    {
+      "code": "300253",
+      "name": "卫宁健康",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 9.94,
+        "h1RevenueYoY": 19,
+        "h1NetProfit": -1.76,
+        "h1NetProfitYoY": null,
+        "grossMargin": 33.7,
+        "roe": -3.2,
+        "ocf": 0.15,
+        "debtRatio": 33.3,
+        "fy25Eps": -0.1692,
+        "fy25NetProfit": -3.74,
+        "peTtm": "-36.87",
+        "price": 7.24,
+        "priceTime": "20261009161430",
+        "cons": {
+          "2026": {
+            "n": 4,
+            "lo": 0.02,
+            "mean": 0.03,
+            "hi": 0.03
+          },
+          "2027": {
+            "n": 4,
+            "lo": 0.06,
+            "mean": 0.08,
+            "hi": 0.1
+          },
+          "2028": {
+            "n": 4,
+            "lo": 0.08,
+            "mean": 0.14,
+            "hi": 0.18
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300253&announcementId=1225500912&orgId=9900012530&announcementTime=2026-08-26",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "300451",
+      "name": "创业慧康",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 4.55,
+        "h1RevenueYoY": -21,
+        "h1NetProfit": -1.97,
+        "h1NetProfitYoY": null,
+        "grossMargin": 34.7,
+        "roe": -5.04,
+        "ocf": -4.51,
+        "debtRatio": 22.4,
+        "fy25Eps": -0.26,
+        "fy25NetProfit": -4.02,
+        "peTtm": "-10.67",
+        "price": 3.57,
+        "priceTime": "20261009161400",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": -0.09,
+            "mean": -0.05,
+            "hi": 0.03
+          },
+          "2027": {
+            "n": 3,
+            "lo": -0.02,
+            "mean": 0.0082,
+            "hi": 0.04
+          },
+          "2028": {
+            "n": 3,
+            "lo": 0.05,
+            "mean": 0.06,
+            "hi": 0.07
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300451&announcementId=1225529280&orgId=9900023801&announcementTime=2026-08-29",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "002241",
+      "name": "歌尔股份",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 400.46,
+        "h1RevenueYoY": 7,
+        "h1NetProfit": 14.66,
+        "h1NetProfitYoY": 3,
+        "grossMargin": 14.5,
+        "roe": 3.92,
+        "ocf": -2.45,
+        "debtRatio": 60.2,
+        "fy25Eps": 1.14,
+        "fy25NetProfit": 39.4,
+        "peTtm": "19.18",
+        "price": 21.51,
+        "priceTime": "20261009161421",
+        "cons": {
+          "2026": {
+            "n": 10,
+            "lo": 0.94,
+            "mean": 1.0,
+            "hi": 1.17
+          },
+          "2027": {
+            "n": 10,
+            "lo": 1.14,
+            "mean": 1.28,
+            "hi": 1.45
+          },
+          "2028": {
+            "n": 10,
+            "lo": 1.4,
+            "mean": 1.63,
+            "hi": 1.78
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=002241&announcementId=1225484419&orgId=9900004688&announcementTime=2026-08-21",
+        "pePercentile5y": 19
+      }
+    },
+    {
+      "code": "688036",
+      "name": "传音控股",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 354.31,
+        "h1RevenueYoY": 22,
+        "h1NetProfit": 17.73,
+        "h1NetProfitYoY": 46,
+        "grossMargin": 22.6,
+        "roe": 8.37,
+        "ocf": -58.61,
+        "debtRatio": 57.4,
+        "fy25Eps": 2.26,
+        "fy25NetProfit": 25.81,
+        "peTtm": "17.94",
+        "price": 48.95,
+        "priceTime": "20261009161455",
+        "cons": {
+          "2026": {
+            "n": 10,
+            "lo": 2.73,
+            "mean": 3.18,
+            "hi": 3.67
+          },
+          "2027": {
+            "n": 10,
+            "lo": 3.27,
+            "mean": 4.15,
+            "hi": 4.72
+          },
+          "2028": {
+            "n": 10,
+            "lo": 4.01,
+            "mean": 5.3,
+            "hi": 6.01
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688036&announcementId=1225476410&orgId=9900038988&announcementTime=2026-08-18",
+        "pePercentile5y": 21
+      }
+    },
+    {
+      "code": "001314",
+      "name": "亿道信息",
+      "status": "未建模",
+      "reason": "H1 经营现金流为负（软件与服务企业回款集中在下半年，现金流季节性强，仅供初筛参考）",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 27.46,
+        "h1RevenueYoY": 81,
+        "h1NetProfit": 1.96,
+        "h1NetProfitYoY": 1615,
+        "grossMargin": 15.0,
+        "roe": 9.06,
+        "ocf": -7.44,
+        "debtRatio": 52.3,
+        "fy25Eps": 0.46,
+        "fy25NetProfit": 0.65,
+        "peTtm": "26.96",
+        "price": 47.21,
+        "priceTime": "20261009161430",
+        "cons": {
+          "2026": {
+            "n": 2,
+            "lo": 1.66,
+            "mean": 2.0,
+            "hi": 2.33
+          },
+          "2027": {
+            "n": 2,
+            "lo": 1.8,
+            "mean": 2.3,
+            "hi": 2.8
+          },
+          "2028": {
+            "n": 2,
+            "lo": 2.33,
+            "mean": 3.39,
+            "hi": 4.45
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=001314&announcementId=1225495655&orgId=gfbj0837171&announcementTime=2026-08-25",
+        "pePercentile5y": 0
+      }
+    },
+    {
+      "code": "688561",
+      "name": "奇安信",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 14.97,
+        "h1RevenueYoY": -14,
+        "h1NetProfit": -4.11,
+        "h1NetProfitYoY": null,
+        "grossMargin": 51.0,
+        "roe": -5.68,
+        "ocf": -7.22,
+        "debtRatio": 48.2,
+        "fy25Eps": -1.89,
+        "fy25NetProfit": -12.87,
+        "peTtm": "-22.82",
+        "price": 31.06,
+        "priceTime": "20261009161449",
+        "cons": {
+          "2026": {
+            "n": 3,
+            "lo": -1.04,
+            "mean": -0.96,
+            "hi": -0.91
+          },
+          "2027": {
+            "n": 3,
+            "lo": -0.48,
+            "mean": -0.41,
+            "hi": -0.37
+          },
+          "2028": {
+            "n": 3,
+            "lo": 0.18,
+            "mean": 0.2,
+            "hi": 0.22
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688561&announcementId=1225520298&orgId=9900041361&announcementTime=2026-08-28",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "688023",
+      "name": "安恒信息",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 7.39,
+        "h1RevenueYoY": 1,
+        "h1NetProfit": -1.76,
+        "h1NetProfitYoY": null,
+        "grossMargin": 56.6,
+        "roe": -7.16,
+        "ocf": -3.94,
+        "debtRatio": 46.0,
+        "fy25Eps": -0.57,
+        "fy25NetProfit": -0.57,
+        "peTtm": "-125.96",
+        "price": 48.81,
+        "priceTime": "20261009161451",
+        "cons": {},
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=688023&announcementId=1225507507&orgId=9900039124&announcementTime=2026-08-26",
+        "pePercentile5y": null
+      }
+    },
+    {
+      "code": "300188",
+      "name": "国投智能",
+      "status": "未建模",
+      "reason": "H1 归母为负或缺失",
+      "sector": "AI应用",
+      "metrics": {
+        "h1Revenue": 4.86,
+        "h1RevenueYoY": -13,
+        "h1NetProfit": -2.55,
+        "h1NetProfitYoY": null,
+        "grossMargin": 35.3,
+        "roe": -10.18,
+        "ocf": -5.09,
+        "debtRatio": 38.7,
+        "fy25Eps": -0.91,
+        "fy25NetProfit": -7.82,
+        "peTtm": "-11.23",
+        "price": 10.83,
+        "priceTime": "20261009161406",
+        "cons": {
+          "2026": {
+            "n": 1,
+            "lo": -0.39,
+            "mean": -0.39,
+            "hi": -0.39
+          },
+          "2027": {
+            "n": 1,
+            "lo": -0.21,
+            "mean": -0.21,
+            "hi": -0.21
+          },
+          "2028": {
+            "n": 1,
+            "lo": -0.03,
+            "mean": -0.03,
+            "hi": -0.03
+          }
+        },
+        "reportUrl": "http://www.cninfo.com.cn/new/disclosure/detail?stockCode=300188&announcementId=1225489056&orgId=9900017110&announcementTime=2026-08-22",
+        "pePercentile5y": null
+      }
+    }
+  ]
+}

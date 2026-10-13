@@ -22,7 +22,7 @@ describe('产业格局', () => {
     expect(await screen.findByText('上游：基础与工具')).toBeTruthy()
     expect(document.querySelector('img[alt="半导体产业链脑图"]')).toBeNull()
     fireEvent.change(screen.getByRole('textbox', { name: '搜索节点' }), { target: { value: '安集科技' } })
-    expect(screen.getByText(/安集科技/)).toBeTruthy()
+    expect(screen.getAllByText(/安集科技/).length).toBeGreaterThan(0)
   })
 
   it('切回已看过的页签不重复请求', async () => {

@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "NWSA",
+      "NXPI",
+      "Neuralink",
+      "O",
+      "ODFL",
+      "OKE",
+      "OKLO",
+      "OMC",
+      "ON",
+      "ONC",
+      "ORCL",
+      "ORLY"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:32.867818+00:00",
+  "retrievedAt": "2026-10-13T08:52:36.067909+00:00",
+  "data": {
+    "symbols": [
+      "NWSA",
+      "NXPI",
+      "Neuralink",
+      "O",
+      "ODFL",
+      "OKE",
+      "OKLO",
+      "OMC",
+      "ON",
+      "ONC",
+      "ORCL",
+      "ORLY"
+    ],
+    "results": {
+      "NWSA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NXPI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "Neuralink": {
+        "error": "'Neuralink'"
+      },
+      "O": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ODFL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "OKE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "OKLO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "OMC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ON": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ONC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ORCL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ORLY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

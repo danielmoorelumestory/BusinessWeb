@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "DG",
+      "DGX",
+      "DHI",
+      "DHR",
+      "DIS",
+      "DLR",
+      "DLTR",
+      "DNA",
+      "DOC",
+      "DOCS",
+      "DOV",
+      "DOW"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:13.165385+00:00",
+  "retrievedAt": "2026-10-13T08:52:17.062536+00:00",
+  "data": {
+    "symbols": [
+      "DG",
+      "DGX",
+      "DHI",
+      "DHR",
+      "DIS",
+      "DLR",
+      "DLTR",
+      "DNA",
+      "DOC",
+      "DOCS",
+      "DOV",
+      "DOW"
+    ],
+    "results": {
+      "DG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DGX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DHI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DHR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DIS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DLR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DLTR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DNA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DOC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DOCS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DOV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DOW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

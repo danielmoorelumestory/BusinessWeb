@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "blog:import": "node scripts/import-blog.mjs",
+    "predev": "node scripts/generate-blog-catalog.mjs",
     "skills:package": "node scripts/generate-investment-method.mjs && node scripts/generate-future-trends-skill.mjs && python3 scripts/package-investment-skills.py",
     "future-trends:picks": "sh scripts/future-trends-picks/run.sh",
     "test:edge": "node --test server/edge/*.test.mjs",
@@ -13,20 +15,26 @@
     "valuation:app": "node scripts/valuation-app.mjs",
     "test:valuation-server": "node --test server/valuation/*.test.mjs",
     "test": "node scripts/run-vitest.mjs",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.server.json && tsc --noEmit -p tsconfig.valuation.json",
-    "prebuild": "node scripts/generate-changelog.mjs && node scripts/generate-sitemap.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.server.json && tsc --noEmit -p tsconfig.valuation.json && tsc --noEmit -p tsconfig.daily-analysis.json",
+    "prebuild": "node scripts/generate-blog-catalog.mjs && node scripts/generate-changelog.mjs && node scripts/generate-sitemap.mjs",
     "build": "vite build && node scripts/prerender-routes.mjs",
     "preview": "vite preview",
     "build:cloudflare": "node scripts/build-cloudflare.mjs",
-    "build:pages": "VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true vite build && node scripts/prepare-pages.mjs && node scripts/prerender-routes.mjs",
+    "build:pages": "node scripts/generate-blog-catalog.mjs && node scripts/generate-sitemap.mjs && VITE_BASE_PATH=/BusinessWeb/ VITE_MARKET_DIRECT=true vite build && node scripts/prepare-pages.mjs && node scripts/prerender-routes.mjs",
     "test:functions": "node scripts/check-functions.mjs",
     "test:scripts": "node --test scripts/*.test.mjs",
     "sync:analysis": "node scripts/sync-note-analysis.mjs",
     "macro:update": "node scripts/macro-snapshot.mjs",
+    "daily-analysis:update": "node scripts/daily-analysis-snapshot.mjs",
+    "daily-analysis:backfill": "node scripts/daily-analysis-backfill.mjs",
+    "daily-analysis:rank-backfill": "node scripts/daily-analysis-rank-backfill.mjs",
     "index:update": "node scripts/index-snapshot.mjs",
     "index:fpe": "node scripts/index-snapshot.mjs fpe",
     "index:fpe-import": "node scripts/index-snapshot.mjs fpe-import",
-    "index:ref-import": "node scripts/index-snapshot.mjs ref-import"
+    "index:ref-import": "node scripts/index-snapshot.mjs ref-import",
+    "national-team:update": "node scripts/national-team-snapshot.mjs && node scripts/national-team-etf-snapshot.mjs",
+    "national-team:stocks": "node scripts/national-team-snapshot.mjs",
+    "national-team:etf": "node scripts/national-team-etf-snapshot.mjs"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
@@ -34,7 +42,8 @@
     "marked": "^18.0.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.30.2"
+    "react-router-dom": "^6.30.2",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "^1.0.2",

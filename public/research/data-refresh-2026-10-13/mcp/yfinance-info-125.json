@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "INFY",
+      "INTC",
+      "INTU",
+      "INVH",
+      "IONQ",
+      "IONS",
+      "IP",
+      "IQV",
+      "IR",
+      "IRDM",
+      "IRM",
+      "ISRG"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:23.501982+00:00",
+  "retrievedAt": "2026-10-13T08:52:27.106913+00:00",
+  "data": {
+    "symbols": [
+      "INFY",
+      "INTC",
+      "INTU",
+      "INVH",
+      "IONQ",
+      "IONS",
+      "IP",
+      "IQV",
+      "IR",
+      "IRDM",
+      "IRM",
+      "ISRG"
+    ],
+    "results": {
+      "INFY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "INTC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "INTU": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "INVH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IONQ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IONS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IQV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IRDM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "IRM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ISRG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

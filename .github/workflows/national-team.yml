@@ -1,0 +1,68 @@
+name: Update national team holdings
+
+on:
+  schedule:
+    # 每周一 UTC 02:30（北京 10:30）。季报/半年报/年报披露期内每周都会拿到新增披露，其余时间无变化不提交
+    - cron: '30 2 * * 1'
+  workflow_dispatch:
+    inputs:
+      full:
+        description: '全量重抓个股所有报告期（慢，约 15 分钟）'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: national-team
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Fetch holdings (stocks + ETFs)
+        id: fetch
+        shell: bash
+        run: |
+          status=0
+          if [ "${{ inputs.full }}" = "true" ]; then
+            node scripts/national-team-snapshot.mjs --full || status=1
+          else
+            node scripts/national-team-snapshot.mjs || status=1
+          fi
+          node scripts/national-team-etf-snapshot.mjs || status=1
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+      - name: Commit if changed
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          # 脚本在内容无实质变化时不写盘，所以这里直接看 diff 即可
+          if git diff --quiet -- public/data/national-team data-raw/national-team && [ -z "$(git ls-files --others --exclude-standard -- public/data/national-team data-raw/national-team)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/national-team data-raw/national-team
+          git commit -m "data(national-team): 更新国家队持仓数据 $(date -u +%Y-%m-%d)"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Deploy GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
+      - name: Fail if a fetch step had errors
+        if: steps.fetch.outputs.status != '0'
+        run: |
+          echo "采集有失败项（已保留旧数据），详见上面步骤的日志" >&2
+          exit 1

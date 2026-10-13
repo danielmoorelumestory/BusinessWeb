@@ -1,0 +1,15 @@
+{
+  "server": "yfinance",
+  "tool": "get_stock_news",
+  "arguments": {
+    "symbol": "300457.SZ",
+    "limit": 6
+  },
+  "retrievedAt": "2026-10-10T07:23:49.353306+00:00",
+  "isError": false,
+  "data": {
+    "symbol": "300457.SZ",
+    "news_count": 0,
+    "news": []
+  }
+}

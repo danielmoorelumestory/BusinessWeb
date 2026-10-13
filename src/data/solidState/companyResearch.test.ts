@@ -21,7 +21,8 @@ describe('固态公司独立研究完整性', () => {
   it('无有效报价不生成估值草稿，新增三表保留日期与负现金', () => {
     const btr = solidCompanyReport(solidCompanyById('920185-bj')!)
     expect(btr.draft).toBeNull()
-    expect(btr.marketRows[0][1]).toBe('[MISSING]')
+    expect(btr.marketRows[0][1]).toContain('20.4')
+    expect(btr.marketRows[1][1]).toContain('2026-10-13')
     const star = solidCompanyReport(solidCompanyById('300568-sz')!)
     expect(star.financials?.history.length).toBeGreaterThan(0)
     const gotion = solidCompanyReport(solidCompanyById('002074-sz')!)

@@ -56,3 +56,22 @@ export function parseDcfPrefill(search: string): DcfPrefill | null {
     currentPrice: Number.isFinite(price) && price > 0 ? price : null,
   };
 }
+
+/**
+ * 估值工作台的输入（「cn:600519」「AAPL」「腾讯」）→ DCF 链接。
+ * 本机估值服务没开时，用它把同一家公司带到可手工填写的 DCF。
+ */
+export function dcfLinkFromValuationQuery(query: string, security?: { market: string; code: string; name: string } | null): string {
+  const raw = query.trim()
+  const prefixed = /^(cn|hk|us):(.+)$/i.exec(raw)
+  const code = (security?.code ?? (prefixed ? prefixed[2] : raw)).trim()
+  const looksLikeCode = /^[\w.\-]{1,20}$/.test(code)
+  const market = (security?.market ?? prefixed?.[1]?.toLowerCase()
+    ?? (/^\d{6}$/.test(code) ? "cn" : /^\d{1,5}$/.test(code) ? "hk" : /^[A-Za-z][\w.\-]*$/.test(code) ? "us" : "cn")) as "cn" | "hk" | "us";
+  const currency: Currency = market === "hk" ? "HKD" : market === "us" ? "USD" : "CNY";
+  const qs = new URLSearchParams({ market, currency });
+  if (looksLikeCode) qs.set("code", code);
+  const company = security?.name ?? (looksLikeCode ? "" : raw);
+  if (company) qs.set("company", company.slice(0, 60));
+  return qs.has("code") || qs.has("company") ? `/dcf?${qs.toString()}` : "/dcf";
+}

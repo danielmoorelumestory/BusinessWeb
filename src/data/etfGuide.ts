@@ -14,6 +14,8 @@ export interface EtfItem {
   risk: string
   /** 来自视频清单 */
   fromVideo?: boolean
+  /** 核验日与原件日期分开；没有 asOf 时，源未单列该字段生效日。 */
+  verification?: { checkedAt: string; sources: { url: string; asOf?: string }[] }
 }
 
 export interface EtfSchool {
@@ -25,7 +27,7 @@ export interface EtfSchool {
 }
 
 export const ETF_DISCLAIMER =
-  '以下为产品与投资思路介绍，不构成买卖建议。费率、规模、成分与调仓规则会变，以发行人官网和基金招募说明书为准；文中不给出收益预测。'
+  '以下为产品与投资思路介绍，不构成买卖建议。费率、规模、成分与调仓规则会变，以发行人官网和基金招募说明书为准；文中不给出收益预测。2026-10-13 本轮已核验 VOO、VTI、QQQ、MAGS、SMH、DRAM、563020、159545 的下述费率与相关结构，其他产品仍待逐项核验。'
 
 export const ETF_SCHOOLS: EtfSchool[] = [
   {
@@ -35,26 +37,29 @@ export const ETF_SCHOOLS: EtfSchool[] = [
     etfs: [
       {
         ticker: 'VOO', name: 'Vanguard S&P 500 ETF', issuer: 'Vanguard',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://www.sec.gov/Archives/edgar/data/36405/000003640526000183/f44783d1.htm', asOf: '2026-04-28' }] },
         tracks: '标普 500 指数（美国大盘 500 家）',
         focus: '标普 500 的低成本代表',
-        intro: '追踪标普 500，按市值加权，前十大权重股（苹果、微软、英伟达、亚马逊等）合计占比较高，因此“500 家”实际上明显偏向大型科技。Vanguard 以低费率著称，是长期定投美股最常见的底仓。同类产品还有 IVV（iShares）和 SPY（SPDR，流动性最好、期权最活跃，但费率略高）。',
+        intro: '追踪标普 500，按市值加权，前十大权重股（苹果、微软、英伟达、亚马逊等）合计占比较高，因此“500 家”实际上明显偏向大型科技。Vanguard 的 2026-04-28 招募说明书列总年度运营费用 0.03%/年（2026-10-13 核验 SEC 原件）。同类产品还有 IVV（iShares）和 SPY（SPDR）。',
         fit: '作为核心仓位长期持有、定期定额。不想研究个股、也不想判断行业的人。',
         risk: '市值加权会让少数巨头主导走势；熊市中大盘同样大幅回撤，历史上出现过跌去一半的阶段。',
         fromVideo: true,
       },
       {
-        ticker: 'VTI', name: 'Vanguard Total Stock Market ETF', issuer: 'Vanguard',
-        tracks: 'CRSP 美国全市场指数（大中小盘）',
+        ticker: 'VTI', name: 'Vanguard Morningstar Total Stock Market ETF', issuer: 'Vanguard',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://personal1.vanguard.com/pub/Pdf/sp970.pdf', asOf: '2026-07-29' }] },
+        tracks: 'Morningstar 美国全市场指数（原 CRSP US Total Market Index；大中小微盘）',
         focus: '覆盖美股全部上市公司',
-        intro: '比 VOO 多覆盖了中小盘，成分数以几千只计，但因为市值加权，实际走势与标普 500 高度接近。',
+        intro: '比 VOO 多覆盖了中小微盘，成分数以几千只计，但因为市值加权，实际走势与标普 500 高度接近。2026-04-28 招募说明书列总年度运营费用 0.03%/年；发行人 2026-07-29 补充文件将基金与指数更名为 Morningstar 系列，投资目标与策略保持不变（2026-10-13 核验 Vanguard 原件）。',
         fit: '想“一只买下整个美国”的人；与 VOO 二选一即可，没必要同时持有。',
         risk: '与 VOO 一样受大型股主导，分散度提升有限。',
       },
       {
-        ticker: 'QQQ', name: 'Invesco QQQ Trust', issuer: 'Invesco',
+        ticker: 'QQQ', name: 'Invesco QQQ ETF', issuer: 'Invesco',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://www.invesco.com/qqq-etf/en/market-outlook/whats-new-about-qqq.html', asOf: '2025-12-22' }, { url: 'https://www.invesco.com/qqq-etf/en/home.html' }] },
         tracks: '纳斯达克 100 指数（纳斯达克上市的最大 100 家非金融公司）',
         focus: '大型科技与成长股的代表',
-        intro: '集中在科技、通信与可选消费，不含金融股。成分少、集中度高，因此长期波动和弹性都大于标普 500。同类还有更低费率的 QQQM（Invesco，同指数）。',
+        intro: '集中在科技、通信与可选消费，不含金融股。成分少、集中度高，因此长期波动和弹性都大于标普 500。Invesco 于 2025-12-22 公告已转为开放式 ETF，费用率从 0.20% 降至 0.18%/年（2026-10-13 核验发行人官网）。同类还有 QQQM（Invesco，同指数）。',
         fit: '愿意承受更大波动、看好科技成长的人，常作为核心仓位之外的“进攻”部分。',
         risk: '行业集中；2022 年这类成长股曾大幅回撤，估值收缩时跌幅显著大于标普 500。',
       },
@@ -170,9 +175,10 @@ export const ETF_SCHOOLS: EtfSchool[] = [
       },
       {
         ticker: '563020', name: '红利低波动 ETF（易方达）', issuer: '易方达基金',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://cdn.efunds.com.cn/owch/data/bulletin/20260626/易方达中证红利低波动交易型开放式指数证券投资基金更新的招募说明书.pdf', asOf: '2026-06-26' }] },
         tracks: '中证红利低波动指数（H30269）',
         focus: '与 512890 同一指数的另一只主流产品',
-        intro: '跟踪同一指数，持仓几乎一致；据公开信息，易方达红利类 ETF 的管理费与托管费合计约 0.2%/年（以招募说明书为准）。同指数产品之间的差别主要在费率、规模、流动性与溢折价，没必要重复持有。',
+        intro: '跟踪同一指数。发行人 2026-06-26 更新招募说明书第 68 页列年管理费 0.15%、托管费 0.05%，两项合计 0.20%/年，另有交易等实际费用，不能等同全部持有成本（2026-10-13 核验易方达原件）。同指数产品之间的差别主要在费用、规模、流动性与溢折价。',
         fit: '想买同一指数、比较费率与流动性的人。',
         risk: '同 512890。',
       },
@@ -186,9 +192,10 @@ export const ETF_SCHOOLS: EtfSchool[] = [
       },
       {
         ticker: '159545', name: '恒生红利低波 ETF（易方达）', issuer: '易方达基金',
-        tracks: '恒生港股通高股息低波动指数',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://cdn.efunds.com.cn/owch/data/bulletin/20260910/易方达恒生港股通红利低波动交易型开放式指数证券投资基金更新的招募说明书.pdf', asOf: '2026-09-10' }] },
+        tracks: '恒生港股通红利低波动指数（2026-09-14 起使用新名称）',
         focus: '港股红利低波的主流产品',
-        intro: '从港股通标的中选出 50 只股息率较高、股价波动相对较低的公司，偏向银行、能源、公用事业、电信等；据公开信息，管理费与托管费合计约 0.2%/年，指数股息率明显高于 A 股同类（数值随时点变化）。港股通渠道的红利税口径与 A 股不同，个人所得税需自行核对。',
+        intro: '从港股通标的中选出 50 只股息率较高、股价波动相对较低的公司。发行人 2026-09-10 更新招募说明书确认基金与指数自 09-14 更名，按净股息率加权、单股上限 5%；第 67 页列年管理费 0.15%、托管费 0.05%，两项合计 0.20%，另有交易及跨境实际费用（2026-10-13 核验易方达原件）。港股通渠道的红利税口径与 A 股不同。',
         fit: '想在 A 股红利低波之外分散到港股的人。',
         risk: '港币汇率；行业集中在金融与能源；红利税与分红政策可能变化；港股流动性与估值波动大于 A 股。',
       },
@@ -241,11 +248,12 @@ export const ETF_SCHOOLS: EtfSchool[] = [
     etfs: [
       {
         ticker: 'MAGS', name: 'Roundhill Magnificent Seven ETF', issuer: 'Roundhill Investments',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://www.roundhillinvestments.com/assets/pdfs/MAGS_Summary_Prospectus.pdf', asOf: '2026-04-30' }, { url: 'https://www.roundhillinvestments.com/etf/mags/' }] },
         tracks: 'Magnificent Seven（七巨头）等权',
         focus: '把七家美股巨头打包',
-        intro: '只持有 Alphabet、亚马逊、苹果、Meta、微软、英伟达、特斯拉这七只股票，并以等权方式配置，按季度再平衡回到各约 1/7（据发行人披露，费率约 0.29%，2023 年 4 月上市）。相比 QQQ，它更“纯”，也更集中；等权让特斯拉这类波动大的股票权重高于其在市值加权指数中的占比。',
+        intro: '提供 Alphabet、亚马逊、苹果、Meta、微软、英伟达、特斯拉七家公司的等权敞口，按季度再平衡，主要通过掉期、远期合约及股票持仓实现，并非仅直接持有七只股票。2026-04-30 招募说明书列管理费 0.29%、总年度运营费用 0.30%（含间接基金费用 0.01%）；2026-10-13 核验。2023-04-11 上市。相比 QQQ 更集中；等权使较小公司的权重高于市值加权组合。',
         fit: '想用一只产品直接持有七巨头、又不想自己再平衡的人。',
-        risk: '只有 7 只股票，任何一家出问题影响都很大；这七家本就大量重叠于 VOO 和 QQQ，叠加持有会把集中度翻倍。',
+        risk: '集中于七家公司，任何一家出问题影响都很大；与 VOO 和 QQQ 重叠，叠加持有会提高集中度；使用衍生品另有对手方与跟踪风险。',
         fromVideo: true,
       },
       {
@@ -259,20 +267,22 @@ export const ETF_SCHOOLS: EtfSchool[] = [
       },
       {
         ticker: 'SMH', name: 'VanEck Semiconductor ETF', issuer: 'VanEck',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://www.vaneck.com/us/en/investments/semiconductor-etf-smh/' }] },
         tracks: 'MVIS US Listed Semiconductor 25 指数',
         focus: '半导体龙头，高度集中',
-        intro: '只持有约 25 只美国上市的半导体龙头，英伟达、台积电 ADR 等占据很大权重，是“买 AI 芯片龙头”最直接的 ETF 之一。',
+        intro: '跟踪 25 只美国上市半导体龙头的指数，发行人 2026-10-09 持仓包含股票与现金等共 26 项，英伟达占 19.60%、台积电 ADR 占 9.26%。VanEck 当前产品页列总费用率 0.35%/年，未单列费率生效日（2026-10-13 核验发行人官网）。',
         fit: '想直接押注龙头、能接受高集中度的人。',
         risk: '前几大持仓决定了绝大部分走势，集中度比 SOXX 更高；龙头估值回落时跌幅更大。',
         fromVideo: true,
       },
       {
         ticker: 'DRAM', name: 'Roundhill Memory ETF', issuer: 'Roundhill Investments',
+        verification: { checkedAt: '2026-10-13', sources: [{ url: 'https://www.roundhillinvestments.com/etf/dram/' }] },
         tracks: '全球存储芯片与存储设备公司',
         focus: '押存储周期：DRAM、NAND、硬盘',
-        intro: '据发行人及媒体披露，仅持有约 9 只股票，美光、三星电子、SK 海力士各约占四分之一，其余为 Kioxia、闪迪、西部数据、希捷等；三星与 SK 海力士不在美国上市，也不在 SOXX、SMH 里，所以 DRAM 提供了一条直接买韩国存储龙头的美股通道。费率约 0.65%，上市后规模增长极快。存储受 AI 服务器对 HBM 和大容量存储的需求推动。',
+        intro: '主动管理的全球存储主题 ETF，覆盖 HBM、DRAM、NAND 与存储设备。发行人页面 2026-09-30 主要敞口包括美光、三星、SK 海力士、CXMT 与希捷；费用率 0.65%/年、上市日 2026-04-02（2026-10-13 核验）。当日可访问页面未返回完整持仓数量及权重，旧“约 9 只、前三各四分之一”不再作为当前持仓快照。',
         fit: '明确想押存储这条细分链的人，作为小比例卫星仓位。',
-        risk: '成立时间短、历史很短；持股只有个位数、前三大占约 75%；存储价格是出名的大周期，供过于求时价格和股价会一起下跌；包含韩国股票，还有汇率和跨市场交易时间差。',
+        risk: '成立时间短、历史很短；行业与个股集中度须用最新完整持仓核算；存储价格有强周期，供过于求时价格和股价可能一起下跌；包含海外敞口，还有汇率和跨市场交易时间差。',
         fromVideo: true,
       },
       {

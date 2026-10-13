@@ -1,0 +1,26 @@
+.dropshipping-strategy { min-width: 0; }
+.dropshipping-calculator { margin-top: 32px; padding: 24px; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg-card); }
+.dropshipping-calculator h2 { margin: 0 0 12px; font-family: inherit; scroll-margin-top: 100px; }
+.dropshipping-calculator p { color: var(--text-secondary); line-height: 1.8; }
+.dropshipping-calculator__fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 20px 0; }
+.dropshipping-calculator__fields label { display: flex; flex-direction: column; justify-content: space-between; gap: 8px; min-width: 0; font-size: 13px; color: var(--text-secondary); }
+.dropshipping-calculator__fields input { width: 100%; min-width: 0; padding: 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary); font: inherit; font-size: 16px; }
+.dropshipping-calculator__fields input[aria-invalid="true"] { border-color: var(--system-red); }
+.dropshipping-calculator__reset { padding: 8px 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: transparent; color: var(--text-primary); cursor: pointer; }
+.dropshipping-calculator__reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.dropshipping-calculator__results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+.dropshipping-calculator__results > div { min-width: 0; padding-top: 12px; border-top: 1px solid var(--border-subtle); }
+.dropshipping-calculator__results dt { color: var(--text-secondary); font-size: 12px; }
+.dropshipping-calculator__results dd { margin: 8px 0 0; font-size: clamp(16px, 2.6vw, 22px); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.dropshipping-calculator__note { font-size: 13px; }
+.dropshipping-calculator__notice { padding: 12px; border-left: 3px solid var(--accent); }
+.dropshipping-calculator [role="alert"] { color: var(--system-red); }
+.dropshipping-downloads { display: flex; flex-wrap: wrap; gap: 12px; }
+.dropshipping-downloads .learning-download { margin-top: 0; }
+@media (max-width: 600px) {
+  .dropshipping-calculator { padding: 16px; }
+  .dropshipping-calculator__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+}
+@media (max-width: 360px) {
+  .dropshipping-calculator__fields, .dropshipping-calculator__results { grid-template-columns: minmax(0, 1fr); }
+}

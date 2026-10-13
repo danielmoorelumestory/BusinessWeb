@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "BNY",
+      "BP",
+      "BR",
+      "BRK-B",
+      "BRO",
+      "BSX",
+      "BTI",
+      "BWXT",
+      "BX",
+      "BXP",
+      "C",
+      "CAE"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:06.583532+00:00",
+  "retrievedAt": "2026-10-13T08:52:09.875596+00:00",
+  "data": {
+    "symbols": [
+      "BNY",
+      "BP",
+      "BR",
+      "BRK-B",
+      "BRO",
+      "BSX",
+      "BTI",
+      "BWXT",
+      "BX",
+      "BXP",
+      "C",
+      "CAE"
+    ],
+    "results": {
+      "BNY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BRK-B": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BRO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BSX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BTI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BWXT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "BXP": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "C": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CAE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

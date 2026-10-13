@@ -1,0 +1,19 @@
+{
+  "server": "yfinance",
+  "tool": "get_cash_flow",
+  "arguments": {
+    "symbol": "SLDP",
+    "quarterly": true
+  },
+  "requestedAt": "2026-10-13T08:53:23.195849+00:00",
+  "retrievedAt": "2026-10-13T08:53:23.795931+00:00",
+  "data": {
+    "symbol": "SLDP",
+    "type": "quarterly",
+    "data": {
+      "columns": [],
+      "indexName": null,
+      "rows": []
+    }
+  }
+}

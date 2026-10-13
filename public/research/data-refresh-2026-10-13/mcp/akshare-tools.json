@@ -1,0 +1,446 @@
+[
+  {
+    "name": "stock_balance_sheet_by_report_em",
+    "title": "Stock Balance Sheet By Report Em",
+    "description": "东方财富-股票-财务分析-资产负债表-按报告期\nhttps://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=sh600519#lrb-0",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "SH600519",
+          "type": "string",
+          "description": "股票代码；带市场标识"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_bid_ask_em",
+    "title": "Stock Bid Ask Em",
+    "description": "东方财富-行情报价\nhttps://quote.eastmoney.com/sz000001.html",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "000001",
+          "type": "string",
+          "description": "股票代码"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_cash_flow_sheet_by_report_em",
+    "title": "Stock Cash Flow Sheet By Report Em",
+    "description": "东方财富-股票-财务分析-现金流量表-按报告期\nhttps://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=sh600519#lrb-0",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "SH600519",
+          "type": "string",
+          "description": "股票代码；带市场标识"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_financial_abstract_ths",
+    "title": "Stock Financial Abstract Ths",
+    "description": "同花顺-财务指标-主要指标\nhttps://basic.10jqka.com.cn/new/000063/finance.html",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "000063",
+          "type": "string",
+          "description": "股票代码"
+        },
+        "indicator": {
+          "default": "按报告期",
+          "type": "string",
+          "description": "指标；choice of {\"按报告期\", \"按年度\", \"按单季度\"}"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_financial_analysis_indicator_em",
+    "title": "Stock Financial Analysis Indicator Em",
+    "description": "东方财富-A股-财务分析-主要指标\nhttps://emweb.securities.eastmoney.com/pc_hsf10/pages/index.html?type=web&code=SZ301389&color=b#/cwfx",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "301389.SZ",
+          "type": "string",
+          "description": "股票代码（带市场标识）"
+        },
+        "indicator": {
+          "default": "按报告期",
+          "type": "string",
+          "description": "choice of {\"按报告期\", \"按单季度\"}"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_hk_company_profile_em",
+    "title": "Stock Hk Company Profile Em",
+    "description": "东方财富-港股-公司资料\nhttps://emweb.securities.eastmoney.com/PC_HKF10/pages/home/index.html?code=03900&type=web&color=w#/CompanyProfile",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "03900",
+          "type": "string",
+          "description": "股票代码"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_hk_financial_indicator_em",
+    "title": "Stock Hk Financial Indicator Em",
+    "description": "东方财富-港股-核心必读-最新指标\nhttps://emweb.securities.eastmoney.com/PC_HKF10/pages/home/index.html?code=03900&type=web&color=w#/CoreReading",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "03900",
+          "type": "string",
+          "description": "股票代码"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_hk_hist",
+    "title": "Stock Hk Hist",
+    "description": "东方财富网-行情-港股-每日行情\nhttps://quote.eastmoney.com/hk/08367.html",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "00593",
+          "type": "string",
+          "description": "港股-每日行情"
+        },
+        "period": {
+          "default": "daily",
+          "type": "string",
+          "description": "choice of {'daily', 'weekly', 'monthly'}"
+        },
+        "start_date": {
+          "default": "19700101",
+          "type": "string",
+          "description": "开始日期"
+        },
+        "end_date": {
+          "default": "22220101",
+          "type": "string",
+          "description": "结束日期"
+        },
+        "adjust": {
+          "default": "",
+          "type": "string",
+          "description": "choice of {\"qfq\": \"1\", \"hfq\": \"2\", \"\": \"不复权\"}"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_individual_info_em",
+    "title": "Stock Individual Info Em",
+    "description": "东方财富-个股-股票信息\nhttps://quote.eastmoney.com/concept/sh603777.html?from=classic",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "603777",
+          "type": "string",
+          "description": "股票代码"
+        },
+        "timeout": {
+          "default": null,
+          "type": "number",
+          "description": "choice of None or a positive float number"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_profit_sheet_by_report_em",
+    "title": "Stock Profit Sheet By Report Em",
+    "description": "东方财富-股票-财务分析-利润表-报告期\nhttps://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=sh600519#lrb-0",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "SH600519",
+          "type": "string",
+          "description": "股票代码；带市场标识"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_us_hist",
+    "title": "Stock Us Hist",
+    "description": "东方财富网-行情-美股-每日行情\nhttps://quote.eastmoney.com/us/ENTX.html#fullScreenChart",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "105.MSFT",
+          "type": "string",
+          "description": "股票代码；此股票代码需要通过调用 ak.stock_us_spot_em() 的 `代码` 字段获取"
+        },
+        "period": {
+          "default": "daily",
+          "type": "string",
+          "description": "choice of {'daily', 'weekly', 'monthly'}"
+        },
+        "start_date": {
+          "default": "19700101",
+          "type": "string",
+          "description": "开始日期"
+        },
+        "end_date": {
+          "default": "22220101",
+          "type": "string",
+          "description": "结束日期"
+        },
+        "adjust": {
+          "default": "",
+          "type": "string",
+          "description": "choice of {\"qfq\": \"1\", \"hfq\": \"2\", \"\": \"不复权\"}"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_us_spot_em",
+    "title": "Stock Us Spot Em",
+    "description": "东方财富网-美股-实时行情\nhttps://quote.eastmoney.com/center/gridlist.html#us_stocks",
+    "input_schema": {
+      "properties": {},
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_zh_a_hist",
+    "title": "Stock Zh A Hist",
+    "description": "东方财富网-行情首页-沪深京 A 股-每日行情\nhttps://quote.eastmoney.com/concept/sh603777.html?from=classic",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "000001",
+          "type": "string",
+          "description": "股票代码"
+        },
+        "period": {
+          "default": "daily",
+          "type": "string",
+          "description": "choice of {'daily', 'weekly', 'monthly'}"
+        },
+        "start_date": {
+          "default": "19700101",
+          "type": "string",
+          "description": "开始日期"
+        },
+        "end_date": {
+          "default": "20500101",
+          "type": "string",
+          "description": "结束日期"
+        },
+        "adjust": {
+          "default": "",
+          "type": "string",
+          "description": "choice of {\"qfq\": \"前复权\", \"hfq\": \"后复权\", \"\": \"不复权\"}"
+        },
+        "timeout": {
+          "default": null,
+          "type": "number",
+          "description": "choice of None or a positive float number"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  },
+  {
+    "name": "stock_zh_a_hist_tx",
+    "title": "Stock Zh A Hist Tx",
+    "description": "腾讯证券-日频-股票历史数据\nhttps://gu.qq.com/sh000919/zs",
+    "input_schema": {
+      "properties": {
+        "symbol": {
+          "default": "sz000001",
+          "type": "string",
+          "description": "带市场标识的股票或者指数代码"
+        },
+        "start_date": {
+          "default": "19000101",
+          "type": "string",
+          "description": "开始日期"
+        },
+        "end_date": {
+          "default": "20500101",
+          "type": "string",
+          "description": "结束日期"
+        },
+        "adjust": {
+          "default": "",
+          "type": "string",
+          "description": "choice of {\"qfq\": \"前复权\", \"hfq\": \"后复权\", \"\": \"不复权\"}"
+        },
+        "timeout": {
+          "default": null,
+          "type": "number",
+          "description": "choice of None or a positive float number"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "execution": null,
+    "output_schema": null,
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "fastmcp": {
+        "tags": []
+      }
+    }
+  }
+]

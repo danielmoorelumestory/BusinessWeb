@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "HAS",
+      "HBAN",
+      "HCA",
+      "HCM",
+      "HD",
+      "HDB",
+      "HIG",
+      "HII",
+      "HLT",
+      "HMC",
+      "HON",
+      "HONA"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:20.144847+00:00",
+  "retrievedAt": "2026-10-13T08:52:23.574657+00:00",
+  "data": {
+    "symbols": [
+      "HAS",
+      "HBAN",
+      "HCA",
+      "HCM",
+      "HD",
+      "HDB",
+      "HIG",
+      "HII",
+      "HLT",
+      "HMC",
+      "HON",
+      "HONA"
+    ],
+    "results": {
+      "HAS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HBAN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HCA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HCM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HDB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HIG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HII": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HLT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HMC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HON": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HONA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

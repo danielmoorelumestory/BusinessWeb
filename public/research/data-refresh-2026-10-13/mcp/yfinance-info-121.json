@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "GOOGL",
+      "GPC",
+      "GPN",
+      "GRAB",
+      "GRMN",
+      "GS",
+      "GSAT",
+      "GSK",
+      "GTLB",
+      "GWH",
+      "GWW",
+      "HAL"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:19.910348+00:00",
+  "retrievedAt": "2026-10-13T08:52:23.501165+00:00",
+  "data": {
+    "symbols": [
+      "GOOGL",
+      "GPC",
+      "GPN",
+      "GRAB",
+      "GRMN",
+      "GS",
+      "GSAT",
+      "GSK",
+      "GTLB",
+      "GWH",
+      "GWW",
+      "HAL"
+    ],
+    "results": {
+      "GOOGL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GPC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GPN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GRAB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GRMN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GSAT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GSK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GTLB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GWH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "GWW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "HAL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

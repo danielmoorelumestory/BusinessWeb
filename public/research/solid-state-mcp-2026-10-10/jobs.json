@@ -1,0 +1,1434 @@
+[
+  [
+    "get_stock_info",
+    {
+      "symbol": "002460.SZ"
+    },
+    "info-002460.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "002460.SZ",
+      "limit": 6
+    },
+    "news-002460.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "002460.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-002460.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "002460.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-002460.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "002460.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-002460.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "603200.SS"
+    },
+    "info-603200.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "603200.SS",
+      "limit": 6
+    },
+    "news-603200.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "603200.SS",
+      "quarterly": true
+    },
+    "get_income_statement-603200.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "603200.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-603200.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "603200.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-603200.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "301238.SZ"
+    },
+    "info-301238.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "301238.SZ",
+      "limit": 6
+    },
+    "news-301238.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "301238.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-301238.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "301238.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-301238.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "301238.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-301238.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300409.SZ"
+    },
+    "info-300409.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300409.SZ",
+      "limit": 6
+    },
+    "news-300409.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300409.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300409.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300409.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300409.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300409.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300409.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300073.SZ"
+    },
+    "info-300073.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300073.SZ",
+      "limit": 6
+    },
+    "news-300073.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300073.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300073.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300073.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300073.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300073.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300073.SZ"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "300073.SZ"
+    },
+    "estimates-300073.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688005.SS"
+    },
+    "info-688005.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "688005.SS",
+      "limit": 6
+    },
+    "news-688005.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "688005.SS",
+      "quarterly": true
+    },
+    "get_income_statement-688005.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "688005.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-688005.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "688005.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-688005.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688779.SS"
+    },
+    "info-688779.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "688779.SS",
+      "limit": 6
+    },
+    "news-688779.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "688779.SS",
+      "quarterly": true
+    },
+    "get_income_statement-688779.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "688779.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-688779.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "688779.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-688779.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688778.SS"
+    },
+    "info-688778.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "688778.SS",
+      "limit": 6
+    },
+    "news-688778.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "688778.SS",
+      "quarterly": true
+    },
+    "get_income_statement-688778.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "688778.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-688778.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "688778.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-688778.SS"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "688778.SS"
+    },
+    "estimates-688778.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "920185.BJ"
+    },
+    "info-920185.BJ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "920185.BJ",
+      "limit": 6
+    },
+    "news-920185.BJ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "920185.BJ",
+      "quarterly": true
+    },
+    "get_income_statement-920185.BJ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "920185.BJ",
+      "quarterly": true
+    },
+    "get_cash_flow-920185.BJ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "920185.BJ",
+      "quarterly": true
+    },
+    "get_balance_sheet-920185.BJ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "603659.SS"
+    },
+    "info-603659.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "603659.SS",
+      "limit": 6
+    },
+    "news-603659.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "603659.SS",
+      "quarterly": true
+    },
+    "get_income_statement-603659.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "603659.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-603659.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "603659.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-603659.SS"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "603659.SS"
+    },
+    "estimates-603659.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002812.SZ"
+    },
+    "info-002812.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "002812.SZ",
+      "limit": 6
+    },
+    "news-002812.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "002812.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-002812.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "002812.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-002812.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "002812.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-002812.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300568.SZ"
+    },
+    "info-300568.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300568.SZ",
+      "limit": 6
+    },
+    "news-300568.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300568.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300568.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300568.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300568.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300568.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300568.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688116.SS"
+    },
+    "info-688116.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "688116.SS",
+      "limit": 6
+    },
+    "news-688116.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "688116.SS",
+      "quarterly": true
+    },
+    "get_income_statement-688116.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "688116.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-688116.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "688116.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-688116.SS"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "688116.SS"
+    },
+    "estimates-688116.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300750.SZ"
+    },
+    "info-300750.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300750.SZ",
+      "limit": 6
+    },
+    "news-300750.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300750.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300750.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300750.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300750.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300750.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300750.SZ"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "300750.SZ"
+    },
+    "estimates-300750.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002594.SZ"
+    },
+    "info-002594.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "002594.SZ",
+      "limit": 6
+    },
+    "news-002594.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "002594.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-002594.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "002594.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-002594.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "002594.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-002594.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002074.SZ"
+    },
+    "info-002074.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "002074.SZ",
+      "limit": 6
+    },
+    "news-002074.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "002074.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-002074.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "002074.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-002074.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "002074.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-002074.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688567.SS"
+    },
+    "info-688567.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "688567.SS",
+      "limit": 6
+    },
+    "news-688567.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "688567.SS",
+      "quarterly": true
+    },
+    "get_income_statement-688567.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "688567.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-688567.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "688567.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-688567.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300014.SZ"
+    },
+    "info-300014.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300014.SZ",
+      "limit": 6
+    },
+    "news-300014.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300014.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300014.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300014.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300014.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300014.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300014.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300207.SZ"
+    },
+    "info-300207.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300207.SZ",
+      "limit": 6
+    },
+    "news-300207.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300207.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300207.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300207.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300207.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300207.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300207.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300450.SZ"
+    },
+    "info-300450.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300450.SZ",
+      "limit": 6
+    },
+    "news-300450.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300450.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300450.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300450.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300450.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300450.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300450.SZ"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "300450.SZ"
+    },
+    "estimates-300450.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300457.SZ"
+    },
+    "info-300457.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300457.SZ",
+      "limit": 6
+    },
+    "news-300457.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300457.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300457.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300457.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300457.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300457.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300457.SZ"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "300457.SZ"
+    },
+    "estimates-300457.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688559.SS"
+    },
+    "info-688559.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "688559.SS",
+      "limit": 6
+    },
+    "news-688559.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "688559.SS",
+      "quarterly": true
+    },
+    "get_income_statement-688559.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "688559.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-688559.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "688559.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-688559.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688499.SS"
+    },
+    "info-688499.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "688499.SS",
+      "limit": 6
+    },
+    "news-688499.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "688499.SS",
+      "quarterly": true
+    },
+    "get_income_statement-688499.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "688499.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-688499.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "688499.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-688499.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "QS"
+    },
+    "info-QS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "QS",
+      "limit": 6
+    },
+    "news-QS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "QS",
+      "quarterly": true
+    },
+    "get_income_statement-QS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "QS",
+      "quarterly": true
+    },
+    "get_cash_flow-QS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "QS",
+      "quarterly": true
+    },
+    "get_balance_sheet-QS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "SLDP"
+    },
+    "info-SLDP"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "SLDP",
+      "limit": 6
+    },
+    "news-SLDP"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "SLDP",
+      "quarterly": true
+    },
+    "get_income_statement-SLDP"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "SLDP",
+      "quarterly": true
+    },
+    "get_cash_flow-SLDP"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "SLDP",
+      "quarterly": true
+    },
+    "get_balance_sheet-SLDP"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300037.SZ"
+    },
+    "info-300037.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "300037.SZ",
+      "limit": 6
+    },
+    "news-300037.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "300037.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-300037.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "300037.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-300037.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "300037.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-300037.SZ"
+  ],
+  [
+    "get_earnings_estimates",
+    {
+      "symbol": "300037.SZ"
+    },
+    "estimates-300037.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002709.SZ"
+    },
+    "info-002709.SZ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "002709.SZ",
+      "limit": 6
+    },
+    "news-002709.SZ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "002709.SZ",
+      "quarterly": true
+    },
+    "get_income_statement-002709.SZ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "002709.SZ",
+      "quarterly": true
+    },
+    "get_cash_flow-002709.SZ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "002709.SZ",
+      "quarterly": true
+    },
+    "get_balance_sheet-002709.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "603663.SS"
+    },
+    "info-603663.SS"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "603663.SS",
+      "limit": 6
+    },
+    "news-603663.SS"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "603663.SS",
+      "quarterly": true
+    },
+    "get_income_statement-603663.SS"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "603663.SS",
+      "quarterly": true
+    },
+    "get_cash_flow-603663.SS"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "603663.SS",
+      "quarterly": true
+    },
+    "get_balance_sheet-603663.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "920522.BJ"
+    },
+    "info-920522.BJ"
+  ],
+  [
+    "get_stock_news",
+    {
+      "symbol": "920522.BJ",
+      "limit": 6
+    },
+    "news-920522.BJ"
+  ],
+  [
+    "get_income_statement",
+    {
+      "symbol": "920522.BJ",
+      "quarterly": true
+    },
+    "get_income_statement-920522.BJ"
+  ],
+  [
+    "get_cash_flow",
+    {
+      "symbol": "920522.BJ",
+      "quarterly": true
+    },
+    "get_cash_flow-920522.BJ"
+  ],
+  [
+    "get_balance_sheet",
+    {
+      "symbol": "920522.BJ",
+      "quarterly": true
+    },
+    "get_balance_sheet-920522.BJ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "600884.SS"
+    },
+    "info-600884.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "NIO"
+    },
+    "info-NIO"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "600104.SS"
+    },
+    "info-600104.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "7203.T"
+    },
+    "info-7203.T"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002632.SZ"
+    },
+    "info-002632.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "688388.SS"
+    },
+    "info-688388.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002846.SZ"
+    },
+    "info-002846.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "000792.SZ"
+    },
+    "info-000792.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "000408.SZ"
+    },
+    "info-000408.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "000762.SZ"
+    },
+    "info-000762.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002756.SZ"
+    },
+    "info-002756.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002466.SZ"
+    },
+    "info-002466.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002738.SZ"
+    },
+    "info-002738.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002192.SZ"
+    },
+    "info-002192.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002497.SZ"
+    },
+    "info-002497.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002240.SZ"
+    },
+    "info-002240.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "SQM"
+    },
+    "info-SQM"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "ALB"
+    },
+    "info-ALB"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "PLS.AX"
+    },
+    "info-PLS.AX"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "603799.SS"
+    },
+    "info-603799.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002340.SZ"
+    },
+    "info-002340.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "002009.SZ"
+    },
+    "info-002009.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "601127.SS"
+    },
+    "info-601127.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "0175.HK"
+    },
+    "info-0175.HK"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "601238.SS"
+    },
+    "info-601238.SS"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "MBG.DE"
+    },
+    "info-MBG.DE"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "BMW.DE"
+    },
+    "info-BMW.DE"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300274.SZ"
+    },
+    "info-300274.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "300068.SZ"
+    },
+    "info-300068.SZ"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "TSLA"
+    },
+    "info-TSLA"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "1810.HK"
+    },
+    "info-1810.HK"
+  ],
+  [
+    "get_stock_info",
+    {
+      "symbol": "9880.HK"
+    },
+    "info-9880.HK"
+  ],
+  [
+    "get_dividends_and_splits",
+    {
+      "symbol": "300750.SZ"
+    },
+    "actions-300750.SZ"
+  ],
+  [
+    "get_dividends_and_splits",
+    {
+      "symbol": "300450.SZ"
+    },
+    "actions-300450.SZ"
+  ],
+  [
+    "get_dividends_and_splits",
+    {
+      "symbol": "002594.SZ"
+    },
+    "actions-002594.SZ"
+  ]
+]

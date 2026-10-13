@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "NEM",
+      "NET",
+      "NFLX",
+      "NI",
+      "NIO",
+      "NKE",
+      "NOC",
+      "NOVT",
+      "NOW",
+      "NRG",
+      "NRGV",
+      "NSC"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:30.767153+00:00",
+  "retrievedAt": "2026-10-13T08:52:33.965442+00:00",
+  "data": {
+    "symbols": [
+      "NEM",
+      "NET",
+      "NFLX",
+      "NI",
+      "NIO",
+      "NKE",
+      "NOC",
+      "NOVT",
+      "NOW",
+      "NRG",
+      "NRGV",
+      "NSC"
+    ],
+    "results": {
+      "NEM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NET": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NFLX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NIO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NKE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NOC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NOVT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NOW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NRG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NRGV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "NSC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

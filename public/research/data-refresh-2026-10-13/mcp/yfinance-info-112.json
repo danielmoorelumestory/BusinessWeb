@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "CVNA",
+      "CVS",
+      "CVX",
+      "D",
+      "DAL",
+      "DASH",
+      "DD",
+      "DDOG",
+      "DE",
+      "DECK",
+      "DELL",
+      "DEO"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:11.962099+00:00",
+  "retrievedAt": "2026-10-13T08:52:15.482403+00:00",
+  "data": {
+    "symbols": [
+      "CVNA",
+      "CVS",
+      "CVX",
+      "D",
+      "DAL",
+      "DASH",
+      "DD",
+      "DDOG",
+      "DE",
+      "DECK",
+      "DELL",
+      "DEO"
+    ],
+    "results": {
+      "CVNA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CVS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "CVX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "D": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DAL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DASH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DDOG": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DECK": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DELL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "DEO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

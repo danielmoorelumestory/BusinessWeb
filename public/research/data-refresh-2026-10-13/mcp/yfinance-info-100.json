@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "AKE.PA",
+      "ALAB",
+      "ALB",
+      "ALGN",
+      "ALL",
+      "ALLE",
+      "ALNY",
+      "AMAT",
+      "AMBA",
+      "AMCR",
+      "AMD",
+      "AME"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:01.814500+00:00",
+  "retrievedAt": "2026-10-13T08:52:05.006314+00:00",
+  "data": {
+    "symbols": [
+      "AKE.PA",
+      "ALAB",
+      "ALB",
+      "ALGN",
+      "ALL",
+      "ALLE",
+      "ALNY",
+      "AMAT",
+      "AMBA",
+      "AMCR",
+      "AMD",
+      "AME"
+    ],
+    "results": {
+      "AKE.PA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ALAB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ALB": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ALGN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ALL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ALLE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ALNY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMAT": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMBA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMCR": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AMD": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "AME": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

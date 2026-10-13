@@ -9,7 +9,7 @@ export async function handleMarket(req, res) {
     res.setHeader('Allow', 'GET')
     return res.status(405).json({ error: '只支持 GET 请求' })
   }
-  const { kind, symbol, symbols, begin, end } = req.query
+  const { kind, symbol, symbols, begin, end, period } = req.query
   let url
   if (kind === 'quotes' && typeof symbols === 'string' && symbols.length <= 899
     && symbols.split(',').length <= 100 && symbols.split(',').every(s => quoteSymbolPattern.test(s))) {
@@ -17,6 +17,12 @@ export async function handleMarket(req, res) {
   } else if (kind === 'candles' && typeof symbol === 'string' && symbolPattern.test(symbol)
     && validDate(begin) && validDate(end) && begin <= end) {
     url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?${new URLSearchParams({ param: `${symbol},day,${begin},${end},640,qfq` })}`
+  } else if (kind === 'index-history' && ['sh000300', 'sh000852', 'sh000001', 'sz399106', 'sz399001', 'sz399006'].includes(symbol)
+    && ['day', 'week', 'month'].includes(period)) {
+    url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?${new URLSearchParams({ param: `${symbol},${period},,,${period === 'month' ? 800 : 640},qfq` })}`
+  } else if (kind === 'index-amount-history' && ['sh000001', 'sz399106'].includes(symbol)
+    && ['day', 'week', 'month'].includes(period)) {
+    url = `https://web.ifzq.gtimg.cn/appstock/app/newfqkline/get?${new URLSearchParams({ param: `${symbol},${period},,,${period === 'month' ? 800 : 640},qfq` })}`
   } else {
     return res.status(400).json({ error: '行情查询参数无效' })
   }

@@ -1,0 +1,1291 @@
+{
+  "asOf": "2026-10-10",
+  "priceDate": "2026-10-09",
+  "scope": "68个主体初筛、8家重点复核；单模型多视角，未完成全池同深度估值",
+  "stats": {
+    "quoteRequests": 61,
+    "validQuotes": 59,
+    "financialRequests": 29,
+    "estimateCompanies": 8,
+    "newsCompanies": 25,
+    "financialAbstractCompanies": 11
+  },
+  "notes": [
+    "核心和候选是研究优先级，当前买入资格未认证。",
+    "本次查询Yahoo新闻返回空，不能解释为无新闻；新闻发现采用AKShare东方财富。",
+    "供应商+1y为相对财年字段，财年、调整后EPS与摊薄口径待核；单人覆盖不称充分市场共识。",
+    "保留2026-10-09已核H1高精度字段和其他上市地旧记录，来源日期逐项保留；10月10日新三表供复核，不混合精度覆盖原件控制值。",
+    "简化FCF不是严格FCFF/FCFE；现有EPS×PE为旧情景草稿，未完成第二种独立估值。",
+    "赢合概览Forward PE16.96与显式预测计算19.94不一致，采用显式预测并保留口径风险。",
+    "贝特瑞、纳科诺尔报价失败保留缺项，不因缺行情推断经营恶化。"
+  ],
+  "companies": [
+    {
+      "id": "300750-sz",
+      "name": "宁德时代",
+      "tier": "核心研究池",
+      "core": true,
+      "candidate": true,
+      "reason": "现有电池业务利润和现金支撑最强，固态作为额外增长选项。",
+      "watch": "下一份定期报告核主营毛利率、现金和海外产能利用；固态收入与成熟业务分开。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 25.005,
+        "low": 17.88,
+        "high": 28.16,
+        "analysts": 12,
+        "priceToEps": 11.907618476304739,
+        "currentYearEps": 20.731,
+        "previous30DaysEps": 25.01154,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300750.SZ.json"
+      },
+      "financialAbstract": {
+        "净利润": "432.84亿",
+        "净利润同比增长率": "41.98%",
+        "扣非净利润": "390.13亿",
+        "扣非净利润同比增长率": "43.44%",
+        "营业总收入": "2769.17亿",
+        "营业总收入同比增长率": "54.80%",
+        "每股经营现金流": "13.02",
+        "净资产收益率": "12.08%",
+        "资产负债率": "63.65%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300750.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300750.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300750.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300750.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-300750.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-300750.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300750.json"
+      ]
+    },
+    {
+      "id": "300450-sz",
+      "name": "先导智能",
+      "tier": "候选池／核心预备",
+      "core": false,
+      "candidate": true,
+      "reason": "H1 归母9.56亿元、经营现金40.85亿元；整线工艺积累支持优先跟踪。",
+      "watch": "核预收款、合同负债、设备验收与回款；AIDC订单不自动计为固态订单。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 1.91093,
+        "low": 1.68695,
+        "high": 2.12,
+        "analysts": 7,
+        "priceToEps": 19.221007572229226,
+        "currentYearEps": 1.43965,
+        "previous30DaysEps": 1.8705,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300450.SZ.json"
+      },
+      "financialAbstract": {
+        "净利润": "9.56亿",
+        "净利润同比增长率": "29.15%",
+        "扣非净利润": "9.26亿",
+        "扣非净利润同比增长率": "26.37%",
+        "营业总收入": "81.89亿",
+        "营业总收入同比增长率": "23.88%",
+        "每股经营现金流": "2.44",
+        "净资产收益率": "5.67%",
+        "资产负债率": "63.99%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300450.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300450.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300450.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300450.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-300450.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-300450.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300450.json"
+      ]
+    },
+    {
+      "id": "603659-ss",
+      "name": "璞泰来",
+      "tier": "候选池／核心预备",
+      "core": false,
+      "candidate": true,
+      "reason": "H1 归母14.52亿元、经营现金17.99亿元；主营恢复，扩产后简化FCF仍为负。",
+      "watch": "等待资本开支与负FCF收敛，核设备、涂覆和负极分部利润及H股发行实际摊薄。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 1.705,
+        "low": 1.42,
+        "high": 1.99,
+        "analysts": 2,
+        "priceToEps": 13.096774193548386,
+        "currentYearEps": 1.365,
+        "previous30DaysEps": 1.42,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-603659.SS.json"
+      },
+      "financialAbstract": {
+        "净利润": "14.52亿",
+        "净利润同比增长率": "37.58%",
+        "扣非净利润": "13.12亿",
+        "扣非净利润同比增长率": "32.25%",
+        "营业总收入": "101.15亿",
+        "营业总收入同比增长率": "42.70%",
+        "每股经营现金流": "0.84",
+        "净资产收益率": "6.89%",
+        "资产负债率": "58.14%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-603659.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-603659.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-603659.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-603659.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-603659.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-603659.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-603659.json"
+      ]
+    },
+    {
+      "id": "300037-sz",
+      "name": "新宙邦",
+      "tier": "候选池",
+      "core": false,
+      "candidate": true,
+      "reason": "H1 扣非9.69亿元、经营现金11.27亿元，主营盈利与现金提供研发支撑。",
+      "watch": "核主营利润持续性、固态材料复购及液态替代风险；H股备案不等于发行完成。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 2.97177,
+        "low": 2.97177,
+        "high": 2.97177,
+        "analysts": 1,
+        "priceToEps": 21.80182180989781,
+        "currentYearEps": 2.39464,
+        "previous30DaysEps": 2.97177,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300037.SZ.json"
+      },
+      "financialAbstract": {
+        "净利润": "9.84亿",
+        "净利润同比增长率": "103.33%",
+        "扣非净利润": "9.69亿",
+        "扣非净利润同比增长率": "107.93%",
+        "营业总收入": "74.63亿",
+        "营业总收入同比增长率": "75.66%",
+        "每股经营现金流": "1.49",
+        "净资产收益率": "8.82%",
+        "资产负债率": "50.16%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300037.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300037.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300037.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300037.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-300037.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-300037.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300037.json"
+      ]
+    },
+    {
+      "id": "300457-sz",
+      "name": "赢合科技",
+      "tier": "候选池",
+      "core": false,
+      "candidate": true,
+      "reason": "H1 归母3.51亿元、经营现金10.13亿元；韩国客户设备订单支持主营需求。",
+      "watch": "核订单金额、验收、毛利率和回款；通用电池设备订单不自动计为固态收入。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 1.13919,
+        "low": 1.08846,
+        "high": 1.23,
+        "analysts": 3,
+        "priceToEps": 19.943995294902518,
+        "currentYearEps": 0.91922,
+        "previous30DaysEps": 1.14491,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300457.SZ.json"
+      },
+      "financialAbstract": {
+        "净利润": "3.51亿",
+        "净利润同比增长率": "29.40%",
+        "扣非净利润": "3.45亿",
+        "扣非净利润同比增长率": "28.71%",
+        "营业总收入": "60.90亿",
+        "营业总收入同比增长率": "42.83%",
+        "每股经营现金流": "1.57",
+        "净资产收益率": "5.02%",
+        "资产负债率": "65.74%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300457.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300457.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300457.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300457.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-300457.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-300457.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300457.json"
+      ]
+    },
+    {
+      "id": "300073-sz",
+      "name": "当升科技",
+      "tier": "候选池",
+      "core": false,
+      "candidate": true,
+      "reason": "公司披露全固态正极客户验证及电解质小批量应用；H1经营现金仅0.86亿元。",
+      "watch": "下一份财报核营运资金和回款改善，跟踪固态独立收入、客户复购与单位加工利润。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 2.96,
+        "low": 2.96,
+        "high": 2.96,
+        "analysts": 1,
+        "priceToEps": 14.185810810810812,
+        "currentYearEps": 2.24218,
+        "previous30DaysEps": 0.0,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300073.SZ.json"
+      },
+      "financialAbstract": {
+        "净利润": "5.20亿",
+        "净利润同比增长率": "67.25%",
+        "扣非净利润": "4.63亿",
+        "扣非净利润同比增长率": "84.36%",
+        "营业总收入": "104.75亿",
+        "营业总收入同比增长率": "136.33%",
+        "每股经营现金流": "0.16",
+        "净资产收益率": "3.49%",
+        "资产负债率": "42.48%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300073.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300073.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300073.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300073.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-300073.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-300073.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300073.json"
+      ]
+    },
+    {
+      "id": "688778-ss",
+      "name": "厦钨新能",
+      "tier": "候选池",
+      "core": false,
+      "candidate": true,
+      "reason": "H1 扣非4.88亿元、经营现金2.83亿元；有盈利基础，简化FCF仍为负。",
+      "watch": "核实际销量、加工利润、库存周转和资本开支，不把金属价格传导当销量增长。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 2.51,
+        "low": 2.41,
+        "high": 2.65,
+        "analysts": 3.0,
+        "priceToEps": 18.884462151394423,
+        "currentYearEps": 2.05333,
+        "previous30DaysEps": 2.51,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-688778.SS.json"
+      },
+      "financialAbstract": {
+        "净利润": "4.91亿",
+        "净利润同比增长率": "46.62%",
+        "扣非净利润": "4.88亿",
+        "扣非净利润同比增长率": "67.90%",
+        "营业总收入": "144.88亿",
+        "营业总收入同比增长率": "91.09%",
+        "每股经营现金流": "0.56",
+        "净资产收益率": "5.22%",
+        "资产负债率": "61.35%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688778.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688778.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688778.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688778.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-688778.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-688778.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-688778.json"
+      ]
+    },
+    {
+      "id": "688116-ss",
+      "name": "天奈科技",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "暂缓候选：H1经营现金弱于利润；TTM PE约50.6倍，预测证据偏薄。",
+      "watch": "供应商+1y EPS从30日前2.44降至1.61元，仅1人覆盖；核样本变化、每股口径和增长兑现。",
+      "forecast": {
+        "periodLabel": "+1y",
+        "currency": "CNY",
+        "eps": 1.61,
+        "low": 1.61,
+        "high": 1.61,
+        "analysts": 1,
+        "priceToEps": 21.366459627329192,
+        "currentYearEps": 1.08,
+        "previous30DaysEps": 2.44,
+        "source": "research/solid-state-mcp-2026-10-10/yfinance-estimates-688116.SS.json"
+      },
+      "financialAbstract": {
+        "净利润": "1.35亿",
+        "净利润同比增长率": "15.39%",
+        "扣非净利润": "1.20亿",
+        "扣非净利润同比增长率": "15.88%",
+        "营业总收入": "7.28亿",
+        "营业总收入同比增长率": "11.42%",
+        "每股经营现金流": "0.27",
+        "净资产收益率": "3.50%",
+        "资产负债率": "35.02%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688116.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688116.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688116.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688116.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-estimates-688116.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-688116.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-688116.json"
+      ]
+    },
+    {
+      "id": "002460-sz",
+      "name": "赣锋锂业",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002460.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002460.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002460.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002460.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-002460.json"
+      ]
+    },
+    {
+      "id": "920185-bj",
+      "name": "贝特瑞",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "H1归母3.83亿元、同比下降20.07%，经营现金为负；保留观察。",
+      "watch": "北交所行情多源取数失败，不用旧价格判断便宜；核回款、硅基出货和单位利润。",
+      "forecast": null,
+      "financialAbstract": {
+        "净利润": "3.83亿",
+        "净利润同比增长率": "-20.07%",
+        "扣非净利润": "3.45亿",
+        "扣非净利润同比增长率": "-19.82%",
+        "营业总收入": "102.21亿",
+        "营业总收入同比增长率": "30.40%",
+        "每股经营现金流": "-0.30",
+        "净资产收益率": "2.97%",
+        "资产负债率": "60.80%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-920185.BJ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-920185.BJ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-920185.BJ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-920185.BJ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-920185.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-920185.json"
+      ]
+    },
+    {
+      "id": "300014-sz",
+      "name": "亿纬锂能",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300014.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300014.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300014.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300014.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300014.json"
+      ]
+    },
+    {
+      "id": "002594-sz",
+      "name": "比亚迪",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002594.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002594.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002594.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002594.SZ.json"
+      ]
+    },
+    {
+      "id": "002074-sz",
+      "name": "国轩高科",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "H1归母13.86亿元、扣非仅1.07亿元，简化FCF为负，正常化盈利待验证。",
+      "watch": "核非经常损益、海外扩产融资及单位现金回报，不外推归母利润增幅。",
+      "forecast": null,
+      "financialAbstract": {
+        "净利润": "13.86亿",
+        "净利润同比增长率": "278.05%",
+        "扣非净利润": "1.07亿",
+        "扣非净利润同比增长率": "46.71%",
+        "营业总收入": "277.76亿",
+        "营业总收入同比增长率": "43.22%",
+        "每股经营现金流": "0.24",
+        "净资产收益率": "4.68%",
+        "资产负债率": "71.73%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002074.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002074.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002074.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002074.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-002074.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-002074.json"
+      ]
+    },
+    {
+      "id": "300207-sz",
+      "name": "欣旺达",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300207.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300207.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300207.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300207.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300207.json"
+      ]
+    },
+    {
+      "id": "002709-sz",
+      "name": "天赐材料",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002709.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002709.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002709.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002709.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-002709.json"
+      ]
+    },
+    {
+      "id": "688005-ss",
+      "name": "容百科技",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688005.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688005.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688005.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688005.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-688005.json"
+      ]
+    },
+    {
+      "id": "688779-ss",
+      "name": "长远锂科",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688779.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688779.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688779.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688779.SS.json"
+      ]
+    },
+    {
+      "id": "300409-sz",
+      "name": "道氏技术",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300409.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300409.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300409.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300409.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300409.json"
+      ]
+    },
+    {
+      "id": "301238-sz",
+      "name": "瑞泰新材",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-301238.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-301238.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-301238.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-301238.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-301238.json"
+      ]
+    },
+    {
+      "id": "002812-sz",
+      "name": "恩捷股份",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002812.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002812.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002812.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002812.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-002812.json"
+      ]
+    },
+    {
+      "id": "300568-sz",
+      "name": "星源材质",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300568.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300568.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300568.SZ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300568.SZ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-300568.json"
+      ]
+    },
+    {
+      "id": "603663-ss",
+      "name": "三祥新材",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为观察池；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-603663.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-603663.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-603663.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-603663.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-603663.json"
+      ]
+    },
+    {
+      "id": "920522-bj",
+      "name": "纳科诺尔",
+      "tier": "观察池",
+      "core": false,
+      "candidate": false,
+      "reason": "AKShare H1摘要归母1625.89万元、同比下降68.51%；暂不升级候选。",
+      "watch": "行情多源取数失败，等待有效报价及公告核对专用订单、毛利率和回款。",
+      "forecast": null,
+      "financialAbstract": {
+        "净利润": "1625.89万",
+        "净利润同比增长率": "-68.51%",
+        "扣非净利润": "1545.85万",
+        "扣非净利润同比增长率": "-68.73%",
+        "营业总收入": "6.48亿",
+        "营业总收入同比增长率": "36.94%",
+        "每股经营现金流": "0.28",
+        "净资产收益率": "1.50%",
+        "资产负债率": "63.42%"
+      },
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-920522.BJ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-920522.BJ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-920522.BJ.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-920522.BJ.json",
+        "research/solid-state-mcp-2026-10-10/akshare-financial-920522.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-920522.json"
+      ]
+    },
+    {
+      "id": "600884-ss",
+      "name": "杉杉股份",
+      "tier": "关联材料，暂不优先",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为关联材料，暂不优先；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-600884.SS.json"
+      ]
+    },
+    {
+      "id": "002632-sz",
+      "name": "道明光学",
+      "tier": "关联材料，暂不优先",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为关联材料，暂不优先；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002632.SZ.json"
+      ]
+    },
+    {
+      "id": "688388-ss",
+      "name": "嘉元科技",
+      "tier": "关联材料，暂不优先",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为关联材料，暂不优先；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688388.SS.json"
+      ]
+    },
+    {
+      "id": "002846-sz",
+      "name": "英联股份",
+      "tier": "关联材料，暂不优先",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为关联材料，暂不优先；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002846.SZ.json"
+      ]
+    },
+    {
+      "id": "603200-ss",
+      "name": "上海洗霸",
+      "tier": "暂不纳入固态基本面候选",
+      "core": false,
+      "candidate": false,
+      "reason": "最新公告明确固态相关业务未形成长期稳定规模化收入，暂不进入基本面候选。",
+      "watch": "新能源先进材料H1收入1337.37万元、占营收5.72%，并非全部为固态收入；等待复购及规模利润。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-603200.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-603200.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-603200.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-603200.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-603200.json"
+      ]
+    },
+    {
+      "id": "688567-ss",
+      "name": "孚能科技",
+      "tier": "暂不纳入固态基本面候选",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为暂不纳入固态基本面候选；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688567.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688567.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688567.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688567.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-688567.json"
+      ]
+    },
+    {
+      "id": "688559-ss",
+      "name": "海目星",
+      "tier": "暂不纳入固态基本面候选",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为暂不纳入固态基本面候选；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688559.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688559.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688559.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688559.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-688559.json"
+      ]
+    },
+    {
+      "id": "688499-ss",
+      "name": "利元亨",
+      "tier": "暂不纳入固态基本面候选",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为暂不纳入固态基本面候选；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-688499.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688499.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688499.SS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688499.SS.json",
+        "research/solid-state-mcp-2026-10-10/akshare-news-688499.json"
+      ]
+    },
+    {
+      "id": "300068-sz",
+      "name": "南都电源",
+      "tier": "暂不纳入固态基本面候选",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为暂不纳入固态基本面候选；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300068.SZ.json"
+      ]
+    },
+    {
+      "id": "002009-sz",
+      "name": "天奇股份",
+      "tier": "暂不纳入固态基本面候选",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为暂不纳入固态基本面候选；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002009.SZ.json"
+      ]
+    },
+    {
+      "id": "000792-sz",
+      "name": "盐湖股份",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-000792.SZ.json"
+      ]
+    },
+    {
+      "id": "000408-sz",
+      "name": "藏格矿业",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-000408.SZ.json"
+      ]
+    },
+    {
+      "id": "000762-sz",
+      "name": "西藏矿业",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-000762.SZ.json"
+      ]
+    },
+    {
+      "id": "002756-sz",
+      "name": "永兴材料",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002756.SZ.json"
+      ]
+    },
+    {
+      "id": "002466-sz",
+      "name": "天齐锂业",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002466.SZ.json"
+      ]
+    },
+    {
+      "id": "002738-sz",
+      "name": "中矿资源",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002738.SZ.json"
+      ]
+    },
+    {
+      "id": "002192-sz",
+      "name": "融捷股份",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002192.SZ.json"
+      ]
+    },
+    {
+      "id": "002497-sz",
+      "name": "雅化集团",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002497.SZ.json"
+      ]
+    },
+    {
+      "id": "002240-sz",
+      "name": "盛新锂能",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002240.SZ.json"
+      ]
+    },
+    {
+      "id": "sqm",
+      "name": "SQM",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-SQM.json"
+      ]
+    },
+    {
+      "id": "alb",
+      "name": "Albemarle",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-ALB.json"
+      ]
+    },
+    {
+      "id": "pls-ax",
+      "name": "Pilbara Minerals",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-PLS.AX.json"
+      ]
+    },
+    {
+      "id": "603799-ss",
+      "name": "华友钴业",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-603799.SS.json"
+      ]
+    },
+    {
+      "id": "002340-sz",
+      "name": "格林美",
+      "tier": "转资源及回收池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转资源及回收池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-002340.SZ.json"
+      ]
+    },
+    {
+      "id": "nio",
+      "name": "蔚来",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-NIO.json"
+      ]
+    },
+    {
+      "id": "600104-ss",
+      "name": "上汽集团",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-600104.SS.json"
+      ]
+    },
+    {
+      "id": "7203-t",
+      "name": "丰田",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-7203.T.json"
+      ]
+    },
+    {
+      "id": "601127-ss",
+      "name": "赛力斯",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-601127.SS.json"
+      ]
+    },
+    {
+      "id": "0175-hk",
+      "name": "吉利",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-0175.HK.json"
+      ]
+    },
+    {
+      "id": "601238-ss",
+      "name": "广汽",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-601238.SS.json"
+      ]
+    },
+    {
+      "id": "mbg-de",
+      "name": "奔驰",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-MBG.DE.json"
+      ]
+    },
+    {
+      "id": "bmw-de",
+      "name": "宝马",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-BMW.DE.json"
+      ]
+    },
+    {
+      "id": "300274-sz",
+      "name": "阳光电源",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-300274.SZ.json"
+      ]
+    },
+    {
+      "id": "tsla",
+      "name": "特斯拉",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-TSLA.json"
+      ]
+    },
+    {
+      "id": "1810-hk",
+      "name": "小米",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-1810.HK.json"
+      ]
+    },
+    {
+      "id": "9880-hk",
+      "name": "优必选",
+      "tier": "转应用及整车池研究",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为转应用及整车池研究；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-9880.HK.json"
+      ]
+    },
+    {
+      "id": "qs",
+      "name": "QuantumScape",
+      "tier": "技术事件观察",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为技术事件观察；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-QS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-QS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-QS.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-QS.json"
+      ]
+    },
+    {
+      "id": "sldp",
+      "name": "Solid Power",
+      "tier": "技术事件观察",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为技术事件观察；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": [
+        "research/solid-state-mcp-2026-10-10/yfinance-info-SLDP.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-SLDP.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-SLDP.json",
+        "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-SLDP.json"
+      ]
+    },
+    {
+      "id": "entity-huayi",
+      "name": "四川华宜清创",
+      "tier": "未上市主体，产业跟踪",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为未上市主体，产业跟踪；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": []
+    },
+    {
+      "id": "entity-qingtao",
+      "name": "清陶能源",
+      "tier": "未上市主体，产业跟踪",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为未上市主体，产业跟踪；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": []
+    },
+    {
+      "id": "entity-weilan",
+      "name": "卫蓝新能源",
+      "tier": "未上市主体，产业跟踪",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为未上市主体，产业跟踪；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": []
+    },
+    {
+      "id": "entity-prologium",
+      "name": "辉能科技",
+      "tier": "未上市主体，产业跟踪",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为未上市主体，产业跟踪；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": []
+    },
+    {
+      "id": "entity-pure-lithium",
+      "name": "北京纯锂新能源",
+      "tier": "未上市主体，产业跟踪",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为未上市主体，产业跟踪；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": []
+    },
+    {
+      "id": "entity-im-motors",
+      "name": "智己汽车",
+      "tier": "未上市主体，产业跟踪",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为未上市主体，产业跟踪；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": []
+    },
+    {
+      "id": "entity-samsung-unresolved",
+      "name": "三星",
+      "tier": "主体待明确",
+      "core": false,
+      "candidate": false,
+      "reason": "本轮分层为主体待明确；产业关联不等于已验证的固态盈利。",
+      "watch": "下一份定期报告或产品公告核实际业务敞口、收入、复购和现金回报；估值未认证。",
+      "forecast": null,
+      "financialAbstract": null,
+      "sources": []
+    }
+  ]
+}

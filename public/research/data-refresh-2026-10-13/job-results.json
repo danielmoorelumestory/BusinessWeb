@@ -1,0 +1,27 @@
+[
+  {
+    "name": "macro",
+    "code": 0,
+    "completedAt": "2026-10-13T08:46:22.129Z"
+  },
+  {
+    "name": "indexes",
+    "code": 0,
+    "completedAt": "2026-10-13T08:46:29.466Z"
+  },
+  {
+    "name": "daily",
+    "code": 0,
+    "completedAt": "2026-10-13T08:46:17.259Z"
+  },
+  {
+    "name": "national-stocks",
+    "code": 0,
+    "completedAt": "2026-10-13T08:50:21.595Z"
+  },
+  {
+    "name": "national-etf",
+    "code": 0,
+    "completedAt": "2026-10-13T08:49:02.830Z"
+  }
+]

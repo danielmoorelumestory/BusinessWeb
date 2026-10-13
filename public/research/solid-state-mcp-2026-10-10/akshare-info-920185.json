@@ -1,0 +1,11 @@
+{
+  "server": "akshare",
+  "tool": "stock_individual_info_em",
+  "arguments": {
+    "symbol": "920185",
+    "timeout": 15
+  },
+  "retrievedAt": "2026-10-10T07:28:00.055360+00:00",
+  "isError": false,
+  "data": "Error calling tool 'stock_individual_info_em': ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+}

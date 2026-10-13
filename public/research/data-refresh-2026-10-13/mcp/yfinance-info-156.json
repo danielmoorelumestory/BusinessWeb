@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "ZBRA",
+      "ZF",
+      "ZS",
+      "ZTO",
+      "ZTS",
+      "maxon",
+      "中国商飞",
+      "中科海钠",
+      "九识智能",
+      "博睿康",
+      "卫蓝新能源",
+      "大疆"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:49.342401+00:00",
+  "retrievedAt": "2026-10-13T08:52:52.407515+00:00",
+  "data": {
+    "symbols": [
+      "ZBRA",
+      "ZF",
+      "ZS",
+      "ZTO",
+      "ZTS",
+      "maxon",
+      "中国商飞",
+      "中科海钠",
+      "九识智能",
+      "博睿康",
+      "卫蓝新能源",
+      "大疆"
+    ],
+    "results": {
+      "ZBRA": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ZF": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ZS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ZTO": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ZTS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "maxon": {
+        "error": "'maxon'"
+      },
+      "中国商飞": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "中科海钠": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "九识智能": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "博睿康": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "卫蓝新能源": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "大疆": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

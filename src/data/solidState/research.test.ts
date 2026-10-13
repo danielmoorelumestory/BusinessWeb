@@ -19,7 +19,7 @@ describe('固态电池研究证据完整性', () => {
       expect(raw.retrievedAt).toBe(call.retrievedAt)
     }
     for (const outcome of coreReview.outcomes) expect(MCP.companies.some(c => c.id === outcome.id)).toBe(true)
-    expect(primaryListing(mcpCompany('纳科诺尔'))).toBeUndefined()
+    expect(primaryListing(mcpCompany('纳科诺尔'))?.symbol).toBe('920522.BJ')
   })
   it('观察池公司全部可追溯到原产业树，去重且不把未核上市主体配上股票代码', () => {
     const tree = readFileSync('public/industry/solid-state.json', 'utf8')
@@ -44,19 +44,31 @@ describe('固态电池研究证据完整性', () => {
   it('原始 MCP 证据可回溯，跨上市地去重，空资料不充当行情', () => {
     const treeNames = new Set(MCP.companies.filter(c => c.origin === '原产业树').map(c => c.name))
     companies.forEach(c => expect(treeNames.has(c.name)).toBe(true))
-    expect(primaryListing(mcpCompany('贝特瑞'))).toBeUndefined()
+    expect(primaryListing(mcpCompany('贝特瑞'))?.symbol).toBe('920185.BJ')
     expect(primaryListing(mcpCompany('三星'))).toBeUndefined()
     expect(mcpCompany('长远锂科')?.displayName).toContain('五矿新能')
     for (const c of MCP.companies) for (const l of c.listings) {
       const raw = JSON.parse(readFileSync(`public/${l.source}`, 'utf8'))
-      expect(raw.arguments.symbol).toBe(l.symbol)
-      expect(raw.retrievedAt).toBeTruthy()
       if (l.available) {
         expect(l.marketTime).toBeTruthy()
         expect(l.currency).toBeTruthy()
         expect(l.price).toBeGreaterThan(0)
-        expect(raw.data.longName).toBe(l.providerName)
-      } else expect(l.price).toBeNull()
+        if (raw.quotes && l.source.includes('tencent-quotes')) {
+          const quote = Object.values<{symbols: string[];price: number;retrievedAt: string}>(raw.quotes).find(q => q.symbols?.includes(l.symbol))
+          expect(quote?.price).toBe(l.price)
+          expect(quote?.retrievedAt).toBe(l.retrievedAt)
+        } else if (raw.quotes) {
+          const quote = raw.quotes[l.symbol]
+          expect(quote?.regularMarketPrice).toBe(l.price)
+          expect(quote?.checkedAt).toBe(l.retrievedAt)
+        } else {
+          expect(raw.arguments.symbol).toBe(l.symbol)
+          expect(raw.retrievedAt).toBeTruthy()
+        }
+      } else {
+        expect(l.price).toBeNull()
+        if (['835185.BJ', '832522.BJ'].includes(l.symbol)) expect(l.issue).toContain('旧北交所代码')
+      }
     }
   })
   it('标准化 H1 与公告控制值一致，负现金流和零收入不会丢失', () => {

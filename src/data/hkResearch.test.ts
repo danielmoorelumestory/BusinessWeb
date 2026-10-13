@@ -19,7 +19,8 @@ describe('港股本轮研究不会被历史手工页和筛选数据覆盖', () =
     for (const row of audit.companies) {
       const company = companies.find(c => c.code === row.code)!
       expect(company.headline).toContain(row.judgment)
-      expect(company.metrics.find(([key]) => key === '价格锚点')?.[1]).toContain('延迟盘中快照')
+      expect(company.metrics.find(([key]) => key === '价格锚点')?.[1]).toContain('2026-10-13')
+      expect(company.metrics.find(([key]) => key === '价格锚点')?.[1]).toContain('非交易所认证收盘')
       expect(company.researchReport).toBe(`research/hk-2026-10-07/${row.code}.html`)
       expect(existsSync(resolve('public', company.researchReport!))).toBe(true)
       expect(company.discipline?.zone).toContain('[MISSING]')

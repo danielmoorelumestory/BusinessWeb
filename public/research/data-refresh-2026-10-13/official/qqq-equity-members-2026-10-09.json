@@ -1,0 +1,869 @@
+{
+  "checkedAt": "2026-10-13T09:19:54Z",
+  "asOf": "2026-10-09",
+  "source": "https://dng-api.invesco.com/cache/v1/accounts/en_US/shareclasses/QQQ/holdings/fund?idType=ticker&interval=monthly&productType=ETF",
+  "rawSourceFile": "qqq-holdings-official-2026-10-09.json",
+  "status": "official-issuer-holdings-proxy",
+  "index": "NDX",
+  "fund": "QQQ",
+  "securityCount": 101,
+  "companyCount": 100,
+  "companyCountMethod": "GOOG和GOOGL为Alphabet两类证券，合并计1家公司；其余证券各计1家公司。",
+  "includedSecurityTypes": [
+    "ADR",
+    "COM",
+    "DRNY"
+  ],
+  "excludedHoldings": [
+    {
+      "ticker": "NQZ6",
+      "issuerName": "CME E-Mini NASDAQ 100 Index Future",
+      "securityTypeCode": "IFUT"
+    },
+    {
+      "ticker": "USD",
+      "issuerName": "CASH &amp; EQUIVALENTS",
+      "securityTypeCode": "CURR"
+    },
+    {
+      "ticker": null,
+      "issuerName": "CASH COLLATERAL",
+      "securityTypeCode": "CURRCOL"
+    },
+    {
+      "ticker": null,
+      "issuerName": "CONTRA FUTURE FUTURE DEC 18 26",
+      "securityTypeCode": "SYN"
+    },
+    {
+      "ticker": "USDPDV",
+      "issuerName": "USD Pending Dividends",
+      "securityTypeCode": "CURR"
+    }
+  ],
+  "comparison": {
+    "comparedLocalFile": "src/data/ndx100.ts",
+    "comparedLocalSha256": "23d01115d774e807b91e260577281749de1d63fc2a7e61c75759c9c6db40fdd1",
+    "oldSecurityCount": 100,
+    "added": [
+      "MRNA"
+    ],
+    "removed": []
+  },
+  "symbols": [
+    "AAPL",
+    "ABNB",
+    "ADBE",
+    "ADI",
+    "ADP",
+    "ADSK",
+    "AEP",
+    "ALAB",
+    "ALNY",
+    "AMAT",
+    "AMD",
+    "AMGN",
+    "AMZN",
+    "APP",
+    "ARM",
+    "ASML",
+    "AVGO",
+    "AXON",
+    "BKNG",
+    "BKR",
+    "CCEP",
+    "CDNS",
+    "CEG",
+    "CMCSA",
+    "COST",
+    "CPRT",
+    "CRWD",
+    "CRWV",
+    "CSCO",
+    "CSX",
+    "CTAS",
+    "DASH",
+    "DDOG",
+    "DXCM",
+    "EXC",
+    "FANG",
+    "FAST",
+    "FER",
+    "FTNT",
+    "GEHC",
+    "GILD",
+    "GOOG",
+    "GOOGL",
+    "HON",
+    "HONA",
+    "IDXX",
+    "INTC",
+    "INTU",
+    "ISRG",
+    "KDP",
+    "KLAC",
+    "LIN",
+    "LITE",
+    "LRCX",
+    "MAR",
+    "MCHP",
+    "MDLZ",
+    "MELI",
+    "META",
+    "MNST",
+    "MPWR",
+    "MRNA",
+    "MRVL",
+    "MSFT",
+    "MSTR",
+    "MU",
+    "NBIS",
+    "NFLX",
+    "NVDA",
+    "NXPI",
+    "ODFL",
+    "ORLY",
+    "PANW",
+    "PAYX",
+    "PCAR",
+    "PDD",
+    "PEP",
+    "PLTR",
+    "PYPL",
+    "QCOM",
+    "REGN",
+    "RKLB",
+    "ROP",
+    "ROST",
+    "SBUX",
+    "SHOP",
+    "SNDK",
+    "SNPS",
+    "SPCX",
+    "STX",
+    "TER",
+    "TMUS",
+    "TRI",
+    "TSLA",
+    "TTWO",
+    "TXN",
+    "VRTX",
+    "WDAY",
+    "WDC",
+    "WMT",
+    "XEL"
+  ],
+  "members": [
+    {
+      "ticker": "AAPL",
+      "issuerName": "Apple Inc",
+      "cusip": "037833100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 7.335376
+    },
+    {
+      "ticker": "ABNB",
+      "issuerName": "Airbnb Inc",
+      "cusip": "009066101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.286784
+    },
+    {
+      "ticker": "ADBE",
+      "issuerName": "Adobe Inc",
+      "cusip": "00724F101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.396879
+    },
+    {
+      "ticker": "ADI",
+      "issuerName": "Analog Devices Inc",
+      "cusip": "032654105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.811302
+    },
+    {
+      "ticker": "ADP",
+      "issuerName": "Automatic Data Processing Inc",
+      "cusip": "053015103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.443485
+    },
+    {
+      "ticker": "ADSK",
+      "issuerName": "Autodesk Inc",
+      "cusip": "052769106",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.202654
+    },
+    {
+      "ticker": "AEP",
+      "issuerName": "American Electric Power Co Inc",
+      "cusip": "025537101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.275576
+    },
+    {
+      "ticker": "ALAB",
+      "issuerName": "Astera Labs Inc",
+      "cusip": "04626A103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.244677
+    },
+    {
+      "ticker": "ALNY",
+      "issuerName": "Alnylam Pharmaceuticals Inc",
+      "cusip": "02043Q107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.128275
+    },
+    {
+      "ticker": "AMAT",
+      "issuerName": "Applied Materials Inc",
+      "cusip": "038222105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.658499
+    },
+    {
+      "ticker": "AMD",
+      "issuerName": "Advanced Micro Devices Inc",
+      "cusip": "007903107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 4.091528
+    },
+    {
+      "ticker": "AMGN",
+      "issuerName": "Amgen Inc",
+      "cusip": "031162100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.924499
+    },
+    {
+      "ticker": "AMZN",
+      "issuerName": "Amazon.com Inc",
+      "cusip": "023135106",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 4.22603
+    },
+    {
+      "ticker": "APP",
+      "issuerName": "AppLovin Corp",
+      "cusip": "03831W108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.347593
+    },
+    {
+      "ticker": "ARM",
+      "issuerName": "ARM Holdings PLC",
+      "cusip": "042068205",
+      "securityTypeCode": "ADR",
+      "percentageOfTotalNetAssets": 0.478588
+    },
+    {
+      "ticker": "ASML",
+      "issuerName": "ASML Holding NV",
+      "cusip": "N07059210",
+      "securityTypeCode": "DRNY",
+      "percentageOfTotalNetAssets": 0.689916
+    },
+    {
+      "ticker": "AVGO",
+      "issuerName": "Broadcom Inc",
+      "cusip": "11135F101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 2.567959
+    },
+    {
+      "ticker": "AXON",
+      "issuerName": "Axon Enterprise Inc",
+      "cusip": "05464C101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.14154
+    },
+    {
+      "ticker": "BKNG",
+      "issuerName": "Booking Holdings Inc",
+      "cusip": "09857L108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.496507
+    },
+    {
+      "ticker": "BKR",
+      "issuerName": "Baker Hughes Co",
+      "cusip": "05722G100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.231971
+    },
+    {
+      "ticker": "CCEP",
+      "issuerName": "Coca-Cola Europacific Partners PLC",
+      "cusip": "G25839104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.186853
+    },
+    {
+      "ticker": "CDNS",
+      "issuerName": "Cadence Design Systems Inc",
+      "cusip": "127387108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.400455
+    },
+    {
+      "ticker": "CEG",
+      "issuerName": "Constellation Energy Corp",
+      "cusip": "21037T109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.435293
+    },
+    {
+      "ticker": "CMCSA",
+      "issuerName": "Comcast Corp",
+      "cusip": "20030N101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.30612
+    },
+    {
+      "ticker": "COST",
+      "issuerName": "Costco Wholesale Corp",
+      "cusip": "22160K105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.730884
+    },
+    {
+      "ticker": "CPRT",
+      "issuerName": "Copart Inc",
+      "cusip": "217204106",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.104207
+    },
+    {
+      "ticker": "CRWD",
+      "issuerName": "Crowdstrike Holdings Inc",
+      "cusip": "22788C105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.160831
+    },
+    {
+      "ticker": "CRWV",
+      "issuerName": "CoreWeave Inc",
+      "cusip": "21873S108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.155176
+    },
+    {
+      "ticker": "CSCO",
+      "issuerName": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.93011
+    },
+    {
+      "ticker": "CSX",
+      "issuerName": "CSX Corp",
+      "cusip": "126408103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.360803
+    },
+    {
+      "ticker": "CTAS",
+      "issuerName": "Cintas Corp",
+      "cusip": "172908105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.333814
+    },
+    {
+      "ticker": "DASH",
+      "issuerName": "DoorDash Inc",
+      "cusip": "25809K105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.331281
+    },
+    {
+      "ticker": "DDOG",
+      "issuerName": "Datadog Inc",
+      "cusip": "23804L103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.404758
+    },
+    {
+      "ticker": "DXCM",
+      "issuerName": "Dexcom Inc",
+      "cusip": "252131107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.130767
+    },
+    {
+      "ticker": "EXC",
+      "issuerName": "Exelon Corp",
+      "cusip": "30161N101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.177599
+    },
+    {
+      "ticker": "FANG",
+      "issuerName": "Diamondback Energy Inc",
+      "cusip": "25278X109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.221728
+    },
+    {
+      "ticker": "FAST",
+      "issuerName": "Fastenal Co",
+      "cusip": "311900104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.240012
+    },
+    {
+      "ticker": "FER",
+      "issuerName": "Ferrovial NV",
+      "cusip": "N3168P101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.150738
+    },
+    {
+      "ticker": "FTNT",
+      "issuerName": "Fortinet Inc",
+      "cusip": "34959E109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.588882
+    },
+    {
+      "ticker": "GEHC",
+      "issuerName": "GE HealthCare Technologies Inc",
+      "cusip": "36266G107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.122337
+    },
+    {
+      "ticker": "GILD",
+      "issuerName": "Gilead Sciences Inc",
+      "cusip": "375558103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.772598
+    },
+    {
+      "ticker": "GOOG",
+      "issuerName": "Alphabet Inc Class C",
+      "cusip": "02079K107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 2.870386
+    },
+    {
+      "ticker": "GOOGL",
+      "issuerName": "Alphabet Inc Class A",
+      "cusip": "02079K305",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 3.080768
+    },
+    {
+      "ticker": "HON",
+      "issuerName": "Honeywell International Inc",
+      "cusip": "438516205",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.27133
+    },
+    {
+      "ticker": "HONA",
+      "issuerName": "Honeywell Aerospace Inc",
+      "cusip": "43849R105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.206229
+    },
+    {
+      "ticker": "IDXX",
+      "issuerName": "IDEXX Laboratories Inc",
+      "cusip": "45168D104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.16813
+    },
+    {
+      "ticker": "INTC",
+      "issuerName": "Intel Corp",
+      "cusip": "458140100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 2.267481
+    },
+    {
+      "ticker": "INTU",
+      "issuerName": "Intuit Inc",
+      "cusip": "461202103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.342836
+    },
+    {
+      "ticker": "ISRG",
+      "issuerName": "Intuitive Surgical Inc",
+      "cusip": "46120E602",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.617358
+    },
+    {
+      "ticker": "KDP",
+      "issuerName": "Keurig Dr Pepper Inc",
+      "cusip": "49271V100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.178064
+    },
+    {
+      "ticker": "KLAC",
+      "issuerName": "KLA Corp",
+      "cusip": "482480100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.053243
+    },
+    {
+      "ticker": "LIN",
+      "issuerName": "Linde PLC",
+      "cusip": "G54950103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.91914
+    },
+    {
+      "ticker": "LITE",
+      "issuerName": "Lumentum Holdings Inc",
+      "cusip": "55024U109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.407878
+    },
+    {
+      "ticker": "LRCX",
+      "issuerName": "Lam Research Corp",
+      "cusip": "512807306",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.646144
+    },
+    {
+      "ticker": "MAR",
+      "issuerName": "Marriott International Inc/MD",
+      "cusip": "571903202",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.393199
+    },
+    {
+      "ticker": "MCHP",
+      "issuerName": "Microchip Technology Inc",
+      "cusip": "595017104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.169018
+    },
+    {
+      "ticker": "MDLZ",
+      "issuerName": "Mondelez International Inc",
+      "cusip": "609207105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.320491
+    },
+    {
+      "ticker": "MELI",
+      "issuerName": "MercadoLibre Inc",
+      "cusip": "58733R102",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.394856
+    },
+    {
+      "ticker": "META",
+      "issuerName": "Meta Platforms Inc",
+      "cusip": "30303M102",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 3.190459
+    },
+    {
+      "ticker": "MNST",
+      "issuerName": "Monster Beverage Corp",
+      "cusip": "61174X109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.351788
+    },
+    {
+      "ticker": "MPWR",
+      "issuerName": "Monolithic Power Systems Inc",
+      "cusip": "609839105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.281175
+    },
+    {
+      "ticker": "MRNA",
+      "issuerName": "Moderna Inc",
+      "cusip": "60770K107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.370233
+    },
+    {
+      "ticker": "MRVL",
+      "issuerName": "Marvell Technology Inc",
+      "cusip": "573874104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.995231
+    },
+    {
+      "ticker": "MSFT",
+      "issuerName": "Microsoft Corp",
+      "cusip": "594918104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 5.93204
+    },
+    {
+      "ticker": "MSTR",
+      "issuerName": "Strategy Inc",
+      "cusip": "594972408",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.231911
+    },
+    {
+      "ticker": "MU",
+      "issuerName": "Micron Technology Inc",
+      "cusip": "595112103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 4.789867
+    },
+    {
+      "ticker": "NBIS",
+      "issuerName": "Nebius Group NV",
+      "cusip": "N97284108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.217205
+    },
+    {
+      "ticker": "NFLX",
+      "issuerName": "Netflix Inc",
+      "cusip": "64110L106",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.206599
+    },
+    {
+      "ticker": "NVDA",
+      "issuerName": "NVIDIA Corp",
+      "cusip": "67066G104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 8.250119
+    },
+    {
+      "ticker": "NXPI",
+      "issuerName": "NXP Semiconductors NV",
+      "cusip": "N6596X109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.236453
+    },
+    {
+      "ticker": "ODFL",
+      "issuerName": "Old Dominion Freight Line Inc",
+      "cusip": "679580100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.155458
+    },
+    {
+      "ticker": "ORLY",
+      "issuerName": "O'Reilly Automotive Inc",
+      "cusip": "67103H107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.288214
+    },
+    {
+      "ticker": "PANW",
+      "issuerName": "Palo Alto Networks Inc",
+      "cusip": "697435105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.406819
+    },
+    {
+      "ticker": "PAYX",
+      "issuerName": "Paychex Inc",
+      "cusip": "704326107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.152373
+    },
+    {
+      "ticker": "PCAR",
+      "issuerName": "PACCAR Inc",
+      "cusip": "693718108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.234371
+    },
+    {
+      "ticker": "PDD",
+      "issuerName": "PDD Holdings Inc",
+      "cusip": "722304102",
+      "securityTypeCode": "ADR",
+      "percentageOfTotalNetAssets": 0.223934
+    },
+    {
+      "ticker": "PEP",
+      "issuerName": "PepsiCo Inc",
+      "cusip": "713448108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.708582
+    },
+    {
+      "ticker": "PLTR",
+      "issuerName": "Palantir Technologies Inc",
+      "cusip": "69608A108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.982387
+    },
+    {
+      "ticker": "PYPL",
+      "issuerName": "PayPal Holdings Inc",
+      "cusip": "70450Y103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.195714
+    },
+    {
+      "ticker": "QCOM",
+      "issuerName": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.759723
+    },
+    {
+      "ticker": "REGN",
+      "issuerName": "Regeneron Pharmaceuticals Inc",
+      "cusip": "75886F107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.311168
+    },
+    {
+      "ticker": "RKLB",
+      "issuerName": "Rocket Lab Corp",
+      "cusip": "773121108",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.168181
+    },
+    {
+      "ticker": "ROP",
+      "issuerName": "Roper Technologies Inc",
+      "cusip": "776696106",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.148726
+    },
+    {
+      "ticker": "ROST",
+      "issuerName": "Ross Stores Inc",
+      "cusip": "778296103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.294027
+    },
+    {
+      "ticker": "SBUX",
+      "issuerName": "Starbucks Corp",
+      "cusip": "855244109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.42636
+    },
+    {
+      "ticker": "SHOP",
+      "issuerName": "Shopify Inc",
+      "cusip": "82509L107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.851117
+    },
+    {
+      "ticker": "SNDK",
+      "issuerName": "Sandisk Corp",
+      "cusip": "80004C200",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.954645
+    },
+    {
+      "ticker": "SNPS",
+      "issuerName": "Synopsys Inc",
+      "cusip": "871607107",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.402776
+    },
+    {
+      "ticker": "SPCX",
+      "issuerName": "Space Exploration Technologies Corp",
+      "cusip": "84615Q103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 2.874402
+    },
+    {
+      "ticker": "STX",
+      "issuerName": "Seagate Technology Holdings PLC",
+      "cusip": "G7997R103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.731469
+    },
+    {
+      "ticker": "TER",
+      "issuerName": "Teradyne Inc",
+      "cusip": "880770102",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.259457
+    },
+    {
+      "ticker": "TMUS",
+      "issuerName": "T-Mobile US Inc",
+      "cusip": "872590104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.656915
+    },
+    {
+      "ticker": "TRI",
+      "issuerName": "Thomson Reuters Corp",
+      "cusip": "884903881",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.160224
+    },
+    {
+      "ticker": "TSLA",
+      "issuerName": "Tesla Inc",
+      "cusip": "88160R101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 3.001474
+    },
+    {
+      "ticker": "TTWO",
+      "issuerName": "Take-Two Interactive Software Inc",
+      "cusip": "874054109",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.164424
+    },
+    {
+      "ticker": "TXN",
+      "issuerName": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 1.068101
+    },
+    {
+      "ticker": "VRTX",
+      "issuerName": "Vertex Pharmaceuticals Inc",
+      "cusip": "92532F100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.53281
+    },
+    {
+      "ticker": "WDAY",
+      "issuerName": "Workday Inc",
+      "cusip": "98138H101",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.150674
+    },
+    {
+      "ticker": "WDC",
+      "issuerName": "Western Digital Corp",
+      "cusip": "958102105",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.590303
+    },
+    {
+      "ticker": "WMT",
+      "issuerName": "Walmart Inc",
+      "cusip": "931142103",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 2.231959
+    },
+    {
+      "ticker": "XEL",
+      "issuerName": "Xcel Energy Inc",
+      "cusip": "98389B100",
+      "securityTypeCode": "COM",
+      "percentageOfTotalNetAssets": 0.191455
+    }
+  ],
+  "limits": [
+    "QQQ基金权益持仓与指数构成高度相关，但此文件并非Nasdaq GIW官方指数成员导出。",
+    "数据实际截至2026-10-09；核验日2026-10-13，未取得10-12或10-13的更晚持仓。"
+  ]
+}

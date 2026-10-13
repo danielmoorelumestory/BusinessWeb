@@ -5,6 +5,7 @@ import { resolve, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { build } from 'esbuild'
 import { marked } from 'marked'
+import { blogPaths, blogBaseUrl, blogHref } from './lib/blog-routes.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = resolve(ROOT, 'dist')
@@ -16,9 +17,14 @@ const bundled = await build({
   define: { 'import.meta.env.VITE_SITE_URL': JSON.stringify(ORIGIN) },
 })
 const { resolveSeo, formatTitle } = await import('data:text/javascript;base64,' + Buffer.from(bundled.outputFiles[0].text).toString('base64'))
+const markdownBundle = await build({ entryPoints: [resolve(ROOT, 'src/features/blog/markdown.ts')], bundle: true, format: 'esm', write: false })
+const { renderBlogMarkdown } = await import('data:text/javascript;base64,' + Buffer.from(markdownBundle.outputFiles[0].text).toString('base64'))
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const template = readFileSync(resolve(DIST, 'index.html'), 'utf8')
+const BASE_URL = blogBaseUrl(template)
+const blogEntries = JSON.parse(readFileSync(resolve(ROOT, 'src/content/blog/manifest.json'), 'utf8'))
+const blogByPath = new Map(blogPaths(blogEntries).map(path => [path, blogEntries.find(entry => entry.slug === path.slice('/blog/'.length))]))
 
 const book = new Map()
 for (const m of readFileSync(resolve(ROOT, 'src/pages/FirstBook.tsx'), 'utf8').matchAll(/no: '([^']*)', title: '([^']*)', file: '([^']+\.md)', status: '(?:done|draft)'/g)) {
@@ -46,6 +52,24 @@ const { NOTES } = await import('data:text/javascript;base64,' + Buffer.from(note
 const notesBySlug = new Map(NOTES.map(n => [`/notes/${n.slug}`, n]))
 function describe(path) {
   const seo = resolveSeo(path)
+  if (path === '/blog') return {
+    title: seo.title, description: seo.description,
+    body: blogByPath.size ? `<p>${esc(seo.description)}</p><ul>${[...blogByPath.entries()].map(([url, entry]) => `<li><a href="${esc(blogHref(url, BASE_URL))}">${esc(entry.title)}</a> — ${esc(entry.summary)}</li>`).join('')}</ul>` : `<p>新的文章正在整理中。先读《正念投资》，或探索 AI 实验室。</p><p><a href="${esc(blogHref('/first-book', BASE_URL))}">我的书</a> · <a href="${esc(blogHref('/ai', BASE_URL))}">AI 实验室</a></p>`,
+  }
+  const blogPost = blogByPath.get(path)
+  if (blogPost) {
+    if (blogPost.file !== `src/content/blog/posts/${blogPost.slug}.md`) throw new Error(`Invalid blog file for ${blogPost.slug}`)
+    const markdown = readFileSync(resolve(ROOT, blogPost.file), 'utf8')
+    return { title: seo.title, description: seo.description, body: `<p>${esc(blogPost.summary)}</p><p>发布于 ${esc(blogPost.publishedAt)}${blogPost.updatedAt ? ` · 更新于 ${esc(blogPost.updatedAt)}` : ''}</p>${renderBlogMarkdown(markdown, BASE_URL).html}` }
+  }
+  if (path === '/ai/dev-team') return {
+    title: seo.title, description: seo.description,
+    body: marked.parse(readFileSync(resolve(ROOT, 'src/content/dev-team-README.md'), 'utf8').replace(/^# .+\r?\n/, '')),
+  }
+  if (path === '/ai/dropshipping') return {
+    title: seo.title, description: seo.description,
+    body: marked.parse(readFileSync(resolve(ROOT, 'src/content/dropshipping-strategy.md'), 'utf8').replace(/^# .+\r?\n/, '')),
+  }
   const file = path.startsWith('/first-book/read/') && decodeURIComponent(path.slice('/first-book/read/'.length))
   const chapter = file && book.get(file)
   if (chapter) {
@@ -76,7 +100,7 @@ function describe(path) {
     const d = JSON.parse(readFileSync(resolve(ROOT, 'public/research/future-trends-2026-10-09/companies', `${trend.id}.json`), 'utf8'))
     const list = (title, values) => `<h2>${esc(title)}</h2><ul>${values.map(v => `<li>${esc(v)}</li>`).join('')}</ul>`
     return {
-      title: `${d.name}（${d.code}）｜未来趋势研究`, description: d.headline.slice(0, 160),
+      title: `${d.name}（${d.code}）｜主题研究`, description: d.headline.slice(0, 160),
       body: `<p>${esc(d.rating)}；${esc(d.depth)}；${esc(d.valuationStatus)}</p><p>${esc(d.headline)}</p><p>${esc(d.profile)}</p>${list('业务与盈利驱动', d.segments.concat(d.drivers))}${list('护城河', d.moatAnalysis)}${list('隐忧与证伪', [d.concern, ...d.falsification])}<h2>三情景草稿</h2>${d.scenarios.map(s => `<p>${esc(s.name)}：${esc(s.assumption)}；价格 ${esc(s.price ?? '[MISSING]')} ${esc(d.currency)}</p>`).join('')}<p>条件盈亏比 ${esc(d.ratio ?? '不适用／缺失')}；实际胜率 ${esc(d.winRate)}</p><p>${esc(d.probabilityNote)}</p><p>${esc(d.secondMethod)}</p>${list('未完成证据', d.missing)}<h2>来源与范围</h2><ul>${d.sources.filter(s => s.url).map(s => `<li><a href="${esc(s.url)}">${esc(s.title)}</a>：${esc(s.status)}</li>`).join('')}</ul>`,
     }
   }

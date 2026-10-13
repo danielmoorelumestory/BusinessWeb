@@ -1,0 +1,2450 @@
+{
+  "asOf": "2026-10-10",
+  "method": "真实MCP ClientSession stdio调用；yfinance及AKShare",
+  "stats": {
+    "quoteRequests": 61,
+    "validQuotes": 59,
+    "financialRequests": 29,
+    "estimateCompanies": 8,
+    "newsCompanies": 25,
+    "financialAbstractCompanies": 11
+  },
+  "notes": [
+    "核心和候选是研究优先级，当前买入资格未认证。",
+    "本次查询Yahoo新闻返回空，不能解释为无新闻；新闻发现采用AKShare东方财富。",
+    "供应商+1y为相对财年字段，财年、调整后EPS与摊薄口径待核；单人覆盖不称充分市场共识。",
+    "保留2026-10-09已核H1高精度字段和其他上市地旧记录，来源日期逐项保留；10月10日新三表供复核，不混合精度覆盖原件控制值。",
+    "简化FCF不是严格FCFF/FCFE；现有EPS×PE为旧情景草稿，未完成第二种独立估值。",
+    "赢合概览Forward PE16.96与显式预测计算19.94不一致，采用显式预测并保留口径风险。",
+    "贝特瑞、纳科诺尔报价失败保留缺项，不因缺行情推断经营恶化。"
+  ],
+  "files": [
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-002074.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "002074",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:56.536618+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-300037.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300037",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:23.974757+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-300073.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300073",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:38.198549+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-300450.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300450",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:15.608284+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-300457.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300457",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:28.702842+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-300750.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "300750",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:10.340427+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-603659.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "603659",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:20.300071+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-688116.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "688116",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:50.764572+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-688778.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "688778",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:24:43.950830+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-920185.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "920185",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:25:01.258769+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-financial-920522.json",
+      "server": "akshare",
+      "tool": "stock_financial_abstract_ths",
+      "arguments": {
+        "symbol": "920522",
+        "indicator": "按报告期"
+      },
+      "retrievedAt": "2026-10-10T07:25:05.996275+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-history-920185.json",
+      "server": "akshare",
+      "tool": "stock_zh_a_hist_tx",
+      "arguments": {
+        "symbol": "bj920185",
+        "start_date": "20260925",
+        "end_date": "20261009",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-10T07:28:00.056403+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-history-920522.json",
+      "server": "akshare",
+      "tool": "stock_zh_a_hist_tx",
+      "arguments": {
+        "symbol": "bj920522",
+        "start_date": "20260925",
+        "end_date": "20261009",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-10T07:28:05.827815+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-info-920185.json",
+      "server": "akshare",
+      "tool": "stock_individual_info_em",
+      "arguments": {
+        "symbol": "920185",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-10T07:28:00.055360+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-info-920522.json",
+      "server": "akshare",
+      "tool": "stock_individual_info_em",
+      "arguments": {
+        "symbol": "920522",
+        "timeout": 15
+      },
+      "retrievedAt": "2026-10-10T07:28:03.310784+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-002074.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "002074"
+      },
+      "retrievedAt": "2026-10-10T07:24:26.579704+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-002460.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "002460"
+      },
+      "retrievedAt": "2026-10-10T07:24:25.001298+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-002709.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "002709"
+      },
+      "retrievedAt": "2026-10-10T07:24:27.112614+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-002812.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "002812"
+      },
+      "retrievedAt": "2026-10-10T07:24:43.898770+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300014.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300014"
+      },
+      "retrievedAt": "2026-10-10T07:24:29.729443+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300037.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300037"
+      },
+      "retrievedAt": "2026-10-10T07:24:21.859553+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300073.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300073"
+      },
+      "retrievedAt": "2026-10-10T07:24:23.421475+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300207.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300207"
+      },
+      "retrievedAt": "2026-10-10T07:24:37.079758+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300409.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300409"
+      },
+      "retrievedAt": "2026-10-10T07:24:33.928303+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300450.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300450"
+      },
+      "retrievedAt": "2026-10-10T07:24:19.997357+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300457.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300457"
+      },
+      "retrievedAt": "2026-10-10T07:24:21.860697+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300568.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300568"
+      },
+      "retrievedAt": "2026-10-10T07:24:42.326812+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-300750.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "300750"
+      },
+      "retrievedAt": "2026-10-10T07:24:19.996574+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-301238.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "301238"
+      },
+      "retrievedAt": "2026-10-10T07:24:35.503432+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-603200.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "603200"
+      },
+      "retrievedAt": "2026-10-10T07:24:28.671539+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-603659.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "603659"
+      },
+      "retrievedAt": "2026-10-10T07:24:19.997612+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-603663.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "603663"
+      },
+      "retrievedAt": "2026-10-10T07:24:44.962824+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-688005.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "688005"
+      },
+      "retrievedAt": "2026-10-10T07:24:33.926987+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-688116.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "688116"
+      },
+      "retrievedAt": "2026-10-10T07:24:23.950647+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-688499.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "688499"
+      },
+      "retrievedAt": "2026-10-10T07:24:39.186195+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-688559.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "688559"
+      },
+      "retrievedAt": "2026-10-10T07:24:37.605484+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-688567.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "688567"
+      },
+      "retrievedAt": "2026-10-10T07:24:40.753869+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-688778.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "688778"
+      },
+      "retrievedAt": "2026-10-10T07:24:23.422569+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-920185.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "920185"
+      },
+      "retrievedAt": "2026-10-10T07:24:31.308713+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-news-920522.json",
+      "server": "akshare",
+      "tool": "stock_news_em",
+      "arguments": {
+        "symbol": "920522"
+      },
+      "retrievedAt": "2026-10-10T07:24:32.874281+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/akshare-tools.json"
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/jobs.json"
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/review.json"
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-actions-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_dividends_and_splits",
+      "arguments": {
+        "symbol": "002594.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:07.683556+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-actions-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_dividends_and_splits",
+      "arguments": {
+        "symbol": "300450.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.655968+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-actions-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_dividends_and_splits",
+      "arguments": {
+        "symbol": "300750.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.565427+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "300037.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:56.735022+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "300073.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:28.930672+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "300450.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:48.826439+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "300457.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:50.919652+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "300750.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:41.501699+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "603659.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:36.231222+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "688116.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:39.931052+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-estimates-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_earnings_estimates",
+      "arguments": {
+        "symbol": "688778.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:33.114943+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002074.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:44.098949+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002460.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:23.224746+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002594.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:43.062958+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002709.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:58.293261+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "002812.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:37.807901+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300014.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:46.231293+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300037.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:56.716319+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300073.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:28.895983+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300207.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:47.767025+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300409.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:27.344064+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300450.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:48.822661+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300457.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:50.424241+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300568.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:38.362662+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "300750.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:41.485573+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "301238.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:26.288266+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "603200.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:25.226412+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "603659.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:35.727965+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "603663.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:59.332050+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688005.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:30.501147+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688116.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:39.924210+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688499.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:53.034964+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688559.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:51.986468+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688567.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:45.181022+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688778.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:33.093305+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "688779.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:31.513803+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-920185.BJ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "920185.BJ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:34.659623+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-920522.BJ.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "920522.BJ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:24:00.874209+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-QS.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "QS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:54.588962+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_balance_sheet-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_balance_sheet",
+      "arguments": {
+        "symbol": "SLDP",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:55.635467+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002074.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:43.580075+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002460.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:21.043165+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002594.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:42.535077+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002709.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:58.259092+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "002812.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:37.301868+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300014.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:46.197910+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300037.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:56.195085+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300073.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:28.891593+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300207.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:47.244972+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300409.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:26.804598+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300450.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:48.324218+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300457.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:50.395825+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300568.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:38.360935+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "300750.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:40.954091+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "301238.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:26.270068+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "603200.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:24.700248+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "603659.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:35.703400+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "603663.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:58.786601+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688005.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:30.472199+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688116.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:39.374815+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688499.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:52.497498+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688559.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:51.457004+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688567.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:45.153784+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688778.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:32.560138+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "688779.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:31.003555+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-920185.BJ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "920185.BJ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:34.145440+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-920522.BJ.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "920522.BJ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:24:00.345569+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-QS.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "QS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:54.056759+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_cash_flow-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_cash_flow",
+      "arguments": {
+        "symbol": "SLDP",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:55.139814+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002074.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:43.567378+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002460.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:21.041725+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002594.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:42.047400+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002709.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:57.724951+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "002812.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:36.753487+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300014.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:45.691874+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300037.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:56.159859+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300073.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:27.945292+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300207.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:47.239948+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300409.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:26.797696+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300450.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:48.290365+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300457.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:49.862607+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300568.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:37.829865+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "300750.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:40.457610+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "301238.SZ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:25.756804+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "603200.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:24.697093+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "603659.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:35.181364+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "603663.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:58.779574+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688005.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:29.942174+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688116.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:39.371963+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688499.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:52.487193+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688559.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:50.937794+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688567.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:44.631636+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688778.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:32.559223+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "688779.SS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:30.998764+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-920185.BJ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "920185.BJ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:33.624276+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-920522.BJ.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "920522.BJ",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:24:00.344729+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-QS.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "QS",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:54.056055+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-get_income_statement-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_income_statement",
+      "arguments": {
+        "symbol": "SLDP",
+        "quarterly": true
+      },
+      "retrievedAt": "2026-10-10T07:23:55.103973+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-000408.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "000408.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:03.075936+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-000762.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "000762.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:04.304505+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-000792.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "000792.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:03.074326+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002009.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002009.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.544546+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002074.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:43.075979+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002192.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002192.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:04.691029+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002240.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002240.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:04.695671+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002340.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002340.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.368365+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002460.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:21.039547+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002466.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002466.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:04.309199+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002497.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002497.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:04.691500+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002594.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:41.999567+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002632.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002632.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:02.028543+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002709.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:57.198165+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002738.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002738.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:04.476176+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002756.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002756.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:04.307113+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002812.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:36.247143+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-002846.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "002846.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:02.547708+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-0175.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "0175.HK"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.636582+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-1810.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "1810.HK"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.461623+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300014.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:45.673154+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300037.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:55.636549+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300068.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300068.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.158787+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300073.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:27.348936+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300207.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:46.734751+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300274.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300274.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.045234+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300409.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:26.786858+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300450.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:47.776032+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300457.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:49.336935+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300568.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:37.811744+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "300750.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:40.428114+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "301238.SZ"
+      },
+      "retrievedAt": "2026-10-10T07:23:25.253434+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-600104.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "600104.SS"
+      },
+      "retrievedAt": "2026-10-10T07:24:01.398048+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-600884.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "600884.SS"
+      },
+      "retrievedAt": "2026-10-10T07:24:00.874706+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-601127.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "601127.SS"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.632987+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-601238.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "601238.SS"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.755960+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "603200.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:23.666844+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "603659.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:34.660827+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "603663.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:58.770493+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-603799.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "603799.SS"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.124031+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688005.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:29.419087+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688116.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:38.855877+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688388.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688388.SS"
+      },
+      "retrievedAt": "2026-10-10T07:24:02.545920+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688499.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:52.485072+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688559.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:50.921272+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688567.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:44.100855+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688778.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:31.519341+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "688779.SS"
+      },
+      "retrievedAt": "2026-10-10T07:23:30.992982+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-7203.T.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "7203.T"
+      },
+      "retrievedAt": "2026-10-10T07:24:01.917486+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-920185.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "920185.BJ"
+      },
+      "retrievedAt": "2026-10-10T07:23:33.127591+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-920522.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "920522.BJ"
+      },
+      "retrievedAt": "2026-10-10T07:23:59.339103+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-9880.HK.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "9880.HK"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.555385+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-ALB.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "ALB"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.115752+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-BMW.DE.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "BMW.DE"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.044339+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-MBG.DE.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "MBG.DE"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.882461+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-NIO.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "NIO"
+      },
+      "retrievedAt": "2026-10-10T07:24:01.395902+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-PLS.AX.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "PLS.AX"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.117895+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-QS.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "QS"
+      },
+      "retrievedAt": "2026-10-10T07:23:53.040247+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "SLDP"
+      },
+      "retrievedAt": "2026-10-10T07:23:54.611188+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-SQM.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "SQM"
+      },
+      "retrievedAt": "2026-10-10T07:24:05.008693+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-info-TSLA.json",
+      "server": "yfinance",
+      "tool": "get_stock_info",
+      "arguments": {
+        "symbol": "TSLA"
+      },
+      "retrievedAt": "2026-10-10T07:24:06.302296+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-002074.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "002074.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:43.566140+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-002460.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "002460.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:21.041124+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-002594.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "002594.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:42.002411+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-002709.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "002709.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:57.214270+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-002812.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "002812.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:36.259801+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300014.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300014.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:45.684449+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300037.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300037.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:56.155993+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300073.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300073.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:27.848991+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300207.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300207.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:46.752374+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300409.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300409.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:26.788875+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300450.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300450.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:48.287838+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300457.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300457.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:49.353306+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300568.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300568.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:37.814519+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-300750.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "300750.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:40.431244+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-301238.SZ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "301238.SZ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:25.266840+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-603200.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "603200.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:24.210609+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-603659.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "603659.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:35.178579+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-603663.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "603663.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:58.771638+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-688005.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "688005.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:29.425307+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-688116.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "688116.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:38.865971+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-688499.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "688499.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:52.486052+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-688559.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "688559.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:50.930055+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-688567.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "688567.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:44.197233+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-688778.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "688778.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:32.061962+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-688779.SS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "688779.SS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:30.993848+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-920185.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "920185.BJ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:33.604290+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-920522.BJ.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "920522.BJ",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:59.870519+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-QS.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "QS",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:53.565457+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-news-SLDP.json",
+      "server": "yfinance",
+      "tool": "get_stock_news",
+      "arguments": {
+        "symbol": "SLDP",
+        "limit": 6
+      },
+      "retrievedAt": "2026-10-10T07:23:54.619663+00:00",
+      "isError": false
+    },
+    {
+      "path": "research/solid-state-mcp-2026-10-10/yfinance-tools.json"
+    }
+  ]
+}

@@ -49,7 +49,9 @@ describe('aiLab 数据', () => {
   it('无货源电商带预算、期限与停止条件', () => {
     const d = findDirection('dropshipping')!
     expect(d.verdict).toBe('experiment')
-    expect(d.limits).toEqual({ budget: '¥5000', deadline: '3 个月', stopWhen: '到期未盈利即停' })
+    expect(d.limits?.budget).toContain('不可回收损失上限 ¥1000')
+    expect(d.limits?.deadline).toBe('30 天；累计投入不超过 30 小时')
+    expect(d.limits?.stopWhen).toContain('真实利润和时薪复盘')
   })
 
   it('只有已发生的事才有日志', () => {

@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "WST",
+      "WTW",
+      "WY",
+      "WYNN",
+      "XEL",
+      "XOM",
+      "XPEV",
+      "XYL",
+      "XYZ",
+      "YUM",
+      "YUMC",
+      "ZBH"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:47.334925+00:00",
+  "retrievedAt": "2026-10-13T08:52:50.199737+00:00",
+  "data": {
+    "symbols": [
+      "WST",
+      "WTW",
+      "WY",
+      "WYNN",
+      "XEL",
+      "XOM",
+      "XPEV",
+      "XYL",
+      "XYZ",
+      "YUM",
+      "YUMC",
+      "ZBH"
+    ],
+    "results": {
+      "WST": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "WTW": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "WY": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "WYNN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "XEL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "XOM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "XPEV": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "XYL": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "XYZ": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "YUM": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "YUMC": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "ZBH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}

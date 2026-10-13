@@ -24,7 +24,7 @@ export interface IndexData {
   ref?: { source: string; points: [string, number][]; /** true：参考的是口径不同的近似指数，不做估算 */ proxy?: boolean; /** 手动导入，更新时不被覆盖 */ manual?: boolean; /** 'trailing'：滚动 PE，缺省为 Forward PE */ kind?: 'trailing' }
   agg?: IndexAgg
 }
-export interface IndexSnapshot { generatedAt: string; source: string; indexes: Record<string, IndexData> }
+export interface IndexSnapshot { generatedAt: string; checkedAt?: string; source: string; indexes: Record<string, IndexData> }
 
 export interface IndexStats {
   /** 距历史最高月收盘的回撤（%，≤0） */

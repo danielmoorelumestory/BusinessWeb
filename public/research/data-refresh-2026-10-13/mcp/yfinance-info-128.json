@@ -1,0 +1,76 @@
+{
+  "server": "yfinance",
+  "tool": "get_multiple_tickers_info",
+  "arguments": {
+    "symbols": [
+      "KVUE",
+      "L",
+      "LDOS",
+      "LEGN",
+      "LEN",
+      "LEU",
+      "LH",
+      "LHX",
+      "LI",
+      "LII",
+      "LIN",
+      "LITE"
+    ]
+  },
+  "requestedAt": "2026-10-13T08:52:25.910110+00:00",
+  "retrievedAt": "2026-10-13T08:52:29.573290+00:00",
+  "data": {
+    "symbols": [
+      "KVUE",
+      "L",
+      "LDOS",
+      "LEGN",
+      "LEN",
+      "LEU",
+      "LH",
+      "LHX",
+      "LI",
+      "LII",
+      "LIN",
+      "LITE"
+    ],
+    "results": {
+      "KVUE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "L": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LDOS": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LEGN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LEN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LEU": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LH": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LHX": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LI": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LII": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LIN": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      },
+      "LITE": {
+        "error": "Too Many Requests. Rate limited. Try after a while."
+      }
+    }
+  }
+}
