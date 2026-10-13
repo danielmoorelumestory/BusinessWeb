@@ -334,6 +334,24 @@
   word-break: break-word;
 }
 
+.broad-etf-method {
+  padding: 0 20px 16px;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.broad-etf-method summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.broad-etf-table .etf-subtheme-cell p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .industry-etf-table .etf-trend {
   font-weight: 700;
 }

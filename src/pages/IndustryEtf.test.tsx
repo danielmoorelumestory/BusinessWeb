@@ -1,20 +1,48 @@
 import React from 'react'
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, render, screen, within, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import IndustryEtf from './IndustryEtf'
 
-afterEach(cleanup)
+afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 const renderPage = () => render(<MemoryRouter><IndustryEtf /></MemoryRouter>)
 
 describe('IndustryEtf', () => {
   it('显示 7 个行业组与 59 只 ETF，总数与各组数量一致', () => {
     renderPage()
     expect(screen.getByText(/7 个行业组，共 59 只 ETF/)).toBeTruthy()
-    expect(screen.getAllByRole('table')).toHaveLength(7)
-    const rows = screen.getAllByRole('row').filter(r => within(r).queryAllByRole('columnheader').length === 0)
+    expect(screen.getAllByRole('table')).toHaveLength(8)
+    const rows = screen.getAllByRole('row').filter(r => !r.closest('#broad-etf') && within(r).queryAllByRole('columnheader').length === 0)
     expect(rows).toHaveLength(59)
     expect(screen.getByRole('heading', { name: /TMT科技/ })).toBeTruthy()
+  })
+
+  it('宽基只显示文档综合判断，不显示费用和原选择理由', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => ({
+      ok: true,
+      text: async () => url.includes('510300-')
+        ? '## 一、结论速览\n\n数据基准：2026-10-14\n\n**综合判断：短期震荡偏强；这是最新文档判断。**\n\n## 二、政策\n\n**综合判断：不应显示后续章节判断。**'
+        : '',
+    })))
+    renderPage()
+    const section = screen.getByRole('heading', { name: '宽基 ETF 清单' }).closest('section')!
+    const rows = within(section).getAllByRole('row').slice(1)
+    expect(rows).toHaveLength(10)
+    expect(within(section).queryByText('已精简的13类指数及原因')).toBeNull()
+    const row = within(section).getByText('510300').closest('tr')!
+    expect(within(row).getByText('沪深300')).toBeTruthy()
+    expect(within(section).queryByRole('columnheader', { name: /费用/ })).toBeNull()
+    expect(within(section).queryByRole('columnheader', { name: '选择理由' })).toBeNull()
+    expect(within(section).getByRole('columnheader', { name: '备注' })).toBeTruthy()
+    await waitFor(() => expect(row.textContent).toContain('2026-10-14 收盘｜短期震荡偏强；这是最新文档判断。'))
+    expect(row.textContent).not.toContain('与510310')
+    expect(row.textContent).not.toContain('不应显示后续章节判断')
+    expect(within(row).getByRole('link', { name: '分析报告' }).getAttribute('href')).toBe('/notes/510300-csi300-etf-analysis')
+    expect(within(row).getByRole('link', { name: '510300' }).getAttribute('href')).toBe('/notes/510300-csi300-etf-analysis')
+    for (const row of rows) {
+      expect(within(row).getByRole('link', { name: '基金档案 ↗' }).getAttribute('href')).toMatch(/^https:\/\/fundf10.eastmoney.com/)
+      expect(within(row).getByRole('link', { name: '行情·网格' }).getAttribute('href')).toContain(`code=${row.firstElementChild!.textContent}`)
+    }
   })
 
   it('站内参考链接用 Link 指向 /notes/<slug>', () => {
@@ -72,7 +100,7 @@ describe('IndustryEtf', () => {
 
   it('每只 ETF 都有网格详情入口，按代码打开（整页加载的 /note/ 地址）', () => {
     renderPage()
-    const links = screen.getAllByRole('link', { name: '行情·网格' })
+    const links = screen.getAllByRole('link', { name: '行情·网格' }).filter(link => !link.closest('#broad-etf'))
     expect(links).toHaveLength(59)
     const row = screen.getByText('159928').closest('tr')!
     const href = within(row).getByRole('link', { name: '行情·网格' }).getAttribute('href')!

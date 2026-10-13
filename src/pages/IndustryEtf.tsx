@@ -1,10 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { NOTES } from '../data/notes'
+import BroadEtfList from './BroadEtfList'
+import EtfDocumentRemark from './EtfDocumentRemark'
+import { latestEtfNote } from '../utils/etfJudgment'
+import { BROAD_ETFS } from '../data/broadEtf'
 import { INDUSTRY_GROUPS, TOTAL_ETF_COUNT, internalNoteSlug, type EtfItem } from '../data/industryEtf'
 
 // 该 ETF 自己的研究笔记：笔记 slug 以「代码-」开头（如 159928-consumer-etf-analysis）。
-const etfNoteOf = (item: EtfItem) => NOTES.find(note => note.slug.startsWith(`${item.code}-`))
+const etfNoteOf = (item: EtfItem) => latestEtfNote(item.code)
 
 function Reference({ item }: { item: EtfItem }): JSX.Element {
   const own = etfNoteOf(item)
@@ -95,49 +98,51 @@ function SubThemeCell({ subTheme }: { subTheme: string }): JSX.Element {
   )
 }
 
-function TrendRemark({ remark }: { remark: string }): JSX.Element {
-  // 只给开头的趋势结论着色，正文中提及的产业增长或风险保持普通文字。
-  const end = remark.indexOf('。')
-  const summary = end < 0 ? remark : remark.slice(0, end)
-  const rest = end < 0 ? '' : remark.slice(end)
-  const parts = summary.split(/(上升趋势|下降趋势|震荡偏强|震荡偏弱)/)
-  return <>{parts.map((part, index) => {
-    const direction = part === '上升趋势' ? 'up'
-      : part === '下降趋势' ? 'down'
-        : part.startsWith('震荡') ? 'sideways' : null
-    return direction
-      ? <span key={index} className={`etf-trend etf-trend--${direction}`}>{part}</span>
-      : <React.Fragment key={index}>{part}</React.Fragment>
-  })}{rest}</>
-}
-
 export default function IndustryEtf(): JSX.Element {
   return (
     <main className="container animate-fade-in industry-etf-page">
       <header className="page-head">
-        <h1>行业 ETF 清单</h1>
+        <h1>宽基与行业 ETF 清单</h1>
         <p>
-          {INDUSTRY_GROUPS.length} 个行业组，共 {TOTAL_ETF_COUNT} 只 ETF。宽基、因子与主题的流派说明请看「ETF 流派地图」。
+          {BROAD_ETFS.length} 类宽基首选；{INDUSTRY_GROUPS.length} 个行业组，共 {TOTAL_ETF_COUNT} 只 ETF。宽基、因子与主题的流派说明请看「ETF 流派地图」。
         </p>
         <nav className="industry-etf-nav" aria-label="行业目录">
-          {INDUSTRY_GROUPS.map(g => (
-            <a key={g.id} href={`#${g.id}`} className="industry-etf-nav__pill">
-              <span>{g.name}</span>
-              <span className="industry-etf-nav__count">{g.items.length}</span>
-            </a>
-          ))}
+          <div className="industry-etf-nav__group">
+            <span className="industry-etf-nav__group-label">一级分类：</span>
+            <a href="#broad-etf" className="industry-etf-nav__pill industry-etf-nav__pill--primary"><span>宽基 ETF</span><span className="industry-etf-nav__count">{BROAD_ETFS.length}</span></a>
+            <a href="#industry-etf" className="industry-etf-nav__pill industry-etf-nav__pill--primary"><span>行业 ETF</span><span className="industry-etf-nav__count">{TOTAL_ETF_COUNT}</span></a>
+          </div>
+          <div className="industry-etf-nav__subgroup" aria-label="行业 ETF 二级分类">
+            <span className="industry-etf-nav__group-label">行业 ETF 二级分类：</span>
+            {INDUSTRY_GROUPS.map(g => (
+              <a key={g.id} href={`#${g.id}`} className="industry-etf-nav__pill">
+                <span>{g.name}</span>
+                <span className="industry-etf-nav__count">{g.items.length}</span>
+              </a>
+            ))}
+          </div>
         </nav>
       </header>
 
-      {INDUSTRY_GROUPS.map(group => (
-        <section key={group.id} id={group.id} className="industry-group-section" aria-labelledby={`${group.id}-title`}>
-          <div className="industry-group-card">
-            <div className="industry-group-header">
-              <h2 id={`${group.id}-title`} className="industry-group-title">
-                {group.name}
-              </h2>
-              <span className="industry-group-count">{group.items.length} 只 ETF</span>
-            </div>
+      <BroadEtfList />
+
+      <section id="industry-etf" className="industry-etf-main-section" aria-labelledby="industry-etf-main-title">
+        <div className="industry-etf-main-header">
+          <h2 id="industry-etf-main-title" className="industry-etf-main-title">
+            行业 ETF
+          </h2>
+          <span className="industry-etf-main-count">{INDUSTRY_GROUPS.length} 个二级行业组 · 共 {TOTAL_ETF_COUNT} 只 ETF</span>
+        </div>
+
+        {INDUSTRY_GROUPS.map(group => (
+          <section key={group.id} id={group.id} className="industry-group-section" aria-labelledby={`${group.id}-title`}>
+            <div className="industry-group-card">
+              <div className="industry-group-header">
+                <h3 id={`${group.id}-title`} className="industry-group-title">
+                  {group.name}
+                </h3>
+                <span className="industry-group-count">{group.items.length} 只 ETF</span>
+              </div>
             <div className="industry-table-wrapper">
               <table className="report-table industry-etf-table">
                 <colgroup>
@@ -163,7 +168,7 @@ export default function IndustryEtf(): JSX.Element {
                     <tr key={`${item.code}-${item.name}`}>
                       <NoteCells item={item} />
                       <SubThemeCell subTheme={item.subTheme} />
-                      <td className="etf-remark-cell"><TrendRemark remark={item.remark} /></td>
+                      <td className="etf-remark-cell"><EtfDocumentRemark code={item.code} /></td>
                       <td className="etf-ref-cell">
                         <Reference item={item} />
                       </td>
