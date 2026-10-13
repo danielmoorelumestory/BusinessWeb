@@ -14,7 +14,7 @@ describe('InvestHub', () => {
   it('渲染全部分组标题与每个入口链接', () => {
     wrap(<InvestHub />)
     for (const g of INVEST_GROUPS) {
-      expect(screen.getByText(g.title), g.title).toBeTruthy()
+      expect(screen.getAllByText(g.title).length, g.title).toBeGreaterThan(0)
       for (const l of g.links) {
         const a = screen.getAllByRole('link').find(x => x.getAttribute('href') === l.path)
         expect(a, l.path).toBeTruthy()
@@ -22,12 +22,12 @@ describe('InvestHub', () => {
     }
   })
 
-  it('看行情组直接展开，并带提示语', () => {
+  it('观察盘组直接展开，并带提示语', () => {
     const { container } = wrap(<InvestHub />)
-    const group = screen.getByRole('heading', { name: '看行情（选看）' }).closest('section')
+    const group = screen.getByRole('heading', { name: '第三步观察盘' }).closest('section')
     expect(group?.closest('details')).toBeNull()
-    expect(within(group as HTMLElement).getByText(/少看行情/)).toBeTruthy()
-    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(6)
+    expect(within(group as HTMLElement).getByText(/每天看一眼观察盘/)).toBeTruthy()
+    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(7)
   })
 
   it('已舍弃组默认折叠，放在页面最后', () => {

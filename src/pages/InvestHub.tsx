@@ -22,7 +22,7 @@ export default function InvestHub(): JSX.Element {
     <main className="container animate-fade-in">
       <header className="page-head">
         <h1>投资</h1>
-        <p>不盯盘、不预测的普通人投资方法。先读书定规则，再选标的、用工具执行，最后才看行情。</p>
+        <p>不盯盘、不预测的普通人投资方法。先读书定规则，每天看一眼观察盘，再从行业到公司分析筛选，用工具执行。</p>
       </header>
 
       {INVEST_GROUPS.map(group =>

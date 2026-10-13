@@ -60,24 +60,25 @@ describe('INVEST_GROUPS', () => {
     vi.resetModules()
   })
 
-  it('分组顺序按书里的流程：读书 → 定规则 → 选标的 → 用工具执行 → 看行情，已舍弃垫底', () => {
-    expect(INVEST_GROUPS.map(g => g.id)).toEqual(['read', 'method', 'research', 'tools', 'watch', 'archived'])
+  it('分组顺序：读书 → 定规则 → 观察盘 → 分析筛选 → 工具与参考，已舍弃垫底', () => {
+    expect(INVEST_GROUPS.map(g => g.id)).toEqual(['read', 'method', 'watch', 'research', 'tools', 'archived'])
   })
 
-  it('看行情组直接展开，只放行情类页面', () => {
+  it('观察盘组直接展开，观察盘在最前，细节页跟在后面', () => {
     const watch = INVEST_GROUPS.find(g => g.id === 'watch')!
     expect(watch.collapsed).toBe(false)
-    expect(watch.links.map(l => l.path)).toEqual(['/watch', '/pulse', '/daily-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking'])
+    expect(watch.links.map(l => l.path)).toEqual(['/watch', '/monitor', '/pulse', '/daily-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking'])
   })
 
-  it('选标的组只放研究方法与资料，不放带具体买卖建议的观察池', () => {
+  it('分析筛选组从行业到公司，不放带具体买卖建议的观察池', () => {
     const research = INVEST_GROUPS.find(g => g.id === 'research')!
-    expect(research.links.map(l => l.path)).toEqual(['/research-notes', '/invest/etf', '/future-trends', '/industry-landscape', '/notes', '/industry-etf', '/invest/national-team'])
+    expect(research.links.map(l => l.path)).toEqual(['/industry-landscape', '/future-trends', '/research-notes', '/invest/national-team', '/notes', '/industry-etf'])
   })
 
-  it('宏观温度（原每日监控）归入定规则，和 2026 计划同组', () => {
-    const method = INVEST_GROUPS.find(g => g.id === 'method')!
-    expect(method.links.map(l => [l.path, l.label])).toEqual([['/investment-plan-2026', '2026 投资计划'], ['/monitor', '宏观温度']])
+  it('宏观温度（原每日监控）归入观察盘，作为观察盘的细节页', () => {
+    const watch = INVEST_GROUPS.find(g => g.id === 'watch')!
+    expect(watch.links.map(l => [l.path, l.label])).toContainEqual(['/monitor', '宏观温度'])
+    expect(INVEST_GROUPS.find(g => g.id === 'method')!.links.map(l => l.path)).toEqual(['/investment-plan-2026'])
   })
 
   it('道与术、综合投资策略框架标为舍弃：折叠在最后，每页都带舍弃说明', () => {
