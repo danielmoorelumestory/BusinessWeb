@@ -63,7 +63,7 @@ export const INVEST_GROUPS: HubGroup[] = [
       { path: '/future-trends', label: '未来趋势', desc: 'AI、智驾、机器人、创新药、航空航天、新能源等赛道的产业链与中美参与公司' },
       { path: '/industry-landscape', label: '产业格局', desc: '固态电池、半导体产业链，和一页纸主题研究卡' },
       { path: '/notes', label: '行业研究笔记', desc: '机器人、猪周期等行业深度笔记，和 ETF 网格总方案等完整报告' },
-      { path: '/industry-etf', label: '行业 ETF 清单', desc: '7 个行业组、59 只 ETF 的代码、子主题与备注' },
+      { path: '/industry-etf', label: '行业 ETF 清单', desc: '7 个行业组、59 只 ETF 的代码、行业分布与备注' },
     ],
   },
   {

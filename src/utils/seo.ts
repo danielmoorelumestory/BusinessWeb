@@ -35,7 +35,7 @@ const EXACT: Record<string, RouteSeo> = {
   '/future-trends': { title: '未来趋势', description: '影响未来十年的产业与技术趋势研究。' },
   '/industry-landscape': { title: '产业格局', description: '重点产业链与竞争格局梳理。' },
   '/notes': { title: '行业研究笔记', description: '机器人、猪周期等行业深度笔记，以及 ETF 网格交易总方案等完整报告。' },
-  '/industry-etf': { title: '行业 ETF 清单', description: '7 个行业组、59 只 ETF 的代码、子主题与备注，仅作研究参考。' },
+  '/industry-etf': { title: '行业 ETF 清单', description: '7 个行业组、59 只 ETF 的代码、行业分布与备注，仅作研究参考。' },
   '/research-notes': { title: '研究笔记｜公司与行业研究', description: '沪深 A 股、港股、美股的公司研究笔记与审计报告。' },
   '/grid-trading': { title: '网格交易已迁移', noindex: true },
   '/valuation': { title: '公司估值工作台', noindex: true },

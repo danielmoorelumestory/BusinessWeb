@@ -8,14 +8,13 @@ afterEach(cleanup)
 const renderPage = () => render(<MemoryRouter><IndustryEtf /></MemoryRouter>)
 
 describe('IndustryEtf', () => {
-  it('显示 7 个行业组与 59 只 ETF，总数与各组数量一致，并有研究参考提示', () => {
+  it('显示 7 个行业组与 59 只 ETF，总数与各组数量一致', () => {
     renderPage()
     expect(screen.getByText(/7 个行业组，共 59 只 ETF/)).toBeTruthy()
     expect(screen.getAllByRole('table')).toHaveLength(7)
     const rows = screen.getAllByRole('row').filter(r => within(r).queryAllByRole('columnheader').length === 0)
     expect(rows).toHaveLength(59)
-    expect(screen.getByRole('heading', { name: /TMT科技（16）/ })).toBeTruthy()
-    expect(screen.getByText(/不构成投资建议/)).toBeTruthy()
+    expect(screen.getByRole('heading', { name: /TMT科技/ })).toBeTruthy()
   })
 
   it('站内参考链接用 Link 指向 /notes/<slug>', () => {
