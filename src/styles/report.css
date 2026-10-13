@@ -232,7 +232,7 @@
   display: table !important;
   table-layout: fixed;
   width: 100%;
-  min-width: 950px;
+  min-width: 1030px;
   border-collapse: collapse;
   font-size: 14px;
 }
@@ -301,9 +301,16 @@
   text-decoration: underline;
 }
 
+.industry-etf-table .subtheme-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+}
+
 .industry-etf-table .subtheme-tag {
   display: inline-block;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: var(--radius-chip);
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
@@ -312,6 +319,12 @@
   line-height: 1.4;
   white-space: normal;
   word-break: break-word;
+}
+
+.industry-etf-table .subtheme-tag--block {
+  display: block;
+  width: fit-content;
+  white-space: nowrap;
 }
 
 .industry-etf-table .etf-remark-cell {

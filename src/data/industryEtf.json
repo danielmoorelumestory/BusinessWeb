@@ -9,29 +9,37 @@
         "code": "588200",
         "name": "科创芯片ETF嘉实",
         "market": "A股内地",
-        "subTheme": "芯片（设计/全链）",
-        "remark": "规模489.7亿为半导体类最大，3年+225.9%"
+        "subTheme": "芯片设计及光芯片 30.81%、半导体设备及检测 18.92%、晶圆制造 11.01%",
+        "remark": "跟踪科创芯片指数；截至2026-10-12份额约451.60亿份，行业集中、波动较高",
+        "referenceUrl": "notes/588200-star-chip-etf-analysis",
+        "referenceTitle": "科创芯片ETF"
       },
       {
         "code": "588170",
         "name": "科创半导体ETF华夏",
         "market": "A股内地",
-        "subTheme": "半导体设备/材料",
-        "remark": "日均成交70.25亿全市场半导体类最高；159516（431亿/38.5亿）为替代"
+        "subTheme": "半导体设备检测、材料及零部件，前十大权重74.03%",
+        "remark": "跟踪950125；2026-10-13收0.878元，仍低于主要日周均线，估值和集中度较高",
+        "referenceUrl": "notes/588170-star-semiconductor-etf-analysis",
+        "referenceTitle": "科创半导体ETF"
       },
       {
         "code": "515880",
         "name": "通信ETF国泰",
         "market": "A股内地",
-        "subTheme": "通信",
-        "remark": "3年+305%为全部行业ETF最高；光模块/CPO暴露含于其中"
+        "subTheme": "光模块、光器件、服务器与光纤光缆，前十大权重68.50%",
+        "remark": "跟踪931160；2026-10-13收0.572元，反抽仍低于主要日周均线，PB偏高",
+        "referenceUrl": "notes/515880-communications-etf-analysis",
+        "referenceTitle": "通信ETF"
       },
       {
         "code": "159819",
         "name": "人工智能ETF易方达",
         "market": "A股内地",
         "subTheme": "人工智能",
-        "remark": "规模第一且费率0.20%为同赛道最低"
+        "remark": "跟踪930713；前十大偏AI芯片、光通信和服务器，PE低分位与PB偏高并存",
+        "referenceUrl": "notes/159819-ai-etf-analysis",
+        "referenceTitle": "人工智能ETF"
       },
       {
         "code": "159852",

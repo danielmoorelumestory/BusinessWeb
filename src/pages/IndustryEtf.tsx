@@ -65,6 +65,28 @@ function NoteCells({ item }: { item: EtfItem }): JSX.Element {
 // /note/ 是 notes 站点的静态页面，必须整页加载，所以用普通 <a>。
 const gridDetailHref = (item: EtfItem) => `/note/lab/grid-trading/detail/?code=${item.code}&name=${encodeURIComponent(item.name)}`
 
+function SubThemeCell({ subTheme }: { subTheme: string }): JSX.Element {
+  const items = subTheme.includes('、') ? subTheme.split('、').map(s => s.trim()).filter(Boolean) : [subTheme]
+  if (items.length <= 1) {
+    return (
+      <td className="etf-subtheme-cell">
+        <span className="subtheme-tag">{subTheme}</span>
+      </td>
+    )
+  }
+  return (
+    <td className="etf-subtheme-cell">
+      <div className="subtheme-list">
+        {items.map((text, idx) => (
+          <span key={idx} className="subtheme-tag subtheme-tag--block">
+            {text}
+          </span>
+        ))}
+      </div>
+    </td>
+  )
+}
+
 export default function IndustryEtf(): JSX.Element {
   return (
     <main className="container animate-fade-in industry-etf-page">
@@ -97,9 +119,9 @@ export default function IndustryEtf(): JSX.Element {
                 <colgroup>
                   <col style={{ width: '92px' }} />
                   <col style={{ width: '160px' }} />
-                  <col style={{ width: '150px' }} />
+                  <col style={{ width: '260px' }} />
                   <col />
-                  <col style={{ width: '180px' }} />
+                  <col style={{ width: '160px' }} />
                   <col style={{ width: '92px' }} />
                 </colgroup>
                 <thead>
@@ -116,9 +138,7 @@ export default function IndustryEtf(): JSX.Element {
                   {group.items.map(item => (
                     <tr key={`${item.code}-${item.name}`}>
                       <NoteCells item={item} />
-                      <td className="etf-subtheme-cell">
-                        <span className="subtheme-tag">{item.subTheme}</span>
-                      </td>
+                      <SubThemeCell subTheme={item.subTheme} />
                       <td className="etf-remark-cell">{item.remark}</td>
                       <td className="etf-ref-cell">
                         <Reference item={item} />

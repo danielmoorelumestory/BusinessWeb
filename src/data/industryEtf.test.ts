@@ -23,7 +23,7 @@ describe('行业 ETF 数据', () => {
 
   it('站内参考链接（notes/<slug>）指向真实存在的笔记', () => {
     const refs = INDUSTRY_GROUPS.flatMap(g => g.items).filter(i => i.referenceUrl)
-    expect(refs).toHaveLength(2)
+    expect(refs).toHaveLength(6)
     for (const i of refs) {
       const slug = internalNoteSlug(i.referenceUrl)
       expect(slug, i.referenceUrl).not.toBeNull()

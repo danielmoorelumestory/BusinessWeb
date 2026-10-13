@@ -12,6 +12,34 @@ export type NoteMeta = {
 
 export const NOTES: NoteMeta[] = [
   {
+    slug: '159819-ai-etf-analysis',
+    title: '人工智能ETF',
+    date: '2026-10-13',
+    summary: '区分人工智能主题指数的芯片、光通信与应用暴露，核对估值、权重、政策、份额和 10 月 13 日量价。',
+    tags: ['ETF', '人工智能', '算力硬件', '估值分析', '技术分析', '交易研究'],
+  },
+  {
+    slug: '515880-communications-etf-analysis',
+    title: '通信ETF',
+    date: '2026-10-13',
+    summary: '核对通信设备指数估值、光模块等前十大业务分布，结合政策、份额与 10 月 13 日量价判断趋势。',
+    tags: ['ETF', '通信设备', '光模块', '估值分析', '技术分析', '交易研究'],
+  },
+  {
+    slug: '588170-star-semiconductor-etf-analysis',
+    title: '科创半导体ETF',
+    date: '2026-10-13',
+    summary: '核对科创板半导体材料设备指数估值、权重与产业链，结合政策、份额及 10 月 13 日量价研判趋势。',
+    tags: ['ETF', '科创半导体', '半导体设备', '估值分析', '技术分析', '交易研究'],
+  },
+  {
+    slug: '588200-star-chip-etf-analysis',
+    title: '科创芯片ETF',
+    date: '2026-10-13',
+    summary: '复核科创芯片指数估值、前十大与产业链分布，结合政策、基金份额及 10 月 13 日量价研判短中长期趋势。',
+    tags: ['ETF', '科创芯片', '半导体', '估值分析', '技术分析', '交易研究'],
+  },
+  {
     slug: '159865-livestock-etf-analysis',
     title: '159865 养殖ETF国泰：估值、持仓与趋势全面分析（完善版）',
     date: '2026-10-12',
