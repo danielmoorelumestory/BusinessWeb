@@ -232,7 +232,7 @@
   display: table !important;
   table-layout: fixed;
   width: 100%;
-  min-width: 860px;
+  min-width: 950px;
   border-collapse: collapse;
   font-size: 14px;
 }

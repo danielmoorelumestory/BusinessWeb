@@ -25,7 +25,7 @@ const savedUrl = href('lab/grid-trading/saved');
 </Base>
 
 <script>
-  import { readRecords, readSyncKey, fetchMinuteBars, marketToday, blockCopy, type MinuteBar } from '../../../lib/grid-trading';
+  import { readGridRecords, readSyncKey, fetchMinuteBars, marketToday, blockCopy, type MinuteBar } from '../../../lib/grid-trading';
   import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
 
   blockCopy();
@@ -73,7 +73,7 @@ const savedUrl = href('lab/grid-trading/saved');
     }
   }
 
-  const codes = [...new Map(readRecords().map(item => [item.row.code, item.row.name || item.row.code])).entries()];
+  const codes = [...new Map(readGridRecords().map(item => [item.row.code, item.row.name || item.row.code])).entries()];
   codeSelect.innerHTML = codes.map(([code, name]) => `<option value="${code}">${name} · ${code}</option>`).join('');
   const wanted = new URLSearchParams(location.search).get('code');
   if (wanted && codes.some(([code]) => code === wanted)) codeSelect.value = wanted;

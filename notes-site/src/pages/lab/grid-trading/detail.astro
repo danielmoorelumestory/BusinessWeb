@@ -22,7 +22,7 @@ const savedUrl = href('lab/grid-trading/saved');
       <span>显示：</span>
       <label><input id="view-levels" type="checkbox" checked> 手动支撑压力</label>
       <label><input id="view-fib" type="checkbox"> 斐波那契</label>
-      <label><input id="view-grid" type="checkbox" checked> 预计买卖线</label>
+      <label id="view-grid-label"><input id="view-grid" type="checkbox" checked> 预计买卖线</label>
     </div>
     <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>
     <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
@@ -114,7 +114,7 @@ const savedUrl = href('lab/grid-trading/saved');
 
 <script>
   import {
-    calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord, pullRecord,
+    calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord, pullRecord, recordByCode, pullByCode, newWatchRecord, watchIdOf,
     renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, parseFib, fibFromDates, normalizeFibSets, normalizeView, MAX_FIB_SETS, type FibSet, MAX_LEVELS, type Candle, type Levels, type Fib, type View, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
     blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar,
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
@@ -134,7 +134,7 @@ const savedUrl = href('lab/grid-trading/saved');
 
   // ---------- 资金与K线曲线：时间区间 ----------
   // 区间与建仓日无关：默认从建仓日到最新；可以选到建仓日之前，此时多取一段只用于显示的日线（不参与回测）。
-  type ChartInput = { series: EquityPoint[]; nextBuy: number; nextSell: number; trades: Trade[]; marker?: { date: string; label: string }; gridStep: { down: number; up: number }; code: string; openDate: string; levels?: Levels; fib?: Fib; view?: View };
+  type ChartInput = { series: EquityPoint[]; nextBuy: number; nextSell: number; trades: Trade[]; marker?: { date: string; label: string }; gridStep: { down: number; up: number }; code: string; openDate: string; levels?: Levels; fib?: Fib; view?: View; watch?: boolean };
   let chartInput: ChartInput | undefined;
   let chartCandles: { code: string; begin: string; candles: Candle[] } | undefined;
   let rangeFrom: string | undefined, rangeTo: string | undefined, rangeKey = 'all', chartRun = 0;
@@ -146,7 +146,7 @@ const savedUrl = href('lab/grid-trading/saved');
   const monthsBefore = (date: string, months: number) => { const day = new Date(`${date}T00:00:00Z`); day.setUTCMonth(day.getUTCMonth() - months); return day.toISOString().slice(0, 10); };
 
   // 手动区间缺省显示；斐波那契缺省在已配置时显示。
-  const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: input.view?.grid !== false });
+  const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: !input.watch && input.view?.grid !== false });
   async function drawEquity() {
     const input = chartInput;
     if (!input) return;
@@ -457,7 +457,13 @@ const savedUrl = href('lab/grid-trading/saved');
   const backupLabelOf = (backup: { at: string }) => new Date(backup.at).toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai' }).slice(0, 16);
   const subtitle = document.querySelector('#subtitle') as HTMLElement;
   const price = (v?: number) => typeof v === 'number' && Number.isFinite(v) ? `¥${v.toFixed(3)}` : '—';
-  let record = readRecords().find(item => item.id === id);
+  // 行业 ETF 清单进来用 ?code=：本机有该代码的记录就用它（有网格的优先），没有就先用内存里的关注记录（改动时才落盘），再去云端找。
+  const codeParam = new URLSearchParams(location.search).get('code')?.trim();
+  const nameParam = new URLSearchParams(location.search).get('name')?.trim() ?? '';
+  let record = codeParam && !id ? (recordByCode(codeParam) ?? newWatchRecord(codeParam, nameParam, marketToday())) : readRecords().find(item => item.id === id);
+  if (codeParam && !id) { const back = document.querySelector('#back-link') as HTMLAnchorElement; back.href = '/industry-etf'; back.textContent = '← 返回行业 ETF 清单'; }
+  const urlOf = (item: SavedRecord) => { const next = new URL(location.href); next.searchParams.delete('code'); next.searchParams.delete('name'); next.searchParams.set('id', item.id); return next.toString(); };
+  if (codeParam && !id && record && !record.watch) history.replaceState(null, '', urlOf(record));
   // 用户修改计数：行情刷新期间用户做过修改就丢弃刷新结果；备份规则升级等后台改动不计入。
   let editRevision = 0;
 
@@ -561,6 +567,19 @@ const savedUrl = href('lab/grid-trading/saved');
     const { row, result } = item;
     void loadMinute(row.code);
     document.querySelector('#title')!.textContent = `${row.name} · ${row.code}`;
+    // 关注记录（还没有添加网格）：不显示任何网格数据，只留行情曲线、支撑压力、斐波那契和分钟线。
+    document.querySelectorAll<HTMLElement>('#stats, .backup-panel, .history, #view-grid-label').forEach(el => { el.style.display = item.watch ? 'none' : ''; });
+    if (item.watch) {
+      subtitle.textContent = '还没有添加网格 · 只显示行情，可设置支撑压力与斐波那契';
+      chartInput = { series: [], nextBuy: NaN, nextSell: NaN, trades: [], gridStep: { down: 0, up: 0 }, code: row.code, openDate: row.date, levels: normalizeLevels(item.levels), fib: fibNow(item), watch: true, view: fibDraft ? { ...normalizeView(item.view), fib: true } : normalizeView(item.view) };
+      levelsPanel.hidden = fibPanel.hidden = false;
+      if (!levelsDirty) fillLevels(chartInput.levels);
+      fibSets = normalizeFibSets(item);
+      if (!fibDirty) fillFib(chartInput.fib);
+      renderFibSelect(!fibDirty); syncViewBoxes();
+      void drawEquity();
+      return;
+    }
     const detailLine = `${result.range} · 初始价 ${openingOf(item).price} · 每格金额 ¥${row.gridAmount.toLocaleString('zh-CN')}`;
     if (viewBackup) {
       const badge = document.createElement('span'); badge.className = 'view-badge'; badge.textContent = '备份视图';
@@ -628,7 +647,7 @@ const savedUrl = href('lab/grid-trading/saved');
     const confirmedDates = new Set(item.removedConfirmed ?? []), pendingCount = (item.removedTrades ?? []).filter(date => !confirmedDates.has(date)).length;
     restore.hidden = !removedCount; restore.textContent = pendingCount ? `恢复已删除的 ${pendingCount} 条网格成交` : `查看已确认删除的 ${removedCount} 条`;
     if (!removedCount) (document.querySelector('#removed-panel') as HTMLElement).hidden = true;
-    chartInput = { series: result.series ?? [], nextBuy: result.nextBuy, nextSell: result.nextSell, trades: result.trades, marker: viewBackup ? { date: viewBackup.date, label: '备份点' } : undefined, gridStep: { down: row.step - row.rebound, up: row.step - row.pullback }, code: row.code, openDate: row.date, levels: normalizeLevels(item.levels), fib: fibNow(item), view: fibDraft ? { ...normalizeView(item.view), fib: true } : normalizeView(item.view) };
+    chartInput = { series: result.series ?? [], nextBuy: result.nextBuy, nextSell: result.nextSell, trades: result.trades, marker: viewBackup ? { date: viewBackup.date, label: '备份点' } : undefined, gridStep: { down: row.step - row.rebound, up: row.step - row.pullback }, code: row.code, openDate: row.date, levels: normalizeLevels(item.levels), fib: fibNow(item), watch: !!item.watch, view: fibDraft ? { ...normalizeView(item.view), fib: true } : normalizeView(item.view) };
     levelsPanel.hidden = fibPanel.hidden = !!viewBackup;
     if (!levelsDirty) fillLevels(chartInput.levels);
     fibSets = normalizeFibSets(item);
@@ -1052,6 +1071,7 @@ const savedUrl = href('lab/grid-trading/saved');
     bindBackups();
     // 先显示已保存快照，再用最新行情（日线按天缓存、报价 60 秒缓存）重算并原地更新。
     const refreshView = () => {
+      if (record!.watch) return; // 关注记录没有回测可刷新，曲线自己会取最新行情
       const snapshot = record!, revision = editRevision;
       refreshRecord(snapshot).then(updated => {
         if (editRevision !== revision) return; // 刷新期间用户已修正（或已拉取云端新版本），以修正结果为准
@@ -1061,8 +1081,20 @@ const savedUrl = href('lab/grid-trading/saved');
         .finally(() => { (document.querySelector('#backup-now') as HTMLButtonElement).disabled = false; });
     };
     refreshView();
+    // 按代码进来、本机还没有网格记录：云端有这个代码的记录（别处添加了网格，或存过关注记录）就换成云端的。
+    const stampOf = (item?: SavedRecord) => item ? new Date(item.updatedAt ?? item.savedAt).valueOf() : 0;
+    const watching = !!(codeParam && !id && record.watch);
+    if (watching) {
+      void pullByCode(codeParam!).then(remote => {
+        if (!remote || !record!.watch || (remote.watch && stampOf(remote) <= stampOf(readRecords().find(item => item.id === remote.id)))) return;
+        editRevision++; fibDraft = undefined; fibNewId = undefined; fibDirty = false; levelsDirty = false;
+        record = remote; saveRecord(record);
+        if (!record.watch) history.replaceState(null, '', urlOf(record));
+        render(record); refreshView();
+      });
+    }
     // 页面打开时读取云端：云端版本更新（如斐波那契、支撑压力、显示设置在别处改过）就以云端为准，覆盖本机并重绘。
-    void pullRecord(record.id).then(remote => {
+    if (!watching) void pullRecord(record.id).then(remote => {
       if (!remote) return;
       editRevision++; // 丢弃仍在途中的行情刷新结果
       fibDraft = undefined; fibNewId = undefined; fibDirty = false; levelsDirty = false;

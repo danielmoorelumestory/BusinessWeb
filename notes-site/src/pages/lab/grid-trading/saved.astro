@@ -27,7 +27,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
 
 <script>
   import {
-    readRecords, writeRecords, saveRecord, refreshRecord, refreshRecords, removeRecords, syncAll, pushRecord, withParamChange,
+    readRecords, readGridRecords, writeRecords, saveRecord, refreshRecord, refreshRecords, removeRecords, syncAll, pushRecord, withParamChange,
     gridStatus, openingOf, formatMoney, formatPrice, tick, marketSessionOpen, marketToday, SYNC_KEY_STORAGE,
     blockCopy, getFourYearExtremes, fetchCloudExtremes, fetchNoteAnalysis,
     type SavedRecord, type NoteAnalysis,
@@ -70,7 +70,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     return `<td class="analysis-cell" data-analysis="${kind}" title="${tip}"><a class="analysis-link" href="${notesBase}${encodeURIComponent(note.slug)}/" target="_blank" rel="noopener">${escapeHtml(note[kind])}</a></td>`;
   };
   function paintAnalysis() {
-    const byId = new Map(readRecords().map(item => [item.id, item]));
+    const byId = new Map(readGridRecords().map(item => [item.id, item]));
     const template = document.createElement('template');
     container.querySelectorAll<HTMLTableRowElement>('tbody tr[data-id]').forEach(row => {
       const item = byId.get(row.dataset.id!);
@@ -83,7 +83,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     });
   }
   async function loadAnalysis() {
-    const codes = [...new Set(readRecords().map(item => item.row.code))].filter(code => !analysisRequested.has(code));
+    const codes = [...new Set(readGridRecords().map(item => item.row.code))].filter(code => !analysisRequested.has(code));
     if (!codes.length) return;
     codes.forEach(code => analysisRequested.add(code));
     const found = await fetchNoteAnalysis(codes);
@@ -110,7 +110,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     return `<td class="computed">${value.steps.toFixed(1)} 步<span class="sub">¥${formatPrice(value.target).replace('¥', '')}</span></td>`;
   };
   async function loadExtremes() {
-    const codes = [...new Set(readRecords().map(item => item.row.code))].filter(code => !extremes.has(code));
+    const codes = [...new Set(readGridRecords().map(item => item.row.code))].filter(code => !extremes.has(code));
     const repaint = () => { if (!container.querySelector('.param-input.dirty')) render(); };
     // 先一次读取云端结果（由云端日K 聚合），拿到的立即显示；云端没有的标的再逐个直连月K 兜底。
     const cloud = await fetchCloudExtremes(codes);
@@ -184,7 +184,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   }
 
   function render() {
-    const records = readRecords();
+    const records = readGridRecords();
     if (!records.length) {
       container.innerHTML = `
         <div class="empty">
@@ -264,7 +264,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
 
   // 打开页面先显示已保存快照，再批量刷新行情：所有标的的实时报价合并为一次请求，日线按代码每天只下载一次。
   async function refreshMarket() {
-    const records = readRecords();
+    const records = readGridRecords();
     if (!records.length) return;
     marketStatus.textContent = '正在刷新行情…';
     const updated = await refreshRecords(records);
@@ -361,7 +361,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   });
   document.querySelector('#sync-records')!.addEventListener('click', () => void syncRecords());
   document.querySelector('#clear')!.addEventListener('click', () => {
-    if (confirm('确认清空所有已保存的回测？清空会同步到云端。')) remove(readRecords().map(item => item.id));
+    if (confirm('确认清空所有已保存的回测？清空会同步到云端。')) remove(readGridRecords().map(item => item.id));
   });
 
   render();

@@ -204,6 +204,8 @@ export type SavedRecord = {
   levels?: Levels;
   /** 价格图上的斐波那契设置（fibs 多组；fib 是早期单组格式，只读兼容）与叠加内容显示开关，只用于显示。 */
   fibs?: FibSet[]; fib?: Fib; view?: View;
+  /** 关注记录：行业 ETF 清单点进来、还没有添加网格的标的，只保存支撑压力与斐波那契；不参与回测，不出现在“已保存标的”里。 */
+  watch?: true;
   priceOverrides?: Overrides; amountOverrides?: Overrides; sharesOverrides?: Overrides; paramHistory?: ParamStage[];
   manualTrades?: ManualTrade[]; removedTrades?: string[];
   // 已确认删除：removedTrades 里用户确认“就是要删除、不再提示”的日期，成交保持删除，只是不再出现在“恢复已删除”的待处理列表里。
@@ -723,6 +725,24 @@ export function gridStatus(record: SavedRecord): GridStatus | null {
 // ---------- 记录存储 ----------
 
 export const readRecords = () => readJson<SavedRecord[]>(RECORDS_KEY, []);
+/** 真正添加了网格的记录（不含关注记录）。 */
+export const readGridRecords = () => readRecords().filter(item => !item.watch);
+export const watchIdOf = (code: string) => `watch-${code.trim()}`;
+/** 新建关注记录：没有网格，row/result 只是占位；row.date 取一年前，作为曲线默认起点。 */
+export function newWatchRecord(code: string, name: string, today: string): SavedRecord {
+  const begin = new Date(`${today}T00:00:00Z`); begin.setUTCFullYear(begin.getUTCFullYear() - 1);
+  return {
+    id: watchIdOf(code), savedAt: new Date().toISOString(), watch: true,
+    row: { name: name || code, code: code.trim(), date: begin.toISOString().slice(0, 10), initialPrice: 0, initialAmount: 0, step: 0, rebound: 0, pullback: 0, gridAmount: 0 },
+    result: { range: '', current: 0, lastTradeDate: '', lastTrade: 0, nextBuy: NaN, nextSell: NaN, buyTrigger: 0, sellTrigger: 0, pnl: 0, value: 0, realized: 0, maxCapital: 0, buys: 0, sells: 0, trades: [], series: [] },
+  };
+}
+/** 本机里这个代码最合适的记录：优先有网格的（取最近修改的），其次关注记录。 */
+export function recordByCode(code: string): SavedRecord | undefined {
+  const same = readRecords().filter(item => item.row.code.trim() === code.trim());
+  const latest = (list: SavedRecord[]) => [...list].sort((a, b) => stamp(b) - stamp(a))[0];
+  return latest(same.filter(item => !item.watch)) ?? latest(same);
+}
 /** 保存回测记录：记录优先于缓存，额度已满时先清理缓存再重试一次；仍失败则抛出，由调用方处理，不静默丢数据。 */
 export const writeRecords = (records: SavedRecord[]) => {
   const text = JSON.stringify(records);
@@ -914,6 +934,17 @@ export async function pullRecord(id: string): Promise<SavedRecord | undefined> {
   } catch { return undefined; }
 }
 
+/** 云端里这个代码的记录（优先有网格的，取最近修改的，其次关注记录）；没有同步密钥、读取失败或没有时返回 undefined。不写本机。 */
+export async function pullByCode(code: string): Promise<SavedRecord | undefined> {
+  const token = readSyncKey();
+  if (token.length < 16) return undefined;
+  try {
+    const same = (await cloudRequest(token)).filter((item): item is SavedRecord => !isTombstone(item) && item.row?.code?.trim() === code.trim());
+    const latest = (list: SavedRecord[]) => [...list].sort((a, b) => stamp(b) - stamp(a))[0];
+    return latest(same.filter(item => !item.watch)) ?? latest(same);
+  } catch { return undefined; }
+}
+
 /** 只把一条记录合并进云端（云端版本更新时不覆盖）；返回需要提示的失败信息，成功时为空字符串。what 是提示里对本次改动的称呼。 */
 export async function pushRecord(record: SavedRecord, what = '修正'): Promise<string> {
   const token = readSyncKey();
@@ -982,12 +1013,14 @@ function hardenTouch(svg: SVGSVGElement) {
  */
 export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true) {
   const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
-  if (!series.length || !Number.isFinite(nextBuy) || !Number.isFinite(nextSell)) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">暂无完整曲线数据</text>'; return; }
+  // 没有网格的关注记录：series 为空、不画预计买卖线，只显示K线与叠加内容。
+  const noGrid = !series.length && !showGrid;
+  if (!noGrid && (!series.length || !Number.isFinite(nextBuy) || !Number.isFinite(nextSell))) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">暂无完整曲线数据</text>'; return; }
   if (!bars.length) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">所选区间内没有行情数据</text>'; return; }
-  const buyLevel = nextBuy!, sellLevel = nextSell!;
+  const buyLevel = nextBuy ?? NaN, sellLevel = nextSell ?? NaN;
   const width = chartWidthOf(svg), compact = width < 600, left = compact ? 56 : 62, right = compact ? 70 : 70, chartWidth = width - left - right;
   watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range, levels, fib, showGrid));
-  const priceTop = 30, priceHeight = compact ? 220 : 280, moneyTop = priceTop + priceHeight + 38, moneyHeight = 150, plotBottom = moneyTop + moneyHeight, height = plotBottom + 30;
+  const priceTop = 30, priceHeight = compact ? 220 : 280, moneyTop = priceTop + priceHeight + 38, moneyHeight = noGrid ? 0 : 150, plotBottom = noGrid ? priceTop + priceHeight : moneyTop + moneyHeight, height = plotBottom + 30;
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   hardenTouch(svg);
   const count = bars.length, slot = chartWidth / count;
@@ -1086,7 +1119,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     return index >= 0 && point.price >= priceMin && point.price <= priceMax ? `<circle cx="${x(index).toFixed(1)}" cy="${priceY(point.price).toFixed(1)}" r="3.5" fill="#fff" stroke="#7c3aed" stroke-width="1.6"><title>${order ? '终点' : '起点'} ${point.price.toFixed(3)}</title></circle>` : '';
   }).join('') : '';
   const BUY_COLOR = '#2563eb', SELL_COLOR = '#9333ea', UP_COLOR = '#ef4444', DOWN_COLOR = '#16a34a'; // K线红涨绿跌，买卖线避开红绿
-  const stepSvg = gridStep ? stepLines(buyLevel, gridStep.down, -1, lowPrice, BUY_COLOR) + stepLines(sellLevel, gridStep.up, 1, highPrice, SELL_COLOR) : '';
+  const stepSvg = gridStep && showGrid ? stepLines(buyLevel, gridStep.down, -1, lowPrice, BUY_COLOR) + stepLines(sellLevel, gridStep.up, 1, highPrice, SELL_COLOR) : '';
   const labels = [0, Math.floor((count - 1) / 2), count - 1].map((index, order) => `<text x="${x(index)}" y="${plotBottom + 18}" text-anchor="${count > 1 ? (order === 0 ? 'start' : order === 2 ? 'end' : 'middle') : 'middle'}" fill="#94a3b8" font-size="10">${bars[index].date}</text>`).join('');
   // K线：影线 + 实体，收盘不低于开盘为红；实体至少 1px，开盘等于收盘时仍可见。
   const bodyWidth = Math.max(1, Math.min(14, slot * .62));
@@ -1100,10 +1133,10 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const markerIndex = marker && marker.date >= bars[0].date ? bars.findIndex(bar => bar.date >= marker.date) : -1;
   const markerSvg = marker && markerIndex >= 0
     ? `<line x1="${x(markerIndex)}" x2="${x(markerIndex)}" y1="${priceTop}" y2="${plotBottom}" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="4 3"/><text x="${x(markerIndex) + (markerIndex > count * .8 ? -5 : 5)}" y="${priceTop + 11}" text-anchor="${markerIndex > count * .8 ? 'end' : 'start'}" fill="#0ea5e9" font-size="10" font-weight="600">${marker.label}</text>` : '';
-  const noMoney = visible.length ? '' : `<text x="${(left + width - right) / 2}" y="${moneyTop + moneyHeight / 2}" text-anchor="middle" fill="#94a3b8" font-size="12">所选区间在建仓日之前，没有资金数据</text>`;
-  const tipLines = ['date', 'trade', 'open', 'low', 'change', 'position', 'capital', 'profit'];
+  const noMoney = visible.length ? '' : `<text x="${(left + width - right) / 2}" y="${moneyTop + moneyHeight / 2}" text-anchor="middle" fill="#94a3b8" font-size="12">${noGrid ? '还没有添加网格，没有资金数据' : '所选区间在建仓日之前，没有资金数据'}</text>`;
+  const tipLines = noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change', 'position', 'capital', 'profit'];
   svg.innerHTML = `<g>${title(priceTop, '价格（元）· 日K / 预计买卖价', '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
-    + `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`
+    + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
     + candleSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
@@ -1113,14 +1146,14 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     + `<rect class="chart-hit-area" x="${left}" y="${priceTop}" width="${chartWidth}" height="${plotBottom - priceTop}" fill="transparent" style="cursor:crosshair;touch-action:pan-y"/>`;
   const crosshair = svg.querySelector('.chart-crosshair') as SVGGElement, tooltip = svg.querySelector('.chart-tooltip') as SVGGElement;
   const set = (selector: string, attrs: Record<string, number | string>) => { const el = svg.querySelector(selector)!; for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, String(value)); };
-  const setText = (name: string, text: string) => { tooltip.querySelector(`.tip-${name}`)!.textContent = text; };
+  const setText = (name: string, text: string) => { const el = tooltip.querySelector(`.tip-${name}`); if (el) el.textContent = text; };
   const tradeByDate = new Map(trades.map(trade => [trade.date, trade]));
   const showPoint = (event: PointerEvent) => {
     const bounds = svg.getBoundingClientRect();
     const pointerX = (event.clientX - bounds.left) * width / bounds.width, pointerY = (event.clientY - bounds.top) * height / bounds.height;
     const index = Math.max(0, Math.min(count - 1, Math.floor((pointerX - left) / slot)));
     const bar = bars[index], point = points[index], xx = x(index), trade = tradeByDate.get(bar.date);
-    const inPanel = (pointerY >= priceTop && pointerY <= priceTop + priceHeight) || (pointerY >= moneyTop && pointerY <= plotBottom);
+    const inPanel = (pointerY >= priceTop && pointerY <= priceTop + priceHeight) || (!noGrid && pointerY >= moneyTop && pointerY <= plotBottom);
     set('.crosshair-v', { x1: xx, x2: xx });
     set('.crosshair-h', { y1: pointerY, y2: pointerY, visibility: inPanel ? 'visible' : 'hidden' }); // 横向十字线只在两张图内显示
     for (const [name, valueOf] of [['position', (p: EquityPoint) => p.positionValue], ['capital', (p: EquityPoint) => p.capitalUsed], ['profit', (p: EquityPoint) => p.pnl]] as const) {

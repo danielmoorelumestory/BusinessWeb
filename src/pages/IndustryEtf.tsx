@@ -61,6 +61,10 @@ function NoteCells({ item }: { item: EtfItem }): JSX.Element {
   )
 }
 
+// 网格详情页入口：已添加网格的 ETF 打开它的回测详情，没有添加的只显示行情曲线、支撑压力与斐波那契（不显示网格数据）。
+// /note/ 是 notes 站点的静态页面，必须整页加载，所以用普通 <a>。
+const gridDetailHref = (item: EtfItem) => `/note/lab/grid-trading/detail/?code=${item.code}&name=${encodeURIComponent(item.name)}`
+
 export default function IndustryEtf(): JSX.Element {
   return (
     <main className="container animate-fade-in industry-etf-page">
@@ -96,6 +100,7 @@ export default function IndustryEtf(): JSX.Element {
                   <col style={{ width: '150px' }} />
                   <col />
                   <col style={{ width: '180px' }} />
+                  <col style={{ width: '92px' }} />
                 </colgroup>
                 <thead>
                   <tr>
@@ -104,6 +109,7 @@ export default function IndustryEtf(): JSX.Element {
                     <th>行业分布</th>
                     <th>备注</th>
                     <th>参考</th>
+                    <th>网格</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -116,6 +122,11 @@ export default function IndustryEtf(): JSX.Element {
                       <td className="etf-remark-cell">{item.remark}</td>
                       <td className="etf-ref-cell">
                         <Reference item={item} />
+                      </td>
+                      <td className="etf-grid-cell">
+                        <a href={gridDetailHref(item)} className="etf-ref-link" title="行情曲线、支撑压力、斐波那契；已添加网格的显示网格回测">
+                          行情·网格
+                        </a>
                       </td>
                     </tr>
                   ))}
