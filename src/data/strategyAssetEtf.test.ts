@@ -30,7 +30,10 @@ describe('策略、债券、商品与货币 ETF', () => {
     expect(codes).toHaveLength(78)
     expect(new Set(codes).size).toBe(codes.length)
     expect(industry.some(i => i.code === '513630')).toBe(false)
-    expect(selected.map(i => i.code)).toEqual(['512890', '513630', '518880', '511880', '000015', '019372', '004042', '006337', '000143', '161716'])
+    expect(selected.map(i => i.code)).toEqual(['512890', '513630', '518880', '511880', '000015', '006337', '161716', '110017', '019372', '010011'])
+    const fundMetrics = JSON.parse(readFileSync(resolve('src/data/bondFundMetrics.json'), 'utf8'))
+    const types = STRATEGY_ASSET_ETF_GROUPS.find(g => g.id === 'bond-funds')!.items.map(item => fundMetrics[item.code].bondType)
+    for (const type of ['普通纯债', '一级债基', '二级债基']) expect(types.filter(value => value === type)).toHaveLength(2)
     expect(industry.some(i => i.code === '517520')).toBe(true)
   })
 

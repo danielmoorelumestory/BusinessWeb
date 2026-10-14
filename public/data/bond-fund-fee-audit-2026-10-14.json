@@ -195,6 +195,34 @@
       "sourcePublished": "2026-02-27",
       "sourceTitle": "招商双债增强债券型证券投资基金(LOF)(C类份额)基金产品资料概要更新",
       "secondaryFeeArchiveUrl": "https://fundf10.eastmoney.com/jjfl_161716.html"
+    },
+    {
+      "code": "010011",
+      "name": "景顺景颐招利6个月持有期债券A",
+      "shareClass": "A",
+      "managementFeePct": 0.7,
+      "custodyFeePct": 0.2,
+      "salesServiceFeePct": 0,
+      "annualManagementAndCustodyPct": 0.9,
+      "redemptionSchedule": "每笔份额最短持有6个月，期间不能赎回；期满赎回费0。不把6个月写成固定180天，具体起止依合同及份额确认。",
+      "redemptionRule": "最短持有6个月，期满免赎回费",
+      "sourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202605231822700973_1.pdf",
+      "sourcePublished": "2026-05-23",
+      "sourceTitle": "景顺长城景颐招利6个月持有期债券型证券投资基金基金产品资料概要更新"
+    },
+    {
+      "code": "110017",
+      "name": "易方达增强回报债券A",
+      "shareClass": "A",
+      "managementFeePct": 0.65,
+      "custodyFeePct": 0.2,
+      "salesServiceFeePct": 0,
+      "annualManagementAndCustodyPct": 0.85,
+      "redemptionSchedule": "少于7天1.50%；7–29天0.75%；30–364天0.10%；365–729天0.05%；满730天0。普通开放式，免赎回费门槛不是强制锁定期。",
+      "redemptionRule": "满730天免赎回费",
+      "sourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202608211828234981_1.pdf",
+      "sourcePublished": "2026-08-21",
+      "sourceTitle": "易方达增强回报债券型证券投资基金(易方达增强回报债券A)基金产品资料概要更新"
     }
   ],
   "previouslyListedRecords": [
@@ -217,10 +245,10 @@
   ],
   "currentListedCodes": [
     "000015",
-    "019372",
-    "004042",
     "006337",
-    "000143",
-    "161716"
+    "161716",
+    "110017",
+    "019372",
+    "010011"
   ]
 }

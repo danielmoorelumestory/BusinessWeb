@@ -5,7 +5,33 @@ import { latestInvestmentNote } from '../utils/etfJudgment'
 import EtfDocumentRemark from './EtfDocumentRemark'
 import type { SelectedEtfItem } from './BroadEtfList'
 
-const metrics: Record<string, Omit<(typeof metricsData)['000015'], 'return3yPct'> & { return3yPct: number | null }> = metricsData
+type BondFundMetric = {
+  asOf: string
+  bondType?: string
+  bondFeature?: string
+  return3yPct: number | null
+  returnPct?: number
+  returnStart?: string
+  returnPeriodLabel?: string
+  return5yPct?: number | null
+  return5yPeriodLabel?: string
+  maxDrawdownPct: number
+  drawdownStart?: string
+  drawdownEnd?: string
+  drawdownPeriodLabel?: string
+  manager: string
+  managementFeePct: number
+  custodyFeePct: number
+  annualFeePct: number
+  redemptionRule: string
+  feeFormatted: string
+  highlight?: string
+  feeSourceUrl: string
+  feeSourceDate: string
+  feeVerifiedOn: string
+}
+
+const metrics: Record<string, BondFundMetric> = metricsData as Record<string, BondFundMetric>
 
 const BOND_RISK_LADDER = [
   {
@@ -71,19 +97,23 @@ export default function BondFundList({ id, title, items }: {
             ))}
           </div>
         </div>
+        <p className="industry-etf-group-description">
+          三类各保留两只；010011每笔份额最短持有6个月。<Link to="/notes/bond-fund-candidate-comparison-2026-10-14">查看同类筛选报告</Link>
+        </p>
         <div className="industry-table-wrapper">
           <table className="report-table industry-etf-table broad-etf-table bond-fund-table">
             <colgroup>
               <col style={{ width: '70px' }} /><col style={{ width: '130px' }} />
-              <col style={{ width: '95px' }} /><col style={{ width: '85px' }} />
+              <col style={{ width: '90px' }} /><col style={{ width: '90px' }} />
+              <col style={{ width: '100px' }} />
               <col style={{ width: '85px' }} />
-              <col style={{ width: '160px' }} /><col /><col style={{ width: '82px' }} />
+              <col style={{ width: '150px' }} /><col /><col style={{ width: '82px' }} />
             </colgroup>
-            <thead><tr><th>代码</th><th>名称</th><th>收益</th><th aria-sort="ascending" title="按回撤绝对值从小到大排序">最大回撤</th><th>基金经理</th><th>费用</th><th>备注</th><th>参考</th></tr></thead>
+            <thead><tr><th>代码</th><th>名称</th><th>三年收益</th><th>五年收益</th><th aria-sort="ascending" title="按历史回撤绝对值从小到大排序">历史最大回撤</th><th>基金经理</th><th>费用</th><th>备注</th><th>参考</th></tr></thead>
             <tbody>{sortedItems.map(item => {
               const slug = latestInvestmentNote(item.code)?.slug
               const data = metrics[item.code]
-              const returnVal = data?.returnPct ?? data?.return3yPct
+              const return3yVal = data?.returnPct ?? data?.return3yPct
               return <tr key={item.code}>
                 <td className="etf-code-cell">{slug ? <Link className="etf-code-link" to={`/notes/${slug}`}>{item.code}</Link> : item.code}</td>
                 <td className="etf-name-cell">
@@ -98,16 +128,29 @@ export default function BondFundList({ id, title, items }: {
                   )}
                 </td>
                 <td className="bond-fund-metric">
-                  {returnVal != null ? (
+                  {return3yVal != null ? (
                     <>
-                      {`${returnVal >= 0 ? '+' : ''}${returnVal.toFixed(2)}%`}
+                      {`${return3yVal >= 0 ? '+' : ''}${return3yVal.toFixed(2)}%`}
                       {data?.returnPeriodLabel && <small title={`${data.returnStart}至${data.asOf}`}>{data.returnPeriodLabel}</small>}
                     </>
                   ) : <span className="etf-empty-cell">—</span>}
                 </td>
                 <td className="bond-fund-metric">
+                  {data?.return5yPct != null ? (
+                    <>
+                      {`${data.return5yPct >= 0 ? '+' : ''}${data.return5yPct.toFixed(2)}%`}
+                      {data.return5yPeriodLabel && <small>{data.return5yPeriodLabel}</small>}
+                    </>
+                  ) : (
+                    <>
+                      <span className="etf-empty-cell">—</span>
+                      {data?.return5yPeriodLabel && <small>{data.return5yPeriodLabel}</small>}
+                    </>
+                  )}
+                </td>
+                <td className="bond-fund-metric">
                   {data?.maxDrawdownPct != null ? `${data.maxDrawdownPct.toFixed(2)}%` : '—'}
-                  {data && <small title={`${data.drawdownStart}至${data.asOf}`}>{data.drawdownPeriodLabel}</small>}
+                  {data && <small title={`${data.drawdownStart}至${data.drawdownEnd ?? data.asOf}`}>{data.drawdownPeriodLabel}</small>}
                 </td>
                 <td>{data?.manager ?? '—'}</td>
                 <td className="etf-fee-cell">
