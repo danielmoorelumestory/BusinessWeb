@@ -1,0 +1,5172 @@
+{
+  "asOf": "2026-10-13",
+  "retrievedAt": "2026-10-14",
+  "methodology": "A类分红再投资财富指数；日度累计净值-单位净值差额识别分红并检查事件标记；CAGR按实际日数/365.25。仅复算2023-10-13后的样本，不报告全历史回撤。",
+  "record": {
+    "code": "000143",
+    "sourceUrl": "https://fund.eastmoney.com/pingzhongdata/000143.js",
+    "historyStart": "2023-10-13",
+    "metrics3y": {
+      "start": "2023-10-13",
+      "end": "2026-10-13",
+      "observations": 728,
+      "returnPct": 35.90808939250931,
+      "annualizedPct": 10.765617052358166,
+      "maxDrawdownPct": -6.090570991030376,
+      "peakDate": "2026-06-25",
+      "troughDate": "2026-07-30",
+      "recoveryDate": null,
+      "peakToRecoveryDays": null
+    },
+    "metrics1y": {
+      "start": "2025-10-13",
+      "end": "2026-10-13",
+      "observations": 243,
+      "returnPct": 5.255716444834557,
+      "annualizedPct": 5.259409298150253,
+      "maxDrawdownPct": -6.090570991030376,
+      "peakDate": "2026-06-25",
+      "troughDate": "2026-07-30",
+      "recoveryDate": null,
+      "peakToRecoveryDays": null
+    },
+    "commonWindow": {
+      "start": "2024-12-20",
+      "end": "2026-10-13",
+      "observations": 436,
+      "returnPct": 21.89599683812371,
+      "annualizedPct": 11.543321142456819,
+      "maxDrawdownPct": -6.090570991030376,
+      "peakDate": "2026-06-25",
+      "troughDate": "2026-07-30",
+      "recoveryDate": null,
+      "peakToRecoveryDays": null
+    },
+    "series": [
+      {
+        "date": "2023-10-13",
+        "nav": 1.5885,
+        "cumulativeNav": 1.7805,
+        "cashDividendPerUnit": 0,
+        "wealth": 1
+      },
+      {
+        "date": "2023-10-16",
+        "nav": 1.5882,
+        "cumulativeNav": 1.7802,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9998111425873466
+      },
+      {
+        "date": "2023-10-17",
+        "nav": 1.5871,
+        "cumulativeNav": 1.7791,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9991186654076173
+      },
+      {
+        "date": "2023-10-18",
+        "nav": 1.5812,
+        "cumulativeNav": 1.7732,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9954044696254328
+      },
+      {
+        "date": "2023-10-19",
+        "nav": 1.5742,
+        "cumulativeNav": 1.7662,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9909977966635192
+      },
+      {
+        "date": "2023-10-20",
+        "nav": 1.569,
+        "cumulativeNav": 1.761,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9877242681775261
+      },
+      {
+        "date": "2023-10-23",
+        "nav": 1.5615,
+        "cumulativeNav": 1.7535,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9830028328611901
+      },
+      {
+        "date": "2023-10-24",
+        "nav": 1.568,
+        "cumulativeNav": 1.76,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9870947434686814
+      },
+      {
+        "date": "2023-10-25",
+        "nav": 1.5678,
+        "cumulativeNav": 1.7598,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9869688385269124
+      },
+      {
+        "date": "2023-10-26",
+        "nav": 1.5691,
+        "cumulativeNav": 1.7611,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9877872206484106
+      },
+      {
+        "date": "2023-10-27",
+        "nav": 1.5763,
+        "cumulativeNav": 1.7683,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9923197985520934
+      },
+      {
+        "date": "2023-10-30",
+        "nav": 1.5823,
+        "cumulativeNav": 1.7743,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9960969468051623
+      },
+      {
+        "date": "2023-10-31",
+        "nav": 1.5817,
+        "cumulativeNav": 1.7737,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9957192319798553
+      },
+      {
+        "date": "2023-11-01",
+        "nav": 1.5786,
+        "cumulativeNav": 1.7706,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9937677053824363
+      },
+      {
+        "date": "2023-11-02",
+        "nav": 1.5775,
+        "cumulativeNav": 1.7695,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9930752282027069
+      },
+      {
+        "date": "2023-11-03",
+        "nav": 1.5805,
+        "cumulativeNav": 1.7725,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9949638023292414
+      },
+      {
+        "date": "2023-11-06",
+        "nav": 1.5861,
+        "cumulativeNav": 1.7781,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9984891406987726
+      },
+      {
+        "date": "2023-11-07",
+        "nav": 1.5848,
+        "cumulativeNav": 1.7768,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9976707585772743
+      },
+      {
+        "date": "2023-11-08",
+        "nav": 1.5837,
+        "cumulativeNav": 1.7757,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.996978281397545
+      },
+      {
+        "date": "2023-11-09",
+        "nav": 1.5818,
+        "cumulativeNav": 1.7738,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9957821844507397
+      },
+      {
+        "date": "2023-11-10",
+        "nav": 1.5815,
+        "cumulativeNav": 1.7735,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9955933270380861
+      },
+      {
+        "date": "2023-11-13",
+        "nav": 1.5805,
+        "cumulativeNav": 1.7725,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9949638023292414
+      },
+      {
+        "date": "2023-11-14",
+        "nav": 1.5823,
+        "cumulativeNav": 1.7743,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.996096946805162
+      },
+      {
+        "date": "2023-11-15",
+        "nav": 1.5865,
+        "cumulativeNav": 1.7785,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9987409505823102
+      },
+      {
+        "date": "2023-11-16",
+        "nav": 1.5824,
+        "cumulativeNav": 1.7744,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9961598992760464
+      },
+      {
+        "date": "2023-11-17",
+        "nav": 1.5845,
+        "cumulativeNav": 1.7765,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9974819011646205
+      },
+      {
+        "date": "2023-11-20",
+        "nav": 1.5837,
+        "cumulativeNav": 1.7757,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9969782813975447
+      },
+      {
+        "date": "2023-11-21",
+        "nav": 1.5827,
+        "cumulativeNav": 1.7747,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9963487566886998
+      },
+      {
+        "date": "2023-11-22",
+        "nav": 1.5767,
+        "cumulativeNav": 1.7687,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9925716084356309
+      },
+      {
+        "date": "2023-11-23",
+        "nav": 1.579,
+        "cumulativeNav": 1.771,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9940195152659739
+      },
+      {
+        "date": "2023-11-24",
+        "nav": 1.5755,
+        "cumulativeNav": 1.7675,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.991816178785017
+      },
+      {
+        "date": "2023-11-27",
+        "nav": 1.5779,
+        "cumulativeNav": 1.7699,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9933270380862447
+      },
+      {
+        "date": "2023-11-28",
+        "nav": 1.5805,
+        "cumulativeNav": 1.7725,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9949638023292413
+      },
+      {
+        "date": "2023-11-29",
+        "nav": 1.5786,
+        "cumulativeNav": 1.7706,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9937677053824362
+      },
+      {
+        "date": "2023-11-30",
+        "nav": 1.578,
+        "cumulativeNav": 1.77,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9933899905571293
+      },
+      {
+        "date": "2023-12-01",
+        "nav": 1.5795,
+        "cumulativeNav": 1.7715,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9943342776203965
+      },
+      {
+        "date": "2023-12-04",
+        "nav": 1.5773,
+        "cumulativeNav": 1.7693,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9929493232609379
+      },
+      {
+        "date": "2023-12-05",
+        "nav": 1.5707,
+        "cumulativeNav": 1.7627,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.988794460182562
+      },
+      {
+        "date": "2023-12-06",
+        "nav": 1.5715,
+        "cumulativeNav": 1.7635,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9892980799496378
+      },
+      {
+        "date": "2023-12-07",
+        "nav": 1.5723,
+        "cumulativeNav": 1.7643,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9898016997167137
+      },
+      {
+        "date": "2023-12-08",
+        "nav": 1.5761,
+        "cumulativeNav": 1.7681,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9921938936103241
+      },
+      {
+        "date": "2023-12-11",
+        "nav": 1.5825,
+        "cumulativeNav": 1.7745,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9962228517469308
+      },
+      {
+        "date": "2023-12-12",
+        "nav": 1.5814,
+        "cumulativeNav": 1.7734,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9955303745672014
+      },
+      {
+        "date": "2023-12-13",
+        "nav": 1.5767,
+        "cumulativeNav": 1.7687,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9925716084356307
+      },
+      {
+        "date": "2023-12-14",
+        "nav": 1.5751,
+        "cumulativeNav": 1.7671,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.991564368901479
+      },
+      {
+        "date": "2023-12-15",
+        "nav": 1.5719,
+        "cumulativeNav": 1.7639,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9895498898331757
+      },
+      {
+        "date": "2023-12-18",
+        "nav": 1.573,
+        "cumulativeNav": 1.765,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9902423670129049
+      },
+      {
+        "date": "2023-12-19",
+        "nav": 1.5719,
+        "cumulativeNav": 1.7639,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9895498898331757
+      },
+      {
+        "date": "2023-12-20",
+        "nav": 1.5695,
+        "cumulativeNav": 1.7615,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9880390305319481
+      },
+      {
+        "date": "2023-12-21",
+        "nav": 1.5713,
+        "cumulativeNav": 1.7633,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9891721750078687
+      },
+      {
+        "date": "2023-12-22",
+        "nav": 1.5701,
+        "cumulativeNav": 1.7621,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.988416745357255
+      },
+      {
+        "date": "2023-12-25",
+        "nav": 1.5724,
+        "cumulativeNav": 1.7644,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9898646521875981
+      },
+      {
+        "date": "2023-12-26",
+        "nav": 1.5677,
+        "cumulativeNav": 1.7597,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9869058860560275
+      },
+      {
+        "date": "2023-12-27",
+        "nav": 1.5734,
+        "cumulativeNav": 1.7654,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9904941768964428
+      },
+      {
+        "date": "2023-12-28",
+        "nav": 1.5787,
+        "cumulativeNav": 1.7707,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9938306578533205
+      },
+      {
+        "date": "2023-12-29",
+        "nav": 1.5868,
+        "cumulativeNav": 1.7788,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9989298079949636
+      },
+      {
+        "date": "2023-12-31",
+        "nav": 1.5869,
+        "cumulativeNav": 1.7789,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.998992760465848
+      },
+      {
+        "date": "2024-01-02",
+        "nav": 1.5862,
+        "cumulativeNav": 1.7782,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9985520931696567
+      },
+      {
+        "date": "2024-01-03",
+        "nav": 1.583,
+        "cumulativeNav": 1.775,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9965376141013532
+      },
+      {
+        "date": "2024-01-04",
+        "nav": 1.5814,
+        "cumulativeNav": 1.7734,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9955303745672014
+      },
+      {
+        "date": "2024-01-05",
+        "nav": 1.5766,
+        "cumulativeNav": 1.7686,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9925086559647464
+      },
+      {
+        "date": "2024-01-08",
+        "nav": 1.5695,
+        "cumulativeNav": 1.7615,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9880390305319481
+      },
+      {
+        "date": "2024-01-09",
+        "nav": 1.5722,
+        "cumulativeNav": 1.7642,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9897387472458291
+      },
+      {
+        "date": "2024-01-10",
+        "nav": 1.5688,
+        "cumulativeNav": 1.7608,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9875983632357567
+      },
+      {
+        "date": "2024-01-11",
+        "nav": 1.5718,
+        "cumulativeNav": 1.7638,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9894869373622912
+      },
+      {
+        "date": "2024-01-12",
+        "nav": 1.5728,
+        "cumulativeNav": 1.7648,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.990116462071136
+      },
+      {
+        "date": "2024-01-15",
+        "nav": 1.5743,
+        "cumulativeNav": 1.7663,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9910607491344032
+      },
+      {
+        "date": "2024-01-16",
+        "nav": 1.5729,
+        "cumulativeNav": 1.7649,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9901794145420204
+      },
+      {
+        "date": "2024-01-17",
+        "nav": 1.5609,
+        "cumulativeNav": 1.7529,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9826251180358826
+      },
+      {
+        "date": "2024-01-18",
+        "nav": 1.5614,
+        "cumulativeNav": 1.7534,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9829398803903051
+      },
+      {
+        "date": "2024-01-19",
+        "nav": 1.5601,
+        "cumulativeNav": 1.7521,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9821214982688069
+      },
+      {
+        "date": "2024-01-22",
+        "nav": 1.5414,
+        "cumulativeNav": 1.7334,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9703493862134088
+      },
+      {
+        "date": "2024-01-23",
+        "nav": 1.546,
+        "cumulativeNav": 1.738,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9732451998740949
+      },
+      {
+        "date": "2024-01-24",
+        "nav": 1.5489,
+        "cumulativeNav": 1.7409,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9750708215297448
+      },
+      {
+        "date": "2024-01-25",
+        "nav": 1.5618,
+        "cumulativeNav": 1.7538,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.983191690273843
+      },
+      {
+        "date": "2024-01-26",
+        "nav": 1.5578,
+        "cumulativeNav": 1.7498,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9806735914384637
+      },
+      {
+        "date": "2024-01-29",
+        "nav": 1.5505,
+        "cumulativeNav": 1.7425,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9760780610638964
+      },
+      {
+        "date": "2024-01-30",
+        "nav": 1.5426,
+        "cumulativeNav": 1.7346,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9711048158640223
+      },
+      {
+        "date": "2024-01-31",
+        "nav": 1.5351,
+        "cumulativeNav": 1.7271,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9663833805476861
+      },
+      {
+        "date": "2024-02-01",
+        "nav": 1.5345,
+        "cumulativeNav": 1.7265,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9660056657223792
+      },
+      {
+        "date": "2024-02-02",
+        "nav": 1.5278,
+        "cumulativeNav": 1.7198,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.961787850173119
+      },
+      {
+        "date": "2024-02-05",
+        "nav": 1.5217,
+        "cumulativeNav": 1.7137,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9579477494491656
+      },
+      {
+        "date": "2024-02-06",
+        "nav": 1.5429,
+        "cumulativeNav": 1.7349,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9712936732766757
+      },
+      {
+        "date": "2024-02-07",
+        "nav": 1.5535,
+        "cumulativeNav": 1.7455,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9779666351904308
+      },
+      {
+        "date": "2024-02-08",
+        "nav": 1.5605,
+        "cumulativeNav": 1.7525,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9823733081523445
+      },
+      {
+        "date": "2024-02-19",
+        "nav": 1.5659,
+        "cumulativeNav": 1.7579,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9857727415801065
+      },
+      {
+        "date": "2024-02-20",
+        "nav": 1.5688,
+        "cumulativeNav": 1.7608,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9875983632357564
+      },
+      {
+        "date": "2024-02-21",
+        "nav": 1.5717,
+        "cumulativeNav": 1.7637,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9894239848914065
+      },
+      {
+        "date": "2024-02-22",
+        "nav": 1.5745,
+        "cumulativeNav": 1.7665,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9911866540761719
+      },
+      {
+        "date": "2024-02-23",
+        "nav": 1.576,
+        "cumulativeNav": 1.768,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9921309411394392
+      },
+      {
+        "date": "2024-02-26",
+        "nav": 1.5767,
+        "cumulativeNav": 1.7687,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9925716084356305
+      },
+      {
+        "date": "2024-02-27",
+        "nav": 1.5831,
+        "cumulativeNav": 1.7751,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9966005665722374
+      },
+      {
+        "date": "2024-02-28",
+        "nav": 1.5697,
+        "cumulativeNav": 1.7617,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.988164935473717
+      },
+      {
+        "date": "2024-02-29",
+        "nav": 1.5822,
+        "cumulativeNav": 1.7742,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9960339943342773
+      },
+      {
+        "date": "2024-03-01",
+        "nav": 1.584,
+        "cumulativeNav": 1.776,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9971671388101979
+      },
+      {
+        "date": "2024-03-04",
+        "nav": 1.5882,
+        "cumulativeNav": 1.7802,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9998111425873462
+      },
+      {
+        "date": "2024-03-05",
+        "nav": 1.5869,
+        "cumulativeNav": 1.7789,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9989927604658478
+      },
+      {
+        "date": "2024-03-06",
+        "nav": 1.5884,
+        "cumulativeNav": 1.7804,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.999937047529115
+      },
+      {
+        "date": "2024-03-07",
+        "nav": 1.5852,
+        "cumulativeNav": 1.7772,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9979225684608116
+      },
+      {
+        "date": "2024-03-08",
+        "nav": 1.589,
+        "cumulativeNav": 1.781,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.000314762354422
+      },
+      {
+        "date": "2024-03-11",
+        "nav": 1.5923,
+        "cumulativeNav": 1.7843,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.00239219389361
+      },
+      {
+        "date": "2024-03-12",
+        "nav": 1.5895,
+        "cumulativeNav": 1.7815,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0006295247088444
+      },
+      {
+        "date": "2024-03-13",
+        "nav": 1.5885,
+        "cumulativeNav": 1.7805,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9999999999999997
+      },
+      {
+        "date": "2024-03-14",
+        "nav": 1.5859,
+        "cumulativeNav": 1.7779,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9983632357570031
+      },
+      {
+        "date": "2024-03-15",
+        "nav": 1.5941,
+        "cumulativeNav": 1.7861,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0035253383695308
+      },
+      {
+        "date": "2024-03-18",
+        "nav": 1.6031,
+        "cumulativeNav": 1.7951,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0091910607491341
+      },
+      {
+        "date": "2024-03-19",
+        "nav": 1.6017,
+        "cumulativeNav": 1.7937,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0083097261567513
+      },
+      {
+        "date": "2024-03-20",
+        "nav": 1.6036,
+        "cumulativeNav": 1.7956,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0095058231035565
+      },
+      {
+        "date": "2024-03-21",
+        "nav": 1.6035,
+        "cumulativeNav": 1.7955,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0094428706326721
+      },
+      {
+        "date": "2024-03-22",
+        "nav": 1.5977,
+        "cumulativeNav": 1.7897,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.005791627321372
+      },
+      {
+        "date": "2024-03-25",
+        "nav": 1.5928,
+        "cumulativeNav": 1.7848,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0027069562480326
+      },
+      {
+        "date": "2024-03-26",
+        "nav": 1.5935,
+        "cumulativeNav": 1.7855,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0031476235442238
+      },
+      {
+        "date": "2024-03-27",
+        "nav": 1.5862,
+        "cumulativeNav": 1.7782,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9985520931696567
+      },
+      {
+        "date": "2024-03-28",
+        "nav": 1.5893,
+        "cumulativeNav": 1.7813,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0005036197670754
+      },
+      {
+        "date": "2024-03-29",
+        "nav": 1.5975,
+        "cumulativeNav": 1.7895,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0056657223796028
+      },
+      {
+        "date": "2024-04-01",
+        "nav": 1.6063,
+        "cumulativeNav": 1.7983,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0112055398174375
+      },
+      {
+        "date": "2024-04-02",
+        "nav": 1.6076,
+        "cumulativeNav": 1.7996,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0120239219389358
+      },
+      {
+        "date": "2024-04-03",
+        "nav": 1.6098,
+        "cumulativeNav": 1.8018,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0134088762983944
+      },
+      {
+        "date": "2024-04-08",
+        "nav": 1.6074,
+        "cumulativeNav": 1.7994,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0118980169971667
+      },
+      {
+        "date": "2024-04-09",
+        "nav": 1.6102,
+        "cumulativeNav": 1.8022,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0136606861819322
+      },
+      {
+        "date": "2024-04-10",
+        "nav": 1.6058,
+        "cumulativeNav": 1.7978,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.010890777463015
+      },
+      {
+        "date": "2024-04-11",
+        "nav": 1.6066,
+        "cumulativeNav": 1.7986,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0113943972300907
+      },
+      {
+        "date": "2024-04-12",
+        "nav": 1.6121,
+        "cumulativeNav": 1.8041,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0148567831287372
+      },
+      {
+        "date": "2024-04-15",
+        "nav": 1.6122,
+        "cumulativeNav": 1.8042,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0149197355996216
+      },
+      {
+        "date": "2024-04-16",
+        "nav": 1.6,
+        "cumulativeNav": 1.792,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0072395341517149
+      },
+      {
+        "date": "2024-04-17",
+        "nav": 1.6113,
+        "cumulativeNav": 1.8033,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0143531633616614
+      },
+      {
+        "date": "2024-04-18",
+        "nav": 1.6118,
+        "cumulativeNav": 1.8038,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0146679257160838
+      },
+      {
+        "date": "2024-04-19",
+        "nav": 1.611,
+        "cumulativeNav": 1.803,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.014164305949008
+      },
+      {
+        "date": "2024-04-22",
+        "nav": 1.6099,
+        "cumulativeNav": 1.8019,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0134718287692788
+      },
+      {
+        "date": "2024-04-23",
+        "nav": 1.6094,
+        "cumulativeNav": 1.8014,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0131570664148564
+      },
+      {
+        "date": "2024-04-24",
+        "nav": 1.6141,
+        "cumulativeNav": 1.8061,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.016115832546427
+      },
+      {
+        "date": "2024-04-25",
+        "nav": 1.6141,
+        "cumulativeNav": 1.8061,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.016115832546427
+      },
+      {
+        "date": "2024-04-26",
+        "nav": 1.6227,
+        "cumulativeNav": 1.8147,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0215297450424923
+      },
+      {
+        "date": "2024-04-29",
+        "nav": 1.6258,
+        "cumulativeNav": 1.8178,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.023481271639911
+      },
+      {
+        "date": "2024-04-30",
+        "nav": 1.6276,
+        "cumulativeNav": 1.8196,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0246144161158317
+      },
+      {
+        "date": "2024-05-06",
+        "nav": 1.6407,
+        "cumulativeNav": 1.8327,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.032861189801699
+      },
+      {
+        "date": "2024-05-07",
+        "nav": 1.6426,
+        "cumulativeNav": 1.8346,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0340572867485043
+      },
+      {
+        "date": "2024-05-08",
+        "nav": 1.6393,
+        "cumulativeNav": 1.8313,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0319798552093162
+      },
+      {
+        "date": "2024-05-09",
+        "nav": 1.646,
+        "cumulativeNav": 1.838,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0361976707585765
+      },
+      {
+        "date": "2024-05-10",
+        "nav": 1.6468,
+        "cumulativeNav": 1.8388,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0367012905256525
+      },
+      {
+        "date": "2024-05-13",
+        "nav": 1.6461,
+        "cumulativeNav": 1.8381,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.036260623229461
+      },
+      {
+        "date": "2024-05-14",
+        "nav": 1.6473,
+        "cumulativeNav": 1.8393,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.037016052880075
+      },
+      {
+        "date": "2024-05-15",
+        "nav": 1.6416,
+        "cumulativeNav": 1.8336,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0334277620396595
+      },
+      {
+        "date": "2024-05-16",
+        "nav": 1.6402,
+        "cumulativeNav": 1.8322,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0325464274472769
+      },
+      {
+        "date": "2024-05-17",
+        "nav": 1.641,
+        "cumulativeNav": 1.833,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0330500472143527
+      },
+      {
+        "date": "2024-05-20",
+        "nav": 1.6464,
+        "cumulativeNav": 1.8384,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0364494806421147
+      },
+      {
+        "date": "2024-05-21",
+        "nav": 1.643,
+        "cumulativeNav": 1.835,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0343090966320423
+      },
+      {
+        "date": "2024-05-22",
+        "nav": 1.6418,
+        "cumulativeNav": 1.8338,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0335536669814285
+      },
+      {
+        "date": "2024-05-23",
+        "nav": 1.6335,
+        "cumulativeNav": 1.8255,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0283286118980166
+      },
+      {
+        "date": "2024-05-24",
+        "nav": 1.6291,
+        "cumulativeNav": 1.8211,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0255587031790994
+      },
+      {
+        "date": "2024-05-27",
+        "nav": 1.6347,
+        "cumulativeNav": 1.8267,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0290840415486304
+      },
+      {
+        "date": "2024-05-28",
+        "nav": 1.6319,
+        "cumulativeNav": 1.8239,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0273213723638648
+      },
+      {
+        "date": "2024-05-29",
+        "nav": 1.6314,
+        "cumulativeNav": 1.8234,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0270066100094424
+      },
+      {
+        "date": "2024-05-30",
+        "nav": 1.6308,
+        "cumulativeNav": 1.8228,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0266288951841356
+      },
+      {
+        "date": "2024-05-31",
+        "nav": 1.6281,
+        "cumulativeNav": 1.8201,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0249291784702546
+      },
+      {
+        "date": "2024-06-03",
+        "nav": 1.6267,
+        "cumulativeNav": 1.8187,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0240478438778717
+      },
+      {
+        "date": "2024-06-04",
+        "nav": 1.6302,
+        "cumulativeNav": 1.8222,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0262511803588288
+      },
+      {
+        "date": "2024-06-05",
+        "nav": 1.6254,
+        "cumulativeNav": 1.8174,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0232294617563735
+      },
+      {
+        "date": "2024-06-06",
+        "nav": 1.6259,
+        "cumulativeNav": 1.8179,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0235442241107957
+      },
+      {
+        "date": "2024-06-07",
+        "nav": 1.6246,
+        "cumulativeNav": 1.8166,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0227258419892975
+      },
+      {
+        "date": "2024-06-11",
+        "nav": 1.6246,
+        "cumulativeNav": 1.8166,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0227258419892975
+      },
+      {
+        "date": "2024-06-12",
+        "nav": 1.629,
+        "cumulativeNav": 1.821,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0254957507082147
+      },
+      {
+        "date": "2024-06-13",
+        "nav": 1.626,
+        "cumulativeNav": 1.818,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.02360717658168
+      },
+      {
+        "date": "2024-06-14",
+        "nav": 1.6263,
+        "cumulativeNav": 1.8183,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0237960339943337
+      },
+      {
+        "date": "2024-06-17",
+        "nav": 1.6285,
+        "cumulativeNav": 1.8205,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0251809883537923
+      },
+      {
+        "date": "2024-06-18",
+        "nav": 1.6317,
+        "cumulativeNav": 1.8237,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0271954674220958
+      },
+      {
+        "date": "2024-06-19",
+        "nav": 1.6254,
+        "cumulativeNav": 1.8174,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0232294617563733
+      },
+      {
+        "date": "2024-06-20",
+        "nav": 1.6196,
+        "cumulativeNav": 1.8116,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0195782184450732
+      },
+      {
+        "date": "2024-06-21",
+        "nav": 1.619,
+        "cumulativeNav": 1.811,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0192005036197664
+      },
+      {
+        "date": "2024-06-24",
+        "nav": 1.6083,
+        "cumulativeNav": 1.8003,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.012464589235127
+      },
+      {
+        "date": "2024-06-25",
+        "nav": 1.6062,
+        "cumulativeNav": 1.7982,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0111425873465527
+      },
+      {
+        "date": "2024-06-26",
+        "nav": 1.6142,
+        "cumulativeNav": 1.8062,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0161787850173112
+      },
+      {
+        "date": "2024-06-27",
+        "nav": 1.6097,
+        "cumulativeNav": 1.8017,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0133459238275093
+      },
+      {
+        "date": "2024-06-28",
+        "nav": 1.6166,
+        "cumulativeNav": 1.8086,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0176896443185386
+      },
+      {
+        "date": "2024-06-30",
+        "nav": 1.6166,
+        "cumulativeNav": 1.8086,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0176896443185386
+      },
+      {
+        "date": "2024-07-01",
+        "nav": 1.6197,
+        "cumulativeNav": 1.8117,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0196411709159576
+      },
+      {
+        "date": "2024-07-02",
+        "nav": 1.613,
+        "cumulativeNav": 1.805,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0154233553666974
+      },
+      {
+        "date": "2024-07-03",
+        "nav": 1.6074,
+        "cumulativeNav": 1.7994,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0118980169971663
+      },
+      {
+        "date": "2024-07-04",
+        "nav": 1.6027,
+        "cumulativeNav": 1.7947,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0089392508655957
+      },
+      {
+        "date": "2024-07-05",
+        "nav": 1.6047,
+        "cumulativeNav": 1.7967,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0101983002832853
+      },
+      {
+        "date": "2024-07-08",
+        "nav": 1.5979,
+        "cumulativeNav": 1.7899,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0059175322631406
+      },
+      {
+        "date": "2024-07-09",
+        "nav": 1.6105,
+        "cumulativeNav": 1.8025,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0138495435945853
+      },
+      {
+        "date": "2024-07-10",
+        "nav": 1.6078,
+        "cumulativeNav": 1.7998,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0121498268807043
+      },
+      {
+        "date": "2024-07-11",
+        "nav": 1.6146,
+        "cumulativeNav": 1.8066,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0164305949008492
+      },
+      {
+        "date": "2024-07-12",
+        "nav": 1.6125,
+        "cumulativeNav": 1.8045,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.015108593012275
+      },
+      {
+        "date": "2024-07-15",
+        "nav": 1.6099,
+        "cumulativeNav": 1.8019,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0134718287692785
+      },
+      {
+        "date": "2024-07-16",
+        "nav": 1.6124,
+        "cumulativeNav": 1.8044,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0150456405413906
+      },
+      {
+        "date": "2024-07-17",
+        "nav": 1.6053,
+        "cumulativeNav": 1.7973,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0105760151085923
+      },
+      {
+        "date": "2024-07-18",
+        "nav": 1.6082,
+        "cumulativeNav": 1.8002,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0124016367642426
+      },
+      {
+        "date": "2024-07-19",
+        "nav": 1.6091,
+        "cumulativeNav": 1.8011,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.012968209002203
+      },
+      {
+        "date": "2024-07-22",
+        "nav": 1.6065,
+        "cumulativeNav": 1.7985,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0113314447592066
+      },
+      {
+        "date": "2024-07-23",
+        "nav": 1.5918,
+        "cumulativeNav": 1.7838,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0020774315391876
+      },
+      {
+        "date": "2024-07-24",
+        "nav": 1.5867,
+        "cumulativeNav": 1.7787,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.998866855524079
+      },
+      {
+        "date": "2024-07-25",
+        "nav": 1.582,
+        "cumulativeNav": 1.774,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9959080893925083
+      },
+      {
+        "date": "2024-07-26",
+        "nav": 1.5905,
+        "cumulativeNav": 1.7825,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0012590494176894
+      },
+      {
+        "date": "2024-07-29",
+        "nav": 1.5887,
+        "cumulativeNav": 1.7807,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0001259049417686
+      },
+      {
+        "date": "2024-07-30",
+        "nav": 1.5855,
+        "cumulativeNav": 1.7775,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9981114258734651
+      },
+      {
+        "date": "2024-07-31",
+        "nav": 1.6016,
+        "cumulativeNav": 1.7936,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.008246773685867
+      },
+      {
+        "date": "2024-08-01",
+        "nav": 1.6004,
+        "cumulativeNav": 1.7924,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.007491344035253
+      },
+      {
+        "date": "2024-08-02",
+        "nav": 1.5954,
+        "cumulativeNav": 1.7874,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.004343720491029
+      },
+      {
+        "date": "2024-08-05",
+        "nav": 1.5827,
+        "cumulativeNav": 1.7747,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9963487566886998
+      },
+      {
+        "date": "2024-08-06",
+        "nav": 1.5862,
+        "cumulativeNav": 1.7782,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9985520931696569
+      },
+      {
+        "date": "2024-08-07",
+        "nav": 1.5873,
+        "cumulativeNav": 1.7793,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9992445703493862
+      },
+      {
+        "date": "2024-08-08",
+        "nav": 1.5846,
+        "cumulativeNav": 1.7766,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9975448536355053
+      },
+      {
+        "date": "2024-08-09",
+        "nav": 1.5806,
+        "cumulativeNav": 1.7726,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9950267548001259
+      },
+      {
+        "date": "2024-08-12",
+        "nav": 1.5775,
+        "cumulativeNav": 1.7695,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9930752282027069
+      },
+      {
+        "date": "2024-08-13",
+        "nav": 1.579,
+        "cumulativeNav": 1.771,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9940195152659741
+      },
+      {
+        "date": "2024-08-14",
+        "nav": 1.5734,
+        "cumulativeNav": 1.7654,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.990494176896443
+      },
+      {
+        "date": "2024-08-15",
+        "nav": 1.5713,
+        "cumulativeNav": 1.7633,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9891721750078689
+      },
+      {
+        "date": "2024-08-16",
+        "nav": 1.5649,
+        "cumulativeNav": 1.7569,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.985143216871262
+      },
+      {
+        "date": "2024-08-19",
+        "nav": 1.5679,
+        "cumulativeNav": 1.7599,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9870317909977967
+      },
+      {
+        "date": "2024-08-20",
+        "nav": 1.5572,
+        "cumulativeNav": 1.7492,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.980295876613157
+      },
+      {
+        "date": "2024-08-21",
+        "nav": 1.5581,
+        "cumulativeNav": 1.7501,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9808624488511175
+      },
+      {
+        "date": "2024-08-22",
+        "nav": 1.5545,
+        "cumulativeNav": 1.7465,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9785961598992761
+      },
+      {
+        "date": "2024-08-23",
+        "nav": 1.5561,
+        "cumulativeNav": 1.7481,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9796033994334278
+      },
+      {
+        "date": "2024-08-26",
+        "nav": 1.5652,
+        "cumulativeNav": 1.7572,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9853320742839156
+      },
+      {
+        "date": "2024-08-27",
+        "nav": 1.5583,
+        "cumulativeNav": 1.7503,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9809883537928863
+      },
+      {
+        "date": "2024-08-28",
+        "nav": 1.5588,
+        "cumulativeNav": 1.7508,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9813031161473087
+      },
+      {
+        "date": "2024-08-29",
+        "nav": 1.5688,
+        "cumulativeNav": 1.7608,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9875983632357568
+      },
+      {
+        "date": "2024-08-30",
+        "nav": 1.582,
+        "cumulativeNav": 1.774,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9959080893925085
+      },
+      {
+        "date": "2024-09-02",
+        "nav": 1.5695,
+        "cumulativeNav": 1.7615,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9880390305319481
+      },
+      {
+        "date": "2024-09-03",
+        "nav": 1.5739,
+        "cumulativeNav": 1.7659,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9908089392508654
+      },
+      {
+        "date": "2024-09-04",
+        "nav": 1.5722,
+        "cumulativeNav": 1.7642,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9897387472458292
+      },
+      {
+        "date": "2024-09-05",
+        "nav": 1.5771,
+        "cumulativeNav": 1.7691,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9928234183191689
+      },
+      {
+        "date": "2024-09-06",
+        "nav": 1.5699,
+        "cumulativeNav": 1.7619,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9882908404154862
+      },
+      {
+        "date": "2024-09-09",
+        "nav": 1.5628,
+        "cumulativeNav": 1.7548,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9838212149826879
+      },
+      {
+        "date": "2024-09-10",
+        "nav": 1.5602,
+        "cumulativeNav": 1.7522,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9821844507396914
+      },
+      {
+        "date": "2024-09-11",
+        "nav": 1.561,
+        "cumulativeNav": 1.753,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9826880705067672
+      },
+      {
+        "date": "2024-09-12",
+        "nav": 1.5578,
+        "cumulativeNav": 1.7498,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9806735914384639
+      },
+      {
+        "date": "2024-09-13",
+        "nav": 1.5535,
+        "cumulativeNav": 1.7455,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9779666351904313
+      },
+      {
+        "date": "2024-09-18",
+        "nav": 1.5512,
+        "cumulativeNav": 1.7432,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9765187283600881
+      },
+      {
+        "date": "2024-09-19",
+        "nav": 1.5554,
+        "cumulativeNav": 1.7474,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9791627321372364
+      },
+      {
+        "date": "2024-09-20",
+        "nav": 1.5502,
+        "cumulativeNav": 1.7422,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9758892036512434
+      },
+      {
+        "date": "2024-09-23",
+        "nav": 1.5495,
+        "cumulativeNav": 1.7415,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.975448536355052
+      },
+      {
+        "date": "2024-09-24",
+        "nav": 1.5784,
+        "cumulativeNav": 1.7704,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9936418004406674
+      },
+      {
+        "date": "2024-09-25",
+        "nav": 1.5849,
+        "cumulativeNav": 1.7769,
+        "cashDividendPerUnit": 0,
+        "wealth": 0.9977337110481587
+      },
+      {
+        "date": "2024-09-26",
+        "nav": 1.6083,
+        "cumulativeNav": 1.8003,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0124645892351276
+      },
+      {
+        "date": "2024-09-27",
+        "nav": 1.6367,
+        "cumulativeNav": 1.8287,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0303430909663207
+      },
+      {
+        "date": "2024-09-30",
+        "nav": 1.6939,
+        "cumulativeNav": 1.8859,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0663519043122445
+      },
+      {
+        "date": "2024-10-08",
+        "nav": 1.7443,
+        "cumulativeNav": 1.9363,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0980799496380236
+      },
+      {
+        "date": "2024-10-09",
+        "nav": 1.6899,
+        "cumulativeNav": 1.8819,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0638338054768652
+      },
+      {
+        "date": "2024-10-10",
+        "nav": 1.69,
+        "cumulativeNav": 1.882,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0638967579477498
+      },
+      {
+        "date": "2024-10-11",
+        "nav": 1.6679,
+        "cumulativeNav": 1.8599,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0499842618822792
+      },
+      {
+        "date": "2024-10-14",
+        "nav": 1.6912,
+        "cumulativeNav": 1.8832,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0646521875983637
+      },
+      {
+        "date": "2024-10-15",
+        "nav": 1.6786,
+        "cumulativeNav": 1.8706,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.056720176266919
+      },
+      {
+        "date": "2024-10-16",
+        "nav": 1.6831,
+        "cumulativeNav": 1.8751,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0595530374567206
+      },
+      {
+        "date": "2024-10-17",
+        "nav": 1.6805,
+        "cumulativeNav": 1.8725,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0579162732137242
+      },
+      {
+        "date": "2024-10-18",
+        "nav": 1.708,
+        "cumulativeNav": 1.9,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0752282027069566
+      },
+      {
+        "date": "2024-10-21",
+        "nav": 1.721,
+        "cumulativeNav": 1.913,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0834120239219394
+      },
+      {
+        "date": "2024-10-22",
+        "nav": 1.7228,
+        "cumulativeNav": 1.9148,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0845451683978602
+      },
+      {
+        "date": "2024-10-23",
+        "nav": 1.724,
+        "cumulativeNav": 1.916,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.085300598048474
+      },
+      {
+        "date": "2024-10-24",
+        "nav": 1.712,
+        "cumulativeNav": 1.904,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.077746301542336
+      },
+      {
+        "date": "2024-10-25",
+        "nav": 1.728,
+        "cumulativeNav": 1.92,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0878186968838535
+      },
+      {
+        "date": "2024-10-28",
+        "nav": 1.7308,
+        "cumulativeNav": 1.9228,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0895813660686189
+      },
+      {
+        "date": "2024-10-29",
+        "nav": 1.7183,
+        "cumulativeNav": 1.9103,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0817123072080586
+      },
+      {
+        "date": "2024-10-30",
+        "nav": 1.7124,
+        "cumulativeNav": 1.9044,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.077998111425874
+      },
+      {
+        "date": "2024-10-31",
+        "nav": 1.7128,
+        "cumulativeNav": 1.9048,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.078249921309412
+      },
+      {
+        "date": "2024-11-01",
+        "nav": 1.7079,
+        "cumulativeNav": 1.8999,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0751652502360725
+      },
+      {
+        "date": "2024-11-04",
+        "nav": 1.7234,
+        "cumulativeNav": 1.9154,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0849228832231672
+      },
+      {
+        "date": "2024-11-05",
+        "nav": 1.7422,
+        "cumulativeNav": 1.9342,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0967579477494498
+      },
+      {
+        "date": "2024-11-06",
+        "nav": 1.7378,
+        "cumulativeNav": 1.9298,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0939880390305325
+      },
+      {
+        "date": "2024-11-07",
+        "nav": 1.7528,
+        "cumulativeNav": 1.9448,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.103430909663205
+      },
+      {
+        "date": "2024-11-08",
+        "nav": 1.7484,
+        "cumulativeNav": 1.9404,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1006610009442876
+      },
+      {
+        "date": "2024-11-11",
+        "nav": 1.7657,
+        "cumulativeNav": 1.9577,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.111551778407303
+      },
+      {
+        "date": "2024-11-12",
+        "nav": 1.7562,
+        "cumulativeNav": 1.9482,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1055712936732771
+      },
+      {
+        "date": "2024-11-13",
+        "nav": 1.7556,
+        "cumulativeNav": 1.9476,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1051935788479703
+      },
+      {
+        "date": "2024-11-14",
+        "nav": 1.734,
+        "cumulativeNav": 1.926,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.091595845136922
+      },
+      {
+        "date": "2024-11-15",
+        "nav": 1.7208,
+        "cumulativeNav": 1.9128,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0832861189801706
+      },
+      {
+        "date": "2024-11-18",
+        "nav": 1.7056,
+        "cumulativeNav": 1.8976,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0737173434057292
+      },
+      {
+        "date": "2024-11-19",
+        "nav": 1.7202,
+        "cumulativeNav": 1.9122,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0829084041548636
+      },
+      {
+        "date": "2024-11-20",
+        "nav": 1.732,
+        "cumulativeNav": 1.924,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0903367957192325
+      },
+      {
+        "date": "2024-11-21",
+        "nav": 1.7337,
+        "cumulativeNav": 1.9257,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0914069877242687
+      },
+      {
+        "date": "2024-11-22",
+        "nav": 1.7103,
+        "cumulativeNav": 1.9023,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0766761095372999
+      },
+      {
+        "date": "2024-11-25",
+        "nav": 1.7091,
+        "cumulativeNav": 1.9011,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0759206798866863
+      },
+      {
+        "date": "2024-11-26",
+        "nav": 1.7052,
+        "cumulativeNav": 1.8972,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0734655335221914
+      },
+      {
+        "date": "2024-11-27",
+        "nav": 1.7245,
+        "cumulativeNav": 1.9165,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0856153604028966
+      },
+      {
+        "date": "2024-11-28",
+        "nav": 1.7306,
+        "cumulativeNav": 1.9226,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.08945546112685
+      },
+      {
+        "date": "2024-11-29",
+        "nav": 1.7408,
+        "cumulativeNav": 1.9328,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0958766131570672
+      },
+      {
+        "date": "2024-12-02",
+        "nav": 1.7492,
+        "cumulativeNav": 1.9412,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1011646207113637
+      },
+      {
+        "date": "2024-12-03",
+        "nav": 1.7477,
+        "cumulativeNav": 1.9397,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1002203336480965
+      },
+      {
+        "date": "2024-12-04",
+        "nav": 1.7371,
+        "cumulativeNav": 1.9291,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0935473717343414
+      },
+      {
+        "date": "2024-12-05",
+        "nav": 1.7446,
+        "cumulativeNav": 1.9366,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0982688070506774
+      },
+      {
+        "date": "2024-12-06",
+        "nav": 1.7535,
+        "cumulativeNav": 1.9455,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1038715769593965
+      },
+      {
+        "date": "2024-12-09",
+        "nav": 1.7523,
+        "cumulativeNav": 1.9443,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1031161473087827
+      },
+      {
+        "date": "2024-12-10",
+        "nav": 1.763,
+        "cumulativeNav": 1.955,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1098520616934222
+      },
+      {
+        "date": "2024-12-11",
+        "nav": 1.7758,
+        "cumulativeNav": 1.9678,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1179099779666362
+      },
+      {
+        "date": "2024-12-12",
+        "nav": 1.7889,
+        "cumulativeNav": 1.9809,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1261567516525033
+      },
+      {
+        "date": "2024-12-13",
+        "nav": 1.7749,
+        "cumulativeNav": 1.9669,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1173434057286757
+      },
+      {
+        "date": "2024-12-16",
+        "nav": 1.7618,
+        "cumulativeNav": 1.9538,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1090966320428086
+      },
+      {
+        "date": "2024-12-17",
+        "nav": 1.7519,
+        "cumulativeNav": 1.9439,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1028643374252447
+      },
+      {
+        "date": "2024-12-18",
+        "nav": 1.7581,
+        "cumulativeNav": 1.9501,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1067673906200826
+      },
+      {
+        "date": "2024-12-19",
+        "nav": 1.7573,
+        "cumulativeNav": 1.9493,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1062637708530068
+      },
+      {
+        "date": "2024-12-20",
+        "nav": 1.7711,
+        "cumulativeNav": 1.9631,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1149512118350653
+      },
+      {
+        "date": "2024-12-23",
+        "nav": 1.7604,
+        "cumulativeNav": 1.9524,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1082152974504258
+      },
+      {
+        "date": "2024-12-24",
+        "nav": 1.7678,
+        "cumulativeNav": 1.9598,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1128737802958777
+      },
+      {
+        "date": "2024-12-25",
+        "nav": 1.7623,
+        "cumulativeNav": 1.9543,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.109411394397231
+      },
+      {
+        "date": "2024-12-26",
+        "nav": 1.7754,
+        "cumulativeNav": 1.9674,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1176581680830984
+      },
+      {
+        "date": "2024-12-27",
+        "nav": 1.775,
+        "cumulativeNav": 1.967,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1174063581995604
+      },
+      {
+        "date": "2024-12-30",
+        "nav": 1.7707,
+        "cumulativeNav": 1.9627,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1146994019515277
+      },
+      {
+        "date": "2024-12-31",
+        "nav": 1.7543,
+        "cumulativeNav": 1.9463,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1043751967264728
+      },
+      {
+        "date": "2025-01-02",
+        "nav": 1.7425,
+        "cumulativeNav": 1.9345,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0969468051621039
+      },
+      {
+        "date": "2025-01-03",
+        "nav": 1.7366,
+        "cumulativeNav": 1.9286,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0932326093799194
+      },
+      {
+        "date": "2025-01-06",
+        "nav": 1.7349,
+        "cumulativeNav": 1.9269,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0921624173748834
+      },
+      {
+        "date": "2025-01-07",
+        "nav": 1.7513,
+        "cumulativeNav": 1.9433,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1024866225999386
+      },
+      {
+        "date": "2025-01-08",
+        "nav": 1.7496,
+        "cumulativeNav": 1.9416,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1014164305949024
+      },
+      {
+        "date": "2025-01-09",
+        "nav": 1.7517,
+        "cumulativeNav": 1.9437,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1027384324834766
+      },
+      {
+        "date": "2025-01-10",
+        "nav": 1.7421,
+        "cumulativeNav": 1.9341,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0966949952785663
+      },
+      {
+        "date": "2025-01-13",
+        "nav": 1.7407,
+        "cumulativeNav": 1.9327,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.0958136606861835
+      },
+      {
+        "date": "2025-01-14",
+        "nav": 1.7619,
+        "cumulativeNav": 1.9539,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1091595845136937
+      },
+      {
+        "date": "2025-01-15",
+        "nav": 1.759,
+        "cumulativeNav": 1.951,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1073339628580436
+      },
+      {
+        "date": "2025-01-16",
+        "nav": 1.7569,
+        "cumulativeNav": 1.9489,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1060119609694696
+      },
+      {
+        "date": "2025-01-17",
+        "nav": 1.7634,
+        "cumulativeNav": 1.9554,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.110103871576961
+      },
+      {
+        "date": "2025-01-20",
+        "nav": 1.7679,
+        "cumulativeNav": 1.9599,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1129367327667627
+      },
+      {
+        "date": "2025-01-21",
+        "nav": 1.7741,
+        "cumulativeNav": 1.9661,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1168397859616006
+      },
+      {
+        "date": "2025-01-22",
+        "nav": 1.7732,
+        "cumulativeNav": 1.9652,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1162732137236402
+      },
+      {
+        "date": "2025-01-23",
+        "nav": 1.7661,
+        "cumulativeNav": 1.9581,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.111803588290842
+      },
+      {
+        "date": "2025-01-24",
+        "nav": 1.7741,
+        "cumulativeNav": 1.9661,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1168397859616006
+      },
+      {
+        "date": "2025-01-27",
+        "nav": 1.7613,
+        "cumulativeNav": 1.9533,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1087818696883869
+      },
+      {
+        "date": "2025-02-05",
+        "nav": 1.7584,
+        "cumulativeNav": 1.9504,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1069562480327368
+      },
+      {
+        "date": "2025-02-06",
+        "nav": 1.7719,
+        "cumulativeNav": 1.9639,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1154548316021422
+      },
+      {
+        "date": "2025-02-07",
+        "nav": 1.7815,
+        "cumulativeNav": 1.9735,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1214982688070525
+      },
+      {
+        "date": "2025-02-10",
+        "nav": 1.785,
+        "cumulativeNav": 1.977,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1237016052880093
+      },
+      {
+        "date": "2025-02-11",
+        "nav": 1.7811,
+        "cumulativeNav": 1.9731,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1212464589235145
+      },
+      {
+        "date": "2025-02-12",
+        "nav": 1.7886,
+        "cumulativeNav": 1.9806,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1259678942398508
+      },
+      {
+        "date": "2025-02-13",
+        "nav": 1.7787,
+        "cumulativeNav": 1.9707,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.119735599622287
+      },
+      {
+        "date": "2025-02-14",
+        "nav": 1.7789,
+        "cumulativeNav": 1.9709,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.119861504564056
+      },
+      {
+        "date": "2025-02-17",
+        "nav": 1.7837,
+        "cumulativeNav": 1.9757,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1228832231665113
+      },
+      {
+        "date": "2025-02-18",
+        "nav": 1.7698,
+        "cumulativeNav": 1.9618,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1141328297135684
+      },
+      {
+        "date": "2025-02-19",
+        "nav": 1.7866,
+        "cumulativeNav": 1.9786,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1247088448221614
+      },
+      {
+        "date": "2025-02-20",
+        "nav": 1.7908,
+        "cumulativeNav": 1.9828,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1273528485993096
+      },
+      {
+        "date": "2025-02-21",
+        "nav": 1.8058,
+        "cumulativeNav": 1.9978,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1367957192319822
+      },
+      {
+        "date": "2025-02-24",
+        "nav": 1.8073,
+        "cumulativeNav": 1.9993,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1377400062952494
+      },
+      {
+        "date": "2025-02-25",
+        "nav": 1.8056,
+        "cumulativeNav": 1.9976,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1366698142902134
+      },
+      {
+        "date": "2025-02-26",
+        "nav": 1.8194,
+        "cumulativeNav": 2.0114,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1453572552722717
+      },
+      {
+        "date": "2025-02-27",
+        "nav": 1.8126,
+        "cumulativeNav": 2.0046,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.141076487252127
+      },
+      {
+        "date": "2025-02-28",
+        "nav": 1.7909,
+        "cumulativeNav": 1.9829,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1274158010701945
+      },
+      {
+        "date": "2025-03-03",
+        "nav": 1.7865,
+        "cumulativeNav": 1.9785,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1246458923512772
+      },
+      {
+        "date": "2025-03-04",
+        "nav": 1.7926,
+        "cumulativeNav": 1.9846,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1284859930752307
+      },
+      {
+        "date": "2025-03-05",
+        "nav": 1.7991,
+        "cumulativeNav": 1.9911,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1325779036827222
+      },
+      {
+        "date": "2025-03-06",
+        "nav": 1.8167,
+        "cumulativeNav": 2.0087,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1436575385583911
+      },
+      {
+        "date": "2025-03-07",
+        "nav": 1.8193,
+        "cumulativeNav": 2.0113,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1452943028013876
+      },
+      {
+        "date": "2025-03-10",
+        "nav": 1.8216,
+        "cumulativeNav": 2.0136,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1467422096317308
+      },
+      {
+        "date": "2025-03-11",
+        "nav": 1.817,
+        "cumulativeNav": 2.009,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1438463959710445
+      },
+      {
+        "date": "2025-03-12",
+        "nav": 1.8169,
+        "cumulativeNav": 2.0089,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1437834435001601
+      },
+      {
+        "date": "2025-03-13",
+        "nav": 1.8087,
+        "cumulativeNav": 2.0007,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1386213408876327
+      },
+      {
+        "date": "2025-03-14",
+        "nav": 1.8209,
+        "cumulativeNav": 2.0129,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1463015423355394
+      },
+      {
+        "date": "2025-03-17",
+        "nav": 1.821,
+        "cumulativeNav": 2.013,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.146364494806424
+      },
+      {
+        "date": "2025-03-18",
+        "nav": 1.8228,
+        "cumulativeNav": 2.0148,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1474976392823446
+      },
+      {
+        "date": "2025-03-19",
+        "nav": 1.8155,
+        "cumulativeNav": 2.0075,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1429021089077773
+      },
+      {
+        "date": "2025-03-20",
+        "nav": 1.8125,
+        "cumulativeNav": 2.0045,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.141013534781243
+      },
+      {
+        "date": "2025-03-21",
+        "nav": 1.8004,
+        "cumulativeNav": 1.9924,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1333962858042206
+      },
+      {
+        "date": "2025-03-24",
+        "nav": 1.7982,
+        "cumulativeNav": 1.9902,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.132011331444762
+      },
+      {
+        "date": "2025-03-25",
+        "nav": 1.798,
+        "cumulativeNav": 1.99,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.131885426502993
+      },
+      {
+        "date": "2025-03-26",
+        "nav": 1.8005,
+        "cumulativeNav": 1.9925,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.133459238275105
+      },
+      {
+        "date": "2025-03-27",
+        "nav": 1.8024,
+        "cumulativeNav": 1.9944,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1346553352219102
+      },
+      {
+        "date": "2025-03-28",
+        "nav": 1.8005,
+        "cumulativeNav": 1.9925,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.133459238275105
+      },
+      {
+        "date": "2025-03-31",
+        "nav": 1.7956,
+        "cumulativeNav": 1.9876,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1303745672017655
+      },
+      {
+        "date": "2025-04-01",
+        "nav": 1.8044,
+        "cumulativeNav": 1.9964,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1359143846396
+      },
+      {
+        "date": "2025-04-02",
+        "nav": 1.8073,
+        "cumulativeNav": 1.9993,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.13774000629525
+      },
+      {
+        "date": "2025-04-03",
+        "nav": 1.802,
+        "cumulativeNav": 1.994,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1344035253383726
+      },
+      {
+        "date": "2025-04-07",
+        "nav": 1.7484,
+        "cumulativeNav": 1.9404,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.10066100094429
+      },
+      {
+        "date": "2025-04-08",
+        "nav": 1.7532,
+        "cumulativeNav": 1.9452,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1036827195467453
+      },
+      {
+        "date": "2025-04-09",
+        "nav": 1.7671,
+        "cumulativeNav": 1.9591,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1124331129996883
+      },
+      {
+        "date": "2025-04-10",
+        "nav": 1.7848,
+        "cumulativeNav": 1.9768,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1235757003462417
+      },
+      {
+        "date": "2025-04-11",
+        "nav": 1.7891,
+        "cumulativeNav": 1.9811,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1262826565942743
+      },
+      {
+        "date": "2025-04-14",
+        "nav": 1.7957,
+        "cumulativeNav": 1.9877,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1304375196726502
+      },
+      {
+        "date": "2025-04-15",
+        "nav": 1.792,
+        "cumulativeNav": 1.984,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1281082782499243
+      },
+      {
+        "date": "2025-04-16",
+        "nav": 1.7852,
+        "cumulativeNav": 1.9772,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1238275102297794
+      },
+      {
+        "date": "2025-04-17",
+        "nav": 1.786,
+        "cumulativeNav": 1.978,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1243311299968555
+      },
+      {
+        "date": "2025-04-18",
+        "nav": 1.7837,
+        "cumulativeNav": 1.9757,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1228832231665125
+      },
+      {
+        "date": "2025-04-21",
+        "nav": 1.7961,
+        "cumulativeNav": 1.9881,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1306893295561884
+      },
+      {
+        "date": "2025-04-22",
+        "nav": 1.8024,
+        "cumulativeNav": 1.9944,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1346553352219109
+      },
+      {
+        "date": "2025-04-23",
+        "nav": 1.8026,
+        "cumulativeNav": 1.9946,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1347812401636796
+      },
+      {
+        "date": "2025-04-24",
+        "nav": 1.7978,
+        "cumulativeNav": 1.9898,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1317595215612246
+      },
+      {
+        "date": "2025-04-25",
+        "nav": 1.7935,
+        "cumulativeNav": 1.9855,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.129052565313192
+      },
+      {
+        "date": "2025-04-28",
+        "nav": 1.7839,
+        "cumulativeNav": 1.9759,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1230091281082817
+      },
+      {
+        "date": "2025-04-29",
+        "nav": 1.7887,
+        "cumulativeNav": 1.9807,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1260308467107367
+      },
+      {
+        "date": "2025-04-30",
+        "nav": 1.7939,
+        "cumulativeNav": 1.9859,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.12930437519673
+      },
+      {
+        "date": "2025-05-06",
+        "nav": 1.8097,
+        "cumulativeNav": 2.0017,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1392508655964781
+      },
+      {
+        "date": "2025-05-07",
+        "nav": 1.8081,
+        "cumulativeNav": 2.0001,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1382436260623265
+      },
+      {
+        "date": "2025-05-08",
+        "nav": 1.8124,
+        "cumulativeNav": 2.0044,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1409505823103594
+      },
+      {
+        "date": "2025-05-09",
+        "nav": 1.8035,
+        "cumulativeNav": 1.9955,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1353478124016405
+      },
+      {
+        "date": "2025-05-12",
+        "nav": 1.8133,
+        "cumulativeNav": 2.0053,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1415171545483196
+      },
+      {
+        "date": "2025-05-13",
+        "nav": 1.8103,
+        "cumulativeNav": 2.0023,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1396285804217852
+      },
+      {
+        "date": "2025-05-14",
+        "nav": 1.8087,
+        "cumulativeNav": 2.0007,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1386213408876333
+      },
+      {
+        "date": "2025-05-15",
+        "nav": 1.7984,
+        "cumulativeNav": 1.9904,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1321372363865316
+      },
+      {
+        "date": "2025-05-16",
+        "nav": 1.8044,
+        "cumulativeNav": 1.9964,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1359143846396007
+      },
+      {
+        "date": "2025-05-19",
+        "nav": 1.8049,
+        "cumulativeNav": 1.9969,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.136229146994023
+      },
+      {
+        "date": "2025-05-20",
+        "nav": 1.8095,
+        "cumulativeNav": 2.0015,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1391249606547094
+      },
+      {
+        "date": "2025-05-21",
+        "nav": 1.812,
+        "cumulativeNav": 2.004,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1406987724268216
+      },
+      {
+        "date": "2025-05-22",
+        "nav": 1.8052,
+        "cumulativeNav": 1.9972,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1364180044066767
+      },
+      {
+        "date": "2025-05-23",
+        "nav": 1.8018,
+        "cumulativeNav": 1.9938,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1342776203966045
+      },
+      {
+        "date": "2025-05-26",
+        "nav": 1.7992,
+        "cumulativeNav": 1.9912,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1326408561536079
+      },
+      {
+        "date": "2025-05-27",
+        "nav": 1.7946,
+        "cumulativeNav": 1.9866,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1297450424929218
+      },
+      {
+        "date": "2025-05-28",
+        "nav": 1.7921,
+        "cumulativeNav": 1.9841,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1281712307208098
+      },
+      {
+        "date": "2025-05-29",
+        "nav": 1.8003,
+        "cumulativeNav": 1.9923,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1333333333333375
+      },
+      {
+        "date": "2025-05-30",
+        "nav": 1.7967,
+        "cumulativeNav": 1.9887,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.131067044381496
+      },
+      {
+        "date": "2025-06-03",
+        "nav": 1.8026,
+        "cumulativeNav": 1.9946,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1347812401636805
+      },
+      {
+        "date": "2025-06-04",
+        "nav": 1.8104,
+        "cumulativeNav": 2.0024,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1396915328926702
+      },
+      {
+        "date": "2025-06-05",
+        "nav": 1.8156,
+        "cumulativeNav": 2.0076,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1429650613786635
+      },
+      {
+        "date": "2025-06-06",
+        "nav": 1.8167,
+        "cumulativeNav": 2.0087,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.143657538558393
+      },
+      {
+        "date": "2025-06-09",
+        "nav": 1.8274,
+        "cumulativeNav": 2.0194,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1503934529430326
+      },
+      {
+        "date": "2025-06-10",
+        "nav": 1.8191,
+        "cumulativeNav": 2.0111,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1451683978596205
+      },
+      {
+        "date": "2025-06-11",
+        "nav": 1.8254,
+        "cumulativeNav": 2.0174,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1491344035253428
+      },
+      {
+        "date": "2025-06-12",
+        "nav": 1.8284,
+        "cumulativeNav": 2.0204,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1510229776518774
+      },
+      {
+        "date": "2025-06-13",
+        "nav": 1.8198,
+        "cumulativeNav": 2.0118,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.145609065155812
+      },
+      {
+        "date": "2025-06-16",
+        "nav": 1.824,
+        "cumulativeNav": 2.016,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1482530689329602
+      },
+      {
+        "date": "2025-06-17",
+        "nav": 1.8221,
+        "cumulativeNav": 2.0141,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.147056971986155
+      },
+      {
+        "date": "2025-06-18",
+        "nav": 1.8262,
+        "cumulativeNav": 2.0182,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1496380232924188
+      },
+      {
+        "date": "2025-06-19",
+        "nav": 1.8171,
+        "cumulativeNav": 2.0091,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.143909348441931
+      },
+      {
+        "date": "2025-06-20",
+        "nav": 1.8118,
+        "cumulativeNav": 2.0038,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1405728674850535
+      },
+      {
+        "date": "2025-06-23",
+        "nav": 1.8181,
+        "cumulativeNav": 2.0101,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1445388731507757
+      },
+      {
+        "date": "2025-06-24",
+        "nav": 1.8266,
+        "cumulativeNav": 2.0186,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1498898331759566
+      },
+      {
+        "date": "2025-06-25",
+        "nav": 1.8381,
+        "cumulativeNav": 2.0301,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1571293673276721
+      },
+      {
+        "date": "2025-06-26",
+        "nav": 1.8348,
+        "cumulativeNav": 2.0268,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.155051935788484
+      },
+      {
+        "date": "2025-06-27",
+        "nav": 1.8421,
+        "cumulativeNav": 2.0341,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1596474661630514
+      },
+      {
+        "date": "2025-06-30",
+        "nav": 1.8511,
+        "cumulativeNav": 2.0431,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1653131885426546
+      },
+      {
+        "date": "2025-07-01",
+        "nav": 1.8607,
+        "cumulativeNav": 2.0527,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.171356625747565
+      },
+      {
+        "date": "2025-07-02",
+        "nav": 1.8507,
+        "cumulativeNav": 2.0427,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1650613786591166
+      },
+      {
+        "date": "2025-07-03",
+        "nav": 1.8597,
+        "cumulativeNav": 2.0517,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1707271010387201
+      },
+      {
+        "date": "2025-07-04",
+        "nav": 1.8628,
+        "cumulativeNav": 2.0548,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1726786276361392
+      },
+      {
+        "date": "2025-07-07",
+        "nav": 1.8579,
+        "cumulativeNav": 2.0499,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1695939565627995
+      },
+      {
+        "date": "2025-07-08",
+        "nav": 1.8712,
+        "cumulativeNav": 2.0632,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1779666351904357
+      },
+      {
+        "date": "2025-07-09",
+        "nav": 1.8671,
+        "cumulativeNav": 2.0591,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1753855838841718
+      },
+      {
+        "date": "2025-07-10",
+        "nav": 1.8707,
+        "cumulativeNav": 2.0627,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1776518728360132
+      },
+      {
+        "date": "2025-07-11",
+        "nav": 1.8723,
+        "cumulativeNav": 2.0643,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1786591123701649
+      },
+      {
+        "date": "2025-07-14",
+        "nav": 1.872,
+        "cumulativeNav": 2.064,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1784702549575115
+      },
+      {
+        "date": "2025-07-15",
+        "nav": 1.8732,
+        "cumulativeNav": 2.0652,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1792256846081253
+      },
+      {
+        "date": "2025-07-16",
+        "nav": 1.8783,
+        "cumulativeNav": 2.0703,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1824362606232341
+      },
+      {
+        "date": "2025-07-17",
+        "nav": 1.8931,
+        "cumulativeNav": 2.0851,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1917532263141375
+      },
+      {
+        "date": "2025-07-18",
+        "nav": 1.894,
+        "cumulativeNav": 2.086,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1923197985520977
+      },
+      {
+        "date": "2025-07-21",
+        "nav": 1.9031,
+        "cumulativeNav": 2.0951,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1980484734025858
+      },
+      {
+        "date": "2025-07-22",
+        "nav": 1.9069,
+        "cumulativeNav": 2.0989,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.200440667296196
+      },
+      {
+        "date": "2025-07-23",
+        "nav": 1.9036,
+        "cumulativeNav": 2.0956,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.1983632357570082
+      },
+      {
+        "date": "2025-07-24",
+        "nav": 1.9104,
+        "cumulativeNav": 2.1024,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.202644003777153
+      },
+      {
+        "date": "2025-07-25",
+        "nav": 1.9125,
+        "cumulativeNav": 2.1045,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2039660056657273
+      },
+      {
+        "date": "2025-07-28",
+        "nav": 1.9151,
+        "cumulativeNav": 2.1071,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2056027699087237
+      },
+      {
+        "date": "2025-07-29",
+        "nav": 1.9217,
+        "cumulativeNav": 2.1137,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2097576329870994
+      },
+      {
+        "date": "2025-07-30",
+        "nav": 1.919,
+        "cumulativeNav": 2.111,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2080579162732183
+      },
+      {
+        "date": "2025-07-31",
+        "nav": 1.9138,
+        "cumulativeNav": 2.1058,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.204784387787225
+      },
+      {
+        "date": "2025-08-01",
+        "nav": 1.9163,
+        "cumulativeNav": 2.1083,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.206358199559337
+      },
+      {
+        "date": "2025-08-04",
+        "nav": 1.9283,
+        "cumulativeNav": 2.1203,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.213912496065475
+      },
+      {
+        "date": "2025-08-05",
+        "nav": 1.9323,
+        "cumulativeNav": 2.1243,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2164305949008543
+      },
+      {
+        "date": "2025-08-06",
+        "nav": 1.9445,
+        "cumulativeNav": 2.1365,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2241107963487612
+      },
+      {
+        "date": "2025-08-07",
+        "nav": 1.9422,
+        "cumulativeNav": 2.1342,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2226628895184182
+      },
+      {
+        "date": "2025-08-08",
+        "nav": 1.941,
+        "cumulativeNav": 2.133,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2219074598678046
+      },
+      {
+        "date": "2025-08-11",
+        "nav": 1.9454,
+        "cumulativeNav": 2.1374,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2246773685867216
+      },
+      {
+        "date": "2025-08-12",
+        "nav": 1.9427,
+        "cumulativeNav": 2.1347,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2229776518728406
+      },
+      {
+        "date": "2025-08-13",
+        "nav": 1.9566,
+        "cumulativeNav": 2.1486,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2317280453257835
+      },
+      {
+        "date": "2025-08-14",
+        "nav": 1.9496,
+        "cumulativeNav": 2.1416,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2273213723638698
+      },
+      {
+        "date": "2025-08-15",
+        "nav": 1.9614,
+        "cumulativeNav": 2.1534,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2347497639282388
+      },
+      {
+        "date": "2025-08-18",
+        "nav": 1.9734,
+        "cumulativeNav": 2.1654,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2423040604343765
+      },
+      {
+        "date": "2025-08-19",
+        "nav": 1.975,
+        "cumulativeNav": 2.167,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.243311299968528
+      },
+      {
+        "date": "2025-08-20",
+        "nav": 1.9811,
+        "cumulativeNav": 2.1731,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2471514006924815
+      },
+      {
+        "date": "2025-08-21",
+        "nav": 1.9812,
+        "cumulativeNav": 2.1732,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.247214353163366
+      },
+      {
+        "date": "2025-08-22",
+        "nav": 1.9982,
+        "cumulativeNav": 2.1902,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.257916273213728
+      },
+      {
+        "date": "2025-08-25",
+        "nav": 2.0147,
+        "cumulativeNav": 2.2067,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2683034309096675
+      },
+      {
+        "date": "2025-08-26",
+        "nav": 2.0126,
+        "cumulativeNav": 2.2046,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2669814290210932
+      },
+      {
+        "date": "2025-08-27",
+        "nav": 1.9918,
+        "cumulativeNav": 2.1838,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.253887315077121
+      },
+      {
+        "date": "2025-08-28",
+        "nav": 2.0076,
+        "cumulativeNav": 2.1996,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2638338054768694
+      },
+      {
+        "date": "2025-08-29",
+        "nav": 2.0064,
+        "cumulativeNav": 2.1984,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2630783758262558
+      },
+      {
+        "date": "2025-09-01",
+        "nav": 2.0117,
+        "cumulativeNav": 2.2037,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2664148567831333
+      },
+      {
+        "date": "2025-09-02",
+        "nav": 1.9953,
+        "cumulativeNav": 2.1873,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2560906515580783
+      },
+      {
+        "date": "2025-09-03",
+        "nav": 2.0001,
+        "cumulativeNav": 2.1921,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2591123701605336
+      },
+      {
+        "date": "2025-09-04",
+        "nav": 1.9812,
+        "cumulativeNav": 2.1732,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2472143531633662
+      },
+      {
+        "date": "2025-09-05",
+        "nav": 2.0108,
+        "cumulativeNav": 2.2028,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.265848284545173
+      },
+      {
+        "date": "2025-09-08",
+        "nav": 2.0141,
+        "cumulativeNav": 2.2061,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2679257160843609
+      },
+      {
+        "date": "2025-09-09",
+        "nav": 2.0061,
+        "cumulativeNav": 2.1981,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2628895184136024
+      },
+      {
+        "date": "2025-09-10",
+        "nav": 2.0035,
+        "cumulativeNav": 2.1955,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2612527541706058
+      },
+      {
+        "date": "2025-09-11",
+        "nav": 2.0286,
+        "cumulativeNav": 2.2206,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2770538243626108
+      },
+      {
+        "date": "2025-09-12",
+        "nav": 2.0322,
+        "cumulativeNav": 2.2242,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2793201133144523
+      },
+      {
+        "date": "2025-09-15",
+        "nav": 2.0291,
+        "cumulativeNav": 2.2211,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2773685867170335
+      },
+      {
+        "date": "2025-09-16",
+        "nav": 2.0315,
+        "cumulativeNav": 2.2235,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2788794460182609
+      },
+      {
+        "date": "2025-09-17",
+        "nav": 2.0398,
+        "cumulativeNav": 2.2318,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2841045011016732
+      },
+      {
+        "date": "2025-09-18",
+        "nav": 2.0297,
+        "cumulativeNav": 2.2217,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2777463015423405
+      },
+      {
+        "date": "2025-09-19",
+        "nav": 2.024,
+        "cumulativeNav": 2.216,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2741580107019248
+      },
+      {
+        "date": "2025-09-22",
+        "nav": 2.0308,
+        "cumulativeNav": 2.2228,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2784387787220697
+      },
+      {
+        "date": "2025-09-23",
+        "nav": 2.0293,
+        "cumulativeNav": 2.2213,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2774944916588025
+      },
+      {
+        "date": "2025-09-24",
+        "nav": 2.0428,
+        "cumulativeNav": 2.2348,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2859930752282078
+      },
+      {
+        "date": "2025-09-25",
+        "nav": 2.0431,
+        "cumulativeNav": 2.2351,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2861819326408612
+      },
+      {
+        "date": "2025-09-26",
+        "nav": 2.033,
+        "cumulativeNav": 2.225,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2798237330815285
+      },
+      {
+        "date": "2025-09-29",
+        "nav": 2.0481,
+        "cumulativeNav": 2.2401,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2893295561850855
+      },
+      {
+        "date": "2025-09-30",
+        "nav": 2.0585,
+        "cumulativeNav": 2.2505,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2958766131570718
+      },
+      {
+        "date": "2025-10-09",
+        "nav": 2.0685,
+        "cumulativeNav": 2.2605,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.30217186024552
+      },
+      {
+        "date": "2025-10-10",
+        "nav": 2.0501,
+        "cumulativeNav": 2.2421,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2905886056027753
+      },
+      {
+        "date": "2025-10-13",
+        "nav": 2.0511,
+        "cumulativeNav": 2.2431,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2912181303116201
+      },
+      {
+        "date": "2025-10-14",
+        "nav": 2.0321,
+        "cumulativeNav": 2.2241,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2792571608435683
+      },
+      {
+        "date": "2025-10-15",
+        "nav": 2.0387,
+        "cumulativeNav": 2.2307,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2834120239219444
+      },
+      {
+        "date": "2025-10-16",
+        "nav": 2.0299,
+        "cumulativeNav": 2.2219,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.27787220648411
+      },
+      {
+        "date": "2025-10-17",
+        "nav": 2.0143,
+        "cumulativeNav": 2.2063,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2680516210261308
+      },
+      {
+        "date": "2025-10-20",
+        "nav": 2.0148,
+        "cumulativeNav": 2.2068,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2683663833805532
+      },
+      {
+        "date": "2025-10-21",
+        "nav": 2.0294,
+        "cumulativeNav": 2.2214,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2775574441296873
+      },
+      {
+        "date": "2025-10-22",
+        "nav": 2.0255,
+        "cumulativeNav": 2.2175,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2751022977651927
+      },
+      {
+        "date": "2025-10-23",
+        "nav": 2.024,
+        "cumulativeNav": 2.216,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2741580107019255
+      },
+      {
+        "date": "2025-10-24",
+        "nav": 2.0388,
+        "cumulativeNav": 2.2308,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.283474976392829
+      },
+      {
+        "date": "2025-10-27",
+        "nav": 2.0538,
+        "cumulativeNav": 2.2458,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2929178470255012
+      },
+      {
+        "date": "2025-10-28",
+        "nav": 2.0502,
+        "cumulativeNav": 2.2422,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2906515580736597
+      },
+      {
+        "date": "2025-10-29",
+        "nav": 2.0646,
+        "cumulativeNav": 2.2566,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2997167138810255
+      },
+      {
+        "date": "2025-10-30",
+        "nav": 2.0565,
+        "cumulativeNav": 2.2485,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2946175637393826
+      },
+      {
+        "date": "2025-10-31",
+        "nav": 2.05,
+        "cumulativeNav": 2.242,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2905256531318912
+      },
+      {
+        "date": "2025-11-03",
+        "nav": 2.0481,
+        "cumulativeNav": 2.2401,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.289329556185086
+      },
+      {
+        "date": "2025-11-04",
+        "nav": 2.0294,
+        "cumulativeNav": 2.2214,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2775574441296877
+      },
+      {
+        "date": "2025-11-05",
+        "nav": 2.0397,
+        "cumulativeNav": 2.2317,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2840415486307895
+      },
+      {
+        "date": "2025-11-06",
+        "nav": 2.0502,
+        "cumulativeNav": 2.2422,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2906515580736602
+      },
+      {
+        "date": "2025-11-07",
+        "nav": 2.0493,
+        "cumulativeNav": 2.2413,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2900849858357
+      },
+      {
+        "date": "2025-11-10",
+        "nav": 2.0517,
+        "cumulativeNav": 2.2437,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2915958451369272
+      },
+      {
+        "date": "2025-11-11",
+        "nav": 2.0463,
+        "cumulativeNav": 2.2383,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2881964117091653
+      },
+      {
+        "date": "2025-11-12",
+        "nav": 2.043,
+        "cumulativeNav": 2.235,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2861189801699775
+      },
+      {
+        "date": "2025-11-13",
+        "nav": 2.0587,
+        "cumulativeNav": 2.2507,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2960025180988413
+      },
+      {
+        "date": "2025-11-14",
+        "nav": 2.046,
+        "cumulativeNav": 2.238,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.288007554296512
+      },
+      {
+        "date": "2025-11-17",
+        "nav": 2.0444,
+        "cumulativeNav": 2.2364,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2870003147623603
+      },
+      {
+        "date": "2025-11-18",
+        "nav": 2.0353,
+        "cumulativeNav": 2.2273,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2812716399118724
+      },
+      {
+        "date": "2025-11-19",
+        "nav": 2.0384,
+        "cumulativeNav": 2.2304,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2832231665092917
+      },
+      {
+        "date": "2025-11-20",
+        "nav": 2.0341,
+        "cumulativeNav": 2.2261,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2805162102612588
+      },
+      {
+        "date": "2025-11-21",
+        "nav": 2.0104,
+        "cumulativeNav": 2.2024,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2655964746616366
+      },
+      {
+        "date": "2025-11-24",
+        "nav": 2.0148,
+        "cumulativeNav": 2.2068,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2683663833805539
+      },
+      {
+        "date": "2025-11-25",
+        "nav": 2.0236,
+        "cumulativeNav": 2.2156,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2739062008183883
+      },
+      {
+        "date": "2025-11-26",
+        "nav": 2.0228,
+        "cumulativeNav": 2.2148,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2734025810513125
+      },
+      {
+        "date": "2025-11-27",
+        "nav": 2.0186,
+        "cumulativeNav": 2.2106,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2707585772741643
+      },
+      {
+        "date": "2025-11-28",
+        "nav": 2.0279,
+        "cumulativeNav": 2.2199,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.276613157066421
+      },
+      {
+        "date": "2025-12-01",
+        "nav": 2.0328,
+        "cumulativeNav": 2.2248,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2796978281397606
+      },
+      {
+        "date": "2025-12-02",
+        "nav": 2.0257,
+        "cumulativeNav": 2.2177,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2752282027069624
+      },
+      {
+        "date": "2025-12-03",
+        "nav": 2.025,
+        "cumulativeNav": 2.217,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.274787535410771
+      },
+      {
+        "date": "2025-12-04",
+        "nav": 2.0259,
+        "cumulativeNav": 2.2179,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2753541076487314
+      },
+      {
+        "date": "2025-12-05",
+        "nav": 2.0364,
+        "cumulativeNav": 2.2284,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2819641170916019
+      },
+      {
+        "date": "2025-12-08",
+        "nav": 2.0455,
+        "cumulativeNav": 2.2375,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2876927919420897
+      },
+      {
+        "date": "2025-12-09",
+        "nav": 2.0436,
+        "cumulativeNav": 2.2356,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2864966949952845
+      },
+      {
+        "date": "2025-12-10",
+        "nav": 2.0477,
+        "cumulativeNav": 2.2397,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2890777463015484
+      },
+      {
+        "date": "2025-12-11",
+        "nav": 2.0399,
+        "cumulativeNav": 2.2319,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2841674535725587
+      },
+      {
+        "date": "2025-12-12",
+        "nav": 2.0486,
+        "cumulativeNav": 2.2406,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2896443185395088
+      },
+      {
+        "date": "2025-12-15",
+        "nav": 2.0411,
+        "cumulativeNav": 2.2331,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2849228832231727
+      },
+      {
+        "date": "2025-12-16",
+        "nav": 2.0284,
+        "cumulativeNav": 2.2204,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2769279194208434
+      },
+      {
+        "date": "2025-12-17",
+        "nav": 2.0469,
+        "cumulativeNav": 2.2389,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2885741265344726
+      },
+      {
+        "date": "2025-12-18",
+        "nav": 2.04,
+        "cumulativeNav": 2.232,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2842304060434433
+      },
+      {
+        "date": "2025-12-19",
+        "nav": 2.0438,
+        "cumulativeNav": 2.2358,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2866225999370537
+      },
+      {
+        "date": "2025-12-22",
+        "nav": 2.0624,
+        "cumulativeNav": 2.2544,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.2983317595215673
+      },
+      {
+        "date": "2025-12-23",
+        "nav": 2.0657,
+        "cumulativeNav": 2.2577,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3004091910607554
+      },
+      {
+        "date": "2025-12-24",
+        "nav": 2.0745,
+        "cumulativeNav": 2.2665,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3059490084985899
+      },
+      {
+        "date": "2025-12-25",
+        "nav": 2.0791,
+        "cumulativeNav": 2.2711,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3088448221592761
+      },
+      {
+        "date": "2025-12-26",
+        "nav": 2.077,
+        "cumulativeNav": 2.269,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3075228202707019
+      },
+      {
+        "date": "2025-12-29",
+        "nav": 2.0723,
+        "cumulativeNav": 2.2643,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3045640541391312
+      },
+      {
+        "date": "2025-12-30",
+        "nav": 2.0757,
+        "cumulativeNav": 2.2677,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3067044381492037
+      },
+      {
+        "date": "2025-12-31",
+        "nav": 2.071,
+        "cumulativeNav": 2.263,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3037456720176333
+      },
+      {
+        "date": "2026-01-05",
+        "nav": 2.09,
+        "cumulativeNav": 2.282,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3157066414856848
+      },
+      {
+        "date": "2026-01-06",
+        "nav": 2.1005,
+        "cumulativeNav": 2.2925,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3223166509285555
+      },
+      {
+        "date": "2026-01-07",
+        "nav": 2.1061,
+        "cumulativeNav": 2.2981,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3258419892980866
+      },
+      {
+        "date": "2026-01-08",
+        "nav": 2.1042,
+        "cumulativeNav": 2.2962,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3246458923512814
+      },
+      {
+        "date": "2026-01-09",
+        "nav": 2.1153,
+        "cumulativeNav": 2.3073,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.331633616619459
+      },
+      {
+        "date": "2026-01-12",
+        "nav": 2.122,
+        "cumulativeNav": 2.314,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3358514321687194
+      },
+      {
+        "date": "2026-01-13",
+        "nav": 2.111,
+        "cumulativeNav": 2.303,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3289266603714265
+      },
+      {
+        "date": "2026-01-14",
+        "nav": 2.1124,
+        "cumulativeNav": 2.3044,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3298079949638093
+      },
+      {
+        "date": "2026-01-15",
+        "nav": 2.1196,
+        "cumulativeNav": 2.3116,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.334340572867492
+      },
+      {
+        "date": "2026-01-16",
+        "nav": 2.1262,
+        "cumulativeNav": 2.3182,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3384954359458676
+      },
+      {
+        "date": "2026-01-19",
+        "nav": 2.1312,
+        "cumulativeNav": 2.3232,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3416430594900919
+      },
+      {
+        "date": "2026-01-20",
+        "nav": 2.1224,
+        "cumulativeNav": 2.3144,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3361032420522572
+      },
+      {
+        "date": "2026-01-21",
+        "nav": 2.1334,
+        "cumulativeNav": 2.3254,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3430280138495503
+      },
+      {
+        "date": "2026-01-22",
+        "nav": 2.1373,
+        "cumulativeNav": 2.3293,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3454831602140451
+      },
+      {
+        "date": "2026-01-23",
+        "nav": 2.1495,
+        "cumulativeNav": 2.3415,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3531633616619518
+      },
+      {
+        "date": "2026-01-26",
+        "nav": 2.1443,
+        "cumulativeNav": 2.3363,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3498898331759586
+      },
+      {
+        "date": "2026-01-27",
+        "nav": 2.1481,
+        "cumulativeNav": 2.3401,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.352282027069569
+      },
+      {
+        "date": "2026-01-28",
+        "nav": 2.1557,
+        "cumulativeNav": 2.3477,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3570664148567897
+      },
+      {
+        "date": "2026-01-29",
+        "nav": 2.1475,
+        "cumulativeNav": 2.3395,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3519043122442622
+      },
+      {
+        "date": "2026-01-30",
+        "nav": 2.1388,
+        "cumulativeNav": 2.3308,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3464274472773121
+      },
+      {
+        "date": "2026-02-02",
+        "nav": 2.1154,
+        "cumulativeNav": 2.3074,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3316965690903435
+      },
+      {
+        "date": "2026-02-03",
+        "nav": 2.1318,
+        "cumulativeNav": 2.3238,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3420207743153987
+      },
+      {
+        "date": "2026-02-04",
+        "nav": 2.1316,
+        "cumulativeNav": 2.3236,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.34189486937363
+      },
+      {
+        "date": "2026-02-05",
+        "nav": 2.1232,
+        "cumulativeNav": 2.3152,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3366068618193334
+      },
+      {
+        "date": "2026-02-06",
+        "nav": 2.1234,
+        "cumulativeNav": 2.3154,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3367327667611024
+      },
+      {
+        "date": "2026-02-09",
+        "nav": 2.1357,
+        "cumulativeNav": 2.3277,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3444759206798935
+      },
+      {
+        "date": "2026-02-10",
+        "nav": 2.1355,
+        "cumulativeNav": 2.3275,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3443500157381245
+      },
+      {
+        "date": "2026-02-11",
+        "nav": 2.1352,
+        "cumulativeNav": 2.3272,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3441611583254711
+      },
+      {
+        "date": "2026-02-12",
+        "nav": 2.1405,
+        "cumulativeNav": 2.3325,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3474976392823483
+      },
+      {
+        "date": "2026-02-13",
+        "nav": 2.1316,
+        "cumulativeNav": 2.3236,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3418948693736297
+      },
+      {
+        "date": "2026-02-24",
+        "nav": 2.1453,
+        "cumulativeNav": 2.3373,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3505193578848038
+      },
+      {
+        "date": "2026-02-25",
+        "nav": 2.1534,
+        "cumulativeNav": 2.3454,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3556185080264467
+      },
+      {
+        "date": "2026-02-26",
+        "nav": 2.155,
+        "cumulativeNav": 2.347,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3566257475605983
+      },
+      {
+        "date": "2026-02-27",
+        "nav": 2.1548,
+        "cumulativeNav": 2.3468,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3564998426188293
+      },
+      {
+        "date": "2026-03-02",
+        "nav": 2.1599,
+        "cumulativeNav": 2.3519,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.359710418633938
+      },
+      {
+        "date": "2026-03-03",
+        "nav": 2.1457,
+        "cumulativeNav": 2.3377,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3507711677683416
+      },
+      {
+        "date": "2026-03-04",
+        "nav": 2.1396,
+        "cumulativeNav": 2.3316,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3469310670443881
+      },
+      {
+        "date": "2026-03-05",
+        "nav": 2.144,
+        "cumulativeNav": 2.336,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3497009757633054
+      },
+      {
+        "date": "2026-03-06",
+        "nav": 2.144,
+        "cumulativeNav": 2.336,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3497009757633054
+      },
+      {
+        "date": "2026-03-09",
+        "nav": 2.134,
+        "cumulativeNav": 2.326,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.343405728674857
+      },
+      {
+        "date": "2026-03-10",
+        "nav": 2.1443,
+        "cumulativeNav": 2.3363,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3498898331759588
+      },
+      {
+        "date": "2026-03-11",
+        "nav": 2.1441,
+        "cumulativeNav": 2.3361,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3497639282341898
+      },
+      {
+        "date": "2026-03-12",
+        "nav": 2.138,
+        "cumulativeNav": 2.33,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3459238275102363
+      },
+      {
+        "date": "2026-03-13",
+        "nav": 2.132,
+        "cumulativeNav": 2.324,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3421466792571675
+      },
+      {
+        "date": "2026-03-16",
+        "nav": 2.1309,
+        "cumulativeNav": 2.3229,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.341454202077438
+      },
+      {
+        "date": "2026-03-17",
+        "nav": 2.1216,
+        "cumulativeNav": 2.3136,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3355996222851811
+      },
+      {
+        "date": "2026-03-18",
+        "nav": 2.1288,
+        "cumulativeNav": 2.3208,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3401322001888638
+      },
+      {
+        "date": "2026-03-19",
+        "nav": 2.1158,
+        "cumulativeNav": 2.3078,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.331948378973881
+      },
+      {
+        "date": "2026-03-20",
+        "nav": 2.1157,
+        "cumulativeNav": 2.3077,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3318854265029965
+      },
+      {
+        "date": "2026-03-23",
+        "nav": 2.1019,
+        "cumulativeNav": 2.2939,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.323197985520938
+      },
+      {
+        "date": "2026-03-24",
+        "nav": 2.115,
+        "cumulativeNav": 2.307,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3314447592068053
+      },
+      {
+        "date": "2026-03-25",
+        "nav": 2.1237,
+        "cumulativeNav": 2.3157,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3369216241737552
+      },
+      {
+        "date": "2026-03-26",
+        "nav": 2.1149,
+        "cumulativeNav": 2.3069,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3313818067359207
+      },
+      {
+        "date": "2026-03-27",
+        "nav": 2.1219,
+        "cumulativeNav": 2.3139,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3357884796978345
+      },
+      {
+        "date": "2026-03-30",
+        "nav": 2.1195,
+        "cumulativeNav": 2.3115,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.334277620396607
+      },
+      {
+        "date": "2026-03-31",
+        "nav": 2.1063,
+        "cumulativeNav": 2.2983,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3259678942398552
+      },
+      {
+        "date": "2026-04-01",
+        "nav": 2.1253,
+        "cumulativeNav": 2.3173,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.337928863707907
+      },
+      {
+        "date": "2026-04-02",
+        "nav": 2.1199,
+        "cumulativeNav": 2.3119,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3345294302801447
+      },
+      {
+        "date": "2026-04-03",
+        "nav": 2.1221,
+        "cumulativeNav": 2.3141,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3359143846396035
+      },
+      {
+        "date": "2026-04-07",
+        "nav": 2.1259,
+        "cumulativeNav": 2.3179,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.338306578533214
+      },
+      {
+        "date": "2026-04-08",
+        "nav": 2.1501,
+        "cumulativeNav": 2.3421,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3535410764872589
+      },
+      {
+        "date": "2026-04-09",
+        "nav": 2.1493,
+        "cumulativeNav": 2.3413,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.353037456720183
+      },
+      {
+        "date": "2026-04-10",
+        "nav": 2.1538,
+        "cumulativeNav": 2.3458,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3558703179099845
+      },
+      {
+        "date": "2026-04-13",
+        "nav": 2.1519,
+        "cumulativeNav": 2.3439,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3546742209631792
+      },
+      {
+        "date": "2026-04-14",
+        "nav": 2.1615,
+        "cumulativeNav": 2.3535,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3607176581680898
+      },
+      {
+        "date": "2026-04-15",
+        "nav": 2.1602,
+        "cumulativeNav": 2.3522,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3598992760465913
+      },
+      {
+        "date": "2026-04-16",
+        "nav": 2.1737,
+        "cumulativeNav": 2.3657,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3683978596159965
+      },
+      {
+        "date": "2026-04-17",
+        "nav": 2.1774,
+        "cumulativeNav": 2.3694,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3707271010387223
+      },
+      {
+        "date": "2026-04-20",
+        "nav": 2.1781,
+        "cumulativeNav": 2.3701,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.371167768334914
+      },
+      {
+        "date": "2026-04-21",
+        "nav": 2.1799,
+        "cumulativeNav": 2.3719,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3723009128108346
+      },
+      {
+        "date": "2026-04-22",
+        "nav": 2.189,
+        "cumulativeNav": 2.381,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3780295876613224
+      },
+      {
+        "date": "2026-04-23",
+        "nav": 2.1831,
+        "cumulativeNav": 2.3751,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.374315391879138
+      },
+      {
+        "date": "2026-04-24",
+        "nav": 2.1849,
+        "cumulativeNav": 2.3769,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3754485363550584
+      },
+      {
+        "date": "2026-04-27",
+        "nav": 2.185,
+        "cumulativeNav": 2.377,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3755114888259428
+      },
+      {
+        "date": "2026-04-28",
+        "nav": 2.1811,
+        "cumulativeNav": 2.3731,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.373056342461448
+      },
+      {
+        "date": "2026-04-29",
+        "nav": 2.192,
+        "cumulativeNav": 2.384,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3799181617878569
+      },
+      {
+        "date": "2026-04-30",
+        "nav": 2.2014,
+        "cumulativeNav": 2.3934,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3858356940509984
+      },
+      {
+        "date": "2026-05-06",
+        "nav": 2.2187,
+        "cumulativeNav": 2.4107,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.396726471514014
+      },
+      {
+        "date": "2026-05-07",
+        "nav": 2.2244,
+        "cumulativeNav": 2.4164,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4003147623544296
+      },
+      {
+        "date": "2026-05-08",
+        "nav": 2.2184,
+        "cumulativeNav": 2.4104,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3965376141013606
+      },
+      {
+        "date": "2026-05-11",
+        "nav": 2.232,
+        "cumulativeNav": 2.424,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4050991501416503
+      },
+      {
+        "date": "2026-05-12",
+        "nav": 2.2327,
+        "cumulativeNav": 2.4247,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4055398174378415
+      },
+      {
+        "date": "2026-05-13",
+        "nav": 2.2372,
+        "cumulativeNav": 2.4292,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4083726786276434
+      },
+      {
+        "date": "2026-05-14",
+        "nav": 2.2229,
+        "cumulativeNav": 2.4149,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3993704752911624
+      },
+      {
+        "date": "2026-05-15",
+        "nav": 2.2156,
+        "cumulativeNav": 2.4076,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.394774944916595
+      },
+      {
+        "date": "2026-05-18",
+        "nav": 2.2172,
+        "cumulativeNav": 2.4092,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.395782184450747
+      },
+      {
+        "date": "2026-05-19",
+        "nav": 2.2309,
+        "cumulativeNav": 2.4229,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.404406672961921
+      },
+      {
+        "date": "2026-05-20",
+        "nav": 2.2396,
+        "cumulativeNav": 2.4316,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4098835379288708
+      },
+      {
+        "date": "2026-05-21",
+        "nav": 2.2207,
+        "cumulativeNav": 2.4127,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3979855209317036
+      },
+      {
+        "date": "2026-05-22",
+        "nav": 2.2336,
+        "cumulativeNav": 2.4256,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.406106389675802
+      },
+      {
+        "date": "2026-05-25",
+        "nav": 2.2451,
+        "cumulativeNav": 2.4371,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4133459238275174
+      },
+      {
+        "date": "2026-05-26",
+        "nav": 2.2369,
+        "cumulativeNav": 2.4289,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4081838212149898
+      },
+      {
+        "date": "2026-05-27",
+        "nav": 2.2274,
+        "cumulativeNav": 2.4194,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4022033364809638
+      },
+      {
+        "date": "2026-05-28",
+        "nav": 2.2375,
+        "cumulativeNav": 2.4295,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4085615360402965
+      },
+      {
+        "date": "2026-05-29",
+        "nav": 2.2218,
+        "cumulativeNav": 2.4138,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3986779981114328
+      },
+      {
+        "date": "2026-06-01",
+        "nav": 2.213,
+        "cumulativeNav": 2.405,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3931381806735983
+      },
+      {
+        "date": "2026-06-02",
+        "nav": 2.2207,
+        "cumulativeNav": 2.4127,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3979855209317034
+      },
+      {
+        "date": "2026-06-03",
+        "nav": 2.2261,
+        "cumulativeNav": 2.4181,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4013849543594654
+      },
+      {
+        "date": "2026-06-04",
+        "nav": 2.2303,
+        "cumulativeNav": 2.4223,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4040289581366137
+      },
+      {
+        "date": "2026-06-05",
+        "nav": 2.2176,
+        "cumulativeNav": 2.4096,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.396033994334284
+      },
+      {
+        "date": "2026-06-08",
+        "nav": 2.1998,
+        "cumulativeNav": 2.3918,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3848284545168463
+      },
+      {
+        "date": "2026-06-09",
+        "nav": 2.2161,
+        "cumulativeNav": 2.4081,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3950897072710169
+      },
+      {
+        "date": "2026-06-10",
+        "nav": 2.2065,
+        "cumulativeNav": 2.3985,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3890462700661068
+      },
+      {
+        "date": "2026-06-11",
+        "nav": 2.2059,
+        "cumulativeNav": 2.3979,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3886685552408
+      },
+      {
+        "date": "2026-06-12",
+        "nav": 2.2104,
+        "cumulativeNav": 2.4024,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3915014164306014
+      },
+      {
+        "date": "2026-06-15",
+        "nav": 2.2394,
+        "cumulativeNav": 2.4314,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.409757632987101
+      },
+      {
+        "date": "2026-06-16",
+        "nav": 2.2425,
+        "cumulativeNav": 2.4345,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4117091595845201
+      },
+      {
+        "date": "2026-06-17",
+        "nav": 2.2531,
+        "cumulativeNav": 2.4451,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4183821214982753
+      },
+      {
+        "date": "2026-06-18",
+        "nav": 2.2639,
+        "cumulativeNav": 2.4559,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4251809883537994
+      },
+      {
+        "date": "2026-06-22",
+        "nav": 2.2744,
+        "cumulativeNav": 2.4664,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4317909977966699
+      },
+      {
+        "date": "2026-06-23",
+        "nav": 2.2599,
+        "cumulativeNav": 2.4519,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.42266288951842
+      },
+      {
+        "date": "2026-06-24",
+        "nav": 2.2743,
+        "cumulativeNav": 2.4663,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4317280453257855
+      },
+      {
+        "date": "2026-06-25",
+        "nav": 2.2855,
+        "cumulativeNav": 2.4775,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4387787220648474
+      },
+      {
+        "date": "2026-06-26",
+        "nav": 2.2659,
+        "cumulativeNav": 2.4579,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4264400377714888
+      },
+      {
+        "date": "2026-06-29",
+        "nav": 2.2673,
+        "cumulativeNav": 2.4593,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4273213723638716
+      },
+      {
+        "date": "2026-06-30",
+        "nav": 2.2804,
+        "cumulativeNav": 2.4724,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.435568146049739
+      },
+      {
+        "date": "2026-07-01",
+        "nav": 2.2726,
+        "cumulativeNav": 2.4646,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4306578533207492
+      },
+      {
+        "date": "2026-07-02",
+        "nav": 2.247,
+        "cumulativeNav": 2.439,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4145420207743216
+      },
+      {
+        "date": "2026-07-03",
+        "nav": 2.2481,
+        "cumulativeNav": 2.4401,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.415234497954051
+      },
+      {
+        "date": "2026-07-06",
+        "nav": 2.253,
+        "cumulativeNav": 2.445,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4183191690273909
+      },
+      {
+        "date": "2026-07-07",
+        "nav": 2.246,
+        "cumulativeNav": 2.438,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.413912496065477
+      },
+      {
+        "date": "2026-07-08",
+        "nav": 2.2411,
+        "cumulativeNav": 2.4331,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4108278249921373
+      },
+      {
+        "date": "2026-07-09",
+        "nav": 2.262,
+        "cumulativeNav": 2.454,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4239848914069944
+      },
+      {
+        "date": "2026-07-10",
+        "nav": 2.2405,
+        "cumulativeNav": 2.4325,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4104501101668308
+      },
+      {
+        "date": "2026-07-13",
+        "nav": 2.2254,
+        "cumulativeNav": 2.4174,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.400944287063274
+      },
+      {
+        "date": "2026-07-14",
+        "nav": 2.2366,
+        "cumulativeNav": 2.4286,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4079949638023361
+      },
+      {
+        "date": "2026-07-15",
+        "nav": 2.2285,
+        "cumulativeNav": 2.4205,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4028958136606928
+      },
+      {
+        "date": "2026-07-16",
+        "nav": 2.2132,
+        "cumulativeNav": 2.4052,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.393264085615367
+      },
+      {
+        "date": "2026-07-17",
+        "nav": 2.1823,
+        "cumulativeNav": 2.3743,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.373811772112062
+      },
+      {
+        "date": "2026-07-20",
+        "nav": 2.1801,
+        "cumulativeNav": 2.3721,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3724268177526033
+      },
+      {
+        "date": "2026-07-21",
+        "nav": 2.212,
+        "cumulativeNav": 2.404,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3925086559647535
+      },
+      {
+        "date": "2026-07-22",
+        "nav": 2.2077,
+        "cumulativeNav": 2.3997,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3898016997167206
+      },
+      {
+        "date": "2026-07-23",
+        "nav": 2.1986,
+        "cumulativeNav": 2.3906,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3840730248662325
+      },
+      {
+        "date": "2026-07-24",
+        "nav": 2.1913,
+        "cumulativeNav": 2.3833,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3794774944916655
+      },
+      {
+        "date": "2026-07-27",
+        "nav": 2.2021,
+        "cumulativeNav": 2.3941,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3862763613471896
+      },
+      {
+        "date": "2026-07-28",
+        "nav": 2.1727,
+        "cumulativeNav": 2.3647,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3677683349071514
+      },
+      {
+        "date": "2026-07-29",
+        "nav": 2.1703,
+        "cumulativeNav": 2.3623,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.366257475605924
+      },
+      {
+        "date": "2026-07-30",
+        "nav": 2.1463,
+        "cumulativeNav": 2.3383,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3511488825936482
+      },
+      {
+        "date": "2026-07-31",
+        "nav": 2.1615,
+        "cumulativeNav": 2.3535,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3607176581680898
+      },
+      {
+        "date": "2026-08-03",
+        "nav": 2.1479,
+        "cumulativeNav": 2.3399,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3521561221278
+      },
+      {
+        "date": "2026-08-04",
+        "nav": 2.1721,
+        "cumulativeNav": 2.3641,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3673906200818449
+      },
+      {
+        "date": "2026-08-05",
+        "nav": 2.1903,
+        "cumulativeNav": 2.3823,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3788479697828209
+      },
+      {
+        "date": "2026-08-06",
+        "nav": 2.1934,
+        "cumulativeNav": 2.3854,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.38079949638024
+      },
+      {
+        "date": "2026-08-07",
+        "nav": 2.2051,
+        "cumulativeNav": 2.3971,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.388164935473724
+      },
+      {
+        "date": "2026-08-10",
+        "nav": 2.2042,
+        "cumulativeNav": 2.3962,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3875983632357638
+      },
+      {
+        "date": "2026-08-11",
+        "nav": 2.194,
+        "cumulativeNav": 2.386,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3811772112055465
+      },
+      {
+        "date": "2026-08-12",
+        "nav": 2.2004,
+        "cumulativeNav": 2.3924,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3852061693421533
+      },
+      {
+        "date": "2026-08-13",
+        "nav": 2.1984,
+        "cumulativeNav": 2.3904,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3839471199244635
+      },
+      {
+        "date": "2026-08-14",
+        "nav": 2.2017,
+        "cumulativeNav": 2.3937,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3860245514636516
+      },
+      {
+        "date": "2026-08-17",
+        "nav": 2.2251,
+        "cumulativeNav": 2.4171,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4007554296506202
+      },
+      {
+        "date": "2026-08-18",
+        "nav": 2.2263,
+        "cumulativeNav": 2.4183,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.4015108593012342
+      },
+      {
+        "date": "2026-08-19",
+        "nav": 2.1938,
+        "cumulativeNav": 2.3858,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3810513062637773
+      },
+      {
+        "date": "2026-08-20",
+        "nav": 2.1972,
+        "cumulativeNav": 2.3892,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3831916902738495
+      },
+      {
+        "date": "2026-08-21",
+        "nav": 2.2028,
+        "cumulativeNav": 2.3948,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3867170286433805
+      },
+      {
+        "date": "2026-08-24",
+        "nav": 2.1879,
+        "cumulativeNav": 2.3799,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3773371104815928
+      },
+      {
+        "date": "2026-08-25",
+        "nav": 2.1896,
+        "cumulativeNav": 2.3816,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.378407302486629
+      },
+      {
+        "date": "2026-08-26",
+        "nav": 2.1904,
+        "cumulativeNav": 2.3824,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3789109222537046
+      },
+      {
+        "date": "2026-08-27",
+        "nav": 2.2045,
+        "cumulativeNav": 2.3965,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3877872206484168
+      },
+      {
+        "date": "2026-08-28",
+        "nav": 2.1961,
+        "cumulativeNav": 2.3881,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3824992130941203
+      },
+      {
+        "date": "2026-08-31",
+        "nav": 2.2037,
+        "cumulativeNav": 2.3957,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.387283600881341
+      },
+      {
+        "date": "2026-09-01",
+        "nav": 2.1917,
+        "cumulativeNav": 2.3837,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.379729304375203
+      },
+      {
+        "date": "2026-09-02",
+        "nav": 2.1845,
+        "cumulativeNav": 2.3765,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3751967264715201
+      },
+      {
+        "date": "2026-09-03",
+        "nav": 2.1904,
+        "cumulativeNav": 2.3824,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3789109222537046
+      },
+      {
+        "date": "2026-09-04",
+        "nav": 2.1786,
+        "cumulativeNav": 2.3706,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3714825306893357
+      },
+      {
+        "date": "2026-09-07",
+        "nav": 2.1953,
+        "cumulativeNav": 2.3873,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3819955933270442
+      },
+      {
+        "date": "2026-09-08",
+        "nav": 2.1906,
+        "cumulativeNav": 2.3826,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3790368271954736
+      },
+      {
+        "date": "2026-09-09",
+        "nav": 2.1939,
+        "cumulativeNav": 2.3859,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3811142587346616
+      },
+      {
+        "date": "2026-09-10",
+        "nav": 2.189,
+        "cumulativeNav": 2.381,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.378029587661322
+      },
+      {
+        "date": "2026-09-11",
+        "nav": 2.1864,
+        "cumulativeNav": 2.3784,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3763928234183254
+      },
+      {
+        "date": "2026-09-14",
+        "nav": 2.1864,
+        "cumulativeNav": 2.3784,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3763928234183254
+      },
+      {
+        "date": "2026-09-15",
+        "nav": 2.1881,
+        "cumulativeNav": 2.3801,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3774630154233616
+      },
+      {
+        "date": "2026-09-16",
+        "nav": 2.1998,
+        "cumulativeNav": 2.3918,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3848284545168463
+      },
+      {
+        "date": "2026-09-17",
+        "nav": 2.2027,
+        "cumulativeNav": 2.3947,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3866540761724964
+      },
+      {
+        "date": "2026-09-18",
+        "nav": 2.2168,
+        "cumulativeNav": 2.4088,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3955303745672083
+      },
+      {
+        "date": "2026-09-21",
+        "nav": 2.2215,
+        "cumulativeNav": 2.4135,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.398489140698779
+      },
+      {
+        "date": "2026-09-22",
+        "nav": 2.2161,
+        "cumulativeNav": 2.4081,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3950897072710169
+      },
+      {
+        "date": "2026-09-23",
+        "nav": 2.2156,
+        "cumulativeNav": 2.4076,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3947749449165945
+      },
+      {
+        "date": "2026-09-24",
+        "nav": 2.2053,
+        "cumulativeNav": 2.3973,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3882908404154928
+      },
+      {
+        "date": "2026-09-28",
+        "nav": 2.183,
+        "cumulativeNav": 2.375,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3742524394082531
+      },
+      {
+        "date": "2026-09-29",
+        "nav": 2.1862,
+        "cumulativeNav": 2.3782,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3762669184765566
+      },
+      {
+        "date": "2026-09-30",
+        "nav": 2.1821,
+        "cumulativeNav": 2.3741,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.373685867170293
+      },
+      {
+        "date": "2026-10-08",
+        "nav": 2.1709,
+        "cumulativeNav": 2.3629,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3666351904312308
+      },
+      {
+        "date": "2026-10-09",
+        "nav": 2.169,
+        "cumulativeNav": 2.361,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3654390934844256
+      },
+      {
+        "date": "2026-10-12",
+        "nav": 2.1532,
+        "cumulativeNav": 2.3452,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3554926030846774
+      },
+      {
+        "date": "2026-10-13",
+        "nav": 2.1589,
+        "cumulativeNav": 2.3509,
+        "cashDividendPerUnit": 0,
+        "wealth": 1.3590808939250931
+      }
+    ],
+    "currentNav": 2.1589,
+    "judgment": "净值回撤中，距区间高点5.54%。收益增强型二级债基，三年年化10.77%；6月末股票19.00%、转债6.44%，观察股债增强仓位和回撤修复。",
+    "currentDrawdownPct": -5.539269306497441,
+    "quarterReturnPct": -2.988226835625052,
+    "reportUrl": "https://pdf.dfcfw.com/pdf/H2_AN202608281828579068_1.pdf",
+    "reportPublished": "2026-08-28",
+    "basic": {
+      "基金全称": "鹏华双债加利债券型证券投资基金",
+      "基金简称": "鹏华双债加利债券A",
+      "基金代码": "000143（前端） 基金类型 债券型-混合二级",
+      "基金类型": "债券型-混合二级",
+      "发行日期": "2013年05月10日",
+      "成立日期/规模": "2013年05月27日 / 8.230亿份",
+      "净资产规模": "115.76亿元（截止至：2026年06月30日） 份额规模 50.7627亿份 （截止至：2026年06月30日）",
+      "份额规模": "50.7627亿份 （截止至：2026年06月30日）",
+      "基金管理人": "鹏华基金",
+      "基金托管人": "北京银行",
+      "基金经理人": "王石千",
+      "成立来分红": "每份累计0.19元（2次）",
+      "管理费率": "0.50%（每年）",
+      "托管费率": "0.15%（每年）",
+      "销售服务费率": "0.00%（每年）",
+      "最高认购费率": "0.60%（前端） 天天基金优惠费率： 0.06%（前端）",
+      "最高申购费率": "0.80%（前端） 天天基金优惠费率： 0.08%（前端）",
+      "最高赎回费率": "1.50%（前端）",
+      "业绩比较基准": "中债-综合全价(1-3年)指数收益率*75%+中证可转债及可交换债券指数收益率*10%+沪深300指数收益率*10%+活期存款基准利率*5%",
+      "跟踪标的": "该基金无跟踪标的"
+    }
+  }
+}

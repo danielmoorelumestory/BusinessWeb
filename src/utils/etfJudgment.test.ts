@@ -2,10 +2,17 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { NOTES } from '../data/notes'
-import { extractEtfJudgment, latestEtfNote } from './etfJudgment'
+import { extractEtfJudgment, latestEtfNote, latestInvestmentNote } from './etfJudgment'
 
 describe('ETF文档综合判断', () => {
-  it('从实际69篇报告的结论速览提取带日期的判断', () => {
+  it('场外债基提取确认净值日期，独立于ETF报告类型', () => {
+    const note = latestInvestmentNote('000015')!
+    expect(note.slug).toBe('000015-pure-bond-fund-analysis')
+    expect(latestEtfNote('000015')).toBeUndefined()
+    const text = readFileSync(resolve('public/notes', `${note.slug}.md`), 'utf8')
+    expect(extractEtfJudgment(text, note.date)).toMatch(/^2026-10-13 净值｜/)
+  })
+  it('从实际74篇报告的结论速览提取带日期的判断', () => {
     const notes = NOTES.filter(note => note.slug.endsWith('-etf-analysis'))
     let extracted = 0
     for (const note of notes) {
@@ -17,7 +24,7 @@ describe('ETF文档综合判断', () => {
         extracted++
       }
     }
-    expect(extracted).toBeGreaterThanOrEqual(69)
+    expect(extracted).toBeGreaterThanOrEqual(74)
   })
 
   it('不回退到后续章节或摘要；支持组合判断及换行', () => {

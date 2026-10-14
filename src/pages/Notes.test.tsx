@@ -18,7 +18,7 @@ describe('Notes 列表', () => {
     const link = screen.getByRole('link', { name: /机器人行业研究/ })
     expect(link.getAttribute('href')).toBe('/notes/robotics-industry-research')
     expect(screen.getByText('2026-09-23')).toBeTruthy()
-    expect(screen.getByText(/含完整报告/)).toBeTruthy()
+    expect(screen.getAllByText(/含完整报告/)).toHaveLength(2)
   })
 
   it('点击标签只显示带该标签的笔记，点「全部」清除筛选', () => {
@@ -32,7 +32,7 @@ describe('Notes 列表', () => {
 
   it('地址里的 ?tag= 直接生效；没有匹配时提示', () => {
     renderAt('/notes?tag=网格交易')
-    expect(titles()).toEqual(['ETF网格交易总方案（含逐只绝对价格网格）'])
+    expect(titles()).toEqual(['斐波那契与 ETF 网格交易：验证、纠错与体系升级', 'ETF网格交易总方案（含逐只绝对价格网格）'])
     cleanup()
     renderAt('/notes?tag=不存在')
     expect(screen.getByText('没有符合的笔记。')).toBeTruthy()

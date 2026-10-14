@@ -382,6 +382,77 @@
   word-break: break-word;
 }
 
+.industry-etf-table .etf-fee-cell {
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.etf-fee-main {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.etf-fee-total {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.etf-fee-total small {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.etf-fee-breakdown {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.etf-fee-rule {
+  display: inline-block;
+  margin-top: 3px;
+  padding: 1px 6px;
+  border-radius: var(--radius-chip);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-strong);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.bond-fund-table {
+  min-width: 1030px;
+  font-size: 13px;
+}
+
+.bond-fund-table .etf-fee-rule {
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+}
+
+.bond-fund-table th,
+.bond-fund-table td {
+  padding: 11px 8px;
+  overflow-wrap: anywhere;
+}
+
+.bond-fund-metric {
+  font-variant-numeric: tabular-nums;
+}
+
+.bond-fund-metric small {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 .broad-etf-method {
   padding: 0 20px 16px;
   color: var(--text-secondary);
@@ -439,3 +510,176 @@
   color: var(--system-gray3);
   font-size: 14px;
 }
+.industry-etf-group-description {
+  margin: 0;
+  padding: 0 20px 16px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+.broad-etf-table .etf-name-cell {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.bond-type-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.bond-type-badge,
+.bond-feature-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  line-height: 1.2;
+  padding: 1px 5px;
+  border-radius: var(--radius-chip);
+  white-space: nowrap;
+}
+
+.bond-type-badge {
+  font-weight: 600;
+}
+
+.bond-type-badge--pure {
+  background-color: var(--accent-soft);
+  color: var(--accent-ink);
+  border: 1px solid rgba(29, 78, 216, 0.2);
+}
+
+.bond-type-badge--enhanced {
+  background-color: var(--accent-warm-soft);
+  color: var(--warm-ink);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+}
+
+.bond-feature-badge {
+  font-weight: 400;
+  background-color: var(--system-gray6);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* 债券类型风险收益阶梯对照 */
+.bond-ladder-container {
+  padding: 14px 20px 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.bond-ladder-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.bond-ladder-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.bond-ladder-arrow {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.bond-ladder-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 860px) {
+  .bond-ladder-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .bond-ladder-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bond-ladder-card {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bond-ladder-type-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.bond-ladder-type-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius-chip);
+  white-space: nowrap;
+}
+
+.bond-ladder-type-badge--pure {
+  background-color: var(--accent-soft);
+  color: var(--accent-ink);
+  border: 1px solid rgba(29, 78, 216, 0.2);
+}
+
+.bond-ladder-type-badge--tier1 {
+  background-color: rgba(13, 148, 136, 0.12);
+  color: var(--system-teal);
+  border: 1px solid rgba(13, 148, 136, 0.25);
+}
+
+.bond-ladder-type-badge--tier2 {
+  background-color: var(--accent-warm-soft);
+  color: var(--warm-ink);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+}
+
+.bond-ladder-type-badge--hybrid {
+  background-color: var(--bad-soft);
+  color: var(--up-ink);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+}
+
+.bond-ladder-drawdown {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  padding: 1px 5px;
+  border-radius: var(--radius-chip);
+  border: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.bond-ladder-body {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.bond-ladder-text {
+  font-weight: 500;
+  color: var(--text-strong);
+}
+
+.bond-ladder-text-sub {
+  color: var(--text-secondary);
+  font-size: 11px;
+  margin-top: 2px;
+}
+

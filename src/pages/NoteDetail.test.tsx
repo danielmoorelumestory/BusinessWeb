@@ -11,6 +11,12 @@ const renderAt = (path: string) => render(
 const stubFetch = (impl: (url: string) => Promise<Response>) => { const f = vi.fn(impl); vi.stubGlobal('fetch', f); return f }
 
 describe('NoteDetail', () => {
+  it('货币ETF报告不提供股票网格入口', () => {
+    stubFetch(async () => new Response('正文'))
+    renderAt('/notes/511880-money-market-etf-analysis')
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toContain('511880')
+    expect(screen.queryByRole('link', { name: '行情·网格 ↗' })).toBeNull()
+  })
   it('与 ETF 等标准栏目共用全局 container 宽度，不设置页面级窄宽度', () => {
     stubFetch(async () => new Response('正文'))
     const { container } = renderAt('/notes/robotics-industry-research')

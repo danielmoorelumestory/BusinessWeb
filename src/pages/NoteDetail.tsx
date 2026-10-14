@@ -5,6 +5,7 @@ import { renderMarkdown } from '../components/MarkdownView'
 import { usePageSeo } from '../components/RouteSeo'
 import { INDUSTRY_GROUPS, internalNoteSlug } from '../data/industryEtf'
 import { findNote, NoteMeta } from '../data/notes'
+import { STRATEGY_ASSET_ETF_GROUPS } from '../data/strategyAssetEtf'
 import NotFound from './NotFound'
 
 export function getNoteDisplayTitle(note: NoteMeta | undefined): string | undefined {
@@ -21,6 +22,8 @@ export function getNoteDisplayTitle(note: NoteMeta | undefined): string | undefi
 
 export function getEtfGridDetailHref(note: NoteMeta | undefined): string | undefined {
   if (!note) return undefined
+  const code = note.slug.match(/^(\d{6})/)?.[1]
+  if (STRATEGY_ASSET_ETF_GROUPS.flatMap(group => group.items).some(item => item.code === code && 'gridApplicable' in item && item.gridApplicable === false)) return undefined
   for (const group of INDUSTRY_GROUPS) {
     for (const item of group.items) {
       if (item.referenceUrl && internalNoteSlug(item.referenceUrl) === note.slug) {

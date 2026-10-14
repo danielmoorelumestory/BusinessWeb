@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { extractEtfJudgment, latestEtfNote } from '../utils/etfJudgment'
+import { extractEtfJudgment, latestInvestmentNote } from '../utils/etfJudgment'
 import EtfTrendRemark from './EtfTrendRemark'
 
 export default function EtfDocumentRemark({ code }: { code: string }): JSX.Element {
-  const note = latestEtfNote(code)
+  const note = latestInvestmentNote(code)
   const [remark, setRemark] = useState<string | null>(null)
   useEffect(() => {
     setRemark(null)

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "strategy-etf",
+    "title": "策略 ETF",
+    "description": "按分红与波动率筛选股票；A股与港股分别展示，先检查行业和发行人重叠。",
+    "items": [
+      {
+        "code": "512890",
+        "name": "红利低波ETF华泰柏瑞",
+        "family": "A股红利低波",
+        "category": "股票策略 · 分红与低波动",
+        "coverage": "中证红利低波动指数，50只证券；低波动选样不保证低回撤。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_512890.html"
+      },
+      {
+        "code": "513630",
+        "name": "港股低波红利ETF摩根",
+        "family": "港股红利低波",
+        "category": "股票策略 · 港股通",
+        "coverage": "沿用已有研究；与A股红利有不同地域和汇率暴露，仍需合并行业风险。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_513630.html"
+      }
+    ]
+  },
+  {
+    "id": "commodity-etf",
+    "title": "商品 ETF",
+    "description": "保留黄金现货代表；与股票及纯债分别展示风险来源与分析指标。",
+    "items": [
+      {
+        "code": "518880",
+        "name": "黄金ETF华安",
+        "family": "黄金现货",
+        "category": "商品 · 上海黄金交易所Au99.99",
+        "coverage": "跟踪人民币黄金现货价格；与黄金矿业股票ETF分别分析。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_518880.html"
+      }
+    ]
+  },
+  {
+    "id": "money-etf",
+    "title": "货币 ETF",
+    "description": "用于证券账户闲置资金管理；关注实际持有收益、买卖价差与到账安排，价格趋势和网格规则不适用。",
+    "items": [
+      {
+        "code": "511880",
+        "name": "银华日利ETF",
+        "family": "场内现金管理",
+        "category": "货币市场基金 · 无跟踪指数",
+        "coverage": "净值累计收益型；支持日内回转，收益需计入分红与交易成本，不能当作银行存款或保本产品。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_511880.html",
+        "gridApplicable": false
+      }
+    ]
+  },
+  {
+    "id": "bond-funds",
+    "title": "债券基金（场外）",
+    "items": [
+      {
+        "code": "000015",
+        "name": "华夏纯债债券A",
+        "family": "纯债代表",
+        "category": "场外主动管理 · 纯债",
+        "coverage": "不含股票增强；复核久期、信用风险与赎回费用。收益计入现金分红再投资。",
+        "sourceUrl": "https://www.chinaamc.com/fund/000015/index.shtml",
+        "gridApplicable": false
+      },
+      {
+        "code": "019372",
+        "name": "大成元丰多利债券A",
+        "family": "低波二级债基代表",
+        "category": "场外主动管理 · 债券与权益",
+        "coverage": "6月末股票占净值9.75%；历史尚不满3年，低波研究定位不承诺回撤上限。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_019372.html",
+        "gridApplicable": false
+      },
+      {
+        "code": "004042",
+        "name": "华夏鼎茂债券A",
+        "family": "纯债",
+        "category": "场外主动管理 · 纯债",
+        "coverage": "金融债与国债为主的纯债候选；关注利率、银行信用和发行人集中度。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_004042.html",
+        "gridApplicable": false
+      },
+      {
+        "code": "006337",
+        "name": "华安安浦债券A",
+        "family": "纯债",
+        "category": "场外主动管理 · 纯债",
+        "coverage": "纯债候选；关注金融债配置、经理及组合重叠，免赎回费门槛为90天。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_006337.html",
+        "gridApplicable": false
+      },
+      {
+        "code": "000143",
+        "name": "鹏华双债加利债券A",
+        "family": "收益增强型二级债基",
+        "category": "场外主动管理 · 债券、股票与转债",
+        "coverage": "6月末股票占净值19.00%、转债6.44%；收益增强定位，关注仓位及回撤修复。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_000143.html",
+        "gridApplicable": false
+      },
+      {
+        "code": "161716",
+        "name": "招商双债增强债券（LOF）C",
+        "family": "信用债与转债增强",
+        "category": "场外申赎 · 一级债基（LOF）C类",
+        "coverage": "6月末转债1.93%、转股等形成股票6.35%；按场外净值申赎口径研究。",
+        "sourceUrl": "https://www.cmfchina.com/web/fundDetail/161716/index.html",
+        "gridApplicable": false
+      }
+    ]
+  }
+]

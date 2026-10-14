@@ -1,14 +1,122 @@
 {
-  "generatedAt": "2026-10-13T15:21:10.000Z",
+  "generatedAt": "2026-10-14T12:52:57.987Z",
   "versions": [
     {
       "tag": "unreleased",
       "date": null,
       "commits": [
         {
+          "hash": "552185c",
+          "subject": "style: 去掉页面内部再套的 960/1200 宽度，正文与标题、页签左右对齐",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "b317ca5",
+          "subject": "style: 各页面统一外壳——1100 宽、32/24/60 内边距、大标题加说明，与行业 ETF 清单一致",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "1aa436a",
+          "subject": "style(future-trends): 页面外壳、标题与宽度和行业 ETF 清单一致",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "4dec6bc",
+          "subject": "fix(cloudflare): Pages Functions 改引用合并后的 server/functions，补上每日分析接口",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "494156d",
+          "subject": "feat(invest): 投资页分组对齐线上版结构（观察盘前置、分析筛选、工具与参考），样式沿用本仓库",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "4c60529",
+          "subject": "feat(nav): 给合并进来的新页面补入口（观察盘、A股每日复盘、国家队持仓、博客）",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "466c325",
+          "subject": "merge: 同步 upstream/main，界面样式以本仓库为准",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "ee1ec07",
+          "subject": "feat(industry-etf): add ETF code and grid entry in note detail, structure industry groups under primary category",
+          "author": "train",
+          "date": "2026-10-13"
+        },
+        {
           "hash": "6c14c3b",
           "subject": "feat(etf): add broad ETF selection and ten research reports",
           "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "3e0681f",
+          "subject": "data(daily-analysis): archive verified market snapshot",
+          "author": "github-actions[bot]",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "fbdcab3",
+          "subject": "fix(blog): serve prerendered routes on Vercel",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "54255ff",
+          "subject": "fix(blog): publish only approved content and harden imports",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "886d4c9",
+          "subject": "feat(blog): prerender and index published articles",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "9df19a8",
+          "subject": "feat(blog): add accessible article reader",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "fad802c",
+          "subject": "feat(blog): add searchable blog index and site entry",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "5302ec0",
+          "subject": "feat(blog): add article catalog and safe Markdown renderer",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "31af4db",
+          "subject": "feat(blog): add explicit Markdown import pipeline",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "14e9577",
+          "subject": "docs: plan Live blog implementation",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "4e8845a",
+          "subject": "docs: design Live blog content and reading flow",
+          "author": "hassan",
           "date": "2026-10-13"
         },
         {
@@ -24,9 +132,33 @@
           "date": "2026-10-13"
         },
         {
+          "hash": "65a70f3",
+          "subject": "feat(dcf): 个股分析里便捷使用并按 DCF 筛选",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "956198e",
+          "subject": "feat(plan): 风险仪表盘全自动、新增选股流程与周期定位",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "e45b2aa",
+          "subject": "feat(ui): show data freshness dates on research pages",
+          "author": "hassan",
+          "date": "2026-10-13"
+        },
+        {
           "hash": "6463256",
           "subject": "docs(etf): publish industry ETF research notes",
           "author": "train",
+          "date": "2026-10-13"
+        },
+        {
+          "hash": "c5b3305",
+          "subject": "data: refresh market snapshots and track freshness",
+          "author": "hassan",
           "date": "2026-10-13"
         },
         {
@@ -42,148 +174,16 @@
           "date": "2026-10-13"
         },
         {
-          "hash": "ce4bd8c",
-          "subject": "feat(grid): 斐波那契去掉自动设置，确认/保存按钮上移，切换设置不再上传云端",
-          "author": "train",
-          "date": "2026-10-12"
+          "hash": "806ea5d",
+          "subject": "feat(invest): 投资板块按流程重组，新增观察盘、独立候选池与产业趋势",
+          "author": "hassan",
+          "date": "2026-10-13"
         },
         {
-          "hash": "c964347",
-          "subject": "feat(grid): 价格图斐波那契回撤/延长线（多组、确认与保存、按日期自动取高低点、云端读取），预计买卖线与手动区间可勾选显示",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "23628b5",
-          "subject": "docs(etf): refine holdings valuation tables and analysis",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "7c8fde8",
-          "subject": "docs(etf): 完善八只ETF估值持仓与趋势分析",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "3e5708d",
-          "subject": "feat(industry-etf): 有研究笔记的 ETF，代码与名称可点击跳转到对应笔记",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "a83b603",
-          "subject": "feat(notes): expand 159928 consumer ETF analysis",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "83add01",
-          "subject": "feat(grid): K线悬浮窗价格按 开收 / 高低 排列",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "fe182b4",
-          "subject": "feat(grid): 日期框可选到今天；K线悬浮窗显示开高低收涨跌幅与振幅",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "1a7d894",
-          "subject": "chore(openspec): 归档 note-analysis-columns，同步主规格 note-analysis-store 与 saved-analysis-columns",
-          "author": "train",
-          "date": "2026-10-12"
-        },
-        {
-          "hash": "c9c1b35",
-          "subject": "feat: 已保存标的页新增短期/中期判断两列，结论从分析笔记入库到 D1（note-analysis-columns）",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "b890822",
-          "subject": "feat: publish four reviewed ETF analyses",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "291b76e",
-          "subject": "feat: publish three reviewed ETF analyses",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "2747fb7",
-          "subject": "feat: publish reviewed Ping An analysis",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "2068c4e",
-          "subject": "feat: publish reviewed Yuntianhua analysis",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "f754a57",
-          "subject": "fix(grid): 支撑/压力色带标签改回靠左，仅垂直方向居中",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "7e1a3ef",
-          "subject": "feat: publish reviewed Baofeng Energy analysis",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "13363cc",
-          "subject": "feat(grid): 支撑/压力色带标签水平垂直居中，窄屏不带备注",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "b485e82",
-          "subject": "chore(openspec): 归档 grid-chart-support-resistance，同步主规格 grid-support-resistance",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "6de1253",
-          "subject": "feat(grid): 支撑/压力区间增加强度（弱/中/强）",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "a20aec0",
-          "subject": "feat(grid): 支撑/压力区间改为可自行增减（每侧最多 10 个）",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "715d2af",
-          "subject": "feat(grid): 价格图支持 3 条支撑区间与 3 条压力区间，并拉长价格图（grid-chart-support-resistance）",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "fc1ae3f",
-          "subject": "feat: publish 516650 ETF analysis",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "c2076b4",
-          "subject": "chore(openspec): 归档 edge-cache-and-daily-bar-patch，同步主规格",
-          "author": "train",
-          "date": "2026-10-11"
-        },
-        {
-          "hash": "a9b11d3",
-          "subject": "feat: 公开行情接口加边缘缓存，日线读取不再因缺当天而整段重下（edge-cache-and-daily-bar-patch）",
-          "author": "train",
-          "date": "2026-10-11"
+          "hash": "8ada1cf",
+          "subject": "fix(test): 试问超时测试跟随 50 秒模型超时",
+          "author": "hassan",
+          "date": "2026-10-13"
         }
       ]
     }

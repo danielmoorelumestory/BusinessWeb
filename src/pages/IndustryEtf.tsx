@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import BroadEtfList from './BroadEtfList'
+import BroadEtfList, { SelectedEtfList } from './BroadEtfList'
+import BondFundList from './BondFundList'
 import EtfDocumentRemark from './EtfDocumentRemark'
 import { latestEtfNote } from '../utils/etfJudgment'
 import { BROAD_ETFS } from '../data/broadEtf'
+import { STRATEGY_ASSET_ETF_GROUPS } from '../data/strategyAssetEtf'
 import { INDUSTRY_GROUPS, TOTAL_ETF_COUNT, internalNoteSlug, type EtfItem } from '../data/industryEtf'
 
 // 该 ETF 自己的研究笔记：笔记 slug 以「代码-」开头（如 159928-consumer-etf-analysis）。
@@ -102,14 +104,15 @@ export default function IndustryEtf(): JSX.Element {
   return (
     <main className="container animate-fade-in industry-etf-page">
       <header className="page-head">
-        <h1>宽基与行业 ETF 清单</h1>
+        <h1>ETF 与债券基金清单</h1>
         <p>
-          {BROAD_ETFS.length} 类宽基首选；{INDUSTRY_GROUPS.length} 个行业组，共 {TOTAL_ETF_COUNT} 只 ETF。宽基、因子与主题的流派说明请看「ETF 流派地图」。
+          {BROAD_ETFS.length} 类宽基；{STRATEGY_ASSET_ETF_GROUPS.map(group => `${group.items.length} 只${group.title}`).join('、')}；{INDUSTRY_GROUPS.length} 个行业组，共 {TOTAL_ETF_COUNT} 只行业 ETF。备注展示各自最新报告的综合判断。
         </p>
         <nav className="industry-etf-nav" aria-label="行业目录">
           <div className="industry-etf-nav__group">
             <span className="industry-etf-nav__group-label">一级分类：</span>
             <a href="#broad-etf" className="industry-etf-nav__pill industry-etf-nav__pill--primary"><span>宽基 ETF</span><span className="industry-etf-nav__count">{BROAD_ETFS.length}</span></a>
+            {STRATEGY_ASSET_ETF_GROUPS.map(group => <a key={group.id} href={`#${group.id}`} className="industry-etf-nav__pill industry-etf-nav__pill--primary"><span>{group.title}</span><span className="industry-etf-nav__count">{group.items.length}</span></a>)}
             <a href="#industry-etf" className="industry-etf-nav__pill industry-etf-nav__pill--primary"><span>行业 ETF</span><span className="industry-etf-nav__count">{TOTAL_ETF_COUNT}</span></a>
           </div>
           <div className="industry-etf-nav__subgroup" aria-label="行业 ETF 二级分类">
@@ -125,6 +128,10 @@ export default function IndustryEtf(): JSX.Element {
       </header>
 
       <BroadEtfList />
+
+      {STRATEGY_ASSET_ETF_GROUPS.map(group => group.id === 'bond-funds'
+        ? <BondFundList key={group.id} {...group} />
+        : <SelectedEtfList key={group.id} {...group} />)}
 
       <section id="industry-etf" className="industry-etf-main-section" aria-labelledby="industry-etf-main-title">
         <div className="industry-etf-main-header">

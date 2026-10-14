@@ -44,7 +44,7 @@ const EXACT: Record<string, RouteSeo> = {
   '/candidates': { title: '候选池', description: '我的候选公司与研究筛出的可买卖、价格太贵公司，一键进入估值、DCF 与网格。', noindex: true },
   '/industry-landscape': { title: '产业格局', description: '重点产业链与竞争格局梳理。' },
   '/notes': { title: '行业研究笔记', description: '机器人、猪周期等行业深度笔记，以及 ETF 网格交易总方案等完整报告。' },
-  '/industry-etf': { title: '宽基与行业 ETF 清单', description: '10类宽基ETF及重叠说明；7个行业组、59只行业ETF，备注展示最新分析文档结论速览中的综合判断。' },
+  '/industry-etf': { title: 'ETF 与债券基金清单', description: '10类宽基、2只策略、1只商品、1只货币ETF及6只场外债基；7个行业组、58只行业ETF，备注展示最新分析文档结论速览中的综合判断。' },
   '/research-notes': { title: '研究笔记｜公司与行业研究', description: '沪深 A 股、港股、美股的公司研究笔记与审计报告。' },
   '/grid-trading': { title: '网格交易已迁移', noindex: true },
   '/valuation': { title: '公司估值工作台', noindex: true },

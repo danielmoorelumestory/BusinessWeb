@@ -135,7 +135,7 @@ export default function FutureTrends(): JSX.Element {
   const coverage = trendCoverage()
   const selectedCoverage = trendCoverage([trend])
   return (
-    <main className="container animate-fade-in page-shell">
+    <main className="container animate-fade-in page-shell future-trends-page">
       <header className="page-head">
         <h1>未来趋势</h1>
         <p>AI、智驾、机器人、创新药、航空航天、新能源等赛道的产业链与中美参与公司。</p>

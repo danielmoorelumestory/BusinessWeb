@@ -8,12 +8,75 @@ afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 const renderPage = () => render(<MemoryRouter><IndustryEtf /></MemoryRouter>)
 
 describe('IndustryEtf', () => {
-  it('显示 7 个行业组与 59 只 ETF，总数与各组数量一致，且行业组为二级分类', () => {
+  it('场外债基链接自己的报告、显示净值日期且不提供网格', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, text: async () => '> 数据基准：2026-10-13 净值\n\n## 一、结论速览\n\n**综合判断：历史回撤有边界，按净值申赎。**' })))
     renderPage()
-    expect(screen.getByText(/7 个行业组，共 59 只 ETF/)).toBeTruthy()
-    expect(screen.getAllByRole('table')).toHaveLength(8)
-    const rows = screen.getAllByRole('row').filter(r => !r.closest('#broad-etf') && within(r).queryAllByRole('columnheader').length === 0)
-    expect(rows).toHaveLength(59)
+    const group = screen.getByRole('heading', { name: '债券基金（场外）' }).closest('section')!
+    expect(within(group).getByText('风险 / 收益 由低到高')).toBeTruthy()
+    expect(within(group).getByText('低波稳健 ──▶ 股债弹性')).toBeTruthy()
+    expect(within(group).getByText('只买债券')).toBeTruthy()
+    expect(within(group).getByText('可投可转债')).toBeTruthy()
+    expect(within(group).getByText('股票 ≤20%')).toBeTruthy()
+    expect(within(group).getByText('混合偏债')).toBeTruthy()
+    expect(within(group).getByText('回撤约 -1%~-2%')).toBeTruthy()
+    expect(within(group).getByText('回撤可 >10%')).toBeTruthy()
+    expect(within(group).queryByText(/所列份额销售服务费均为0/)).toBeNull()
+    expect(within(group).queryByText(/满三年采用2023-10-13至2026-10-13区间/)).toBeNull()
+    expect(within(group).getAllByRole('columnheader').map(cell => cell.textContent)).toEqual(['代码', '名称', '收益', '最大回撤', '基金经理', '费用', '备注', '参考'])
+    expect(within(group).getAllByRole('row').slice(1).map(row => row.firstElementChild!.textContent)).toEqual(['000015', '019372', '006337', '161716', '004042', '000143'])
+    const pureRow = within(group).getByRole('link', { name: '000015' }).closest('tr')!
+    expect(pureRow.textContent).toContain('普通纯债')
+    expect(pureRow.textContent).toContain('不含股票')
+    expect(pureRow.textContent).toContain('+9.93%')
+    expect(pureRow.textContent).toContain('近三年')
+    expect(pureRow.textContent).toContain('柳万军')
+    expect(pureRow.textContent).toContain('0.40%/年')
+    expect(pureRow.textContent).toContain('管0.30+托0.10')
+    const newerRow = within(group).getByRole('link', { name: '019372' }).closest('tr')!
+    expect(newerRow.textContent).toContain('二级债基')
+    expect(newerRow.textContent).toContain('股票增强 ~10%')
+    expect(newerRow.textContent).toContain('+13.28%')
+    expect(newerRow.textContent).toContain('成立以来')
+    expect(newerRow.textContent).toContain('-0.95%成立以来')
+    expect(newerRow.textContent).toContain('满180天免赎回费')
+    expect(newerRow.textContent).toContain('0.75%/年')
+    expect(newerRow.textContent).toContain('管0.60+托0.15')
+    for (const code of ['000015', '019372', '004042', '006337', '000143', '161716']) {
+      const row = within(group).getByRole('link', { name: code }).closest('tr')!
+      expect(within(row).getByRole('link', { name: '分析报告' }).getAttribute('href')).toMatch(new RegExp(`/notes/${code}-.*-bond-fund-analysis$`))
+      expect(within(row).queryByRole('link', { name: '行情·网格' })).toBeNull()
+      await waitFor(() => expect(row.textContent).toContain('2026-10-13 净值｜历史回撤有边界'))
+    }
+  })
+  it('新增三组可导航且沿用报告备注，港股红利不重复出现', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, text: async () => '## 一、结论速览\n\n数据基准：2026-10-14\n\n**综合判断：短期上升趋势；核验底层资产。**' })))
+    renderPage()
+    for (const [title, id, codes] of [
+      ['策略 ETF', 'strategy-etf', ['512890', '513630']],
+      ['商品 ETF', 'commodity-etf', ['518880']],
+      ['货币 ETF', 'money-etf', ['511880']],
+    ] as const) {
+      expect(screen.getByRole('link', { name: `${title}${codes.length}` }).getAttribute('href')).toBe(`#${id}`)
+      const section = screen.getByRole('heading', { name: title }).closest('section')!
+      expect(within(section).getAllByRole('row')).toHaveLength(codes.length + 1)
+      expect(within(section).queryByRole('columnheader', { name: /费用/ })).toBeNull()
+      for (const code of codes) {
+        const row = within(section).getByRole('link', { name: code }).closest('tr')!
+        expect(within(row).getByRole('link', { name: '分析报告' }).getAttribute('href')).toContain(`/notes/${code}-`)
+        await waitFor(() => expect(row.textContent).toContain('2026-10-14 收盘｜短期上升趋势；核验底层资产。'))
+      }
+    }
+    expect(screen.getAllByRole('link', { name: '513630' })).toHaveLength(1)
+    const money = screen.getByRole('link', { name: '511880' }).closest('tr')!
+    expect(within(money).queryByRole('link', { name: '行情·网格' })).toBeNull()
+    expect(within(money).getByText('不适用')).toBeTruthy()
+  })
+  it('显示 7 个行业组与 58 只 ETF，总数与各组数量一致，且行业组为二级分类', () => {
+    renderPage()
+    expect(screen.getByText(/7 个行业组，共 58 只行业 ETF/)).toBeTruthy()
+    expect(screen.getAllByRole('table')).toHaveLength(12)
+    const rows = screen.getAllByRole('row').filter(r => r.closest('#industry-etf') && within(r).queryAllByRole('columnheader').length === 0)
+    expect(rows).toHaveLength(58)
     // 一级分类：行业 ETF
     expect(screen.getByRole('heading', { level: 2, name: '行业 ETF' })).toBeTruthy()
     // 二级分类：TMT科技等
@@ -103,8 +166,8 @@ describe('IndustryEtf', () => {
 
   it('每只 ETF 都有网格详情入口，按代码打开（整页加载的 /note/ 地址）', () => {
     renderPage()
-    const links = screen.getAllByRole('link', { name: '行情·网格' }).filter(link => !link.closest('#broad-etf'))
-    expect(links).toHaveLength(59)
+    const links = screen.getAllByRole('link', { name: '行情·网格' }).filter(link => link.closest('#industry-etf'))
+    expect(links).toHaveLength(58)
     const row = screen.getByText('159928').closest('tr')!
     const href = within(row).getByRole('link', { name: '行情·网格' }).getAttribute('href')!
     expect(href.startsWith('/note/lab/grid-trading/detail/?code=159928&name=')).toBe(true)

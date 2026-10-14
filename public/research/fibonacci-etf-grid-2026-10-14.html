@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>斐波那契与 ETF 网格交易：验证、纠错与体系升级｜研究报告</title>
+<meta name="description" content="完整核验 Fibonacci 回撤与扩展的证据和公式，结合估值、趋势、ATR、资金管理与 ETF 执行规则，设计可验证的网格交易研究框架。含交互计算示例。">
+<meta name="theme-color" content="#25715c">
+<link rel="stylesheet" href="fibonacci-etf-grid.css">
+<script src="fibonacci-etf-grid.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#report">跳至完整报告</a>
+<header class="topbar"><div class="bar-inner"><a class="brand" href="../notes"><span>↗</span>投资研究 / RESEARCH</a><div class="actions"><a class="back-link" href="../notes/fibonacci-etf-grid-research">研究笔记</a><a href="../notes/fibonacci-etf-grid-research.md" download>下载正文 ↓</a><button class="print-button" id="print-report" type="button">打印 / PDF</button></div></div><div class="progress" id="reading-progress" aria-hidden="true"></div></header>
+<div class="hero"><div><p class="eyebrow">FIBONACCI × ETF GRID · RESEARCH REPORT</p><h1>斐波那契是坐标，<br><span>交易纪律需要证据。</span></h1><p class="subtitle">斐波那契在股票与 ETF 网格交易中的应用：<br>证据核验、公式纠错与策略升级。</p><div class="metadata"><span>核验于 2026.10.14</span><span>13 个研究章节</span><span>2 个交互计算示例</span></div></div><aside class="hero-note"><div class="big">61.8<span style="font-size:30px">%</span></div><div class="label">深回撤观察区</div><p>这个比例描述波段回吐的幅度。<br>能否增加仓位，还要检查持有理由、<br>市场状态与剩余风险预算。</p></aside></div>
+<div class="layout">
+<details class="sidebar" id="report-outline" open><summary>报告目录 / CONTENTS</summary><nav aria-label="报告章节"><a href="#overview">核心结论</a><a href="#calculation">交互计算示例</a><a href="#section-1">一、证据核验</a>
+<a href="#section-2">二、观点纠错</a>
+<a href="#section-3">三、公式纠错</a>
+<a href="#section-4">四、线性与对数</a>
+<a href="#section-5">五、锚点选择</a>
+<a href="#section-6">六、四因子体系</a>
+<a href="#section-7">七、ATR 网格</a>
+<a href="#section-8">八、网格模式</a>
+<a href="#section-9">九、资金管理</a>
+<a href="#section-10">十、退出纪律</a>
+<a href="#section-11">十一、ETF 执行</a>
+<a href="#section-12">十二、回测升级</a>
+<a href="#section-13">十三、交易地图</a><a href="#sources">来源与核验范围</a></nav><p class="side-note">研究对象：一般股票与非杠杆 ETF。<br>示例参数未经独立回测。<br>计算工具仅展示数学关系。</p></details>
+<main class="content">
+<section class="takeaway" id="overview"><h2>用价格坐标组织计划，用风险预算约束交易。</h2><p>61.8% 不自动触发重仓，1.618 不保证下跌终结。四因子框架需要样本外验证，Fibonacci 的独立贡献需要对照实验。</p><div class="factor-flow"><div><strong>估值与基本面</strong><span>持有理由</span></div><div><strong>趋势</strong><span>运行模式</span></div><div><strong>Fibonacci</strong><span>观察区域</span></div><div><strong>ATR</strong><span>网格尺度</span></div></div></section>
+<section class="lab" id="calculation" aria-labelledby="lab-title"><div class="section-kicker">EXPLORE THE MATH</div><h2 id="lab-title">把比例换成价格，检查计算口径</h2><p class="intro">可修改下方参数。输入均为假设值，未连接行情，也不生成买卖建议。</p><noscript><p>计算工具需要 JavaScript。下方完整报告和公式可以直接阅读。</p></noscript>
+<div class="lab-panel"><h3>01 / Fibonacci 价格坐标</h3><form id="fib-form"><div class="fields"><label>波段低点 L（元）<input id="fib-low" type="number" value="1" min="0.000001" step="any" required></label><label>波段高点 H（元）<input id="fib-high" type="number" value="2" min="0.000001" step="any" required></label><label>计算口径<select id="fib-scale"><option value="linear">线性价格</option><option value="log">对数价格</option></select></label><label class="wide">计算类型<select id="fib-mode"><option value="retracement-up">上涨后的回撤 · H 向 L</option><option value="retracement-down">下跌后的反弹 · L 向 H</option><option value="two-up">两点上行扩展 · 从 L 计算</option><option value="two-down">两点下行扩展 · 从 H 计算</option><option value="three-up">三点上行扩展 · A=L，B=H</option><option value="three-down">三点下行扩展 · A=H，B=L</option></select></label><label id="fib-c-label" hidden>调整终点 C（元）<input id="fib-c" type="number" value="1.5" min="0.000001" step="any" required><small>使用已确认的调整终点</small></label></div></form><p id="fib-message" class="calc-message" role="status"></p><div class="fib-results" id="fib-results" hidden><div class="table-scroll" tabindex="0" role="region" aria-label="Fibonacci 计算结果"><table><thead><tr><th scope="col">比例 / 倍数</th><th scope="col">对应价格</th></tr></thead><tbody id="fib-table-body"></tbody></table></div><div class="fib-chart"><div id="fib-chart"></div><p id="fib-chart-note"></p></div></div></div>
+<div class="lab-panel"><h3>02 / ATR 网格间距</h3><form id="atr-form"><div class="fields"><label>参考价格 P（元）<input id="atr-price" type="number" value="1.5" min="0.000001" step="any" required></label><label>ATR（元）<input id="atr-value" type="number" value="0.03" min="0" step="any" required></label><label>ATR 倍数 k<input id="atr-multiple" type="number" value="1.5" min="0.000001" step="any" required></label><label>往返成本门槛（%）<input id="atr-cost" type="number" value="0.2" min="0" step="any" required><small>示例值，需包含佣金、滑点等</small></label><label>报价单位（元）<input id="atr-tick" type="number" value="0.001" min="0.000001" step="any" required></label></div></form><div class="result-cards" id="atr-results" hidden><div><small>ATR 基础间距</small><strong id="atr-basic"></strong></div><div><small>对齐报价后的候选间距</small><strong id="atr-candidate"></strong></div><div><small>候选单格价差</small><strong id="atr-gap"></strong></div></div><p id="atr-message" class="calc-message" role="status"></p></div>
+</section>
+<article class="report" id="report" aria-label="完整研究报告"><p>本文讨论一般股票与非杠杆 ETF 的策略设计。所有资金比例、指标参数和价格案例均为研究示例，尚未经过本文的独立回测。</p>
+<p><strong>核心结论：Fibonacci 可以组织价格观察区，但不能单独决定趋势、成交时机或仓位大小。</strong> 四因子框架同样需要验证；累计投入不等于风险敞口；组合策略跑赢普通网格，也未必说明 Fibonacci 有贡献。</p>
+<h2 id="section-1">一、证据核验：黄金比例没有天然胜率</h2><p>《Automatic identification and evaluation of Fibonacci retracements: Empirical evidence from three equity markets》发表于 2022 年的 <em>Expert Systems with Applications</em>。在其样本和算法设定下，研究没有发现 Fibonacci 区域相对于非 Fibonacci 区域的稳定反弹概率优势；对应交易规则未优于随机区域策略，且表现弱于持有相应市场指数的基准。扩大观察区域会增加识别到反弹的概率，因此“价格在附近反弹”本身不是充分证据。<a href="https://www.sciencedirect.com/science/article/pii/S0957417421012495">论文原文页面</a></p>
+<p>这支持一个审慎结论：<strong>不能仅凭价格到达 38.2%、61.8% 或 1.618，就假定交易具有正期望。</strong></p>
+<p>统计上未发现显著优势，不等于证明所有市场、周期和组合用途都无效。上述研究没有直接验证本文提出的中国 ETF 四因子网格。</p>
+<p>2026 年网格工作论文《Volatility Harvesting or Inventory Risk? Market-Wide Evidence on Grid Trading in China&#39;s Equity ETF Market》也确实存在，SSRN 页面显示于 2026 年 9 月 7 日公开。摘要说明其使用 2009—2026 年中国股票 ETF 分钟数据，并考虑 T+1、交易单位、费用、滑点及资金约束。本文核验到了页面与摘要，未能获取全文，不能据此认可其全部实证结论。<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7429819">SSRN 论文页面</a></p>
+<blockquote>
+<p>网格完成一笔低买高卖，不等于相对于同初始暴露的静态组合创造了更多财富。评价对象应是包含现金、全部未平仓持仓和分红的总资产。</p>
+</blockquote>
+<h2 id="section-2">二、观点纠错：删除确定性的市场含义</h2><div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>原有观点</th>
+<th>修订结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>38.2% 是强势回调位</td>
+<td>可作为传统技术分析描述，不能直接推导更高胜率</td>
+</tr>
+<tr>
+<td>50% 是多空平衡线</td>
+<td>常用中点比例，不是严格多空分界，也不是 Fibonacci 数列的典型极限比值</td>
+</tr>
+<tr>
+<td>61.8% 是极限黄金坑</td>
+<td>删除确定性含义；既可能是调整，也可能处于趋势反转过程中</td>
+</tr>
+<tr>
+<td>熊市反弹至 61.8% 必须清仓</td>
+<td>删除；退出由持仓目标、结构和风险预算决定</td>
+</tr>
+<tr>
+<td>1.382、1.618 是见顶位</td>
+<td>改为目标观察区，不能预言顶部</td>
+</tr>
+<tr>
+<td>向下 1.618 是终极支撑</td>
+<td>不成立</td>
+</tr>
+<tr>
+<td>必须取多年绝对高低点</td>
+<td>改为预先定义的交易级别内有效波段</td>
+</tr>
+<tr>
+<td>120 日均线确认真顶底</td>
+<td>改为滞后的趋势过滤条件</td>
+</tr>
+<tr>
+<td>深回撤应部署更大资金</td>
+<td>缺乏必然依据；资金服从独立风险预算</td>
+</tr>
+<tr>
+<td>宽基跌破后继续开新网格</td>
+<td>删除自动执行规则；新旧持仓合并计量风险</td>
+</tr>
+</tbody></table></div>
+<p>回撤较浅并不自动证明行情强，回撤较深也不自动证明反转。比例只是对已发生价格变化的描述。两种行情在触及 61.8% 的瞬间可能相似：一种调整后继续上涨，另一种反弹后继续下跌。</p>
+<p>因此，应把“61.8% 部署最大条件单”改为“61.8% 是深回撤观察区，只有预先定义的交易条件满足且风险额度允许，才可有限增加仓位”。等待确认也可能错过 V 型反弹，需与触价立即买入进行对照。</p>
+<h2 id="section-3">三、公式纠错：回撤、反弹与两种扩展</h2><p>设同一波段低点为 L、高点为 H，且 H &gt; L；r 为回撤或反弹比例，k 为扩展倍数。本文先采用线性价格口径。</p>
+<p><strong>上涨后的回撤：</strong></p>
+<pre><code class="language-text">P回撤(r) = H − r × (H − L)
+</code></pre>
+<p><strong>下跌后的反弹：</strong></p>
+<pre><code class="language-text">P反弹(r) = L + r × (H − L)
+</code></pre>
+<p>对于 L = 1.00、H = 2.00：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>比例 r</th>
+<th align="right">上涨后的回撤价</th>
+<th align="right">下跌后的反弹价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>23.6%</td>
+<td align="right">1.764</td>
+<td align="right">1.236</td>
+</tr>
+<tr>
+<td>38.2%</td>
+<td align="right">1.618</td>
+<td align="right">1.382</td>
+</tr>
+<tr>
+<td>50.0%</td>
+<td align="right">1.500</td>
+<td align="right">1.500</td>
+</tr>
+<tr>
+<td>61.8%</td>
+<td align="right">1.382</td>
+<td align="right">1.618</td>
+</tr>
+<tr>
+<td>78.6%</td>
+<td align="right">1.214</td>
+<td align="right">1.786</td>
+</tr>
+<tr>
+<td>100%</td>
+<td align="right">1.000</td>
+<td align="right">2.000</td>
+</tr>
+</tbody></table></div>
+<p><strong>61.8% 波段回撤不等于从最高价下跌 61.8%。</strong> 本例从 2.00 跌至 1.382，较最高价实际下跌 30.9%。这个区别直接影响压力测试和资金安排。</p>
+<p><strong>两点上行与下行扩展：</strong></p>
+<pre><code class="language-text">P上行(k) = L + k × (H − L)
+P下行(k) = H − k × (H − L)
+         = L − (k − 1) × (H − L)
+</code></pre>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>系数 k</th>
+<th align="right">上行扩展价</th>
+<th align="right">下行扩展价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.000</td>
+<td align="right">2.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr>
+<td>1.272</td>
+<td align="right">2.272</td>
+<td align="right">0.728</td>
+</tr>
+<tr>
+<td>1.382</td>
+<td align="right">2.382</td>
+<td align="right">0.618</td>
+</tr>
+<tr>
+<td>1.618</td>
+<td align="right">2.618</td>
+<td align="right">0.382</td>
+</tr>
+</tbody></table></div>
+<p>从前低继续计算时，只应减去超出原波段的部分，不能再减去完整的 k 倍波段。线性下行扩展可能算出零或负价格，这表示外推超出了正价格资产的适用范围，不能据此挂单。</p>
+<p><strong>三点趋势扩展：</strong></p>
+<pre><code class="language-text">P(k) = C + k × (B − A)
+</code></pre>
+<p>A 是推动波段起点，B 是终点，C 是反向调整终点。上涨时 B &gt; A，下跌时 B &lt; A。若 A = 1.00、B = 2.00、C = 1.50，1.618 倍目标是 3.118，与两点扩展的 2.618 不同。TradingView 的趋势扩展工具明确采用三个锚点。<a href="https://www.tradingview.com/support/solutions/43000518137-trend-based-fib-extension-drawing-tool/">工具说明</a></p>
+<p>各软件的方向与标签可能不同。应同时记录公式、锚点、方向和对应价格，不能只记录“1.618”。</p>
+<h2 id="section-4">四、线性与对数：提前固定口径</h2><p>线性回撤按绝对价差划分；对数回撤按对数价差划分。</p>
+<pre><code class="language-text">上涨后的对数回撤：
+Plog(r) = exp[(1 − r) × ln(H) + r × ln(L)]
+        = H^(1 − r) × L^r
+</code></pre>
+<p>L = 1、H = 2 时，线性 50% 回撤为 1.500，对数 50% 回撤为 √2 ≈ 1.414。</p>
+<p>两种方法回答的问题不同，没有一种因数学形式而天然更能预测市场。TradingView 提供对数 Fib 计算选项，但仅切换图表显示坐标，不应被当成已经切换计算方法。<a href="https://www.tradingview.com/support/solutions/43000518158-fibonacci-retracement-drawing-tool/">回撤工具说明</a></p>
+<p>策略应提前固定口径，不能在看到走势后选择更贴合价格的画法。长期、涨跌幅较大的行情可以做两种口径的敏感性比较，但参数选择必须在样本外评价前完成。</p>
+<h2 id="section-5">五、锚点选择：可重复，而且不使用未来信息</h2><ol>
+<li>确定交易周期及主观察级别。</li>
+<li>高低点属于同一推动波段。</li>
+<li>固定采用影线极值或收盘价，异常报价另行核验。</li>
+<li>记录枢轴发生时间和确认时间。</li>
+<li>只允许在确认后使用该锚点。</li>
+<li>规定何时更新锚点、何时暂停旧规则。</li>
+</ol>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>交易目标</th>
+<th>主观察级别</th>
+<th>辅助用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数日到数周波段</td>
+<td>日线</td>
+<td>小时线执行、周线检查环境</td>
+</tr>
+<tr>
+<td>1—6 个月网格</td>
+<td>日线</td>
+<td>周线检查较大结构</td>
+</tr>
+<tr>
+<td>半年以上配置网格</td>
+<td>周线</td>
+<td>日线执行、月线观察长期背景</td>
+</tr>
+<tr>
+<td>长期战略配置</td>
+<td>周线／月线</td>
+<td>日线执行，不随短期噪声重定锚</td>
+</tr>
+</tbody></table></div>
+<p>以上是观察模板，不是固定最优周期。ZigZag 和 ATR 反转阈值可以减少主观性，但仍有确认滞后。若某高点在后续下跌达到阈值后才确认，回测不能从高点发生当天开始使用它。ZigZag 最后一段可能随新行情变化，不能把最终图形当成当时已知信息。</p>
+<p>跌破原起点意味着该上涨波段被完全回吐，却不必然等于 ETF 的长期投资逻辑失效。应分别判断波段假设、当前网格和长期配置理由。</p>
+<blockquote>
+<p>重新画线不能重置旧持仓的亏损与风险预算。</p>
+</blockquote>
+<h2 id="section-6">六、四因子体系：职责清晰，但证据并不独立</h2><div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>主要职责</th>
+<th>不能承担的职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>估值与基本面</td>
+<td>判断长期持有理由及其脆弱性</td>
+<td>保证短期反弹</td>
+</tr>
+<tr>
+<td>趋势</td>
+<td>选择允许运行的交易模式</td>
+<td>认证真实顶底</td>
+</tr>
+<tr>
+<td>Fibonacci</td>
+<td>标记预先定义的价格区域</td>
+<td>自动生成胜率</td>
+</tr>
+<tr>
+<td>ATR</td>
+<td>衡量近期价格波动尺度</td>
+<td>判断涨跌方向</td>
+</tr>
+<tr>
+<td>资金管理</td>
+<td>限制所有订单与持仓风险</td>
+<td>保证止损按预期成交</td>
+</tr>
+</tbody></table></div>
+<p>趋势、Fib 和 ATR 都来自价格数据，信息可能重叠。“三个价格指标同时满足”不能简单理解为三个独立确认。四因子框架本身尚不是经验证的有效策略。</p>
+<p>估值应使用对应指数或组合的基本面口径，不能由 ETF 每份价格高低判断贵便宜。历史分位需说明样本长度、盈利口径、成分变化和数据发布日期。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>行业</th>
+<th>候选研究变量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>消费</td>
+<td>盈利增长、利润率、ROE、需求变化</td>
+</tr>
+<tr>
+<td>半导体</td>
+<td>库存、盈利预期、资本开支及周期位置</td>
+</tr>
+<tr>
+<td>创新药</td>
+<td>研发与商业化、现金消耗、融资环境；PE 未必适用</td>
+</tr>
+<tr>
+<td>有色</td>
+<td>商品价格、成本、库存与供需周期</td>
+</tr>
+<tr>
+<td>恒生科技</td>
+<td>盈利、现金流、利率、流动性及政策环境</td>
+</tr>
+</tbody></table></div>
+<p>低估值可能意味着机会，也可能反映未来盈利恶化。估值过滤同样需要接受回测检验。均线斜率、结构和动量应定义为可计算规则，避免不断调参直到贴合历史走势。</p>
+<h2 id="section-7">七、ATR 网格：成本门槛与更新纪律</h2><pre><code class="language-text">TRt = max(Ht − Lt, |Ht − Ct−1|, |Lt − Ct−1|)
+ATRt = [(n − 1) × ATRt−1 + TRt] ÷ n
+</code></pre>
+<p>后一式为常见 Wilder 平滑。ATR 衡量波动，不判断方向；14 个周期只是常见设定。<a href="https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/atr">Fidelity ATR 说明</a></p>
+<pre><code class="language-text">基础价差 ΔP = k × ATR
+基础比例 g = k × ATR ÷ P
+候选比例 g = max(k × ATR ÷ P, 成本门槛, 报价门槛)
+</code></pre>
+<p>ETF 价格 1.50 元、ATR 0.03 元、k = 1.5 时，基础价差为 0.045 元，基础间距为 3%。它只是计算示例，不是最优参数。</p>
+<p>若为控制格数设置最大间距，必须明确达到上限后的暂停或模式切换，不能继续假定网格适合当前波动。</p>
+<pre><code class="language-text">单笔往返净收益
+= q × (卖出成交价 − 买入成交价)
+  − 买卖费用 − 其他未计入成交价的摩擦成本
+</code></pre>
+<p>净收益门槛必须覆盖双向佣金、最低收费、价差与滑点。使用实际成交价时，不应再次重复扣除已包含的价差或滑点。</p>
+<p>还需规定 ATR 周期、更新时点、未成交订单撤换、已买仓位卖出目标调整，以及波动突然放大后的新增买入规则。持续移动全部网格会改变策略，应与固定网格分别验证。</p>
+<h2 id="section-8">八、网格模式：库存积累与市场暴露变化</h2><div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>市场状态</th>
+<th>候选模式</th>
+<th>核心约束</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>上涨</td>
+<td>核心仓位＋机动网格</td>
+<td>控制过早减仓导致的踏空</td>
+</tr>
+<tr>
+<td>震荡</td>
+<td>双向网格</td>
+<td>区间、成本与库存约束</td>
+</tr>
+<tr>
+<td>下跌</td>
+<td>暂停新增或有限防守网格</td>
+<td>不因价格更低而扩大总预算</td>
+</tr>
+<tr>
+<td>低估且出现稳定迹象</td>
+<td>分批配置＋有限网格</td>
+<td>基本面与风险预算持续有效</td>
+</tr>
+</tbody></table></div>
+<p>普通现货 ETF 的“中性网格”仍持有多头资产，<strong>双向买卖并不代表市场风险中性</strong>。</p>
+<p>核心仓位只是持有期限更长，仍应计入总风险。“核心＋网格”可以改变交易行为，但不能消除下跌风险。备用现金也没有必须投入市场的义务。</p>
+<h2 id="section-9">九、资金管理：同时看成本、市值、现金与压力损失</h2><p>10 万元预算、最多投入 5.5 万元、保留 4.5 万元现金，可以作为防守型研究模板。55% 没有通用最优性，而且必须明确其口径。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>定义与用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>未平仓成本</td>
+<td>当前仍持有份额对应的购入成本</td>
+</tr>
+<tr>
+<td>持仓市值</td>
+<td>当前份额乘以市场价格，衡量实时暴露</td>
+</tr>
+<tr>
+<td>可用现金</td>
+<td>扣除已挂买单预留资金与费用后的现金</td>
+</tr>
+<tr>
+<td>压力损失</td>
+<td>指定不利价格路径下的资产损失</td>
+</tr>
+</tbody></table></div>
+<p>历史累计买入金额会因反复交易不断增大，不适合作为当前仓位指标；累计净投入也不能代替持仓市值。</p>
+<pre><code class="language-text">总资产 Et = 现金 Ct + 份额 Qt × 价格 Pt
+持仓权重 wt = Qt × Pt ÷ Et
+</code></pre>
+<p>下表仅定义<strong>未平仓成本的分区额度</strong>，不是市值或亏损上限：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>回撤区间</th>
+<th align="right">示例额度</th>
+<th align="right">示例累计成本上限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0%—38.2%</td>
+<td align="right">15,000 元</td>
+<td align="right">15,000 元</td>
+</tr>
+<tr>
+<td>38.2%—50%</td>
+<td align="right">15,000 元</td>
+<td align="right">30,000 元</td>
+</tr>
+<tr>
+<td>50%—61.8%</td>
+<td align="right">15,000 元</td>
+<td align="right">45,000 元</td>
+</tr>
+<tr>
+<td>61.8%—78.6%</td>
+<td align="right">10,000 元，须满足条件</td>
+<td align="right">55,000 元</td>
+</tr>
+<tr>
+<td>波段失效或风险超限</td>
+<td align="right">不新增</td>
+<td align="right">不提高上限</td>
+</tr>
+</tbody></table></div>
+<p>已有核心仓位占用这些额度。卖出后是否恢复买入额度也应提前规定，避免同一区域反复补仓形成未经测试的高换手。</p>
+<p>每笔订单还应满足市值上限、现金下限、组合集中度和压力损失约束。多个相关 ETF 必须合并评估，不能仅分别看单品种上限。</p>
+<p>例如已持有价值 5.5 万元的 ETF，再下跌 40%，即使不再补仓，损失仍约为 2.2 万元。<strong>暂停买入限制新增风险，并不限制已有仓位继续亏损。</strong></p>
+<h2 id="section-10">十、退出纪律：暂停、减仓、退出与恢复分别定义</h2><div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>行为</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>暂停买入</td>
+<td>阻止风险继续增加</td>
+</tr>
+<tr>
+<td>减仓</td>
+<td>降低已有市场暴露</td>
+</tr>
+<tr>
+<td>退出</td>
+<td>结束失效的交易或投资假设</td>
+</tr>
+<tr>
+<td>恢复运行</td>
+<td>明确重新参与的条件</td>
+</tr>
+</tbody></table></div>
+<p>重新启动不应只依赖“价格又便宜了”。可以预先测试结构修复、基本面恢复、风险额度释放等条件，并保留所有旧仓位的核算。</p>
+<p>宽基、行业和主题 ETF 的差异，应体现在压力场景与退出规则中，不能赋予宽基无限持有或补仓的豁免。趋势破位不必然导致长期配置清仓；是否退出应依据最初持仓目标与风险边界。</p>
+<p>股票应用还需额外考虑单家公司经营恶化、停牌、退市及跳空风险，不能直接照搬分散 ETF 的资金模型。止损规则也无法保证在跳空或流动性不足时按目标价成交。</p>
+<h2 id="section-11">十一、ETF 执行：复权、T+1、折溢价与成交真实性</h2><p>分析信号、真实成交和资产核算应分开处理：</p>
+<ul>
+<li>历史分析采用一致的调整价格口径。</li>
+<li>成交模拟采用当时可交易价格。</li>
+<li>现金分红进入现金账户。</li>
+<li>份额变化与净值变化正确处理。</li>
+<li>绩效包含现金、持仓及分红，避免遗漏或重复计算。</li>
+</ul>
+<p>不要用包含未来公司行动的最终调整价格计算历史绝对金额，再直接生成当时订单。应保存当时可知的调整因素，并验证信号与订单价格的映射。</p>
+<p>上交所说明境内股票 ETF 实施 T+1，部分债券、黄金、跨境、货币 ETF 支持 T+0；具体产品应核对其有效规则。<a href="https://www.sse.com.cn/assortment/fund/etf/question/c/c_20240118_5734755.shtml">ETF 交易说明</a></p>
+<p>T+1 下当天新买份额不能当天卖出，原有可卖份额仍可用于日内交易。回测要分别维护总份额与当日可卖份额。</p>
+<p>上交所现行交易规则规定，一般竞价买入申报为 100 份或整数倍，基金报价最小变动单位为 0.001 元，并规定不足 100 份余额的卖出处理。<a href="https://www.sse.com.cn/lawandrules/sselawsrules2025/trade/universal/c/c_20260424_10816492.shtml">2026 年交易规则</a></p>
+<p>跨境 ETF 应区分标的涨跌、汇率变化和折溢价变化。境外休市或净值参考滞后时，信号解释尤其需要谨慎。</p>
+<p>回测不能仅凭 K 线触及限价就假定全部成交。跳空、挂单排队、成交量与买卖价差都可能使实际执行不同。仅有日线且一天触及多档时，应采用保守的成交顺序，不能自行选择最有利路径。</p>
+<h2 id="section-12">十二、回测升级：识别 Fibonacci 的独立贡献</h2><div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>组别</th>
+<th>策略</th>
+<th>比较目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>同初始现金与持仓的静态组合</td>
+<td>净财富基准</td>
+</tr>
+<tr>
+<td>B</td>
+<td>固定百分比网格</td>
+<td>简单网格基准</td>
+</tr>
+<tr>
+<td>C</td>
+<td>ATR 网格</td>
+<td>波动自适应效果</td>
+</tr>
+<tr>
+<td>D</td>
+<td>ATR＋趋势＋估值过滤</td>
+<td>过滤规则的组合效果</td>
+</tr>
+<tr>
+<td>E</td>
+<td>与 D 相同，再加入 Fib 分区</td>
+<td>Fib 的增量效果</td>
+</tr>
+<tr>
+<td>F</td>
+<td>与 E 相同，替换为匹配数量与尺度的非 Fib 分区</td>
+<td>特殊比例是否优于一般分区</td>
+</tr>
+</tbody></table></div>
+<p>D 与 E 的差异识别加入 Fib 的变化；E 与 F 检验特殊比例。只比较完整策略与 ATR 网格，无法排除收益来自趋势或估值过滤。</p>
+<p>“价格区间”与“资金权重”应分开回测，但前者不能简单等同于价格预测价值：区间设置也会改变换手、敞口和现金使用。若要检验预测能力，应另外定义触区后的收益、反弹或破位事件。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th></th>
+<th>普通资金权重</th>
+<th>Fib 资金权重</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通价格分区</td>
+<td>基础对照</td>
+<td>检验权重作用</td>
+</tr>
+<tr>
+<td>Fib 价格分区</td>
+<td>检验分区作用</td>
+<td>检验联合与交互作用</td>
+</tr>
+</tbody></table></div>
+<p>所有组使用相同资金、成本、初始仓位、样本期和风险边界。全仓买入持有可另列为机会成本基准，但不能替代相同初始暴露的静态组合。</p>
+<p>评价至少包含：</p>
+<ul>
+<li>含现金与未卖出持仓的资产终值。</li>
+<li>扣费年化收益、最大回撤和水下时间。</li>
+<li>平均与峰值市场暴露、换手率。</li>
+<li>现金不足、份额不可卖、订单未成交的次数。</li>
+<li>不同 ETF、年份与市场阶段的稳定性。</li>
+<li>参数变化与成本上升后的表现。</li>
+</ul>
+<p>采用按时间推进的滚动样本外验证。锚点、估值与趋势条件只能使用当时已知数据；标签跨越样本边界时需处理信息泄漏。随机区域应重复生成，并控制多次试验后挑选最好结果的偏差。</p>
+<p>成功标准应事先规定：若目标是风险控制，收益略低但回撤显著下降可能有价值；若声称 Fib 增加收益，需证明其独立增益在成本后、样本外仍稳定存在。胜率也应与盈亏比、持有时间和尾部损失一起评价。</p>
+<h2 id="section-13">十三、交易地图：从观察区走向有限交易</h2><p>下表是观察与决策地图，尚不是可直接执行的条件单规则。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="研究报告表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>位置</th>
+<th>应检查的问题</th>
+<th>候选处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>前高附近</td>
+<td>趋势、估值与持仓是否允许继续持有</td>
+<td>保留合适核心仓位，按规则调整机动仓</td>
+</tr>
+<tr>
+<td>23.6%—38.2%</td>
+<td>浅回撤是否仍处于允许交易的市场状态</td>
+<td>有预算且条件满足时有限参与</td>
+</tr>
+<tr>
+<td>38.2%—50%</td>
+<td>是否适合区间交易</td>
+<td>采用覆盖成本的网格</td>
+</tr>
+<tr>
+<td>50%—61.8%</td>
+<td>长期理由与短期结构是否仍有效</td>
+<td>不因比例更深而自动增加单笔金额</td>
+</tr>
+<tr>
+<td>61.8%—78.6%</td>
+<td>波段假设是否承压、风险是否超限</td>
+<td>限制新增，必要时暂停或减仓</td>
+</tr>
+<tr>
+<td>超过 78.6%</td>
+<td>原推动波段是否仍具交易意义</td>
+<td>优先审查失效条件</td>
+</tr>
+<tr>
+<td>跌破起点</td>
+<td>旧波段规则是否失效</td>
+<td>停止旧买入规则，单独处理已有仓位</td>
+</tr>
+<tr>
+<td>向下扩展</td>
+<td>不利路径下现金和损失是否可承受</td>
+<td>压力测试，不自动抄底</td>
+</tr>
+<tr>
+<td>向上扩展</td>
+<td>是否达到预设收益与风险调整条件</td>
+<td>分批调整，不机械清仓</td>
+</tr>
+</tbody></table></div>
+<p>跌破、企稳与趋势修复，应由预先选定的收盘价、幅度阈值或其他可计算规则定义，避免事后解释。</p>
+<p>完整执行顺序是：<strong>进入观察区 → 检查基本面与趋势 → 核验风险额度和成交条件 → 执行有限订单 → 更新现金、份额与风险账本。</strong></p>
+<blockquote>
+<p>基本面与估值提供持有理由，趋势限定运行模式，Fibonacci 标记价格区域，ATR 提供网格尺度，资金管理约束全部交易。</p>
+</blockquote>
+<p>在证据不足时，Fib 最合理的用途是提高计划的一致性和可复盘性。只有加入它后，相对于其他条件完全相同的对照，仍产生稳定的收益、风险或资金效率改善，才应将其升级为策略的必要组成部分。</p>
+</article>
+<section class="sources" id="sources"><h2>来源与核验范围</h2><p>文献结果仅适用于其研究范围。2026 年 SSRN 工作论文只核验了页面与摘要，全文未获取。本文没有执行 ETF 策略回测，也没有认证任何资金比例或最优参数。</p><ol>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0957417421012495">Tsinaslanidis、Guijarro、Voukelatos：Fibonacci 回撤实证研究</a> · 2022 · DOI: 10.1016/j.eswa.2021.115893</li>
+<li><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7429819">中国股票 ETF 网格交易工作论文</a> · SSRN · 2026.09.07</li>
+<li><a href="https://www.tradingview.com/support/solutions/43000518137-trend-based-fib-extension-drawing-tool/">TradingView：三点趋势扩展</a></li>
+<li><a href="https://www.tradingview.com/support/solutions/43000518158-fibonacci-retracement-drawing-tool/">TradingView：回撤工具与对数选项</a></li>
+<li><a href="https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/atr">Fidelity：ATR 定义与 Wilder 平滑</a></li>
+<li><a href="https://www.sse.com.cn/assortment/fund/etf/question/c/c_20240118_5734755.shtml">上交所：ETF T+0 / T+1 说明</a></li>
+<li><a href="https://www.sse.com.cn/lawandrules/sselawsrules2025/trade/universal/c/c_20260424_10816492.shtml">上交所：交易规则（2026 年修订）</a> · 2026.07.06 生效</li>
+</ol></section>
+</main></div><footer class="footer"><span>个人研究与方法讨论 · 示例不构成交易指令</span><a href="#overview">返回核心结论 ↑</a></footer>
+</body></html>

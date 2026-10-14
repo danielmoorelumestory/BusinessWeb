@@ -1,0 +1,47 @@
+{
+  "asOf": "2026-10-14",
+  "selectedCode": "511880",
+  "reason": "已核验两只A类主要候选中当前三项费率更低、本次成交更大；优惠截止日期明确；不称全市场最优。",
+  "candidates": [
+    {
+      "code": "511880",
+      "name": "银华日利ETF",
+      "fundClass": "A",
+      "aumYi": 795.03,
+      "aumAsOf": "2026-06-30",
+      "managementFeePct": 0.3,
+      "custodyFeePct": 0.09,
+      "salesServiceFeePct": 0.01,
+      "annualFeePct": 0.4,
+      "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202609211829727762_1.pdf",
+      "feeBasis": "银华优惠截至2026-12-30；华宝2026-10-01起销售服务费降至0",
+      "turnoverYi": 302.268,
+      "quoteAt": "20261014161457",
+      "basicUrl": "https://fundf10.eastmoney.com/jbgk_511880.html",
+      "quoteUrl": "https://qt.gtimg.cn/q=sh511880"
+    },
+    {
+      "code": "511990",
+      "name": "华宝添益ETF",
+      "fundClass": "A",
+      "aumYi": 783.51,
+      "aumAsOf": "2026-06-30",
+      "managementFeePct": 0.35,
+      "custodyFeePct": 0.09,
+      "salesServiceFeePct": 0,
+      "annualFeePct": 0.43999999999999995,
+      "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202609291830002554_1.pdf",
+      "feeBasis": "银华优惠截至2026-12-30；华宝2026-10-01起销售服务费降至0",
+      "turnoverYi": 130.246,
+      "quoteAt": "20261014161454",
+      "basicUrl": "https://fundf10.eastmoney.com/jbgk_511990.html",
+      "quoteUrl": "https://qt.gtimg.cn/q=sh511990"
+    }
+  ],
+  "excluded": [
+    {
+      "code": "511660",
+      "reason": "未取得完整可复核基本字段，未参与排名"
+    }
+  ]
+}
