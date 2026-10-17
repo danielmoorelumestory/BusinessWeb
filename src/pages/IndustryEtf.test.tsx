@@ -22,33 +22,35 @@ describe('IndustryEtf', () => {
     expect(within(group).getByText('回撤可 >10%')).toBeTruthy()
     expect(within(group).queryByText(/所列份额销售服务费均为0/)).toBeNull()
     expect(within(group).queryByText(/满三年采用2023-10-13至2026-10-13区间/)).toBeNull()
-    expect(within(group).getAllByRole('columnheader').map(cell => cell.textContent)).toEqual(['代码', '名称', '三年收益', '五年收益', '历史最大回撤', '基金经理', '费用', '备注', '参考'])
-    expect(within(group).getAllByRole('row').slice(1).map(row => row.firstElementChild!.textContent)).toEqual(['019372', '110017', '006337', '000015', '010011', '161716'])
+    expect(within(group).getAllByRole('columnheader').map(cell => cell.textContent)).toEqual(['名称 / 代码', '三年收益', '五年收益', '历史最大回撤', '费用', '备注', '参考'])
+    expect(within(group).getAllByRole('row').slice(1).map(row => row.querySelector('.etf-code-line')!.textContent)).toEqual(['006337', '000015', '110017', '161716', '019372', '010011', '000143'])
+    const row110017 = within(group).getByRole('link', { name: '110017' }).closest('tr')!
+    expect(row110017.textContent).toContain('-5.36%')
+    expect(row110017.textContent).toContain('历史(2015)')
     const pureRow = within(group).getByRole('link', { name: '000015' }).closest('tr')!
     expect(pureRow.textContent).toContain('普通纯债')
     expect(pureRow.textContent).toContain('不含股票')
-    expect(pureRow.textContent).toContain('+9.93%')
+    expect(pureRow.textContent).toContain('+10.02%')
     expect(pureRow.textContent).toContain('+17.35%')
     expect(pureRow.textContent).toContain('近五年')
     expect(pureRow.textContent).toContain('-4.10%')
     expect(pureRow.textContent).toContain('历史(2016)')
-    expect(pureRow.textContent).toContain('柳万军')
     expect(pureRow.textContent).toContain('0.40%/年')
     expect(pureRow.textContent).toContain('管0.30+托0.10')
+    expect(pureRow.textContent).toContain('赎回费：<7天 1.50% · 7–29天 0.10% · ≥30天 0%')
     const newerRow = within(group).getByRole('link', { name: '019372' }).closest('tr')!
     expect(newerRow.textContent).toContain('二级债基')
     expect(newerRow.textContent).toContain('股票增强 ~10%')
-    expect(newerRow.textContent).toContain('+13.28%')
-    expect(newerRow.textContent).toContain('成立来')
-    expect(newerRow.textContent).toContain('成立不足5年')
-    expect(newerRow.textContent).toContain('-0.95%成立来')
-    expect(newerRow.textContent).toContain('满180天免赎回费')
+    expect(newerRow.textContent).toContain('+13.12%')
+    expect(newerRow.textContent).toContain('2023-11-02')
+    expect(newerRow.textContent).toContain('-0.98%')
     expect(newerRow.textContent).toContain('0.75%/年')
     expect(newerRow.textContent).toContain('管0.60+托0.15')
-    for (const code of ['000015', '019372', '006337', '161716', '110017', '010011']) {
+    expect(newerRow.textContent).toContain('赎回费：<7天 1.50% · 7–29天 0.50% · 30–179天 0.10% · ≥180天 0%')
+    for (const code of ['000015', '019372', '006337', '161716', '110017', '010011', '000143']) {
       const row = within(group).getByRole('link', { name: code }).closest('tr')!
       expect(within(row).getByRole('link', { name: '分析报告' }).getAttribute('href')).toMatch(new RegExp(`/notes/${code}-.*-bond-fund-analysis$`))
-      expect(within(row).queryByRole('link', { name: '行情·网格' })).toBeNull()
+      expect(within(row).queryByRole('link', { name: '行情网格' })).toBeNull()
       await waitFor(() => expect(row.textContent).toContain('2026-10-13 净值｜历史回撤有边界'))
     }
   })
@@ -72,15 +74,22 @@ describe('IndustryEtf', () => {
     }
     expect(screen.getAllByRole('link', { name: '513630' })).toHaveLength(1)
     const money = screen.getByRole('link', { name: '511880' }).closest('tr')!
-    expect(within(money).queryByRole('link', { name: '行情·网格' })).toBeNull()
+    expect(within(money).queryByRole('link', { name: '行情网格' })).toBeNull()
     expect(within(money).getByText('不适用')).toBeTruthy()
+    expect(within(money.closest('section')!).getAllByRole('columnheader').map(cell => cell.textContent)).toEqual(['名称 / 代码', '标的与定位', '备注', '参考 / 网格'])
+    expect(money.querySelector('.etf-technical-cell')).toBeNull()
   })
-  it('显示 7 个行业组与 58 只 ETF，总数与各组数量一致，且行业组为二级分类', () => {
+  it('显示 7 个行业组与 59 只 ETF，总数与各组数量一致，且行业组为二级分类', () => {
     renderPage()
-    expect(screen.getByText(/7 个行业组，共 58 只行业 ETF/)).toBeTruthy()
+    expect(screen.getByText(/7 个行业组，共 59 只行业 ETF/)).toBeTruthy()
     expect(screen.getAllByRole('table')).toHaveLength(12)
     const rows = screen.getAllByRole('row').filter(r => r.closest('#industry-etf') && within(r).queryAllByRole('columnheader').length === 0)
-    expect(rows).toHaveLength(58)
+    expect(rows).toHaveLength(59)
+    const buildingMaterials = within(screen.getByRole('heading', { level: 3, name: '金融地产基建' }).closest('section')!)
+      .getByRole('link', { name: '516750' }).closest('tr')!
+    for (const label of ['建筑材料 67.44%', '建筑产品 28.80%', '化学制品 3.76%', '指数三级行业权重 · 2026-10-09']) {
+      expect(within(buildingMaterials).getByText(label)).toBeTruthy()
+    }
     // 一级分类：行业 ETF
     expect(screen.getByRole('heading', { level: 2, name: '行业 ETF' })).toBeTruthy()
     // 二级分类：TMT科技等
@@ -96,6 +105,13 @@ describe('IndustryEtf', () => {
     })))
     renderPage()
     const section = screen.getByRole('heading', { name: '宽基 ETF 清单' }).closest('section')!
+    expect(within(section).getAllByRole('columnheader').map(cell => cell.textContent)).toEqual(['名称 / 代码', '标的与定位', '日线', '周线', '月线', '备注', '参考 / 网格'])
+    const a50 = within(section).getByRole('link', { name: '159593' }).closest('tr')!
+    expect(a50.querySelectorAll('.etf-technical-cell')).toHaveLength(3)
+    expect(within(a50).getAllByText('MA')).toHaveLength(3)
+    expect(within(a50).getAllByText('MACD')).toHaveLength(3)
+    expect(within(a50).getByText('26.1 超卖，仍在回落')).toBeTruthy()
+    expect(a50.querySelectorAll('.etf-technical-cell')[2].getAttribute('title')).toContain('未收盘暂态')
     const rows = within(section).getAllByRole('row').slice(1)
     expect(rows).toHaveLength(10)
     expect(within(section).queryByText('已精简的13类指数及原因')).toBeNull()
@@ -110,14 +126,15 @@ describe('IndustryEtf', () => {
     expect(within(row).getByRole('link', { name: '分析报告' }).getAttribute('href')).toBe('/notes/510300-csi300-etf-analysis')
     expect(within(row).getByRole('link', { name: '510300' }).getAttribute('href')).toBe('/notes/510300-csi300-etf-analysis')
     for (const row of rows) {
-      expect(within(row).getByRole('link', { name: '基金档案 ↗' }).getAttribute('href')).toMatch(/^https:\/\/fundf10.eastmoney.com/)
-      expect(within(row).getByRole('link', { name: '行情·网格' }).getAttribute('href')).toContain(`code=${row.firstElementChild!.textContent}`)
+      expect(within(row).getByRole('link', { name: '基金档案' }).getAttribute('href')).toMatch(/^https:\/\/fundf10.eastmoney.com/)
+      expect(within(row).getByRole('link', { name: '行情网格' }).getAttribute('href')).toContain(`code=${row.querySelector('.etf-code-line')!.textContent}`)
     }
   })
 
   it('站内参考链接用 Link 指向 /notes/<slug>', () => {
     renderPage()
-    const link = screen.getByRole('link', { name: '机器人ETF对比研报：562500 vs 159530' })
+    const link = screen.getByTitle('机器人ETF对比研报：562500 vs 159530')
+    expect(link.textContent).toBe('分析报告')
     expect(link.getAttribute('href')).toBe('/notes/robotics-industry-research')
     expect(link.getAttribute('target')).toBeNull()
   })
@@ -133,47 +150,56 @@ describe('IndustryEtf', () => {
     const chipRow = screen.getByText('588200').closest('tr')!
     const chipLinks = within(chipRow).getAllByRole('link').filter(a => !a.getAttribute('href')!.startsWith('/note/'))
     expect(chipLinks.map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/588200-star-chip-etf-analysis'))
-    expect(chipLinks[2].textContent).toBe('科创芯片ETF')
+    expect(chipLinks[2].textContent).toBe('分析报告')
+    expect(chipLinks[2].getAttribute('title')).toBe('科创芯片ETF')
     const semiconductorRow = screen.getByText('588170').closest('tr')!
     const semiconductorLinks = within(semiconductorRow).getAllByRole('link').filter(a => !a.getAttribute('href')!.startsWith('/note/'))
     expect(semiconductorLinks.map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/588170-star-semiconductor-etf-analysis'))
-    expect(semiconductorLinks[2].textContent).toBe('科创半导体ETF')
+    expect(semiconductorLinks[2].textContent).toBe('分析报告')
+    expect(semiconductorLinks[2].getAttribute('title')).toBe('科创半导体ETF')
     const communicationsRow = screen.getByText('515880').closest('tr')!
     const communicationsLinks = within(communicationsRow).getAllByRole('link')
     expect(communicationsLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/515880-communications-etf-analysis'))
-    expect(communicationsLinks[2].textContent).toBe('通信ETF')
+    expect(communicationsLinks[2].textContent).toBe('分析报告')
+    expect(communicationsLinks[2].getAttribute('title')).toBe('通信ETF')
     const aiRow = screen.getByText('159819').closest('tr')!
     const aiLinks = within(aiRow).getAllByRole('link')
     expect(aiLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159819-ai-etf-analysis'))
-    expect(aiLinks[2].textContent).toBe('人工智能ETF')
+    expect(aiLinks[2].textContent).toBe('分析报告')
+    expect(aiLinks[2].getAttribute('title')).toBe('人工智能ETF')
     const softwareRow = screen.getByText('159852').closest('tr')!
     const softwareLinks = within(softwareRow).getAllByRole('link')
     expect(softwareLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159852-software-etf-analysis'))
-    expect(softwareLinks[2].textContent).toBe('软件ETF嘉实')
+    expect(softwareLinks[2].textContent).toBe('分析报告')
+    expect(softwareLinks[2].getAttribute('title')).toBe('软件ETF嘉实')
     const cloudRow = screen.getByText('516510').closest('tr')!
     const cloudLinks = within(cloudRow).getAllByRole('link')
     expect(cloudLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/516510-cloud-computing-etf-analysis'))
-    expect(cloudLinks[2].textContent).toBe('云计算ETF易方达')
+    expect(cloudLinks[2].textContent).toBe('分析报告')
+    expect(cloudLinks[2].getAttribute('title')).toBe('云计算ETF易方达')
     const consumerElectronicsRow = screen.getByText('159732').closest('tr')!
     const consumerElectronicsLinks = within(consumerElectronicsRow).getAllByRole('link')
     expect(consumerElectronicsLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159732-consumer-electronics-etf-analysis'))
-    expect(consumerElectronicsLinks[2].textContent).toBe('消费电子ETF华夏')
+    expect(consumerElectronicsLinks[2].textContent).toBe('分析报告')
+    expect(consumerElectronicsLinks[2].getAttribute('title')).toBe('消费电子ETF华夏')
     const mediaRow = screen.getByText('512980').closest('tr')!
     const mediaLinks = within(mediaRow).getAllByRole('link')
     expect(mediaLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/512980-media-etf-analysis'))
-    expect(mediaLinks[2].textContent).toBe('传媒ETF广发')
+    expect(mediaLinks[2].textContent).toBe('分析报告')
+    expect(mediaLinks[2].getAttribute('title')).toBe('传媒ETF广发')
     const gameRow = screen.getByText('159869').closest('tr')!
     const gameLinks = within(gameRow).getAllByRole('link')
     expect(gameLinks.slice(0, 3).map(a => a.getAttribute('href'))).toEqual(Array(3).fill('/notes/159869-game-etf-analysis'))
-    expect(gameLinks[2].textContent).toBe('游戏ETF华夏')
+    expect(gameLinks[2].textContent).toBe('分析报告')
+    expect(gameLinks[2].getAttribute('title')).toBe('游戏ETF华夏')
   })
 
   it('每只 ETF 都有网格详情入口，按代码打开（整页加载的 /note/ 地址）', () => {
     renderPage()
-    const links = screen.getAllByRole('link', { name: '行情·网格' }).filter(link => link.closest('#industry-etf'))
-    expect(links).toHaveLength(58)
+    const links = screen.getAllByRole('link', { name: '行情网格' }).filter(link => link.closest('#industry-etf'))
+    expect(links).toHaveLength(59)
     const row = screen.getByText('159928').closest('tr')!
-    const href = within(row).getByRole('link', { name: '行情·网格' }).getAttribute('href')!
+    const href = within(row).getByRole('link', { name: '行情网格' }).getAttribute('href')!
     expect(href.startsWith('/note/lab/grid-trading/detail/?code=159928&name=')).toBe(true)
     expect(new URL(href, 'http://x').searchParams.get('name')).toBeTruthy()
   })

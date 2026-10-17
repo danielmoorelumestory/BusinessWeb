@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom'
 import metricsData from '../data/bondFundMetrics.json'
 import { latestInvestmentNote } from '../utils/etfJudgment'
 import EtfDocumentRemark from './EtfDocumentRemark'
+import EtfIdentityCell from './EtfIdentityCell'
 import type { SelectedEtfItem } from './BroadEtfList'
 
 type BondFundMetric = {
   asOf: string
   bondType?: string
   bondFeature?: string
+  inceptionDate?: string
+  returnSinceInceptionPct?: number | null
   return3yPct: number | null
   returnPct?: number
   returnStart?: string
@@ -24,6 +27,7 @@ type BondFundMetric = {
   custodyFeePct: number
   annualFeePct: number
   redemptionRule: string
+  redemptionTiers?: string
   feeFormatted: string
   highlight?: string
   feeSourceUrl: string
@@ -64,12 +68,29 @@ const BOND_RISK_LADDER = [
   },
 ] as const
 
+const BOND_TYPE_ORDER: Record<string, number> = {
+  '纯债': 1,
+  '普通纯债': 1,
+  '一级债基': 2,
+  '二级债基': 3,
+  '混合偏债': 4,
+}
+
 export default function BondFundList({ id, title, items }: {
   id: string; title: string; description?: string; items: SelectedEtfItem[]
 }): JSX.Element {
-  const sortedItems = [...items].sort((a, b) =>
-    Math.abs(metrics[a.code].maxDrawdownPct) - Math.abs(metrics[b.code].maxDrawdownPct)
-    || a.code.localeCompare(b.code))
+  const sortedItems = [...items].sort((a, b) => {
+    const typeA = metrics[a.code]?.bondType ?? ''
+    const typeB = metrics[b.code]?.bondType ?? ''
+    const rankA = BOND_TYPE_ORDER[typeA] ?? 99
+    const rankB = BOND_TYPE_ORDER[typeB] ?? 99
+    if (rankA !== rankB) {
+      return rankA - rankB
+    }
+    const ddA = Math.abs(metrics[a.code]?.maxDrawdownPct ?? 0)
+    const ddB = Math.abs(metrics[b.code]?.maxDrawdownPct ?? 0)
+    return ddA - ddB || a.code.localeCompare(b.code)
+  })
   return (
     <section id={id} className="industry-group-section" aria-labelledby={`${id}-title`}>
       <div className="industry-group-card">
@@ -98,26 +119,24 @@ export default function BondFundList({ id, title, items }: {
           </div>
         </div>
         <p className="industry-etf-group-description">
-          三类各保留两只；010011每笔份额最短持有6个月。<Link to="/notes/bond-fund-candidate-comparison-2026-10-14">查看同类筛选报告</Link>
+          普通纯债2只、一级债基2只、二级债基3只；010011每笔份额最短持有6个月。<Link to="/notes/bond-fund-candidate-comparison-2026-10-14">查看同类筛选报告</Link>
         </p>
         <div className="industry-table-wrapper">
           <table className="report-table industry-etf-table broad-etf-table bond-fund-table">
             <colgroup>
-              <col style={{ width: '70px' }} /><col style={{ width: '130px' }} />
-              <col style={{ width: '90px' }} /><col style={{ width: '90px' }} />
-              <col style={{ width: '100px' }} />
-              <col style={{ width: '85px' }} />
-              <col style={{ width: '150px' }} /><col /><col style={{ width: '82px' }} />
+              <col style={{ width: '240px' }} />
+              <col style={{ width: '135px' }} /><col style={{ width: '135px' }} />
+              <col style={{ width: '155px' }} />
+              <col style={{ width: '300px' }} /><col /><col style={{ width: '100px' }} />
             </colgroup>
-            <thead><tr><th>代码</th><th>名称</th><th>三年收益</th><th>五年收益</th><th aria-sort="ascending" title="按历史回撤绝对值从小到大排序">历史最大回撤</th><th>基金经理</th><th>费用</th><th>备注</th><th>参考</th></tr></thead>
+            <thead><tr><th className="etf-identity-heading">名称 / 代码</th><th>三年收益</th><th>五年收益</th><th title="分类内按历史回撤绝对值从小到大排序">历史最大回撤</th><th title="运作管理与托管费及持有期赎回费阶梯">费用</th><th>备注</th><th className="etf-reference-heading">参考</th></tr></thead>
             <tbody>{sortedItems.map(item => {
               const slug = latestInvestmentNote(item.code)?.slug
               const data = metrics[item.code]
               const return3yVal = data?.returnPct ?? data?.return3yPct
+              const inceptionVal = data?.returnSinceInceptionPct ?? data?.returnPct
               return <tr key={item.code}>
-                <td className="etf-code-cell">{slug ? <Link className="etf-code-link" to={`/notes/${slug}`}>{item.code}</Link> : item.code}</td>
-                <td className="etf-name-cell">
-                  <div>{slug ? <Link className="etf-name-link" to={`/notes/${slug}`}>{item.name}</Link> : item.name}</div>
+                <EtfIdentityCell code={item.code} name={item.name} to={slug ? `/notes/${slug}` : undefined}>
                   {data?.bondType && (
                     <div className="bond-type-tags">
                       <span className={`bond-type-badge bond-type-badge--${data.bondType === '普通纯债' ? 'pure' : 'enhanced'}`}>
@@ -126,7 +145,7 @@ export default function BondFundList({ id, title, items }: {
                       {data.bondFeature && <span className="bond-feature-badge">{data.bondFeature}</span>}
                     </div>
                   )}
-                </td>
+                </EtfIdentityCell>
                 <td className="bond-fund-metric">
                   {return3yVal != null ? (
                     <>
@@ -141,6 +160,11 @@ export default function BondFundList({ id, title, items }: {
                       {`${data.return5yPct >= 0 ? '+' : ''}${data.return5yPct.toFixed(2)}%`}
                       {data.return5yPeriodLabel && <small>{data.return5yPeriodLabel}</small>}
                     </>
+                  ) : inceptionVal != null && data?.inceptionDate ? (
+                    <>
+                      {`${inceptionVal >= 0 ? '+' : ''}${inceptionVal.toFixed(2)}%`}
+                      <small title={`${data.inceptionDate}成立`}>{data.inceptionDate}</small>
+                    </>
                   ) : (
                     <>
                       <span className="etf-empty-cell">—</span>
@@ -152,7 +176,6 @@ export default function BondFundList({ id, title, items }: {
                   {data?.maxDrawdownPct != null ? `${data.maxDrawdownPct.toFixed(2)}%` : '—'}
                   {data && <small title={`${data.drawdownStart}至${data.drawdownEnd ?? data.asOf}`}>{data.drawdownPeriodLabel}</small>}
                 </td>
-                <td>{data?.manager ?? '—'}</td>
                 <td className="etf-fee-cell">
                   {data ? (
                     <>
@@ -160,14 +183,19 @@ export default function BondFundList({ id, title, items }: {
                         <span className="etf-fee-total">{data.annualFeePct.toFixed(2)}%<small>/年</small></span>
                         <span className="etf-fee-breakdown">{`管${data.managementFeePct.toFixed(2)}+托${data.custodyFeePct.toFixed(2)}`}</span>
                       </div>
-                      <div className="etf-fee-rule">{data.redemptionRule}</div>
+                      {(data.redemptionTiers || data.redemptionRule) && (
+                        <div className="etf-fee-tiers" title={`赎回费率阶梯：${data.redemptionTiers ?? data.redemptionRule}`}>
+                          <span className="etf-fee-tiers-label">赎回费：</span>
+                          {data.redemptionTiers ?? data.redemptionRule}
+                        </div>
+                      )}
                     </>
                   ) : <span className="etf-empty-cell">—</span>}
                 </td>
                 <td className="etf-remark-cell"><EtfDocumentRemark code={item.code} /></td>
-                <td className="etf-ref-cell">
+                <td className="etf-reference-cell">
                   {slug && <div><Link className="etf-ref-link" to={`/notes/${slug}`}>分析报告</Link></div>}
-                  <a className="etf-ref-link" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">基金档案 ↗</a>
+                  <a className="etf-ref-link" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">基金档案</a>
                 </td>
               </tr>
             })}</tbody>

@@ -1,4 +1,4 @@
-// 从分析笔记的「## 一、结论速览」表里取短期、中期最终判断，生成写入云端 D1 的语句。
+// 从分析笔记的「## 一、结论速览」表里取日线/周线或短期/中期最终判断，生成写入云端 D1 的语句。
 // 解析与 SQL 生成放在这里（可单测），读文件与调用 wrangler 的部分在 sync-note-analysis.mjs。
 
 const SECTION = /^##\s*一、结论速览/
@@ -30,8 +30,8 @@ export function parseNote(file, text, title = '') {
     if (/^##\s/.test(line)) break
     const cells = cellsOf(line)
     if (!cells || cells.length < 2) continue
-    if (short === undefined && cells[0].startsWith('短期')) short = cleanText(cells[1])
-    else if (mid === undefined && /^中期[（(]/.test(cells[0])) mid = cleanText(cells[1])
+    if (short === undefined && (cells[0].startsWith('短期') || /^日线(?:[（(]|$)/.test(cells[0]))) short = cleanText(cells[1])
+    else if (mid === undefined && (/^中期[（(]/.test(cells[0]) || /^周线(?:[（(]|$)/.test(cells[0]))) mid = cleanText(cells[1])
   }
   if (!short) return { skipped: '结论速览里没有「短期」行' }
   if (!mid) return { skipped: '结论速览里没有「中期（…）」行' }

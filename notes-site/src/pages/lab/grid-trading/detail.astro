@@ -7,7 +7,7 @@ const savedUrl = href('lab/grid-trading/saved');
 
 <Base title="网格回测详情" current="lab" description="网格回测的历史成交明细">
   <header class="hero compact-hero"><p class="kicker">BACKTEST DETAIL</p><h1 id="title">回测详情</h1><p id="subtitle" class="lede">正在读取已保存记录…</p></header>
-  <a class="back" id="back-link" href={savedUrl}>← 返回已保存标的</a>
+  <a class="back" id="back-link" href={savedUrl}>← 返回复盘列表</a>
   <section id="stats" class="stats"></section>
   <section class="chart-panel">
     <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="kline-swatch up"></span>涨 <span class="kline-swatch down"></span>跌 <span class="zone-swatch support"></span>支撑区间 <span class="zone-swatch resistance"></span>压力区间（★ 越多越强） <span class="line fib-sw-retr"></span>斐波那契回撤 <span class="line fib-sw-ext"></span>延长线 <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>

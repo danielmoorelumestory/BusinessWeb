@@ -8,11 +8,11 @@ const detailUrl = href('lab/grid-trading/detail');
 const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/').replace(/\/?$/, '/') + 'notes/';
 ---
 
-<Base title="已保存标的" current="lab" description="已保存的网格回测结果">
+<Base title="复盘列表" current="lab" description="集中查看网格交易计算器保存的标的，跟踪每日行情、网格状态与历史成交">
   <header class="hero compact-hero">
-    <p class="kicker">SAVED BACKTESTS</p>
-    <h1>已保存标的</h1>
-    <p class="lede">保存在当前浏览器。点击详情可查看每次建仓、买入和卖出的历史记录。</p>
+    <p class="kicker">REVIEW LIST</p>
+    <h1>复盘列表</h1>
+    <p class="lede">通过网格交易计算器保存的标的都会进入这里，方便每日查看行情、网格状态和盈亏。点击详情可查看建仓、买入和卖出的历史记录。</p>
   </header>
   <div class="actions"><a class="btn-back" href={calculatorUrl}>← 返回计算器</a><span id="market-status" class="market-status" role="status"></span><button id="clear" class="btn-clear" type="button">清空全部</button></div>
   <section class="sync-panel" aria-label="云端同步">
@@ -189,8 +189,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       container.innerHTML = `
         <div class="empty">
           <div class="empty-icon">📊</div>
-          <h3>暂无已保存的回测记录</h3>
-          <p>在网格交易计算器完成回测后，点击标的行右侧的“保存”即可将结果存入此处。</p>
+          <h3>暂无复盘列表标的</h3>
+          <p>在网格交易计算器完成回测后，点击“加入复盘”，该标的就会出现在复盘列表中。</p>
           <a class="button" href="${calcUrl}">去计算器回测</a>
         </div>
       `;

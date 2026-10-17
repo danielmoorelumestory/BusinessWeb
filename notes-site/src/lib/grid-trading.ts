@@ -1,5 +1,5 @@
 // 网格交易回测的共享逻辑：行情获取与缓存、网格计算、当前状态、记录存储与云同步、资金曲线绘制。
-// 计算器、已保存标的、回测详情三个页面共用，避免同一套规则在多处各自维护。
+// 计算器、复盘列表、回测详情三个页面共用，避免同一套规则在多处各自维护。
 
 import { SYNC_ENDPOINT } from './endpoints';
 
@@ -204,7 +204,7 @@ export type SavedRecord = {
   levels?: Levels;
   /** 价格图上的斐波那契设置（fibs 多组；fib 是早期单组格式，只读兼容）与叠加内容显示开关，只用于显示。 */
   fibs?: FibSet[]; fib?: Fib; view?: View;
-  /** 关注记录：行业 ETF 清单点进来、还没有添加网格的标的，只保存支撑压力与斐波那契；不参与回测，不出现在“已保存标的”里。 */
+  /** 关注记录：行业 ETF 清单点进来、还没有添加网格的标的，只保存支撑压力与斐波那契；不参与回测，不出现在“复盘列表”里。 */
   watch?: true;
   priceOverrides?: Overrides; amountOverrides?: Overrides; sharesOverrides?: Overrides; paramHistory?: ParamStage[];
   manualTrades?: ManualTrade[]; removedTrades?: string[];
@@ -851,7 +851,7 @@ export type MinuteBar = { ts: string; open: number; close: number; high: number;
 /** 从云端读取已同步的 1 分钟线（Worker 每个交易日收盘后抓取）。from/to 为 YYYYMMDD，adjust 默认前复权。 */
 export async function fetchMinuteBars(code: string, from: string, to: string, adjust: 'qfq' | 'none' = 'qfq'): Promise<MinuteBar[]> {
   const token = readSyncKey();
-  if (token.length < 16) throw new Error('请先在“已保存标的”页填写同步密钥。');
+  if (token.length < 16) throw new Error('请先在“复盘列表”页填写同步密钥。');
   const response = await fetch(`${SYNC_ENDPOINT}/minute?code=${encodeURIComponent(code)}&from=${from}&to=${to}&adjust=${adjust}`, {
     headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000),
   });
@@ -876,7 +876,7 @@ export async function fetchLatestMinuteBars(code: string): Promise<MinuteBar[]> 
 /** 当天分钟线尚未入库时，按当前详情页标的手动补抓一次。 */
 export async function syncMinuteBars(code: string): Promise<void> {
   const token = readSyncKey();
-  if (token.length < 16) throw new Error('请先在“已保存标的”页填写同步密钥。');
+  if (token.length < 16) throw new Error('请先在“复盘列表”页填写同步密钥。');
   const response = await fetch(`${SYNC_ENDPOINT}/minute/sync?code=${encodeURIComponent(code.trim())}`, { method: 'POST', headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(30000) });
   if (!response.ok) throw new Error('补取当天分钟线失败。');
 }
@@ -952,11 +952,11 @@ export async function pushRecord(record: SavedRecord, what = '修正'): Promise<
   try {
     const remote = await cloudRequest(token);
     const existing = remote.find(item => item.id === record.id);
-    if (existing && stamp(existing) > stamp(record)) return `云端有更新的版本，本次${what}未上传，请到“已保存标的”页手动同步。`;
+    if (existing && stamp(existing) > stamp(record)) return `云端有更新的版本，本次${what}未上传，请到“复盘列表”页手动同步。`;
     await cloudRequest(token, { records: existing ? remote.map(item => item.id === record.id ? record : item) : [record, ...remote] });
     return '';
   } catch {
-    return `${what}已保存到本机，但同步云端失败，请稍后在“已保存标的”页手动同步。`;
+    return `${what}已保存到本机，但同步云端失败，请稍后在“复盘列表”页手动同步。`;
   }
 }
 

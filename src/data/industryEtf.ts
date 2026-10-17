@@ -3,6 +3,7 @@ import rawData from './industryEtf.json'
 // 行业 ETF 清单（来自 notes，7 个行业组）。referenceUrl 以 notes/ 开头的是主站笔记（/notes/<slug>），否则是外部链接。
 export type EtfItem = {
   code: string; name: string; market: string; subTheme: string; remark: string
+  subThemeNote?: string
   referenceUrl?: string; referenceTitle?: string
 }
 export type IndustryGroup = { id: string; index: string; name: string; count: number; items: EtfItem[] }

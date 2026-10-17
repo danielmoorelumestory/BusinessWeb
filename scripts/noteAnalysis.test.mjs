@@ -75,3 +75,17 @@ test('仓库里所有标的分析笔记都能解析出短期与中期判断', ()
     assert.match(row.asOf, /^\d{4}-\d{2}-\d{2}$/, file)
   }
 })
+
+
+test('日线与周线观察周期兼容现有同步字段', () => {
+  const row = parseNote('159593-a-analysis.md', note('| 日线（当前状态） | **下降趋势，超卖** | x |\n| 周线（当前状态） | 下降趋势，动能仍弱 | y |'))
+  assert.equal(row.short, '下降趋势，超卖')
+  assert.equal(row.mid, '下降趋势，动能仍弱')
+})
+
+
+test('无括号的日线周线行仍可同步，月线不覆盖周线', () => {
+  const row = parseNote('159593-a-analysis.md', note('| 日线 | **下降趋势，超卖** | x |\n| 周线 | 下降趋势，动能仍弱 | y |\n| 月线 | 调整走弱 | z |'))
+  assert.equal(row.short, '下降趋势，超卖')
+  assert.equal(row.mid, '下降趋势，动能仍弱')
+})

@@ -17,6 +17,9 @@ export const NOTES_ORIGIN: string = (typeof import.meta.env !== 'undefined' ? im
  */
 export const GRID_TRADING_PATH: string = NOTES_PATH ? `${NOTES_PATH}lab/grid-trading/` : `${NOTES_ORIGIN}/note/lab/grid-trading/`
 
+/** 网格复盘列表入口 */
+export const GRID_SAVED_PATH: string = NOTES_PATH ? `${NOTES_PATH}lab/grid-trading/saved` : `${NOTES_ORIGIN}/note/lab/grid-trading/saved`
+
 /** 股市分析 lab（大涨股解读、板块轮动、板块排行），用 # 直接打开某个工具；规则同 GRID_TRADING_PATH */
 export const STOCK_LAB_BASE: string = NOTES_PATH ? `${NOTES_PATH}lab/stock/` : `${NOTES_ORIGIN}/note/lab/stock/`
 export const STOCK_ANALYSIS_PATH = `${STOCK_LAB_BASE}#stock-analysis`

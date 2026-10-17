@@ -10,7 +10,7 @@ describe('宽基 ETF 首选', () => {
       const note = latestEtfNote(item.code)
       expect(note, item.code).toBeDefined()
       const text = readFileSync(resolve('public/notes', `${note!.slug}.md`), 'utf8')
-      expect(extractEtfJudgment(text, note!.date), item.code).toMatch(/^2026-10-13 收盘｜/)
+      expect(extractEtfJudgment(text, note!.date), item.code).toMatch(/^2026-10-16 收盘｜/)
     }
   })
   it('10类各一只，含指定加入的A50和纳指ETF，比较产品跟踪同一指数', () => {

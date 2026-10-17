@@ -1,10 +1,22 @@
 {
-  "generatedAt": "2026-10-14T12:52:57.987Z",
+  "generatedAt": "2026-10-17T15:44:35.929Z",
   "versions": [
     {
       "tag": "unreleased",
       "date": null,
       "commits": [
+        {
+          "hash": "9f95bac",
+          "subject": "feat(funds): 完善债基筛选、报告与历史表现展示",
+          "author": "train",
+          "date": "2026-10-14"
+        },
+        {
+          "hash": "6ea5c30",
+          "subject": "feat(etf): 场外债券基金体系升级，增加风险收益阶梯对照卡片与类型标签",
+          "author": "train",
+          "date": "2026-10-14"
+        },
         {
           "hash": "552185c",
           "subject": "style: 去掉页面内部再套的 960/1200 宽度，正文与标题、页签左右对齐",
@@ -171,18 +183,6 @@
           "hash": "8580b07",
           "subject": "feat(industry-etf): 优化行业ETF清单页面排版与列对齐，移除市场列与免责提示",
           "author": "train",
-          "date": "2026-10-13"
-        },
-        {
-          "hash": "806ea5d",
-          "subject": "feat(invest): 投资板块按流程重组，新增观察盘、独立候选池与产业趋势",
-          "author": "hassan",
-          "date": "2026-10-13"
-        },
-        {
-          "hash": "8ada1cf",
-          "subject": "fix(test): 试问超时测试跟随 50 秒模型超时",
-          "author": "hassan",
           "date": "2026-10-13"
         }
       ]

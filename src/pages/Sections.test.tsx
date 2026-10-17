@@ -27,7 +27,7 @@ describe('InvestHub', () => {
     const group = screen.getByRole('heading', { name: '第三步观察盘' }).closest('section')
     expect(group?.closest('details')).toBeNull()
     expect(within(group as HTMLElement).getByText(/每天看一眼观察盘/)).toBeTruthy()
-    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(7)
+    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(8)
   })
 
   it('已舍弃组默认折叠，放在页面最后', () => {

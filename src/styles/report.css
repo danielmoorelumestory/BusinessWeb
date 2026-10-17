@@ -110,6 +110,7 @@
 
 /* ───────── 行业 ETF 清单专属样式 ───────── */
 .industry-etf-page {
+  max-width: 1580px;
   padding-bottom: 60px;
 }
 
@@ -315,7 +316,7 @@
   background-color: var(--bg-subtle);
 }
 
-.industry-etf-table .etf-code-cell {
+.industry-etf-table .etf-code-line {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 13.5px;
   font-variant-numeric: tabular-nums;
@@ -331,12 +332,24 @@
   text-decoration: underline;
 }
 
-.industry-etf-table .etf-name-cell {
+.industry-etf-table .etf-identity-heading,
+.industry-etf-table .etf-identity-cell {
+  text-align: center;
+}
+
+.industry-etf-table .etf-identity-cell .bond-type-tags {
+  justify-content: center;
+}
+
+.industry-etf-table .etf-name-line {
   font-weight: 500;
   color: var(--text-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.industry-etf-table .etf-code-line {
+  margin-top: 4px;
 }
 
 .industry-etf-table .etf-name-link {
@@ -372,7 +385,9 @@
 .industry-etf-table .subtheme-tag--block {
   display: block;
   width: fit-content;
-  white-space: nowrap;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
 }
 
 .industry-etf-table .etf-remark-cell {
@@ -426,14 +441,32 @@
 }
 
 .bond-fund-table {
-  min-width: 1030px;
+  min-width: 1400px;
   font-size: 13px;
+}
+
+.bond-fund-table .etf-fee-cell {
+  white-space: normal;
 }
 
 .bond-fund-table .etf-fee-rule {
   max-width: 100%;
   box-sizing: border-box;
   white-space: normal;
+}
+
+.etf-fee-tiers {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: break-word;
+}
+
+.etf-fee-tiers-label {
+  color: var(--text-strong);
+  font-weight: 500;
 }
 
 .bond-fund-table th,
@@ -516,10 +549,6 @@
   color: var(--text-secondary);
   font-size: 0.85rem;
   line-height: 1.7;
-}
-.broad-etf-table .etf-name-cell {
-  white-space: normal;
-  overflow-wrap: anywhere;
 }
 
 .bond-type-tags {
@@ -683,3 +712,64 @@
   margin-top: 2px;
 }
 
+
+.industry-etf-table .etf-reference-heading,
+.industry-etf-table .etf-reference-cell {
+  text-align: center;
+}
+
+.industry-etf-table .etf-reference-cell .etf-ref-link {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 4px auto;
+}
+
+.etf-signals-table {
+  min-width: 1460px;
+}
+.industry-etf-table .etf-technical-heading,
+.industry-etf-table .etf-technical-cell {
+  text-align: center;
+}
+.industry-etf-table .etf-technical-cell {
+  padding: 12px 8px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.etf-technical-lines {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.etf-technical-lines > div {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: baseline;
+  text-align: left;
+  gap: 5px;
+  line-height: 1.5;
+}
+.etf-technical-context {
+  display: block;
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 10px;
+}
+.etf-technical-lines span,
+.etf-technical-unavailable,
+.etf-signal--neutral {
+  color: var(--text-secondary);
+}
+.etf-technical-lines strong {
+  font-weight: 500;
+}
+.etf-signal--up { color: #dc2626; }
+.etf-signal--down { color: #16a34a; }
+.etf-signal--extreme { color: #a16207; }
+.industry-etf-page .etf-technical-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.etf-technical-note a { margin-left: 6px; }

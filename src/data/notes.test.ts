@@ -54,7 +54,7 @@ describe('NOTES 索引', () => {
     expect(findNote('159819-ai-etf-analysis')?.title).toBe('人工智能ETF')
     expect(findNote('515880-communications-etf-analysis')?.title).toBe('通信ETF')
     expect(findNote('588170-star-semiconductor-etf-analysis')?.title).toBe('科创半导体ETF')
-    expect(findNote('588200-star-chip-etf-analysis')?.date).toBe('2026-10-13')
+    expect(findNote('588200-star-chip-etf-analysis')?.date).toBe('2026-10-16')
     expect(findNote('588200-star-chip-etf-analysis')?.title).toBe('科创芯片ETF')
     expect(findNote('159146-electric-power-etf-analysis')?.title).toContain('完善版')
     expect(findNote('516650-nonferrous-metals-etf-analysis')?.title).toContain('完善版')

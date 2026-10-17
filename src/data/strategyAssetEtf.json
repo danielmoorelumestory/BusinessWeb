@@ -110,8 +110,17 @@
         "coverage": "净值震荡修复中，距区间高点1.09%。均衡增强候选，五年年化5.93%、最大回撤4.75%；每笔最短持有6个月。",
         "sourceUrl": "https://www.igwfmc.com/main/jjcp/product/010011/detail.html",
         "gridApplicable": false
+      },
+      {
+        "code": "000143",
+        "name": "鹏华双债加利债券A",
+        "family": "二级债基",
+        "category": "场外主动管理 · 二级债基",
+        "coverage": "债券打底、股票与转债增强；沿用已有分析报告，关注权益仓位与净值回撤。",
+        "sourceUrl": "https://fundf10.eastmoney.com/jbgk_000143.html",
+        "gridApplicable": false
       }
     ],
-    "description": "普通纯债、一级债基、二级债基各保留两只，共6只。010011每笔份额最短持有6个月；161716采用场外申赎口径。"
+    "description": "普通纯债2只、一级债基2只、二级债基3只，共7只。010011每笔份额最短持有6个月；161716采用场外申赎口径。"
   }
 ]

@@ -10,7 +10,7 @@ describe('ETF文档综合判断', () => {
     expect(note.slug).toBe('000015-pure-bond-fund-analysis')
     expect(latestEtfNote('000015')).toBeUndefined()
     const text = readFileSync(resolve('public/notes', `${note.slug}.md`), 'utf8')
-    expect(extractEtfJudgment(text, note.date)).toMatch(/^2026-10-13 净值｜/)
+    expect(extractEtfJudgment(text, note.date)).toMatch(/^2026-10-15 净值｜/)
   })
   it('从实际74篇报告的结论速览提取带日期的判断', () => {
     const notes = NOTES.filter(note => note.slug.endsWith('-etf-analysis'))

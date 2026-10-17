@@ -9,9 +9,9 @@ const savedUrl = href('lab/grid-trading/saved');
   <header class="hero compact-hero">
     <p class="kicker">MINUTE BARS</p>
     <h1>分钟线</h1>
-    <p class="lede">云端每个交易日收盘后自动抓取已保存标的的 1 分钟线。密钥沿用“已保存标的”页的同步密钥；默认显示前复权价格。</p>
+    <p class="lede">云端每个交易日收盘后自动抓取已保存标的的 1 分钟线。密钥沿用“复盘列表”页的同步密钥；默认显示前复权价格。</p>
   </header>
-  <div class="actions"><a class="btn-back" href={savedUrl}>← 返回已保存标的</a><span id="status" class="status" role="status"></span></div>
+  <div class="actions"><a class="btn-back" href={savedUrl}>← 返回复盘列表</a><span id="status" class="status" role="status"></span></div>
 
   <section class="panel">
     <div class="controls">
@@ -81,7 +81,7 @@ const savedUrl = href('lab/grid-trading/saved');
   adjustBox.addEventListener('change', () => void load());
   dateSelect.addEventListener('change', renderDay);
   new ResizeObserver(() => renderDay()).observe(svg.parentElement!);
-  if (!readSyncKey()) statusEl.textContent = '请先在“已保存标的”页填写同步密钥。';
+  if (!readSyncKey()) statusEl.textContent = '请先在“复盘列表”页填写同步密钥。';
   else void load();
 </script>
 

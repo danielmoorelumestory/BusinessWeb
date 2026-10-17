@@ -17,8 +17,8 @@ export const labs: Lab[] = [
   },
   {
     slug: 'grid-trading/saved',
-    title: '网格列表',
-    summary: '查看已保存的网格回测标的：当前状态、备份对比与成交明细。',
+    title: '复盘列表',
+    summary: '集中查看网格交易计算器保存的标的：每日行情、网格状态、盈亏与成交明细。',
   },
   {
     slug: 'grid-trading/minute',

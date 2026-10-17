@@ -18,8 +18,8 @@ import { href } from '../../lib/url';
   <div class="toolbar">
     <div id="status" role="status">准备就绪 · 默认加载沪深 300 ETF 示例</div>
     <div class="toolbar-actions">
-      <a class="button secondary" href={href('lab/grid-trading/saved')}>已保存标的</a>
-      <button id="save-btn" class="button secondary" type="button">保存标的</button>
+      <a class="button secondary" href={href('lab/grid-trading/saved')}>复盘列表</a>
+      <button id="save-btn" class="button secondary" type="button">加入复盘</button>
     </div>
   </div>
 
@@ -166,7 +166,7 @@ import { href } from '../../lib/url';
   function saveRow(row: Row, btn?: HTMLButtonElement) {
     const result = calculate(row);
     if (!result) {
-      alert('请先点击右上角“获取数据并回测”按钮，回测完成后即可保存标的。');
+      alert('请先点击右上角“获取数据并回测”按钮，回测完成后即可加入复盘。');
       status.textContent = '请先获取该标的的历史日线并完成回测';
       return;
     }
@@ -175,10 +175,10 @@ import { href } from '../../lib/url';
       row: { id: row.id, name: row.name, code: row.code, date: row.date, initialPrice: row.initialPrice, initialShares: row.initialShares, initialAmount: row.initialShares * row.initialPrice, step: row.step, rebound: row.rebound, pullback: row.pullback, gridAmount: row.gridAmount }, result,
     };
     saveRecord(record);
-    status.textContent = `${row.name || row.code} 已保存，可在“已保存标的”查看详情`;
+    status.textContent = `${row.name || row.code} 已加入复盘，可在“复盘列表”查看详情`;
     if (btn) {
       const originalText = btn.textContent;
-      btn.textContent = '已保存 ✓';
+      btn.textContent = '已加入 ✓';
       btn.classList.add('saved');
       setTimeout(() => {
         btn.textContent = originalText;

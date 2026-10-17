@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom'
 import BroadEtfList, { SelectedEtfList } from './BroadEtfList'
 import BondFundList from './BondFundList'
 import EtfDocumentRemark from './EtfDocumentRemark'
+import EtfIdentityCell from './EtfIdentityCell'
+import EtfTechnicalCells, { EtfTechnicalColumns, EtfTechnicalHeaders } from './EtfTechnicalCells'
 import { latestEtfNote } from '../utils/etfJudgment'
 import { BROAD_ETFS } from '../data/broadEtf'
 import { STRATEGY_ASSET_ETF_GROUPS } from '../data/strategyAssetEtf'
+import marketRefresh from '../data/investmentMarketRefresh.json'
+import technicalSnapshot from '../data/etfTechnical.json'
 import { INDUSTRY_GROUPS, TOTAL_ETF_COUNT, internalNoteSlug, type EtfItem } from '../data/industryEtf'
 
 // 该 ETF 自己的研究笔记：笔记 slug 以「代码-」开头（如 159928-consumer-etf-analysis）。
@@ -16,7 +20,7 @@ function Reference({ item }: { item: EtfItem }): JSX.Element {
   if (!item.referenceUrl) {
     return own ? (
       <Link to={`/notes/${own.slug}`} className="etf-ref-link" title={own.title}>
-        {own.title}
+        分析报告
       </Link>
     ) : (
       <span className="etf-empty-cell">—</span>
@@ -27,7 +31,7 @@ function Reference({ item }: { item: EtfItem }): JSX.Element {
   if (slug) {
     return (
       <Link to={`/notes/${slug}`} className="etf-ref-link" title={label}>
-        {label}
+        分析报告
       </Link>
     )
   }
@@ -41,29 +45,7 @@ function Reference({ item }: { item: EtfItem }): JSX.Element {
 function NoteCells({ item }: { item: EtfItem }): JSX.Element {
   // 有研究笔记就点代码/名称直接跳转；优先该 ETF 自己的分析笔记，其次是清单里登记的站内参考。
   const slug = etfNoteOf(item)?.slug ?? internalNoteSlug(item.referenceUrl)
-  if (!slug) {
-    return (
-      <>
-        <td className="etf-code-cell">{item.code}</td>
-        <td className="etf-name-cell">{item.name}</td>
-      </>
-    )
-  }
-  const to = `/notes/${slug}`
-  return (
-    <>
-      <td className="etf-code-cell">
-        <Link to={to} className="etf-code-link" title="查看分析笔记">
-          {item.code}
-        </Link>
-      </td>
-      <td className="etf-name-cell">
-        <Link to={to} className="etf-name-link" title="查看分析笔记">
-          {item.name}
-        </Link>
-      </td>
-    </>
-  )
+  return <EtfIdentityCell code={item.code} name={item.name} to={slug ? `/notes/${slug}` : undefined} />
 }
 
 // 网格详情页入口：已添加网格的 ETF 打开它的回测详情，没有添加的只显示行情曲线、支撑压力与斐波那契（不显示网格数据）。
@@ -78,12 +60,13 @@ function splitSubTheme(subTheme: string): string[] {
   return subTheme.includes('、') ? subTheme.split('、').map(s => s.trim()).filter(Boolean) : [subTheme]
 }
 
-function SubThemeCell({ subTheme }: { subTheme: string }): JSX.Element {
+function SubThemeCell({ subTheme, note }: { subTheme: string; note?: string }): JSX.Element {
   const items = splitSubTheme(subTheme)
   if (items.length <= 1) {
     return (
       <td className="etf-subtheme-cell">
         <span className="subtheme-tag">{subTheme}</span>
+        {note && <small>{note}</small>}
       </td>
     )
   }
@@ -96,6 +79,7 @@ function SubThemeCell({ subTheme }: { subTheme: string }): JSX.Element {
           </span>
         ))}
       </div>
+      {note && <small>{note}</small>}
     </td>
   )
 }
@@ -108,6 +92,11 @@ export default function IndustryEtf(): JSX.Element {
         <p>
           {BROAD_ETFS.length} 类宽基；{STRATEGY_ASSET_ETF_GROUPS.map(group => `${group.items.length} 只${group.title}`).join('、')}；{INDUSTRY_GROUPS.length} 个行业组，共 {TOTAL_ETF_COUNT} 只行业 ETF。备注展示各自最新报告的综合判断。
         </p>
+        <p>
+          行情更新：{marketRefresh.etfAsOf} 收盘；场外基金按实际披露净值（{marketRefresh.fundNavDates.join('、')}）更新。估值与持仓保留各自披露日期。
+          <a href={`${import.meta.env.BASE_URL}${marketRefresh.archivePath.replace(/^\//, '')}`}>查看行情复算数据</a>
+        </p>
+        <p className="etf-technical-note">日 / 周 / 月各看 MA、MACD、RSI；月线为本月暂态，月末确认。每格描述均线位置、动能变化与相对强弱，详细数值可悬停查看。<a href={`${import.meta.env.BASE_URL}${technicalSnapshot.archivePath.replace(/^\//, '')}`}>指标依据</a></p>
         <nav className="industry-etf-nav" aria-label="行业目录">
           <div className="industry-etf-nav__group">
             <span className="industry-etf-nav__group-label">一级分类：</span>
@@ -151,37 +140,34 @@ export default function IndustryEtf(): JSX.Element {
                 <span className="industry-group-count">{group.items.length} 只 ETF</span>
               </div>
             <div className="industry-table-wrapper">
-              <table className="report-table industry-etf-table">
+              <table className="report-table industry-etf-table etf-signals-table">
                 <colgroup>
-                  <col style={{ width: '92px' }} />
-                  <col style={{ width: '160px' }} />
-                  <col style={{ width: '260px' }} />
+                  <col style={{ width: '180px' }} />
+                  <col style={{ width: '200px' }} />
+                  <EtfTechnicalColumns />
                   <col />
-                  <col style={{ width: '160px' }} />
-                  <col style={{ width: '92px' }} />
+                  <col style={{ width: '120px' }} />
                 </colgroup>
                 <thead>
                   <tr>
-                    <th>代码</th>
-                    <th>名称</th>
+                    <th className="etf-identity-heading">名称 / 代码</th>
                     <th>行业分布</th>
+                    <EtfTechnicalHeaders />
                     <th>备注</th>
-                    <th>参考</th>
-                    <th>网格</th>
+                    <th className="etf-reference-heading">参考 / 网格</th>
                   </tr>
                 </thead>
                 <tbody>
                   {group.items.map(item => (
                     <tr key={`${item.code}-${item.name}`}>
                       <NoteCells item={item} />
-                      <SubThemeCell subTheme={item.subTheme} />
+                      <SubThemeCell subTheme={item.subTheme} note={item.subThemeNote} />
+                      <EtfTechnicalCells code={item.code} />
                       <td className="etf-remark-cell"><EtfDocumentRemark code={item.code} /></td>
-                      <td className="etf-ref-cell">
+                      <td className="etf-reference-cell">
                         <Reference item={item} />
-                      </td>
-                      <td className="etf-grid-cell">
                         <a href={gridDetailHref(item)} className="etf-ref-link" title="行情曲线、支撑压力、斐波那契；已添加网格的显示网格回测">
-                          行情·网格
+                          行情网格
                         </a>
                       </td>
                     </tr>

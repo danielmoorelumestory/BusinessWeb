@@ -32,7 +32,7 @@ describe('INVEST_GROUPS', () => {
   it('收纳全部旧入口和 AI 工具，且无重复', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
-      '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
+      '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/saved', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
       '/investment-strategy', '/investment-targets', '/notes', '/industry-etf', '/invest/national-team', '/watch', '/daily-analysis',
       'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking',
       '/mainland-investment-targets', '/monitor', '/pulse', '/research-notes',
@@ -67,7 +67,7 @@ describe('INVEST_GROUPS', () => {
   it('观察盘组直接展开，观察盘在最前，细节页跟在后面', () => {
     const watch = INVEST_GROUPS.find(g => g.id === 'watch')!
     expect(watch.collapsed).toBe(false)
-    expect(watch.links.map(l => l.path)).toEqual(['/watch', '/monitor', '/pulse', '/daily-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking'])
+    expect(watch.links.map(l => l.path)).toEqual(['/watch', '/monitor', '/pulse', '/daily-analysis', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/saved', 'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking'])
   })
 
   it('分析筛选组从行业到公司，不放带具体买卖建议的观察池', () => {
