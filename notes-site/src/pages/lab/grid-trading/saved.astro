@@ -22,6 +22,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     <button id="sync-records" class="sync-primary" type="button">同步云端</button>
     <span id="sync-status" role="status"></span>
   </section>
+  <p class="analysis-note">日线、周线、月线基于历史收盘行情判断，数据日期见各列提示；月线未收盘数据单独标为暂态。</p>
   <div id="content-area" data-detail-url={detailUrl} data-calc-url={calculatorUrl} data-notes-base={notesBase}></div>
 </Base>
 
@@ -29,9 +30,11 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   import {
     readRecords, readGridRecords, writeRecords, saveRecord, refreshRecord, refreshRecords, removeRecords, syncAll, pushRecord, withParamChange,
     gridStatus, openingOf, formatMoney, formatPrice, tick, marketSessionOpen, marketToday, SYNC_KEY_STORAGE,
-    blockCopy, getFourYearExtremes, fetchCloudExtremes, fetchNoteAnalysis,
-    type SavedRecord, type NoteAnalysis,
+    blockCopy, getFourYearExtremes, fetchCloudExtremes, getCandles,
+    type SavedRecord,
   } from '../../../lib/grid-trading';
+
+  import { renderReviewAnalysis, needsReviewAnalysis, setReviewCandles } from '../../../lib/review-analysis';
 
   blockCopy(); // 屏蔽页面内容复制
 
@@ -59,37 +62,32 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   let sortField: SortField | null = null;
   let sortOrder: 'asc' | 'desc' = 'desc';
   const sortMark = (field: SortField) => sortField === field ? (sortOrder === 'asc' ? ' ↑' : ' ↓') : '';
-  // 分析笔记的短期/中期判断：按代码异步读取，到达后只更新这两列（不整表重绘，保留排序与滚动位置）；没有数据时显示“—”。
-  const analysis = new Map<string, NoteAnalysis>();
+  // 清单之外的标的按缓存/云端历史日线补算，只替换分析单元格，不打断参数编辑。
   const analysisRequested = new Set<string>();
-  const escapeHtml = (text: string) => text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
-  const analysisCell = (item: SavedRecord, kind: 'short' | 'mid') => {
-    const note = analysis.get(item.row.code);
-    if (!note) return `<td class="analysis-cell muted" data-analysis="${kind}">—</td>`;
-    const tip = escapeHtml(`${note[kind]}（数据基准 ${note.asOf || '—'} · 点击查看完整分析）`);
-    return `<td class="analysis-cell" data-analysis="${kind}" title="${tip}"><a class="analysis-link" href="${notesBase}${encodeURIComponent(note.slug)}/" target="_blank" rel="noopener">${escapeHtml(note[kind])}</a></td>`;
-  };
-  function paintAnalysis() {
-    const byId = new Map(readGridRecords().map(item => [item.id, item]));
-    const template = document.createElement('template');
-    container.querySelectorAll<HTMLTableRowElement>('tbody tr[data-id]').forEach(row => {
-      const item = byId.get(row.dataset.id!);
-      if (!item) return;
-      for (const kind of ['short', 'mid'] as const) {
-        template.innerHTML = analysisCell(item, kind);
-        const cell = template.content.firstElementChild;
-        if (cell) row.querySelector(`[data-analysis="${kind}"]`)?.replaceWith(cell);
+  async function loadReviewAnalysis() {
+    const pending = [...new Set(readGridRecords().map(item => item.row.code.trim()))]
+      .filter(code => /^\d{6}$/.test(code) && needsReviewAnalysis(code) && !analysisRequested.has(code));
+    pending.forEach(code => analysisRequested.add(code));
+    const begin = `${Number(marketToday().slice(0, 4)) - 4}-01-01`;
+    const queue = [...pending];
+    await Promise.all(Array.from({ length: Math.min(4, queue.length) }, async () => {
+      while (queue.length) {
+        const code = queue.shift()!;
+        try {
+          if (!setReviewCandles(code, await getCandles(code, begin))) continue;
+          const byId = new Map(readGridRecords().map(item => [item.id, item]));
+          const template = document.createElement('template');
+          container.querySelectorAll<HTMLTableRowElement>('tbody tr[data-id]').forEach(row => {
+            if (byId.get(row.dataset.id!)?.row.code.trim() !== code) return;
+            for (const period of ['day', 'week', 'month'] as const) {
+              template.innerHTML = renderReviewAnalysis(code, period, notesBase);
+              const cell = template.content.firstElementChild;
+              if (cell) row.querySelector(`[data-analysis="${period}"]`)?.replaceWith(cell);
+            }
+          });
+        } catch { /* 行情不可用时保留缺失提示，不把旧的短中期判断冒充周期指标。 */ }
       }
-    });
-  }
-  async function loadAnalysis() {
-    const codes = [...new Set(readGridRecords().map(item => item.row.code))].filter(code => !analysisRequested.has(code));
-    if (!codes.length) return;
-    codes.forEach(code => analysisRequested.add(code));
-    const found = await fetchNoteAnalysis(codes);
-    if (!found.size) return;
-    for (const [code, note] of found) analysis.set(code, note);
-    paintAnalysis();
+    }));
   }
 
   // 近四年最高/最低价：按代码异步加载；距离按“当前价到高/低点 ÷ 对应方向的网格间距”折算成格数，
@@ -203,8 +201,9 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
             <tr>
               <th>代码</th>
               <th>名称</th>
-              <th>短期判断</th>
-              <th>中期判断</th>
+              <th>日线</th>
+              <th>周线</th>
+              <th>月线</th>
               <th><button class="sort-button" data-sort="status" type="button">当前状态${sortMark('status')}</button></th>
               <th><button class="sort-button" data-sort="to-high" type="button">四年最高${sortMark('to-high')}</button></th>
               <th><button class="sort-button" data-sort="to-low" type="button">四年最低${sortMark('to-low')}</button></th>
@@ -231,8 +230,9 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
               <tr data-id="${item.id}">
                 <td class="code-cell">${item.row.code}</td>
                 <td class="stock-name">${item.row.name || item.row.code}</td>
-                ${analysisCell(item, 'short')}
-                ${analysisCell(item, 'mid')}
+                ${renderReviewAnalysis(item.row.code, 'day', notesBase)}
+                ${renderReviewAnalysis(item.row.code, 'week', notesBase)}
+                ${renderReviewAnalysis(item.row.code, 'month', notesBase)}
                 ${statusCell(item)}
                 ${stepsCell(item, 'high')}
                 ${stepsCell(item, 'low')}
@@ -288,7 +288,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       render();
       syncStatus.textContent = afterDelete ? `删除已同步到云端，现有 ${records.length} 条记录。` : `同步完成，共 ${records.length} 条记录。`;
       // 云端带来的新记录可能是其它设备的旧快照，同步后按最新行情重算一次。
-      if (!afterDelete) { void refreshMarket(); void loadAnalysis(); }
+      if (!afterDelete) { void refreshMarket(); void loadReviewAnalysis(); }
     } catch {
       syncStatus.textContent = afterDelete ? '已在本机删除，但同步云端失败；稍后点击“同步云端”即可补同步。' : '同步失败，请检查网络和同步密钥。';
     } finally { button.disabled = false; }
@@ -367,7 +367,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   render();
   void refreshMarket();
   void loadExtremes();
-  void loadAnalysis();
+  void loadReviewAnalysis();
+
 </script>
 
 <style>
@@ -412,9 +413,18 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .grid-table tr:last-child td { border-bottom: 0; }
 
   .grid-table .muted { color:#94a3b8; }
-  .grid-table td.analysis-cell { width: 220px; min-width: 220px; max-width: 220px; white-space: normal; text-align: left; line-height: 1.45; }
-  .grid-table .analysis-link { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; color: #334155; text-decoration: none; }
+  .grid-table td.analysis-cell { width: 250px; min-width: 250px; max-width: 250px; white-space: normal; text-align: left; line-height: 1.45; }
+  .grid-table .analysis-link { display: block; color: #334155; text-decoration: none; }
   .grid-table .analysis-link:hover { color: #0369a1; text-decoration: underline; }
+  .analysis-note { margin: 0 0 12px; color: #64748b; font-size: 12px; }
+  .analysis-lines { display: flex; flex-direction: column; gap: 6px; font-size: 12px; }
+  .analysis-lines > div { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 5px; }
+  .analysis-lines span, .analysis-lines .signal-neutral { color: #64748b; }
+  .analysis-lines strong { font-weight: 500; }
+  .analysis-lines .signal-up { color: #dc2626; }
+  .analysis-lines .signal-down { color: #16a34a; }
+  .analysis-lines .signal-extreme { color: #a16207; }
+  .analysis-context { display: block; margin-top: 7px; color: #94a3b8; font-size: 10px; }
   .grid-table .sub { display:block; color:#94a3b8; font-size:11px; }
   .grid-table .code-cell { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 500; }
   .grid-table .stock-name { width: 84px; max-width: 84px; white-space: normal; word-break: break-all; line-height: 1.3; color: #475569 !important; text-align: left; }
