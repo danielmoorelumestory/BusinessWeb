@@ -40,12 +40,30 @@ function readJson<T>(key: string, fallback: T): T {
   }
 }
 
+function isQuotaExceededError(error: unknown): boolean {
+  if (error instanceof DOMException && error.name === 'QuotaExceededError') return true;
+  if (!error || typeof error !== 'object') return false;
+  const e = error as { name?: unknown; code?: unknown; message?: unknown };
+  if (e.name === 'QuotaExceededError') return true;
+  if (e.code === 22 || e.code === 'QuotaExceededError') return true;
+  if (typeof e.message === 'string' && /quota/i.test(e.message)) return true;
+  return false;
+}
+
+function hasUsableGroups(meta: unknown): boolean {
+  if (!meta || typeof meta !== 'object') return false;
+  const groups = (meta as { groups?: unknown }).groups;
+  return Array.isArray(groups) && groups.length > 0;
+}
+
 export function writeMeta(meta: EtfReviewMeta): void {
   const text = JSON.stringify(meta);
   try {
     localStorage.setItem(ETF_REVIEW_META_KEY, text);
     return;
-  } catch { /* quota */ }
+  } catch (first) {
+    if (!isQuotaExceededError(first)) throw first;
+  }
   evictCaches();
   try {
     localStorage.setItem(ETF_REVIEW_META_KEY, text);
@@ -56,7 +74,7 @@ export function writeMeta(meta: EtfReviewMeta): void {
 
 export function readMeta(): EtfReviewMeta {
   const raw = readJson<unknown>(ETF_REVIEW_META_KEY, null);
-  if (isEtfReviewMeta(raw)) return raw;
+  if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) return raw;
   const seeded = defaultMeta(new Date().toISOString());
   writeMeta(seeded);
   return seeded;
