@@ -912,7 +912,8 @@ export function removeRecords(ids: string[]) {
 
 /** 全量同步：本机记录、本机删除标记与云端合并，同一 id 以修改/删除时间较新者为准，结果同时写回云端和本机。 */
 export async function syncAll(token: string): Promise<SavedRecord[]> {
-  const localMetaBefore = readMeta();
+  let localMetaBefore: EtfReviewMeta | null = null;
+  try { localMetaBefore = readMeta(); } catch { /* 元数据存储不可用时仍继续同步网格记录 */ }
   const remote = await cloudRequest(token);
   const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {})).map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
   const merged = new Map<string, CloudItem>();
@@ -923,10 +924,13 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
   const values = [...merged.values()];
   const split = splitCloudItems(values);
   const records = split.records as SavedRecord[];
-  writeMeta(mergeMeta(localMetaBefore, split.meta));
+  const mergedMeta = localMetaBefore || split.meta ? mergeMeta(localMetaBefore, split.meta) : null;
+  if (mergedMeta) {
+    try { writeMeta(mergedMeta); } catch { /* 元数据写入失败不应阻断网格记录同步 */ }
+  }
   // 墓碑保留 180 天，足够其它设备同步到删除；过期后清理，避免占满云端 200 条上限。
   const alive = (split.tombstones as Tombstone[]).filter(item => Date.now() - stamp(item) < TOMBSTONE_TTL);
-  await cloudRequest(token, { records: [...records, ...alive, readMeta()] });
+  await cloudRequest(token, { records: [...records, ...alive, ...(mergedMeta ? [mergedMeta] : [])] });
   writeRecords(records);
   writeJson(DELETED_KEY, Object.fromEntries(alive.map(item => [item.id, item.updatedAt])));
   return records;

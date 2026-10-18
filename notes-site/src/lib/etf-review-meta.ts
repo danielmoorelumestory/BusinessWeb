@@ -1,4 +1,5 @@
 export const ETF_REVIEW_META_ID = 'meta:etf-review-v1';
+export const SEED_TS = '1970-01-01T00:00:00.000Z';
 
 export type DailyNote = {
   emotion: '冷静' | '犹豫' | 'FOMO' | '恐慌' | '';
@@ -33,7 +34,7 @@ export function defaultMeta(nowIso: string): EtfReviewMeta {
     id: ETF_REVIEW_META_ID,
     kind: 'etf-review-meta',
     savedAt: nowIso,
-    updatedAt: nowIso,
+    updatedAt: SEED_TS,
     groups: GROUP_DEFS.map(g => ({ ...g })),
     watchlist: [],
     memberships: {},

@@ -4,6 +4,7 @@ import {
   type EtfReviewMeta,
   type ReviewGroup,
   ETF_REVIEW_META_ID,
+  SEED_TS,
   defaultMeta,
   isEtfReviewMeta,
   noteKey,
@@ -18,6 +19,7 @@ export const ETF_REVIEW_META_KEY = 'etf-review-meta-v1';
 
 export {
   ETF_REVIEW_META_ID,
+  SEED_TS,
   type DailyNote,
   type ReviewGroup,
   type EtfReviewMeta,
@@ -142,7 +144,8 @@ export function removeWatch(code: string): EtfReviewMeta {
 }
 
 export function clearReviewWorkspace(): EtfReviewMeta {
-  const next = defaultMeta(new Date().toISOString());
+  const now = new Date().toISOString();
+  const next = { ...defaultMeta(now), updatedAt: now };
   writeMeta(next);
   return next;
 }

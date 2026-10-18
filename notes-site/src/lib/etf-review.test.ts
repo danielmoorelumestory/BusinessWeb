@@ -3,7 +3,7 @@ import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import {
   noteKey, truncateNote, mergeMeta, poolCodes, filterByGroups,
   defaultMeta, isEtfReviewMeta, readMeta, writeMeta, addWatch, removeWatch,
-  upsertDailyNote, setMemberships, ETF_REVIEW_META_ID, splitCloudItems, pushMeta,
+  upsertDailyNote, setMemberships, clearReviewWorkspace, ETF_REVIEW_META_ID, SEED_TS, splitCloudItems, pushMeta,
 } from './etf-review';
 import {
   RECORDS_KEY, SYNC_KEY_STORAGE, readGridRecords, syncAll,
@@ -53,6 +53,13 @@ describe('etf-review domain', () => {
   it('readMeta seeds default groups when empty', () => {
     const meta = readMeta();
     expect(meta.groups.map(g => g.name)).toEqual(['重点观察', '已持仓', '备选']);
+    expect(meta.updatedAt).toBe(SEED_TS);
+  });
+
+  it('clearReviewWorkspace uses a fresh LWW timestamp', () => {
+    const cleared = clearReviewWorkspace();
+    expect(cleared.updatedAt).not.toBe(SEED_TS);
+    expect(Date.parse(cleared.updatedAt)).toBeGreaterThan(0);
   });
 
   it('readMeta reseeds empty groups without wiping workspace data', () => {
@@ -122,6 +129,53 @@ describe('etf-review domain', () => {
 
     expect(records).toEqual([record]);
     expect(readMeta()).toEqual(remoteMeta);
+    expect(JSON.parse(localStorage.getItem(RECORDS_KEY) ?? '[]')).toEqual([record]);
+    const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
+    expect(put.records).toEqual([record, remoteMeta]);
+  });
+
+  it('syncAll lets cloud meta replace a newly seeded empty workspace', async () => {
+    const remoteMeta = {
+      ...defaultMeta('2026-10-18T00:00:00.000Z'),
+      updatedAt: '2026-10-18T00:00:00.000Z',
+      notes: {
+        '510300|2026-10-18': {
+          emotion: '冷静' as const,
+          conclusion: '看多' as const,
+          action: '观望' as const,
+          risk: '',
+          remark: '云端笔记',
+          updatedAt: '2026-10-18T00:00:00.000Z',
+        },
+      },
+    };
+    const fetchMock = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response(JSON.stringify({ records: [remoteMeta] }), { status: 200 }))
+      .mockResolvedValueOnce(new Response(null, { status: 200 }));
+
+    await syncAll('1234567890123456');
+
+    expect(readMeta()).toEqual(remoteMeta);
+    const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
+    expect(put.records).toEqual([remoteMeta]);
+  });
+
+  it('syncAll continues grid sync when meta storage writes fail', async () => {
+    const record = { id: 'r1', savedAt: '2026-10-18T00:00:00.000Z', row: { code: '510300' }, result: {} };
+    const remoteMeta = {
+      ...defaultMeta('2026-10-18T00:00:00.000Z'),
+      updatedAt: '2026-10-18T00:00:00.000Z',
+    };
+    const originalSetItem = Storage.prototype.setItem;
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (key, value) {
+      if (key === 'etf-review-meta-v1') throw new DOMException('blocked', 'SecurityError');
+      return originalSetItem.call(this, key, value);
+    });
+    const fetchMock = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response(JSON.stringify({ records: [remoteMeta, record] }), { status: 200 }))
+      .mockResolvedValueOnce(new Response(null, { status: 200 }));
+
+    expect(await syncAll('1234567890123456')).toEqual([record]);
     expect(JSON.parse(localStorage.getItem(RECORDS_KEY) ?? '[]')).toEqual([record]);
     const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
     expect(put.records).toEqual([record, remoteMeta]);
