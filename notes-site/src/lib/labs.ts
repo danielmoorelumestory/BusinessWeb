@@ -6,6 +6,11 @@ export type Lab = {
 
 export const labs: Lab[] = [
   {
+    slug: 'etf-review',
+    title: 'ETF 复盘',
+    summary: '按分组观察 ETF：每日结构化笔记、行情摘要；有网格的标的显示状态与盈亏。',
+  },
+  {
     slug: 'stock',
     title: '股市分析',
     summary: '大涨股解读、板块轮动、板块排行；财联社行情 + IndexedDB 本地缓存。',
@@ -17,8 +22,8 @@ export const labs: Lab[] = [
   },
   {
     slug: 'grid-trading/saved',
-    title: '复盘列表',
-    summary: '集中查看网格交易计算器保存的标的：每日行情、网格状态、盈亏与成交明细。',
+    title: '网格列表',
+    summary: '仅网格回测标的的参数、成交与盈亏。',
   },
   {
     slug: 'grid-trading/minute',
