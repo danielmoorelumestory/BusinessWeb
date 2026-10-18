@@ -1,4 +1,4 @@
-import { evictCaches } from './grid-trading';
+import { evictCaches, pushCloudPayload } from './grid-trading';
 import {
   type DailyNote,
   type EtfReviewMeta,
@@ -142,4 +142,8 @@ export function clearReviewWorkspace(): EtfReviewMeta {
   const next = defaultMeta(new Date().toISOString());
   writeMeta(next);
   return next;
+}
+
+export async function pushMeta(what = 'ETF 复盘数据'): Promise<string> {
+  return pushCloudPayload(readMeta(), what);
 }

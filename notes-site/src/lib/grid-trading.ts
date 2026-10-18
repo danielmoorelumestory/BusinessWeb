@@ -2,6 +2,13 @@
 // 计算器、复盘列表、回测详情三个页面共用，避免同一套规则在多处各自维护。
 
 import { SYNC_ENDPOINT } from './endpoints';
+import {
+  type EtfReviewMeta,
+  isEtfReviewMeta,
+  mergeMeta,
+  splitCloudItems,
+} from './etf-review-meta';
+import { readMeta, writeMeta } from './etf-review';
 
 export type Candle = { date: string; open: number; close: number; high: number; low: number };
 export type Trade = {
@@ -216,7 +223,7 @@ export type SavedRecord = {
   result: GridResult;
 };
 type Tombstone = { id: string; savedAt: string; updatedAt: string; deleted: true };
-type CloudItem = SavedRecord | Tombstone;
+type CloudItem = SavedRecord | Tombstone | EtfReviewMeta;
 
 export const RECORDS_KEY = 'grid-trading-saved-v1';
 export const SYNC_KEY_STORAGE = 'grid-trading-sync-key-v1';
@@ -726,7 +733,7 @@ export function gridStatus(record: SavedRecord): GridStatus | null {
 
 export const readRecords = () => readJson<SavedRecord[]>(RECORDS_KEY, []);
 /** 真正添加了网格的记录（不含关注记录）。 */
-export const readGridRecords = () => readRecords().filter(item => !item.watch);
+export const readGridRecords = () => readRecords().filter(item => !item.watch && !isEtfReviewMeta(item));
 export const watchIdOf = (code: string) => `watch-${code.trim()}`;
 /** 新建关注记录：没有网格，row/result 只是占位；row.date 取一年前，作为曲线默认起点。 */
 export function newWatchRecord(code: string, name: string, today: string): SavedRecord {
@@ -772,7 +779,7 @@ export async function refreshRecords(records: SavedRecord[]): Promise<SavedRecor
 
 // ---------- 云同步 ----------
 
-const stamp = (item: CloudItem) => new Date(item.updatedAt ?? item.savedAt).valueOf();
+const stamp = (item: { updatedAt?: string; savedAt: string }) => new Date(item.updatedAt ?? item.savedAt).valueOf();
 const isTombstone = (item: CloudItem): item is Tombstone => (item as Tombstone).deleted === true;
 export const readSyncKey = () => (localStorage.getItem(SYNC_KEY_STORAGE) ?? '').trim();
 
@@ -905,6 +912,7 @@ export function removeRecords(ids: string[]) {
 
 /** 全量同步：本机记录、本机删除标记与云端合并，同一 id 以修改/删除时间较新者为准，结果同时写回云端和本机。 */
 export async function syncAll(token: string): Promise<SavedRecord[]> {
+  const localMetaBefore = readMeta();
   const remote = await cloudRequest(token);
   const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {})).map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
   const merged = new Map<string, CloudItem>();
@@ -913,10 +921,12 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
     if (!previous || stamp(item) >= stamp(previous)) merged.set(item.id, item);
   }
   const values = [...merged.values()];
-  const records = values.filter((item): item is SavedRecord => !isTombstone(item));
+  const split = splitCloudItems(values);
+  const records = split.records as SavedRecord[];
+  writeMeta(mergeMeta(localMetaBefore, split.meta));
   // 墓碑保留 180 天，足够其它设备同步到删除；过期后清理，避免占满云端 200 条上限。
-  const alive = values.filter(isTombstone).filter(item => Date.now() - stamp(item) < TOMBSTONE_TTL);
-  await cloudRequest(token, { records: [...records, ...alive] });
+  const alive = (split.tombstones as Tombstone[]).filter(item => Date.now() - stamp(item) < TOMBSTONE_TTL);
+  await cloudRequest(token, { records: [...records, ...alive, readMeta()] });
   writeRecords(records);
   writeJson(DELETED_KEY, Object.fromEntries(alive.map(item => [item.id, item.updatedAt])));
   return records;
@@ -928,7 +938,7 @@ export async function pullRecord(id: string): Promise<SavedRecord | undefined> {
   if (token.length < 16) return undefined;
   try {
     const remote = (await cloudRequest(token)).find(item => item.id === id);
-    if (!remote || isTombstone(remote)) return undefined;
+    if (!remote || isTombstone(remote) || isEtfReviewMeta(remote)) return undefined;
     const local = readRecords().find(item => item.id === id);
     return !local || stamp(remote) > stamp(local) ? remote : undefined;
   } catch { return undefined; }
@@ -939,25 +949,29 @@ export async function pullByCode(code: string): Promise<SavedRecord | undefined>
   const token = readSyncKey();
   if (token.length < 16) return undefined;
   try {
-    const same = (await cloudRequest(token)).filter((item): item is SavedRecord => !isTombstone(item) && item.row?.code?.trim() === code.trim());
+    const same = (await cloudRequest(token)).filter((item): item is SavedRecord => !isTombstone(item) && !isEtfReviewMeta(item) && item.row?.code?.trim() === code.trim());
     const latest = (list: SavedRecord[]) => [...list].sort((a, b) => stamp(b) - stamp(a))[0];
     return latest(same.filter(item => !item.watch)) ?? latest(same);
   } catch { return undefined; }
 }
 
 /** 只把一条记录合并进云端（云端版本更新时不覆盖）；返回需要提示的失败信息，成功时为空字符串。what 是提示里对本次改动的称呼。 */
-export async function pushRecord(record: SavedRecord, what = '修正'): Promise<string> {
+export async function pushCloudPayload(item: { id: string; updatedAt?: string; savedAt: string }, what: string): Promise<string> {
   const token = readSyncKey();
   if (token.length < 16) return `${what}已保存到本机；尚未设置同步密钥，未同步到云端。`;
   try {
     const remote = await cloudRequest(token);
-    const existing = remote.find(item => item.id === record.id);
-    if (existing && stamp(existing) > stamp(record)) return `云端有更新的版本，本次${what}未上传，请到“复盘列表”页手动同步。`;
-    await cloudRequest(token, { records: existing ? remote.map(item => item.id === record.id ? record : item) : [record, ...remote] });
+    const existing = remote.find(remoteItem => remoteItem.id === item.id);
+    if (existing && stamp(existing) > stamp(item)) return `云端有更新的版本，本次${what}未上传，请到“复盘列表”页手动同步。`;
+    await cloudRequest(token, { records: existing ? remote.map(remoteItem => remoteItem.id === item.id ? item : remoteItem) : [item, ...remote] });
     return '';
   } catch {
     return `${what}已保存到本机，但同步云端失败，请稍后在“复盘列表”页手动同步。`;
   }
+}
+
+export async function pushRecord(record: SavedRecord, what = '修正'): Promise<string> {
+  return pushCloudPayload(record, what);
 }
 
 // ---------- 资金曲线 ----------

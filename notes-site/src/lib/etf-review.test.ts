@@ -1,13 +1,17 @@
 // notes-site/src/lib/etf-review.test.ts
-import { describe, expect, it, beforeEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import {
   noteKey, truncateNote, mergeMeta, poolCodes, filterByGroups,
   defaultMeta, isEtfReviewMeta, readMeta, writeMeta, addWatch, removeWatch,
-  upsertDailyNote, setMemberships, ETF_REVIEW_META_ID,
+  upsertDailyNote, setMemberships, ETF_REVIEW_META_ID, splitCloudItems, pushMeta,
 } from './etf-review';
+import {
+  RECORDS_KEY, SYNC_KEY_STORAGE, readGridRecords, syncAll,
+} from './grid-trading';
 
 describe('etf-review domain', () => {
   beforeEach(() => localStorage.clear());
+  afterEach(() => vi.restoreAllMocks());
 
   it('noteKey joins code and date', () => {
     expect(noteKey('510300', '2026-10-18')).toBe('510300|2026-10-18');
@@ -66,5 +70,52 @@ describe('etf-review domain', () => {
     const note = readMeta().notes['510300|2026-10-18'];
     expect(note?.remark).toBe('b');
     expect(note?.emotion).toBe('犹豫');
+  });
+
+  it('splitCloudItems separates meta from records and tombstones', () => {
+    const meta = defaultMeta('2026-10-18T00:00:00.000Z');
+    const record = { id: 'r1', savedAt: '2026-10-18T00:00:00.000Z', row: { code: '510300' }, result: {} };
+    const tomb = { id: 'r2', savedAt: 't', updatedAt: 't', deleted: true as const };
+    const { meta: found, records, tombstones } = splitCloudItems([meta, record, tomb]);
+    expect(found?.id).toBe(ETF_REVIEW_META_ID);
+    expect(records).toHaveLength(1);
+    expect(tombstones).toHaveLength(1);
+  });
+
+  it('syncAll merges meta separately and never writes it into grid records', async () => {
+    const localMeta = { ...defaultMeta('2026-10-17T00:00:00.000Z'), updatedAt: '2026-10-17T00:00:00.000Z' };
+    const remoteMeta = { ...defaultMeta('2026-10-18T00:00:00.000Z'), updatedAt: '2026-10-18T00:00:00.000Z' };
+    const record = { id: 'r1', savedAt: '2026-10-18T00:00:00.000Z', row: { code: '510300' }, result: {} };
+    writeMeta(localMeta);
+    const fetchMock = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response(JSON.stringify({ records: [remoteMeta, record] }), { status: 200 }))
+      .mockResolvedValueOnce(new Response(null, { status: 200 }));
+
+    const records = await syncAll('1234567890123456');
+
+    expect(records).toEqual([record]);
+    expect(readMeta()).toEqual(remoteMeta);
+    expect(JSON.parse(localStorage.getItem(RECORDS_KEY) ?? '[]')).toEqual([record]);
+    const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
+    expect(put.records).toEqual([record, remoteMeta]);
+  });
+
+  it('readGridRecords defensively excludes etf-review meta', () => {
+    const record = { id: 'r1', savedAt: '2026-10-18T00:00:00.000Z', row: { code: '510300' }, result: {} };
+    localStorage.setItem(RECORDS_KEY, JSON.stringify([record, defaultMeta('2026-10-18T00:00:00.000Z')]));
+    expect(readGridRecords()).toEqual([record]);
+  });
+
+  it('pushMeta uploads the current workspace meta', async () => {
+    localStorage.setItem(SYNC_KEY_STORAGE, '1234567890123456');
+    const meta = defaultMeta('2026-10-18T00:00:00.000Z');
+    writeMeta(meta);
+    const fetchMock = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response(JSON.stringify({ records: [] }), { status: 200 }))
+      .mockResolvedValueOnce(new Response(null, { status: 200 }));
+
+    expect(await pushMeta('复盘调整')).toBe('');
+    const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
+    expect(put.records).toEqual([meta]);
   });
 });
