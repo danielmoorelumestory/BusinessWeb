@@ -210,61 +210,27 @@ it('splitCloudItems separates meta from records and tombstones', () => {
 });
 ```
 
-若不想把 `splitCloudItems` 放进 etf-review，可放在同文件并导出供 `syncAll` 使用。
+- [ ] **Step 2: 跑测确认新断言失败**（若 Task 1 已实现 `splitCloudItems` 则本步应已 PASS，直接改 sync）
 
-- [ ] **Step 2: 跑测确认新断言失败**
+Run: `npm test -- --run notes-site/src/lib/etf-review.test.ts`
 
-Run: `npm test -- --run notes-site/src/lib/etf-review.test.ts`  
-Expected: FAIL on `splitCloudItems`
-
-- [ ] **Step 3: 实现 split + 改 syncAll**
-
-在 `etf-review.ts`：
-
-```ts
-export function splitCloudItems(items: unknown[]): {
-  meta: EtfReviewMeta | null;
-  records: unknown[];
-  tombstones: unknown[];
-} {
-  let meta: EtfReviewMeta | null = null;
-  const records: unknown[] = [];
-  const tombstones: unknown[] = [];
-  for (const item of items) {
-    if (isEtfReviewMeta(item)) { meta = item; continue; }
-    if (item && typeof item === 'object' && (item as { deleted?: boolean }).deleted === true) {
-      tombstones.push(item); continue;
-    }
-    records.push(item);
-  }
-  return { meta, records, tombstones };
-}
-```
+- [ ] **Step 3: 改 syncAll + pushMeta**
 
 在 `grid-trading.ts` 的 `syncAll` 中（保持现有 LWW Map 逻辑后）：
 
-1. 对 merged values 调用 `splitCloudItems`
-2. `writeMeta(mergeMeta(readMeta(), split.meta))`（注意：merge 前先读出「同步开始前的本地 meta」，避免被中间状态覆盖——实现时用 `const localMetaBefore = readMeta()`）
-3. `writeRecords` 仅写入确认为 `SavedRecord` 的 records（已有逻辑）
-4. PUT body：`[...records, ...aliveTombstones, readMeta()]`
+1. `const localMetaBefore = readMeta()`
+2. 对 merged values 调用 `splitCloudItems`
+3. `writeMeta(mergeMeta(localMetaBefore, split.meta))`
+4. `writeRecords` 仅写入 `SavedRecord`（不含 meta）
+5. PUT body：`[...records, ...aliveTombstones, readMeta()]`
 
-`pushMeta`：
-
-```ts
-export async function pushMeta(what = '复盘工作区'): Promise<string> {
-  const meta = readMeta();
-  // 复用 grid-trading 的 readSyncKey + 与 pushRecord 相同的 GET/PUT 合并逻辑：
-  // 若云端同 id 更新，跳过并提示去同步；成功则空字符串。
-}
-```
-
-为避免循环依赖：`pushMeta` 可放在 `etf-review.ts` 并动态 import `./grid-trading` 的 `readSyncKey`，或把 `cloudRequest` 抽成共享——**优先**：在 `grid-trading.ts` 新增：
+在 `grid-trading.ts` 新增：
 
 ```ts
 export async function pushCloudPayload(item: { id: string; updatedAt?: string; savedAt: string }, what: string): Promise<string>
 ```
 
-供 `SavedRecord` 与 meta 共用；`pushRecord` 改为调用它。
+`pushRecord` 改为调用它；`etf-review.ts` 的 `pushMeta` 同样调用它。
 
 `readGridRecords`：
 
@@ -273,9 +239,7 @@ export const readGridRecords = () =>
   readRecords().filter(item => !item.watch && !isEtfReviewMeta(item));
 ```
 
-（`isEtfReviewMeta` 从 `./etf-review` 导入；若循环依赖，把 `isEtfReviewMeta` + 常量放到 `etf-review-meta.ts` 极小文件，或在 filter 里内联 `item && (item as any).kind === 'etf-review-meta'`。）
-
-**循环依赖规避（强制）：** 新建 `notes-site/src/lib/etf-review-meta.ts` 只放 `ETF_REVIEW_META_ID`、`isEtfReviewMeta`、`EtfReviewMeta` 类型与 `splitCloudItems` / `mergeMeta` / `defaultMeta` 中不依赖 storage 的部分；`etf-review.ts` 与 `grid-trading.ts` 都从该文件 import。Task 1 若已把类型写进 `etf-review.ts`，本步拆出纯类型文件并更新 import。
+从 `./etf-review-meta` import `isEtfReviewMeta`（无循环依赖）。
 
 - [ ] **Step 4: 跑测通过**
 
