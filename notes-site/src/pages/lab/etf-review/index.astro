@@ -115,6 +115,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     syncAll,
     SYNC_KEY_STORAGE,
     type Quote,
+    type SavedRecord,
   } from '../../../lib/grid-trading';
   import { renderReviewAnalysis } from '../../../lib/review-analysis';
 
@@ -397,6 +398,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     event.preventDefault();
     const names = editingGroups.map(group => group.name.trim());
     const status = document.querySelector('#groups-status') as HTMLElement;
+    if (!editingGroups.length) { status.textContent = '至少保留一个分组。'; return; }
     if (names.some(name => !name)) { status.textContent = '分组名称不能为空。'; return; }
     if (new Set(names).size !== names.length) { status.textContent = '分组名称不能重复。'; return; }
     const meta = readMeta();

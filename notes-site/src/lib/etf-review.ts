@@ -75,7 +75,10 @@ export function writeMeta(meta: EtfReviewMeta): void {
 export function readMeta(): EtfReviewMeta {
   const raw = readJson<unknown>(ETF_REVIEW_META_KEY, null);
   if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) return raw;
-  const seeded = defaultMeta(new Date().toISOString());
+  const defaults = defaultMeta(new Date().toISOString());
+  const seeded = isEtfReviewMeta(raw)
+    ? { ...raw, groups: defaults.groups }
+    : defaults;
   writeMeta(seeded);
   return seeded;
 }

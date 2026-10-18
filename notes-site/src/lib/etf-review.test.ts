@@ -55,6 +55,33 @@ describe('etf-review domain', () => {
     expect(meta.groups.map(g => g.name)).toEqual(['重点观察', '已持仓', '备选']);
   });
 
+  it('readMeta reseeds empty groups without wiping workspace data', () => {
+    const stored = {
+      ...defaultMeta('2026-10-18T00:00:00.000Z'),
+      groups: [],
+      watchlist: [{ code: '510300', name: '沪深300', addedAt: '2026-10-18T00:00:00.000Z' }],
+      memberships: { '510300': ['removed-group'] },
+      notes: {
+        '510300|2026-10-18': {
+          emotion: '冷静' as const,
+          conclusion: '看多' as const,
+          action: '观望' as const,
+          risk: '回撤',
+          remark: '保留',
+          updatedAt: '2026-10-18T00:00:00.000Z',
+        },
+      },
+    };
+    localStorage.setItem('etf-review-meta-v1', JSON.stringify(stored));
+
+    const meta = readMeta();
+
+    expect(meta.groups.map(group => group.name)).toEqual(['重点观察', '已持仓', '备选']);
+    expect(meta.watchlist).toEqual(stored.watchlist);
+    expect(meta.memberships).toEqual(stored.memberships);
+    expect(meta.notes).toEqual(stored.notes);
+  });
+
   it('addWatch rejects bad code; removeWatch drops memberships', () => {
     expect(() => addWatch('12', 'x')).toThrow();
     addWatch('510300', '沪深300');
