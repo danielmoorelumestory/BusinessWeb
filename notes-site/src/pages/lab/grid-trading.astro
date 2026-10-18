@@ -18,7 +18,8 @@ import { href } from '../../lib/url';
   <div class="toolbar">
     <div id="status" role="status">准备就绪 · 默认加载沪深 300 ETF 示例</div>
     <div class="toolbar-actions">
-      <a class="button secondary" href={href('lab/grid-trading/saved')}>复盘列表</a>
+      <a class="button" href={href('lab/etf-review')}>ETF 复盘</a>
+      <a class="button secondary" href={href('lab/grid-trading/saved')}>网格列表</a>
       <button id="save-btn" class="button secondary" type="button">加入复盘</button>
     </div>
   </div>
@@ -175,7 +176,7 @@ import { href } from '../../lib/url';
       row: { id: row.id, name: row.name, code: row.code, date: row.date, initialPrice: row.initialPrice, initialShares: row.initialShares, initialAmount: row.initialShares * row.initialPrice, step: row.step, rebound: row.rebound, pullback: row.pullback, gridAmount: row.gridAmount }, result,
     };
     saveRecord(record);
-    status.textContent = `${row.name || row.code} 已加入复盘，可在“复盘列表”查看详情`;
+    status.textContent = `${row.name || row.code} 已加入复盘，可在 ETF 复盘 / 网格列表查看`;
     if (btn) {
       const originalText = btn.textContent;
       btn.textContent = '已加入 ✓';

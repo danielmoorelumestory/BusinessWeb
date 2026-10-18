@@ -1,4 +1,4 @@
-import { GRID_SAVED_PATH, GRID_TRADING_PATH, PLATE_RANKING_PATH, SECTOR_ROTATION_PATH, STOCK_ANALYSIS_PATH } from './notesLinks'
+import { ETF_REVIEW_PATH, GRID_TRADING_PATH, PLATE_RANKING_PATH, SECTOR_ROTATION_PATH, STOCK_ANALYSIS_PATH } from './notesLinks'
 
 export interface NavItem {
   path: string
@@ -63,7 +63,7 @@ export const INVEST_GROUPS: HubGroup[] = [
       { path: '/monitor', label: '宏观温度', desc: '中美经济温度、周期阶段与对应动作' },
       { path: '/pulse', label: '全球行情', desc: '全球指数、商品外汇与 A 股涨跌停' },
       { path: '/daily-analysis', label: 'A股每日复盘', desc: '自动获取 A 股行情、涨跌停与连板复盘，保留交易日快照' },
-      { path: GRID_SAVED_PATH, label: '复盘列表', desc: '网格计算器保存的标的、回测记录与历史成交' },
+      { path: ETF_REVIEW_PATH, label: '复盘列表', desc: 'ETF 分组观察、每日复盘笔记；有网格的标的显示状态与盈亏' },
       { path: STOCK_ANALYSIS_PATH, label: '大涨股解读', desc: '涨停梯队与各板块涨停个股，可选日期' },
       { path: SECTOR_ROTATION_PATH, label: '板块轮动', desc: '近 7 个交易日板块涨幅，横向对比每日强弱' },
       { path: PLATE_RANKING_PATH, label: '板块排行', desc: '近 20 日板块涨幅矩阵，按涨幅 >1% 出现频次排序' },

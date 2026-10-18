@@ -17,8 +17,13 @@ export const NOTES_ORIGIN: string = (typeof import.meta.env !== 'undefined' ? im
  */
 export const GRID_TRADING_PATH: string = NOTES_PATH ? `${NOTES_PATH}lab/grid-trading/` : `${NOTES_ORIGIN}/note/lab/grid-trading/`
 
-/** 网格复盘列表入口 */
+/** 网格列表（仅网格计算器保存的标的） */
 export const GRID_SAVED_PATH: string = NOTES_PATH ? `${NOTES_PATH}lab/grid-trading/saved` : `${NOTES_ORIGIN}/note/lab/grid-trading/saved`
+
+/** ETF 复盘 hub：分组观察、每日复盘笔记；有网格的标的显示状态与盈亏 */
+export const ETF_REVIEW_PATH: string = NOTES_PATH
+  ? `${NOTES_PATH}lab/etf-review/`
+  : `${NOTES_ORIGIN}/note/lab/etf-review/`
 
 /** 股市分析 lab（大涨股解读、板块轮动、板块排行），用 # 直接打开某个工具；规则同 GRID_TRADING_PATH */
 export const STOCK_LAB_BASE: string = NOTES_PATH ? `${NOTES_PATH}lab/stock/` : `${NOTES_ORIGIN}/note/lab/stock/`
