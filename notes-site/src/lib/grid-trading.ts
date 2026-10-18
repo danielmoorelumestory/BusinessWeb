@@ -858,7 +858,7 @@ export type MinuteBar = { ts: string; open: number; close: number; high: number;
 /** 从云端读取已同步的 1 分钟线（Worker 每个交易日收盘后抓取）。from/to 为 YYYYMMDD，adjust 默认前复权。 */
 export async function fetchMinuteBars(code: string, from: string, to: string, adjust: 'qfq' | 'none' = 'qfq'): Promise<MinuteBar[]> {
   const token = readSyncKey();
-  if (token.length < 16) throw new Error('请先在“复盘列表”页填写同步密钥。');
+  if (token.length < 16) throw new Error('请先在「ETF 复盘」或「网格列表」页填写同步密钥。');
   const response = await fetch(`${SYNC_ENDPOINT}/minute?code=${encodeURIComponent(code)}&from=${from}&to=${to}&adjust=${adjust}`, {
     headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000),
   });
@@ -883,7 +883,7 @@ export async function fetchLatestMinuteBars(code: string): Promise<MinuteBar[]> 
 /** 当天分钟线尚未入库时，按当前详情页标的手动补抓一次。 */
 export async function syncMinuteBars(code: string): Promise<void> {
   const token = readSyncKey();
-  if (token.length < 16) throw new Error('请先在“复盘列表”页填写同步密钥。');
+  if (token.length < 16) throw new Error('请先在「ETF 复盘」或「网格列表」页填写同步密钥。');
   const response = await fetch(`${SYNC_ENDPOINT}/minute/sync?code=${encodeURIComponent(code.trim())}`, { method: 'POST', headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(30000) });
   if (!response.ok) throw new Error('补取当天分钟线失败。');
 }
@@ -962,11 +962,11 @@ export async function pushCloudPayload(item: { id: string; updatedAt?: string; s
   try {
     const remote = await cloudRequest(token);
     const existing = remote.find(remoteItem => remoteItem.id === item.id);
-    if (existing && stamp(existing) > stamp(item)) return `云端有更新的版本，本次${what}未上传，请到“复盘列表”页手动同步。`;
+    if (existing && stamp(existing) > stamp(item)) return `云端有更新的版本，本次${what}未上传，请到「ETF 复盘」或「网格列表」页手动同步。`;
     await cloudRequest(token, { records: existing ? remote.map(remoteItem => remoteItem.id === item.id ? item : remoteItem) : [item, ...remote] });
     return '';
   } catch {
-    return `${what}已保存到本机，但同步云端失败，请稍后在“复盘列表”页手动同步。`;
+    return `${what}已保存到本机，但同步云端失败，请稍后在「ETF 复盘」或「网格列表」页手动同步。`;
   }
 }
 
