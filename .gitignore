@@ -19,3 +19,4 @@ obsidian-plugin/main.js
 
 # Python 运行缓存
 __pycache__/
+.worktrees/
