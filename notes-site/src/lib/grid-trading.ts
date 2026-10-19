@@ -852,29 +852,32 @@ export type CloudPremium = { rate: number; referenceNav?: number; quoteDate: str
 export async function fetchCloudPremiums(codes: string[], from: string, to?: string): Promise<Map<string, CloudPremium>> {
   const result = new Map<string, CloudPremium>();
   const token = readSyncKey();
-  const unique = [...new Set(codes.map(code => code.trim()).filter(code => /^\d{6}$/.test(code)))].slice(0, 50);
+  const unique = [...new Set(codes.map(code => code.trim()).filter(code => /^\d{6}$/.test(code)))];
   if (token.length < 16 || !unique.length) return result;
-  try {
-    const range = `codes=${unique.join(',')}&from=${encodeURIComponent(from)}${to ? `&to=${encodeURIComponent(to)}` : ''}`;
-    const response = await fetch(`${SYNC_ENDPOINT}/premium?${range}`, {
-      headers: { authorization: `Bearer ${token}` },
-      signal: AbortSignal.timeout(15000),
-    });
-    if (!response.ok) return result;
-    const payload = await response.json() as {
-      premiums?: { code?: unknown; date?: unknown; premiumRate?: unknown; referenceNav?: unknown }[];
-    };
-    for (const row of payload.premiums ?? []) {
-      const code = String(row.code ?? ''), date = String(row.date ?? ''), rate = Number(row.premiumRate);
-      if (!unique.includes(code) || !DATE_RE.test(date) || !Number.isFinite(rate)) continue;
-      const referenceNav = Number(row.referenceNav);
-      result.set(noteKey(code, date), {
-        rate,
-        ...(Number.isFinite(referenceNav) && referenceNav > 0 ? { referenceNav } : {}),
-        quoteDate: date,
+  for (let index = 0; index < unique.length; index += 50) {
+    const batch = unique.slice(index, index + 50);
+    try {
+      const range = `codes=${batch.join(',')}&from=${encodeURIComponent(from)}${to ? `&to=${encodeURIComponent(to)}` : ''}`;
+      const response = await fetch(`${SYNC_ENDPOINT}/premium?${range}`, {
+        headers: { authorization: `Bearer ${token}` },
+        signal: AbortSignal.timeout(15000),
       });
-    }
-  } catch { /* 云端不可用时显示本地记录或“—” */ }
+      if (!response.ok) continue;
+      const payload = await response.json() as {
+        premiums?: { code?: unknown; date?: unknown; premiumRate?: unknown; referenceNav?: unknown }[];
+      };
+      for (const row of payload.premiums ?? []) {
+        const code = String(row.code ?? ''), date = String(row.date ?? ''), rate = Number(row.premiumRate);
+        if (!batch.includes(code) || !DATE_RE.test(date) || !Number.isFinite(rate)) continue;
+        const referenceNav = Number(row.referenceNav);
+        result.set(noteKey(code, date), {
+          rate,
+          ...(Number.isFinite(referenceNav) && referenceNav > 0 ? { referenceNav } : {}),
+          quoteDate: date,
+        });
+      }
+    } catch { /* 单批云端不可用时保留其他批次结果 */ }
+  }
   return result;
 }
 

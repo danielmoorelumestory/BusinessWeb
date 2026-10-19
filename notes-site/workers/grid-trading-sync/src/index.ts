@@ -34,6 +34,8 @@ type DailyBar = { open: number; close: number; high: number; low: number; volume
 // 免费版 Worker 单次调用最多 50 次 fetch 子请求（D1 查询不计入）。日K 抓取按预算计数，超出时抛出 BUDGET，剩余标的留到下一次触发。
 const FETCH_LIMIT = 48;
 class Budget { used = 0; constructor(private limit: number) {} take() { if (++this.used > this.limit) throw new Error('BUDGET'); } }
+export const dailyFetchBudget = (codeCount: number) =>
+  Math.max(0, FETCH_LIMIT - codeCount - Math.ceil(codeCount / 40));
 // 前复权偏移的比较容差：价格最小变动单位是 0.001，小于一半即视为没有变化。
 const OFFSET_TOLERANCE = 5e-4;
 
@@ -225,7 +227,7 @@ async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
     } catch (logError) { console.error('写入 sync_log 失败', code, logError); }
   }
   // 分钟线阶段每个标的已用掉 1 次 fetch，日K 预算要扣除；按“日K 最近更新最久远”的顺序处理，保证预算有限时每个标的轮流得到更新。
-  const budget = new Budget(Math.max(4, FETCH_LIMIT - codes.length));
+  const budget = new Budget(dailyFetchBudget(codes.length));
   const { results: latest } = await env.DB.prepare('SELECT code, MAX(date) AS date FROM daily_bars GROUP BY code').all<{ code: string; date: string }>();
   const latestByCode = new Map(latest.map(row => [row.code, row.date]));
   const ordered = [...codes].sort((a, b) => (latestByCode.get(a) ?? '').localeCompare(latestByCode.get(b) ?? ''));

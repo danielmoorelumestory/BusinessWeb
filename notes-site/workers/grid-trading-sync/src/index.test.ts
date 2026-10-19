@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { type Env, readPremiums, syncPremiums } from './index';
+import { dailyFetchBudget, type Env, readPremiums, syncPremiums } from './index';
 
 type Call = { sql: string; bindings: unknown[] };
 
@@ -30,6 +30,14 @@ const quoteBody = (code: string) => {
 };
 
 afterEach(() => vi.unstubAllGlobals());
+
+describe('dailyFetchBudget', () => {
+  it('reserves one premium request per 40 codes within the worker fetch limit', () => {
+    expect(dailyFetchBudget(41)).toBe(5);
+    expect(41 + dailyFetchBudget(41) + Math.ceil(41 / 40)).toBe(48);
+    expect(dailyFetchBudget(50)).toBe(0);
+  });
+});
 
 describe('syncPremiums', () => {
   it('uses exchange prefix plus code and upserts parsed premiums', async () => {

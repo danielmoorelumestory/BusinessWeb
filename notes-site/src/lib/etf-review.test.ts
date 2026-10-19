@@ -64,6 +64,23 @@ describe('etf-review domain', () => {
     );
   });
 
+  it('fetchCloudPremiums requests every code in chunks of 50', async () => {
+    localStorage.setItem(SYNC_KEY_STORAGE, '1234567890123456');
+    const codes = Array.from({ length: 51 }, (_, index) => String(510000 + index));
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockImplementation(async input => {
+      const requested = new URL(String(input)).searchParams.get('codes')!.split(',');
+      return new Response(JSON.stringify({
+        premiums: requested.map(code => ({ code, date: '2026-10-17', premiumRate: 0.1 })),
+      }), { status: 200 });
+    });
+
+    const map = await fetchCloudPremiums(codes, '2026-10-01');
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(map).toHaveLength(51);
+    expect(map.get('510050|2026-10-17')?.rate).toBe(0.1);
+  });
+
   it('truncateNote cuts risk and remark', () => {
     const note = truncateNote({
       emotion: '冷静', conclusion: '看多', action: '观望',
