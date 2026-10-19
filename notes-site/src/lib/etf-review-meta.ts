@@ -11,6 +11,7 @@ export type DailyNote = {
 };
 
 export type ReviewGroup = { id: string; name: string; order: number };
+export type DailyPremium = { rate: number; referenceNav?: number; quoteDate: string; updatedAt: string };
 
 export type EtfReviewMeta = {
   id: typeof ETF_REVIEW_META_ID;
@@ -20,7 +21,10 @@ export type EtfReviewMeta = {
   groups: ReviewGroup[];
   watchlist: { code: string; name: string; addedAt: string }[];
   memberships: Record<string, string[]>;
+  // 每个分组独立保存标的顺序；空字符串代表未分组。兼容没有排序数据的旧记录。
+  groupCodeOrder?: Record<string, string[]>;
   notes: Record<string, DailyNote>;
+  dailyPremiums?: Record<string, DailyPremium>;
 };
 
 const GROUP_DEFS: { id: string; name: string; order: number }[] = [
@@ -74,6 +78,11 @@ export function poolCodes(gridCodes: string[], watchlist: { code: string }[]): s
   for (const code of gridCodes) set.add(code);
   for (const w of watchlist) set.add(w.code);
   return [...set];
+}
+
+export function orderedGroupCodes(codes: string[], order: string[] = []): string[] {
+  const available = new Set(codes);
+  return [...new Set([...order.filter(code => available.has(code)), ...codes])];
 }
 
 export function filterByGroups(

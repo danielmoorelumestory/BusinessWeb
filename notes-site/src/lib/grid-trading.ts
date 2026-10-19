@@ -368,7 +368,7 @@ export async function getFourYearExtremes(code: string): Promise<{ high: number;
   return range;
 }
 
-export type Quote = { code: string; name: string; price: number; high: number; low: number; date: string; open?: number };
+export type Quote = { code: string; name: string; price: number; high: number; low: number; date: string; open?: number; changePercent?: number; premiumRate?: number; referenceNav?: number };
 
 /** 批量获取实时报价：多只标的合并为一次请求；结果在本会话内缓存 60 秒，页面间切换不重复请求。 */
 export async function fetchQuotes(codes: string[]): Promise<Map<string, Quote>> {
@@ -388,6 +388,13 @@ export async function fetchQuotes(codes: string[]): Promise<Map<string, Quote>> 
     for (const match of text.matchAll(/v_(?:sh|sz)(\d{6})="([^"]*)"/g)) {
       const fields = match[2].split('~'), stamp = fields[30] ?? '';
       const quote: Quote = { code: match[1], name: fields[1]?.trim() ?? '', price: Number(fields[3]), open: Number(fields[5]), high: Number(fields[33]), low: Number(fields[34]), date: `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}` };
+      if (fields[32]?.trim() && Number.isFinite(Number(fields[32]))) quote.changePercent = Number(fields[32]);
+      // ETF 专属字段：77 为行情源折溢价率（百分数），78 为对应参考净值。
+      // 空字段不能按 Number('') 当成零溢价，股票的同位置字段也不套用。
+      if (fields[61]?.trim() === 'ETF' && fields[77]?.trim() && Number.isFinite(Number(fields[77])) && Number(fields[78]) > 0) {
+        quote.premiumRate = Number(fields[77]);
+        quote.referenceNav = Number(fields[78]);
+      }
       // 停牌或未开盘时报价可能为 0，此时不参与合并。
       if (!(quote.price > 0 && quote.high > 0 && quote.low > 0) || stamp.length < 8) continue;
       result.set(quote.code, quote);

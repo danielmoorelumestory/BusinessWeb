@@ -8,11 +8,10 @@ const detailUrl = href('lab/grid-trading/detail');
 const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/').replace(/\/?$/, '/') + 'notes/';
 ---
 
-<Base title="ETF 复盘" current="lab" description="按分组观察 ETF，记录每日判断，并集中查看行情、网格状态与盈亏">
+<Base wide title="ETF 复盘" current="lab" description="按分组观察 ETF，记录每日判断，并集中查看行情、网格状态与盈亏">
   <header class="hero compact-hero">
     <p class="kicker">ETF REVIEW</p>
     <h1>ETF 复盘</h1>
-    <p class="lede">把网格标的和手动观察标的放在同一张表里，按分组筛选并记录每天的判断、动作和风险。</p>
   </header>
 
   <div class="page-actions">
@@ -39,7 +38,6 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     </div>
   </section>
 
-  <p class="analysis-note">日线、周线、月线基于历史收盘行情判断；今日笔记按北京时间交易日显示。</p>
   <div id="content-area" data-detail-url={detailUrl} data-calc-url={calculatorUrl} data-notes-base={notesBase}></div>
 
   <dialog id="add-dialog">
@@ -47,6 +45,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       <header><h2>添加观察标的</h2><button class="dialog-close" type="button" aria-label="关闭">×</button></header>
       <label>ETF 代码<input id="add-code" name="code" inputmode="numeric" maxlength="6" pattern="\d{6}" required placeholder="例如 510300"></label>
       <label>名称（可选）<input id="add-name" name="name" maxlength="30" placeholder="例如 沪深300ETF"></label>
+      <label>所属分组<select id="add-group"><option value="">未分组</option></select></label>
       <p id="add-error" class="form-error" role="alert"></p>
       <footer><button class="dialog-close" type="button">取消</button><button class="primary" type="submit">添加</button></footer>
     </form>
@@ -57,6 +56,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       <header><h2 id="note-title">每日笔记</h2><button class="dialog-close" type="button" aria-label="关闭">×</button></header>
       <input id="note-code" type="hidden">
       <label>日期<input id="note-date" type="date" required></label>
+      <label>ETF 溢价<output id="note-premium" aria-live="polite">—</output></label>
       <div class="form-grid">
         <label>情绪<select id="note-emotion"><option value="">未选择</option><option>冷静</option><option>犹豫</option><option>FOMO</option><option>恐慌</option></select></label>
         <label>结论<select id="note-conclusion"><option value="">未选择</option><option>看多</option><option>中性</option><option>看空</option></select></label>
@@ -91,9 +91,12 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
 <script>
   import {
     addWatch,
+    captureDailyPremiums,
     filterByGroups,
     noteKey,
     poolCodes,
+    orderedGroupCodes,
+    moveGroupCode,
     pushMeta,
     readMeta,
     removeWatch,
@@ -106,6 +109,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   import {
     blockCopy,
     fetchQuotes,
+    getCandles,
     formatMoney,
     formatPrice,
     gridStatus,
@@ -117,7 +121,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     type Quote,
     type SavedRecord,
   } from '../../../lib/grid-trading';
-  import { renderReviewAnalysis } from '../../../lib/review-analysis';
+  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewCandles } from '../../../lib/review-analysis';
 
   blockCopy();
 
@@ -131,6 +135,32 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const syncStatus = document.querySelector('#sync-status') as HTMLElement;
   const selectedGroupIds = new Set<string>();
   let quotes = new Map<string, Quote>();
+  const analysisRequests = new Set<string>();
+
+  async function updateAnalysis(codes: string[]) {
+    const pending = [...new Set(codes)].filter(code => /^\d{6}$/.test(code) && canRefreshReviewAnalysis(code) && !analysisRequests.has(code));
+    if (!pending.length) return;
+    pending.forEach(code => analysisRequests.add(code));
+    const begin = `${Number(marketToday().slice(0, 4)) - 4}-01-01`;
+    const queue = [...pending];
+    await Promise.all(Array.from({ length: Math.min(4, queue.length) }, async () => {
+      while (queue.length) {
+        const code = queue.shift()!;
+        try {
+          if (!setReviewCandles(code, await getCandles(code, begin))) continue;
+          const template = document.createElement('template');
+          container.querySelectorAll<HTMLTableRowElement>('tr[data-code]').forEach(row => {
+            if (row.dataset.code !== code) return;
+            for (const period of ['day', 'week', 'month'] as const) {
+              template.innerHTML = renderReviewAnalysis(code, period, notesBase, true);
+              const cell = template.content.firstElementChild;
+              if (cell) row.querySelector(`[data-analysis="${period}"]`)?.replaceWith(cell);
+            }
+          });
+        } catch { /* 行情失败时保留原状态，可刷新页面重试。 */ }
+      }
+    }));
+  }
 
   const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
   const attr = (value: unknown) => escapeHtml(value);
@@ -155,13 +185,106 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     return `<td class="status-cell"><span class="status-badge ${status.tone}${status.reached ? ' reached' : ''}">${escapeHtml(status.label)}</span><span>${escapeHtml(status.detail)}</span></td>`;
   }
 
+  function lastTradePnlCell(record: SavedRecord | undefined, current: number | undefined) {
+    const trade = record?.result.trades?.at(-1);
+    if (!trade || !Number.isFinite(trade.price) || trade.price <= 0 || current === undefined || !Number.isFinite(current) || current <= 0) {
+      return '<td class="computed muted">—</td>';
+    }
+    const percent = (current / trade.price - 1) * 100;
+    const text = `${percent > 0 ? '+' : ''}${percent.toFixed(2)}%`;
+    const title = `${trade.date} ${trade.side}，成交价 ${formatPrice(trade.price)}；（现价 ÷ 成交价 − 1）× 100%`;
+    return `<td class="computed ${percent > 0 ? 'up' : percent < 0 ? 'down' : 'muted'}" title="${attr(title)}">${escapeHtml(text)}</td>`;
+  }
+
+  function rowHtml(
+    code: string,
+    meta: ReturnType<typeof readMeta>,
+    watchByCode: Map<string, { code: string; name: string }>,
+    noteDates: string[],
+    position: number,
+    total: number,
+  ) {
+    const candidate = recordByCode(code);
+    const record = candidate?.watch ? undefined : candidate;
+    const watch = watchByCode.get(code);
+    const name = record?.row.name || watch?.name || quotes.get(code)?.name || code;
+    const price = quotes.get(code)?.price ?? record?.result.current;
+    const changePercent = quotes.get(code)?.changePercent;
+    const changeText = changePercent === undefined ? '—' : `${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
+    const changeTone = changePercent === undefined || changePercent === 0 ? 'muted' : changePercent > 0 ? 'up' : 'down';
+    return `<tr data-code="${attr(code)}">
+      <td class="identity-cell"><div class="stock-name">${escapeHtml(name)}</div><div class="code-cell">${escapeHtml(code)}</div><div class="position-actions"><button type="button" data-action="move-up" aria-label="上移 ${attr(name)}" title="在本分组上移" ${position === 0 ? 'disabled' : ''}>↑</button><button type="button" data-action="move-down" aria-label="下移 ${attr(name)}" title="在本分组下移" ${position === total - 1 ? 'disabled' : ''}>↓</button></div></td>
+      <td class="computed"><div>${formatPrice(price)}</div><div class="daily-change ${changeTone}" title="当日涨跌幅">${changeText}</div></td>
+      ${renderReviewAnalysis(code, 'day', notesBase, true)}
+      ${renderReviewAnalysis(code, 'week', notesBase, true)}
+      ${renderReviewAnalysis(code, 'month', notesBase, true)}
+      ${lastTradePnlCell(record, price)}
+      ${statusCell(record)}
+      <td class="computed ${record ? (record.result.pnl >= 0 ? 'up' : 'down') : 'muted'}">${record ? escapeHtml(formatMoney(record.result.pnl)) : '—'}</td>
+      ${noteDates.map(date => {
+        const note = meta.notes[noteKey(code, date)];
+        const premium = meta.dailyPremiums?.[noteKey(code, date)];
+        const premiumText = premium ? `${premium.rate > 0 ? '+' : ''}${premium.rate.toFixed(2)}%` : '—';
+        const premiumTone = !premium || premium.rate === 0 ? 'muted' : premium.rate > 0 ? 'up' : 'down';
+        const premiumTitle = premium ? `${premium.quoteDate} 腾讯行情折溢价${premium.referenceNav ? `；参考净值 ${premium.referenceNav}` : ''}` : '暂无该日溢价记录';
+        const noteText = note ? [note.emotion, note.conclusion, note.action].filter(Boolean).join('·') || '已写' : '未写';
+        return `<td><button class="text-action note-action${note?.risk?.trim() ? ' has-risk' : ''}" title="${note?.risk?.trim() ? '已填写风险点' : '编辑笔记'}" data-action="note" data-date="${attr(date)}" aria-label="${attr(`${date} 笔记：${noteText}`)}" type="button">${escapeHtml(noteText)}</button><div class="note-premium ${premiumTone}" title="${attr(premiumTitle)}">溢价 ${premiumText}</div></td>`;
+      }).join('')}
+      <td class="row-actions">
+        <button data-action="groups" type="button">编辑分组</button>
+        ${record ? `<a href="${detailUrl}?id=${encodeURIComponent(record.id)}">网格详情</a>` : `<a href="${calcUrl}?code=${encodeURIComponent(code)}">添加网格</a><button class="danger" data-action="remove" type="button">移除</button>`}
+      </td>
+    </tr>`;
+  }
+
+  function sectionHtml(title: string, codes: string[], row: (code: string, position: number, total: number) => string, noteDates: string[], groupId = '') {
+    if (!codes.length) return '';
+    return `
+      <section class="group-section" aria-label="${attr(title)}" data-group-id="${attr(groupId)}">
+        <h2 class="group-heading">${escapeHtml(title)} <span>${codes.length}</span></h2>
+        <div class="table-shell">
+          <table class="review-table">
+            <colgroup>
+              <col style="width:180px"><col style="width:110px"><col style="width:250px"><col style="width:250px"><col style="width:250px">
+              <col style="width:120px"><col style="width:150px"><col style="width:100px">
+              ${noteDates.map(() => '<col style="width:140px">').join('')}<col style="width:140px">
+            </colgroup>
+            <thead><tr><th>名称 / 代码</th><th>现价 / 涨跌幅</th><th>日线</th><th>周线</th><th>月线</th><th>最近一笔盈亏</th><th>网格状态</th><th>盈亏</th>${noteDates.map(date => `<th title="${attr(date)}"><span class="note-heading">笔记</span><time datetime="${attr(date)}">${escapeHtml(date.slice(5))}</time></th>`).join('')}<th>操作</th></tr></thead>
+            <tbody>${codes.map((code, position) => row(code, position, codes.length)).join('')}</tbody>
+          </table>
+        </div>
+      </section>`;
+  }
+
+  function migrateUngroupedToHeld() {
+    const meta = readMeta();
+    const grid = readGridRecords();
+    const allCodes = poolCodes(grid.map(item => item.row.code.trim()), meta.watchlist);
+    const groups = groupsOf();
+    const heldGroup = groups.find(g => g.name === '已持仓' || g.id === 'g-held') ?? groups[0];
+    if (!heldGroup) return;
+
+    const ungrouped = allCodes.filter(code => !(meta.memberships[code] ?? []).length);
+    if (!ungrouped.length) return;
+
+    const memberships = { ...meta.memberships };
+    for (const code of ungrouped) {
+      memberships[code] = [heldGroup.id];
+    }
+    writeMeta({
+      ...meta,
+      memberships,
+      updatedAt: new Date().toISOString(),
+    });
+    void saveAndPush('分组设置');
+  }
+
   function render() {
     const meta = readMeta();
     const grid = readGridRecords();
     const allCodes = poolCodes(grid.map(item => item.row.code.trim()), meta.watchlist);
     const codes = filterByGroups(allCodes, meta.memberships, [...selectedGroupIds]);
     const groups = groupsOf();
-    const groupById = new Map(groups.map(group => [group.id, group]));
     const watchByCode = new Map(meta.watchlist.map(item => [item.code, item]));
     renderFilters();
 
@@ -171,48 +294,41 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     }
 
     const today = marketToday();
-    container.innerHTML = `
-      <div class="table-shell">
-        <table class="review-table">
-          <thead><tr><th>代码</th><th>名称</th><th>日线</th><th>周线</th><th>月线</th><th>现价</th><th>网格状态</th><th>盈亏</th><th>分组</th><th>今日笔记</th><th>操作</th></tr></thead>
-          <tbody>${codes.map(code => {
-            const candidate = recordByCode(code);
-            const record = candidate?.watch ? undefined : candidate;
-            const watch = watchByCode.get(code);
-            const name = record?.row.name || watch?.name || quotes.get(code)?.name || code;
-            const price = quotes.get(code)?.price ?? record?.result.current;
-            const groupNames = (meta.memberships[code] ?? []).map(id => groupById.get(id)?.name).filter(Boolean);
-            const note = meta.notes[noteKey(code, today)];
-            const noteText = note ? [note.conclusion, note.action].filter(Boolean).join(' · ') || '已写' : '未写';
-            return `<tr data-code="${attr(code)}">
-              <td class="code-cell">${escapeHtml(code)}</td>
-              <td class="stock-name">${escapeHtml(name)}</td>
-              ${renderReviewAnalysis(code, 'day', notesBase)}
-              ${renderReviewAnalysis(code, 'week', notesBase)}
-              ${renderReviewAnalysis(code, 'month', notesBase)}
-              <td class="computed">${formatPrice(price)}</td>
-              ${statusCell(record)}
-              <td class="computed ${record ? (record.result.pnl >= 0 ? 'up' : 'down') : 'muted'}">${record ? escapeHtml(formatMoney(record.result.pnl)) : '—'}</td>
-              <td class="groups-cell">${groupNames.length ? groupNames.map(name => `<span>${escapeHtml(name)}</span>`).join('') : '<span class="muted">未分组</span>'}</td>
-              <td><button class="text-action note-action" data-action="note" type="button">${escapeHtml(noteText)}${note?.risk ? '<i title="有风险点">!</i>' : ''}</button></td>
-              <td class="row-actions">
-                <button data-action="note" type="button">写笔记</button>
-                <button data-action="groups" type="button">编辑分组</button>
-                ${record ? `<a href="${detailUrl}?id=${encodeURIComponent(record.id)}">网格详情</a>${(meta.memberships[code] ?? []).length ? '<button data-action="clear-groups" type="button">清除分组</button>' : ''}` : `<a href="${calcUrl}?code=${encodeURIComponent(code)}">添加网格</a><button class="danger" data-action="remove" type="button">移除</button>`}
-              </td>
-            </tr>`;
-          }).join('')}</tbody>
-        </table>
-      </div>`;
+    const noteDates = Array.from({ length: 5 }, (_, index) => {
+      const date = new Date(`${today}T00:00:00Z`);
+      date.setUTCDate(date.getUTCDate() - index);
+      return date.toISOString().slice(0, 10);
+    });
+    const row = (code: string, position: number, total: number) => rowHtml(code, meta, watchByCode, noteDates, position, total);
+    const visibleGroups = selectedGroupIds.size ? groups.filter(group => selectedGroupIds.has(group.id)) : groups;
+    const sections = visibleGroups.map(group => {
+      const inGroup = orderedGroupCodes(codes.filter(code => (meta.memberships[code] ?? []).includes(group.id)), meta.groupCodeOrder?.[group.id]);
+      return sectionHtml(group.name, inGroup, row, noteDates, group.id);
+    });
+    // 「全部」时附上未分组；筛选分组时不展示未分组块
+    if (!selectedGroupIds.size) {
+      const ungrouped = orderedGroupCodes(codes.filter(code => !(meta.memberships[code] ?? []).length), meta.groupCodeOrder?.['']);
+      sections.push(sectionHtml('未分组', ungrouped, row, noteDates));
+    }
+    // 筛选后若某组为空则整块省略；若所有块都空（理论上不会，codes 非空）给兜底
+    const body = sections.filter(Boolean).join('') || sectionHtml('筛选结果', codes, row, noteDates);
+    container.innerHTML = `<div class="group-sections">${body}</div>`;
   }
 
   async function updateQuotes() {
     const meta = readMeta();
     const codes = poolCodes(readGridRecords().map(item => item.row.code.trim()), meta.watchlist);
     if (!codes.length) return;
+    void updateAnalysis(codes);
     marketStatus.textContent = '正在刷新报价…';
     quotes = await fetchQuotes(codes);
+    try {
+      if (captureDailyPremiums([...quotes.values()], marketToday())) {
+        void saveAndPush('每日溢价').catch(reason => { syncStatus.textContent = saveError(reason); });
+      }
+    } catch (reason) { syncStatus.textContent = saveError(reason); }
     render();
+    if (noteDialog.open) renderNotePremium();
     marketStatus.textContent = quotes.size ? `报价更新于 ${new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}` : '暂未取得实时报价';
   }
 
@@ -238,6 +354,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     button.disabled = true; syncStatus.textContent = '正在同步…';
     try {
       await syncAll(token);
+      migrateUngroupedToHeld();
       render();
       syncStatus.textContent = '同步完成。';
       void updateQuotes();
@@ -260,8 +377,14 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
 
   const addDialog = document.querySelector('#add-dialog') as HTMLDialogElement;
   const addForm = document.querySelector('#add-form') as HTMLFormElement;
+  const addGroupSelect = document.querySelector('#add-group') as HTMLSelectElement | null;
   const showAddDialog = () => {
     addForm.reset();
+    if (addGroupSelect) {
+      const groups = groupsOf();
+      addGroupSelect.innerHTML = `<option value="">未分组</option>${groups.map(g => `<option value="${attr(g.id)}">${escapeHtml(g.name)}</option>`).join('')}`;
+      addGroupSelect.value = '';
+    }
     (document.querySelector('#add-error') as HTMLElement).textContent = '';
     openDialog(addDialog);
     (document.querySelector('#add-code') as HTMLInputElement).focus();
@@ -271,16 +394,21 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     event.preventDefault();
     const code = (document.querySelector('#add-code') as HTMLInputElement).value.trim();
     const name = (document.querySelector('#add-name') as HTMLInputElement).value.trim();
+    const groupId = (document.querySelector('#add-group') as HTMLSelectElement | null)?.value.trim() ?? '';
     const error = document.querySelector('#add-error') as HTMLElement;
     if (!/^\d{6}$/.test(code)) { error.textContent = '请输入 6 位代码。'; return; }
     const hasGrid = readGridRecords().some(item => item.row.code.trim() === code);
     try {
       if (!hasGrid) addWatch(code, name);
+      if (groupId) setMemberships(code, [groupId]);
       closeDialog(addDialog);
       render();
       void updateQuotes();
       if (!hasGrid) void saveAndPush('观察标的');
-      else syncStatus.textContent = '该标的已有网格，已在复盘池中。';
+      else {
+        syncStatus.textContent = '该标的已有网格，已在复盘池中。';
+        if (groupId) void saveAndPush('分组设置');
+      }
     } catch (reason) {
       error.textContent = reason instanceof Error ? reason.message : '添加失败。';
     }
@@ -296,14 +424,22 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     risk: document.querySelector('#note-risk') as HTMLTextAreaElement,
     remark: document.querySelector('#note-remark') as HTMLTextAreaElement,
   };
+  function renderNotePremium() {
+    const premium = readMeta().dailyPremiums?.[noteKey(noteCode.value, noteDate.value)];
+    const output = document.querySelector('#note-premium') as HTMLOutputElement;
+    output.value = premium ? `${premium.rate > 0 ? '+' : ''}${premium.rate.toFixed(2)}%` : '—';
+    output.dataset.tone = !premium || premium.rate === 0 ? 'neutral' : premium.rate > 0 ? 'up' : 'down';
+    output.title = premium ? `${premium.quoteDate} 腾讯行情${premium.referenceNav ? `；参考净值 ${premium.referenceNav}` : ''}` : '暂无该日溢价记录';
+  }
   const loadNote = () => {
+    renderNotePremium();
     const note = readMeta().notes[noteKey(noteCode.value, noteDate.value)];
     for (const [field, input] of Object.entries(noteFields)) input.value = note?.[field as keyof DailyNote] ?? '';
   };
   noteDate.addEventListener('change', loadNote);
-  const showNoteDialog = (code: string) => {
+  const showNoteDialog = (code: string, date = marketToday()) => {
     noteCode.value = code;
-    noteDate.value = marketToday();
+    noteDate.value = date;
     (document.querySelector('#note-title') as HTMLElement).textContent = `${code} 每日笔记`;
     (document.querySelector('#note-status') as HTMLElement).textContent = '';
     loadNote();
@@ -361,21 +497,21 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     const row = target.closest<HTMLTableRowElement>('tr[data-code]');
     if (!button || !row?.dataset.code) return;
     const code = row.dataset.code;
-    if (button.dataset.action === 'note') showNoteDialog(code);
-    if (button.dataset.action === 'groups') showMembershipDialog(code);
-    if (button.dataset.action === 'clear-groups') {
+    if (button.dataset.action === 'move-up' || button.dataset.action === 'move-down') {
+      const section = row.closest<HTMLElement>('[data-group-id]');
+      if (!section) return;
+      const codes = [...section.querySelectorAll<HTMLTableRowElement>('tr[data-code]')].map(item => item.dataset.code!);
       try {
-        setMemberships(code, []);
+        moveGroupCode(section.dataset.groupId!, codes, code, button.dataset.action === 'move-up' ? -1 : 1);
         render();
-        void saveAndPush('分组').catch(reason => {
-          showMembershipDialog(code);
-          (document.querySelector('#membership-status') as HTMLElement).textContent = saveError(reason);
-        });
-      } catch (reason) {
-        showMembershipDialog(code);
-        (document.querySelector('#membership-status') as HTMLElement).textContent = saveError(reason);
-      }
+        const movedRow = [...container.querySelectorAll<HTMLTableRowElement>('tr[data-code]')].find(item => item.dataset.code === code && item.closest<HTMLElement>('[data-group-id]')?.dataset.groupId === section.dataset.groupId);
+        movedRow?.querySelector<HTMLButtonElement>(`[data-action="${button.dataset.action}"]:not(:disabled)`)?.focus({ preventScroll: true });
+        void saveAndPush('标的顺序').catch(reason => { syncStatus.textContent = saveError(reason); });
+      } catch (reason) { syncStatus.textContent = saveError(reason); }
+      return;
     }
+    if (button.dataset.action === 'note') showNoteDialog(code, button.dataset.date);
+    if (button.dataset.action === 'groups') showMembershipDialog(code);
     if (button.dataset.action === 'remove' && confirm(`确认从观察池移除 ${code}？该标的的历史笔记会保留。`)) {
       removeWatch(code);
       render();
@@ -408,10 +544,17 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     const row = target.closest<HTMLElement>('[data-id]');
     if (!row) return;
     const index = editingGroups.findIndex(group => group.id === row.dataset.id);
-    if (target.closest('[data-delete]')) editingGroups.splice(index, 1);
+    if (target.closest('[data-delete]')) {
+      editingGroups.splice(index, 1);
+      renderGroupsEditor();
+      return;
+    }
     const move = Number(target.closest<HTMLButtonElement>('[data-move]')?.dataset.move);
-    if (move && editingGroups[index + move]) [editingGroups[index], editingGroups[index + move]] = [editingGroups[index + move], editingGroups[index]];
-    renderGroupsEditor();
+    if (move && editingGroups[index + move]) {
+      [editingGroups[index], editingGroups[index + move]] = [editingGroups[index + move], editingGroups[index]];
+      renderGroupsEditor();
+      return;
+    }
   });
   (document.querySelector('#groups-form') as HTMLFormElement).addEventListener('submit', async event => {
     event.preventDefault();
@@ -440,11 +583,15 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     });
   }
 
+  migrateUngroupedToHeld();
   render();
   void updateQuotes();
 </script>
 
 <style>
+  #note-premium { padding:8px 10px; border:1px solid #e2e8f0; border-radius:7px; background:#f8fafc; color:#64748b; font-size:14px; font-weight:600; }
+  #note-premium[data-tone="up"] { color:#dc2626; }
+  #note-premium[data-tone="down"] { color:#16a34a; }
   .compact-hero { margin-bottom: 1.25rem; }
   .page-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
   .page-actions > div { display:flex; gap:8px; }
@@ -458,23 +605,369 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .review-toolbar { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px; }
   .group-filters { display:flex; flex-wrap:wrap; gap:7px; }.review-toolbar .group-chip { border-radius:999px; padding:6px 12px; }.review-toolbar .group-chip.active { border-color:#0369a1; background:#e0f2fe; color:#0369a1; font-weight:600; }
   .toolbar-actions { display:flex; flex:none; gap:7px; }.primary { border-color:#0369a1 !important; background:#0369a1 !important; color:#fff !important; }
-  .analysis-note { margin:0 0 10px; color:#64748b; font-size:12px; }
   .empty { padding:48px 24px; border:1px dashed #cbd5e1; border-radius:14px; background:#fff; text-align:center; }.empty > div { font-size:38px; }.empty h3 { margin:8px 0 4px; font-size:16px; color:#1e293b; }.empty p { margin:0 0 18px; color:#64748b; font-size:13px; }
-  dialog { width:min(620px, calc(100vw - 28px)); padding:0; border:0; border-radius:12px; color:#334155; box-shadow:0 18px 60px rgb(15 23 42 / .25); }dialog::backdrop { background:rgb(15 23 42 / .45); }
-  dialog form { padding:20px; }dialog header, dialog footer { display:flex; align-items:center; gap:10px; }dialog header { justify-content:space-between; margin-bottom:16px; }dialog h2 { margin:0; color:#0f172a; font-size:18px; }dialog .dialog-close[aria-label] { padding:2px 9px; border:0; font-size:22px; }
-  dialog label { display:flex; flex-direction:column; gap:5px; margin:0 0 12px; color:#475569; font-size:12px; font-weight:600; }dialog input, dialog select, dialog textarea { box-sizing:border-box; width:100%; border:1px solid #cbd5e1; border-radius:7px; padding:8px 10px; background:#fff; color:#1e293b; font:13px inherit; }dialog textarea { resize:vertical; }dialog footer { justify-content:flex-end; margin-top:16px; }dialog footer [role="status"] { margin-right:auto; color:#64748b; font-size:12px; }
-  .form-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }.form-error { min-height:18px; margin:0; color:#dc2626; font-size:12px; }.dialog-help { color:#64748b; font-size:12px; }
-  .check-list { display:grid; gap:8px; }.check-list label { flex-direction:row; align-items:center; margin:0; padding:9px; border:1px solid #e2e8f0; border-radius:7px; }.check-list input { width:auto; }
-  .groups-editor { display:grid; gap:8px; margin-bottom:10px; }.group-edit-row { display:grid; grid-template-columns:1fr auto auto auto; gap:6px; }.group-edit-row button { padding:6px 9px; }.danger { color:#dc2626 !important; border-color:#fecaca !important; }.dialog-help + .groups-editor:empty::after { content:'暂无分组'; color:#94a3b8; font-size:13px; }
+  /* 弹窗基础：现代三段式、毛玻璃遮罩与平滑缩放入场 */
+  dialog {
+    width: min(560px, calc(100vw - 32px));
+    padding: 0;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 14px;
+    background: #ffffff;
+    color: #334155;
+    box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.05);
+    overflow: hidden;
+    animation: dialog-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes dialog-pop {
+    from { opacity: 0; transform: scale(0.96) translateY(6px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  dialog::backdrop {
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  /* 弹窗头部：带微底边框与沉稳标题 */
+  dialog header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #ffffff;
+  }
+  dialog h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  /* 关闭按钮：精致微交互圆角按钮 */
+  dialog .dialog-close[aria-label] {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 20px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  dialog .dialog-close[aria-label]:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  /* 表单主体与通用控件 */
+  dialog form {
+    padding: 20px;
+  }
+  dialog label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0 0 14px;
+    color: #475569;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  dialog input, dialog select, dialog textarea {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 9px 12px;
+    background: #f8fafc;
+    color: #1e293b;
+    font: 13px inherit;
+    transition: all 0.15s ease;
+  }
+  dialog input:focus, dialog select:focus, dialog textarea:focus {
+    background: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+    outline: none;
+  }
+  dialog textarea {
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  /* 底部沉底操作栏 */
+  dialog footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 18px -20px -20px;
+    padding: 13px 20px;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+  }
+  dialog footer [role="status"] {
+    margin-right: auto;
+    color: #64748b;
+    font-size: 12px;
+  }
+  dialog footer button {
+    border-radius: 7px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  dialog footer .dialog-close {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+  }
+  dialog footer .dialog-close:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-color: #94a3b8;
+  }
+  dialog footer .primary {
+    background: #0369a1 !important;
+    border: 1px solid #0369a1 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  }
+  dialog footer .primary:hover {
+    background: #075985 !important;
+    border-color: #075985 !important;
+  }
+
+  /* 专属定制 1：添加标的弹窗 (#add-dialog) */
+  #add-dialog {
+    width: min(440px, calc(100vw - 32px));
+  }
+  dialog select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  #add-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+  }
+  .form-error {
+    min-height: 18px;
+    margin: -4px 0 10px;
+    color: #dc2626;
+    font-size: 12px;
+  }
+
+  /* 专属定制 2：管理分组弹窗 (#groups-dialog) */
+  #groups-dialog {
+    width: min(480px, calc(100vw - 32px));
+  }
+  .dialog-help {
+    padding: 9px 12px;
+    margin: 0 0 14px;
+    background: #f0f9ff;
+    border: 1px solid #e0f2fe;
+    border-radius: 8px;
+    color: #0369a1;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  #new-group {
+    width: 100%;
+    border: 1.5px dashed #93c5fd;
+    border-radius: 8px;
+    padding: 9px 14px;
+    background: #f0f9ff;
+    color: #0284c7;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+  #new-group:hover {
+    background: #e0f2fe;
+    border-color: #0284c7;
+    color: #0369a1;
+  }
+  .form-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
   @media(max-width:700px){.sync-panel > div{width:100%;margin-right:0}.sync-panel label{width:100%}.sync-panel input{flex:1;min-width:0}.review-toolbar{flex-direction:column}.form-grid{grid-template-columns:1fr}.page-actions{align-items:flex-start;flex-direction:column}#market-status{margin-left:0}}
 </style>
 
 <style is:global>
-  .table-shell { overflow-x:auto; border:1px solid #e2e8f0; border-radius:10px; background:#fff; box-shadow:0 1px 3px rgb(15 23 42 / .04); scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
-  .review-table { width:max-content; min-width:100%; border-collapse:collapse; font-size:12px; }.review-table th { height:46px; padding:10px 7px; border-bottom:1px solid #cbd5e1; background:#f8fafc; color:#475569; font-weight:600; white-space:nowrap; text-align:center; }.review-table td { min-height:50px; padding:8px 7px; border-bottom:1px solid #f1f5f9; color:#334155; text-align:center; vertical-align:middle; font-variant-numeric:tabular-nums; }.review-table tr:last-child td { border-bottom:0; }.review-table tbody tr:hover { background:#f8fafc; }
-  .review-table .muted { color:#94a3b8; }.review-table .code-cell { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:600; }.review-table .stock-name { width:88px; max-width:88px; white-space:normal; text-align:left; }.review-table th:nth-child(2) { text-align:left; }.review-table .computed { min-width:65px; white-space:nowrap; }.review-table .up { color:#dc2626; font-weight:700; }.review-table .down { color:#16a34a; font-weight:700; }
-  .review-table td.analysis-cell { width:250px; min-width:250px; max-width:250px; white-space:normal; text-align:left; line-height:1.45; }.review-table .analysis-link { display:block; color:#334155; text-decoration:none; }.review-table .analysis-link:hover { color:#0369a1; text-decoration:underline; }.analysis-lines { display:flex; flex-direction:column; gap:6px; }.analysis-lines > div { display:grid; grid-template-columns:36px minmax(0,1fr); gap:5px; }.analysis-lines span,.analysis-lines .signal-neutral { color:#64748b; }.analysis-lines strong { font-weight:500; }.analysis-lines .signal-up { color:#dc2626; }.analysis-lines .signal-down { color:#16a34a; }.analysis-lines .signal-extreme { color:#a16207; }.analysis-context { display:block; margin-top:7px; color:#94a3b8; font-size:10px; }
-  .review-table .status-cell { min-width:100px; white-space:nowrap; }.review-table .status-cell > span:last-child { display:block; margin-top:3px; font-weight:600; }.review-table .status-badge { display:inline-block; padding:1px 7px; border-radius:4px; background:#f1f5f9; color:#64748b; font-size:11px; }.review-table .status-badge.buy { background:#f0fdf4; color:#16a34a; }.review-table .status-badge.sell { background:#fef2f2; color:#dc2626; }.review-table .status-badge.reached { box-shadow:inset 0 0 0 1px currentColor; }
-  .review-table .groups-cell { max-width:150px; white-space:normal; }.review-table .groups-cell span:not(.muted) { display:inline-block; margin:2px; padding:2px 6px; border-radius:999px; background:#f1f5f9; color:#475569; }.review-table .text-action { border:0; padding:3px; background:transparent; color:#0369a1; cursor:pointer; }.review-table .text-action i { display:inline-grid; place-items:center; width:14px; height:14px; margin-left:4px; border-radius:50%; background:#fef3c7; color:#b45309; font-size:10px; font-style:normal; }
-  .review-table .row-actions { max-width:230px; white-space:normal; }.review-table .row-actions button,.review-table .row-actions a { display:inline-block; margin:2px; border:1px solid #cbd5e1; border-radius:5px; padding:3px 7px; background:#fff; color:#475569; font-size:11px; text-decoration:none; cursor:pointer; }.review-table .row-actions a:hover,.review-table .row-actions button:hover { border-color:#0369a1; color:#0369a1; }
+  .review-table .note-premium { margin-top:5px; font-size:11px; }
+  .review-table .daily-change { margin-top:5px; font-size:11px; }
+  .review-table .position-actions { display:flex; justify-content:center; gap:6px; margin-top:7px; }
+  .review-table .position-actions button { width:28px; height:26px; border:1px solid #cbd5e1; border-radius:5px; background:#fff; color:#475569; cursor:pointer; }
+  .review-table .position-actions button:hover:not(:disabled) { border-color:#0369a1; color:#0369a1; }
+  .review-table .position-actions button:disabled { opacity:.3; cursor:default; }
+  /* 管理分组弹窗动态 DOM 样式（解决 innerHTML 动态节点无法被 Astro 局部样式命中的问题） */
+  .groups-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    padding: 2px 4px 2px 1px;
+  }
+  .group-edit-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 5px 8px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    transition: all 0.15s ease;
+  }
+  .group-edit-row:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.06);
+  }
+  .group-edit-row:focus-within {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.15);
+    background: #ffffff;
+  }
+  .group-edit-row input {
+    flex: 1;
+    min-width: 0;
+    border: 0 !important;
+    background: transparent !important;
+    padding: 5px 6px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  .group-edit-row button {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .group-edit-row button[data-move] {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .group-edit-row button[data-move]:hover:not(:disabled) {
+    background: #e2e8f0;
+    color: #0f172a;
+    border-color: #cbd5e1;
+  }
+  .group-edit-row button[data-move]:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+    background: #f8fafc;
+    color: #cbd5e1;
+    border-color: #f1f5f9;
+  }
+  .group-edit-row button[data-delete],
+  .group-edit-row .danger {
+    margin-left: 4px;
+    height: 26px;
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: #94a3b8 !important;
+    border-radius: 6px;
+  }
+  .group-edit-row button[data-delete]:hover,
+  .group-edit-row .danger:hover {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border-color: #fecaca !important;
+  }
+  .dialog-help + .groups-editor:empty::after {
+    content: '暂无分组，点击下方“新增分组”添加';
+    display: block;
+    padding: 24px 0;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+  }
+
+  /* 动态分组勾选列表 (#membership-dialog) */
+  .check-list {
+    display: grid;
+    gap: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 2px 2px 2px 0;
+  }
+  .check-list label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .check-list label:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+  }
+  .check-list label:has(input:checked) {
+    background: #f0f9ff;
+    border-color: #0284c7;
+    color: #0369a1;
+    font-weight: 600;
+  }
+  .check-list input {
+    width: auto;
+    margin: 0;
+  }
+  .group-sections { display:grid; grid-template-columns:minmax(0, 1fr); min-width:0; gap:44px; }
+  .group-section { min-width:0; }
+  .group-heading { display:flex; align-items:baseline; gap:8px; margin:0 0 12px; color:#0f172a; font-size:15px; font-weight:700; }
+  .group-heading span { color:#94a3b8; font-size:12px; font-weight:600; }
+  .group-section .table-shell { box-sizing:border-box; width:100%; min-width:0; max-width:100%; overflow-x:auto; border:1px solid #e2e8f0; border-radius:10px; background:#fff; box-shadow:0 1px 3px rgb(15 23 42 / .04); scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
+  .review-table { table-layout:fixed; width:100%; min-width:2250px; border-collapse:collapse; font-size:12px; }.review-table th { height:46px; padding:10px 7px; border-bottom:1px solid #cbd5e1; background:#f8fafc; color:#475569; font-weight:600; white-space:nowrap; text-align:center; }.review-table td { min-height:50px; padding:8px 7px; overflow-wrap:anywhere; border-bottom:1px solid #f1f5f9; color:#334155; text-align:center; vertical-align:middle; font-variant-numeric:tabular-nums; }.review-table tr:last-child td { border-bottom:0; }.review-table tbody tr:hover { background:#f8fafc; }
+  .review-table .muted { color:#94a3b8; }.review-table .code-cell { margin-top:4px; color:#64748b; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:500; }.review-table .identity-cell { min-width:0; text-align:center; }.review-table .stock-name { white-space:normal; overflow-wrap:anywhere; font-weight:600; line-height:1.45; }.review-table .computed { min-width:0; white-space:normal; }.review-table .up { color:#dc2626; font-weight:700; }.review-table .down { color:#16a34a; font-weight:700; }
+  .review-table td.analysis-cell { min-width:0; white-space:normal; text-align:left; line-height:1.45; }.review-table .analysis-link { display:block; color:#334155; text-decoration:none; }.review-table .analysis-link:hover { color:#0369a1; text-decoration:underline; }.analysis-lines { display:flex; flex-direction:column; gap:6px; }.analysis-lines > div { display:grid; grid-template-columns:36px minmax(0,1fr); gap:5px; }.analysis-lines span,.analysis-lines .signal-neutral { color:#64748b; }.analysis-lines strong { font-weight:500; }.analysis-lines .signal-up { color:#dc2626; }.analysis-lines .signal-down { color:#16a34a; }.analysis-lines .signal-extreme { color:#a16207; }.analysis-context { display:block; margin-top:7px; color:#94a3b8; font-size:10px; }
+  .review-table .status-cell { min-width:0; white-space:normal; }.review-table .status-cell > span:last-child { display:block; margin-top:3px; font-weight:600; }.review-table .status-badge { display:inline-block; padding:1px 7px; border-radius:4px; background:#f1f5f9; color:#64748b; font-size:11px; }.review-table .status-badge.buy { background:#f0fdf4; color:#16a34a; }.review-table .status-badge.sell { background:#fef2f2; color:#dc2626; }.review-table .status-badge.reached { box-shadow:inset 0 0 0 1px currentColor; }
+  .review-table .note-heading { display:block; margin-bottom:3px; color:#64748b; font-size:11px; }
+  .review-table .note-action.has-risk { color:#b45309; }
+  .review-table .text-action { border:0; padding:3px; background:transparent; color:#0369a1; cursor:pointer; }
+  .review-table .row-actions { min-width:0; white-space:normal; }.review-table .row-actions button,.review-table .row-actions a { display:inline-block; margin:2px; border:1px solid #cbd5e1; border-radius:5px; padding:3px 7px; background:#fff; color:#475569; font-size:11px; text-decoration:none; cursor:pointer; }.review-table .row-actions a:hover,.review-table .row-actions button:hover { border-color:#0369a1; color:#0369a1; }
 </style>

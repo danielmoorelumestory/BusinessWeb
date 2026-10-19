@@ -4,6 +4,7 @@ import {
   noteKey, truncateNote, mergeMeta, poolCodes, filterByGroups,
   defaultMeta, isEtfReviewMeta, readMeta, writeMeta, addWatch, removeWatch,
   upsertDailyNote, setMemberships, clearReviewWorkspace, ETF_REVIEW_META_ID, SEED_TS, splitCloudItems, pushMeta,
+  orderedGroupCodes, moveGroupCode, captureDailyPremiums,
 } from './etf-review';
 import {
   RECORDS_KEY, SYNC_KEY_STORAGE, readGridRecords, syncAll,
@@ -15,6 +16,27 @@ describe('etf-review domain', () => {
 
   it('noteKey joins code and date', () => {
     expect(noteKey('510300', '2026-10-18')).toBe('510300|2026-10-18');
+  });
+
+  it('每日溢价按日期累积，当天更新，不冒用旧行情或回填历史笔记', () => {
+    upsertDailyNote('513180', '2026-10-19', { emotion: '冷静', conclusion: '中性', action: '观望', risk: '', remark: '保留笔记' });
+    const quote = { code: '513180', date: '2026-10-19', premiumRate: -.14, referenceNav: .5137 };
+    expect(captureDailyPremiums([quote], '2026-10-19')).toBe(true);
+    const first = readMeta();
+    expect(first.dailyPremiums?.['513180|2026-10-19']?.rate).toBe(-.14);
+    expect(first.dailyPremiums?.['513180|2026-10-18']).toBeUndefined();
+    expect(first.notes['513180|2026-10-19'].remark).toBe('保留笔记');
+    expect(captureDailyPremiums([quote], '2026-10-19')).toBe(false);
+    expect(readMeta()).toEqual(first);
+    expect(captureDailyPremiums([{ ...quote, premiumRate: 0 }], '2026-10-19')).toBe(true);
+    expect(readMeta().dailyPremiums?.['513180|2026-10-19']?.rate).toBe(0);
+    expect(captureDailyPremiums([quote], '2026-10-20')).toBe(false);
+    expect(captureDailyPremiums([{ ...quote, date: '2026-10-20', premiumRate: .25 }], '2026-10-20')).toBe(true);
+    const second = readMeta();
+    expect(second.dailyPremiums?.['513180|2026-10-19']?.rate).toBe(0);
+    expect(second.dailyPremiums?.['513180|2026-10-20']?.rate).toBe(.25);
+    expect(mergeMeta(first, second).dailyPremiums).toEqual(second.dailyPremiums);
+    expect(captureDailyPremiums([{ code: '600989', date: '2026-10-20' }, { ...quote, date: '2026-10-20', premiumRate: NaN }], '2026-10-20')).toBe(false);
   });
 
   it('truncateNote cuts risk and remark', () => {
@@ -37,6 +59,31 @@ describe('etf-review domain', () => {
   it('poolCodes unions grid and watchlist uniquely', () => {
     expect(poolCodes(['510300', '159915'], [{ code: '159915' }, { code: '588000' }]).sort())
       .toEqual(['159915', '510300', '588000']);
+  });
+
+  it('组内移动持久保存且各组互不影响，兼容新增和删除标的', () => {
+    const codes = ['510300', '159915', '588000'];
+    expect(orderedGroupCodes(codes)).toEqual(codes);
+    const original = readMeta();
+    moveGroupCode('g-focus', codes, '588000', -1);
+    expect(readMeta().groupCodeOrder?.['g-focus']).toEqual(['510300', '588000', '159915']);
+    moveGroupCode('g-focus', codes, '588000', -1);
+    const saved = readMeta();
+    expect(orderedGroupCodes(codes, saved.groupCodeOrder?.['g-focus'])).toEqual(['588000', '510300', '159915']);
+    expect(orderedGroupCodes(codes, saved.groupCodeOrder?.['g-held'])).toEqual(codes);
+    expect(saved.memberships).toEqual(original.memberships);
+    expect(saved.notes).toEqual(original.notes);
+    expect(orderedGroupCodes(['510300', '159915', '513180'], saved.groupCodeOrder?.['g-focus'])).toEqual(['510300', '159915', '513180']);
+    expect(mergeMeta(original, saved).groupCodeOrder).toEqual(saved.groupCodeOrder);
+    moveGroupCode('g-focus', codes, '588000', -1);
+    expect(readMeta()).toEqual(saved);
+    moveGroupCode('', codes, '510300', 1);
+    expect(readMeta().groupCodeOrder?.['']).toEqual(['159915', '510300', '588000']);
+    expect(readMeta().groupCodeOrder?.['g-focus']).toEqual(saved.groupCodeOrder?.['g-focus']);
+    const before = readMeta();
+    moveGroupCode('', codes, '588000', 1);
+    moveGroupCode('', codes, 'missing', 1);
+    expect(readMeta()).toEqual(before);
   });
 
   it('filterByGroups OR-matches selected tags', () => {

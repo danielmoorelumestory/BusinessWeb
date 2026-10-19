@@ -11,6 +11,7 @@ import {
   truncateNote,
   mergeMeta,
   poolCodes,
+  orderedGroupCodes,
   filterByGroups,
   splitCloudItems,
 } from './etf-review-meta';
@@ -29,6 +30,7 @@ export {
   truncateNote,
   mergeMeta,
   poolCodes,
+  orderedGroupCodes,
   filterByGroups,
   splitCloudItems,
 };
@@ -112,6 +114,34 @@ export function setMemberships(code: string, groupIds: string[]): EtfReviewMeta 
     memberships: { ...meta.memberships, [code]: [...groupIds] },
   };
   return touch(next);
+}
+
+/** 只记当天报价，历史笔记不会误填成今天的溢价；后续同日刷新更新当天记录。 */
+export function captureDailyPremiums(quotes: { code: string; date: string; premiumRate?: number; referenceNav?: number }[], today: string): boolean {
+  const meta = readMeta();
+  const dailyPremiums = { ...meta.dailyPremiums };
+  let changed = false;
+  const now = new Date().toISOString();
+  for (const quote of quotes) {
+    if (quote.date !== today || quote.premiumRate === undefined || !Number.isFinite(quote.premiumRate)) continue;
+    const key = noteKey(quote.code, today);
+    const previous = dailyPremiums[key];
+    if (previous?.rate === quote.premiumRate && previous.referenceNav === quote.referenceNav && previous.quoteDate === quote.date) continue;
+    dailyPremiums[key] = { rate: quote.premiumRate, referenceNav: quote.referenceNav, quoteDate: quote.date, updatedAt: now };
+    changed = true;
+  }
+  if (changed) touch({ ...meta, dailyPremiums });
+  return changed;
+}
+
+export function moveGroupCode(groupId: string, codes: string[], code: string, direction: -1 | 1): EtfReviewMeta {
+  const meta = readMeta();
+  const ordered = orderedGroupCodes(codes, meta.groupCodeOrder?.[groupId]);
+  const index = ordered.indexOf(code);
+  const nextIndex = index + direction;
+  if (index < 0 || nextIndex < 0 || nextIndex >= ordered.length) return meta;
+  [ordered[index], ordered[nextIndex]] = [ordered[nextIndex], ordered[index]];
+  return touch({ ...meta, groupCodeOrder: { ...meta.groupCodeOrder, [groupId]: ordered } });
 }
 
 const CODE_RE = /^\d{6}$/;
