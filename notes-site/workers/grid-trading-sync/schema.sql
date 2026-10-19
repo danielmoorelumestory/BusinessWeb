@@ -80,3 +80,13 @@ CREATE TABLE IF NOT EXISTS note_analysis (
   mid_judgment TEXT NOT NULL,
   updated_at INTEGER NOT NULL
 ) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS etf_premiums (
+  code TEXT NOT NULL,
+  date TEXT NOT NULL,
+  premium_rate REAL NOT NULL,
+  reference_nav REAL,
+  price REAL,
+  fetched_at INTEGER NOT NULL,
+  PRIMARY KEY (code, date)
+) WITHOUT ROWID;
