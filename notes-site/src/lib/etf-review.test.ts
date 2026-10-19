@@ -7,7 +7,7 @@ import {
   orderedGroupCodes, moveGroupCode, captureDailyPremiums,
 } from './etf-review';
 import {
-  RECORDS_KEY, SYNC_KEY_STORAGE, readGridRecords, syncAll,
+  RECORDS_KEY, SYNC_KEY_STORAGE, fetchCloudPremiums, readGridRecords, syncAll,
 } from './grid-trading';
 
 describe('etf-review domain', () => {
@@ -37,6 +37,23 @@ describe('etf-review domain', () => {
     expect(second.dailyPremiums?.['513180|2026-10-20']?.rate).toBe(.25);
     expect(mergeMeta(first, second).dailyPremiums).toEqual(second.dailyPremiums);
     expect(captureDailyPremiums([{ code: '600989', date: '2026-10-20' }, { ...quote, date: '2026-10-20', premiumRate: NaN }], '2026-10-20')).toBe(false);
+  });
+
+  it('fetchCloudPremiums maps cloud rows by noteKey', async () => {
+    localStorage.setItem(SYNC_KEY_STORAGE, '1234567890123456');
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({
+      premiums: [
+        { code: '513180', date: '2026-10-17', premiumRate: -0.2, referenceNav: 0.5, price: 0.499 },
+      ],
+    }), { status: 200 }));
+
+    const map = await fetchCloudPremiums(['513180'], '2026-10-01');
+
+    expect(map.get('513180|2026-10-17')?.rate).toBe(-0.2);
+    expect(fetchMock).toHaveBeenCalledWith(
+      expect.stringContaining('/premium?codes=513180&from=2026-10-01'),
+      expect.objectContaining({ headers: { authorization: 'Bearer 1234567890123456' } }),
+    );
   });
 
   it('truncateNote cuts risk and remark', () => {
