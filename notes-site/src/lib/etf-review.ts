@@ -35,6 +35,22 @@ export {
   splitCloudItems,
 };
 
+export function visibleNoteDates(today: string): string[] {
+  return Array.from({ length: 5 }, (_, index) => {
+    const date = new Date(`${today}T00:00:00Z`);
+    date.setUTCDate(date.getUTCDate() - index);
+    return date.toISOString().slice(0, 10);
+  });
+}
+
+export function premiumHistoryFrom(today: string, noteDates: string[]): string {
+  const cutoff = new Date(`${today}T00:00:00Z`);
+  cutoff.setUTCDate(cutoff.getUTCDate() - 30);
+  return [cutoff.toISOString().slice(0, 10), ...noteDates]
+    .filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date))
+    .sort()[0];
+}
+
 function readJson<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);

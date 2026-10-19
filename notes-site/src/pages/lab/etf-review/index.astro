@@ -102,6 +102,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     removeWatch,
     setMemberships,
     upsertDailyNote,
+    visibleNoteDates,
+    premiumHistoryFrom,
     writeMeta,
     type DailyNote,
     type ReviewGroup,
@@ -177,7 +179,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const premiumLookup = (code: string, date: string) =>
     readMeta().dailyPremiums?.[noteKey(code, date)] ?? cloudPremiums.get(noteKey(code, date));
 
-  async function loadCloudPremiums() {
+  async function loadCloudPremiums(noteDates = visibleNoteDates(marketToday())) {
     const token = (localStorage.getItem(SYNC_KEY_STORAGE) ?? '').trim();
     if (token !== cloudPremiumToken) {
       cloudPremiumToken = token;
@@ -190,13 +192,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     const codes = poolCodes(readGridRecords().map(item => item.row.code.trim()), meta.watchlist);
     if (!codes.length) return;
     const today = marketToday();
-    const cutoff = new Date(`${today}T00:00:00Z`);
-    cutoff.setUTCDate(cutoff.getUTCDate() - 30);
-    const noteDates = Object.keys(meta.notes).flatMap(key => {
-      const separator = key.indexOf('|');
-      return separator > 0 && codes.includes(key.slice(0, separator)) ? [key.slice(separator + 1)] : [];
-    }).filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date));
-    const from = [cutoff.toISOString().slice(0, 10), ...noteDates].sort()[0];
+    const from = premiumHistoryFrom(today, noteDates);
     const pending = codes.filter(code => {
       const range = cloudPremiumRanges.get(code);
       return !range || range.from > from || range.to < today;
@@ -339,11 +335,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     }
 
     const today = marketToday();
-    const noteDates = Array.from({ length: 5 }, (_, index) => {
-      const date = new Date(`${today}T00:00:00Z`);
-      date.setUTCDate(date.getUTCDate() - index);
-      return date.toISOString().slice(0, 10);
-    });
+    const noteDates = visibleNoteDates(today);
     const row = (code: string, position: number, total: number) => rowHtml(code, meta, watchByCode, noteDates, position, total);
     const visibleGroups = selectedGroupIds.size ? groups.filter(group => selectedGroupIds.has(group.id)) : groups;
     const sections = visibleGroups.map(group => {
@@ -358,7 +350,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     // 筛选后若某组为空则整块省略；若所有块都空（理论上不会，codes 非空）给兜底
     const body = sections.filter(Boolean).join('') || sectionHtml('筛选结果', codes, row, noteDates);
     container.innerHTML = `<div class="group-sections">${body}</div>`;
-    void loadCloudPremiums();
+    void loadCloudPremiums(noteDates);
   }
 
   async function updateQuotes() {

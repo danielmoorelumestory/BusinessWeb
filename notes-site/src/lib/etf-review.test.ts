@@ -4,7 +4,7 @@ import {
   noteKey, truncateNote, mergeMeta, poolCodes, filterByGroups,
   defaultMeta, isEtfReviewMeta, readMeta, writeMeta, addWatch, removeWatch,
   upsertDailyNote, setMemberships, clearReviewWorkspace, ETF_REVIEW_META_ID, SEED_TS, splitCloudItems, pushMeta,
-  orderedGroupCodes, moveGroupCode, captureDailyPremiums,
+  orderedGroupCodes, moveGroupCode, captureDailyPremiums, visibleNoteDates, premiumHistoryFrom,
 } from './etf-review';
 import {
   RECORDS_KEY, SYNC_KEY_STORAGE, fetchCloudPremiums, readGridRecords, syncAll,
@@ -16,6 +16,14 @@ describe('etf-review domain', () => {
 
   it('noteKey joins code and date', () => {
     expect(noteKey('510300', '2026-10-18')).toBe('510300|2026-10-18');
+  });
+
+  it('云端溢价起点只考虑可见笔记日期与 30 天截止日', () => {
+    expect(visibleNoteDates('2026-10-19')).toEqual([
+      '2026-10-19', '2026-10-18', '2026-10-17', '2026-10-16', '2026-10-15',
+    ]);
+    expect(premiumHistoryFrom('2026-10-19', visibleNoteDates('2026-10-19'))).toBe('2026-09-19');
+    expect(premiumHistoryFrom('2026-10-19', ['2026-08-01', '2026-10-19'])).toBe('2026-08-01');
   });
 
   it('每日溢价按日期累积，当天更新，不冒用旧行情或回填历史笔记', () => {
