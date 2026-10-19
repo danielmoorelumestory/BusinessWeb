@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { readPremiums, syncPremiums } from './index';
+import { type Env, readPremiums, syncPremiums } from './index';
 
 type Call = { sql: string; bindings: unknown[] };
 
