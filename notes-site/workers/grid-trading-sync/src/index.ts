@@ -1,3 +1,5 @@
+import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
+
 export interface Env { DB: D1Database }
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
@@ -12,7 +14,7 @@ async function ownerHash(request: Request) {
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-const symbolOf = (code: string) => `${/^[569]/.test(code) ? 'sh' : 'sz'}${code}`;
+const fullSymbolOf = (code: string) => `${symbolOf(code)}${code}`;
 
 /** 已保存记录里出现过的标的代码（去重）。传入 owner 时只取该密钥名下的记录，否则取全部（定时任务用）。 */
 async function trackedCodes(env: Env, owner?: string) {
@@ -102,7 +104,7 @@ async function needsBackfill(env: Env, code: string) {
  *   则整段重新下载前复权日K、用库里已有的未复权收盘价重算全部偏移（未复权日K 历史不变，无需重下）。
  */
 async function syncDaily(env: Env, code: string, budget: Budget) {
-  const symbol = symbolOf(code);
+  const symbol = fullSymbolOf(code);
   if (await needsBackfill(env, code)) {
     const start = await backfillStart(env, code);
     const [raw, adjusted] = [await dailyBars(symbol, start, '', budget), await dailyBars(symbol, start, 'qfq', budget)];
@@ -135,7 +137,7 @@ async function syncDaily(env: Env, code: string, budget: Budget) {
  * （盘中抓到的最后一根可能还没走完），不会产生重复行；只有值真的变了才写入（D1 免费版每天最多写 10 万行，重复写同样的值也算）。
  */
 async function syncMinuteBars(env: Env, code: string) {
-  const symbol = symbolOf(code);
+  const symbol = fullSymbolOf(code);
   const response = await fetch(`https://ifzq.gtimg.cn/appstock/app/kline/mkline?param=${symbol},m1,,640`);
   if (!response.ok) throw new Error(`${code} 行情接口返回 ${response.status}`);
   const payload = await response.json<{ data?: Record<string, { m1?: unknown[][] }> }>();
@@ -157,6 +159,55 @@ async function syncMinuteBars(env: Env, code: string) {
  * 2. 逐个标的同步日K 与前复权偏移。日K 阶段失败不算抓取失败（分钟线已入库），只把原因追加到该标的日志的 error 里；
  *    子请求预算用完时（首次回填多个标的）停止，剩余标的留到下一次触发，分钟线优先保证。
  */
+export async function ensureEtfPremiumsTable(env: Env) {
+  await env.DB.prepare(
+    `CREATE TABLE IF NOT EXISTS etf_premiums (
+      code TEXT NOT NULL,
+      date TEXT NOT NULL,
+      premium_rate REAL NOT NULL,
+      reference_nav REAL,
+      price REAL,
+      fetched_at INTEGER NOT NULL,
+      PRIMARY KEY (code, date)
+    ) WITHOUT ROWID`,
+  ).run();
+}
+
+export async function syncPremiums(env: Env, codes: string[]): Promise<{ ok: number; skipped: number; failed: number }> {
+  await ensureEtfPremiumsTable(env);
+  const unique = [...new Set(codes.filter(code => /^\d{6}$/.test(code)))];
+  let ok = 0;
+  let failed = 0;
+  const fetchedAt = Date.now();
+  for (let index = 0; index < unique.length; index += 40) {
+    const batch = unique.slice(index, index + 40);
+    try {
+      const response = await fetch(`https://qt.gtimg.cn/q=${batch.map(code => symbolOf(code) + code).join(',')}`);
+      if (!response.ok) {
+        failed += batch.length;
+        continue;
+      }
+      const rows = parseTencentQuoteBody(await response.arrayBuffer());
+      for (const row of rows) {
+        await env.DB.prepare(
+          `INSERT INTO etf_premiums (code, date, premium_rate, reference_nav, price, fetched_at)
+           VALUES (?, ?, ?, ?, ?, ?)
+           ON CONFLICT (code, date) DO UPDATE SET
+             premium_rate = excluded.premium_rate,
+             reference_nav = excluded.reference_nav,
+             price = excluded.price,
+             fetched_at = excluded.fetched_at`,
+        ).bind(row.code, row.date, row.premiumRate, row.referenceNav ?? null, row.price, fetchedAt).run();
+        ok++;
+      }
+    } catch (error) {
+      failed += batch.length;
+      console.error('溢价抓取失败', error);
+    }
+  }
+  return { ok, skipped: unique.length - ok, failed };
+}
+
 async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
   const runAt = Date.now(), summary = { ok: 0, failed: 0 };
   for (const code of codes) {
@@ -187,6 +238,12 @@ async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
       console.error('日K 同步失败', code, dailyError);
       await note(code, `日K 同步失败：${message}`);
     }
+  }
+  try {
+    const premium = await syncPremiums(env, codes);
+    console.log('ETF 溢价同步', premium);
+  } catch (error) {
+    console.error('ETF 溢价同步异常', error);
   }
   return { runAt, trigger, codes: codes.length, ...summary };
 }
@@ -258,6 +315,23 @@ async function readDailyBars(env: Env, owner: string, url: URL) {
   ).bind(code, from, to).all();
   const meta = await env.DB.prepare('SELECT backfilled_from AS date FROM daily_meta WHERE code = ?').bind(code).first<{ date: string }>();
   return json({ code, adjust: adjusted ? 'qfq' : 'none', coveredFrom: meta?.date ?? null, count: results.length, bars: results });
+}
+
+export async function readPremiums(env: Env, url: URL) {
+  await ensureEtfPremiumsTable(env);
+  const codes = [...new Set(
+    (url.searchParams.get('codes') ?? '').split(',').map(code => code.trim()).filter(code => /^\d{6}$/.test(code)),
+  )].slice(0, 50);
+  if (!codes.length) return json({ premiums: [] });
+  const from = (url.searchParams.get('from') ?? '').replace(/\D/g, '') || '00000000';
+  const to = (url.searchParams.get('to') ?? '').replace(/\D/g, '') || '99999999';
+  const dateText = "substr(date, 1, 4) || '-' || substr(date, 5, 2) || '-' || substr(date, 7, 2)";
+  const { results } = await env.DB.prepare(
+    `SELECT code, ${dateText} AS date, premium_rate AS premiumRate, reference_nav AS referenceNav, price
+     FROM etf_premiums WHERE code IN (${codes.map(() => '?').join(',')})
+       AND date >= ? AND date <= ? ORDER BY code, date`,
+  ).bind(...codes, from, to).all();
+  return json({ premiums: results });
 }
 
 /**
@@ -571,6 +645,7 @@ export default {
     if (request.method === 'GET' && url.pathname === '/daily/extremes') return readExtremes(env, owner, url);
     if (request.method === 'GET' && url.pathname === '/analysis') return readAnalysis(env, url);
     if (request.method === 'GET' && url.pathname === '/daily') return readDailyBars(env, owner, url);
+    if (request.method === 'GET' && url.pathname === '/premium') return readPremiums(env, url);
     if (request.method === 'GET' && url.pathname === '/minute/status') return readMinuteStatus(env, url);
     // 手动补抓：详情页可指定当前标的，避免该标的尚未写入 records 时漏抓；未指定时兼容旧客户端，抓该密钥下全部标的。
     if (request.method === 'POST' && url.pathname === '/minute/sync') {
