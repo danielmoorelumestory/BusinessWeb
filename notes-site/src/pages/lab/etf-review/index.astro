@@ -32,11 +32,11 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   </section>
 
   <section class="review-toolbar" aria-label="分组筛选和标的管理">
-    <nav id="group-filters" class="group-filters industry-like-nav" aria-label="分组目录"></nav>
     <div class="toolbar-actions">
       <button id="manage-groups" type="button">管理分组</button>
       <button id="add-watch" class="primary" type="button">添加标的</button>
     </div>
+    <nav id="group-filters" class="industry-etf-nav" aria-label="分组目录"></nav>
   </section>
 
   <div id="content-area" data-detail-url={detailUrl} data-calc-url={calculatorUrl} data-notes-base={notesBase}></div>
@@ -173,14 +173,14 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
 
   function pillHtml(id: string, name: string) {
     const active = id === '' ? !selectedGroupIds.size : selectedGroupIds.has(id);
-    return `<button class="nav-pill${active ? ' active' : ''}" data-group="${attr(id)}" type="button">${escapeHtml(name)}</button>`;
+    return `<button class="industry-etf-nav__pill industry-etf-nav__pill--primary${active ? ' is-active' : ''}" data-group="${attr(id)}" type="button"><span>${escapeHtml(name)}</span></button>`;
   }
 
   function renderFilters() {
     const groups = groupsOf();
     for (const id of [...selectedGroupIds]) if (!groups.some(group => group.id === id)) selectedGroupIds.delete(id);
     filterBar.innerHTML = `
-      <div class="nav-row">
+      <div class="industry-etf-nav__group">
         ${pillHtml('', '全部')}
         ${groups.map(group => pillHtml(group.id, group.name)).join('')}
       </div>
@@ -682,26 +682,37 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .compact-hero { margin-bottom: 1.25rem; }
   .page-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
   .page-actions > div { display:flex; gap:8px; }
-  .link-button, .review-toolbar button:not(.nav-pill), dialog button, .empty button { border:1px solid #cbd5e1; border-radius:7px; padding:7px 12px; background:#fff; color:#475569; font-size:13px; text-decoration:none; cursor:pointer; }
-  .link-button:hover, .review-toolbar button:not(.nav-pill):hover, dialog button:hover { border-color:#94a3b8; color:#0f172a; }
+  .link-button, .toolbar-actions button, dialog button, .empty button { border:1px solid #cbd5e1; border-radius:7px; padding:7px 12px; background:#fff; color:#475569; font-size:13px; text-decoration:none; cursor:pointer; }
+  .link-button:hover, .toolbar-actions button:hover, dialog button:hover { border-color:#94a3b8; color:#0f172a; }
   #market-status { margin-left:auto; color:#94a3b8; font-size:12px; }
   .sync-panel { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 14px; padding:12px 14px; border:1px solid #bae6fd; border-radius:10px; background:#f0f9ff; color:#475569; font-size:12px; }
   .sync-panel > div { margin-right:auto; }.sync-panel strong { color:#0369a1; font-size:13px; }.sync-panel p { margin:2px 0 0; }
   .sync-panel label { display:flex; align-items:center; gap:6px; white-space:nowrap; }.sync-panel input { width:210px; border:1px solid #bae6fd; border-radius:5px; padding:6px 8px; background:#fff; color:#334155; font:12px ui-monospace,monospace; }
   .sync-panel button { border:1px solid #bae6fd; border-radius:6px; padding:6px 9px; background:#fff; color:#0369a1; font-size:12px; cursor:pointer; }.sync-panel .sync-primary { border-color:#0369a1; background:#0369a1; color:#fff; }.sync-panel button:disabled { opacity:.6; cursor:wait; }.sync-panel #sync-status { color:#64748b; }
-  .review-toolbar { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px; }
-  .industry-like-nav { display:flex; flex-direction:column; gap:10px; flex:1; min-width:0; }
-  .nav-row { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
-  /* 动态 innerHTML 插入的 pill 无 data-astro-cid，必须 :global 才能命中 */
-  .review-toolbar :global(.nav-pill) {
-    display:inline-flex; align-items:center;
-    padding:6px 14px; border-radius:999px; border:1px solid #0369a1;
-    background:#e0f2fe; color:#0369a1; font-size:13.5px; font-weight:600; cursor:pointer;
-    transition: border-color .15s ease, color .15s ease, background .15s ease, box-shadow .15s ease;
+  .review-toolbar { display:flex; flex-direction:column; gap:14px; margin:4px 0 24px; }
+  .toolbar-actions { display:flex; flex:none; justify-content:flex-end; gap:8px; }
+  .primary { border-color:#1d4ed8 !important; background:#1d4ed8 !important; color:#fff !important; }
+
+  /* 直接复刻主站 /industry-etf 的 nav pill（色值来自 src/index.css）；动态节点用 :global */
+  :global(.industry-etf-nav) { display:flex; flex-direction:column; gap:10px; margin:0; }
+  :global(.industry-etf-nav__group) { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
+  :global(.industry-etf-nav__pill) {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 14px; border-radius:999px;
+    background:#ffffff; border:1px solid #dde3ec; color:#172033;
+    font-size:13.5px; font-weight:500; cursor:pointer;
+    transition: all 0.2s ease;
   }
-  .review-toolbar :global(.nav-pill:hover) { background:#bae6fd; border-color:#0369a1; color:#0369a1; }
-  .review-toolbar :global(.nav-pill.active) { background:#0369a1; color:#fff; border-color:#0369a1; box-shadow:0 0 0 1px #0369a1; }
-  .toolbar-actions { display:flex; flex:none; gap:7px; }.primary { border-color:#0369a1 !important; background:#0369a1 !important; color:#fff !important; }
+  :global(.industry-etf-nav__pill--primary) {
+    font-weight:600; border-color:#1d4ed8;
+    background:rgba(29, 78, 216, 0.08); color:#1d4ed8;
+  }
+  :global(.industry-etf-nav__pill:hover) {
+    border-color:#1d4ed8; color:#1d4ed8; background:rgba(29, 78, 216, 0.08);
+  }
+  :global(.industry-etf-nav__pill.is-active) {
+    border-color:#1d4ed8; background:#1d4ed8; color:#fff;
+  }
   .empty { padding:48px 24px; border:1px dashed #cbd5e1; border-radius:14px; background:#fff; text-align:center; }.empty > div { font-size:38px; }.empty h3 { margin:8px 0 4px; font-size:16px; color:#1e293b; }.empty p { margin:0 0 18px; color:#64748b; font-size:13px; }
   /* 弹窗基础：现代三段式、毛玻璃遮罩与平滑缩放入场 */
   dialog {
@@ -1055,22 +1066,22 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     width: auto;
     margin: 0;
   }
-  .group-sections { display:grid; grid-template-columns:minmax(0, 1fr); min-width:0; gap:28px; }
-  .group-section { min-width:0; }
-  .group-card {
-    background:#fff; border:1px solid #e2e8f0; border-radius:12px;
+  :global(.group-sections) { display:grid; grid-template-columns:minmax(0, 1fr); min-width:0; gap:28px; }
+  :global(.group-section) { min-width:0; }
+  :global(.group-card) {
+    background:#fff; border:1px solid #dde3ec; border-radius:12px;
     box-shadow:0 1px 3px rgb(15 23 42 / .04); overflow:hidden;
   }
-  .group-card-header {
+  :global(.group-card-header) {
     display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:14px 20px; background:#f8fafc; border-bottom:1px solid #e2e8f0;
+    padding:14px 20px; background:#f7f9fc; border-bottom:1px solid #dde3ec;
   }
-  .group-heading { margin:0; color:#0f172a; font-size:1.15rem; font-weight:600; }
-  .group-count {
-    flex:none; font-size:13px; color:#64748b; background:#fff;
-    padding:3px 10px; border-radius:999px; border:1px solid #e2e8f0;
+  :global(.group-heading) { margin:0; color:#172033; font-size:1.15rem; font-weight:600; }
+  :global(.group-count) {
+    flex:none; font-size:13px; color:#667085; background:#fff;
+    padding:3px 10px; border-radius:999px; border:1px solid #dde3ec;
   }
-  .group-section .table-shell { box-sizing:border-box; width:100%; min-width:0; max-width:100%; overflow-x:auto; background:#fff; scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
+  :global(.group-section .table-shell) { box-sizing:border-box; width:100%; min-width:0; max-width:100%; overflow-x:auto; background:#fff; scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
   .review-table { table-layout:fixed; width:100%; min-width:2230px; border-collapse:collapse; font-size:12px; }.review-table th { height:46px; padding:10px 7px; border-bottom:1px solid #cbd5e1; background:#f8fafc; color:#475569; font-weight:600; white-space:nowrap; text-align:center; }.review-table td { min-height:50px; padding:8px 7px; overflow-wrap:anywhere; border-bottom:1px solid #f1f5f9; color:#334155; text-align:center; vertical-align:middle; font-variant-numeric:tabular-nums; }.review-table tr:last-child td { border-bottom:0; }.review-table tbody tr:hover { background:#f8fafc; }
   .review-table .muted { color:#94a3b8; }.review-table .code-cell { margin-top:4px; color:#64748b; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:500; }.review-table .identity-cell { min-width:0; text-align:center; }.review-table .stock-name { white-space:normal; overflow-wrap:anywhere; font-weight:600; line-height:1.45; }.review-table .computed { min-width:0; white-space:normal; }.review-table .up { color:#dc2626; font-weight:700; }.review-table .down { color:#16a34a; font-weight:700; }
   .review-table td.analysis-cell { min-width:0; white-space:normal; text-align:left; line-height:1.45; }.review-table .analysis-link { display:block; color:#334155; text-decoration:none; }.review-table .analysis-link:hover { color:#0369a1; text-decoration:underline; }.analysis-lines { display:flex; flex-direction:column; gap:6px; }.analysis-lines > div { display:grid; grid-template-columns:36px minmax(0,1fr); gap:5px; }.analysis-lines span,.analysis-lines .signal-neutral { color:#64748b; }.analysis-lines strong { font-weight:500; }.analysis-lines .signal-up { color:#dc2626; }.analysis-lines .signal-down { color:#16a34a; }.analysis-lines .signal-extreme { color:#a16207; }.analysis-context { display:block; margin-top:7px; color:#94a3b8; font-size:10px; }
