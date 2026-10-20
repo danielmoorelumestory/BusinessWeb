@@ -16,7 +16,7 @@ const records = snapshot.records as Record<string, ReviewRecord>;
 const calculated = new Map<string, ReviewRecord>();
 export const needsReviewAnalysis = (code: string) => !records[code.trim()] && !calculated.has(code.trim());
 export const canRefreshReviewAnalysis = (code: string) => records[code.trim()]?.applicable !== false;
-export function setReviewCandles(code: string, candles: Candle[]): boolean {
+export function setReviewCandles(code: string, candles: Candle[], complete = true): boolean {
   if (!canRefreshReviewAnalysis(code)) return false;
   const valid = candles.filter(candle => /^\d{4}-\d{2}-\d{2}$/.test(candle.date) && [candle.open, candle.close, candle.high, candle.low].every(value => Number.isFinite(value) && value > 0)).sort((a, b) => a.date.localeCompare(b.date));
   if (!valid.length) return false;
@@ -27,7 +27,7 @@ export function setReviewCandles(code: string, candles: Candle[]): boolean {
   const date = new Date(`${asOf}T00:00:00Z`);
   const next = new Date(date); next.setUTCDate(next.getUTCDate() + 1);
   const weekly = aggregateBars(bars, 'week'), monthly = aggregateBars(bars, 'month');
-  const day = technicalState(bars), week = technicalState(weekly, date.getUTCDay() === 5), month = technicalState(monthly, next.toISOString().slice(0, 7) !== asOf.slice(0, 7));
+  const day = technicalState(bars, complete), week = technicalState(weekly, complete && date.getUTCDay() === 5), month = technicalState(monthly, complete && next.toISOString().slice(0, 7) !== asOf.slice(0, 7));
   if (!day || !week || !month) return false;
   const describe = (series: typeof bars): PeriodEvents => {
     const closes = series.map(bar => Number(bar[2]));
