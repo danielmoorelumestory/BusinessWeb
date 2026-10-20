@@ -1224,12 +1224,15 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     vertical-align:middle;
   }
   .catalog-bond-table .etf-identity-cell,
-  .catalog-bond-table .etf-fee-cell,
   .catalog-bond-table .etf-reference-cell {
     text-align:center;
   }
+  .catalog-bond-table .etf-fee-cell,
+  .catalog-bond-table th:nth-child(6) {
+    text-align:left;
+  }
   .catalog-bond-table .bond-type-tags { justify-content:center; }
-  .catalog-bond-table .etf-fee-main { justify-content:center; }
+  .catalog-bond-table .etf-fee-main { justify-content:flex-start; }
   .catalog-bond-table .etf-reference-cell .etf-ref-link { margin-left:auto; margin-right:auto; }
   .bond-fund-metric { font-variant-numeric:tabular-nums; }
   .bond-fund-metric small {
