@@ -1,23 +1,27 @@
 import { describe, expect, it } from 'vitest';
 import { defaultMeta } from './etf-review-meta';
 import {
+  BOND_CATALOG_GROUP_ID,
   BROAD_CATALOG_GROUP_ID,
+  MONEY_CATALOG_GROUP_ID,
   OTHER_CATALOG_GROUP_ID,
+  allowedMembershipGroupIds,
   buildCatalogGroups,
   ensureCatalogSeed,
   fundProfileUrl,
   isCatalogGroupId,
+  isIsolatedCatalogGroupId,
+  isolatedHomeGroupId,
 } from './etf-catalog-seed';
 import industry from '../../../src/data/industryEtf.json';
 import strategy from '../../../src/data/strategyAssetEtf.json';
 
 describe('etf-catalog-seed', () => {
-  it('buildCatalogGroups: 与 industry-etf 逐组对账——名字、代码、数量全量一致', () => {
+  it('buildCatalogGroups: 与 industry-etf 逐组对账——含货币/债基原名原标的', () => {
     const groups = buildCatalogGroups();
     expect(groups.map(group => group.id)).not.toContain(BROAD_CATALOG_GROUP_ID);
     expect(groups.map(group => group.id)).not.toContain(OTHER_CATALOG_GROUP_ID);
     expect(groups.map(group => group.id)).not.toContain('g-catalog-industry');
-    expect(groups.map(group => group.id)).not.toContain('g-catalog-bond-funds');
 
     for (const group of industry as { id: string; name: string; items: { code: string; name: string }[] }[]) {
       const seeded = groups.find(item => item.id === `g-catalog-${group.id}`);
@@ -28,43 +32,56 @@ describe('etf-catalog-seed', () => {
     }
 
     for (const group of strategy as { id: string; title: string; items: { code: string; name: string }[] }[]) {
-      if (!['strategy-etf', 'commodity-etf', 'money-etf'].includes(group.id)) {
-        expect(groups.some(item => item.id === `g-catalog-${group.id}`)).toBe(false);
-        continue;
-      }
-      const seeded = groups.find(item => item.id === `g-catalog-${group.id}`)!;
-      expect(seeded.name).toBe(group.title);
-      expect(seeded.items.map(item => item.code)).toEqual(group.items.map(item => item.code));
-      expect(seeded.items.map(item => item.name)).toEqual(group.items.map(item => item.name));
+      const seeded = groups.find(item => item.id === `g-catalog-${group.id}`);
+      expect(seeded, group.title).toBeTruthy();
+      expect(seeded!.name).toBe(group.title);
+      expect(seeded!.items.map(item => item.code)).toEqual(group.items.map(item => item.code));
+      expect(seeded!.items.map(item => item.name)).toEqual(group.items.map(item => item.name));
     }
 
-    const agri = groups.find(group => group.id === 'g-catalog-ETF-07_农业周期')!;
-    expect(agri.items.map(item => item.code)).toEqual(['159698', '159865']);
-    expect(agri.items.map(item => item.name)).toEqual(['粮食ETF鹏华', '养殖ETF国泰']);
+    expect(isIsolatedCatalogGroupId(MONEY_CATALOG_GROUP_ID)).toBe(true);
+    expect(isIsolatedCatalogGroupId(BOND_CATALOG_GROUP_ID)).toBe(true);
+    expect(isIsolatedCatalogGroupId('g-catalog-ETF-01_TMT科技')).toBe(false);
+    expect(isolatedHomeGroupId('511880')).toBe(MONEY_CATALOG_GROUP_ID);
+    expect(isolatedHomeGroupId('000015')).toBe(BOND_CATALOG_GROUP_ID);
+    expect(isolatedHomeGroupId('588200')).toBeNull();
+  });
+
+  it('货币/债基不可并入其他清单组；股票 ETF 不可勾进货币/债基', () => {
+    const ids = [
+      'g-focus',
+      'g-held',
+      'g-catalog-ETF-01_TMT科技',
+      MONEY_CATALOG_GROUP_ID,
+      BOND_CATALOG_GROUP_ID,
+    ];
+    expect(allowedMembershipGroupIds('511880', ids)).toEqual(['g-focus', 'g-held', MONEY_CATALOG_GROUP_ID]);
+    expect(allowedMembershipGroupIds('000015', ids)).toEqual(['g-focus', 'g-held', BOND_CATALOG_GROUP_ID]);
+    expect(allowedMembershipGroupIds('588200', ids)).toEqual(['g-focus', 'g-held', 'g-catalog-ETF-01_TMT科技']);
   });
 
   it('ensureCatalogSeed fills empty meta; gap-fill 不受 membershipUpdatedAt 阻挡', () => {
     const empty = defaultMeta('2026-10-20T00:00:00.000Z');
     const { meta: filled, changed } = ensureCatalogSeed(empty);
     expect(changed).toBe(true);
-    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(10);
+    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(11);
+    expect(filled.groups.find(group => group.id === MONEY_CATALOG_GROUP_ID)?.name).toBe('货币 ETF');
+    expect(filled.groups.find(group => group.id === BOND_CATALOG_GROUP_ID)?.name).toBe('债券基金（场外）');
+    expect(filled.memberships['511880']).toContain(MONEY_CATALOG_GROUP_ID);
+    expect(filled.memberships['000015']).toContain(BOND_CATALOG_GROUP_ID);
     expect(filled.memberships['159865']).toContain('g-catalog-ETF-07_农业周期');
-    expect(filled.memberships['159698']).toContain('g-catalog-ETF-07_农业周期');
-    expect(filled.memberships['511880']).toContain('g-catalog-money-etf');
 
-    // 组已有粮食ETF、养殖带 membershipUpdatedAt 但仍缺农业组 → 必须补上
-    const partial = {
+    const crossed = {
       ...filled,
       memberships: {
         ...filled.memberships,
-        '159698': ['g-catalog-ETF-07_农业周期'],
-        '159865': ['g-held'],
+        '511880': [MONEY_CATALOG_GROUP_ID, 'g-catalog-ETF-01_TMT科技'],
+        '588200': ['g-catalog-ETF-01_TMT科技', MONEY_CATALOG_GROUP_ID],
       },
-      membershipUpdatedAt: { '159865': '2026-10-20T12:00:00.000Z' },
     };
-    const gap = ensureCatalogSeed(partial);
-    expect(gap.changed).toBe(true);
-    expect(gap.meta.memberships['159865']).toEqual(expect.arrayContaining(['g-held', 'g-catalog-ETF-07_农业周期']));
+    const cleaned = ensureCatalogSeed(crossed);
+    expect(cleaned.meta.memberships['511880']).toEqual([MONEY_CATALOG_GROUP_ID]);
+    expect(cleaned.meta.memberships['588200']).toEqual(['g-catalog-ETF-01_TMT科技']);
   });
 
   it('catalogMembershipOptOut 阻止强行加回；deletedWatchlist 仍生效', () => {
@@ -110,9 +127,8 @@ describe('etf-catalog-seed', () => {
     expect(meta.groups.some(group => group.id === BROAD_CATALOG_GROUP_ID)).toBe(false);
     expect(meta.groups.some(group => group.id === OTHER_CATALOG_GROUP_ID)).toBe(false);
     expect(meta.memberships['510300']).toEqual(['custom']);
-    expect(meta.memberships['511880']).toContain('g-catalog-money-etf');
+    expect(meta.memberships['511880']).toContain(MONEY_CATALOG_GROUP_ID);
     expect(meta.memberships['511880']).not.toContain(OTHER_CATALOG_GROUP_ID);
-    expect(meta.groups.find(group => group.id === 'g-catalog-money-etf')?.name).toBe('货币 ETF');
   });
 
   it('fundProfileUrl prefers sourceUrl then eastmoney', () => {

@@ -5,37 +5,124 @@ import type { EtfReviewMeta } from './etf-review-meta';
 
 // broadRaw 仅用于基金档案 sourceUrl（宽基不作为清单分组）
 
-export type CatalogItem = { code: string; name: string; sourceUrl?: string };
-export type CatalogGroupDef = { id: string; name: string; order: number; items: CatalogItem[] };
+export type CatalogItem = {
+  code: string;
+  name: string;
+  sourceUrl?: string;
+  family?: string;
+  category?: string;
+  coverage?: string;
+  gridApplicable?: boolean;
+};
+
+export type CatalogGroupDef = {
+  id: string;
+  name: string;
+  order: number;
+  items: CatalogItem[];
+  description?: string;
+  sourceId?: string;
+};
 
 export const BROAD_CATALOG_GROUP_ID = 'g-catalog-broad';
 /** 曾把策略+商品+货币捏成一组；现按 industry-etf 原分组拆开，退役此 id */
 export const OTHER_CATALOG_GROUP_ID = 'g-catalog-other';
-const STRATEGY_SOURCE_IDS = new Set(['strategy-etf', 'commodity-etf', 'money-etf']);
+export const MONEY_CATALOG_GROUP_ID = 'g-catalog-money-etf';
+export const BOND_CATALOG_GROUP_ID = 'g-catalog-bond-funds';
+
+/** 货币 / 债基：独立样式，不与股票 ETF 复盘表统一，也不可并入其他清单组 */
+const ISOLATED_SOURCE_IDS = new Set(['money-etf', 'bond-funds']);
+const ASSET_SOURCE_IDS = new Set(['strategy-etf', 'commodity-etf', 'money-etf', 'bond-funds']);
 const EASTMONEY = (code: string) => `https://fundf10.eastmoney.com/jbgk_${code}.html`;
 
 const RETIRED_CATALOG_IDS = new Set([BROAD_CATALOG_GROUP_ID, OTHER_CATALOG_GROUP_ID]);
+
+export function isCatalogGroupId(id: string): boolean {
+  return id.startsWith('g-catalog-');
+}
+
+export function isIsolatedCatalogGroupId(id: string): boolean {
+  return id === MONEY_CATALOG_GROUP_ID || id === BOND_CATALOG_GROUP_ID;
+}
 
 export function buildCatalogGroups(): CatalogGroupDef[] {
   const industry = (industryRaw as { id: string; name: string; items: { code: string; name: string }[] }[]).map((group, index) => ({
     id: `g-catalog-${group.id}`,
     name: group.name,
     order: 10 + index,
+    sourceId: group.id,
     items: group.items.map(item => ({ code: item.code, name: item.name })),
   }));
-  const strategy = (strategyRaw as { id: string; title: string; items: CatalogItem[] }[])
-    .filter(group => STRATEGY_SOURCE_IDS.has(group.id))
+  const assets = (strategyRaw as {
+    id: string;
+    title: string;
+    description?: string;
+    items: CatalogItem[];
+  }[])
+    .filter(group => ASSET_SOURCE_IDS.has(group.id))
     .map((group, index) => ({
       id: `g-catalog-${group.id}`,
       name: group.title,
       order: 10 + industry.length + index,
-      items: group.items.map(item => ({ code: item.code, name: item.name, sourceUrl: item.sourceUrl })),
+      sourceId: group.id,
+      description: group.description,
+      items: group.items.map(item => ({
+        code: item.code,
+        name: item.name,
+        sourceUrl: item.sourceUrl,
+        family: item.family,
+        category: item.category,
+        coverage: item.coverage,
+        gridApplicable: item.gridApplicable,
+      })),
     }));
-  return [...industry, ...strategy];
+  return [...industry, ...assets];
 }
 
-export function isCatalogGroupId(id: string): boolean {
-  return id.startsWith('g-catalog-');
+let cachedGroups: CatalogGroupDef[] | null = null;
+let cachedItemByCode: Map<string, { item: CatalogItem; groupId: string }> | null = null;
+
+export function catalogGroupsCached(): CatalogGroupDef[] {
+  if (!cachedGroups) cachedGroups = buildCatalogGroups();
+  return cachedGroups;
+}
+
+function itemIndex(): Map<string, { item: CatalogItem; groupId: string }> {
+  if (cachedItemByCode) return cachedItemByCode;
+  const map = new Map<string, { item: CatalogItem; groupId: string }>();
+  for (const group of catalogGroupsCached()) {
+    for (const item of group.items) map.set(item.code.trim(), { item, groupId: group.id });
+  }
+  cachedItemByCode = map;
+  return map;
+}
+
+/** 该代码所属的隔离清单组（货币/债基）；股票 ETF 返回 null */
+export function isolatedHomeGroupId(code: string): string | null {
+  const hit = itemIndex().get(code.trim());
+  if (!hit || !isIsolatedCatalogGroupId(hit.groupId)) return null;
+  return hit.groupId;
+}
+
+export function catalogItemOf(code: string): CatalogItem | undefined {
+  return itemIndex().get(code.trim())?.item;
+}
+
+export function catalogGroupDef(groupId: string): CatalogGroupDef | undefined {
+  return catalogGroupsCached().find(group => group.id === groupId);
+}
+
+/**
+ * 分组勾选白名单：
+ * - 货币/债基代码 → 仅个人组 + 自己的隔离清单组
+ * - 其他代码 → 任意非隔离组（不能勾进货币/债基清单组）
+ */
+export function allowedMembershipGroupIds(code: string, groupIds: string[]): string[] {
+  const home = isolatedHomeGroupId(code);
+  if (home) {
+    return groupIds.filter(id => !isCatalogGroupId(id) || id === home);
+  }
+  return groupIds.filter(id => !isIsolatedCatalogGroupId(id));
 }
 
 let cachedSourceUrls: Map<string, string> | null = null;
@@ -46,7 +133,7 @@ function sourceUrlByCode(): Map<string, string> {
   for (const item of broadRaw as { code: string; sourceUrl?: string }[]) {
     if (item.sourceUrl) map.set(item.code, item.sourceUrl);
   }
-  for (const group of buildCatalogGroups()) {
+  for (const group of catalogGroupsCached()) {
     for (const item of group.items) {
       if (item.sourceUrl) map.set(item.code, item.sourceUrl);
     }
@@ -89,8 +176,29 @@ function retireCatalogGroup(
   return { groups: nextGroups, memberships: nextMemberships, deletedGroups: nextDeleted, changed };
 }
 
+function sanitizeMemberships(
+  memberships: Record<string, string[]>,
+  catalogOptOut: Record<string, string[]>,
+): { memberships: Record<string, string[]>; changed: boolean } {
+  let changed = false;
+  let next = memberships;
+  for (const [code, ids] of Object.entries(memberships)) {
+    const allowed = new Set(allowedMembershipGroupIds(code, ids));
+    const home = isolatedHomeGroupId(code);
+    let filtered = ids.filter(id => allowed.has(id));
+    if (home && !filtered.includes(home) && !(catalogOptOut[code] ?? []).includes(home)) {
+      filtered = [...filtered, home];
+    }
+    if (filtered.length === ids.length && filtered.every((id, index) => id === ids[index])) continue;
+    if (next === memberships) next = { ...memberships };
+    next[code] = filtered;
+    changed = true;
+  }
+  return { memberships: next, changed };
+}
+
 export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; changed: boolean } {
-  const defs = buildCatalogGroups();
+  const defs = catalogGroupsCached();
   let groups = [...meta.groups];
   let watchlist = [...meta.watchlist];
   let memberships = { ...meta.memberships };
@@ -116,7 +224,6 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
       changed = true;
       continue;
     }
-    // 名称跟 industry-etf 源数据对齐
     if (existing.name !== def.name) {
       groups = groups.map(group => (group.id === def.id ? { ...group, name: def.name } : group));
       changed = true;
@@ -136,12 +243,10 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
         watchlist = [...watchlist, { code, name: item.name, addedAt: '1970-01-01T00:00:00.000Z' }];
         changed = true;
       } else if (existingWatch.name !== item.name) {
-        // 名称也与清单对齐（不碰用户已改过 updatedAt 的？清单权威，直接对齐）
         watchlist = watchlist.map(watch => (watch.code === code ? { ...watch, name: item.name } : watch));
         changed = true;
       }
 
-      // 仅尊重「对该清单组」的显式 opt-out；粗粒度 membershipUpdatedAt 不再挡 gap-fill
       if ((catalogOptOut[code] ?? []).includes(def.id)) continue;
       const ids = memberships[code] ?? [];
       if (!ids.includes(def.id)) {
@@ -150,6 +255,10 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
       }
     }
   }
+
+  const sanitized = sanitizeMemberships(memberships, catalogOptOut);
+  memberships = sanitized.memberships;
+  if (sanitized.changed) changed = true;
 
   if (!changed) return { meta, changed: false };
 

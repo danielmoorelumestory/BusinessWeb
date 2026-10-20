@@ -123,7 +123,14 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     type SavedRecord,
   } from '../../../lib/grid-trading';
   import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord } from '../../../lib/review-analysis';
-  import { fundProfileUrl, isCatalogGroupId } from '../../../lib/etf-catalog-seed';
+  import {
+    allowedMembershipGroupIds,
+    catalogItemOf,
+    fundProfileUrl,
+    isCatalogGroupId,
+    isIsolatedCatalogGroupId,
+  } from '../../../lib/etf-catalog-seed';
+  import { isolatedSectionHtml } from '../../../lib/etf-catalog-special';
   import { latestInvestmentNote } from '../../../../../src/utils/etfJudgment';
 
   import { loadReviewTechnical, readTechnicalCache } from '../../../lib/review-technical-client';
@@ -359,8 +366,20 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     });
     const row = (code: string, position: number, total: number) => rowHtml(code, meta, watchByCode, noteDates, position, total);
     const visibleGroups = selectedGroupIds.size ? groups.filter(group => selectedGroupIds.has(group.id)) : groups;
+    const nameOf = (code: string) => watchByCode.get(code)?.name || catalogItemOf(code)?.name || quotes.get(code)?.name || code;
     const sections = visibleGroups.map(group => {
       const inGroup = orderedGroupCodes(codes.filter(code => (meta.memberships[code] ?? []).includes(group.id)), meta.groupCodeOrder?.[group.id]);
+      if (isIsolatedCatalogGroupId(group.id)) {
+        return isolatedSectionHtml({
+          groupId: group.id,
+          title: group.name,
+          codes: inGroup,
+          nameOf,
+          notesBase,
+          escapeHtml,
+          attr,
+        });
+      }
       return sectionHtml(group.name, inGroup, row, noteDates, group.id);
     });
     // 「全部」时附上未分组；筛选分组时不展示未分组块
@@ -447,7 +466,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const showAddDialog = () => {
     addForm.reset();
     if (addGroupSelect) {
-      const groups = groupsOf();
+      // 货币/债基清单组不可手动塞入任意标的，仅由 seed 归属
+      const groups = groupsOf().filter(group => !isIsolatedCatalogGroupId(group.id));
       addGroupSelect.innerHTML = `<option value="">未分组</option>${groups.map(g => `<option value="${attr(g.id)}">${escapeHtml(g.name)}</option>`).join('')}`;
       addGroupSelect.value = '';
     }
@@ -539,7 +559,11 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     (document.querySelector('#membership-title') as HTMLElement).textContent = `${code} 编辑分组`;
     (document.querySelector('#membership-status') as HTMLElement).textContent = '';
     const checked = new Set(meta.memberships[code] ?? []);
-    membershipOptions.innerHTML = groupsOf().map(group => `<label><input type="checkbox" value="${attr(group.id)}" ${checked.has(group.id) ? 'checked' : ''}>${escapeHtml(group.name)}</label>`).join('') || '<p class="muted">暂无分组，请先管理分组。</p>';
+    const allowed = new Set(allowedMembershipGroupIds(code, groupsOf().map(group => group.id)));
+    membershipOptions.innerHTML = groupsOf()
+      .filter(group => allowed.has(group.id))
+      .map(group => `<label><input type="checkbox" value="${attr(group.id)}" ${checked.has(group.id) ? 'checked' : ''}>${escapeHtml(group.name)}</label>`)
+      .join('') || '<p class="muted">暂无分组，请先管理分组。</p>';
     openDialog(membershipDialog);
   };
   (document.querySelector('#membership-form') as HTMLFormElement).addEventListener('submit', async event => {
@@ -1169,4 +1193,68 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .industry-etf-nav__pill.is-active {
     border-color:#1d4ed8; background:#1d4ed8; color:#fff;
   }
+
+  /* 货币 ETF / 债券基金：对齐 industry-etf，不与复盘宽表统一 */
+  .catalog-special-card { overflow:hidden; }
+  .catalog-special-description {
+    margin:0; padding:0 16px 14px; color:#64748b; font-size:13px; line-height:1.7;
+  }
+  .catalog-special-table {
+    width:100%; border-collapse:collapse; font-size:13px;
+  }
+  .catalog-special-table th,
+  .catalog-special-table td {
+    padding:12px 14px; border-bottom:1px solid #e8edf5; text-align:left; vertical-align:top;
+  }
+  .catalog-special-table th {
+    background:#f8fafc; color:#475569; font-weight:600; font-size:12px; white-space:nowrap;
+  }
+  .catalog-special-table .identity-cell .stock-name { font-weight:600; color:#0f172a; }
+  .catalog-special-table .identity-cell .code-cell { color:#64748b; font-size:12px; margin-top:2px; }
+  .catalog-position-cell strong { display:block; color:#0f172a; }
+  .catalog-position-cell div { color:#334155; margin-top:2px; }
+  .catalog-position-cell p { margin:6px 0 0; color:#64748b; font-size:12px; line-height:1.55; }
+  .catalog-bond-table { min-width:960px; }
+  .bond-fund-metric { font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .bond-fund-metric small,
+  .etf-fee-cell small { display:block; margin-top:4px; color:#94a3b8; font-size:11px; font-weight:400; }
+  .etf-fee-main { display:flex; flex-direction:column; gap:2px; }
+  .etf-fee-total { font-weight:600; color:#0f172a; }
+  .etf-fee-breakdown { color:#64748b; font-size:12px; }
+  .etf-fee-tiers { margin-top:6px; color:#64748b; font-size:11px; line-height:1.45; max-width:220px; }
+  .etf-fee-tiers-label { color:#94a3b8; }
+  .bond-type-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
+  .bond-type-badge, .bond-feature-badge {
+    display:inline-flex; align-items:center; font-size:11px; line-height:1.2;
+    padding:1px 5px; border-radius:4px; white-space:nowrap;
+  }
+  .bond-type-badge { font-weight:600; }
+  .bond-type-badge--pure { background:rgba(29,78,216,.08); color:#1d4ed8; border:1px solid rgba(29,78,216,.2); }
+  .bond-type-badge--enhanced { background:rgba(217,119,6,.1); color:#b45309; border:1px solid rgba(217,119,6,.25); }
+  .bond-feature-badge { background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0; }
+  .bond-ladder-container { padding:14px 16px 16px; background:#fff; border-bottom:1px solid #e8edf5; }
+  .bond-ladder-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; gap:8px; flex-wrap:wrap; }
+  .bond-ladder-title { font-size:13px; font-weight:600; color:#0f172a; }
+  .bond-ladder-arrow { font-size:12px; color:#64748b; }
+  .bond-ladder-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+  @media (max-width:860px) { .bond-ladder-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:480px) { .bond-ladder-grid { grid-template-columns:1fr; } }
+  .bond-ladder-card {
+    padding:10px 12px; border-radius:8px; border:1px solid #e2e8f0; background:#f8fafc;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .bond-ladder-type-row { display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  .bond-ladder-type-badge {
+    font-size:12px; font-weight:600; padding:2px 6px; border-radius:4px; white-space:nowrap;
+  }
+  .bond-ladder-type-badge--pure { background:rgba(29,78,216,.08); color:#1d4ed8; border:1px solid rgba(29,78,216,.2); }
+  .bond-ladder-type-badge--tier1 { background:rgba(13,148,136,.12); color:#0f766e; border:1px solid rgba(13,148,136,.25); }
+  .bond-ladder-type-badge--tier2 { background:rgba(217,119,6,.1); color:#b45309; border:1px solid rgba(217,119,6,.25); }
+  .bond-ladder-type-badge--hybrid { background:rgba(220,38,38,.08); color:#b91c1c; border:1px solid rgba(220,38,38,.25); }
+  .bond-ladder-drawdown {
+    font-size:11px; color:#64748b; background:#fff; padding:1px 5px; border-radius:4px; border:1px solid #e2e8f0; white-space:nowrap;
+  }
+  .bond-ladder-body { font-size:12px; line-height:1.4; color:#334155; }
+  .bond-ladder-text { font-weight:500; color:#0f172a; }
+  .bond-ladder-text-sub { color:#64748b; font-size:11px; margin-top:2px; }
 </style>

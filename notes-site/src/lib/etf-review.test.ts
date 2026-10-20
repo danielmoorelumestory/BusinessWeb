@@ -201,6 +201,7 @@ describe('etf-review domain', () => {
     expect(meta.groups.some(g => g.id === 'g-catalog-broad')).toBe(false);
     expect(meta.groups.some(g => g.id === 'g-catalog-ETF-01_TMT科技')).toBe(true);
     expect(meta.groups.some(g => g.id === 'g-catalog-money-etf')).toBe(true);
+    expect(meta.groups.some(g => g.id === 'g-catalog-bond-funds')).toBe(true);
     expect(meta.groups.some(g => g.id === 'g-catalog-other')).toBe(false);
     expect(meta.groups.some(g => g.id === 'g-catalog-industry')).toBe(false);
     expect(meta.watchlist.some(w => w.code === '588200')).toBe(true);
