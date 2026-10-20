@@ -932,6 +932,8 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
   let localMetaBefore: EtfReviewMeta | null = null;
   try { localMetaBefore = readMeta(); } catch { /* 元数据存储不可用时仍继续同步网格记录 */ }
   const remote = await cloudRequest(token);
+  // 请求期间其他标签或用户可能继续编辑，合并时重新读取，不能只使用请求前的快照。
+  try { localMetaBefore = mergeMeta(localMetaBefore, readMeta()); } catch { /* 保留已经读取的本机版本。 */ }
   const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {})).map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
   const merged = new Map<string, CloudItem>();
   for (const item of [...readRecords(), ...tombstones, ...remote]) {
@@ -948,6 +950,41 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
   // 墓碑保留 180 天，足够其它设备同步到删除；过期后清理，避免占满云端 200 条上限。
   const alive = (split.tombstones as Tombstone[]).filter(item => Date.now() - stamp(item) < TOMBSTONE_TTL);
   await cloudRequest(token, { records: [...records, ...alive, ...(mergedMeta ? [mergedMeta] : [])] });
+  writeRecords(records);
+  writeJson(DELETED_KEY, Object.fromEntries(alive.map(item => [item.id, item.updatedAt])));
+  return records;
+}
+
+/** 单向上传本机快照。云端保留合并保护，本机记录完全不变，不先拉取云端。 */
+export async function uploadAll(token: string): Promise<{ uploaded: number; skipped: string[] }> {
+  const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {}))
+    .filter(([, at]) => Date.now() - Date.parse(at) < TOMBSTONE_TTL)
+    .map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
+  const records = [...readRecords(), ...tombstones, readMeta()];
+  const response = await fetch(SYNC_ENDPOINT, {
+    method: 'PUT', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ records }), signal: AbortSignal.timeout(15000),
+  });
+  if (!response.ok) throw new Error('上传失败，本机数据未改变');
+  const result = await response.json() as { skipped?: string[] };
+  return { uploaded: records.length, skipped: result.skipped ?? [] };
+}
+
+/** 单向拉取：只读云端，安全合并到本机，不执行任何云端写入。 */
+export async function pullAll(token: string): Promise<SavedRecord[]> {
+  const remote = await cloudRequest(token);
+  const localMeta = readMeta();
+  const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {})).map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
+  const merged = new Map<string, CloudItem>();
+  for (const item of [...readRecords(), ...tombstones, ...remote]) {
+    const previous = merged.get(item.id);
+    if (!previous || stamp(item) >= stamp(previous)) merged.set(item.id, item);
+  }
+  const split = splitCloudItems([...merged.values()]);
+  const meta = mergeMeta(localMeta, split.meta);
+  const records = split.records as SavedRecord[];
+  const alive = (split.tombstones as Tombstone[]).filter(item => Date.now() - stamp(item) < TOMBSTONE_TTL);
+  writeMeta(meta);
   writeRecords(records);
   writeJson(DELETED_KEY, Object.fromEntries(alive.map(item => [item.id, item.updatedAt])));
   return records;

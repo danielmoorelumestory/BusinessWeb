@@ -10,7 +10,7 @@ export type DailyNote = {
   updatedAt: string;
 };
 
-export type ReviewGroup = { id: string; name: string; order: number };
+export type ReviewGroup = { id: string; name: string; order: number; updatedAt?: string };
 export type DailyPremium = { rate: number; referenceNav?: number; quoteDate: string; updatedAt: string };
 
 export type EtfReviewMeta = {
@@ -19,12 +19,17 @@ export type EtfReviewMeta = {
   savedAt: string;
   updatedAt: string;
   groups: ReviewGroup[];
-  watchlist: { code: string; name: string; addedAt: string }[];
+  watchlist: { code: string; name: string; addedAt: string; updatedAt?: string }[];
   memberships: Record<string, string[]>;
   // 每个分组独立保存标的顺序；空字符串代表未分组。兼容没有排序数据的旧记录。
   groupCodeOrder?: Record<string, string[]>;
   notes: Record<string, DailyNote>;
   dailyPremiums?: Record<string, DailyPremium>;
+  workspaceUpdatedAt?: string;
+  membershipUpdatedAt?: Record<string, string>;
+  deletedGroups?: Record<string, string>;
+  deletedWatchlist?: Record<string, string>;
+  resetAt?: string;
 };
 
 const GROUP_DEFS: { id: string; name: string; order: number }[] = [
@@ -68,9 +73,55 @@ export function mergeMeta(local: EtfReviewMeta | null, remote: EtfReviewMeta | n
   if (!local && !remote) return defaultMeta(new Date().toISOString());
   if (!local) return remote!;
   if (!remote) return local;
-  const localTs = Date.parse(local.updatedAt) || 0;
-  const remoteTs = Date.parse(remote.updatedAt) || 0;
-  return remoteTs >= localTs ? remote : local;
+  if (local.updatedAt === SEED_TS) return remote;
+  if (remote.updatedAt === SEED_TS) return local;
+  if (remote.resetAt && remote.resetAt >= local.updatedAt) return remote;
+  if (local.resetAt && local.resetAt >= remote.updatedAt) return local;
+  const preferred = remote.updatedAt >= local.updatedAt ? remote : local;
+  const coreStamp = (meta: EtfReviewMeta) => meta.workspaceUpdatedAt ?? (local.workspaceUpdatedAt || remote.workspaceUpdatedAt ? meta.savedAt : meta.updatedAt);
+  const primary = coreStamp(remote) >= coreStamp(local) ? remote : local;
+  const secondary = primary === remote ? local : remote;
+  const times = (a: Record<string, string> = {}, b: Record<string, string> = {}) => {
+    const result = { ...a }; for (const [key, value] of Object.entries(b)) if (!result[key] || value >= result[key]) result[key] = value; return result;
+  };
+  const deletedGroups = times(local.deletedGroups, remote.deletedGroups);
+  const deletedWatchlist = times(local.deletedWatchlist, remote.deletedWatchlist);
+  const groupMap = new Map<string, ReviewGroup>();
+  const groupStamp = new Map<string, string>();
+  for (const meta of [secondary, primary]) for (const group of meta.groups) {
+    const existing = groupMap.get(group.id);
+    if (!existing || (group.updatedAt ?? coreStamp(meta)) >= groupStamp.get(group.id)!) { groupMap.set(group.id, group); groupStamp.set(group.id, group.updatedAt ?? coreStamp(meta)); }
+  }
+  const groups = [...primary.groups, ...secondary.groups].filter((group, index, all) => all.findIndex(item => item.id === group.id) === index)
+    .map(group => groupMap.get(group.id)!).filter(group => !deletedGroups[group.id] || deletedGroups[group.id] < groupStamp.get(group.id)!)
+    .map((group, order) => ({ ...group, order }));
+  const watchMap = new Map<string, EtfReviewMeta['watchlist'][number]>();
+  for (const meta of [secondary, primary]) for (const watch of meta.watchlist) {
+    const existing = watchMap.get(watch.code);
+    if (!existing || (watch.updatedAt ?? watch.addedAt) >= (existing.updatedAt ?? existing.addedAt)) watchMap.set(watch.code, watch);
+  }
+  const watchlist = [...watchMap.values()].filter(watch => !deletedWatchlist[watch.code] || deletedWatchlist[watch.code] < (watch.updatedAt ?? watch.addedAt));
+  const groupIds = new Set(groups.map(group => group.id));
+  const memberships: Record<string, string[]> = {};
+  for (const code of new Set([...Object.keys(local.memberships), ...Object.keys(remote.memberships), ...Object.keys(local.membershipUpdatedAt ?? {}), ...Object.keys(remote.membershipUpdatedAt ?? {})])) {
+    const source = (remote.membershipUpdatedAt?.[code] ?? coreStamp(remote)) >= (local.membershipUpdatedAt?.[code] ?? coreStamp(local)) ? remote : local;
+    const fallback = source === remote ? local : remote;
+    const ids = source.memberships[code] ?? (source.membershipUpdatedAt?.[code] ? undefined : fallback.memberships[code]);
+    if (ids && (!deletedWatchlist[code] || deletedWatchlist[code] < (source.membershipUpdatedAt?.[code] ?? coreStamp(source)))) memberships[code] = ids.filter(id => groupIds.has(id));
+  }
+  const mergeItems = <T extends { updatedAt: string }>(a: Record<string, T> = {}, b: Record<string, T> = {}) => {
+    const result = { ...a }; for (const [key, value] of Object.entries(b)) if (!result[key] || value.updatedAt >= result[key].updatedAt) result[key] = value; return result;
+  };
+  const groupCodeOrder = { ...secondary.groupCodeOrder, ...primary.groupCodeOrder };
+  return {
+    ...preferred, groups, watchlist, memberships, notes: mergeItems(local.notes, remote.notes),
+    ...(local.dailyPremiums || remote.dailyPremiums ? { dailyPremiums: mergeItems(local.dailyPremiums, remote.dailyPremiums) } : {}),
+    ...(local.groupCodeOrder || remote.groupCodeOrder ? { groupCodeOrder } : {}),
+    ...(local.workspaceUpdatedAt || remote.workspaceUpdatedAt ? { workspaceUpdatedAt: coreStamp(primary) } : {}),
+    ...(local.membershipUpdatedAt || remote.membershipUpdatedAt ? { membershipUpdatedAt: times(local.membershipUpdatedAt, remote.membershipUpdatedAt) } : {}),
+    ...(Object.keys(deletedGroups).length ? { deletedGroups } : {}),
+    ...(Object.keys(deletedWatchlist).length ? { deletedWatchlist } : {}),
+  };
 }
 
 export function poolCodes(gridCodes: string[], watchlist: { code: string }[]): string[] {

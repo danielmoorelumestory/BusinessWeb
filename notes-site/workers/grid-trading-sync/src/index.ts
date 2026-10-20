@@ -1,5 +1,6 @@
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
+import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
 
 export interface Env { DB: D1Database }
 
@@ -7,6 +8,37 @@ const json = (data: unknown, status = 200) => new Response(JSON.stringify(data),
   status,
   headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*', 'access-control-allow-headers': 'authorization, content-type' },
 });
+
+async function ensureMetaHistory(env: Env) {
+  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS review_meta_history (
+    owner_hash TEXT NOT NULL, record_id TEXT NOT NULL, version TEXT NOT NULL,
+    payload TEXT NOT NULL, archived_at INTEGER NOT NULL,
+    PRIMARY KEY (owner_hash, record_id, version))`).run();
+}
+
+async function archiveMeta(env: Env, owner: string, recordId: string, payload: string, now: number) {
+  await ensureMetaHistory(env);
+  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(payload));
+  const version = [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  await env.DB.prepare('INSERT INTO review_meta_history (owner_hash, record_id, version, payload, archived_at) VALUES (?, ?, ?, ?, ?) ON CONFLICT DO NOTHING').bind(owner, recordId, version, payload, now).run();
+  await env.DB.prepare(`DELETE FROM review_meta_history WHERE owner_hash = ?1 AND record_id = ?2 AND version NOT IN
+    (SELECT version FROM review_meta_history WHERE owner_hash = ?1 AND record_id = ?2 ORDER BY archived_at DESC LIMIT 20)`).bind(owner, recordId).run();
+}
+
+async function saveMergedMeta(env: Env, owner: string, incoming: EtfReviewMeta, now: number) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const existing = await env.DB.prepare('SELECT payload FROM records WHERE owner_hash = ? AND record_id = ?').bind(owner, incoming.id).first<{ payload: string }>();
+    const previous = existing ? JSON.parse(existing.payload) : null;
+    const merged = isEtfReviewMeta(previous) ? mergeMeta(previous, incoming) : incoming;
+    if (existing) await archiveMeta(env, owner, incoming.id, existing.payload, now);
+    // 比较读取时的完整版本；另一设备先写入时重新读取并合并，避免并发覆盖。
+    const result = await env.DB.prepare(`INSERT INTO records (owner_hash, record_id, payload, updated_at) VALUES (?1, ?2, ?3, ?4)
+      ON CONFLICT (owner_hash, record_id) DO UPDATE SET payload = excluded.payload, updated_at = excluded.updated_at
+      WHERE records.payload IS ?5`).bind(owner, incoming.id, JSON.stringify(merged), now, existing?.payload ?? null).run();
+    if (result.meta.changes) return result;
+  }
+  throw new Error('复盘数据正在被其他页面更新，请重试同步；本机数据已保留');
+}
 
 async function ownerHash(request: Request) {
   const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '')?.trim();
@@ -620,6 +652,11 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { headers: { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET, PUT, POST, OPTIONS', 'access-control-allow-headers': 'authorization, content-type' } });
     const owner = await ownerHash(request);
     if (!owner) return json({ error: '请提供至少 16 位同步密钥。' }, 401);
+    if (request.method === 'GET' && url.pathname === '/review/backups') {
+      await ensureMetaHistory(env);
+      const { results } = await env.DB.prepare('SELECT payload, archived_at FROM review_meta_history WHERE owner_hash = ? ORDER BY archived_at DESC LIMIT 20').bind(owner).all<{ payload: string; archived_at: number }>();
+      return json({ backups: results.map(row => ({ savedAt: new Date(row.archived_at).toISOString(), meta: JSON.parse(row.payload) })) });
+    }
     if (url.pathname === '/review/technical' && request.method === 'GET') {
       const codes = [...new Set((url.searchParams.get('codes') ?? '').split(',').map(code => code.trim()))];
       if (!codes.length || codes.length > 50 || codes.some(code => !/^\d{6}$/.test(code))) return json({ error: '请提供 1 至 50 个有效代码。' }, 400);
@@ -661,7 +698,16 @@ export default {
         ON CONFLICT (owner_hash, record_id) DO UPDATE SET payload = excluded.payload, updated_at = excluded.updated_at
         WHERE ${version('excluded.payload')} >= ${version('records.payload')}`;
       try {
-        const results = records.length ? await env.DB.batch(records.map(record => env.DB.prepare(upsert).bind(owner, record.id, JSON.stringify(record), now))) : [];
+        const metaResults = new Map<number, D1Result>();
+        // 即使旧页面上传了整份旧分组，也按字段保留云端已有的新标的、笔记和分组。
+        for (let index = 0; index < records.length; index++) {
+          if (!isEtfReviewMeta(records[index])) continue;
+          metaResults.set(index, await saveMergedMeta(env, owner, records[index] as EtfReviewMeta, now));
+        }
+        const ordinary = records.filter((_, index) => !metaResults.has(index));
+        const ordinaryResults = ordinary.length ? await env.DB.batch(ordinary.map(record => env.DB.prepare(upsert).bind(owner, record.id, JSON.stringify(record), now))) : [];
+        let cursor = 0;
+        const results = records.map((_, index) => metaResults.get(index) ?? ordinaryResults[cursor++]);
         const skipped = records.filter((_, index) => results[index].meta.changes === 0).map(record => record.id);
         // 墓碑（删除标记）客户端只保留 180 天，之后不再上传；服务端同样在写入后清理过期的，避免永久残留。
         const expired = new Date(now - 180 * 24 * 3600_000).toISOString();

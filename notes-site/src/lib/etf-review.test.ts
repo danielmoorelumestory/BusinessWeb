@@ -5,9 +5,10 @@ import {
   defaultMeta, isEtfReviewMeta, readMeta, writeMeta, addWatch, removeWatch,
   upsertDailyNote, setMemberships, clearReviewWorkspace, ETF_REVIEW_META_ID, SEED_TS, splitCloudItems, pushMeta,
   orderedGroupCodes, moveGroupCode, captureDailyPremiums,
+  restoreReviewBackup, ETF_REVIEW_HISTORY_KEY,
 } from './etf-review';
 import {
-  RECORDS_KEY, SYNC_KEY_STORAGE, readGridRecords, syncAll,
+  RECORDS_KEY, SYNC_KEY_STORAGE, readGridRecords, syncAll, uploadAll, pullAll,
 } from './grid-trading';
 
 describe('etf-review domain', () => {
@@ -54,6 +55,102 @@ describe('etf-review domain', () => {
       notes: { '510300|2026-02-01': { emotion: '冷静', conclusion: '看多', action: '加仓', risk: '', remark: 'n', updatedAt: '2026-02-01T00:00:00.000Z' } } };
     expect(mergeMeta(older, newer).notes['510300|2026-02-01']?.remark).toBe('n');
     expect(mergeMeta(newer, older).notes['510300|2026-02-01']?.remark).toBe('n');
+  });
+
+  it('较新的溢价快照不能覆盖新增ETF、重命名分组、分组归属和逐条笔记', () => {
+    const local = { ...defaultMeta('2026-10-18T00:00:00Z'), updatedAt: '2026-10-20T10:00:00Z', workspaceUpdatedAt: '2026-10-20T10:00:00Z',
+      groups: [{ id: 'g-held', name: '重点观察', order: 0 }, { id: 'new', name: '指标性ETF', order: 1 }],
+      deletedGroups: { 'g-focus': '2026-10-20T10:00:00Z', 'g-backup': '2026-10-20T10:00:00Z' },
+      watchlist: [{ code: '588800', name: '科创100', addedAt: '2026-10-20T09:00:00Z' }], memberships: { '588800': ['new'] },
+      notes: { '588800|2026-10-20': { emotion: '冷静' as const, conclusion: '中性' as const, action: '观望' as const, risk: '', remark: '保留笔记', updatedAt: '2026-10-20T09:00:00Z' } } };
+    const remote = { ...defaultMeta('2026-10-18T00:00:00Z'), updatedAt: '2026-10-20T12:00:00Z', dailyPremiums: { '588800|2026-10-20': { rate: .2, quoteDate: '2026-10-20', updatedAt: '2026-10-20T12:00:00Z' } } };
+    for (const merged of [mergeMeta(local, remote), mergeMeta(remote, local)]) {
+      expect(merged.groups.map(group => group.name)).toEqual(['重点观察', '指标性ETF']);
+      expect(merged.watchlist).toEqual(local.watchlist);
+      expect(merged.memberships['588800']).toEqual(['new']);
+      expect(merged.notes).toEqual(local.notes);
+      expect(merged.dailyPremiums).toEqual(remote.dailyPremiums);
+    }
+  });
+
+  it('显式删除不会被旧版本复活，重新添加仍可重新分组，清空也会保留意图', () => {
+    vi.useFakeTimers();
+    try {
+      vi.setSystemTime(new Date('2026-10-20T09:00:00Z'));
+      addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
+      const before = readMeta();
+      vi.setSystemTime(new Date('2026-10-20T10:00:00Z')); removeWatch('588800');
+      expect(mergeMeta(readMeta(), before).watchlist).toEqual([]);
+      vi.setSystemTime(new Date('2026-10-20T11:00:00Z')); addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
+      expect(mergeMeta(readMeta(), before).memberships['588800']).toEqual(['g-held']);
+      const cleared = clearReviewWorkspace();
+      expect(mergeMeta(before, cleared).watchlist).toEqual([]);
+    } finally { vi.useRealTimers(); }
+  });
+
+  it('覆盖前自动留存本机历史；恢复完整备份保留分组、标的和笔记', () => {
+    addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
+    const backup = readMeta();
+    clearReviewWorkspace();
+    const history = JSON.parse(localStorage.getItem(ETF_REVIEW_HISTORY_KEY) ?? '[]');
+    expect(history.some((item: { meta: typeof backup }) => item.meta.watchlist.some(watch => watch.code === '588800'))).toBe(true);
+    const restored = restoreReviewBackup(backup);
+    expect(restored.watchlist).toEqual(backup.watchlist);
+    expect(restored.memberships).toEqual(backup.memberships);
+    expect(mergeMeta(restored, clearReviewWorkspace()).watchlist).toEqual([]);
+    expect(() => restoreReviewBackup({})).toThrow('不是有效');
+  });
+
+  it('云端请求进行中新增的本机ETF不会被同步开始时的旧快照覆盖', async () => {
+    const original = readMeta();
+    let complete: (response: Response) => void = () => {};
+    vi.spyOn(globalThis, 'fetch').mockImplementation((_url, options) => {
+      if (options?.method === 'PUT') return Promise.resolve(new Response(null, { status: 200 }));
+      return new Promise(resolve => { complete = resolve; });
+    });
+    const syncing = syncAll('1234567890123456');
+    addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
+    complete(new Response(JSON.stringify({ records: [original] }), { status: 200 }));
+    await syncing;
+    expect(readMeta().watchlist.some(watch => watch.code === '588800')).toBe(true);
+    expect(readMeta().memberships['588800']).toEqual(['g-held']);
+  });
+
+  it('上传仅PUT本机快照，不拉取也不改写本机', async () => {
+    addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
+    const meta = localStorage.getItem('etf-review-meta-v1');
+    const record = { id: 'r-local', savedAt: '2026-10-20T10:00:00Z', row: { code: '510300' }, result: {} };
+    localStorage.setItem(RECORDS_KEY, JSON.stringify([record]));
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ skipped: [] }), { status: 200 }));
+    expect(await uploadAll('1234567890123456')).toMatchObject({ uploaded: 2, skipped: [] });
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    expect(fetcher.mock.calls[0][1]?.method).toBe('PUT');
+    const payload = JSON.parse(String(fetcher.mock.calls[0][1]?.body));
+    expect(payload.records).toContainEqual(record);
+    expect(localStorage.getItem('etf-review-meta-v1')).toBe(meta);
+    expect(readGridRecords()).toEqual([record]);
+  });
+
+  it('拉取仅GET并安全合并到本机，保留本机新增ETF，不回写云端', async () => {
+    addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
+    const remote = { ...defaultMeta('2026-10-18T00:00:00Z'), updatedAt: '2026-10-20T12:00:00Z', watchlist: [{ code: '159687', name: '亚太精选', addedAt: '2026-10-20T09:00:00Z' }] };
+    const record = { id: 'r-cloud', savedAt: '2026-10-20T12:00:00Z', row: { code: '510300' }, result: {} };
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ records: [remote, record] }), { status: 200 }));
+    await pullAll('1234567890123456');
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    expect(fetcher.mock.calls[0][1]?.method).toBe('GET');
+    expect(readMeta().watchlist.map(watch => watch.code).sort()).toEqual(['159687', '588800']);
+    expect(readMeta().memberships['588800']).toEqual(['g-held']);
+    expect(readGridRecords()).toEqual([record]);
+  });
+
+  it('上传或拉取网络失败均不改写本机数据', async () => {
+    addWatch('588800', '科创100');
+    const before = localStorage.getItem('etf-review-meta-v1');
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('failed', { status: 503 }));
+    await expect(uploadAll('1234567890123456')).rejects.toThrow('上传失败');
+    await expect(pullAll('1234567890123456')).rejects.toThrow('读取云端记录失败');
+    expect(localStorage.getItem('etf-review-meta-v1')).toBe(before);
   });
 
   it('poolCodes unions grid and watchlist uniquely', () => {

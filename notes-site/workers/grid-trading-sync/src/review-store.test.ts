@@ -12,10 +12,28 @@ beforeEach(() => {
   vi.useFakeTimers(); vi.setSystemTime(new Date('2026-10-20T08:00:00Z'))
   sqlite = new DatabaseSync(':memory:')
   sqlite.exec(readFileSync('notes-site/workers/grid-trading-sync/schema.sql', 'utf8'))
-  db = { prepare(sql: string) {
+  db = { async batch(statements: any[]) { return Promise.all(statements.map(statement => statement.run())) }, prepare(sql: string) {
     let params: any[] = []
     return { bind(...values: any[]) { params = values; return this }, async run() { const result = sqlite.prepare(sql).run(...params); return { meta: { changes: Number(result.changes) } } }, async all() { return { results: sqlite.prepare(sql).all(...params) } }, async first() { return sqlite.prepare(sql).get(...params) ?? null } }
   } }
+})
+it('云端拒绝用较新的旧分组快照抹掉新观察池，并归档覆盖前的完整版本', async () => {
+  const headers = { authorization: 'Bearer recovery-test-owner-1234', 'content-type': 'application/json' }
+  const id = 'meta:etf-review-v1'
+  const rich = { id, kind: 'etf-review-meta', savedAt: '2026-10-18T00:00:00Z', updatedAt: '2026-10-20T09:00:00Z', workspaceUpdatedAt: '2026-10-20T09:00:00Z', groups: [{ id: 'custom', name: '指标性ETF', order: 0 }], watchlist: [{ code: '588800', name: '科创100', addedAt: '2026-10-20T09:00:00Z' }], memberships: { '588800': ['custom'] }, notes: {} }
+  const stale = { ...rich, updatedAt: '2026-10-20T10:00:00Z', workspaceUpdatedAt: '2026-10-18T00:00:00Z', groups: [], watchlist: [], memberships: {} }
+  const put = async (meta: any) => worker.fetch(new Request('https://test/', { method: 'PUT', headers, body: JSON.stringify({ records: [meta] }) }), { DB: db }, {} as any)
+  expect((await put(rich)).status).toBe(200)
+  expect((await put(stale)).status).toBe(200)
+  const read = await worker.fetch(new Request('https://test/', { headers }), { DB: db }, {} as any)
+  const body = await read.json() as any
+  expect(body.records[0].watchlist).toEqual(rich.watchlist)
+  expect(body.records[0].groups).toEqual(rich.groups)
+  expect(body.records[0].memberships).toEqual(rich.memberships)
+  const backups = await worker.fetch(new Request('https://test/review/backups', { headers }), { DB: db }, {} as any)
+  expect((await backups.json() as any).backups[0].meta).toEqual(rich)
+  const other = await worker.fetch(new Request('https://test/review/backups', { headers: { authorization: 'Bearer another-user-test-1234' } }), { DB: db }, {} as any)
+  expect((await other.json() as any).backups).toEqual([])
 })
 afterEach(() => { sqlite.close(); vi.useRealTimers(); vi.unstubAllGlobals() })
 it('指标入库后重读复用，不再拉行情', async () => {

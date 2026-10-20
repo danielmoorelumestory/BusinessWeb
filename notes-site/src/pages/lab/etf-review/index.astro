@@ -26,7 +26,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     <div><strong>云端同步</strong><p>ETF 笔记、分组和网格记录共用同一同步密钥。</p></div>
     <label>同步密钥 <input id="sync-key" type="text" autocomplete="off" spellcheck="false"></label>
     <button id="copy-sync-key" type="button">复制密钥</button>
-    <button id="sync-records" class="sync-primary" type="button">同步云端</button>
+    <button id="upload-records" class="sync-primary" type="button" title="将本机数据上传到云端，不改变本机数据">上传云端</button>
+    <button id="pull-records" type="button" title="读取云端数据并安全合并到本机，不上传本机数据">拉取云端</button>
     <span id="sync-status" role="status"></span>
   </section>
 
@@ -97,7 +98,6 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     poolCodes,
     orderedGroupCodes,
     moveGroupCode,
-    pushMeta,
     readMeta,
     removeWatch,
     setMemberships,
@@ -116,7 +116,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     readGridRecords,
     recordByCode,
     removeRecords,
-    syncAll,
+    uploadAll,
+    pullAll,
     SYNC_KEY_STORAGE,
     type Quote,
     type SavedRecord,
@@ -280,7 +281,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       memberships,
       updatedAt: new Date().toISOString(),
     });
-    void saveAndPush('分组设置');
+    void saveLocalChanges('分组设置');
   }
 
   function syncFocusToRegular() {
@@ -312,7 +313,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       memberships,
       updatedAt: new Date().toISOString(),
     });
-    void saveAndPush('分组设置');
+    void saveLocalChanges('分组设置');
   }
 
   function render() {
@@ -361,7 +362,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     quotes = await fetchQuotes(codes);
     try {
       if (captureDailyPremiums([...quotes.values()], marketToday())) {
-        void saveAndPush('每日溢价').catch(reason => { syncStatus.textContent = saveError(reason); });
+        void saveLocalChanges('每日溢价').catch(reason => { syncStatus.textContent = saveError(reason); });
       }
     } catch (reason) { syncStatus.textContent = saveError(reason); }
     render();
@@ -370,11 +371,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     marketStatus.textContent = quotes.size ? `报价更新于 ${new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}` : '暂未取得实时报价';
   }
 
-  async function saveAndPush(label: string) {
-    syncStatus.textContent = `正在同步${label}…`;
-    const notice = await pushMeta(label);
-    syncStatus.textContent = notice || `${label}已保存并同步。`;
+  async function saveLocalChanges(label: string) {
+    syncStatus.textContent = `${label}已保存到本机，可点击“上传云端”保存到云端。`;
   }
+
   const saveError = (reason: unknown) => reason instanceof Error ? reason.message : '保存失败，请重试。';
 
   const storedSyncKey = localStorage.getItem(SYNC_KEY_STORAGE);
@@ -385,24 +385,32 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     await navigator.clipboard.writeText(syncInput.value.trim());
     syncStatus.textContent = '同步密钥已复制。';
   });
-  document.querySelector('#sync-records')!.addEventListener('click', async event => {
+  const uploadButton = document.querySelector('#upload-records') as HTMLButtonElement;
+  const pullButton = document.querySelector('#pull-records') as HTMLButtonElement;
+  const runCloudAction = async (direction: 'upload' | 'pull') => {
     const token = syncInput.value.trim();
     if (token.length < 16) { syncStatus.textContent = '同步密钥至少需要 16 位。'; return; }
-    const button = event.currentTarget as HTMLButtonElement;
-    button.disabled = true; syncStatus.textContent = '正在同步…';
+    uploadButton.disabled = pullButton.disabled = true;
+    syncStatus.textContent = direction === 'upload' ? '正在上传云端…' : '正在拉取云端…';
     try {
-      await syncAll(token);
-      migrateUngroupedToHeld();
-      syncFocusToRegular();
-      render();
-      syncStatus.textContent = '同步完成。';
-      void updateQuotes();
-    } catch {
-      syncStatus.textContent = '同步失败，请检查网络和同步密钥。';
+      if (direction === 'upload') {
+        const result = await uploadAll(token);
+        syncStatus.textContent = result.skipped.length ? '上传完成；部分云端记录更新，本次未覆盖。本机数据未改变。' : '上传完成，本机数据未改变。';
+      } else {
+        await pullAll(token);
+        selectedGroupIds.clear();
+        render();
+        await updateQuotes();
+        syncStatus.textContent = '拉取完成，已安全合并到本机，未上传本机数据。';
+      }
+    } catch (error) {
+      syncStatus.textContent = saveError(error);
     } finally {
-      button.disabled = false;
+      uploadButton.disabled = pullButton.disabled = false;
     }
-  });
+  };
+  uploadButton.addEventListener('click', () => { void runCloudAction('upload'); });
+  pullButton.addEventListener('click', () => { void runCloudAction('pull'); });
 
   filterBar.addEventListener('click', event => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-group]');
@@ -443,10 +451,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       closeDialog(addDialog);
       render();
       void updateQuotes();
-      if (!hasGrid) void saveAndPush('观察标的');
+      if (!hasGrid) void saveLocalChanges('观察标的');
       else {
         syncStatus.textContent = '该标的已有网格，已在复盘池中。';
-        if (groupId) void saveAndPush('分组设置');
+        if (groupId) void saveLocalChanges('分组设置');
       }
     } catch (reason) {
       error.textContent = reason instanceof Error ? reason.message : '添加失败。';
@@ -496,7 +504,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
         remark: noteFields.remark.value.trim(),
       });
       render();
-      await saveAndPush('每日笔记');
+      await saveLocalChanges('每日笔记');
       closeDialog(noteDialog);
     } catch (reason) {
       status.textContent = saveError(reason);
@@ -522,7 +530,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     try {
       setMemberships(membershipCode.value, ids);
       render();
-      await saveAndPush('分组');
+      await saveLocalChanges('分组');
       closeDialog(membershipDialog);
     } catch (reason) {
       status.textContent = saveError(reason);
@@ -545,7 +553,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
         render();
         const movedRow = [...container.querySelectorAll<HTMLTableRowElement>('tr[data-code]')].find(item => item.dataset.code === code && item.closest<HTMLElement>('[data-group-id]')?.dataset.groupId === section.dataset.groupId);
         movedRow?.querySelector<HTMLButtonElement>(`[data-action="${button.dataset.action}"]:not(:disabled)`)?.focus({ preventScroll: true });
-        void saveAndPush('标的顺序').catch(reason => { syncStatus.textContent = saveError(reason); });
+        void saveLocalChanges('标的顺序').catch(reason => { syncStatus.textContent = saveError(reason); });
       } catch (reason) { syncStatus.textContent = saveError(reason); }
       return;
     }
@@ -556,7 +564,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       if (gridRec) removeRecords([gridRec.id]);
       removeWatch(code);
       render();
-      void saveAndPush('观察标的');
+      void saveLocalChanges('观察标的');
     }
   });
 
@@ -608,9 +616,12 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       const meta = readMeta();
       const kept = new Set(editingGroups.map(group => group.id));
       const memberships = Object.fromEntries(Object.entries(meta.memberships).map(([code, ids]) => [code, ids.filter(id => kept.has(id))]));
-      writeMeta({ ...meta, groups: editingGroups.map((group, order) => ({ ...group, name: group.name.trim(), order })), memberships, updatedAt: new Date().toISOString() });
+      const now = new Date().toISOString();
+      const deletedGroups = { ...meta.deletedGroups };
+      for (const group of meta.groups) if (!kept.has(group.id)) deletedGroups[group.id] = now;
+      writeMeta({ ...meta, groups: editingGroups.map((group, order) => ({ ...group, name: group.name.trim(), order, updatedAt: now })), memberships, deletedGroups, workspaceUpdatedAt: now, updatedAt: now });
       render();
-      await saveAndPush('分组设置');
+      await saveLocalChanges('分组设置');
       closeDialog(groupsDialog);
     } catch (reason) {
       status.textContent = saveError(reason);
