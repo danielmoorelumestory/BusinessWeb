@@ -23,12 +23,15 @@ describe('etf-catalog-seed', () => {
     expect(groups.map(group => group.id)).not.toContain(MONEY_CATALOG_GROUP_ID);
     expect(groups.map(group => group.id)).not.toContain(BOND_CATALOG_GROUP_ID);
 
-    for (const group of industry as { id: string; name: string; items: { code: string; name: string }[] }[]) {
+    for (const group of industry as { id: string; name: string; items: { code: string; name: string; subTheme?: string }[] }[]) {
       const seeded = groups.find(item => item.id === `g-catalog-${group.id}`);
       expect(seeded, group.name).toBeTruthy();
       expect(seeded!.name).toBe(group.name);
       expect(seeded!.items.map(item => item.code)).toEqual(group.items.map(item => item.code));
+      expect(seeded!.items.map(item => item.subTheme)).toEqual(group.items.map(item => item.subTheme));
     }
+    const chip = groups.find(group => group.id === 'g-catalog-ETF-01_TMT科技')!.items.find(item => item.code === '588200')!;
+    expect(chip.subTheme).toContain('芯片设计');
 
     for (const group of strategy as { id: string; title: string; items: { code: string; name: string }[] }[]) {
       if (group.id === 'money-etf' || group.id === 'bond-funds') {

@@ -9,6 +9,9 @@ export type CatalogItem = {
   code: string;
   name: string;
   sourceUrl?: string;
+  /** industry-etf「行业分布」 */
+  subTheme?: string;
+  subThemeNote?: string;
   family?: string;
   category?: string;
   coverage?: string;
@@ -58,12 +61,21 @@ function mapAssetItems(items: CatalogItem[]): CatalogItem[] {
 }
 
 export function buildCatalogGroups(): CatalogGroupDef[] {
-  const industry = (industryRaw as { id: string; name: string; items: { code: string; name: string }[] }[]).map((group, index) => ({
+  const industry = (industryRaw as {
+    id: string;
+    name: string;
+    items: { code: string; name: string; subTheme?: string; subThemeNote?: string }[];
+  }[]).map((group, index) => ({
     id: `g-catalog-${group.id}`,
     name: group.name,
     order: 10 + index,
     sourceId: group.id,
-    items: group.items.map(item => ({ code: item.code, name: item.name })),
+    items: group.items.map(item => ({
+      code: item.code,
+      name: item.name,
+      subTheme: item.subTheme,
+      subThemeNote: item.subThemeNote,
+    })),
   }));
   const assets = (strategyRaw as { id: string; title: string; description?: string; items: CatalogItem[] }[])
     .filter(group => SEEDED_ASSET_IDS.has(group.id))
@@ -115,6 +127,27 @@ export function catalogItemOf(code: string): CatalogItem | undefined {
     if (item) return item;
   }
   return undefined;
+}
+
+/** 与 industry-etf SubThemeCell 相同的拆分规则 */
+export function splitSubTheme(subTheme: string): string[] {
+  if (subTheme.includes('%')) {
+    const list = subTheme.split(/(?<=%)[、\s]*/).map(part => part.trim()).filter(Boolean);
+    if (list.length > 0) return list;
+  }
+  return subTheme.includes('、') ? subTheme.split('、').map(part => part.trim()).filter(Boolean) : [subTheme];
+}
+
+export function subThemeCellHtml(code: string, escapeHtml: (value: unknown) => string): string {
+  const item = catalogItemOf(code);
+  const subTheme = item?.subTheme?.trim();
+  if (!subTheme) return '<td class="etf-subtheme-cell"><span class="muted">—</span></td>';
+  const parts = splitSubTheme(subTheme);
+  const note = item?.subThemeNote?.trim();
+  if (parts.length <= 1) {
+    return `<td class="etf-subtheme-cell"><span class="subtheme-tag">${escapeHtml(subTheme)}</span>${note ? `<small>${escapeHtml(note)}</small>` : ''}</td>`;
+  }
+  return `<td class="etf-subtheme-cell"><div class="subtheme-list">${parts.map(part => `<span class="subtheme-tag subtheme-tag--block">${escapeHtml(part)}</span>`).join('')}</div>${note ? `<small>${escapeHtml(note)}</small>` : ''}</td>`;
 }
 
 let cachedSourceUrls: Map<string, string> | null = null;
