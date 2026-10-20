@@ -27,6 +27,8 @@ export type EtfReviewMeta = {
   dailyPremiums?: Record<string, DailyPremium>;
   workspaceUpdatedAt?: string;
   membershipUpdatedAt?: Record<string, string>;
+  /** code → 用户主动踢出的清单组 id；seed 只尊重这些，不因粗粒度 membershipUpdatedAt 漏补标的 */
+  catalogMembershipOptOut?: Record<string, string[]>;
   deletedGroups?: Record<string, string>;
   deletedWatchlist?: Record<string, string>;
   resetAt?: string;
@@ -113,12 +115,21 @@ export function mergeMeta(local: EtfReviewMeta | null, remote: EtfReviewMeta | n
     const result = { ...a }; for (const [key, value] of Object.entries(b)) if (!result[key] || value.updatedAt >= result[key].updatedAt) result[key] = value; return result;
   };
   const groupCodeOrder = { ...secondary.groupCodeOrder, ...primary.groupCodeOrder };
+  const mergeOptOut = (a: Record<string, string[]> = {}, b: Record<string, string[]> = {}) => {
+    const result: Record<string, string[]> = { ...a };
+    for (const [code, ids] of Object.entries(b)) {
+      result[code] = [...new Set([...(result[code] ?? []), ...ids])];
+    }
+    return result;
+  };
+  const catalogMembershipOptOut = mergeOptOut(local.catalogMembershipOptOut, remote.catalogMembershipOptOut);
   return {
     ...preferred, groups, watchlist, memberships, notes: mergeItems(local.notes, remote.notes),
     ...(local.dailyPremiums || remote.dailyPremiums ? { dailyPremiums: mergeItems(local.dailyPremiums, remote.dailyPremiums) } : {}),
     ...(local.groupCodeOrder || remote.groupCodeOrder ? { groupCodeOrder } : {}),
     ...(local.workspaceUpdatedAt || remote.workspaceUpdatedAt ? { workspaceUpdatedAt: coreStamp(primary) } : {}),
     ...(local.membershipUpdatedAt || remote.membershipUpdatedAt ? { membershipUpdatedAt: times(local.membershipUpdatedAt, remote.membershipUpdatedAt) } : {}),
+    ...(Object.keys(catalogMembershipOptOut).length ? { catalogMembershipOptOut } : {}),
     ...(Object.keys(deletedGroups).length ? { deletedGroups } : {}),
     ...(Object.keys(deletedWatchlist).length ? { deletedWatchlist } : {}),
   };

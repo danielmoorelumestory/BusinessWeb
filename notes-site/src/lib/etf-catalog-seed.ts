@@ -91,12 +91,6 @@ function retireCatalogGroup(
 
 export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; changed: boolean } {
   const defs = buildCatalogGroups();
-  // 仅对「已存在且已有成员」的清单组尊重 membership 手动编辑。
-  // 新引入、或仅有空壳（老逻辑跳过 membership 留下的）的清单组仍要灌。
-  const preexistingGroupIds = new Set(meta.groups.map(group => group.id));
-  const populatedCatalogIds = new Set(
-    [...preexistingGroupIds].filter(id => isCatalogGroupId(id) && !RETIRED_CATALOG_IDS.has(id) && Object.values(meta.memberships).some(ids => ids.includes(id))),
-  );
   let groups = [...meta.groups];
   let watchlist = [...meta.watchlist];
   let memberships = { ...meta.memberships };
@@ -122,7 +116,7 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
       changed = true;
       continue;
     }
-    // 名称跟 industry-etf 源数据对齐（如「其他 ETF」拆开后的原 title）
+    // 名称跟 industry-etf 源数据对齐
     if (existing.name !== def.name) {
       groups = groups.map(group => (group.id === def.id ? { ...group, name: def.name } : group));
       changed = true;
@@ -130,20 +124,25 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
   }
 
   const deletedWatch = meta.deletedWatchlist ?? {};
-  const touched = meta.membershipUpdatedAt ?? {};
+  const catalogOptOut = meta.catalogMembershipOptOut ?? {};
 
   for (const def of defs) {
     for (const item of def.items) {
       const code = item.code.trim();
       if (deletedWatch[code]) continue;
 
-      if (!watchlist.some(watch => watch.code === code)) {
+      const existingWatch = watchlist.find(watch => watch.code === code);
+      if (!existingWatch) {
         watchlist = [...watchlist, { code, name: item.name, addedAt: '1970-01-01T00:00:00.000Z' }];
+        changed = true;
+      } else if (existingWatch.name !== item.name) {
+        // 名称也与清单对齐（不碰用户已改过 updatedAt 的？清单权威，直接对齐）
+        watchlist = watchlist.map(watch => (watch.code === code ? { ...watch, name: item.name } : watch));
         changed = true;
       }
 
-      // 用户曾改过 membership，且该清单组已有成员 → 视为对该组 opt-out，不再强行加回
-      if (touched[code] && populatedCatalogIds.has(def.id)) continue;
+      // 仅尊重「对该清单组」的显式 opt-out；粗粒度 membershipUpdatedAt 不再挡 gap-fill
+      if ((catalogOptOut[code] ?? []).includes(def.id)) continue;
       const ids = memberships[code] ?? [];
       if (!ids.includes(def.id)) {
         memberships[code] = [...ids, def.id];
