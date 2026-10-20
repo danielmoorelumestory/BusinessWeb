@@ -1218,12 +1218,24 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .etf-empty-cell { color:#94a3b8; font-size:14px; }
   .catalog-bond-table { min-width:1100px; }
   .catalog-bond-table th,
-  .catalog-bond-table td { overflow-wrap:anywhere; }
+  .catalog-bond-table td {
+    overflow-wrap:anywhere;
+    text-align:center;
+    vertical-align:middle;
+  }
+  .catalog-bond-table .etf-identity-cell,
+  .catalog-bond-table .etf-fee-cell,
+  .catalog-bond-table .etf-reference-cell {
+    text-align:center;
+  }
+  .catalog-bond-table .bond-type-tags { justify-content:center; }
+  .catalog-bond-table .etf-fee-main { justify-content:center; }
+  .catalog-bond-table .etf-reference-cell .etf-ref-link { margin-left:auto; margin-right:auto; }
   .bond-fund-metric { font-variant-numeric:tabular-nums; }
   .bond-fund-metric small {
     display:block; color:#64748b; font-size:12px; margin-top:4px;
   }
-  .catalog-bond-table .etf-fee-cell { white-space:normal; vertical-align:middle; }
+  .catalog-bond-table .etf-fee-cell { white-space:normal; }
   .etf-fee-main {
     display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;
   }

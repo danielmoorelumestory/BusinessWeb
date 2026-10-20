@@ -14,6 +14,9 @@ export type BondFundMetric = {
   bondFeature?: string;
   inceptionDate?: string;
   returnSinceInceptionPct?: number | null;
+  return1yPct?: number | null;
+  return1yPeriodLabel?: string;
+  return1yStart?: string;
   return3yPct: number | null;
   returnPct?: number;
   returnStart?: string;
@@ -83,28 +86,35 @@ function pct(value: number | null | undefined): string {
   return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
 }
 
+function metricCell(valueHtml: string): string {
+  return `<td class="bond-fund-metric">${valueHtml}</td>`;
+}
+
 function bondRowHtml(item: CatalogItem, notesBase: string, escapeHtml: Escape, attr: Escape): string {
   const data = metrics[item.code];
   const return3yVal = data?.returnPct ?? data?.return3yPct;
   const inceptionVal = data?.returnSinceInceptionPct ?? data?.returnPct;
   const typeClass = data?.bondType === '普通纯债' || data?.bondType === '纯债' ? 'pure' : 'enhanced';
+  const oneYear = data?.return1yPct != null
+    ? `${escapeHtml(pct(data.return1yPct))}${data.return1yPeriodLabel ? `<small title="${attr(`${data.return1yStart ?? ''}至${data.asOf}`)}">${escapeHtml(data.return1yPeriodLabel)}</small>` : ''}`
+    : `<span class="etf-empty-cell">—</span>${data?.return1yPeriodLabel ? `<small>${escapeHtml(data.return1yPeriodLabel)}</small>` : ''}`;
   return `<tr>
     <td class="etf-identity-cell">
       <div class="etf-name-line">${escapeHtml(item.name)}</div>
       <div class="etf-code-line">${escapeHtml(item.code)}</div>
       ${data?.bondType ? `<div class="bond-type-tags"><span class="bond-type-badge bond-type-badge--${typeClass}">${escapeHtml(data.bondType)}</span>${data.bondFeature ? `<span class="bond-feature-badge">${escapeHtml(data.bondFeature)}</span>` : ''}</div>` : ''}
     </td>
-    <td class="bond-fund-metric">${return3yVal != null ? `${escapeHtml(pct(return3yVal))}${data?.returnPeriodLabel ? `<small title="${attr(`${data.returnStart ?? ''}至${data.asOf}`)}">${escapeHtml(data.returnPeriodLabel)}</small>` : ''}` : '<span class="etf-empty-cell">—</span>'}</td>
-    <td class="bond-fund-metric">${
+    ${metricCell(oneYear)}
+    ${metricCell(return3yVal != null ? `${escapeHtml(pct(return3yVal))}${data?.returnPeriodLabel ? `<small title="${attr(`${data.returnStart ?? ''}至${data.asOf}`)}">${escapeHtml(data.returnPeriodLabel)}</small>` : ''}` : '<span class="etf-empty-cell">—</span>')}
+    ${metricCell(
       data?.return5yPct != null
         ? `${escapeHtml(pct(data.return5yPct))}${data.return5yPeriodLabel ? `<small>${escapeHtml(data.return5yPeriodLabel)}</small>` : ''}`
         : inceptionVal != null && data?.inceptionDate
           ? `${escapeHtml(pct(inceptionVal))}<small title="${attr(`${data.inceptionDate}成立`)}">${escapeHtml(data.inceptionDate)}</small>`
-          : `<span class="etf-empty-cell">—</span>${data?.return5yPeriodLabel ? `<small>${escapeHtml(data.return5yPeriodLabel)}</small>` : ''}`
-    }</td>
-    <td class="bond-fund-metric">${data?.maxDrawdownPct != null ? escapeHtml(`${data.maxDrawdownPct.toFixed(2)}%`) : '—'}${data ? `<small title="${attr(`${data.drawdownStart ?? ''}至${data.drawdownEnd ?? data.asOf}`)}">${escapeHtml(data.drawdownPeriodLabel ?? '')}</small>` : ''}</td>
+          : `<span class="etf-empty-cell">—</span>${data?.return5yPeriodLabel ? `<small>${escapeHtml(data.return5yPeriodLabel)}</small>` : ''}`,
+    )}
+    ${metricCell(`${data?.maxDrawdownPct != null ? escapeHtml(`${data.maxDrawdownPct.toFixed(2)}%`) : '—'}${data?.drawdownPeriodLabel ? `<small title="${attr(`${data.drawdownStart ?? ''}至${data.drawdownEnd ?? data.asOf}`)}">${escapeHtml(data.drawdownPeriodLabel)}</small>` : ''}`)}
     <td class="etf-fee-cell">${data ? `<div class="etf-fee-main"><span class="etf-fee-total">${escapeHtml(data.annualFeePct.toFixed(2))}%<small>/年</small></span><span class="etf-fee-breakdown">管${escapeHtml(data.managementFeePct.toFixed(2))}+托${escapeHtml(data.custodyFeePct.toFixed(2))}</span></div>${data.redemptionTiers || data.redemptionRule ? `<div class="etf-fee-tiers" title="${attr(`赎回费率阶梯：${data.redemptionTiers ?? data.redemptionRule}`)}"><span class="etf-fee-tiers-label">赎回费：</span>${escapeHtml(data.redemptionTiers ?? data.redemptionRule)}</div>` : ''}` : '<span class="etf-empty-cell">—</span>'}</td>
-    ${remarkCell(item.code, attr)}
     ${referenceCell(item.code, item.sourceUrl, notesBase, false, undefined, item.name, escapeHtml, attr)}
   </tr>`;
 }
@@ -191,12 +201,12 @@ function bondSectionHtml(notesBase: string, escapeHtml: Escape, attr: Escape): s
         <div class="catalog-reference-table-wrap">
           <table class="catalog-reference-table catalog-bond-table">
             <colgroup>
-              <col style="width:240px" />
-              <col style="width:135px" /><col style="width:135px" />
-              <col style="width:155px" />
-              <col style="width:300px" /><col /><col style="width:100px" />
+              <col style="width:220px" />
+              <col style="width:120px" /><col style="width:120px" /><col style="width:120px" />
+              <col style="width:140px" />
+              <col style="width:280px" /><col style="width:100px" />
             </colgroup>
-            <thead><tr><th>名称 / 代码</th><th>三年收益</th><th>五年收益</th><th title="分类内按历史回撤绝对值从小到大排序">历史最大回撤</th><th title="运作管理与托管费及持有期赎回费阶梯">费用</th><th>备注</th><th class="etf-reference-heading">参考</th></tr></thead>
+            <thead><tr><th>名称 / 代码</th><th>近一年收益</th><th>三年收益</th><th>五年收益</th><th title="分类内按历史回撤绝对值从小到大排序">历史最大回撤</th><th title="运作管理与托管费及持有期赎回费阶梯">费用</th><th>参考</th></tr></thead>
             <tbody>${items.map(item => bondRowHtml(item, notesBase, escapeHtml, attr)).join('')}</tbody>
           </table>
         </div>
