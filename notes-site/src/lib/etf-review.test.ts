@@ -4,10 +4,10 @@ import {
   noteKey, truncateNote, mergeMeta, poolCodes, filterByGroups,
   defaultMeta, isEtfReviewMeta, readMeta, writeMeta, addWatch, removeWatch,
   upsertDailyNote, setMemberships, clearReviewWorkspace, ETF_REVIEW_META_ID, SEED_TS, splitCloudItems, pushMeta,
-  orderedGroupCodes, moveGroupCode, captureDailyPremiums,
+  orderedGroupCodes, moveGroupCode, captureDailyPremiums, visibleNoteDates, premiumHistoryFrom,
 } from './etf-review';
 import {
-  RECORDS_KEY, SYNC_KEY_STORAGE, readGridRecords, syncAll,
+  RECORDS_KEY, SYNC_KEY_STORAGE, fetchCloudPremiums, readGridRecords, syncAll,
 } from './grid-trading';
 
 describe('etf-review domain', () => {
@@ -16,6 +16,14 @@ describe('etf-review domain', () => {
 
   it('noteKey joins code and date', () => {
     expect(noteKey('510300', '2026-10-18')).toBe('510300|2026-10-18');
+  });
+
+  it('云端溢价起点只考虑可见笔记日期与 30 天截止日', () => {
+    expect(visibleNoteDates('2026-10-19')).toEqual([
+      '2026-10-19', '2026-10-18', '2026-10-17', '2026-10-16', '2026-10-15',
+    ]);
+    expect(premiumHistoryFrom('2026-10-19', visibleNoteDates('2026-10-19'))).toBe('2026-09-19');
+    expect(premiumHistoryFrom('2026-10-19', ['2026-08-01', '2026-10-19'])).toBe('2026-08-01');
   });
 
   it('每日溢价按日期累积，当天更新，不冒用旧行情或回填历史笔记', () => {
@@ -37,6 +45,40 @@ describe('etf-review domain', () => {
     expect(second.dailyPremiums?.['513180|2026-10-20']?.rate).toBe(.25);
     expect(mergeMeta(first, second).dailyPremiums).toEqual(second.dailyPremiums);
     expect(captureDailyPremiums([{ code: '600989', date: '2026-10-20' }, { ...quote, date: '2026-10-20', premiumRate: NaN }], '2026-10-20')).toBe(false);
+  });
+
+  it('fetchCloudPremiums maps cloud rows by noteKey', async () => {
+    localStorage.setItem(SYNC_KEY_STORAGE, '1234567890123456');
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({
+      premiums: [
+        { code: '513180', date: '2026-10-17', premiumRate: -0.2, referenceNav: 0.5, price: 0.499 },
+      ],
+    }), { status: 200 }));
+
+    const map = await fetchCloudPremiums(['513180'], '2026-10-01');
+
+    expect(map.get('513180|2026-10-17')?.rate).toBe(-0.2);
+    expect(fetchMock).toHaveBeenCalledWith(
+      expect.stringContaining('/premium?codes=513180&from=2026-10-01'),
+      expect.objectContaining({ headers: { authorization: 'Bearer 1234567890123456' } }),
+    );
+  });
+
+  it('fetchCloudPremiums requests every code in chunks of 50', async () => {
+    localStorage.setItem(SYNC_KEY_STORAGE, '1234567890123456');
+    const codes = Array.from({ length: 51 }, (_, index) => String(510000 + index));
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockImplementation(async input => {
+      const requested = new URL(String(input)).searchParams.get('codes')!.split(',');
+      return new Response(JSON.stringify({
+        premiums: requested.map(code => ({ code, date: '2026-10-17', premiumRate: 0.1 })),
+      }), { status: 200 });
+    });
+
+    const map = await fetchCloudPremiums(codes, '2026-10-01');
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(map).toHaveLength(51);
+    expect(map.get('510050|2026-10-17')?.rate).toBe(0.1);
   });
 
   it('truncateNote cuts risk and remark', () => {

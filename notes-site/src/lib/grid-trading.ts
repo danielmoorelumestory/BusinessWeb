@@ -8,7 +8,7 @@ import {
   mergeMeta,
   splitCloudItems,
 } from './etf-review-meta';
-import { readMeta, writeMeta } from './etf-review';
+import { noteKey, readMeta, writeMeta } from './etf-review';
 
 export type Candle = { date: string; open: number; close: number; high: number; low: number };
 export type Trade = {
@@ -850,6 +850,44 @@ export async function fetchNoteAnalysis(codes: string[]): Promise<Map<string, No
       }
     }
   } catch { /* 云端不可用时显示“—” */ }
+  return result;
+}
+
+export type CloudPremium = { rate: number; referenceNav?: number; quoteDate: string };
+
+/**
+ * 读取云端历史 ETF 折溢价，按与每日笔记一致的 code|date 键返回。
+ * 没有同步密钥、请求失败或返回无效数据时返回空 Map，不阻断复盘页其余内容。
+ */
+export async function fetchCloudPremiums(codes: string[], from: string, to?: string): Promise<Map<string, CloudPremium>> {
+  const result = new Map<string, CloudPremium>();
+  const token = readSyncKey();
+  const unique = [...new Set(codes.map(code => code.trim()).filter(code => /^\d{6}$/.test(code)))];
+  if (token.length < 16 || !unique.length) return result;
+  for (let index = 0; index < unique.length; index += 50) {
+    const batch = unique.slice(index, index + 50);
+    try {
+      const range = `codes=${batch.join(',')}&from=${encodeURIComponent(from)}${to ? `&to=${encodeURIComponent(to)}` : ''}`;
+      const response = await fetch(`${SYNC_ENDPOINT}/premium?${range}`, {
+        headers: { authorization: `Bearer ${token}` },
+        signal: AbortSignal.timeout(15000),
+      });
+      if (!response.ok) continue;
+      const payload = await response.json() as {
+        premiums?: { code?: unknown; date?: unknown; premiumRate?: unknown; referenceNav?: unknown }[];
+      };
+      for (const row of payload.premiums ?? []) {
+        const code = String(row.code ?? ''), date = String(row.date ?? ''), rate = Number(row.premiumRate);
+        if (!batch.includes(code) || !DATE_RE.test(date) || !Number.isFinite(rate)) continue;
+        const referenceNav = Number(row.referenceNav);
+        result.set(noteKey(code, date), {
+          rate,
+          ...(Number.isFinite(referenceNav) && referenceNav > 0 ? { referenceNav } : {}),
+          quoteDate: date,
+        });
+      }
+    } catch { /* 单批云端不可用时保留其他批次结果 */ }
+  }
   return result;
 }
 

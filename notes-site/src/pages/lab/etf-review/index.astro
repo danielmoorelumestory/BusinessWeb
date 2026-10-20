@@ -102,12 +102,15 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     removeWatch,
     setMemberships,
     upsertDailyNote,
+    visibleNoteDates,
+    premiumHistoryFrom,
     writeMeta,
     type DailyNote,
     type ReviewGroup,
   } from '../../../lib/etf-review';
   import {
     blockCopy,
+    fetchCloudPremiums,
     fetchQuotes,
     getCandles,
     mergeQuote,
@@ -120,6 +123,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     removeRecords,
     syncAll,
     SYNC_KEY_STORAGE,
+    type CloudPremium,
     type Quote,
     type SavedRecord,
   } from '../../../lib/grid-trading';
@@ -137,6 +141,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const syncStatus = document.querySelector('#sync-status') as HTMLElement;
   const selectedGroupIds = new Set<string>();
   let quotes = new Map<string, Quote>();
+  const cloudPremiums = new Map<string, CloudPremium>();
+  const cloudPremiumRanges = new Map<string, { from: string; to: string }>();
+  let cloudPremiumLoad: Promise<void> | null = null;
+  let cloudPremiumToken = '';
   const analysisRequests = new Set<string>();
 
   async function updateAnalysis(codes: string[]) {
@@ -174,6 +182,39 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const openDialog = (dialog: HTMLDialogElement) => dialog.showModal();
   const closeDialog = (dialog: HTMLDialogElement) => dialog.close();
   const groupsOf = () => [...readMeta().groups].sort((a, b) => a.order - b.order);
+  const premiumLookup = (code: string, date: string) =>
+    readMeta().dailyPremiums?.[noteKey(code, date)] ?? cloudPremiums.get(noteKey(code, date));
+
+  async function loadCloudPremiums(noteDates = visibleNoteDates(marketToday())) {
+    const token = (localStorage.getItem(SYNC_KEY_STORAGE) ?? '').trim();
+    if (token !== cloudPremiumToken) {
+      cloudPremiumToken = token;
+      cloudPremiums.clear();
+      cloudPremiumRanges.clear();
+    }
+    if (token.length < 16) return;
+    if (cloudPremiumLoad) return cloudPremiumLoad;
+    const meta = readMeta();
+    const codes = poolCodes(readGridRecords().map(item => item.row.code.trim()), meta.watchlist);
+    if (!codes.length) return;
+    const today = marketToday();
+    const from = premiumHistoryFrom(today, noteDates);
+    const pending = codes.filter(code => {
+      const range = cloudPremiumRanges.get(code);
+      return !range || range.from > from || range.to < today;
+    });
+    if (!pending.length) return;
+    cloudPremiumLoad = fetchCloudPremiums(pending, from, today).then(rows => {
+      if ((localStorage.getItem(SYNC_KEY_STORAGE) ?? '').trim() !== token) return;
+      rows.forEach((premium, key) => cloudPremiums.set(key, premium));
+      pending.forEach(code => cloudPremiumRanges.set(code, { from, to: today }));
+    }).finally(() => {
+      cloudPremiumLoad = null;
+      render();
+      if (noteDialog.open) renderNotePremium();
+    });
+    return cloudPremiumLoad;
+  }
 
   function renderFilters() {
     const groups = groupsOf();
@@ -231,7 +272,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       <td class="computed ${record ? (record.result.pnl >= 0 ? 'up' : 'down') : 'muted'}">${record ? escapeHtml(formatMoney(record.result.pnl)) : '—'}</td>
       ${noteDates.map(date => {
         const note = meta.notes[noteKey(code, date)];
-        const premium = meta.dailyPremiums?.[noteKey(code, date)];
+        const premium = premiumLookup(code, date);
         const premiumText = premium ? `${premium.rate > 0 ? '+' : ''}${premium.rate.toFixed(2)}%` : '—';
         const premiumTone = !premium || premium.rate === 0 ? 'muted' : premium.rate > 0 ? 'up' : 'down';
         const premiumTitle = premium ? `${premium.quoteDate} 腾讯行情折溢价${premium.referenceNav ? `；参考净值 ${premium.referenceNav}` : ''}` : '暂无该日溢价记录';
@@ -305,11 +346,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     }
 
     const today = marketToday();
-    const noteDates = Array.from({ length: 5 }, (_, index) => {
-      const date = new Date(`${today}T00:00:00Z`);
-      date.setUTCDate(date.getUTCDate() - index);
-      return date.toISOString().slice(0, 10);
-    });
+    const noteDates = visibleNoteDates(today);
     const row = (code: string, position: number, total: number) => rowHtml(code, meta, watchByCode, noteDates, position, total);
     const visibleGroups = selectedGroupIds.size ? groups.filter(group => selectedGroupIds.has(group.id)) : groups;
     const sections = visibleGroups.map(group => {
@@ -324,6 +361,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     // 筛选后若某组为空则整块省略；若所有块都空（理论上不会，codes 非空）给兜底
     const body = sections.filter(Boolean).join('') || sectionHtml('筛选结果', codes, row, noteDates);
     container.innerHTML = `<div class="group-sections">${body}</div>`;
+    void loadCloudPremiums(noteDates);
   }
 
   async function updateQuotes() {
@@ -353,7 +391,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const storedSyncKey = localStorage.getItem(SYNC_KEY_STORAGE);
   syncInput.value = storedSyncKey || `${crypto.randomUUID()}${crypto.randomUUID().replaceAll('-', '')}`;
   if (!storedSyncKey) localStorage.setItem(SYNC_KEY_STORAGE, syncInput.value);
-  syncInput.addEventListener('input', () => localStorage.setItem(SYNC_KEY_STORAGE, syncInput.value.trim()));
+  syncInput.addEventListener('input', () => {
+    localStorage.setItem(SYNC_KEY_STORAGE, syncInput.value.trim());
+    void loadCloudPremiums();
+  });
   document.querySelector('#copy-sync-key')!.addEventListener('click', async () => {
     await navigator.clipboard.writeText(syncInput.value.trim());
     syncStatus.textContent = '同步密钥已复制。';
@@ -436,7 +477,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     remark: document.querySelector('#note-remark') as HTMLTextAreaElement,
   };
   function renderNotePremium() {
-    const premium = readMeta().dailyPremiums?.[noteKey(noteCode.value, noteDate.value)];
+    const premium = premiumLookup(noteCode.value, noteDate.value);
     const output = document.querySelector('#note-premium') as HTMLOutputElement;
     output.value = premium ? `${premium.rate > 0 ? '+' : ''}${premium.rate.toFixed(2)}%` : '—';
     output.dataset.tone = !premium || premium.rate === 0 ? 'neutral' : premium.rate > 0 ? 'up' : 'down';

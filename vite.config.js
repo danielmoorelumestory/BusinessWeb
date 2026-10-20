@@ -55,7 +55,7 @@ export default defineConfig(({ command, mode }) => {
   test: {
     environment: 'jsdom',
     environmentOptions: { jsdom: { url: 'http://localhost' } },
-    include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'api/**/*.test.ts', 'server/**/*.test.ts', 'notes-site/src/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'api/**/*.test.ts', 'server/**/*.test.ts', 'notes-site/src/**/*.test.ts', 'notes-site/workers/**/*.test.ts'],
     passWithNoTests: true,
     globals: true,
     setupFiles: ['src/testSetup.ts'],
