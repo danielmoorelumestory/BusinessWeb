@@ -682,8 +682,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .compact-hero { margin-bottom: 1.25rem; }
   .page-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
   .page-actions > div { display:flex; gap:8px; }
-  .link-button, .review-toolbar button, dialog button, .empty button { border:1px solid #cbd5e1; border-radius:7px; padding:7px 12px; background:#fff; color:#475569; font-size:13px; text-decoration:none; cursor:pointer; }
-  .link-button:hover, .review-toolbar button:hover, dialog button:hover { border-color:#94a3b8; color:#0f172a; }
+  .link-button, .review-toolbar button:not(.nav-pill), dialog button, .empty button { border:1px solid #cbd5e1; border-radius:7px; padding:7px 12px; background:#fff; color:#475569; font-size:13px; text-decoration:none; cursor:pointer; }
+  .link-button:hover, .review-toolbar button:not(.nav-pill):hover, dialog button:hover { border-color:#94a3b8; color:#0f172a; }
   #market-status { margin-left:auto; color:#94a3b8; font-size:12px; }
   .sync-panel { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 14px; padding:12px 14px; border:1px solid #bae6fd; border-radius:10px; background:#f0f9ff; color:#475569; font-size:12px; }
   .sync-panel > div { margin-right:auto; }.sync-panel strong { color:#0369a1; font-size:13px; }.sync-panel p { margin:2px 0 0; }
@@ -692,15 +692,15 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .review-toolbar { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px; }
   .industry-like-nav { display:flex; flex-direction:column; gap:10px; flex:1; min-width:0; }
   .nav-row { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
-  /* 对齐 /industry-etf 一级分类 pill（accent 边框 + soft 底），不显示数量 */
-  .nav-pill {
+  /* 对齐 /industry-etf 一级分类 pill；用更高特异度压过 toolbar button 默认样式 */
+  .review-toolbar .nav-pill {
     display:inline-flex; align-items:center;
     padding:6px 14px; border-radius:999px; border:1px solid #0369a1;
     background:#e0f2fe; color:#0369a1; font-size:13.5px; font-weight:600; cursor:pointer;
     transition: border-color .15s ease, color .15s ease, background .15s ease, box-shadow .15s ease;
   }
-  .nav-pill:hover { background:#bae6fd; }
-  .nav-pill.active { background:#0369a1; color:#fff; box-shadow:0 0 0 1px #0369a1; }
+  .review-toolbar .nav-pill:hover { background:#bae6fd; border-color:#0369a1; color:#0369a1; }
+  .review-toolbar .nav-pill.active { background:#0369a1; color:#fff; border-color:#0369a1; box-shadow:0 0 0 1px #0369a1; }
   .toolbar-actions { display:flex; flex:none; gap:7px; }.primary { border-color:#0369a1 !important; background:#0369a1 !important; color:#fff !important; }
   .empty { padding:48px 24px; border:1px dashed #cbd5e1; border-radius:14px; background:#fff; text-align:center; }.empty > div { font-size:38px; }.empty h3 { margin:8px 0 4px; font-size:16px; color:#1e293b; }.empty p { margin:0 0 18px; color:#64748b; font-size:13px; }
   /* 弹窗基础：现代三段式、毛玻璃遮罩与平滑缩放入场 */
