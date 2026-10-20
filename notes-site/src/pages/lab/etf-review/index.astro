@@ -123,6 +123,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     type SavedRecord,
   } from '../../../lib/grid-trading';
   import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord } from '../../../lib/review-analysis';
+  import { fundProfileUrl, isCatalogGroupId } from '../../../lib/etf-catalog-seed';
+  import { latestInvestmentNote } from '../../../../../src/utils/etfJudgment';
 
   import { loadReviewTechnical, readTechnicalCache } from '../../../lib/review-technical-client';
 
@@ -235,6 +237,11 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       <td class="action-cell">
         <div class="row-actions">
           <button data-action="groups" type="button">编辑分组</button>
+          ${(() => {
+            const analysis = latestInvestmentNote(code);
+            return analysis ? `<a href="${attr(notesBase + encodeURIComponent(analysis.slug) + '/')}" target="_blank" rel="noopener">分析报告</a>` : '';
+          })()}
+          <a href="${attr(fundProfileUrl(code))}" target="_blank" rel="noopener">基金档案</a>
           <a href="${record ? `${detailUrl}?id=${encodeURIComponent(record.id)}` : `${detailUrl}?code=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}`}">网格详情</a>
           <button class="danger" data-action="remove" type="button">移出标的</button>
         </div>
@@ -572,7 +579,12 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const groupsEditor = document.querySelector('#groups-editor') as HTMLElement;
   let editingGroups: ReviewGroup[] = [];
   const renderGroupsEditor = () => {
-    groupsEditor.innerHTML = editingGroups.map((group, index) => `<div class="group-edit-row" data-id="${attr(group.id)}"><input value="${attr(group.name)}" maxlength="20" aria-label="分组名称"><button data-move="-1" type="button" ${index === 0 ? 'disabled' : ''}>↑</button><button data-move="1" type="button" ${index === editingGroups.length - 1 ? 'disabled' : ''}>↓</button><button class="danger" data-delete type="button">删除</button></div>`).join('');
+    groupsEditor.innerHTML = editingGroups.map((group, index) => {
+      const catalog = isCatalogGroupId(group.id);
+      const badge = catalog ? '<span class="catalog-badge">清单</span>' : '';
+      const del = catalog ? '' : '<button class="danger" data-delete type="button">删除</button>';
+      return `<div class="group-edit-row" data-id="${attr(group.id)}">${badge}<input value="${attr(group.name)}" maxlength="20" aria-label="分组名称"><button data-move="-1" type="button" ${index === 0 ? 'disabled' : ''}>↑</button><button data-move="1" type="button" ${index === editingGroups.length - 1 ? 'disabled' : ''}>↓</button>${del}</div>`;
+    }).join('');
   };
   document.querySelector('#manage-groups')!.addEventListener('click', () => {
     editingGroups = groupsOf().map(group => ({ ...group }));
@@ -594,6 +606,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     if (!row) return;
     const index = editingGroups.findIndex(group => group.id === row.dataset.id);
     if (target.closest('[data-delete]')) {
+      if (isCatalogGroupId(editingGroups[index].id)) return;
       editingGroups.splice(index, 1);
       renderGroupsEditor();
       return;
@@ -614,11 +627,20 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     if (new Set(names).size !== names.length) { status.textContent = '分组名称不能重复。'; return; }
     try {
       const meta = readMeta();
+      const catalogGroups = meta.groups.filter(group => isCatalogGroupId(group.id));
+      const editedIds = new Set(editingGroups.map(group => group.id));
+      for (const group of catalogGroups) {
+        if (!editedIds.has(group.id)) editingGroups.push({ ...group });
+      }
       const kept = new Set(editingGroups.map(group => group.id));
       const memberships = Object.fromEntries(Object.entries(meta.memberships).map(([code, ids]) => [code, ids.filter(id => kept.has(id))]));
       const now = new Date().toISOString();
       const deletedGroups = { ...meta.deletedGroups };
-      for (const group of meta.groups) if (!kept.has(group.id)) deletedGroups[group.id] = now;
+      for (const group of meta.groups) {
+        if (kept.has(group.id) || isCatalogGroupId(group.id)) continue;
+        deletedGroups[group.id] = now;
+      }
+      for (const group of catalogGroups) delete deletedGroups[group.id];
       writeMeta({ ...meta, groups: editingGroups.map((group, order) => ({ ...group, name: group.name.trim(), order, updatedAt: now })), memberships, deletedGroups, workspaceUpdatedAt: now, updatedAt: now });
       render();
       await saveLocalChanges('分组设置');
@@ -872,6 +894,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .review-table .position-actions button:hover:not(:disabled) { border-color:#0369a1; color:#0369a1; }
   .review-table .position-actions button:disabled { opacity:.3; cursor:default; }
   /* 管理分组弹窗动态 DOM 样式（解决 innerHTML 动态节点无法被 Astro 局部样式命中的问题） */
+  .catalog-badge { flex:none; font-size:11px; color:#0369a1; margin-right:6px; }
   .groups-editor {
     display: flex;
     flex-direction: column;

@@ -324,7 +324,7 @@ git commit -m "feat(etf-review): readMeta 自动灌入清单分组"
 - Modify: `notes-site/src/pages/lab/etf-review/index.astro`
 
 **Interfaces:**
-- Consumes: `latestInvestmentNote`（经现有路径或直接 `../../../../src/utils/etfJudgment`）、`fundProfileUrl`、`isCatalogGroupId`
+- Consumes: `latestInvestmentNote`（`../../../../../src/utils/etfJudgment`）、`fundProfileUrl`、`isCatalogGroupId`
 
 - [ ] **Step 1: `rowHtml` 操作栏插入两链**
 
