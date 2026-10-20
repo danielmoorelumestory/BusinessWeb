@@ -129,6 +129,34 @@ export function catalogItemOf(code: string): CatalogItem | undefined {
   return undefined;
 }
 
+let cachedBroadByCode: Map<string, CatalogItem> | null = null;
+
+/** 宽基「标的与定位」：指标性 ETF 等个人组用，不进清单分组 */
+export function broadPositioningOf(code: string): CatalogItem | undefined {
+  if (!cachedBroadByCode) {
+    cachedBroadByCode = new Map();
+    for (const item of broadRaw as { code: string; name: string; family?: string; category?: string; coverage?: string; sourceUrl?: string }[]) {
+      cachedBroadByCode.set(item.code.trim(), {
+        code: item.code,
+        name: item.name,
+        family: item.family,
+        category: item.category,
+        coverage: item.coverage,
+        sourceUrl: item.sourceUrl,
+      });
+    }
+  }
+  return cachedBroadByCode.get(code.trim());
+}
+
+/** 行业分布优先；否则宽基/策略的标的与定位 */
+export function positioningOf(code: string): CatalogItem | undefined {
+  const catalog = catalogItemOf(code);
+  if (catalog?.subTheme?.trim()) return catalog;
+  if (catalog?.family || catalog?.category || catalog?.coverage) return catalog;
+  return broadPositioningOf(code);
+}
+
 /** 与 industry-etf SubThemeCell 相同的拆分规则 */
 export function splitSubTheme(subTheme: string): string[] {
   if (subTheme.includes('%')) {
@@ -139,15 +167,21 @@ export function splitSubTheme(subTheme: string): string[] {
 }
 
 export function subThemeCellHtml(code: string, escapeHtml: (value: unknown) => string): string {
-  const item = catalogItemOf(code);
+  const item = positioningOf(code);
   const subTheme = item?.subTheme?.trim();
-  if (!subTheme) return '<td class="etf-subtheme-cell"><span class="muted">—</span></td>';
-  const parts = splitSubTheme(subTheme);
-  const note = item?.subThemeNote?.trim();
-  if (parts.length <= 1) {
-    return `<td class="etf-subtheme-cell"><span class="subtheme-tag">${escapeHtml(subTheme)}</span>${note ? `<small>${escapeHtml(note)}</small>` : ''}</td>`;
+  if (subTheme) {
+    const parts = splitSubTheme(subTheme);
+    const note = item?.subThemeNote?.trim();
+    if (parts.length <= 1) {
+      return `<td class="etf-subtheme-cell"><span class="subtheme-tag">${escapeHtml(subTheme)}</span>${note ? `<small>${escapeHtml(note)}</small>` : ''}</td>`;
+    }
+    return `<td class="etf-subtheme-cell"><div class="subtheme-list">${parts.map(part => `<span class="subtheme-tag subtheme-tag--block">${escapeHtml(part)}</span>`).join('')}</div>${note ? `<small>${escapeHtml(note)}</small>` : ''}</td>`;
   }
-  return `<td class="etf-subtheme-cell"><div class="subtheme-list">${parts.map(part => `<span class="subtheme-tag subtheme-tag--block">${escapeHtml(part)}</span>`).join('')}</div>${note ? `<small>${escapeHtml(note)}</small>` : ''}</td>`;
+  // 指标性/宽基等：按 industry-etf「标的与定位」版式
+  if (item?.family || item?.category || item?.coverage) {
+    return `<td class="etf-subtheme-cell catalog-position-cell"><strong>${escapeHtml(item.family ?? '')}</strong><div>${escapeHtml(item.category ?? '')}</div><p>${escapeHtml(item.coverage ?? '')}</p></td>`;
+  }
+  return '<td class="etf-subtheme-cell"><span class="muted">—</span></td>';
 }
 
 let cachedSourceUrls: Map<string, string> | null = null;

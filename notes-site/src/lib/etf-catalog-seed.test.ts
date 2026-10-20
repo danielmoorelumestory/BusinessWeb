@@ -5,12 +5,15 @@ import {
   BROAD_CATALOG_GROUP_ID,
   MONEY_CATALOG_GROUP_ID,
   OTHER_CATALOG_GROUP_ID,
+  broadPositioningOf,
   buildCatalogGroups,
   ensureCatalogSeed,
   fundProfileUrl,
   isCatalogGroupId,
+  positioningOf,
   referenceOnlyCodes,
   referenceOnlyGroups,
+  subThemeCellHtml,
 } from './etf-catalog-seed';
 import industry from '../../../src/data/industryEtf.json';
 import strategy from '../../../src/data/strategyAssetEtf.json';
@@ -128,6 +131,18 @@ describe('etf-catalog-seed', () => {
     expect(meta.groups.some(group => group.id === MONEY_CATALOG_GROUP_ID)).toBe(false);
     expect(meta.watchlist.some(watch => watch.code === '511880')).toBe(false);
     expect(meta.memberships['510300'] ?? []).not.toContain(BROAD_CATALOG_GROUP_ID);
+  });
+
+  it('指标性/宽基行业分布列用标的与定位；行业组仍用 subTheme', () => {
+    const broad = broadPositioningOf('510300')!;
+    expect(broad.family).toBeTruthy();
+    expect(broad.coverage).toBeTruthy();
+    expect(positioningOf('510300')?.family).toBe(broad.family);
+    expect(positioningOf('588200')?.subTheme).toContain('芯片');
+    const escape = (value: unknown) => String(value ?? '');
+    expect(subThemeCellHtml('510300', escape)).toContain(broad.family!);
+    expect(subThemeCellHtml('510300', escape)).toContain('catalog-position-cell');
+    expect(subThemeCellHtml('588200', escape)).toContain('subtheme-tag');
   });
 
   it('fundProfileUrl prefers sourceUrl then eastmoney', () => {
