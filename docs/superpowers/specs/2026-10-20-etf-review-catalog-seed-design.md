@@ -54,7 +54,7 @@
 5. 用户曾编辑过某 code 的 membership（存在 `membershipUpdatedAt[code]`）→ seed **不再**强行补回该 code 的系统组 membership（尊重手动从系统组去掉的行为）
 6. 用户「移出标的」→ 走既有 `removeWatch` + `deletedWatchlist`；seed 不得复活
 
-**时间戳：** 仅在真正补了组 / watchlist / membership 时 `touch` workspace；纯 noop 不抬 `updatedAt`，避免空库多端互相刷。
+**时间戳：** 清单 seed **永不**抬 `updatedAt` / `workspaceUpdatedAt`（纯写组与 membership）；用户编辑仍走既有 `touch`。这样空库保持 `SEED_TS`，云端 LWW 仍能覆盖；纯 noop 不写盘。
 
 云端仍是同一份 `meta:etf-review-v1`；`mergeMeta` 语义不变。
 

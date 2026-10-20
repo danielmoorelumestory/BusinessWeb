@@ -16,7 +16,7 @@
 - 债基 `bond-funds` 永不 seed。
 - 已有 `membershipUpdatedAt[code]` → 不补该 code 的系统组 membership。
 - `deletedWatchlist` 有效 tombstone → 不复活该 code。
-- 仅真正变更时 touch `updatedAt` / `workspaceUpdatedAt`。
+- 清单 seed 不抬 `updatedAt` / `workspaceUpdatedAt`（保住 `SEED_TS` 与云端 LWW）；用户编辑仍 `touch`。
 - `/industry-etf`、sitemap、D1 schema 零改动。
 
 ## File Structure
@@ -300,11 +300,8 @@ export function readMeta(): EtfReviewMeta {
     writeMeta(base);
   }
   const { meta, changed } = ensureCatalogSeed(base);
-  if (!changed) return meta;
-  const now = new Date().toISOString();
-  const next = { ...meta, updatedAt: now, workspaceUpdatedAt: now };
-  writeMeta(next);
-  return next;
+  if (changed) writeMeta(meta); // 不抬 updatedAt
+  return meta;
 }
 ```
 

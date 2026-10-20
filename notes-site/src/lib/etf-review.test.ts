@@ -80,7 +80,7 @@ describe('etf-review domain', () => {
       addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
       const before = readMeta();
       vi.setSystemTime(new Date('2026-10-20T10:00:00Z')); removeWatch('588800');
-      expect(mergeMeta(readMeta(), before).watchlist).toEqual([]);
+      expect(mergeMeta(readMeta(), before).watchlist.some(watch => watch.code === '588800')).toBe(false);
       vi.setSystemTime(new Date('2026-10-20T11:00:00Z')); addWatch('588800', '科创100'); setMemberships('588800', ['g-held']);
       expect(mergeMeta(readMeta(), before).memberships['588800']).toEqual(['g-held']);
       const cleared = clearReviewWorkspace();
@@ -139,7 +139,8 @@ describe('etf-review domain', () => {
     await pullAll('1234567890123456');
     expect(fetcher).toHaveBeenCalledTimes(1);
     expect(fetcher.mock.calls[0][1]?.method).toBe('GET');
-    expect(readMeta().watchlist.map(watch => watch.code).sort()).toEqual(['159687', '588800']);
+    const codes = readMeta().watchlist.map(watch => watch.code);
+    expect(codes).toEqual(expect.arrayContaining(['159687', '588800']));
     expect(readMeta().memberships['588800']).toEqual(['g-held']);
     expect(readGridRecords()).toEqual([record]);
   });
@@ -196,8 +197,26 @@ describe('etf-review domain', () => {
 
   it('readMeta seeds default groups when empty', () => {
     const meta = readMeta();
-    expect(meta.groups.map(g => g.name)).toEqual(['重点观察', '已持仓', '备选']);
+    expect(meta.groups.map(g => g.name).slice(0, 3)).toEqual(['重点观察', '已持仓', '备选']);
+    expect(meta.groups.some(g => g.id === 'g-catalog-broad')).toBe(true);
+    expect(meta.groups.some(g => g.id === 'g-catalog-ETF-01_TMT科技')).toBe(true);
+    expect(meta.groups.some(g => g.id === 'g-catalog-other')).toBe(true);
+    expect(meta.groups.some(g => g.id === 'g-catalog-industry')).toBe(false);
+    expect(meta.watchlist.some(w => w.code === '510300')).toBe(true);
+    expect(meta.memberships['510300']).toContain('g-catalog-broad');
     expect(meta.updatedAt).toBe(SEED_TS);
+  });
+
+  it('readMeta does not revive removeWatch codes', () => {
+    readMeta();
+    removeWatch('510300');
+    expect(readMeta().watchlist.some(w => w.code === '510300')).toBe(false);
+  });
+
+  it('readMeta skips catalog membership after setMemberships opt-out', () => {
+    readMeta();
+    setMemberships('588200', ['g-held']);
+    expect(readMeta().memberships['588200']).toEqual(['g-held']);
   });
 
   it('clearReviewWorkspace uses a fresh LWW timestamp', () => {
@@ -227,9 +246,10 @@ describe('etf-review domain', () => {
 
     const meta = readMeta();
 
-    expect(meta.groups.map(group => group.name)).toEqual(['重点观察', '已持仓', '备选']);
-    expect(meta.watchlist).toEqual(stored.watchlist);
-    expect(meta.memberships).toEqual(stored.memberships);
+    expect(meta.groups.map(group => group.name).slice(0, 3)).toEqual(['重点观察', '已持仓', '备选']);
+    expect(meta.groups.some(group => group.id === 'g-catalog-broad')).toBe(true);
+    expect(meta.watchlist.some(watch => watch.code === '510300')).toBe(true);
+    expect(meta.memberships['510300']).toEqual(expect.arrayContaining(['removed-group', 'g-catalog-broad']));
     expect(meta.notes).toEqual(stored.notes);
   });
 
@@ -238,7 +258,7 @@ describe('etf-review domain', () => {
     addWatch('510300', '沪深300');
     setMemberships('510300', [readMeta().groups[0].id]);
     removeWatch('510300');
-    expect(readMeta().watchlist).toEqual([]);
+    expect(readMeta().watchlist.some(watch => watch.code === '510300')).toBe(false);
     expect(readMeta().memberships['510300']).toBeUndefined();
   });
 
@@ -272,10 +292,14 @@ describe('etf-review domain', () => {
     const records = await syncAll('1234567890123456');
 
     expect(records).toEqual([record]);
-    expect(readMeta()).toEqual(remoteMeta);
+    const merged = readMeta();
+    expect(merged.updatedAt).toBe(remoteMeta.updatedAt);
+    expect(merged.groups.some(group => group.id === 'g-catalog-broad')).toBe(true);
     expect(JSON.parse(localStorage.getItem(RECORDS_KEY) ?? '[]')).toEqual([record]);
     const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
-    expect(put.records).toEqual([record, remoteMeta]);
+    expect(put.records[0]).toEqual(record);
+    expect(put.records.some((item: { kind?: string }) => item.kind === 'etf-review-meta')).toBe(true);
+    expect(put.records.every((item: { id?: string; row?: unknown }) => item.id !== remoteMeta.id || !('row' in item))).toBe(true);
   });
 
   it('syncAll lets cloud meta replace a newly seeded empty workspace', async () => {
@@ -299,7 +323,10 @@ describe('etf-review domain', () => {
 
     await syncAll('1234567890123456');
 
-    expect(readMeta()).toEqual(remoteMeta);
+    const merged = readMeta();
+    expect(merged.notes).toEqual(remoteMeta.notes);
+    expect(merged.updatedAt).toBe(remoteMeta.updatedAt);
+    expect(merged.groups.some(group => group.id === 'g-catalog-broad')).toBe(true);
     const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
     expect(put.records).toEqual([remoteMeta]);
   });
@@ -335,12 +362,13 @@ describe('etf-review domain', () => {
     localStorage.setItem(SYNC_KEY_STORAGE, '1234567890123456');
     const meta = defaultMeta('2026-10-18T00:00:00.000Z');
     writeMeta(meta);
+    const current = readMeta();
     const fetchMock = vi.spyOn(globalThis, 'fetch')
       .mockResolvedValueOnce(new Response(JSON.stringify({ records: [] }), { status: 200 }))
       .mockResolvedValueOnce(new Response(null, { status: 200 }));
 
     expect(await pushMeta('复盘调整')).toBe('');
     const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
-    expect(put.records).toEqual([meta]);
+    expect(put.records).toEqual([current]);
   });
 });

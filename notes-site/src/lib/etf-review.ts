@@ -1,4 +1,5 @@
 import { evictCaches, pushCloudPayload } from './grid-trading';
+import { ensureCatalogSeed } from './etf-catalog-seed';
 import {
   type DailyNote,
   type EtfReviewMeta,
@@ -99,13 +100,18 @@ export function restoreReviewBackup(value: unknown): EtfReviewMeta {
 
 export function readMeta(): EtfReviewMeta {
   const raw = readJson<unknown>(ETF_REVIEW_META_KEY, null);
-  if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) return raw;
-  const defaults = defaultMeta(new Date().toISOString());
-  const seeded = isEtfReviewMeta(raw)
-    ? { ...raw, groups: defaults.groups }
-    : defaults;
-  writeMeta(seeded);
-  return seeded;
+  let base: EtfReviewMeta;
+  if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) {
+    base = raw;
+  } else {
+    const defaults = defaultMeta(new Date().toISOString());
+    base = isEtfReviewMeta(raw) ? { ...raw, groups: defaults.groups } : defaults;
+    writeMeta(base);
+  }
+  const { meta, changed } = ensureCatalogSeed(base);
+  // 清单 seed 不抬 updatedAt，避免空库 SEED_TS 被刷成“已脏”而压过云端。
+  if (changed) writeMeta(meta);
+  return meta;
 }
 
 function touch(meta: EtfReviewMeta, workspace = true): EtfReviewMeta {
