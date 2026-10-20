@@ -200,7 +200,8 @@ describe('etf-review domain', () => {
     expect(meta.groups.map(g => g.name).slice(0, 3)).toEqual(['重点观察', '已持仓', '备选']);
     expect(meta.groups.some(g => g.id === 'g-catalog-broad')).toBe(false);
     expect(meta.groups.some(g => g.id === 'g-catalog-ETF-01_TMT科技')).toBe(true);
-    expect(meta.groups.some(g => g.id === 'g-catalog-other')).toBe(true);
+    expect(meta.groups.some(g => g.id === 'g-catalog-money-etf')).toBe(true);
+    expect(meta.groups.some(g => g.id === 'g-catalog-other')).toBe(false);
     expect(meta.groups.some(g => g.id === 'g-catalog-industry')).toBe(false);
     expect(meta.watchlist.some(w => w.code === '588200')).toBe(true);
     expect(meta.memberships['588200']).toContain('g-catalog-ETF-01_TMT科技');

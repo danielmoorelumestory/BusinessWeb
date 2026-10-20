@@ -2,32 +2,42 @@ import { describe, expect, it } from 'vitest';
 import { defaultMeta } from './etf-review-meta';
 import {
   BROAD_CATALOG_GROUP_ID,
+  OTHER_CATALOG_GROUP_ID,
   buildCatalogGroups,
   ensureCatalogSeed,
   fundProfileUrl,
   isCatalogGroupId,
 } from './etf-catalog-seed';
 import industry from '../../../src/data/industryEtf.json';
+import strategy from '../../../src/data/strategyAssetEtf.json';
 
 describe('etf-catalog-seed', () => {
-  it('buildCatalogGroups: each industry subgroup + other, no broad, no bond, no industry总组', () => {
+  it('buildCatalogGroups: industry + strategy/commodity/money 原名原标的；无宽基、无债基、无其他总组', () => {
     const groups = buildCatalogGroups();
     expect(groups.map(group => group.id)).not.toContain(BROAD_CATALOG_GROUP_ID);
+    expect(groups.map(group => group.id)).not.toContain(OTHER_CATALOG_GROUP_ID);
     expect(groups.map(group => group.id)).not.toContain('g-catalog-industry');
     for (const group of industry as { id: string; name: string; items: unknown[] }[]) {
       expect(groups.some(item => item.id === `g-catalog-${group.id}` && item.name === group.name && item.items.length === group.items.length)).toBe(true);
     }
-    const other = groups.find(group => group.id === 'g-catalog-other')!;
-    expect(other.items.map(item => item.code).sort()).toEqual(['511880', '512890', '513630', '518880']);
-    expect(other.items.some(item => item.code === '000015')).toBe(false);
+    for (const group of strategy as { id: string; title: string; items: { code: string }[] }[]) {
+      if (!['strategy-etf', 'commodity-etf', 'money-etf'].includes(group.id)) continue;
+      const seeded = groups.find(item => item.id === `g-catalog-${group.id}`)!;
+      expect(seeded.name).toBe(group.title);
+      expect(seeded.items.map(item => item.code)).toEqual(group.items.map(item => item.code));
+    }
+    expect(groups.some(group => group.items.some(item => item.code === '000015'))).toBe(false);
   });
 
   it('ensureCatalogSeed fills empty meta; respects membershipUpdatedAt and deletedWatchlist', () => {
     const empty = defaultMeta('2026-10-20T00:00:00.000Z');
     const { meta: filled, changed } = ensureCatalogSeed(empty);
     expect(changed).toBe(true);
-    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(8);
+    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(10);
     expect(filled.groups.some(group => group.id === BROAD_CATALOG_GROUP_ID)).toBe(false);
+    expect(filled.groups.some(group => group.id === OTHER_CATALOG_GROUP_ID)).toBe(false);
+    expect(filled.groups.find(group => group.id === 'g-catalog-money-etf')?.name).toBe('货币 ETF');
+    expect(filled.memberships['511880']).toContain('g-catalog-money-etf');
     expect(filled.watchlist.some(watch => watch.code === '588200')).toBe(true);
     expect(filled.memberships['588200']).toContain('g-catalog-ETF-01_TMT科技');
     expect(filled.membershipUpdatedAt?.['588200']).toBeUndefined();
@@ -50,22 +60,32 @@ describe('etf-catalog-seed', () => {
     expect(ensureCatalogSeed(removed).meta.watchlist.some(watch => watch.code === '588200')).toBe(false);
   });
 
-  it('retires legacy g-catalog-broad shell and memberships', () => {
+  it('retires legacy g-catalog-broad / g-catalog-other shells and memberships', () => {
     const legacy = {
       ...defaultMeta('2026-10-18T00:00:00.000Z'),
       groups: [
         { id: 'g-focus', name: '重点观察', order: 0 },
         { id: 'custom', name: '指标性ETF', order: 1 },
         { id: BROAD_CATALOG_GROUP_ID, name: '宽基 ETF', order: 10 },
+        { id: OTHER_CATALOG_GROUP_ID, name: '其他 ETF', order: 11 },
       ],
-      watchlist: [{ code: '510300', name: '沪深300', addedAt: '2026-10-18T00:00:00.000Z' }],
-      memberships: { '510300': ['custom', BROAD_CATALOG_GROUP_ID] },
+      watchlist: [
+        { code: '510300', name: '沪深300', addedAt: '2026-10-18T00:00:00.000Z' },
+        { code: '511880', name: '银华日利', addedAt: '2026-10-18T00:00:00.000Z' },
+      ],
+      memberships: {
+        '510300': ['custom', BROAD_CATALOG_GROUP_ID],
+        '511880': [OTHER_CATALOG_GROUP_ID],
+      },
       membershipUpdatedAt: { '510300': '2026-10-18T12:00:00.000Z' },
     };
     const { meta } = ensureCatalogSeed(legacy);
     expect(meta.groups.some(group => group.id === BROAD_CATALOG_GROUP_ID)).toBe(false);
+    expect(meta.groups.some(group => group.id === OTHER_CATALOG_GROUP_ID)).toBe(false);
     expect(meta.memberships['510300']).toEqual(['custom']);
-    expect(meta.memberships['510300']).not.toContain(BROAD_CATALOG_GROUP_ID);
+    expect(meta.memberships['511880']).toContain('g-catalog-money-etf');
+    expect(meta.memberships['511880']).not.toContain(OTHER_CATALOG_GROUP_ID);
+    expect(meta.groups.find(group => group.id === 'g-catalog-money-etf')?.name).toBe('货币 ETF');
   });
 
   it('first-time catalog groups still membership-seed codes that already have membershipUpdatedAt', () => {

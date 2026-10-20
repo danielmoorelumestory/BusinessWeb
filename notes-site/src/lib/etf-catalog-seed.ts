@@ -3,14 +3,18 @@ import industryRaw from '../../../src/data/industryEtf.json';
 import strategyRaw from '../../../src/data/strategyAssetEtf.json';
 import type { EtfReviewMeta } from './etf-review-meta';
 
-// broadRaw 仍用于基金档案 sourceUrl 映射（宽基不再作为清单分组）
+// broadRaw 仅用于基金档案 sourceUrl（宽基不作为清单分组）
 
 export type CatalogItem = { code: string; name: string; sourceUrl?: string };
 export type CatalogGroupDef = { id: string; name: string; order: number; items: CatalogItem[] };
 
 export const BROAD_CATALOG_GROUP_ID = 'g-catalog-broad';
-const OTHER_SOURCE_IDS = new Set(['strategy-etf', 'commodity-etf', 'money-etf']);
+/** 曾把策略+商品+货币捏成一组；现按 industry-etf 原分组拆开，退役此 id */
+export const OTHER_CATALOG_GROUP_ID = 'g-catalog-other';
+const STRATEGY_SOURCE_IDS = new Set(['strategy-etf', 'commodity-etf', 'money-etf']);
 const EASTMONEY = (code: string) => `https://fundf10.eastmoney.com/jbgk_${code}.html`;
+
+const RETIRED_CATALOG_IDS = new Set([BROAD_CATALOG_GROUP_ID, OTHER_CATALOG_GROUP_ID]);
 
 export function buildCatalogGroups(): CatalogGroupDef[] {
   const industry = (industryRaw as { id: string; name: string; items: { code: string; name: string }[] }[]).map((group, index) => ({
@@ -19,18 +23,15 @@ export function buildCatalogGroups(): CatalogGroupDef[] {
     order: 10 + index,
     items: group.items.map(item => ({ code: item.code, name: item.name })),
   }));
-  const otherItems: CatalogItem[] = [];
-  for (const group of strategyRaw as { id: string; items: CatalogItem[] }[]) {
-    if (!OTHER_SOURCE_IDS.has(group.id)) continue;
-    for (const item of group.items) {
-      otherItems.push({ code: item.code, name: item.name, sourceUrl: item.sourceUrl });
-    }
-  }
-  // 宽基与「指标性ETF」等个人分组重叠，不再 seed g-catalog-broad
-  return [
-    ...industry,
-    { id: 'g-catalog-other', name: '其他 ETF', order: 10 + industry.length, items: otherItems },
-  ];
+  const strategy = (strategyRaw as { id: string; title: string; items: CatalogItem[] }[])
+    .filter(group => STRATEGY_SOURCE_IDS.has(group.id))
+    .map((group, index) => ({
+      id: `g-catalog-${group.id}`,
+      name: group.title,
+      order: 10 + industry.length + index,
+      items: group.items.map(item => ({ code: item.code, name: item.name, sourceUrl: item.sourceUrl })),
+    }));
+  return [...industry, ...strategy];
 }
 
 export function isCatalogGroupId(id: string): boolean {
@@ -59,40 +60,73 @@ export function fundProfileUrl(code: string): string {
   return sourceUrlByCode().get(trimmed) ?? EASTMONEY(trimmed);
 }
 
+function retireCatalogGroup(
+  groupId: string,
+  groups: EtfReviewMeta['groups'],
+  memberships: Record<string, string[]>,
+  deletedGroups: Record<string, string>,
+): { groups: EtfReviewMeta['groups']; memberships: Record<string, string[]>; deletedGroups: Record<string, string>; changed: boolean } {
+  let changed = false;
+  let nextGroups = groups;
+  let nextMemberships = memberships;
+  let nextDeleted = deletedGroups;
+
+  if (nextGroups.some(group => group.id === groupId)) {
+    nextGroups = nextGroups.filter(group => group.id !== groupId);
+    changed = true;
+  }
+  if (nextDeleted[groupId]) {
+    nextDeleted = { ...nextDeleted };
+    delete nextDeleted[groupId];
+    changed = true;
+  }
+  for (const [code, ids] of Object.entries(nextMemberships)) {
+    if (!ids.includes(groupId)) continue;
+    if (nextMemberships === memberships) nextMemberships = { ...memberships };
+    nextMemberships[code] = ids.filter(id => id !== groupId);
+    changed = true;
+  }
+  return { groups: nextGroups, memberships: nextMemberships, deletedGroups: nextDeleted, changed };
+}
+
 export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; changed: boolean } {
   const defs = buildCatalogGroups();
   // 仅对「已存在且已有成员」的清单组尊重 membership 手动编辑。
   // 新引入、或仅有空壳（老逻辑跳过 membership 留下的）的清单组仍要灌。
   const preexistingGroupIds = new Set(meta.groups.map(group => group.id));
   const populatedCatalogIds = new Set(
-    [...preexistingGroupIds].filter(id => isCatalogGroupId(id) && id !== BROAD_CATALOG_GROUP_ID && Object.values(meta.memberships).some(ids => ids.includes(id))),
+    [...preexistingGroupIds].filter(id => isCatalogGroupId(id) && !RETIRED_CATALOG_IDS.has(id) && Object.values(meta.memberships).some(ids => ids.includes(id))),
   );
   let groups = [...meta.groups];
   let watchlist = [...meta.watchlist];
-  const memberships = { ...meta.memberships };
-  const deletedGroups = { ...(meta.deletedGroups ?? {}) };
+  let memberships = { ...meta.memberships };
+  let deletedGroups = { ...(meta.deletedGroups ?? {}) };
   let changed = false;
 
-  // 退役宽基清单组：去掉组壳与 membership（标的与个人组保留）
-  if (groups.some(group => group.id === BROAD_CATALOG_GROUP_ID)) {
-    groups = groups.filter(group => group.id !== BROAD_CATALOG_GROUP_ID);
-    changed = true;
-  }
-  if (deletedGroups[BROAD_CATALOG_GROUP_ID]) {
-    delete deletedGroups[BROAD_CATALOG_GROUP_ID];
-    changed = true;
-  }
-  for (const [code, ids] of Object.entries(memberships)) {
-    if (!ids.includes(BROAD_CATALOG_GROUP_ID)) continue;
-    memberships[code] = ids.filter(id => id !== BROAD_CATALOG_GROUP_ID);
-    changed = true;
+  for (const retiredId of RETIRED_CATALOG_IDS) {
+    const retired = retireCatalogGroup(retiredId, groups, memberships, deletedGroups);
+    groups = retired.groups;
+    memberships = retired.memberships;
+    deletedGroups = retired.deletedGroups;
+    if (retired.changed) changed = true;
   }
 
   for (const def of defs) {
-    if (groups.some(group => group.id === def.id)) continue;
-    groups = [...groups, { id: def.id, name: def.name, order: def.order }];
-    if (deletedGroups[def.id]) delete deletedGroups[def.id];
-    changed = true;
+    const existing = groups.find(group => group.id === def.id);
+    if (!existing) {
+      groups = [...groups, { id: def.id, name: def.name, order: def.order }];
+      if (deletedGroups[def.id]) {
+        deletedGroups = { ...deletedGroups };
+        delete deletedGroups[def.id];
+      }
+      changed = true;
+      continue;
+    }
+    // 名称跟 industry-etf 源数据对齐（如「其他 ETF」拆开后的原 title）
+    if (existing.name !== def.name) {
+      groups = groups.map(group => (group.id === def.id ? { ...group, name: def.name } : group));
+      changed = true;
+    }
   }
 
   const deletedWatch = meta.deletedWatchlist ?? {};
