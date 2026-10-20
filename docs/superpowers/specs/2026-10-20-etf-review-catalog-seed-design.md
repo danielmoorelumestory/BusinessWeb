@@ -11,7 +11,7 @@
 采用**清单 seed 模块 + 系统分组**（方案 A）：
 
 - 新模块 `notes-site/src/lib/etf-catalog-seed.ts` 从主站 json 读代码与名称（与 `review-analysis` 同源相对路径）
-- 三个稳定 id 的系统分组，在 `readMeta()`（及空组 reseed）末尾跑 `ensureCatalogSeed`
+- 系统分组：`宽基 ETF` + **行业二级分类各一组**（与宽基同级，不另建「行业 ETF」总组）+ `其他 ETF`；在 `readMeta()`（及空组 reseed）末尾跑 `ensureCatalogSeed`
 - 已有用户数据只补缺：不覆盖个人 membership、尊重 `deletedWatchlist` / 已 touch 的 membership 编辑
 - 操作栏追加分析报告、基金档案链接
 
@@ -34,12 +34,16 @@
 | id | 默认名 | 灌入来源 |
 | --- | --- | --- |
 | `g-catalog-broad` | 宽基 ETF | `src/data/broadEtf.json` 首选 10 只 |
-| `g-catalog-industry` | 行业 ETF | `src/data/industryEtf.json` 7 组全部 items（不拆二级行业） |
-| `g-catalog-other` | 其他 ETF | `strategyAssetEtf` 中 strategy + commodity + money |
+| `g-catalog-{industryGroup.id}` | 该二级分类 `name`（如 TMT科技、医药医疗…） | `industryEtf.json` 对应组的 `items`；**每个二级分类单独一组，与宽基同级** |
+| `g-catalog-other` | 其他 ETF | `strategyAssetEtf.json` 中 strategy + commodity + money |
+
+当前行业二级共 7 组（`ETF-01_TMT科技` … `ETF-07_农业周期`），故清单系统组合计 **1 + 7 + 1 = 9**；外加 3 个个人默认组，空库共 **12** 组。
+
+**不做：** 不再创建 `g-catalog-industry`「行业 ETF」总组。
 
 **明确排除：** `bond-funds`（场外债基）永不 seed。
 
-系统组：稳定 id；允许改名与改 order；**管理分组 UI 禁止删除**（清单角标）。若 meta 里缺壳（旧数据 / 异常），`ensureCatalogSeed` 补回空壳组再按规则灌 membership。
+系统组：稳定 id（随 `industryEtf.json` 的 `id`）；允许改名与改 order；**管理分组 UI 禁止删除**（清单角标）。若 meta 里缺壳（旧数据 / 异常），`ensureCatalogSeed` 补回空壳组再按规则灌 membership。json 里若删掉某个二级分类，其对应系统组停止 seed 补壳，但已有用户数据不强制删除该组。
 
 ### Seed 规则（`ensureCatalogSeed(meta) → meta`）
 
@@ -81,14 +85,14 @@
 
 - 不修改 `/industry-etf`、sitemap、主站路由
 - 不 seed 债基
-- 不按 TMT / 医药等拆行业二级分组
+- 不建「行业 ETF」总组（二级分类各自成组）
 - 不改 D1 schema / sync API
 
 ## 验收
 
-1. 空 localStorage 打开复盘 → 6 组（3 个人 + 3 清单）；宽基 10、行业=清单全量、其他=策略+商品+货币
+1. 空 localStorage 打开复盘 → 12 组（3 个人 + 宽基 + 7 行业二级 + 其他）；宽基 10、各行业组数量与 `industryEtf.json` 一致、其他=策略+商品+货币
 2. 已在「已持仓」的 510300 → 仍在已持仓，并多挂宽基
-3. 手动从「行业 ETF」去掉某 code 后刷新 → 不再加回该系统 membership
+3. 手动从某行业二级组（如「TMT科技」）去掉某 code 后刷新 → 不再加回该系统 membership
 4. 移出标的后刷新 → 不复活
 5. 有笔记的行可见「分析报告」；「基金档案」可打开外链
 6. 相关单测通过
