@@ -171,33 +171,19 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const closeDialog = (dialog: HTMLDialogElement) => dialog.close();
   const groupsOf = () => [...readMeta().groups].sort((a, b) => a.order - b.order);
 
-  function groupMemberCount(groupId: string, memberships: Record<string, string[]>) {
-    return Object.values(memberships).filter(ids => ids.includes(groupId)).length;
-  }
-
-  function pillHtml(id: string, name: string, count: number | null, primary: boolean) {
+  function pillHtml(id: string, name: string) {
     const active = id === '' ? !selectedGroupIds.size : selectedGroupIds.has(id);
-    const countHtml = count === null ? '' : `<span class="nav-pill-count">${count}</span>`;
-    return `<button class="nav-pill${primary ? ' nav-pill--primary' : ''}${active ? ' active' : ''}" data-group="${attr(id)}" type="button"><span>${escapeHtml(name)}</span>${countHtml}</button>`;
+    return `<button class="nav-pill${active ? ' active' : ''}" data-group="${attr(id)}" type="button">${escapeHtml(name)}</button>`;
   }
 
   function renderFilters() {
-    const meta = readMeta();
     const groups = groupsOf();
     for (const id of [...selectedGroupIds]) if (!groups.some(group => group.id === id)) selectedGroupIds.delete(id);
-    const personal = groups.filter(group => !isCatalogGroupId(group.id));
-    const catalog = groups.filter(group => isCatalogGroupId(group.id));
-    const totalCodes = poolCodes(readGridRecords().map(item => item.row.code.trim()), meta.watchlist).length;
     filterBar.innerHTML = `
       <div class="nav-row">
-        <span class="nav-row-label">个人分组：</span>
-        ${pillHtml('', '全部', totalCodes, true)}
-        ${personal.map(group => pillHtml(group.id, group.name, groupMemberCount(group.id, meta.memberships), true)).join('')}
+        ${pillHtml('', '全部')}
+        ${groups.map(group => pillHtml(group.id, group.name)).join('')}
       </div>
-      ${catalog.length ? `<div class="nav-row" aria-label="清单分组">
-        <span class="nav-row-label">清单分类：</span>
-        ${catalog.map(group => pillHtml(group.id, group.name, groupMemberCount(group.id, meta.memberships), false)).join('')}
-      </div>` : ''}
     `;
   }
 
@@ -706,21 +692,15 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .review-toolbar { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px; }
   .industry-like-nav { display:flex; flex-direction:column; gap:10px; flex:1; min-width:0; }
   .nav-row { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
-  .nav-row-label { font-size:13px; font-weight:600; color:#64748b; margin-right:2px; }
+  /* 对齐 /industry-etf 一级分类 pill（accent 边框 + soft 底），不显示数量 */
   .nav-pill {
-    display:inline-flex; align-items:center; gap:6px;
-    padding:6px 14px; border-radius:999px; border:1px solid #e2e8f0;
-    background:#fff; color:#0f172a; font-size:13.5px; font-weight:500; cursor:pointer;
-    transition: border-color .15s ease, color .15s ease, background .15s ease;
+    display:inline-flex; align-items:center;
+    padding:6px 14px; border-radius:999px; border:1px solid #0369a1;
+    background:#e0f2fe; color:#0369a1; font-size:13.5px; font-weight:600; cursor:pointer;
+    transition: border-color .15s ease, color .15s ease, background .15s ease, box-shadow .15s ease;
   }
-  .nav-pill--primary { font-weight:600; }
-  .nav-pill:hover { border-color:#0369a1; color:#0369a1; background:#e0f2fe; }
-  .nav-pill.active { border-color:#0369a1; background:#e0f2fe; color:#0369a1; font-weight:600; }
-  .nav-pill-count {
-    display:inline-flex; align-items:center; justify-content:center;
-    font-size:12px; color:#64748b; background:#f1f5f9; padding:1px 7px; border-radius:999px;
-  }
-  .nav-pill.active .nav-pill-count { background:#bae6fd; color:#0369a1; }
+  .nav-pill:hover { background:#bae6fd; }
+  .nav-pill.active { background:#0369a1; color:#fff; box-shadow:0 0 0 1px #0369a1; }
   .toolbar-actions { display:flex; flex:none; gap:7px; }.primary { border-color:#0369a1 !important; background:#0369a1 !important; color:#fff !important; }
   .empty { padding:48px 24px; border:1px dashed #cbd5e1; border-radius:14px; background:#fff; text-align:center; }.empty > div { font-size:38px; }.empty h3 { margin:8px 0 4px; font-size:16px; color:#1e293b; }.empty p { margin:0 0 18px; color:#64748b; font-size:13px; }
   /* 弹窗基础：现代三段式、毛玻璃遮罩与平滑缩放入场 */
