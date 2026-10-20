@@ -50,6 +50,28 @@ describe('etf-catalog-seed', () => {
     expect(ensureCatalogSeed(removed).meta.watchlist.some(watch => watch.code === '510300')).toBe(false);
   });
 
+  it('first-time catalog groups still membership-seed codes that already have membershipUpdatedAt', () => {
+    const legacy = {
+      ...defaultMeta('2026-10-18T00:00:00.000Z'),
+      groups: [
+        { id: 'g-focus', name: '重点观察', order: 0 },
+        { id: 'custom', name: '指标性ETF', order: 1 },
+      ],
+      watchlist: [{ code: '510300', name: '沪深300', addedAt: '2026-10-18T00:00:00.000Z' }],
+      memberships: { '510300': ['custom'] },
+      membershipUpdatedAt: { '510300': '2026-10-18T12:00:00.000Z' },
+    };
+    const { meta } = ensureCatalogSeed(legacy);
+    expect(meta.memberships['510300']).toEqual(expect.arrayContaining(['custom', 'g-catalog-broad']));
+    const afterOptOut = ensureCatalogSeed({
+      ...meta,
+      memberships: { ...meta.memberships, '510300': ['custom'] },
+      membershipUpdatedAt: { ...meta.membershipUpdatedAt, '510300': '2026-10-20T12:00:00.000Z' },
+    });
+    expect(afterOptOut.meta.memberships['510300']).toEqual(['custom']);
+    expect(afterOptOut.changed).toBe(false);
+  });
+
   it('fundProfileUrl prefers sourceUrl then eastmoney', () => {
     expect(fundProfileUrl('510300')).toBe('https://fundf10.eastmoney.com/jbgk_510300.html');
     expect(fundProfileUrl('512890')).toBe('https://fundf10.eastmoney.com/jbgk_512890.html');

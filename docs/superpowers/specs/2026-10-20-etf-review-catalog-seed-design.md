@@ -51,7 +51,7 @@
 2. 标的不在 watchlist 且不在 `deletedWatchlist` 有效 tombstone 内 → 加入 watchlist（name 用清单名）
 3. membership 缺该系统组 id → **追加**，不覆盖已有个人组
 4. 已在 watchlist / 已挂该组 → noop
-5. 用户曾编辑过某 code 的 membership（存在 `membershipUpdatedAt[code]`）→ seed **不再**强行补回该 code 的系统组 membership（尊重手动从系统组去掉的行为）
+5. 用户曾编辑过某 code 的 membership（存在 `membershipUpdatedAt[code]`）且该清单组 **在本轮 seed 前已存在** → 不再强行补回该组（尊重手动踢出）。若清单组是**首次引入**（如老用户只有「指标性ETF」），即使有 `membershipUpdatedAt` 仍灌入，避免宽基/行业空壳
 6. 用户「移出标的」→ 走既有 `removeWatch` + `deletedWatchlist`；seed 不得复活
 
 **时间戳：** 清单 seed **永不**抬 `updatedAt` / `workspaceUpdatedAt`（纯写组与 membership）；用户编辑仍走既有 `touch`。这样空库保持 `SEED_TS`，云端 LWW 仍能覆盖；纯 noop 不写盘。
