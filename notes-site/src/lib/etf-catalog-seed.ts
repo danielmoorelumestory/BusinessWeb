@@ -3,22 +3,20 @@ import industryRaw from '../../../src/data/industryEtf.json';
 import strategyRaw from '../../../src/data/strategyAssetEtf.json';
 import type { EtfReviewMeta } from './etf-review-meta';
 
+// broadRaw 仍用于基金档案 sourceUrl 映射（宽基不再作为清单分组）
+
 export type CatalogItem = { code: string; name: string; sourceUrl?: string };
 export type CatalogGroupDef = { id: string; name: string; order: number; items: CatalogItem[] };
 
+export const BROAD_CATALOG_GROUP_ID = 'g-catalog-broad';
 const OTHER_SOURCE_IDS = new Set(['strategy-etf', 'commodity-etf', 'money-etf']);
 const EASTMONEY = (code: string) => `https://fundf10.eastmoney.com/jbgk_${code}.html`;
 
 export function buildCatalogGroups(): CatalogGroupDef[] {
-  const broad = (broadRaw as { code: string; name: string; sourceUrl?: string }[]).map(item => ({
-    code: item.code,
-    name: item.name,
-    sourceUrl: item.sourceUrl,
-  }));
   const industry = (industryRaw as { id: string; name: string; items: { code: string; name: string }[] }[]).map((group, index) => ({
     id: `g-catalog-${group.id}`,
     name: group.name,
-    order: 11 + index,
+    order: 10 + index,
     items: group.items.map(item => ({ code: item.code, name: item.name })),
   }));
   const otherItems: CatalogItem[] = [];
@@ -28,10 +26,10 @@ export function buildCatalogGroups(): CatalogGroupDef[] {
       otherItems.push({ code: item.code, name: item.name, sourceUrl: item.sourceUrl });
     }
   }
+  // 宽基与「指标性ETF」等个人分组重叠，不再 seed g-catalog-broad
   return [
-    { id: 'g-catalog-broad', name: '宽基 ETF', order: 10, items: broad },
     ...industry,
-    { id: 'g-catalog-other', name: '其他 ETF', order: 11 + industry.length, items: otherItems },
+    { id: 'g-catalog-other', name: '其他 ETF', order: 10 + industry.length, items: otherItems },
   ];
 }
 
@@ -44,6 +42,9 @@ let cachedSourceUrls: Map<string, string> | null = null;
 function sourceUrlByCode(): Map<string, string> {
   if (cachedSourceUrls) return cachedSourceUrls;
   const map = new Map<string, string>();
+  for (const item of broadRaw as { code: string; sourceUrl?: string }[]) {
+    if (item.sourceUrl) map.set(item.code, item.sourceUrl);
+  }
   for (const group of buildCatalogGroups()) {
     for (const item of group.items) {
       if (item.sourceUrl) map.set(item.code, item.sourceUrl);
@@ -64,13 +65,28 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
   // 新引入、或仅有空壳（老逻辑跳过 membership 留下的）的清单组仍要灌。
   const preexistingGroupIds = new Set(meta.groups.map(group => group.id));
   const populatedCatalogIds = new Set(
-    [...preexistingGroupIds].filter(id => isCatalogGroupId(id) && Object.values(meta.memberships).some(ids => ids.includes(id))),
+    [...preexistingGroupIds].filter(id => isCatalogGroupId(id) && id !== BROAD_CATALOG_GROUP_ID && Object.values(meta.memberships).some(ids => ids.includes(id))),
   );
   let groups = [...meta.groups];
   let watchlist = [...meta.watchlist];
   const memberships = { ...meta.memberships };
   const deletedGroups = { ...(meta.deletedGroups ?? {}) };
   let changed = false;
+
+  // 退役宽基清单组：去掉组壳与 membership（标的与个人组保留）
+  if (groups.some(group => group.id === BROAD_CATALOG_GROUP_ID)) {
+    groups = groups.filter(group => group.id !== BROAD_CATALOG_GROUP_ID);
+    changed = true;
+  }
+  if (deletedGroups[BROAD_CATALOG_GROUP_ID]) {
+    delete deletedGroups[BROAD_CATALOG_GROUP_ID];
+    changed = true;
+  }
+  for (const [code, ids] of Object.entries(memberships)) {
+    if (!ids.includes(BROAD_CATALOG_GROUP_ID)) continue;
+    memberships[code] = ids.filter(id => id !== BROAD_CATALOG_GROUP_ID);
+    changed = true;
+  }
 
   for (const def of defs) {
     if (groups.some(group => group.id === def.id)) continue;

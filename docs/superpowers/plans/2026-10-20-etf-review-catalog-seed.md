@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- 系统组 id：`g-catalog-broad`、`g-catalog-{industryGroup.id}`、`g-catalog-other`；无 `g-catalog-industry` 总组。
+- 系统组 id：`g-catalog-{industryGroup.id}`、`g-catalog-other`；无宽基组、无 `g-catalog-industry` 总组；旧 `g-catalog-broad` 由 seed 退役。
 - 债基 `bond-funds` 永不 seed。
 - 已有 `membershipUpdatedAt[code]` → 不补该 code 的系统组 membership。
 - `deletedWatchlist` 有效 tombstone → 不复活该 code。

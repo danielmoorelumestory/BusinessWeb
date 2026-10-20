@@ -198,12 +198,12 @@ describe('etf-review domain', () => {
   it('readMeta seeds default groups when empty', () => {
     const meta = readMeta();
     expect(meta.groups.map(g => g.name).slice(0, 3)).toEqual(['重点观察', '已持仓', '备选']);
-    expect(meta.groups.some(g => g.id === 'g-catalog-broad')).toBe(true);
+    expect(meta.groups.some(g => g.id === 'g-catalog-broad')).toBe(false);
     expect(meta.groups.some(g => g.id === 'g-catalog-ETF-01_TMT科技')).toBe(true);
     expect(meta.groups.some(g => g.id === 'g-catalog-other')).toBe(true);
     expect(meta.groups.some(g => g.id === 'g-catalog-industry')).toBe(false);
-    expect(meta.watchlist.some(w => w.code === '510300')).toBe(true);
-    expect(meta.memberships['510300']).toContain('g-catalog-broad');
+    expect(meta.watchlist.some(w => w.code === '588200')).toBe(true);
+    expect(meta.memberships['588200']).toContain('g-catalog-ETF-01_TMT科技');
     expect(meta.updatedAt).toBe(SEED_TS);
   });
 
@@ -247,9 +247,10 @@ describe('etf-review domain', () => {
     const meta = readMeta();
 
     expect(meta.groups.map(group => group.name).slice(0, 3)).toEqual(['重点观察', '已持仓', '备选']);
-    expect(meta.groups.some(group => group.id === 'g-catalog-broad')).toBe(true);
+    expect(meta.groups.some(group => group.id === 'g-catalog-ETF-01_TMT科技')).toBe(true);
+    expect(meta.groups.some(group => group.id === 'g-catalog-broad')).toBe(false);
     expect(meta.watchlist.some(watch => watch.code === '510300')).toBe(true);
-    expect(meta.memberships['510300']).toEqual(expect.arrayContaining(['removed-group', 'g-catalog-broad']));
+    expect(meta.memberships['510300']).toEqual(['removed-group']);
     expect(meta.notes).toEqual(stored.notes);
   });
 
@@ -294,7 +295,7 @@ describe('etf-review domain', () => {
     expect(records).toEqual([record]);
     const merged = readMeta();
     expect(merged.updatedAt).toBe(remoteMeta.updatedAt);
-    expect(merged.groups.some(group => group.id === 'g-catalog-broad')).toBe(true);
+    expect(merged.groups.some(group => group.id === 'g-catalog-ETF-01_TMT科技')).toBe(true);
     expect(JSON.parse(localStorage.getItem(RECORDS_KEY) ?? '[]')).toEqual([record]);
     const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
     expect(put.records[0]).toEqual(record);
@@ -326,7 +327,7 @@ describe('etf-review domain', () => {
     const merged = readMeta();
     expect(merged.notes).toEqual(remoteMeta.notes);
     expect(merged.updatedAt).toBe(remoteMeta.updatedAt);
-    expect(merged.groups.some(group => group.id === 'g-catalog-broad')).toBe(true);
+    expect(merged.groups.some(group => group.id === 'g-catalog-ETF-01_TMT科技')).toBe(true);
     const put = JSON.parse(String(fetchMock.mock.calls[1][1]?.body));
     expect(put.records).toEqual([remoteMeta]);
   });
