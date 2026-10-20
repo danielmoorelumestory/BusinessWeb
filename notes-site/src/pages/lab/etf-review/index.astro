@@ -113,12 +113,14 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     fetchCloudPremiums,
     fetchQuotes,
     getCandles,
+    mergeQuote,
     formatMoney,
     formatPrice,
     gridStatus,
     marketToday,
     readGridRecords,
     recordByCode,
+    removeRecords,
     syncAll,
     SYNC_KEY_STORAGE,
     type CloudPremium,
@@ -155,7 +157,11 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       while (queue.length) {
         const code = queue.shift()!;
         try {
-          if (!setReviewCandles(code, await getCandles(code, begin))) continue;
+          const candles = mergeQuote(await getCandles(code, begin, { force: true }), quotes.get(code));
+          const asOf = candles.at(-1)?.date;
+          const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', hour: '2-digit', hourCycle: 'h23' }).format(new Date()));
+          const complete = asOf !== marketToday() || hour >= 15;
+          if (!setReviewCandles(code, candles, complete)) continue;
           const template = document.createElement('template');
           container.querySelectorAll<HTMLTableRowElement>('tr[data-code]').forEach(row => {
             if (row.dataset.code !== code) return;
@@ -219,8 +225,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     `;
   }
 
-  function statusCell(record?: SavedRecord) {
-    if (!record) return '<td class="status-cell muted">未挂网格</td>';
+  function statusCell(record?: SavedRecord, code = '') {
+    if (!record) {
+      return `<td class="status-cell"><a class="grid-calc-entry" href="${calcUrl}?code=${encodeURIComponent(code)}" title="未配置网格，点击去网格计算器">未挂网格 <span class="arrow">↗</span></a></td>`;
+    }
     const status = gridStatus(record);
     if (!status) return '<td class="status-cell muted">—</td>';
     return `<td class="status-cell"><span class="status-badge ${status.tone}${status.reached ? ' reached' : ''}">${escapeHtml(status.label)}</span><span>${escapeHtml(status.detail)}</span></td>`;
@@ -260,7 +268,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       ${renderReviewAnalysis(code, 'week', notesBase, true)}
       ${renderReviewAnalysis(code, 'month', notesBase, true)}
       ${lastTradePnlCell(record, price)}
-      ${statusCell(record)}
+      ${statusCell(record, code)}
       <td class="computed ${record ? (record.result.pnl >= 0 ? 'up' : 'down') : 'muted'}">${record ? escapeHtml(formatMoney(record.result.pnl)) : '—'}</td>
       ${noteDates.map(date => {
         const note = meta.notes[noteKey(code, date)];
@@ -271,9 +279,12 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
         const noteText = note ? [note.emotion, note.conclusion, note.action].filter(Boolean).join('·') || '已写' : '未写';
         return `<td><button class="text-action note-action${note?.risk?.trim() ? ' has-risk' : ''}" title="${note?.risk?.trim() ? '已填写风险点' : '编辑笔记'}" data-action="note" data-date="${attr(date)}" aria-label="${attr(`${date} 笔记：${noteText}`)}" type="button">${escapeHtml(noteText)}</button><div class="note-premium ${premiumTone}" title="${attr(premiumTitle)}">溢价 ${premiumText}</div></td>`;
       }).join('')}
-      <td class="row-actions">
-        <button data-action="groups" type="button">编辑分组</button>
-        ${record ? `<a href="${detailUrl}?id=${encodeURIComponent(record.id)}">网格详情</a>` : `<a href="${calcUrl}?code=${encodeURIComponent(code)}">添加网格</a><button class="danger" data-action="remove" type="button">移除</button>`}
+      <td class="action-cell">
+        <div class="row-actions">
+          <button data-action="groups" type="button">编辑分组</button>
+          <a href="${record ? `${detailUrl}?id=${encodeURIComponent(record.id)}` : `${detailUrl}?code=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}`}">网格详情</a>
+          <button class="danger" data-action="remove" type="button">移出标的</button>
+        </div>
       </td>
     </tr>`;
   }
@@ -288,7 +299,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
             <colgroup>
               <col style="width:180px"><col style="width:110px"><col style="width:250px"><col style="width:250px"><col style="width:250px">
               <col style="width:120px"><col style="width:150px"><col style="width:100px">
-              ${noteDates.map(() => '<col style="width:140px">').join('')}<col style="width:140px">
+              ${noteDates.map(() => '<col style="width:140px">').join('')}<col style="width:96px">
             </colgroup>
             <thead><tr><th>名称 / 代码</th><th>现价 / 涨跌幅</th><th>日线</th><th>周线</th><th>月线</th><th>最近一笔盈亏</th><th>网格状态</th><th>盈亏</th>${noteDates.map(date => `<th title="${attr(date)}"><span class="note-heading">笔记</span><time datetime="${attr(date)}">${escapeHtml(date.slice(5))}</time></th>`).join('')}<th>操作</th></tr></thead>
             <tbody>${codes.map((code, position) => row(code, position, codes.length)).join('')}</tbody>
@@ -357,7 +368,6 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     const meta = readMeta();
     const codes = poolCodes(readGridRecords().map(item => item.row.code.trim()), meta.watchlist);
     if (!codes.length) return;
-    void updateAnalysis(codes);
     marketStatus.textContent = '正在刷新报价…';
     quotes = await fetchQuotes(codes);
     try {
@@ -366,6 +376,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       }
     } catch (reason) { syncStatus.textContent = saveError(reason); }
     render();
+    void updateAnalysis(codes);
     if (noteDialog.open) renderNotePremium();
     marketStatus.textContent = quotes.size ? `报价更新于 ${new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}` : '暂未取得实时报价';
   }
@@ -553,7 +564,9 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     }
     if (button.dataset.action === 'note') showNoteDialog(code, button.dataset.date);
     if (button.dataset.action === 'groups') showMembershipDialog(code);
-    if (button.dataset.action === 'remove' && confirm(`确认从观察池移除 ${code}？该标的的历史笔记会保留。`)) {
+    if (button.dataset.action === 'remove' && confirm(`确认移出标的 ${code}？该标的的历史笔记会保留。`)) {
+      const gridRec = recordByCode(code);
+      if (gridRec) removeRecords([gridRec.id]);
       removeWatch(code);
       render();
       void saveAndPush('观察标的');
@@ -1003,12 +1016,83 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .group-heading { display:flex; align-items:baseline; gap:8px; margin:0 0 12px; color:#0f172a; font-size:15px; font-weight:700; }
   .group-heading span { color:#94a3b8; font-size:12px; font-weight:600; }
   .group-section .table-shell { box-sizing:border-box; width:100%; min-width:0; max-width:100%; overflow-x:auto; border:1px solid #e2e8f0; border-radius:10px; background:#fff; box-shadow:0 1px 3px rgb(15 23 42 / .04); scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
-  .review-table { table-layout:fixed; width:100%; min-width:2250px; border-collapse:collapse; font-size:12px; }.review-table th { height:46px; padding:10px 7px; border-bottom:1px solid #cbd5e1; background:#f8fafc; color:#475569; font-weight:600; white-space:nowrap; text-align:center; }.review-table td { min-height:50px; padding:8px 7px; overflow-wrap:anywhere; border-bottom:1px solid #f1f5f9; color:#334155; text-align:center; vertical-align:middle; font-variant-numeric:tabular-nums; }.review-table tr:last-child td { border-bottom:0; }.review-table tbody tr:hover { background:#f8fafc; }
+  .review-table { table-layout:fixed; width:100%; min-width:2230px; border-collapse:collapse; font-size:12px; }.review-table th { height:46px; padding:10px 7px; border-bottom:1px solid #cbd5e1; background:#f8fafc; color:#475569; font-weight:600; white-space:nowrap; text-align:center; }.review-table td { min-height:50px; padding:8px 7px; overflow-wrap:anywhere; border-bottom:1px solid #f1f5f9; color:#334155; text-align:center; vertical-align:middle; font-variant-numeric:tabular-nums; }.review-table tr:last-child td { border-bottom:0; }.review-table tbody tr:hover { background:#f8fafc; }
   .review-table .muted { color:#94a3b8; }.review-table .code-cell { margin-top:4px; color:#64748b; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:500; }.review-table .identity-cell { min-width:0; text-align:center; }.review-table .stock-name { white-space:normal; overflow-wrap:anywhere; font-weight:600; line-height:1.45; }.review-table .computed { min-width:0; white-space:normal; }.review-table .up { color:#dc2626; font-weight:700; }.review-table .down { color:#16a34a; font-weight:700; }
   .review-table td.analysis-cell { min-width:0; white-space:normal; text-align:left; line-height:1.45; }.review-table .analysis-link { display:block; color:#334155; text-decoration:none; }.review-table .analysis-link:hover { color:#0369a1; text-decoration:underline; }.analysis-lines { display:flex; flex-direction:column; gap:6px; }.analysis-lines > div { display:grid; grid-template-columns:36px minmax(0,1fr); gap:5px; }.analysis-lines span,.analysis-lines .signal-neutral { color:#64748b; }.analysis-lines strong { font-weight:500; }.analysis-lines .signal-up { color:#dc2626; }.analysis-lines .signal-down { color:#16a34a; }.analysis-lines .signal-extreme { color:#a16207; }.analysis-context { display:block; margin-top:7px; color:#94a3b8; font-size:10px; }
   .review-table .status-cell { min-width:0; white-space:normal; }.review-table .status-cell > span:last-child { display:block; margin-top:3px; font-weight:600; }.review-table .status-badge { display:inline-block; padding:1px 7px; border-radius:4px; background:#f1f5f9; color:#64748b; font-size:11px; }.review-table .status-badge.buy { background:#f0fdf4; color:#16a34a; }.review-table .status-badge.sell { background:#fef2f2; color:#dc2626; }.review-table .status-badge.reached { box-shadow:inset 0 0 0 1px currentColor; }
   .review-table .note-heading { display:block; margin-bottom:3px; color:#64748b; font-size:11px; }
   .review-table .note-action.has-risk { color:#b45309; }
   .review-table .text-action { border:0; padding:3px; background:transparent; color:#0369a1; cursor:pointer; }
-  .review-table .row-actions { min-width:0; white-space:normal; }.review-table .row-actions button,.review-table .row-actions a { display:inline-block; margin:2px; border:1px solid #cbd5e1; border-radius:5px; padding:3px 7px; background:#fff; color:#475569; font-size:11px; text-decoration:none; cursor:pointer; }.review-table .row-actions a:hover,.review-table .row-actions button:hover { border-color:#0369a1; color:#0369a1; }
+  .review-table td.action-cell {
+    vertical-align: middle;
+    text-align: center;
+    padding: 6px 4px;
+    min-width: 84px;
+  }
+  .review-table .row-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 0 auto;
+  }
+  .review-table .row-actions button,
+  .review-table .row-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    width: 68px;
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 2.5px 0;
+    background: #fff;
+    color: #475569;
+    font-size: 11px;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .review-table .row-actions a:hover,
+  .review-table .row-actions button:hover {
+    border-color: #0369a1;
+    color: #0369a1;
+    background: #f8fafc;
+  }
+  .review-table .row-actions .danger:hover {
+    border-color: #fecaca !important;
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+  }
+  .review-table .grid-calc-entry {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px dashed #cbd5e1;
+    background: #f8fafc;
+    color: #0369a1;
+    font-size: 11px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  .review-table .grid-calc-entry:hover {
+    border-color: #0284c7;
+    background: #f0f9ff;
+    color: #0284c7;
+    box-shadow: 0 1px 2px rgba(14, 165, 233, 0.1);
+  }
+  .review-table .grid-calc-entry .arrow {
+    font-size: 10px;
+    color: #0284c7;
+    transition: transform 0.15s ease;
+  }
+  .review-table .grid-calc-entry:hover .arrow {
+    transform: translate(1px, -1px);
+  }
 </style>

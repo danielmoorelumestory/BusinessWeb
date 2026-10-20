@@ -299,9 +299,19 @@ async function downloadCandles(code: string, from: string): Promise<Candle[]> {
   let end = marketToday(), lines: string[][] = [];
   // 前复权接口单次最多返回 640 根日线；起始日期较早时向前分段补齐。
   for (let page = 0; page < 20; page++) {
-    const response = await fetch(`https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${symbol},day,${from},${end},640,qfq`);
-    if (!response.ok) throw new Error('行情服务暂不可用');
-    const payload = await response.json();
+    let payload;
+    // 主域名偶尔返回拦截页；腾讯财经代理提供相同的前复权数据格式。
+    for (const endpoint of ['https://web.ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get']) {
+      try {
+        const response = await fetch(`${endpoint}?param=${symbol},day,${from},${end},640,qfq`, { signal: AbortSignal.timeout(15000) });
+        if (!response.ok) continue;
+        const candidate = await response.json();
+        if (!candidate.data?.[symbol]) continue;
+        payload = candidate;
+        break;
+      } catch { /* 尝试同源数据的备用入口。 */ }
+    }
+    if (!payload) throw new Error('行情服务暂不可用');
     // 部分 ETF 的前复权接口以 day 返回日线，股票通常为 qfqday。
     const batch: string[][] = payload.data?.[symbol]?.qfqday ?? payload.data?.[symbol]?.day ?? [];
     if (!batch.length) break;
