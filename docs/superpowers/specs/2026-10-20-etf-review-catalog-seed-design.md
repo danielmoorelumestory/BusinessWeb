@@ -1,0 +1,98 @@
+# ETF 复盘：清单分类 seed + 操作栏外链（2026-10-20）
+
+## 目标与现状
+
+`/industry-etf`（主站 React）与 `/note/lab/etf-review/`（notes-site Astro）功能重叠：前者是静态研究清单（宽基 / 策略·商品·货币 / 行业组 + 分析报告·基金档案·行情网格），后者是个人复盘台（分组、笔记、网格盈亏、云端同步）。
+
+本变更把清单里的分类**灌进复盘分组**，并在复盘行操作补上「分析报告」「基金档案」。**`/industry-etf` 本轮零改动**，站点地图与外链保持原样，后续再决定是否下线或瘦身。
+
+## 选择的方案
+
+采用**清单 seed 模块 + 系统分组**（方案 A）：
+
+- 新模块 `notes-site/src/lib/etf-catalog-seed.ts` 从主站 json 读代码与名称（与 `review-analysis` 同源相对路径）
+- 三个稳定 id 的系统分组，在 `readMeta()`（及空组 reseed）末尾跑 `ensureCatalogSeed`
+- 已有用户数据只补缺：不覆盖个人 membership、尊重 `deletedWatchlist` / 已 touch 的 membership 编辑
+- 操作栏追加分析报告、基金档案链接
+
+曾考虑「进页一次性导入当普通自定义组」：实现短，但删组丢语义、多端 sync 易打架。曾考虑「影子清单层不进 watchlist」：用户数据零污染，但与「灌进分组」目标不符、两套模型难统一。
+
+## 分组与数据模型
+
+### 保留
+
+| id | 默认名 |
+| --- | --- |
+| `g-focus` | 重点观察 |
+| `g-held` | 已持仓 |
+| `g-backup` | 备选 |
+
+多 membership 不变：一只 ETF 可同时挂「宽基 ETF」+「已持仓」。
+
+### 新增系统分组
+
+| id | 默认名 | 灌入来源 |
+| --- | --- | --- |
+| `g-catalog-broad` | 宽基 ETF | `src/data/broadEtf.json` 首选 10 只 |
+| `g-catalog-industry` | 行业 ETF | `src/data/industryEtf.json` 7 组全部 items（不拆二级行业） |
+| `g-catalog-other` | 其他 ETF | `strategyAssetEtf` 中 strategy + commodity + money |
+
+**明确排除：** `bond-funds`（场外债基）永不 seed。
+
+系统组：稳定 id；允许改名与改 order；**管理分组 UI 禁止删除**（清单角标）。若 meta 里缺壳（旧数据 / 异常），`ensureCatalogSeed` 补回空壳组再按规则灌 membership。
+
+### Seed 规则（`ensureCatalogSeed(meta) → meta`）
+
+1. 缺系统组 → 插入（order 接在个人组后，或固定偏后如 10/11/12）
+2. 标的不在 watchlist 且不在 `deletedWatchlist` 有效 tombstone 内 → 加入 watchlist（name 用清单名）
+3. membership 缺该系统组 id → **追加**，不覆盖已有个人组
+4. 已在 watchlist / 已挂该组 → noop
+5. 用户曾编辑过某 code 的 membership（存在 `membershipUpdatedAt[code]`）→ seed **不再**强行补回该 code 的系统组 membership（尊重手动从系统组去掉的行为）
+6. 用户「移出标的」→ 走既有 `removeWatch` + `deletedWatchlist`；seed 不得复活
+
+**时间戳：** 仅在真正补了组 / watchlist / membership 时 `touch` workspace；纯 noop 不抬 `updatedAt`，避免空库多端互相刷。
+
+云端仍是同一份 `meta:etf-review-v1`；`mergeMeta` 语义不变。
+
+## 操作栏
+
+现有顺序扩展为：
+
+`编辑分组` · `分析报告` · `基金档案` · `网格详情` · `移出标的`
+
+| 按钮 | 行为 |
+| --- | --- |
+| 分析报告 | `latestInvestmentNote(code)` → `notesBase + slug`；无 slug **不渲染**按钮 |
+| 基金档案 | 优先清单项 `sourceUrl`；否则 `https://fundf10.eastmoney.com/jbgk_${code}.html`；`target=_blank` `rel=noopener` |
+
+改文件：`notes-site/src/pages/lab/etf-review/index.astro` 的 `rowHtml` / `.row-actions`。
+
+## 文件与测试
+
+| 路径 | 动作 |
+| --- | --- |
+| `notes-site/src/lib/etf-catalog-seed.ts` | 新建：`CATALOG_GROUPS` + `ensureCatalogSeed` |
+| `notes-site/src/lib/etf-catalog-seed.test.ts` | 新建 |
+| `notes-site/src/lib/etf-review.ts` | `readMeta` / 空组 reseed 末尾调用 seed |
+| `notes-site/src/lib/etf-review.test.ts` | 扩：空库灌满、已有 membership 不覆盖、bond 不进、opt-out / deleted 不复活 |
+| `notes-site/src/pages/lab/etf-review/index.astro` | 操作栏两按钮；管理分组系统组不可删 |
+
+## 非目标（本轮）
+
+- 不修改 `/industry-etf`、sitemap、主站路由
+- 不 seed 债基
+- 不按 TMT / 医药等拆行业二级分组
+- 不改 D1 schema / sync API
+
+## 验收
+
+1. 空 localStorage 打开复盘 → 6 组（3 个人 + 3 清单）；宽基 10、行业=清单全量、其他=策略+商品+货币
+2. 已在「已持仓」的 510300 → 仍在已持仓，并多挂宽基
+3. 手动从「行业 ETF」去掉某 code 后刷新 → 不再加回该系统 membership
+4. 移出标的后刷新 → 不复活
+5. 有笔记的行可见「分析报告」；「基金档案」可打开外链
+6. 相关单测通过
+
+## 与既有 spec 关系
+
+扩展 `docs/superpowers/specs/2026-10-18-etf-review-design.md` 的工作区模型与行操作；不取代该文档。
