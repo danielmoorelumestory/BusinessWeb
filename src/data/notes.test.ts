@@ -45,7 +45,7 @@ describe('NOTES 索引', () => {
     expect(findNote('nope')).toBeUndefined()
     expect(findNote(undefined)).toBeUndefined()
     expect(allNoteTags()).toContainEqual({ tag: '行业研究', count: 2 })
-    expect(allNoteTags()).toContainEqual({ tag: 'ETF', count: 81 })
+    expect(allNoteTags()).toContainEqual({ tag: 'ETF', count: 84 })
     expect(findNote('159869-game-etf-analysis')?.title).toBe('游戏ETF华夏')
     expect(findNote('512980-media-etf-analysis')?.title).toBe('传媒ETF广发')
     expect(findNote('159732-consumer-electronics-etf-analysis')?.title).toBe('消费电子ETF华夏')

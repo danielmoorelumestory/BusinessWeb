@@ -1,6 +1,7 @@
 import broadRaw from '../../../src/data/broadEtf.json';
 import industryRaw from '../../../src/data/industryEtf.json';
 import strategyRaw from '../../../src/data/strategyAssetEtf.json';
+import reviewResearch from '../../../src/data/etfReviewResearch.json';
 import type { EtfReviewMeta } from './etf-review-meta';
 
 // broadRaw / 货币债基 sourceUrl 仅用于基金档案；宽基、货币、债基不作为复盘分组
@@ -151,6 +152,8 @@ export function broadPositioningOf(code: string): CatalogItem | undefined {
 
 /** 行业分布优先；否则宽基/策略的标的与定位 */
 export function positioningOf(code: string): CatalogItem | undefined {
+  const researched = reviewResearch.find(item => item.code === code.trim());
+  if (researched) return researched;
   const catalog = catalogItemOf(code);
   if (catalog?.subTheme?.trim()) return catalog;
   if (catalog?.family || catalog?.category || catalog?.coverage) return catalog;
