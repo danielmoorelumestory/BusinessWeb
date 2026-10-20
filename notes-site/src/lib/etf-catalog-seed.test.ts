@@ -70,6 +70,14 @@ describe('etf-catalog-seed', () => {
     });
     expect(afterOptOut.meta.memberships['510300']).toEqual(['custom']);
     expect(afterOptOut.changed).toBe(false);
+
+    // 空壳清单组（组在、无人）即使标的已 touch，也要补灌
+    const hollow = {
+      ...legacy,
+      groups: [...legacy.groups, { id: 'g-catalog-broad', name: '宽基 ETF', order: 10 }],
+    };
+    const filledHollow = ensureCatalogSeed(hollow);
+    expect(filledHollow.meta.memberships['510300']).toContain('g-catalog-broad');
   });
 
   it('fundProfileUrl prefers sourceUrl then eastmoney', () => {

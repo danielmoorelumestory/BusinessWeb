@@ -60,9 +60,12 @@ export function fundProfileUrl(code: string): string {
 
 export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; changed: boolean } {
   const defs = buildCatalogGroups();
-  // 仅对「本轮 seed 前已存在」的清单组尊重 membership 手动编辑；新引入的清单组仍要灌 membership
-  // （否则老用户标的早已有 membershipUpdatedAt，宽基/行业组会永远空壳）。
+  // 仅对「已存在且已有成员」的清单组尊重 membership 手动编辑。
+  // 新引入、或仅有空壳（老逻辑跳过 membership 留下的）的清单组仍要灌。
   const preexistingGroupIds = new Set(meta.groups.map(group => group.id));
+  const populatedCatalogIds = new Set(
+    [...preexistingGroupIds].filter(id => isCatalogGroupId(id) && Object.values(meta.memberships).some(ids => ids.includes(id))),
+  );
   let groups = [...meta.groups];
   let watchlist = [...meta.watchlist];
   const memberships = { ...meta.memberships };
@@ -89,8 +92,8 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
         changed = true;
       }
 
-      // 用户曾改过 membership，且该清单组当时已存在 → 视为对该组 opt-out，不再强行加回
-      if (touched[code] && preexistingGroupIds.has(def.id)) continue;
+      // 用户曾改过 membership，且该清单组已有成员 → 视为对该组 opt-out，不再强行加回
+      if (touched[code] && populatedCatalogIds.has(def.id)) continue;
       const ids = memberships[code] ?? [];
       if (!ids.includes(def.id)) {
         memberships[code] = [...ids, def.id];
