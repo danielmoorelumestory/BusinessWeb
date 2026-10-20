@@ -1,5 +1,5 @@
 import { evictCaches, pushCloudPayload } from './grid-trading';
-import { allowedMembershipGroupIds, ensureCatalogSeed, isCatalogGroupId } from './etf-catalog-seed';
+import { ensureCatalogSeed, isCatalogGroupId } from './etf-catalog-seed';
 import {
   type DailyNote,
   type EtfReviewMeta,
@@ -137,15 +137,15 @@ export function upsertDailyNote(code: string, date: string, fields: NoteFields):
 
 export function setMemberships(code: string, groupIds: string[]): EtfReviewMeta {
   const meta = readMeta();
-  const filtered = allowedMembershipGroupIds(code, groupIds);
+  const nextIds = [...groupIds];
   const prev = new Set(meta.memberships[code] ?? []);
-  const nextSet = new Set(filtered);
+  const nextSet = new Set(nextIds);
   const opted = new Set(meta.catalogMembershipOptOut?.[code] ?? []);
   for (const id of prev) {
     if (!isCatalogGroupId(id)) continue;
     if (!nextSet.has(id)) opted.add(id);
   }
-  for (const id of filtered) {
+  for (const id of nextIds) {
     if (isCatalogGroupId(id)) opted.delete(id);
   }
   const catalogMembershipOptOut = { ...(meta.catalogMembershipOptOut ?? {}) };
@@ -153,7 +153,7 @@ export function setMemberships(code: string, groupIds: string[]): EtfReviewMeta 
   else delete catalogMembershipOptOut[code];
   const next: EtfReviewMeta = {
     ...meta,
-    memberships: { ...meta.memberships, [code]: filtered },
+    memberships: { ...meta.memberships, [code]: nextIds },
     membershipUpdatedAt: { ...meta.membershipUpdatedAt, [code]: new Date().toISOString() },
   };
   if (Object.keys(catalogMembershipOptOut).length) next.catalogMembershipOptOut = catalogMembershipOptOut;
