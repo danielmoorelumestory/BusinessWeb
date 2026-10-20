@@ -109,8 +109,6 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   import {
     blockCopy,
     fetchQuotes,
-    getCandles,
-    mergeQuote,
     formatMoney,
     formatPrice,
     gridStatus,
@@ -123,7 +121,9 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     type Quote,
     type SavedRecord,
   } from '../../../lib/grid-trading';
-  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewCandles } from '../../../lib/review-analysis';
+  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord } from '../../../lib/review-analysis';
+
+  import { loadReviewTechnical, readTechnicalCache } from '../../../lib/review-technical-client';
 
   blockCopy();
 
@@ -143,29 +143,22 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     const pending = [...new Set(codes)].filter(code => /^\d{6}$/.test(code) && canRefreshReviewAnalysis(code) && !analysisRequests.has(code));
     if (!pending.length) return;
     pending.forEach(code => analysisRequests.add(code));
-    const begin = `${Number(marketToday().slice(0, 4)) - 4}-01-01`;
-    const queue = [...pending];
-    await Promise.all(Array.from({ length: Math.min(4, queue.length) }, async () => {
-      while (queue.length) {
-        const code = queue.shift()!;
-        try {
-          const candles = mergeQuote(await getCandles(code, begin, { force: true }), quotes.get(code));
-          const asOf = candles.at(-1)?.date;
-          const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', hour: '2-digit', hourCycle: 'h23' }).format(new Date()));
-          const complete = asOf !== marketToday() || hour >= 15;
-          if (!setReviewCandles(code, candles, complete)) continue;
-          const template = document.createElement('template');
-          container.querySelectorAll<HTMLTableRowElement>('tr[data-code]').forEach(row => {
-            if (row.dataset.code !== code) return;
-            for (const period of ['day', 'week', 'month'] as const) {
-              template.innerHTML = renderReviewAnalysis(code, period, notesBase, true);
-              const cell = template.content.firstElementChild;
-              if (cell) row.querySelector(`[data-analysis="${period}"]`)?.replaceWith(cell);
-            }
-          });
-        } catch { /* 行情失败时保留原状态，可刷新页面重试。 */ }
-      }
-    }));
+    const apply = (code: string, record: Parameters<typeof setReviewRecord>[1]) => {
+      if (!setReviewRecord(code, record)) return;
+      const template = document.createElement('template');
+      container.querySelectorAll<HTMLTableRowElement>('tr[data-code]').forEach(row => {
+        if (row.dataset.code !== code) return;
+        for (const period of ['day', 'week', 'month'] as const) {
+          template.innerHTML = renderReviewAnalysis(code, period, notesBase, true);
+          const cell = template.content.firstElementChild;
+          if (cell) row.querySelector(`[data-analysis="${period}"]`)?.replaceWith(cell);
+        }
+      });
+    };
+    try { await loadReviewTechnical(pending, apply); } catch (error) {
+      pending.forEach(code => analysisRequests.delete(code));
+      marketStatus.textContent = error instanceof Error ? error.message : '指标更新失败，保留原状态';
+    }
   }
 
   const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
@@ -290,10 +283,44 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     void saveAndPush('分组设置');
   }
 
+  function syncFocusToRegular() {
+    const meta = readMeta();
+    const groups = groupsOf();
+    const focusGroup = groups.find(g => g.name === '重点观察' || g.id === 'g-focus');
+    const regularGroup = groups.find(g => g.name === '常规列表' || g.name === '常规');
+    if (!focusGroup || !regularGroup) return;
+
+    const grid = readGridRecords();
+    const allCodes = poolCodes(grid.map(item => item.row.code.trim()), meta.watchlist);
+    const focusCodes = allCodes.filter(code => (meta.memberships[code] ?? []).includes(focusGroup.id));
+    if (!focusCodes.length) return;
+
+    let changed = false;
+    const memberships = { ...meta.memberships };
+    for (const code of focusCodes) {
+      const current = memberships[code] ?? [];
+      if (!current.includes(regularGroup.id)) {
+        memberships[code] = [...current, regularGroup.id];
+        changed = true;
+      }
+    }
+
+    if (!changed) return;
+
+    writeMeta({
+      ...meta,
+      memberships,
+      updatedAt: new Date().toISOString(),
+    });
+    void saveAndPush('分组设置');
+  }
+
   function render() {
     const meta = readMeta();
     const grid = readGridRecords();
     const allCodes = poolCodes(grid.map(item => item.row.code.trim()), meta.watchlist);
+    const cached = readTechnicalCache();
+    for (const code of allCodes) if (cached[code]) setReviewRecord(code, cached[code].record);
     const codes = filterByGroups(allCodes, meta.memberships, [...selectedGroupIds]);
     const groups = groupsOf();
     const watchByCode = new Map(meta.watchlist.map(item => [item.code, item]));
@@ -366,6 +393,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     try {
       await syncAll(token);
       migrateUngroupedToHeld();
+      syncFocusToRegular();
       render();
       syncStatus.textContent = '同步完成。';
       void updateQuotes();
@@ -597,6 +625,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   }
 
   migrateUngroupedToHeld();
+  syncFocusToRegular();
   render();
   void updateQuotes();
 </script>

@@ -1,45 +1,27 @@
 // Shared snapshot and descriptions keep the review list aligned with /industry-etf.
 import snapshot from '../../../src/data/etfTechnical.json';
-import { aggregateBars, technicalState } from '../../../scripts/etf-technical.mjs';
 import type { Candle } from './grid-trading';
-import { describeMa, describeDailyMaEvents } from '../../../src/utils/etfMaDescription';
-import { describeDailyMacdEvents, type DailyMacdDescription } from '../../../src/utils/etfDailyMacdDescription';
-import { describeDailyRsiEvents, type RsiCrossDescription } from '../../../src/utils/etfDailyRsiDescription';
-import { macdDescription, rsiDescription, tone, type Period } from '../../../src/utils/etfTechnicalDescription';
+import { describeMa } from '../../../src/utils/etfMaDescription';
+import { macdDescription, rsiDescription, tone } from '../../../src/utils/etfTechnicalDescription';
 import { latestInvestmentNote } from '../../../src/utils/etfJudgment';
 
 export const REVIEW_ANALYSIS_AS_OF = snapshot.asOf;
-export type ReviewPeriod = 'day' | 'week' | 'month';
-type PeriodEvents = { ma: ReturnType<typeof describeDailyMaEvents>; macd: DailyMacdDescription; rsi: RsiCrossDescription };
-type ReviewRecord = { applicable: boolean; reason?: string; day?: Period; week?: Period; month?: Period; events?: Record<ReviewPeriod, PeriodEvents> };
+export type { ReviewPeriod } from './review-technical';
+import { calculateReviewTechnical, type ReviewRecord, type ReviewPeriod } from './review-technical';
 const records = snapshot.records as Record<string, ReviewRecord>;
 const calculated = new Map<string, ReviewRecord>();
 export const needsReviewAnalysis = (code: string) => !records[code.trim()] && !calculated.has(code.trim());
 export const canRefreshReviewAnalysis = (code: string) => records[code.trim()]?.applicable !== false;
-export function setReviewCandles(code: string, candles: Candle[], complete = true): boolean {
-  if (!canRefreshReviewAnalysis(code)) return false;
-  const valid = candles.filter(candle => /^\d{4}-\d{2}-\d{2}$/.test(candle.date) && [candle.open, candle.close, candle.high, candle.low].every(value => Number.isFinite(value) && value > 0)).sort((a, b) => a.date.localeCompare(b.date));
-  if (!valid.length) return false;
-  const bars = [...new Map(valid.map(candle => [candle.date, [candle.date, candle.open, candle.close, candle.high, candle.low, 0]])).values()];
-  const asOf = valid[valid.length - 1].date;
+export function setReviewRecord(code: string, record: ReviewRecord): boolean {
+  if (!canRefreshReviewAnalysis(code) || !record.day || !record.week || !record.month) return false;
   const current = calculated.get(code.trim()) ?? records[code.trim()];
-  if (current?.day && asOf < current.day.asOf) return false;
-  const date = new Date(`${asOf}T00:00:00Z`);
-  const next = new Date(date); next.setUTCDate(next.getUTCDate() + 1);
-  const weekly = aggregateBars(bars, 'week'), monthly = aggregateBars(bars, 'month');
-  const day = technicalState(bars, complete), week = technicalState(weekly, complete && date.getUTCDay() === 5), month = technicalState(monthly, complete && next.toISOString().slice(0, 7) !== asOf.slice(0, 7));
-  if (!day || !week || !month) return false;
-  const describe = (series: typeof bars): PeriodEvents => {
-    const closes = series.map(bar => Number(bar[2]));
-    return {
-      ma: describeDailyMaEvents(series.map(bar => ({ date: String(bar[0]), close: Number(bar[2]) }))),
-      macd: describeDailyMacdEvents(closes),
-      rsi: describeDailyRsiEvents(closes),
-    };
-  };
-  const events = { day: describe(bars), week: describe(weekly), month: describe(monthly) };
-  calculated.set(code.trim(), { applicable: true, day, week, month, events });
+  if (current?.day && record.day.asOf < current.day.asOf) return false;
+  calculated.set(code.trim(), record);
   return true;
+}
+export function setReviewCandles(code: string, candles: Candle[], complete = true): boolean {
+  const record = calculateReviewTechnical(candles, complete);
+  return !!record && setReviewRecord(code, record);
 }
 const labels = { day: '日线', week: '周线', month: '月线' };
 const escapeHtml = (text: string) => text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));

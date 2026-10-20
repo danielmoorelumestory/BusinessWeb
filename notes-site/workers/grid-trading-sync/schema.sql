@@ -80,3 +80,11 @@ CREATE TABLE IF NOT EXISTS note_analysis (
   mid_judgment TEXT NOT NULL,
   updated_at INTEGER NOT NULL
 ) WITHOUT ROWID;
+
+-- 复盘三周期指标快照。日K更新后由后台计算，页面只读取结果；租约避免重复抓取。
+CREATE TABLE IF NOT EXISTS review_technical (
+  code TEXT PRIMARY KEY,
+  payload TEXT,
+  updated_at INTEGER NOT NULL DEFAULT 0,
+  refreshing_until INTEGER NOT NULL DEFAULT 0
+);

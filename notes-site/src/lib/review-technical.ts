@@ -1,0 +1,67 @@
+import { aggregateBars, technicalState } from '../../../scripts/etf-technical.mjs';
+import { describeDailyMaEvents } from '../../../src/utils/etfMaDescription';
+import { describeDailyMacdEvents, type DailyMacdDescription } from '../../../src/utils/etfDailyMacdDescription';
+import { describeDailyRsiEvents, type RsiCrossDescription } from '../../../src/utils/etfDailyRsiDescription';
+import type { Period } from '../../../src/utils/etfTechnicalDescription';
+
+export const TECHNICAL_VERSION = 2;
+export type ReviewPeriod = 'day' | 'week' | 'month';
+export type ReviewCandle = { date: string; open: number; close: number; high: number; low: number };
+type PeriodEvents = { ma: ReturnType<typeof describeDailyMaEvents>; macd: DailyMacdDescription; rsi: RsiCrossDescription };
+export type ReviewRecord = { applicable: boolean; reason?: string; day?: Period; week?: Period; month?: Period; events?: Record<ReviewPeriod, PeriodEvents> };
+export type TechnicalSnapshot = { version: number; record: ReviewRecord; updatedAt: number };
+
+export function calculateReviewTechnical(candles: ReviewCandle[], complete = true): ReviewRecord | null {
+  const valid = candles.filter(candle => /^\d{4}-\d{2}-\d{2}$/.test(candle.date) && [candle.open, candle.close, candle.high, candle.low].every(value => Number.isFinite(value) && value > 0)).sort((a, b) => a.date.localeCompare(b.date));
+  if (!valid.length) return null;
+  const bars = [...new Map(valid.map(candle => [candle.date, [candle.date, candle.open, candle.close, candle.high, candle.low, 0]])).values()];
+  const asOf = valid[valid.length - 1].date;
+  const date = new Date(`${asOf}T00:00:00Z`);
+  const next = new Date(date); next.setUTCDate(next.getUTCDate() + 1);
+  const weekly = aggregateBars(bars, 'week'), monthly = aggregateBars(bars, 'month');
+  const day = technicalState(bars, complete), week = technicalState(weekly, complete && date.getUTCDay() === 5), month = technicalState(monthly, complete && next.toISOString().slice(0, 7) !== asOf.slice(0, 7));
+  if (!day || !week || !month) return null;
+  const describe = (series: typeof bars): PeriodEvents => {
+    const closes = series.map(bar => Number(bar[2]));
+    return {
+      ma: describeDailyMaEvents(series.map(bar => ({ date: String(bar[0]), close: Number(bar[2]) }))),
+      macd: describeDailyMacdEvents(closes),
+      rsi: describeDailyRsiEvents(closes),
+    };
+  };
+  const events = { day: describe(bars), week: describe(weekly), month: describe(monthly) };
+  return { applicable: true, day, week, month, events };
+}
+
+/** 盘中每15分钟允许一次更新；收盘后、周末和开盘前复用最近收盘时段的结果。 */
+export function technicalRefreshAfter(now = Date.now()): number {
+  const date = new Date(now + 8 * 3600_000);
+  const minutes = date.getUTCHours() * 60 + date.getUTCMinutes();
+  const weekday = date.getUTCDay();
+  if (weekday === 0 || weekday === 6 || minutes < 570) {
+    if (weekday !== 0 && weekday !== 6) date.setUTCDate(date.getUTCDate() - 1);
+    while (date.getUTCDay() === 0 || date.getUTCDay() === 6) date.setUTCDate(date.getUTCDate() - 1);
+    date.setUTCHours(15, 10, 0, 0);
+  } else if (minutes >= 910) {
+    date.setUTCHours(15, 10, 0, 0);
+  } else if (minutes >= 690 && minutes < 780) {
+    date.setUTCHours(11, 30, 0, 0);
+  } else {
+    date.setUTCMinutes(Math.floor(date.getUTCMinutes() / 15) * 15, 0, 0);
+  }
+  return date.getTime() - 8 * 3600_000;
+}
+
+export function isTechnicalSnapshot(value: unknown): value is TechnicalSnapshot {
+  const entry = value as TechnicalSnapshot | null;
+  return !!entry && entry.version === TECHNICAL_VERSION && Number.isFinite(entry.updatedAt)
+    && entry.record?.applicable === true && ['day', 'week', 'month'].every(period => {
+      const key = period as ReviewPeriod;
+      const state = entry.record[key], events = entry.record.events?.[key];
+      return !!state && /^\d{4}-\d{2}-\d{2}$/.test(state.asOf) && Number.isFinite(state.close) && !!events?.ma && !!events.macd && !!events.rsi;
+    });
+}
+
+export function isTechnicalFresh(entry: TechnicalSnapshot | null | undefined, now = Date.now()): boolean {
+  return isTechnicalSnapshot(entry) && entry.updatedAt >= technicalRefreshAfter(now) && entry.updatedAt <= now + 60_000;
+}

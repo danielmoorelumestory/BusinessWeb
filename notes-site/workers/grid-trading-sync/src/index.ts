@@ -1,3 +1,6 @@
+import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
+import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
+
 export interface Env { DB: D1Database }
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
@@ -15,10 +18,16 @@ async function ownerHash(request: Request) {
 const symbolOf = (code: string) => `${/^[569]/.test(code) ? 'sh' : 'sz'}${code}`;
 
 /** 已保存记录里出现过的标的代码（去重）。传入 owner 时只取该密钥名下的记录，否则取全部（定时任务用）。 */
-async function trackedCodes(env: Env, owner?: string) {
-  const statement = owner
-    ? env.DB.prepare("SELECT DISTINCT json_extract(payload, '$.row.code') AS code FROM records WHERE owner_hash = ?").bind(owner)
-    : env.DB.prepare("SELECT DISTINCT json_extract(payload, '$.row.code') AS code FROM records");
+export async function trackedCodes(env: Env, owner?: string) {
+  const scope = owner ? 'AND r.owner_hash = ?1' : '';
+  const sql = `SELECT DISTINCT code FROM (
+    SELECT json_extract(r.payload, '$.row.code') AS code FROM records r
+      WHERE COALESCE(json_extract(r.payload, '$.deleted'), 0) = 0 ${scope}
+    UNION ALL
+    SELECT json_extract(w.value, '$.code') AS code FROM records r, json_each(r.payload, '$.watchlist') w
+      WHERE json_extract(r.payload, '$.kind') = 'etf-review-meta' ${scope}
+  )`;
+  const statement = owner ? env.DB.prepare(sql).bind(owner) : env.DB.prepare(sql);
   const { results } = await statement.all<{ code: string | null }>();
   return results.map(row => row.code?.trim() ?? '').filter(code => /^\d{6}$/.test(code));
 }
@@ -43,15 +52,17 @@ async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: 
   const bars = new Map<string, DailyBar>();
   let end = beijingToday();
   for (let page = 0; page < 6; page++) {
-    // 两个域名返回相同数据；web.ifzq.gtimg.cn 会不定期拒绝 Cloudflare 出口（返回 501），所以优先用 ifzq.gtimg.cn，失败再换另一个。
-    let response: Response | undefined;
-    for (const host of ['ifzq.gtimg.cn', 'web.ifzq.gtimg.cn']) {
+    let data: { qfqday?: string[][]; day?: string[][] } | undefined;
+    for (const endpoint of ['https://ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get', 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get']) {
       budget.take();
-      response = await fetch(`https://${host}/appstock/app/fqkline/get?param=${symbol},day,${begin},${end},640,${fq}`);
-      if (response.ok) break;
+      try {
+        const response = await fetch(`${endpoint}?param=${symbol},day,${begin},${end},640,${fq}`, { signal: AbortSignal.timeout(15000) });
+        if (!response.ok) continue;
+        data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
+        if (data) break;
+      } catch { /* 拦截页、超时或无效 JSON 时切换备用入口。 */ }
     }
-    if (!response?.ok) throw new Error(`日线接口返回 ${response?.status}`);
-    const data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
+    if (!data) throw new Error('历史行情入口均不可用');
     const batch = (fq ? data?.qfqday ?? data?.day : data?.day) ?? [];
     if (!batch.length) break;
     for (const row of batch) {
@@ -86,8 +97,13 @@ const writeOffsets = (env: Env, code: string, offsets: Map<string, number>) => u
    ON CONFLICT (code, date) DO UPDATE SET offset = excluded.offset WHERE daily_offsets.offset IS NOT excluded.offset`, code, [...offsets]);
 
 /** 偏移 = 未复权收盘价 − 前复权收盘价（日期键为 YYYYMMDD，保留 6 位小数）。 */
-const offsetsOf = (raw: Map<string, { close: number }>, adjusted: Map<string, { close: number }>) =>
-  new Map([...raw].filter(([date]) => adjusted.has(date)).map(([date, bar]) => [compact(date), Math.round((bar.close - adjusted.get(date)!.close) * 1e6) / 1e6]));
+const offsetsOf = (raw: Map<string, { close: number }>, adjusted: Map<string, { close: number }>) => {
+  const latestAdjusted = [...adjusted.keys()].sort().at(-1);
+  // 腾讯前复权序列有时晚于原始日K一根；最新尚未进入复权序列的K线以当期原价为基准，偏移为0。
+  // 只补序列末端，不把中间缺口误当作零偏移；下一轮复权数据到齐后会覆盖重算。
+  return new Map([...raw].filter(([date]) => adjusted.has(date) || (latestAdjusted && date > latestAdjusted)).map(([date, bar]) =>
+    [compact(date), adjusted.has(date) ? Math.round((bar.close - adjusted.get(date)!.close) * 1e6) / 1e6 : 0]));
+};
 
 /** 该标的是否需要（重新）回填：从未回填过，或已保存记录里出现了比已回填起点更早的建仓日。 */
 async function needsBackfill(env: Env, code: string) {
@@ -106,7 +122,7 @@ async function syncDaily(env: Env, code: string, budget: Budget) {
   if (await needsBackfill(env, code)) {
     const start = await backfillStart(env, code);
     const [raw, adjusted] = [await dailyBars(symbol, start, '', budget), await dailyBars(symbol, start, 'qfq', budget)];
-    if (!raw.size) return;
+    if (!raw.size || !adjusted.size) throw new Error('日线或前复权数据为空');
     await writeDaily(env, code, raw);
     await writeOffsets(env, code, offsetsOf(raw, adjusted));
     await env.DB.prepare('INSERT OR REPLACE INTO daily_meta (code, backfilled_from) VALUES (?, ?)').bind(code, start).run();
@@ -114,7 +130,7 @@ async function syncDaily(env: Env, code: string, budget: Budget) {
   }
   const begin = addDays(beijingToday(), -30);
   const [raw, adjusted] = [await dailyBars(symbol, begin, '', budget), await dailyBars(symbol, begin, 'qfq', budget)];
-  if (!raw.size) return;
+  if (!raw.size || !adjusted.size) throw new Error('日线或前复权数据为空');
   await writeDaily(env, code, raw);
   const recent = offsetsOf(raw, adjusted);
   const { results: stored } = await env.DB.prepare('SELECT date, offset FROM daily_offsets WHERE code = ? AND date >= ?').bind(code, compact(begin)).all<{ date: string; offset: number }>();
@@ -127,6 +143,36 @@ async function syncDaily(env: Env, code: string, budget: Budget) {
   const { results: rawRows } = await env.DB.prepare('SELECT date, close FROM daily_bars WHERE code = ?').bind(code).all<{ date: string; close: number }>();
   const rawByDate = new Map(rawRows.map(row => [`${row.date.slice(0, 4)}-${row.date.slice(4, 6)}-${row.date.slice(6, 8)}`, { close: row.close }]));
   await writeOffsets(env, code, offsetsOf(rawByDate, fullAdjusted));
+}
+
+async function storedReviewCandles(env: Env, code: string): Promise<ReviewCandle[]> {
+  const begin = `${Number(beijingToday().slice(0, 4)) - 4}0101`;
+  const { results } = await env.DB.prepare(`SELECT
+    substr(b.date, 1, 4) || '-' || substr(b.date, 5, 2) || '-' || substr(b.date, 7, 2) AS date,
+    b.open - o.offset AS open, b.close - o.offset AS close, b.high - o.offset AS high, b.low - o.offset AS low
+    FROM daily_bars b JOIN daily_offsets o ON o.code = b.code AND o.date = b.date
+    WHERE b.code = ? AND b.date >= ? ORDER BY b.date`).bind(code, begin).all<ReviewCandle>();
+  return results;
+}
+
+async function refreshReviewCode(env: Env, code: string, budget = new Budget(FETCH_LIMIT)) {
+  return refreshTechnicalSnapshot(env.DB, code, async () => {
+    await syncDaily(env, code, budget);
+    return storedReviewCandles(env, code);
+  });
+}
+
+async function syncReviewTechnical(env: Env) {
+  const codes = await trackedCodes(env);
+  const saved = await readTechnicalSnapshots(env.DB, codes);
+  const pending = codes.filter(code => !isTechnicalFresh(saved[code])).sort((a, b) => (saved[a]?.updatedAt ?? 0) - (saved[b]?.updatedAt ?? 0));
+  const budget = new Budget(FETCH_LIMIT);
+  for (const code of pending) {
+    try { await refreshReviewCode(env, code, budget); } catch (error) {
+      if (error instanceof Error && error.message === 'BUDGET') break;
+      console.error('复盘指标更新失败', code, error);
+    }
+  }
 }
 
 /**
@@ -181,7 +227,10 @@ async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
   const note = (code: string, text: string) => env.DB.prepare("UPDATE sync_log SET error = CASE WHEN error IS NULL THEN ?1 ELSE error || '；' || ?1 END WHERE run_at = ?2 AND code = ?3 AND trigger = ?4")
     .bind(text, runAt, code, trigger).run().catch(() => undefined);
   for (const [index, code] of ordered.entries()) {
-    try { await syncDaily(env, code, budget); } catch (dailyError) {
+    try {
+      await syncDaily(env, code, budget);
+      await saveTechnicalSnapshot(env.DB, code, await storedReviewCandles(env, code));
+    } catch (dailyError) {
       const message = dailyError instanceof Error ? dailyError.message : String(dailyError);
       if (message === 'BUDGET') { await note(code, '日K 同步因请求预算用尽，留待下次触发'); for (const rest of ordered.slice(index + 1)) await note(rest, '日K 同步留待下次触发'); break; }
       console.error('日K 同步失败', code, dailyError);
@@ -528,7 +577,11 @@ async function readClsPlateDays(env: Env, request: Request, url: URL) {
 export default {
   // 定时任务（见 wrangler.jsonc 的 triggers.crons）：每个交易日 15:10、16:00 与次日 09:00。
   // 先缓存 CLS 板块涨跌（股市 lab），再抓网格标的分钟线 / 日K。
-  async scheduled(_controller, env) {
+  async scheduled(controller, env) {
+    if (!['10 7 * * 1-5', '0 8 * * 1-5', '0 1 * * 1-5'].includes(controller.cron)) {
+      await syncReviewTechnical(env);
+      return;
+    }
     try {
       const plate = await syncClsPlates(env);
       console.log('CLS 板块同步', plate);
@@ -567,6 +620,19 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { headers: { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET, PUT, POST, OPTIONS', 'access-control-allow-headers': 'authorization, content-type' } });
     const owner = await ownerHash(request);
     if (!owner) return json({ error: '请提供至少 16 位同步密钥。' }, 401);
+    if (url.pathname === '/review/technical' && request.method === 'GET') {
+      const codes = [...new Set((url.searchParams.get('codes') ?? '').split(',').map(code => code.trim()))];
+      if (!codes.length || codes.length > 50 || codes.some(code => !/^\d{6}$/.test(code))) return json({ error: '请提供 1 至 50 个有效代码。' }, 400);
+      const records = await readTechnicalSnapshots(env.DB, codes);
+      return json({ records, stale: codes.filter(code => !isTechnicalFresh(records[code])) });
+    }
+    if (url.pathname === '/review/technical' && request.method === 'POST') {
+      const code = (url.searchParams.get('code') ?? '').trim();
+      if (!/^\d{6}$/.test(code)) return json({ error: '请提供有效代码。' }, 400);
+      try { return json(await refreshReviewCode(env, code)); } catch (error) {
+        return json({ error: `更新失败，保留原指标：${error instanceof Error ? error.message : String(error)}` }, 502);
+      }
+    }
     if (request.method === 'GET' && url.pathname === '/minute') return readMinuteBars(env, url);
     if (request.method === 'GET' && url.pathname === '/daily/extremes') return readExtremes(env, owner, url);
     if (request.method === 'GET' && url.pathname === '/analysis') return readAnalysis(env, url);
