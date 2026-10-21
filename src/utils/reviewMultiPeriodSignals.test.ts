@@ -3,7 +3,6 @@ import { aggregateBars, technicalState, type TechnicalBar } from '../../scripts/
 import { describeDailyMaEvents } from './etfMaDescription'
 import { describeDailyMacdEvents } from './etfDailyMacdDescription'
 import { describeDailyRsiEvents } from './etfDailyRsiDescription'
-import { rsiDescription } from './etfTechnicalDescription'
 import { setReviewCandles, renderReviewAnalysis } from '../../notes-site/src/lib/review-analysis'
 
 it('三周期使用相同显示格式，各自按日、周、月K线计算指标及颜色', () => {
@@ -18,14 +17,12 @@ it('三周期使用相同显示格式，各自按日、周、月K线计算指标
   for (const period of ['day', 'week', 'month'] as const) {
     const bars = series[period], closes = bars.map(bar => Number(bar[2]))
     const ma = describeDailyMaEvents(bars.map(bar => ({ date: String(bar[0]), close: Number(bar[2]) })))
-    const macd = describeDailyMacdEvents(closes, { day: '日', week: '周', month: '月' }[period] as '日' | '周' | '月'), rsi = describeDailyRsiEvents(closes)
+    const macd = describeDailyMacdEvents(closes, { day: '日', week: '周', month: '月' }[period] as '日' | '周' | '月'), rsi = describeDailyRsiEvents(closes, { day: '日', week: '周', month: '月' }[period] as '日' | '周' | '月')
     const state = technicalState(bars)!
     const html = renderReviewAnalysis('600004', period, '/notes/', true)
     expect(html).toContain(`<div class="ma-segments">${ma.segments.map(segment => `<strong class="signal-${segment.signal}">${segment.text.replace(/>/g, '&gt;')}</strong>`).join('')}</div>`)
     expect(html).toContain(`<div class="macd-segments">${macd.segments!.map(segment => `<strong class="signal-${segment.signal}">${segment.text.replace(/>/g, '&gt;')}</strong>`).join('')}</div>`)
-    expect(html).toContain(`<strong class="signal-${rsi.signal}">${rsi.description}</strong>`)
-    expect(html).toContain(rsiDescription(state).replace(/^\d+(?:\.\d+)?\s+/, ''))
-    expect(html).not.toContain(`${state.rsi!.toFixed(1)} `)
+    expect(html).toContain(`<div class="rsi-segments">${rsi.segments!.map(segment => `<strong class="signal-${segment.signal}">${segment.text.replace(/>/g, '&gt;')}</strong>`).join('')}</div>`)
     descriptions.push(ma.description)
   }
   expect(new Set(descriptions).size).toBeGreaterThan(1)

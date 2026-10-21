@@ -47,6 +47,8 @@ export function renderReviewAnalysis(code: string, period: ReviewPeriod, notesBa
   ];
   const content = `<div class="analysis-lines">${lines.map(([label, description, color]) => {
     if (label === 'RSI' && rsiEvent) {
+      // 新快照有分段：RSI6/RSI24/50 顺序、RSI6 箭头、交叉距今（极端时加超买/超卖）；旧快照没有 RSI6/24 数值，沿用旧文案。
+      if (rsiEvent.segments?.length) return `<div><span>RSI</span><div class="rsi-segments">${rsiEvent.segments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
       return `<div><span>RSI</span><div><strong class="signal-${rsiEvent.signal}">${escapeHtml(rsiEvent.description)}</strong>、<strong class="signal-${rsiTone}">${escapeHtml(rsiDescription(state).replace(/^\d+(?:\.\d+)?\s+/, ''))}</strong></div></div>`;
     }
     if (label === 'MACD' && macdEvent) {

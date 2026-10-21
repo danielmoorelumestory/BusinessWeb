@@ -1,7 +1,7 @@
 import { aggregateBars, technicalState } from '../../../scripts/etf-technical.mjs';
 import { describeDailyMaEvents } from '../../../src/utils/etfMaDescription';
 import { describeDailyMacdEvents, type DailyMacdDescription, type PeriodUnit } from '../../../src/utils/etfDailyMacdDescription';
-import { describeDailyRsiEvents, type RsiCrossDescription } from '../../../src/utils/etfDailyRsiDescription';
+import { describeDailyRsiEvents, type RsiCrossDescription, type RsiUnit } from '../../../src/utils/etfDailyRsiDescription';
 import type { Period } from '../../../src/utils/etfTechnicalDescription';
 
 export const TECHNICAL_VERSION = 4;
@@ -26,7 +26,7 @@ export function calculateReviewTechnical(candles: ReviewCandle[], complete = tru
     return {
       ma: describeDailyMaEvents(series.map(bar => ({ date: String(bar[0]), close: Number(bar[2]) }))),
       macd: describeDailyMacdEvents(closes, unit),
-      rsi: describeDailyRsiEvents(closes),
+      rsi: describeDailyRsiEvents(closes, unit),
     };
   };
   const events = { day: describe(bars, '日'), week: describe(weekly, '周'), month: describe(monthly, '月') };
