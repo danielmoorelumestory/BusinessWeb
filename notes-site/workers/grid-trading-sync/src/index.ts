@@ -72,21 +72,36 @@ type DailyBar = { open: number; close: number; high: number; low: number; volume
 
 // 免费版 Worker 单次调用最多 50 次 fetch 子请求（D1 查询不计入）。日K 抓取按预算计数，超出时抛出 BUDGET，剩余标的留到下一次触发。
 const FETCH_LIMIT = 48;
-class Budget { used = 0; constructor(private limit: number) {} take() { if (++this.used > this.limit) throw new Error('BUDGET'); } }
+export class Budget { used = 0; constructor(private limit: number) {} take() { if (++this.used > this.limit) throw new Error('BUDGET'); } }
 // 前复权偏移的比较容差：价格最小变动单位是 0.001，小于一半即视为没有变化。
 const OFFSET_TOLERANCE = 5e-4;
+
+// 腾讯行情在 Cloudflare 出口可能被限流（HTTP 501）；整段失败后冷却一段时间，期间直接走东方财富，避免白白消耗子请求预算。
+let tencentDownUntil = 0;
+/** 仅测试用：清除腾讯冷却状态。 */
+export const resetTencentCooldown = () => { tencentDownUntil = 0; };
+const TENCENT_COOLDOWN_MS = 5 * 60_000;
+/** 东方财富日 K：secid 市场前缀 1=沪、0=深，fqt 1=前复权、0=未复权，beg/end 为 YYYYMMDD，一次返回整段。 */
+export const eastmoneyUrl = (symbol: string, begin: string, end: string, fq: 'qfq' | '') =>
+  `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${symbol.startsWith('sh') ? 1 : 0}.${symbol.slice(2)}&klt=101&fqt=${fq ? 1 : 0}&beg=${compact(begin)}&end=${compact(end)}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56`;
+/** klines 每行 "日期,开,收,高,低,量"，与腾讯的行格式一致；丢弃日期格式不对或列数不足的行。 */
+export const parseEastmoneyKlines = (klines: unknown): string[][] => Array.isArray(klines)
+  ? klines.map(line => String(line).split(',')).filter(parts => parts.length >= 6 && /^\d{4}-\d{2}-\d{2}$/.test(parts[0]))
+  : [];
 
 /**
  * 日K（date → 开收高低量）。单次最多 640 根，起始日较早时从 end 向前分页，最多 6 页。
  * fq 为 'qfq' 时取前复权，否则为未复权。接口每行为 [日期, 开, 收, 高, 低, 量]。
  */
-async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: Budget): Promise<Map<string, DailyBar>> {
+export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: Budget): Promise<Map<string, DailyBar>> {
   const bars = new Map<string, DailyBar>();
   let end = beijingToday();
   for (let page = 0; page < 6; page++) {
     let data: { qfqday?: string[][]; day?: string[][] } | undefined;
+    let full = false; // 备用源按起止日一次返回整段，不需要继续分页。
     const reasons: string[] = [];
-    for (const endpoint of ['https://ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get', 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get']) {
+    if (Date.now() < tencentDownUntil) reasons.push('腾讯入口近期被拒，暂跳过');
+    else for (const endpoint of ['https://ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get', 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get']) {
       budget.take();
       try {
         const response = await fetch(`${endpoint}?param=${symbol},day,${begin},${end},640,${fq}`, { signal: AbortSignal.timeout(15000) });
@@ -96,6 +111,19 @@ async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: 
         reasons.push(`${new URL(endpoint).hostname} 无 ${symbol} 数据`);
       } catch (error) { reasons.push(`${new URL(endpoint).hostname} ${error instanceof Error ? error.message : String(error)}`); /* 拦截页、超时或无效 JSON 时切换备用入口。 */ }
     }
+    if (!data) {
+      // 腾讯全部失败（如 Cloudflare 出口被限流返回 501）时改用东方财富，字段与腾讯一致：[日期, 开, 收, 高, 低, 量]。
+      budget.take();
+      try {
+        const response = await fetch(eastmoneyUrl(symbol, begin, end, fq), { signal: AbortSignal.timeout(15000) });
+        if (!response.ok) reasons.push(`push2his.eastmoney.com HTTP ${response.status}`);
+        else {
+          const payload = await response.json<{ data?: { klines?: unknown } | null }>();
+          if (payload.data) { const rows = parseEastmoneyKlines(payload.data.klines); data = { qfqday: rows, day: rows }; full = true; tencentDownUntil = Date.now() + TENCENT_COOLDOWN_MS; }
+          else reasons.push(`push2his.eastmoney.com 无 ${symbol} 数据`);
+        }
+      } catch (error) { reasons.push(`push2his.eastmoney.com ${error instanceof Error ? error.message : String(error)}`); }
+    }
     if (!data) throw new Error(`历史行情入口均不可用（${reasons.join('；') || '无响应'}）`);
     const batch = (fq ? data?.qfqday ?? data?.day : data?.day) ?? [];
     if (!batch.length) break;
@@ -103,7 +131,7 @@ async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: 
       const [open, close, high, low, volume] = row.slice(1, 6).map(Number);
       if ([open, close, high, low, volume].every(Number.isFinite)) bars.set(row[0], { open, close, high, low, volume });
     }
-    if (batch[0][0] <= begin || batch.length < 640) break;
+    if (full || batch[0][0] <= begin || batch.length < 640) break;
     end = addDays(batch[0][0], -1);
   }
   return bars;
