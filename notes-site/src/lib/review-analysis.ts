@@ -1,7 +1,7 @@
 // Shared snapshot and descriptions keep the review list aligned with /industry-etf.
 import snapshot from '../../../src/data/etfTechnical.json';
 import type { Candle } from './grid-trading';
-import { describeMa } from '../../../src/utils/etfMaDescription';
+import { describeMa, upgradeLegacyMaSegments } from '../../../src/utils/etfMaDescription';
 import { macdDescription, rsiDescription, tone } from '../../../src/utils/etfTechnicalDescription';
 import { latestInvestmentNote } from '../../../src/utils/etfJudgment';
 
@@ -50,6 +50,10 @@ export function renderReviewAnalysis(code: string, period: ReviewPeriod, notesBa
     }
     if (label === 'MACD' && macdEvent) {
       return `<div><span>MACD</span><div class="macd-segments"><strong class="signal-${macdEvent.crossSignal}">${escapeHtml(macdEvent.cross)}</strong>${macdEvent.axis ? `、<strong class="signal-${macdEvent.axisSignal}">${escapeHtml(macdEvent.axis)}</strong>` : ''}${macdEvent.bars ? `、<strong class="signal-${macdEvent.barsSignal}">${escapeHtml(macdEvent.bars)}</strong>` : ''}</div></div>`;
+    }
+    const maSegments = label === 'MA' && maEvent ? ('segments' in maEvent && maEvent.segments?.length ? maEvent.segments : upgradeLegacyMaSegments(maEvent.description, state)) : null;
+    if (maSegments) {
+      return `<div><span>MA</span><div class="ma-segments">${maSegments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
     }
     return `<div><span>${label}</span><strong class="signal-${color}">${escapeHtml(description)}</strong></div>`;
   }).join('')}</div>${context ? `<small class="analysis-context">${escapeHtml(context)}</small>` : ''}`;

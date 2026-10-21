@@ -21,7 +21,7 @@ it('三周期使用相同显示格式，各自按日、周、月K线计算指标
     const macd = describeDailyMacdEvents(closes), rsi = describeDailyRsiEvents(closes)
     const state = technicalState(bars)!
     const html = renderReviewAnalysis('600004', period, '/notes/', true)
-    expect(html).toContain(`<strong class="signal-${ma.signal}">${ma.description}</strong>`)
+    expect(html).toContain(`<div class="ma-segments">${ma.segments.map(segment => `<strong class="signal-${segment.signal}">${segment.text.replace(/>/g, '&gt;')}</strong>`).join('')}</div>`)
     expect(html).toContain(`<strong class="signal-${macd.crossSignal}">${macd.cross}</strong>、<strong class="signal-${macd.axisSignal}">${macd.axis}</strong>、<strong class="signal-${macd.barsSignal}">${macd.bars}</strong>`)
     expect(html).toContain(`<strong class="signal-${rsi.signal}">${rsi.description}</strong>`)
     expect(html).toContain(rsiDescription(state).replace(/^\d+(?:\.\d+)?\s+/, ''))
