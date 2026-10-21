@@ -1,10 +1,10 @@
 import { aggregateBars, technicalState } from '../../../scripts/etf-technical.mjs';
 import { describeDailyMaEvents } from '../../../src/utils/etfMaDescription';
-import { describeDailyMacdEvents, type DailyMacdDescription } from '../../../src/utils/etfDailyMacdDescription';
+import { describeDailyMacdEvents, type DailyMacdDescription, type PeriodUnit } from '../../../src/utils/etfDailyMacdDescription';
 import { describeDailyRsiEvents, type RsiCrossDescription } from '../../../src/utils/etfDailyRsiDescription';
 import type { Period } from '../../../src/utils/etfTechnicalDescription';
 
-export const TECHNICAL_VERSION = 2;
+export const TECHNICAL_VERSION = 4;
 export type ReviewPeriod = 'day' | 'week' | 'month';
 export type ReviewCandle = { date: string; open: number; close: number; high: number; low: number };
 type PeriodEvents = { ma: ReturnType<typeof describeDailyMaEvents>; macd: DailyMacdDescription; rsi: RsiCrossDescription };
@@ -21,15 +21,15 @@ export function calculateReviewTechnical(candles: ReviewCandle[], complete = tru
   const weekly = aggregateBars(bars, 'week'), monthly = aggregateBars(bars, 'month');
   const day = technicalState(bars, complete), week = technicalState(weekly, complete && date.getUTCDay() === 5), month = technicalState(monthly, complete && next.toISOString().slice(0, 7) !== asOf.slice(0, 7));
   if (!day || !week || !month) return null;
-  const describe = (series: typeof bars): PeriodEvents => {
+  const describe = (series: typeof bars, unit: PeriodUnit): PeriodEvents => {
     const closes = series.map(bar => Number(bar[2]));
     return {
       ma: describeDailyMaEvents(series.map(bar => ({ date: String(bar[0]), close: Number(bar[2]) }))),
-      macd: describeDailyMacdEvents(closes),
+      macd: describeDailyMacdEvents(closes, unit),
       rsi: describeDailyRsiEvents(closes),
     };
   };
-  const events = { day: describe(bars), week: describe(weekly), month: describe(monthly) };
+  const events = { day: describe(bars, '日'), week: describe(weekly, '周'), month: describe(monthly, '月') };
   return { applicable: true, day, week, month, events };
 }
 

@@ -2,6 +2,7 @@
 import snapshot from '../../../src/data/etfTechnical.json';
 import type { Candle } from './grid-trading';
 import { describeMa, upgradeLegacyMaSegments } from '../../../src/utils/etfMaDescription';
+import { macdBar, macdOrder } from '../../../src/utils/etfDailyMacdDescription';
 import { macdDescription, rsiDescription, tone } from '../../../src/utils/etfTechnicalDescription';
 import { latestInvestmentNote } from '../../../src/utils/etfJudgment';
 
@@ -49,7 +50,11 @@ export function renderReviewAnalysis(code: string, period: ReviewPeriod, notesBa
       return `<div><span>RSI</span><div><strong class="signal-${rsiEvent.signal}">${escapeHtml(rsiEvent.description)}</strong>、<strong class="signal-${rsiTone}">${escapeHtml(rsiDescription(state).replace(/^\d+(?:\.\d+)?\s+/, ''))}</strong></div></div>`;
     }
     if (label === 'MACD' && macdEvent) {
-      return `<div><span>MACD</span><div class="macd-segments"><strong class="signal-${macdEvent.crossSignal}">${escapeHtml(macdEvent.cross)}</strong>${macdEvent.axis ? `、<strong class="signal-${macdEvent.axisSignal}">${escapeHtml(macdEvent.axis)}</strong>` : ''}${macdEvent.bars ? `、<strong class="signal-${macdEvent.barsSignal}">${escapeHtml(macdEvent.bars)}</strong>` : ''}</div></div>`;
+      // 旧快照没有分段：顺序与柱体由快照里的 DIF/DEA/柱值重算，交叉天数旧快照里没有，沿用旧的交叉文案。
+      const legacy = state.dif !== null && state.dea !== null ? [macdOrder(state.dif, state.dea), macdBar(2 * (state.dif - state.dea), state.previousHistogram), { text: macdEvent.cross, signal: macdEvent.crossSignal }] : null;
+      const segments = macdEvent.segments?.length ? macdEvent.segments : legacy;
+      if (segments) return `<div><span>MACD</span><div class="macd-segments">${segments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
+      return `<div><span>MACD</span><div class="macd-segments"><strong class="signal-${macdEvent.crossSignal}">${escapeHtml(macdEvent.cross)}</strong></div></div>`;
     }
     const maSegments = label === 'MA' && maEvent ? ('segments' in maEvent && maEvent.segments?.length ? maEvent.segments : upgradeLegacyMaSegments(maEvent.description, state)) : null;
     if (maSegments) {

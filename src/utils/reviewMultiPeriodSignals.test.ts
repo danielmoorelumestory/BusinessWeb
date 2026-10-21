@@ -18,11 +18,11 @@ it('三周期使用相同显示格式，各自按日、周、月K线计算指标
   for (const period of ['day', 'week', 'month'] as const) {
     const bars = series[period], closes = bars.map(bar => Number(bar[2]))
     const ma = describeDailyMaEvents(bars.map(bar => ({ date: String(bar[0]), close: Number(bar[2]) })))
-    const macd = describeDailyMacdEvents(closes), rsi = describeDailyRsiEvents(closes)
+    const macd = describeDailyMacdEvents(closes, { day: '日', week: '周', month: '月' }[period] as '日' | '周' | '月'), rsi = describeDailyRsiEvents(closes)
     const state = technicalState(bars)!
     const html = renderReviewAnalysis('600004', period, '/notes/', true)
     expect(html).toContain(`<div class="ma-segments">${ma.segments.map(segment => `<strong class="signal-${segment.signal}">${segment.text.replace(/>/g, '&gt;')}</strong>`).join('')}</div>`)
-    expect(html).toContain(`<strong class="signal-${macd.crossSignal}">${macd.cross}</strong>、<strong class="signal-${macd.axisSignal}">${macd.axis}</strong>、<strong class="signal-${macd.barsSignal}">${macd.bars}</strong>`)
+    expect(html).toContain(`<div class="macd-segments">${macd.segments!.map(segment => `<strong class="signal-${segment.signal}">${segment.text.replace(/>/g, '&gt;')}</strong>`).join('')}</div>`)
     expect(html).toContain(`<strong class="signal-${rsi.signal}">${rsi.description}</strong>`)
     expect(html).toContain(rsiDescription(state).replace(/^\d+(?:\.\d+)?\s+/, ''))
     expect(html).not.toContain(`${state.rsi!.toFixed(1)} `)
