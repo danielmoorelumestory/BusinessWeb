@@ -12,7 +12,7 @@ describe('日 K 备用源：腾讯失败时改用东方财富', () => {
     vi.stubGlobal('fetch', vi.fn(async (url: string) => { calls.push(url); return url.includes('eastmoney') ? json(eastmoneyBody) : tencent(); }));
   };
   beforeEach(() => resetTencentCooldown());
-  afterEach(() => vi.unstubAllGlobals());
+  afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
 
   it('腾讯三个入口都返回 501 时使用东方财富，丢弃坏行，并一次取整段', async () => {
     mockFetch(() => json({}, 501));
@@ -38,6 +38,16 @@ describe('日 K 备用源：腾讯失败时改用东方财富', () => {
   it('东方财富也失败时报出两边的具体原因', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => json({}, 501)));
     await expect(dailyBars('sh510300', '2026-10-01', '', new Budget(48))).rejects.toThrow(/gtimg\.cn HTTP 501.*eastmoney\.com HTTP 501/);
+  });
+  it('东方财富第一次失败时重试一次', async () => {
+    vi.useFakeTimers();
+    let attempts = 0;
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => url.includes('eastmoney') ? (++attempts === 1 ? json({}, 520) : json(eastmoneyBody)) : json({}, 501)));
+    const pending = dailyBars('sh510300', '2026-10-01', '', new Budget(48));
+    await vi.advanceTimersByTimeAsync(1500);
+    expect((await pending).size).toBe(2);
+    expect(attempts).toBe(2);
+    vi.useRealTimers();
   });
   it('东方财富 URL：沪市 secid=1、深市 0，fqt 区分复权，日期为 YYYYMMDD', () => {
     expect(eastmoneyUrl('sh510300', '2026-10-01', '2026-10-21', 'qfq')).toContain('secid=1.510300&klt=101&fqt=1&beg=20261001&end=20261021');

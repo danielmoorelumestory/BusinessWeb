@@ -113,16 +113,19 @@ export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', b
     }
     if (!data) {
       // 腾讯全部失败（如 Cloudflare 出口被限流返回 501）时改用东方财富，字段与腾讯一致：[日期, 开, 收, 高, 低, 量]。
-      budget.take();
-      try {
-        const response = await fetch(eastmoneyUrl(symbol, begin, end, fq), { signal: AbortSignal.timeout(15000) });
-        if (!response.ok) reasons.push(`push2his.eastmoney.com HTTP ${response.status}`);
-        else {
+      // 东方财富并发时偶尔断连/520，失败后等 1 秒再试一次。
+      for (let attempt = 0; attempt < 2 && !data; attempt++) {
+        if (attempt) await new Promise(resolve => setTimeout(resolve, 1000));
+        budget.take();
+        try {
+          const response = await fetch(eastmoneyUrl(symbol, begin, end, fq), { signal: AbortSignal.timeout(15000) });
+          if (!response.ok) { reasons.push(`push2his.eastmoney.com HTTP ${response.status}`); continue; }
           const payload = await response.json<{ data?: { klines?: unknown } | null }>();
-          if (payload.data) { const rows = parseEastmoneyKlines(payload.data.klines); data = { qfqday: rows, day: rows }; full = true; tencentDownUntil = Date.now() + TENCENT_COOLDOWN_MS; }
-          else reasons.push(`push2his.eastmoney.com 无 ${symbol} 数据`);
-        }
-      } catch (error) { reasons.push(`push2his.eastmoney.com ${error instanceof Error ? error.message : String(error)}`); }
+          if (!payload.data) { reasons.push(`push2his.eastmoney.com 无 ${symbol} 数据`); break; }
+          const rows = parseEastmoneyKlines(payload.data.klines);
+          data = { qfqday: rows, day: rows }; full = true; tencentDownUntil = Date.now() + TENCENT_COOLDOWN_MS;
+        } catch (error) { reasons.push(`push2his.eastmoney.com ${error instanceof Error ? error.message : String(error)}`); }
+      }
     }
     if (!data) throw new Error(`历史行情入口均不可用（${reasons.join('；') || '无响应'}）`);
     const batch = (fq ? data?.qfqday ?? data?.day : data?.day) ?? [];
