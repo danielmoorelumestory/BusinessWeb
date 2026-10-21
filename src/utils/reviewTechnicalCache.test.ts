@@ -50,3 +50,16 @@ it('网络失败保留旧结果，不再从浏览器重拉整段K线；版本变
   expect(fetcher).toHaveBeenCalledTimes(1)
   expect(isTechnicalFresh({ ...entry('2026-10-20T07:30:00Z'), version: 0 })).toBe(false)
 })
+it('旧版本缓存仍显示，但判定为过期，会去数据库刷新；未来版本不显示', async () => {
+  const oldVersion = { ...entry('2026-10-20T07:30:00Z'), version: TECHNICAL_VERSION - 1 }
+  const future = { ...entry('2026-10-20T07:30:00Z'), version: TECHNICAL_VERSION + 1 }
+  localStorage.setItem('etf-review-technical-v1', JSON.stringify({ '588800': oldVersion, '159687': future }))
+  const fetcher = vi.fn(async () => new Response(JSON.stringify({ records: {} })))
+  vi.stubGlobal('fetch', fetcher)
+  localStorage.setItem('grid-trading-sync-key-v1', 'k'.repeat(20))
+  const apply = vi.fn()
+  await loadReviewTechnical(['588800', '159687'], apply).catch(() => {})
+  expect(apply).toHaveBeenCalledWith('588800', oldVersion.record)
+  expect(apply).not.toHaveBeenCalledWith('159687', expect.anything())
+  expect(fetcher).toHaveBeenCalled()
+})

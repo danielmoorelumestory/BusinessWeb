@@ -52,14 +52,30 @@ export function technicalRefreshAfter(now = Date.now()): number {
   return date.getTime() - 8 * 3600_000;
 }
 
-export function isTechnicalSnapshot(value: unknown): value is TechnicalSnapshot {
-  const entry = value as TechnicalSnapshot | null;
-  return !!entry && entry.version === TECHNICAL_VERSION && Number.isFinite(entry.updatedAt)
+/** 结构完整（三周期状态与 MA/MACD/RSI 事件齐全）。 */
+function hasSnapshotShape(entry: TechnicalSnapshot | null): entry is TechnicalSnapshot {
+  return !!entry && Number.isFinite(entry.updatedAt)
     && entry.record?.applicable === true && ['day', 'week', 'month'].every(period => {
       const key = period as ReviewPeriod;
       const state = entry.record[key], events = entry.record.events?.[key];
       return !!state && /^\d{4}-\d{2}-\d{2}$/.test(state.asOf) && Number.isFinite(state.close) && !!events?.ma && !!events.macd && !!events.rsi;
     });
+}
+
+/** 当前版本的快照：只有它才可能是「新鲜」的。 */
+export function isTechnicalSnapshot(value: unknown): value is TechnicalSnapshot {
+  const entry = value as TechnicalSnapshot | null;
+  return !!entry && entry.version === TECHNICAL_VERSION && hasSnapshotShape(entry);
+}
+
+/**
+ * 可用于显示的快照：当前或更早版本、结构完整即可。旧版本只是缺少新字段（渲染层有回退写法），
+ * 数据本身仍是有效的行情结论；它不算新鲜（isTechnicalFresh 仍要求当前版本），所以会照常在后台刷新。
+ * 升级版本号时据此保留旧数据显示，避免页面空白、也避免全部标的同时作废并集中请求上游。
+ */
+export function isUsableSnapshot(value: unknown): value is TechnicalSnapshot {
+  const entry = value as TechnicalSnapshot | null;
+  return !!entry && Number.isInteger(entry.version) && entry.version >= 1 && entry.version <= TECHNICAL_VERSION && hasSnapshotShape(entry);
 }
 
 export function isTechnicalFresh(entry: TechnicalSnapshot | null | undefined, now = Date.now()): boolean {

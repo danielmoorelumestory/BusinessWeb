@@ -1,6 +1,6 @@
 import { SYNC_ENDPOINT } from './endpoints';
 import { readSyncKey } from './grid-trading';
-import { isTechnicalFresh, isTechnicalSnapshot, type TechnicalSnapshot, type ReviewRecord } from './review-technical';
+import { isTechnicalFresh, isUsableSnapshot, type TechnicalSnapshot, type ReviewRecord } from './review-technical';
 
 const CACHE_KEY = 'etf-review-technical-v1';
 const empty = () => ({} as Record<string, TechnicalSnapshot>);
@@ -8,7 +8,7 @@ export function readTechnicalCache(): Record<string, TechnicalSnapshot> {
   try {
     const value = JSON.parse(localStorage.getItem(CACHE_KEY) ?? '{}');
     if (!value || typeof value !== 'object' || Array.isArray(value)) return empty();
-    return Object.fromEntries(Object.entries(value).filter(([code, entry]) => /^\d{6}$/.test(code) && isTechnicalSnapshot(entry))) as Record<string, TechnicalSnapshot>;
+    return Object.fromEntries(Object.entries(value).filter(([code, entry]) => /^\d{6}$/.test(code) && isUsableSnapshot(entry))) as Record<string, TechnicalSnapshot>;
   } catch { return empty(); }
 }
 function cacheSnapshot(code: string, snapshot: TechnicalSnapshot) {
@@ -31,7 +31,7 @@ export async function loadReviewTechnical(codes: string[], apply: (code: string,
   const headers = { authorization: `Bearer ${token}` };
   const queue: string[] = [];
   const applySaved = (code: string, value: unknown) => {
-    if (!isTechnicalSnapshot(value)) return false;
+    if (!isUsableSnapshot(value)) return false;
     const entry = cacheSnapshot(code, value);
     apply(code, entry.record);
     return isTechnicalFresh(entry);

@@ -1,4 +1,4 @@
-import { calculateReviewTechnical, isTechnicalFresh, isTechnicalSnapshot, TECHNICAL_VERSION, type ReviewCandle, type TechnicalSnapshot } from '../../../src/lib/review-technical';
+import { calculateReviewTechnical, isTechnicalFresh, isUsableSnapshot, TECHNICAL_VERSION, type ReviewCandle, type TechnicalSnapshot } from '../../../src/lib/review-technical';
 
 export const REVIEW_TABLE_SQL = `CREATE TABLE IF NOT EXISTS review_technical (
   code TEXT PRIMARY KEY, payload TEXT, updated_at INTEGER NOT NULL DEFAULT 0,
@@ -13,7 +13,7 @@ export async function readTechnicalSnapshots(db: D1Database, codes: string[]): P
   const { results } = await db.prepare(`SELECT code, payload FROM review_technical WHERE code IN (${codes.map(() => '?').join(',')})`).bind(...codes).all<{ code: string; payload: string | null }>();
   const records: Record<string, TechnicalSnapshot> = {};
   for (const row of results) {
-    try { const entry = JSON.parse(row.payload ?? 'null'); if (isTechnicalSnapshot(entry)) records[row.code] = entry; } catch { /* 忽略损坏/旧版结果。 */ }
+    try { const entry = JSON.parse(row.payload ?? 'null'); if (isUsableSnapshot(entry)) records[row.code] = entry; } catch { /* 忽略损坏结果；旧版本但结构完整的结果保留用于显示。 */ }
   }
   return records;
 }
