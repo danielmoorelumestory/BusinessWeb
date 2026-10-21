@@ -4,7 +4,7 @@
     {
       "schemaVersion": 1,
       "dataDate": "2026-10-21",
-      "fetchedAt": "2026-10-21T08:11:31.595Z",
+      "fetchedAt": "2026-10-21T09:38:05.306Z",
       "session": "closed",
       "metrics": {
         "ztCount": 50,
@@ -396,7 +396,58 @@
         }
       ],
       "rankings": {
-        "amount": [],
+        "amount": [
+          {
+            "symbol": "sz300750",
+            "code": "300750",
+            "name": "宁德时代",
+            "date": "2026-10-21",
+            "price": 227.9,
+            "change": -12.03,
+            "amount": 324.39,
+            "turnover": 3.25
+          },
+          {
+            "symbol": "sz300308",
+            "code": "300308",
+            "name": "中际旭创",
+            "date": "2026-10-21",
+            "price": 646.77,
+            "change": -0.17,
+            "amount": 166.07,
+            "turnover": 2.27
+          },
+          {
+            "symbol": "sz300502",
+            "code": "300502",
+            "name": "新易盛",
+            "date": "2026-10-21",
+            "price": 294.12,
+            "change": -1.36,
+            "amount": 128.5,
+            "turnover": 3.42
+          },
+          {
+            "symbol": "sh688825",
+            "code": "688825",
+            "name": "长鑫科技",
+            "date": "2026-10-21",
+            "price": 40.97,
+            "change": 1.61,
+            "amount": 94.8,
+            "turnover": 5.11
+          },
+          {
+            "symbol": "sh603986",
+            "code": "603986",
+            "name": "兆易创新",
+            "date": "2026-10-21",
+            "price": 288.02,
+            "change": 1.98,
+            "amount": 78.71,
+            "turnover": 4.07
+          }
+        ],
         "turnover": [
           {
             "symbol": "bj920296",
@@ -533,9 +584,9 @@
           "id": "amountRank",
           "label": "新浪成交额排名 / 腾讯报价",
           "url": "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?node=hs_a&sort=amount&asc=0&num=5&page=1",
-          "date": null,
-          "status": "unavailable",
-          "note": "The operation was aborted due to timeout"
+          "date": "2026-10-21",
+          "status": "ready",
+          "note": ""
         },
         {
           "id": "turnoverRank",
