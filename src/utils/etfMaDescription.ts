@@ -14,6 +14,15 @@ function arrangement(close: number, ma5: number, ma10: number): MaSegment {
   return { text, signal: rank('价格') === 0 ? 'up' : rank('价格') === 2 ? 'down' : 'neutral' }
 }
 
+/** 周线用：价格与 MA5/MA10/MA20 从大到小的顺序（如「价格 > MA5 > MA10 > MA20」）；任意两者相等为「均线粘合」。颜色：价格排首红、排末绿、居中灰。 */
+export function arrangementWithMa20(close: number, ma5: number, ma10: number, ma20: number): MaSegment {
+  const order = [['价格', close], ['MA5', ma5], ['MA10', ma10], ['MA20', ma20]] as const
+  for (let i = 0; i < order.length; i++) for (let j = i + 1; j < order.length; j++) if (!sign(order[i][1] - order[j][1])) return { text: '均线粘合', signal: 'neutral' }
+  const sorted = [...order].sort((a, b) => b[1] - a[1]).map(([name]) => name)
+  const rank = sorted.indexOf('价格')
+  return { text: sorted.join(' > '), signal: rank === 0 ? 'up' : rank === sorted.length - 1 ? 'down' : 'neutral' }
+}
+
 const slope = (name: string, dir: number): MaSegment =>
   ({ text: `${name}${dir > 0 ? '↑' : dir < 0 ? '↓' : '→'}`, signal: dir > 0 ? 'up' : dir < 0 ? 'down' : 'neutral' })
 

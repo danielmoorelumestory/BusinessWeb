@@ -122,7 +122,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     type Quote,
     type SavedRecord,
   } from '../../../lib/grid-trading';
-  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord } from '../../../lib/review-analysis';
+  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord, isPriceAboveMa } from '../../../lib/review-analysis';
   import { fundProfileUrl, isCatalogGroupId, subThemeCellHtml } from '../../../lib/etf-catalog-seed';
   import { fillCatalogRemarks, referenceSectionsHtml } from '../../../lib/etf-catalog-special';
   import { latestInvestmentNote } from '../../../../../src/utils/etfJudgment';
@@ -142,6 +142,9 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const selectedGroupIds = new Set<string>();
   let quotes = new Map<string, Quote>();
   const analysisRequests = new Set<string>();
+  // 均线筛选（多选，满足任一即保留）：键为「周期:均线」，如 day:10
+  const MA_FILTERS = [['day:5', '日线 MA5'], ['day:10', '日线 MA10'], ['week:5', '周线 MA5'], ['week:10', '周线 MA10'], ['week:20', '周线 MA20'], ['month:5', '月线 MA5'], ['month:10', '月线 MA10']] as const;
+  const selectedMaFilters = new Set<string>();
 
   async function updateAnalysis(codes: string[]) {
     const pending = [...new Set(codes)].filter(code => /^\d{6}$/.test(code) && canRefreshReviewAnalysis(code) && !analysisRequests.has(code));
@@ -187,6 +190,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       </div>
     `;
   }
+      <div class="industry-etf-nav__group" aria-label="均线筛选">
+        <span class="ma-filter-label">价格站上</span>
+        ${MA_FILTERS.map(([key, label]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button"><span>${label}</span></button>`).join('')}
+      </div>
 
   function statusCell(record?: SavedRecord, code = '') {
     if (!record) {
@@ -270,7 +277,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
           <div class="table-shell">
             <table class="review-table">
               <colgroup>
-                <col style="width:180px"><col style="width:200px"><col style="width:110px"><col style="width:290px"><col style="width:290px"><col style="width:290px">
+                <col style="width:180px"><col style="width:200px"><col style="width:110px"><col style="width:290px"><col style="width:340px"><col style="width:290px">
                 <col style="width:120px"><col style="width:150px"><col style="width:100px">
                 ${noteDates.map(() => '<col style="width:140px">').join('')}<col style="width:96px">
               </colgroup>
@@ -343,13 +350,19 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     const allCodes = poolCodes(grid.map(item => item.row.code.trim()), meta.watchlist);
     const cached = readTechnicalCache();
     for (const code of allCodes) if (cached[code]) setReviewRecord(code, cached[code].record);
-    const codes = filterByGroups(allCodes, meta.memberships, [...selectedGroupIds]);
+    const groupCodes = filterByGroups(allCodes, meta.memberships, [...selectedGroupIds]);
+    const codes = selectedMaFilters.size
+      ? groupCodes.filter(code => [...selectedMaFilters].some(key => {
+        const [period, ma] = key.split(':');
+        return isPriceAboveMa(code, period as 'day' | 'week' | 'month', Number(ma) as 5 | 10 | 20);
+      }))
+      : groupCodes;
     const groups = groupsOf();
     const watchByCode = new Map(meta.watchlist.map(item => [item.code, item]));
     renderFilters();
 
     if (!codes.length) {
-      container.innerHTML = `<div class="empty"><div>📋</div><h3>${allCodes.length ? '当前筛选没有标的' : '观察池还是空的'}</h3><p>${allCodes.length ? '请选择其他分组或切回“全部”。' : '添加一个 6 位 ETF 代码，或先在网格计算器保存回测。'}</p><button id="empty-add" class="primary" type="button">添加标的</button></div>${referenceSectionsHtml(notesBase, escapeHtml, attr)}`;
+      container.innerHTML = `<div class="empty"><div>📋</div><h3>${allCodes.length ? '当前筛选没有标的' : '观察池还是空的'}</h3><p>${allCodes.length ? '请调整分组或均线筛选，或切回“全部”。' : '添加一个 6 位 ETF 代码，或先在网格计算器保存回测。'}</p><button id="empty-add" class="primary" type="button">添加标的</button></div>${referenceSectionsHtml(notesBase, escapeHtml, attr)}`;
       void fillCatalogRemarks(container, notesBase, escapeHtml);
       return;
     }
@@ -439,6 +452,14 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   filterBar.addEventListener('click', event => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-group]');
     if (!button) return;
+    const maButton = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-ma]');
+    if (maButton) {
+      const key = maButton.dataset.ma!;
+      if (selectedMaFilters.has(key)) selectedMaFilters.delete(key);
+      else selectedMaFilters.add(key);
+      render();
+      return;
+    }
     const id = button.dataset.group!;
     if (!id) selectedGroupIds.clear();
     else if (selectedGroupIds.has(id)) selectedGroupIds.delete(id);
@@ -1215,6 +1236,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .catalog-reference-table tbody tr:last-child td { border-bottom:0; }
   .catalog-reference-table .etf-identity-cell .etf-name-line { font-weight:600; color:#0f172a; }
   .catalog-reference-table .etf-identity-cell .etf-code-line { color:#64748b; font-size:12px; margin-top:2px; }
+  .ma-filter-label { font-size:13px; color:#64748b; }
   .catalog-reference-table .etf-subtheme-cell strong { display:block; color:#0f172a; }
   .catalog-reference-table .etf-subtheme-cell div { color:#334155; margin-top:2px; }
   .catalog-reference-table .etf-subtheme-cell p { margin:6px 0 0; color:#64748b; font-size:12px; line-height:1.55; }

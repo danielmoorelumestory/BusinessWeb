@@ -1,7 +1,7 @@
 // Shared snapshot and descriptions keep the review list aligned with /industry-etf.
 import snapshot from '../../../src/data/etfTechnical.json';
 import type { Candle } from './grid-trading';
-import { describeMa, upgradeLegacyMaSegments } from '../../../src/utils/etfMaDescription';
+import { arrangementWithMa20, describeMa, upgradeLegacyMaSegments } from '../../../src/utils/etfMaDescription';
 import { macdBar, macdOrder } from '../../../src/utils/etfDailyMacdDescription';
 import { macdDescription, rsiDescription, tone } from '../../../src/utils/etfTechnicalDescription';
 import { latestInvestmentNote } from '../../../src/utils/etfJudgment';
@@ -23,6 +23,12 @@ export function setReviewRecord(code: string, record: ReviewRecord): boolean {
 export function setReviewCandles(code: string, candles: Candle[], complete = true): boolean {
   const record = calculateReviewTechnical(candles, complete);
   return !!record && setReviewRecord(code, record);
+}
+/** 最新价是否在指定周期的均线之上；缺数据返回 false。 */
+export function isPriceAboveMa(code: string, period: ReviewPeriod, ma: 5 | 10 | 20): boolean {
+  const state = (calculated.get(code.trim()) ?? records[code.trim()])?.[period];
+  const line = ma === 5 ? state?.ma5 : ma === 10 ? state?.ma10 : state?.ma20;
+  return !!state && line != null && Number.isFinite(line) && state.close > line;
 }
 const labels = { day: '日线', week: '周线', month: '月线' };
 const escapeHtml = (text: string) => text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
@@ -58,7 +64,9 @@ export function renderReviewAnalysis(code: string, period: ReviewPeriod, notesBa
       if (segments) return `<div><span>MACD</span><div class="macd-segments">${segments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
       return `<div><span>MACD</span><div class="macd-segments"><strong class="signal-${macdEvent.crossSignal}">${escapeHtml(macdEvent.cross)}</strong></div></div>`;
     }
-    const maSegments = label === 'MA' && maEvent ? ('segments' in maEvent && maEvent.segments?.length ? maEvent.segments : upgradeLegacyMaSegments(maEvent.description, state)) : null;
+    let maSegments = label === 'MA' && maEvent ? ('segments' in maEvent && maEvent.segments?.length ? maEvent.segments : upgradeLegacyMaSegments(maEvent.description, state)) : null;
+    // 周线的顺序段加入 MA20；MA20 来自快照里的周线状态，不依赖快照版本。
+    if (maSegments && period === 'week' && state.ma5 != null && state.ma10 != null && state.ma20 != null) maSegments = [arrangementWithMa20(state.close, state.ma5, state.ma10, state.ma20), ...maSegments.slice(1)];
     if (maSegments) {
       return `<div><span>MA</span><div class="ma-segments">${maSegments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
     }
