@@ -85,16 +85,18 @@ async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: 
   let end = beijingToday();
   for (let page = 0; page < 6; page++) {
     let data: { qfqday?: string[][]; day?: string[][] } | undefined;
+    const reasons: string[] = [];
     for (const endpoint of ['https://ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get', 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get']) {
       budget.take();
       try {
         const response = await fetch(`${endpoint}?param=${symbol},day,${begin},${end},640,${fq}`, { signal: AbortSignal.timeout(15000) });
-        if (!response.ok) continue;
+        if (!response.ok) { reasons.push(`${new URL(endpoint).hostname} HTTP ${response.status}`); continue; }
         data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
         if (data) break;
-      } catch { /* 拦截页、超时或无效 JSON 时切换备用入口。 */ }
+        reasons.push(`${new URL(endpoint).hostname} 无 ${symbol} 数据`);
+      } catch (error) { reasons.push(`${new URL(endpoint).hostname} ${error instanceof Error ? error.message : String(error)}`); /* 拦截页、超时或无效 JSON 时切换备用入口。 */ }
     }
-    if (!data) throw new Error('历史行情入口均不可用');
+    if (!data) throw new Error(`历史行情入口均不可用（${reasons.join('；') || '无响应'}）`);
     const batch = (fq ? data?.qfqday ?? data?.day : data?.day) ?? [];
     if (!batch.length) break;
     for (const row of batch) {
