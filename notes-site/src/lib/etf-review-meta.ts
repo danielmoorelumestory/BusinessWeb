@@ -1,12 +1,18 @@
 export const ETF_REVIEW_META_ID = 'meta:etf-review-v1';
 export const SEED_TS = '1970-01-01T00:00:00.000Z';
 
+export const NOTE_EMOTIONS = ['恐慌', '悲观', '失望', '谨慎', '中性', '期待', '乐观', '兴奋', '亢奋'] as const;
+export const NOTE_CONCLUSIONS = ['上升趋势', '强势回调', '震荡偏强', '横盘震荡', '弱势反弹', '止跌企稳', '冲高回落', '震荡偏弱', '下降趋势', '待确认'] as const;
+export const NOTE_ACTIONS = ['观望', '持有', '建仓', '加仓', '减仓', '清仓'] as const;
+
 export type DailyNote = {
-  emotion: '冷静' | '犹豫' | 'FOMO' | '恐慌' | '';
-  conclusion: '看多' | '中性' | '看空' | '';
-  action: '加仓' | '减仓' | '观望' | '调参' | '';
+  // 兼容旧笔记的历史值，新笔记选项由上方常量定义。
+  emotion: typeof NOTE_EMOTIONS[number] | '冷静' | '犹豫' | 'FOMO' | '';
+  conclusion: typeof NOTE_CONCLUSIONS[number] | '看多' | '中性' | '看空' | '';
+  action: typeof NOTE_ACTIONS[number] | '调参' | '';
   risk: string;
   remark: string;
+  summary?: string;
   updatedAt: string;
 };
 
@@ -67,7 +73,8 @@ export function truncateNote(note: DailyNote): DailyNote {
   return {
     ...note,
     risk: note.risk.slice(0, 200),
-    remark: note.remark.slice(0, 500),
+    remark: note.remark.slice(0, 2000),
+    summary: note.summary?.slice(0, 1000),
   };
 }
 

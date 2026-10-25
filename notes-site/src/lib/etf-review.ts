@@ -121,7 +121,7 @@ function touch(meta: EtfReviewMeta, workspace = true): EtfReviewMeta {
   return next;
 }
 
-type NoteFields = Pick<DailyNote, 'emotion' | 'conclusion' | 'action' | 'risk' | 'remark'>;
+type NoteFields = Pick<DailyNote, 'emotion' | 'conclusion' | 'action' | 'risk' | 'remark' | 'summary'>;
 
 export function upsertDailyNote(code: string, date: string, fields: NoteFields): EtfReviewMeta {
   const meta = readMeta();

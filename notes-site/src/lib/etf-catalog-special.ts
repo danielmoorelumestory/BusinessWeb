@@ -68,7 +68,7 @@ function referenceCell(code: string, sourceUrl: string | undefined, notesBase: s
   return `<td class="etf-reference-cell">
     ${href ? `<div><a class="etf-ref-link" href="${attr(href)}" target="_blank" rel="noopener">分析报告</a></div>` : ''}
     <a class="etf-ref-link" href="${attr(profile)}" target="_blank" rel="noopener">基金档案</a>
-    ${showGrid ? `<div>${gridApplicable === false ? '<span class="etf-empty-cell">不适用</span>' : `<a class="etf-ref-link" href="/note/lab/grid-trading/detail/?code=${attr(code)}&name=${attr(encodeURIComponent(name))}">行情网格</a>`}</div>` : ''}
+    ${showGrid && gridApplicable !== false ? `<div><a class="etf-ref-link" href="/note/lab/grid-trading/detail/?code=${attr(code)}&name=${attr(encodeURIComponent(name))}">行情网格</a></div>` : ''}
   </td>`;
 }
 
@@ -173,7 +173,7 @@ function moneySectionHtml(notesBase: string, escapeHtml: Escape, attr: Escape): 
               <col />
               <col style="width:120px" />
             </colgroup>
-            <thead><tr><th>名称 / 代码</th><th>标的与定位</th><th>备注</th><th class="etf-reference-heading">参考 / 网格</th></tr></thead>
+            <thead><tr><th>名称 / 代码</th><th>标的与定位</th><th>备注</th><th class="etf-reference-heading">参考</th></tr></thead>
             <tbody>${group.items.map(item => moneyRowHtml(item, notesBase, escapeHtml, attr)).join('')}</tbody>
           </table>
         </div>

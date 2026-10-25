@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import { href } from '../../../lib/url';
+import { NOTE_EMOTIONS, NOTE_CONCLUSIONS, NOTE_ACTIONS } from '../../../lib/etf-review-meta';
 
 const gridListUrl = href('lab/grid-trading/saved');
 const calculatorUrl = href('lab/grid-trading');
@@ -32,9 +33,15 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   </section>
 
   <section class="review-toolbar" aria-label="分组筛选和标的管理">
-    <div class="toolbar-actions">
-      <button id="manage-groups" type="button">管理分组</button>
-      <button id="add-watch" class="primary" type="button">添加标的</button>
+    <div class="review-toolbar__header">
+      <div class="review-toolbar__title">
+        <span class="toolbar-title-dot"></span>
+        <span>观察池与均线筛选</span>
+      </div>
+      <div class="toolbar-actions">
+        <button id="manage-groups" type="button">管理分组</button>
+        <button id="add-watch" class="primary" type="button">＋ 添加标的</button>
+      </div>
     </div>
     <nav id="group-filters" class="industry-etf-nav" aria-label="分组目录"></nav>
   </section>
@@ -52,19 +59,20 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     </form>
   </dialog>
 
-  <dialog id="note-dialog">
+  <dialog id="note-dialog" data-allow-copy>
     <form id="note-form">
       <header><h2 id="note-title">每日笔记</h2><button class="dialog-close" type="button" aria-label="关闭">×</button></header>
       <input id="note-code" type="hidden">
       <label>日期<input id="note-date" type="date" required></label>
       <label>ETF 溢价<output id="note-premium" aria-live="polite">—</output></label>
       <div class="form-grid">
-        <label>情绪<select id="note-emotion"><option value="">未选择</option><option>冷静</option><option>犹豫</option><option>FOMO</option><option>恐慌</option></select></label>
-        <label>结论<select id="note-conclusion"><option value="">未选择</option><option>看多</option><option>中性</option><option>看空</option></select></label>
-        <label>计划动作<select id="note-action"><option value="">未选择</option><option>加仓</option><option>减仓</option><option>观望</option><option>调参</option></select></label>
+        <label>情绪<select id="note-emotion"><option value="">未选择</option>{NOTE_EMOTIONS.map(value => <option value={value}>{value}</option>)}</select></label>
+        <label>走势判断<select id="note-conclusion"><option value="">未选择</option>{NOTE_CONCLUSIONS.map(value => <option value={value}>{value}</option>)}</select></label>
+        <label>计划动作<select id="note-action"><option value="">未选择</option>{NOTE_ACTIONS.map(value => <option value={value}>{value}</option>)}</select></label>
       </div>
-      <label>风险点<textarea id="note-risk" maxlength="200" rows="3"></textarea></label>
-      <label>备注<textarea id="note-remark" maxlength="500" rows="5"></textarea></label>
+      <label>关注点<textarea id="note-risk" maxlength="200" rows="3"></textarea></label>
+      <label>备注<textarea id="note-remark" maxlength="2000" rows="9"></textarea></label>
+      <label>总结<textarea id="note-summary" maxlength="1000" rows="5" placeholder="记录今天的复盘总结、经验与后续关注点"></textarea></label>
       <footer><span id="note-status" role="status"></span><button class="dialog-close" type="button">取消</button><button class="primary" type="submit">保存</button></footer>
     </form>
   </dialog>
@@ -140,11 +148,11 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   const syncInput = document.querySelector('#sync-key') as HTMLInputElement;
   const syncStatus = document.querySelector('#sync-status') as HTMLElement;
   const selectedGroupIds = new Set<string>();
-  let quotes = new Map<string, Quote>();
-  const analysisRequests = new Set<string>();
   // 均线筛选（多选，满足任一即保留）：键为「周期:均线」，如 day:10
   const MA_FILTERS = [['day:5', '日线 MA5'], ['day:10', '日线 MA10'], ['week:5', '周线 MA5'], ['week:10', '周线 MA10'], ['week:20', '周线 MA20'], ['month:5', '月线 MA5'], ['month:10', '月线 MA10']] as const;
   const selectedMaFilters = new Set<string>();
+  let quotes = new Map<string, Quote>();
+  const analysisRequests = new Set<string>();
 
   async function updateAnalysis(codes: string[]) {
     const pending = [...new Set(codes)].filter(code => /^\d{6}$/.test(code) && canRefreshReviewAnalysis(code) && !analysisRequests.has(code));
@@ -177,23 +185,28 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
 
   function pillHtml(id: string, name: string) {
     const active = id === '' ? !selectedGroupIds.size : selectedGroupIds.has(id);
-    return `<button class="industry-etf-nav__pill industry-etf-nav__pill--primary${active ? ' is-active' : ''}" data-group="${attr(id)}" type="button"><span>${escapeHtml(name)}</span></button>`;
+    return `<button class="industry-etf-nav__pill${active ? ' is-active' : ''}" data-group="${attr(id)}" type="button"><span>${escapeHtml(name)}</span></button>`;
   }
 
   function renderFilters() {
     const groups = groupsOf();
     for (const id of [...selectedGroupIds]) if (!groups.some(group => group.id === id)) selectedGroupIds.delete(id);
     filterBar.innerHTML = `
-      <div class="industry-etf-nav__group">
-        ${pillHtml('', '全部')}
-        ${groups.map(group => pillHtml(group.id, group.name)).join('')}
+      <div class="industry-etf-nav__row">
+        <span class="filter-label">观察分组</span>
+        <div class="industry-etf-nav__pills">
+          ${pillHtml('', '全部')}
+          ${groups.map(group => pillHtml(group.id, group.name)).join('')}
+        </div>
+      </div>
+      <div class="industry-etf-nav__row" aria-label="均线筛选">
+        <span class="filter-label">价格站上</span>
+        <div class="industry-etf-nav__pills">
+          ${MA_FILTERS.map(([key, label]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button"><span>${label}</span></button>`).join('')}
+        </div>
       </div>
     `;
   }
-      <div class="industry-etf-nav__group" aria-label="均线筛选">
-        <span class="ma-filter-label">价格站上</span>
-        ${MA_FILTERS.map(([key, label]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button"><span>${label}</span></button>`).join('')}
-      </div>
 
   function statusCell(record?: SavedRecord, code = '') {
     if (!record) {
@@ -248,7 +261,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
         const premiumTone = !premium || premium.rate === 0 ? 'muted' : premium.rate > 0 ? 'up' : 'down';
         const premiumTitle = premium ? `${premium.quoteDate} 腾讯行情折溢价${premium.referenceNav ? `；参考净值 ${premium.referenceNav}` : ''}` : '暂无该日溢价记录';
         const noteText = note ? [note.emotion, note.conclusion, note.action].filter(Boolean).join('·') || '已写' : '未写';
-        return `<td><button class="text-action note-action${note?.risk?.trim() ? ' has-risk' : ''}" title="${note?.risk?.trim() ? '已填写风险点' : '编辑笔记'}" data-action="note" data-date="${attr(date)}" aria-label="${attr(`${date} 笔记：${noteText}`)}" type="button">${escapeHtml(noteText)}</button><div class="note-premium ${premiumTone}" title="${attr(premiumTitle)}">溢价 ${premiumText}</div></td>`;
+        return `<td><button class="text-action note-action${note?.risk?.trim() ? ' has-risk' : ''}" title="${note?.risk?.trim() ? '已填写关注点' : '编辑笔记'}" data-action="note" data-date="${attr(date)}" aria-label="${attr(`${date} 笔记：${noteText}`)}" type="button">${escapeHtml(noteText)}</button><div class="note-premium ${premiumTone}" title="${attr(premiumTitle)}">溢价 ${premiumText}</div></td>`;
       }).join('')}
       <td class="action-cell">
         <div class="row-actions">
@@ -450,8 +463,6 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   pullButton.addEventListener('click', () => { void runCloudAction('pull'); });
 
   filterBar.addEventListener('click', event => {
-    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-group]');
-    if (!button) return;
     const maButton = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-ma]');
     if (maButton) {
       const key = maButton.dataset.ma!;
@@ -460,6 +471,8 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
       render();
       return;
     }
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-group]');
+    if (!button) return;
     const id = button.dataset.group!;
     if (!id) selectedGroupIds.clear();
     else if (selectedGroupIds.has(id)) selectedGroupIds.delete(id);
@@ -515,6 +528,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     action: document.querySelector('#note-action') as HTMLSelectElement,
     risk: document.querySelector('#note-risk') as HTMLTextAreaElement,
     remark: document.querySelector('#note-remark') as HTMLTextAreaElement,
+    summary: document.querySelector('#note-summary') as HTMLTextAreaElement,
   };
   function renderNotePremium() {
     const premium = readMeta().dailyPremiums?.[noteKey(noteCode.value, noteDate.value)];
@@ -523,10 +537,41 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     output.dataset.tone = !premium || premium.rate === 0 ? 'neutral' : premium.rate > 0 ? 'up' : 'down';
     output.title = premium ? `${premium.quoteDate} 腾讯行情${premium.referenceNav ? `；参考净值 ${premium.referenceNav}` : ''}` : '暂无该日溢价记录';
   }
+  function currentTechnicalRemark(code: string): string {
+    const row = Array.from(container.querySelectorAll<HTMLTableRowElement>('tr[data-code]')).find(row => row.dataset.code === code);
+    if (!row) return '';
+    const periods = ['day', 'week', 'month'] as const;
+    const labels = { day: '日线', week: '周线', month: '月线' };
+    const sections = periods.flatMap(period => {
+      const cell = row.querySelector<HTMLElement>(`[data-analysis="${period}"]`);
+      const lines = Array.from(cell?.querySelectorAll('.analysis-lines > div') ?? []).map(line => {
+        const label = line.querySelector('span')?.textContent?.trim();
+        const descriptions = Array.from(line.querySelectorAll('strong')).map(part => part.textContent?.trim()).filter(Boolean);
+        return label && descriptions.length ? `${label}：${descriptions.join('、')}` : '';
+      }).filter(Boolean);
+      if (!lines.length) return [];
+      const asOf = cell?.title.match(/数据基准 (\d{4}-\d{2}-\d{2})/)?.[1];
+      const context = cell?.querySelector('.analysis-context')?.textContent?.trim();
+      return [`${labels[period]}${asOf ? ` · ${asOf}` : ''}${context ? ` · ${context}` : ''}\n${lines.join('\n')}`];
+    });
+    return sections.length ? `指标快照（打开时状态）\n${sections.join('\n\n')}` : '';
+  }
   const loadNote = () => {
     renderNotePremium();
     const note = readMeta().notes[noteKey(noteCode.value, noteDate.value)];
-    for (const [field, input] of Object.entries(noteFields)) input.value = note?.[field as keyof DailyNote] ?? '';
+    for (const [field, input] of Object.entries(noteFields)) {
+      const value = note?.[field as keyof DailyNote] ?? '';
+      if (input instanceof HTMLSelectElement) {
+        input.querySelectorAll('[data-legacy]').forEach(option => option.remove());
+        if (value && !Array.from(input.options).some(option => option.value === value)) {
+          const legacy = new Option(`${value}（历史记录）`, value);
+          legacy.dataset.legacy = 'true';
+          input.add(legacy);
+        }
+      }
+      input.value = value;
+    }
+    if (!note?.remark?.trim()) noteFields.remark.value = currentTechnicalRemark(noteCode.value);
   };
   noteDate.addEventListener('change', loadNote);
   const showNoteDialog = (code: string, date = marketToday()) => {
@@ -547,6 +592,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
         action: noteFields.action.value as DailyNote['action'],
         risk: noteFields.risk.value.trim(),
         remark: noteFields.remark.value.trim(),
+        summary: noteFields.summary.value.trim(),
       });
       render();
       await saveLocalChanges('每日笔记');
@@ -691,7 +737,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   for (const dialog of dialogs) {
     dialog.addEventListener('click', event => {
       if ((event.target as HTMLElement).closest('.dialog-close')) closeDialog(dialog);
-      if (event.target === dialog) closeDialog(dialog);
+      if (event.target === dialog && dialog !== noteDialog) closeDialog(dialog);
     });
   }
 
@@ -715,8 +761,64 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .sync-panel > div { margin-right:auto; }.sync-panel strong { color:#0369a1; font-size:13px; }.sync-panel p { margin:2px 0 0; }
   .sync-panel label { display:flex; align-items:center; gap:6px; white-space:nowrap; }.sync-panel input { width:210px; border:1px solid #bae6fd; border-radius:5px; padding:6px 8px; background:#fff; color:#334155; font:12px ui-monospace,monospace; }
   .sync-panel button { border:1px solid #bae6fd; border-radius:6px; padding:6px 9px; background:#fff; color:#0369a1; font-size:12px; cursor:pointer; }.sync-panel .sync-primary { border-color:#0369a1; background:#0369a1; color:#fff; }.sync-panel button:disabled { opacity:.6; cursor:wait; }.sync-panel #sync-status { color:#64748b; }
-  .review-toolbar { display:flex; flex-direction:column; gap:14px; margin:4px 0 24px; }
-  .toolbar-actions { display:flex; flex:none; justify-content:flex-end; gap:8px; }
+  .review-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 4px 0 24px;
+    padding: 16px 20px;
+    background: #ffffff;
+    border: 1px solid #dde3ec;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  }
+  .review-toolbar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .review-toolbar__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.01em;
+  }
+  .toolbar-title-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1d4ed8;
+  }
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toolbar-actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    padding: 6px 12px;
+    background: #fff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .toolbar-actions button:hover {
+    border-color: #94a3b8;
+    color: #0f172a;
+    background: #f8fafc;
+  }
   .primary { border-color:#1d4ed8 !important; background:#1d4ed8 !important; color:#fff !important; }
 
   .empty { padding:48px 24px; border:1px dashed #cbd5e1; border-radius:14px; background:#fff; text-align:center; }.empty > div { font-size:38px; }.empty h3 { margin:8px 0 4px; font-size:16px; color:#1e293b; }.empty p { margin:0 0 18px; color:#64748b; font-size:13px; }
@@ -731,6 +833,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.05);
     overflow: hidden;
     animation: dialog-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  #note-dialog {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
   }
   @keyframes dialog-pop {
     from { opacity: 0; transform: scale(0.96) translateY(6px); }
@@ -922,7 +1028,17 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     color: #0369a1;
   }
   .form-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
-  @media(max-width:700px){.sync-panel > div{width:100%;margin-right:0}.sync-panel label{width:100%}.sync-panel input{flex:1;min-width:0}.review-toolbar{flex-direction:column}.form-grid{grid-template-columns:1fr}.page-actions{align-items:flex-start;flex-direction:column}#market-status{margin-left:0}}
+  @media(max-width:700px){
+    .sync-panel > div{width:100%;margin-right:0}
+    .sync-panel label{width:100%}
+    .sync-panel input{flex:1;min-width:0}
+    .review-toolbar{padding:12px 14px;gap:12px}
+    .review-toolbar__header{flex-direction:column;align-items:flex-start;gap:10px}
+    .toolbar-actions{width:100%;justify-content:flex-start}
+    .form-grid{grid-template-columns:1fr}
+    .page-actions{align-items:flex-start;flex-direction:column}
+    #market-status{margin-left:0}
+  }
 </style>
 
 <style is:global>
@@ -1186,26 +1302,69 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   }
 </style>
 
-<!-- 动态插入的分类 pill：is:global 保证编译正确，色值对齐主站 industry-etf -->
+<!-- 动态插入的分类 pill：is:global 保证编译正确，色值对齐主站 industry-etf 与 ui-chip 规范 -->
 <style is:global>
-  .industry-etf-nav { display:flex; flex-direction:column; gap:10px; margin:0; }
-  .industry-etf-nav__group { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
-  .industry-etf-nav__pill {
-    display:inline-flex; align-items:center; gap:6px;
-    padding:6px 14px; border-radius:999px;
-    background:#ffffff; border:1px solid #dde3ec; color:#172033;
-    font-size:13.5px; font-weight:500; cursor:pointer;
-    transition: all 0.2s ease;
+  .industry-etf-nav { display:flex; flex-direction:column; gap:12px; margin:0; }
+  .industry-etf-nav__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
   }
-  .industry-etf-nav__pill--primary {
-    font-weight:600; border-color:#1d4ed8;
-    background:rgba(29, 78, 216, 0.08); color:#1d4ed8;
+  .filter-label {
+    flex: none;
+    width: 58px;
+    padding-top: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #64748b;
+    text-align: right;
+    user-select: none;
+    letter-spacing: 0.02em;
+  }
+  .industry-etf-nav__pills {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+  .industry-etf-nav__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #dde3ec;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
   }
   .industry-etf-nav__pill:hover {
-    border-color:#1d4ed8; color:#1d4ed8; background:rgba(29, 78, 216, 0.08);
+    border-color: #94a3b8;
+    color: #0f172a;
+    background: #f8fafc;
   }
   .industry-etf-nav__pill.is-active {
-    border-color:#1d4ed8; background:#1d4ed8; color:#fff;
+    border-color: #1d4ed8;
+    background: #1d4ed8;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(29, 78, 216, 0.18);
+  }
+  .industry-etf-nav__pill.is-active:hover {
+    background: #1e40af;
+    border-color: #1e40af;
+    color: #ffffff;
+  }
+  @media(max-width:700px){
+    .industry-etf-nav__row { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .filter-label { width: auto; text-align: left; padding-top: 0; }
   }
 
   /* 货币 ETF / 债券基金：industry-etf 原样只读区 */
@@ -1236,7 +1395,6 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .catalog-reference-table tbody tr:last-child td { border-bottom:0; }
   .catalog-reference-table .etf-identity-cell .etf-name-line { font-weight:600; color:#0f172a; }
   .catalog-reference-table .etf-identity-cell .etf-code-line { color:#64748b; font-size:12px; margin-top:2px; }
-  .ma-filter-label { font-size:13px; color:#64748b; }
   .catalog-reference-table .etf-subtheme-cell strong { display:block; color:#0f172a; }
   .catalog-reference-table .etf-subtheme-cell div { color:#334155; margin-top:2px; }
   .catalog-reference-table .etf-subtheme-cell p { margin:6px 0 0; color:#64748b; font-size:12px; line-height:1.55; }
@@ -1251,6 +1409,10 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
   .etf-ref-link { color:#1d4ed8; text-decoration:none; font-size:13px; }
   .etf-ref-link:hover { text-decoration:underline; }
   .etf-empty-cell { color:#94a3b8; font-size:14px; }
+  .catalog-money-table th,
+  .catalog-money-table td { vertical-align:middle; }
+  .catalog-money-table th:first-child,
+  .catalog-money-table .etf-identity-cell { text-align:center; }
   .catalog-bond-table { min-width:1100px; }
   .catalog-bond-table th,
   .catalog-bond-table td {

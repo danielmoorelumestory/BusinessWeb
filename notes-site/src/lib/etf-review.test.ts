@@ -43,10 +43,10 @@ describe('etf-review domain', () => {
   it('truncateNote cuts risk and remark', () => {
     const note = truncateNote({
       emotion: '冷静', conclusion: '看多', action: '观望',
-      risk: 'x'.repeat(250), remark: 'y'.repeat(600), updatedAt: '2026-10-18T00:00:00.000Z',
+      risk: 'x'.repeat(250), remark: 'y'.repeat(2100), updatedAt: '2026-10-18T00:00:00.000Z',
     });
     expect(note.risk).toHaveLength(200);
-    expect(note.remark).toHaveLength(500);
+    expect(note.remark).toHaveLength(2000);
   });
 
   it('mergeMeta prefers newer updatedAt', () => {
