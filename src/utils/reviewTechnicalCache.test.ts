@@ -63,3 +63,17 @@ it('旧版本缓存仍显示，但判定为过期，会去数据库刷新；未�
   expect(apply).not.toHaveBeenCalledWith('159687', expect.anything())
   expect(fetcher).toHaveBeenCalled()
 })
+it('后台指标版本高于页面时直接提示更新前端，不再逐个触发后台补算', async () => {
+  const future = { ...entry('2026-10-20T07:30:00Z'), version: TECHNICAL_VERSION + 1 }
+  const fetcher = vi.fn(async () => ({ ok: true, json: async () => ({ records: { '588800': future, '159687': future } }) }))
+  vi.stubGlobal('fetch', fetcher)
+  await expect(loadReviewTechnical(['588800', '159687'], vi.fn())).rejects.toThrow(`页面版本落后于后台指标（v${TECHNICAL_VERSION} < v${TECHNICAL_VERSION + 1}）`)
+  expect(fetcher).toHaveBeenCalledTimes(1)
+})
+it('后台补算失败时错误信息带上真实原因', async () => {
+  const fetcher = vi.fn(async (_url: string, options: { method?: string }) => options.method === 'POST'
+    ? { ok: false, json: async () => ({ error: '历史行情入口均不可用' }) }
+    : { ok: true, json: async () => ({ records: {} }) })
+  vi.stubGlobal('fetch', fetcher)
+  await expect(loadReviewTechnical(['588800'], vi.fn())).rejects.toThrow('588800 更新失败，保留原状态：历史行情入口均不可用')
+})

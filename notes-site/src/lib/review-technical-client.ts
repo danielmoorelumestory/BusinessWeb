@@ -1,6 +1,6 @@
 import { SYNC_ENDPOINT } from './endpoints';
 import { readSyncKey } from './grid-trading';
-import { isTechnicalFresh, isUsableSnapshot, type TechnicalSnapshot, type ReviewRecord } from './review-technical';
+import { isTechnicalFresh, isUsableSnapshot, TECHNICAL_VERSION, type TechnicalSnapshot, type ReviewRecord } from './review-technical';
 
 const CACHE_KEY = 'etf-review-technical-v1';
 const empty = () => ({} as Record<string, TechnicalSnapshot>);
@@ -31,6 +31,9 @@ export async function loadReviewTechnical(codes: string[], apply: (code: string,
   const headers = { authorization: `Bearer ${token}` };
   const queue: string[] = [];
   const applySaved = (code: string, value: unknown) => {
+    // Worker 与 Pages 分开部署；后台版本更高时再补算也无法显示，直接说明原因。
+    const version = (value as { version?: unknown } | null)?.version;
+    if (typeof version === 'number' && version > TECHNICAL_VERSION) throw new Error(`页面版本落后于后台指标（v${TECHNICAL_VERSION} < v${version}），请刷新页面；仍提示则需要部署前端`);
     if (!isUsableSnapshot(value)) return false;
     const entry = cacheSnapshot(code, value);
     apply(code, entry.record);
@@ -62,7 +65,7 @@ export async function loadReviewTechnical(codes: string[], apply: (code: string,
         } else if (!applySaved(code, data.snapshot)) {
           throw new Error('后台未返回有效指标');
         }
-      } catch { errors.push(`${code} 更新失败，保留原状态`); }
+      } catch (error) { errors.push(`${code} 更新失败，保留原状态：${error instanceof Error ? error.message : String(error)}`); }
     }
   }));
   if (errors.length) throw new Error(errors.join('；'));
