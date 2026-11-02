@@ -14,7 +14,7 @@ it('最新报价补齐落后一天的日线，日周月同步重算，盘中均�
     expect(html).toContain('数据基准 2026-07-31')
     expect(html).toContain('未收盘暂态')
   }
-  expect(renderReviewAnalysis(quote.code, 'day', '/notes/', true)).toContain('MA5上10上')
+  expect(renderReviewAnalysis(quote.code, 'day', '/notes/', true)).toContain('价格 &gt; MA5 &gt; MA10')
   expect(setReviewCandles(quote.code, merged, true)).toBe(true)
   for (const period of ['day', 'week', 'month'] as const) expect(renderReviewAnalysis(quote.code, period, '/notes/', true)).not.toContain('未收盘暂态')
   const updated = mergeQuote(merged, { ...quote, price: 12, high: 12 })

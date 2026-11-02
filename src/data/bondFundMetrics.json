@@ -23,7 +23,10 @@
     "highlight": "管理与托管合计0.40%/年；持有满30天免赎回费",
     "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202605291822989007_1.pdf",
     "feeSourceDate": "2026-05-29",
-    "feeVerifiedOn": "2026-10-14"
+    "feeVerifiedOn": "2026-10-14",
+    "return1yPct": 3.0207624234174446,
+    "return1yPeriodLabel": "近一年",
+    "return1yStart": "2025-10-15"
   },
   "019372": {
     "asOf": "2026-10-16",
@@ -51,7 +54,10 @@
     "highlight": "管理与托管合计0.75%/年；满180天免赎回费（7–29天0.50%，30–179天0.10%）",
     "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202607271827373598_1.pdf",
     "feeSourceDate": "2026-07-27",
-    "feeVerifiedOn": "2026-10-14"
+    "feeVerifiedOn": "2026-10-14",
+    "return1yPct": 1.955835962145147,
+    "return1yPeriodLabel": "近一年",
+    "return1yStart": "2025-10-16"
   },
   "004042": {
     "asOf": "2026-10-13",
@@ -103,7 +109,10 @@
     "highlight": "管理与托管合计0.40%/年；持有满90天免赎回费",
     "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202602271820086523_1.pdf",
     "feeSourceDate": "2026-02-27",
-    "feeVerifiedOn": "2026-10-14"
+    "feeVerifiedOn": "2026-10-14",
+    "return1yPct": 3.253073770491799,
+    "return1yPeriodLabel": "近一年",
+    "return1yStart": "2025-10-16"
   },
   "000143": {
     "asOf": "2026-10-15",
@@ -129,7 +138,10 @@
     "highlight": "管理与托管合计0.65%/年；持有满365天免赎回费",
     "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202607271827369517_1.pdf",
     "feeSourceDate": "2026-07-27",
-    "feeVerifiedOn": "2026-10-14"
+    "feeVerifiedOn": "2026-10-14",
+    "return1yPct": 4.404767744150795,
+    "return1yPeriodLabel": "近一年",
+    "return1yStart": "2025-10-15"
   },
   "161716": {
     "asOf": "2026-10-15",
@@ -155,7 +167,10 @@
     "feeFormatted": "0.50%/年（0.40+0.10）· 场外满90天免赎回费",
     "feeSourceUrl": "https://static.cmfchina.com/fundarticle/20260227/20020808587557.pdf",
     "feeSourceDate": "2026-02-27",
-    "feeVerifiedOn": "2026-10-14"
+    "feeVerifiedOn": "2026-10-14",
+    "return1yPct": 2.9917726252806087,
+    "return1yPeriodLabel": "近一年",
+    "return1yStart": "2025-10-15"
   },
   "010011": {
     "asOf": "2026-10-15",
@@ -181,7 +196,10 @@
     "highlight": "净值震荡修复中，距区间高点1.09%。均衡增强候选，五年年化5.93%、最大回撤4.75%；每笔最短持有6个月。",
     "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202605231822700973_1.pdf",
     "feeSourceDate": "2026-05-23",
-    "feeVerifiedOn": "2026-10-14"
+    "feeVerifiedOn": "2026-10-14",
+    "return1yPct": 3.9157566302653546,
+    "return1yPeriodLabel": "近一年",
+    "return1yStart": "2025-10-15"
   },
   "110017": {
     "asOf": "2026-10-16",
@@ -207,6 +225,9 @@
     "highlight": "净值接近区间高点，当前回撤0.06%。一级债基收益增强候选；三年年化5.82%、最大回撤1.66%，保留161716作为较低波动备选。",
     "feeSourceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202608211828234981_1.pdf",
     "feeSourceDate": "2026-08-21",
-    "feeVerifiedOn": "2026-10-14"
+    "feeVerifiedOn": "2026-10-14",
+    "return1yPct": 2.9674212530287125,
+    "return1yPeriodLabel": "近一年",
+    "return1yStart": "2025-10-16"
   }
 }

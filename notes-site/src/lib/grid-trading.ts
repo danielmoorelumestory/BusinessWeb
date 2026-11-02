@@ -1036,7 +1036,7 @@ export async function pushRecord(record: SavedRecord, what = '修正'): Promise<
 
 /**
  * 屏蔽复制：页面内容不可选中，复制/剪切、右键菜单、移动端长按菜单和拖拽都被拦截。
- * 输入框仍可正常输入和粘贴；同步密钥输入框可以复制（“复制密钥”按钮走独立的剪贴板接口，不受影响）。
+ * 输入框仍可正常输入和粘贴；同步密钥和 data-allow-copy 区域允许复制。
  * 注意：前端屏蔽只能降低随手复制的可能，挡不住查看源码、开发者工具或截图。
  */
 export function blockCopy() {
@@ -1044,13 +1044,15 @@ export function blockCopy() {
   document.documentElement.classList.add('no-copy');
   const style = document.createElement('style');
   style.textContent = '.no-copy, .no-copy * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }'
-    + '.no-copy input, .no-copy textarea, .no-copy select { -webkit-user-select: text; user-select: text; }';
+    + '.no-copy input, .no-copy textarea, .no-copy select { -webkit-user-select: text; user-select: text; }'
+    + '.no-copy [data-allow-copy], .no-copy [data-allow-copy] * { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }';
   document.head.append(style);
   const closest = (target: EventTarget | null, selector: string) => (target instanceof Element ? target : null)?.closest(selector) ?? null;
   const inField = (target: EventTarget | null) => !!closest(target, 'input, textarea, select');
   const keyField = (target: EventTarget | null) => !!closest(target, '#sync-key');
-  for (const type of ['copy', 'cut']) document.addEventListener(type, event => { if (!keyField(event.target)) event.preventDefault(); }, true);
-  for (const type of ['contextmenu', 'selectstart', 'dragstart']) document.addEventListener(type, event => { if (!inField(event.target)) event.preventDefault(); }, true);
+  const allowCopy = (target: EventTarget | null) => !!closest(target, '[data-allow-copy]');
+  for (const type of ['copy', 'cut']) document.addEventListener(type, event => { if (!keyField(event.target) && !allowCopy(event.target)) event.preventDefault(); }, true);
+  for (const type of ['contextmenu', 'selectstart', 'dragstart']) document.addEventListener(type, event => { if (!inField(event.target) && !allowCopy(event.target)) event.preventDefault(); }, true);
 }
 
 /**

@@ -1,0 +1,72 @@
+[
+  {
+    "code": "588800",
+    "name": "科创100ETF华夏",
+    "subTheme": "制造业 86.47%、信息技术服务 12.11%、科研技术服务 0.55%",
+    "subThemeNote": "基金净值占比 · 2026-06-30",
+    "asOf": "2026-06-30",
+    "basis": "基金净值占比",
+    "sourceUrl": "https://f.chinaamc.com/fund/588800/zichanzuhe.shtml?source=click",
+    "analysisSlug": "588800-star100-etf-analysis"
+  },
+  {
+    "code": "159687",
+    "name": "亚太精选ETF南方",
+    "subTheme": "亚太大中盘股票、多行业低碳倾斜、通过境外ETF间接配置",
+    "subThemeNote": "底层行业权重暂未取得；非行业比例 · 2026-06-30",
+    "asOf": "2026-06-30",
+    "basis": "底层行业权重暂未取得；非行业比例",
+    "sourceUrl": "https://static.cninfo.com.cn/finalpage/2026-08-31/1225528032.PDF",
+    "analysisSlug": "159687-asia-pacific-select-etf-analysis"
+  },
+  {
+    "code": "159901",
+    "name": "深证100ETF易方达",
+    "subTheme": "信息技术 29.46%、工业 18.64%、电信业务 16.76%、可选消费 11.01%",
+    "subThemeNote": "指数一级行业权重 · 2026-09-30",
+    "asOf": "2026-09-30",
+    "basis": "指数一级行业权重",
+    "sourceUrl": "https://www.cnindex.com.cn/html2pdf/preview/jj_399330.pdf",
+    "analysisSlug": "159901-szse100-etf-analysis"
+  },
+  {
+    "code": "513180",
+    "name": "恒生科技ETF华夏",
+    "subTheme": "非必需消费品 36.59%、信息技术 32.78%、通信服务 26.59%",
+    "subThemeNote": "基金净值占比 · 2026-06-30",
+    "asOf": "2026-06-30",
+    "basis": "基金净值占比",
+    "sourceUrl": "https://f.chinaamc.com/fund/513180/zichanzuhe.shtml?source=click",
+    "analysisSlug": "513180-hang-seng-tech-etf-analysis"
+  },
+  {
+    "code": "516650",
+    "name": "有色金属ETF华夏",
+    "subTheme": "制造业 59.25%、采矿业 40.40%",
+    "subThemeNote": "基金净值占比；冶炼加工归制造业 · 2026-06-30",
+    "asOf": "2026-06-30",
+    "basis": "基金净值占比；冶炼加工归制造业",
+    "sourceUrl": "https://fund.chinaamc.com/fund/516650/zichanzuhe.shtml?source=click",
+    "analysisSlug": "516650-nonferrous-metals-etf-analysis"
+  },
+  {
+    "code": "159259",
+    "name": "成长ETF易方达",
+    "subTheme": "信息技术 65.34%、工业 16.71%、原材料 9.17%、电信业务 7.07%",
+    "subThemeNote": "指数一级行业权重 · 2026-09-30",
+    "asOf": "2026-09-30",
+    "basis": "指数一级行业权重",
+    "sourceUrl": "https://www.cnindex.com.cn/html2pdf/preview/jj_980080.pdf",
+    "analysisSlug": "159259-growth-etf-analysis"
+  },
+  {
+    "code": "159146",
+    "name": "电力ETF华宝",
+    "subTheme": "电力等公用事业 97.85%、水利环境公共设施 0.63%、交通运输仓储 0.50%",
+    "subThemeNote": "基金净值占比 · 指数投资部分 · 2026-06-30",
+    "asOf": "2026-06-30",
+    "basis": "基金净值占比 · 指数投资部分",
+    "sourceUrl": "https://static.cninfo.com.cn/finalpage/2026-08-31/1225533325.PDF",
+    "analysisSlug": "159146-electric-power-etf-analysis"
+  }
+]

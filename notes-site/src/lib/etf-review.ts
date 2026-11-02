@@ -1,4 +1,5 @@
 import { evictCaches, pushCloudPayload } from './grid-trading';
+import { ensureCatalogSeed, isCatalogGroupId } from './etf-catalog-seed';
 import {
   type DailyNote,
   type EtfReviewMeta,
@@ -99,13 +100,18 @@ export function restoreReviewBackup(value: unknown): EtfReviewMeta {
 
 export function readMeta(): EtfReviewMeta {
   const raw = readJson<unknown>(ETF_REVIEW_META_KEY, null);
-  if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) return raw;
-  const defaults = defaultMeta(new Date().toISOString());
-  const seeded = isEtfReviewMeta(raw)
-    ? { ...raw, groups: defaults.groups }
-    : defaults;
-  writeMeta(seeded);
-  return seeded;
+  let base: EtfReviewMeta;
+  if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) {
+    base = raw;
+  } else {
+    const defaults = defaultMeta(new Date().toISOString());
+    base = isEtfReviewMeta(raw) ? { ...raw, groups: defaults.groups } : defaults;
+    writeMeta(base);
+  }
+  const { meta, changed } = ensureCatalogSeed(base);
+  // 清单 seed 不抬 updatedAt，避免空库 SEED_TS 被刷成“已脏”而压过云端。
+  if (changed) writeMeta(meta);
+  return meta;
 }
 
 function touch(meta: EtfReviewMeta, workspace = true): EtfReviewMeta {
@@ -115,7 +121,7 @@ function touch(meta: EtfReviewMeta, workspace = true): EtfReviewMeta {
   return next;
 }
 
-type NoteFields = Pick<DailyNote, 'emotion' | 'conclusion' | 'action' | 'risk' | 'remark'>;
+type NoteFields = Pick<DailyNote, 'emotion' | 'conclusion' | 'action' | 'risk' | 'remark' | 'summary'>;
 
 export function upsertDailyNote(code: string, date: string, fields: NoteFields): EtfReviewMeta {
   const meta = readMeta();
@@ -131,11 +137,27 @@ export function upsertDailyNote(code: string, date: string, fields: NoteFields):
 
 export function setMemberships(code: string, groupIds: string[]): EtfReviewMeta {
   const meta = readMeta();
+  const nextIds = [...groupIds];
+  const prev = new Set(meta.memberships[code] ?? []);
+  const nextSet = new Set(nextIds);
+  const opted = new Set(meta.catalogMembershipOptOut?.[code] ?? []);
+  for (const id of prev) {
+    if (!isCatalogGroupId(id)) continue;
+    if (!nextSet.has(id)) opted.add(id);
+  }
+  for (const id of nextIds) {
+    if (isCatalogGroupId(id)) opted.delete(id);
+  }
+  const catalogMembershipOptOut = { ...(meta.catalogMembershipOptOut ?? {}) };
+  if (opted.size) catalogMembershipOptOut[code] = [...opted];
+  else delete catalogMembershipOptOut[code];
   const next: EtfReviewMeta = {
     ...meta,
-    memberships: { ...meta.memberships, [code]: [...groupIds] },
+    memberships: { ...meta.memberships, [code]: nextIds },
     membershipUpdatedAt: { ...meta.membershipUpdatedAt, [code]: new Date().toISOString() },
   };
+  if (Object.keys(catalogMembershipOptOut).length) next.catalogMembershipOptOut = catalogMembershipOptOut;
+  else delete next.catalogMembershipOptOut;
   return touch(next);
 }
 

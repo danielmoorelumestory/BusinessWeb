@@ -3,6 +3,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { readFileSync } from 'node:fs'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import worker, { trackedCodes } from './index'
+import { isTechnicalFresh, TECHNICAL_VERSION } from '../../../src/lib/review-technical'
 import { ensureReviewTable, readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store'
 
 let sqlite: DatabaseSync
@@ -120,4 +121,24 @@ it('前复权序列落后一根时仍保存最新原始K线和最新三周期指
   expect(body.snapshot.record.day.asOf).toBe(candles[candles.length - 1].date)
   expect(body.snapshot.record.day.close).toBe(candles[candles.length - 1].close)
   expect(sqlite.prepare('SELECT COUNT(*) AS n FROM daily_offsets WHERE code=?').get('588800')?.n).toBe(80)
+})
+it('旧版本快照仍可读取用于显示，但不算新鲜，会被刷新；失败时继续保留旧版本数据', async () => {
+  const fresh = (await refreshTechnicalSnapshot(db, '588800', async () => candles)).snapshot!
+  const downgraded = { ...fresh, version: TECHNICAL_VERSION - 1 }
+  sqlite.prepare('UPDATE review_technical SET payload=? WHERE code=?').run(JSON.stringify(downgraded), '588800')
+  const saved = (await readTechnicalSnapshots(db, ['588800']))['588800']
+  expect(saved.version).toBe(TECHNICAL_VERSION - 1)
+  expect(isTechnicalFresh(saved)).toBe(false)
+  await expect(refreshTechnicalSnapshot(db, '588800', async () => { throw new Error('源站失败') })).rejects.toThrow('源站失败')
+  expect((await readTechnicalSnapshots(db, ['588800']))['588800'].version).toBe(TECHNICAL_VERSION - 1)
+  const refreshed = await refreshTechnicalSnapshot(db, '588800', async () => candles)
+  expect(refreshed.refreshed).toBe(true)
+  expect((await readTechnicalSnapshots(db, ['588800']))['588800'].version).toBe(TECHNICAL_VERSION)
+})
+it('比当前代码更新的版本、损坏结构不会被读出', async () => {
+  const fresh = (await refreshTechnicalSnapshot(db, '588800', async () => candles)).snapshot!
+  for (const bad of [{ ...fresh, version: TECHNICAL_VERSION + 1 }, { ...fresh, version: 0 }, { ...fresh, record: { ...fresh.record, events: undefined } }]) {
+    sqlite.prepare('UPDATE review_technical SET payload=? WHERE code=?').run(JSON.stringify(bad), '588800')
+    expect((await readTechnicalSnapshots(db, ['588800']))['588800']).toBeUndefined()
+  }
 })

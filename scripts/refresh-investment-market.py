@@ -195,11 +195,13 @@ def fund(item):
         previous, previous_cumulative = nav, cum
     end = dt.date.fromisoformat(series[-1]['date'])
     assert (args.date-end).days <= 7, (item['code'], 'stale NAV', end)
+    one_start = end.replace(year=end.year-1).isoformat()
     three_start = end.replace(year=end.year-3).isoformat()
     five_start = end.replace(year=end.year-5).isoformat()
     quarter_start = (end-dt.timedelta(days=92)).isoformat()
     return dict(code=item['code'], name=item['name'], asOf=end.isoformat(), sourceUrl=raw['sourceUrl'],
                 retrievedAt=raw['retrievedAt'], currentNav=series[-1]['nav'], series=series, roundingAdjustments=rounding_adjustments,
+                metrics1y=window(series, one_start) if series[0]['date'] <= one_start else None,
                 metrics3y=window(series, three_start) if series[0]['date'] <= three_start else None,
                 metrics5y=window(series, five_start) if series[0]['date'] <= five_start else None,
                 availableWindow=window(series, series[0]['date']), quarter=window(series, quarter_start))
@@ -263,8 +265,11 @@ for r in records:
         if history['maxDrawdownPct'] < metric['maxDrawdownPct']:
             metric.update(drawdownStart=history['peakDate'], drawdownEnd=history['troughDate'],
                           drawdownPeriodLabel=f"历史({history['peakDate'][:4]}–{history['troughDate'][:4]})")
+        one = r.get('metrics1y')
         metric.update(asOf=r['asOf'], return3yPct=r['metrics3y']['returnPct'] if r['metrics3y'] else None,
                       returnPct=three['returnPct'], returnStart=three['start'], returnPeriodLabel='近三年' if r['metrics3y'] else '成立来',
+                      return1yPct=one['returnPct'] if one else None, return1yPeriodLabel='近一年' if one else '成立不足1年',
+                      return1yStart=one['start'] if one else None,
                       return5yPct=five['returnPct'] if five else None, return5yPeriodLabel='近五年' if five else '成立不足5年',
                       maxDrawdownPct=historical_dd)
         if not five:
