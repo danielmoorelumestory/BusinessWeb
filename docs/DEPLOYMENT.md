@@ -65,7 +65,7 @@ GitHub Pages 构建线以前通过 `VITE_API_BASE` 调用 Vercel 上的接口；
 npm run build:pages
 ```
 
-本地仅用于验证构建；线上由 `.github/workflows/pages.yml` 发布。此构建显式使用 `/BusinessWeb/` 资源和 Router 路径，并生成详情路由回退页面。GitHub Pages 不运行 Functions，所以热力图行情保留直接访问腾讯（受浏览器 CORS 限制），本次 Vercel 同步接口仅支持同源访问，Pages 网站不能直接跨域使用该接口；如保留 Pages 并需要云同步，需另外配置支持 CORS 的独立同步服务。
+本地仅用于验证构建；`.github/workflows/pages.yml` 已停用自动部署，只保留手动运行，且需先在仓库设置里开启 GitHub Pages。此构建显式使用 `/BusinessWeb/` 资源和 Router 路径，并生成详情路由回退页面。GitHub Pages 不运行 Functions，所以热力图行情保留直接访问腾讯（受浏览器 CORS 限制），本次 Vercel 同步接口仅支持同源访问，Pages 网站不能直接跨域使用该接口；如保留 Pages 并需要云同步，需另外配置支持 CORS 的独立同步服务。
 
 ## 仍需独立处理的接口
 

@@ -55,11 +55,6 @@ jobs:
           git commit -m "data(national-team): 更新国家队持仓数据 $(date -u +%Y-%m-%d)"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
-      - name: Deploy GitHub Pages
-        if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main
       - name: Fail if a fetch step had errors
         if: steps.fetch.outputs.status != '0'
         run: |
