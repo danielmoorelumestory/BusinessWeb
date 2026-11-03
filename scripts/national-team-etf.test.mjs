@@ -108,6 +108,12 @@ test('fetchEtfUniverse 深交所不可用时保留上交所结果，并用上次
   assert.deepEqual(list.map(item => item.code).sort(), ['159915', '510300'])
 })
 
+test('fetchEtfUniverse 交易所清单不覆盖已知 ETF 的全称和规模', async () => {
+  const fullNames = [{ code: '510300', name: '沪深300ETF华泰柏瑞', market: 'sh', price: null, scale: 100 }]
+  const { list } = await fetchEtfUniverse({ fetchImpl: universeFetch({ 'query.sse.com.cn': ssePage }), known: fullNames })
+  assert.deepEqual(list, fullNames)
+})
+
 test('fetchEtfUniverse 所有上游失败时退回上次发布清单', async () => {
   const { list, source } = await fetchEtfUniverse({ fetchImpl: universeFetch({}), known })
   assert.equal(source, '上次发布清单')
