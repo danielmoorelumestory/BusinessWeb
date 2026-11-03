@@ -320,8 +320,15 @@ export async function syncPremiums(env: Env, codes: string[]): Promise<{ ok: num
   return { ok, skipped: unique.length - ok, failed };
 }
 
-async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
+export async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
   const runAt = Date.now(), summary = { ok: 0, failed: 0 };
+  // 溢价只有当天能取到，错过无法回填，而且每 40 个标的只需 1 次请求，所以排在最前，避免被分钟线和日K耗尽 fetch 配额。
+  try {
+    const premium = await syncPremiums(env, codes);
+    console.log('ETF 溢价同步', premium);
+  } catch (error) {
+    console.error('ETF 溢价同步异常', error);
+  }
   for (const code of codes) {
     let result = { fetched: 0, firstTs: null as string | null, lastTs: null as string | null }, ok = 1, error: string | null = null;
     try {
@@ -353,12 +360,6 @@ async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
       console.error('日K 同步失败', code, dailyError);
       await note(code, `日K 同步失败：${message}`);
     }
-  }
-  try {
-    const premium = await syncPremiums(env, codes);
-    console.log('ETF 溢价同步', premium);
-  } catch (error) {
-    console.error('ETF 溢价同步异常', error);
   }
   return { runAt, trigger, codes: codes.length, ...summary };
 }

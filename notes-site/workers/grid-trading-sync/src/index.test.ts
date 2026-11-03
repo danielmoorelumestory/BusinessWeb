@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { dailyFetchBudget, type Env, readPremiums, syncPremiums } from './index';
+import { dailyFetchBudget, type Env, readPremiums, runSync, syncPremiums } from './index';
 
 type Call = { sql: string; bindings: unknown[] };
 
@@ -16,6 +16,7 @@ function fakeEnv(results: unknown[] = []) {
         },
         run: async () => ({ success: true }),
         all: async () => ({ results }),
+        first: async () => null,
       };
       return statement;
     },
@@ -36,6 +37,16 @@ describe('dailyFetchBudget', () => {
     expect(dailyFetchBudget(41)).toBe(5);
     expect(41 + dailyFetchBudget(41) + Math.ceil(41 / 40)).toBe(48);
     expect(dailyFetchBudget(50)).toBe(0);
+  });
+});
+
+describe('runSync', () => {
+  it('fetches premiums before minute and daily bars so the worker fetch limit cannot starve them', async () => {
+    const { env } = fakeEnv();
+    const fetchMock = vi.fn(async (_url: string) => new Response(new TextEncoder().encode(quoteBody('510300'))));
+    vi.stubGlobal('fetch', fetchMock);
+    await runSync(env, 'cron', ['510300']);
+    expect(String(fetchMock.mock.calls[0][0])).toContain('qt.gtimg.cn');
   });
 });
 
