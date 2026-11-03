@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { snapshotSchema } from './data'
+import { mergeSnapshots, snapshotSchema } from './data'
+import { dailySnapshot } from './fixtures'
 
 describe('public/data/daily-analysis.json', () => {
   const body = JSON.parse(readFileSync(resolve(__dirname, '../../../public/data/daily-analysis.json'), 'utf8'))
@@ -22,5 +23,23 @@ describe('public/data/daily-analysis.json', () => {
         if (!snapshot.rankings[key].length) expect(source?.status, `${snapshot.dataDate} ${id}`).not.toBe('ready')
       }
     }
+  })
+})
+
+describe('mergeSnapshots 打板溢价', () => {
+  const withPremium = (fetchedAt: string, premiumOpen: number | null) => {
+    const snapshot = dailySnapshot()
+    return { ...snapshot, fetchedAt, metrics: { ...snapshot.metrics, premiumOpen, premiumClose: premiumOpen } }
+  }
+
+  it('归档后来回补的溢价能补进采集时间相同的浏览器旧快照', () => {
+    const [row] = mergeSnapshots([dailySnapshot()], [withPremium(dailySnapshot().fetchedAt, 1.5)])
+    expect(row.metrics).toMatchObject({ premiumOpen: 1.5, premiumClose: 1.5 })
+  })
+
+  it('较新的快照没有溢价时保留已有值，有值时用新值', () => {
+    const old = withPremium('2026-10-12T08:00:00.000Z', 1.5)
+    expect(mergeSnapshots([old], [withPremium('2026-10-12T09:00:00.000Z', null)])[0].metrics.premiumOpen).toBe(1.5)
+    expect(mergeSnapshots([old], [withPremium('2026-10-12T09:00:00.000Z', 2)])[0].metrics.premiumOpen).toBe(2)
   })
 })

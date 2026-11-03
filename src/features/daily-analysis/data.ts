@@ -10,24 +10,32 @@ const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(value => {
 const count = z.number().int().nonnegative().max(100000).nullable()
 const amount = z.number().finite().nonnegative().nullable()
 const rate = z.number().min(0).max(100).nullable()
+const premium = z.number().min(-100).max(1000).nullish()
 const boardStock = z.object({ code: z.string().regex(/^\d{6}$/), name: z.string().max(80), boards: z.number().int().nonnegative().max(1000) })
 const index = z.object({ symbol: z.string().regex(/^(sh|sz|bj)\d{6}$/), code: z.string().regex(/^\d{6}$/), name: z.string().max(80), date, price: z.number().positive(), change: z.number().finite() })
 const flow = z.object({ name: z.string().max(80), amount: z.number().finite() })
 export const snapshotSchema = z.object({
   schemaVersion: z.literal(1), dataDate: date, fetchedAt: z.string().datetime(), session: z.enum(['intraday', 'closed', 'previous']),
-  metrics: z.object({ ztCount: count, ztOpen: count, ztSealRate: rate, dtCount: count, dtOpen: count, dtSealRate: rate, volume: amount, upCount: count, downCount: count, lbCount: count, maxBoard: count, lbRate: rate }),
+  metrics: z.object({ ztCount: count, ztOpen: count, ztSealRate: rate, dtCount: count, dtOpen: count, dtSealRate: rate, volume: amount, upCount: count, downCount: count, lbCount: count, maxBoard: count, lbRate: rate, premiumOpen: premium, premiumClose: premium }),
   indices: z.array(index).max(3), upStocks: z.array(boardStock).max(10000),
   ladder: z.array(z.object({ boards: z.number().int().min(2).max(1000), stocks: z.array(boardStock).max(10000) })).max(1000),
   rankings: z.object({ amount: z.array(index.extend({ amount, turnover: amount })).max(5), turnover: z.array(index.extend({ amount, turnover: amount })).max(5) }),
   flows: z.object({ inflow: z.array(flow).max(5), outflow: z.array(flow).max(5) }),
-  sources: z.array(z.object({ id: z.enum(['indices', 'limitUp', 'brokenUp', 'limitDown', 'amountRank', 'turnoverRank', 'flows']), label: z.string().max(100), url: z.string().url().startsWith('https://'), date: date.nullable(), status: z.enum(['ready', 'partial', 'unavailable', 'undated']), note: z.string().max(500) })).min(1).max(7),
+  sources: z.array(z.object({ id: z.enum(['indices', 'limitUp', 'brokenUp', 'limitDown', 'amountRank', 'turnoverRank', 'flows', 'premium']), label: z.string().max(100), url: z.string().url().startsWith('https://'), date: date.nullable(), status: z.enum(['ready', 'partial', 'unavailable', 'undated']), note: z.string().max(500) })).min(1).max(8),
 })
+
+/** 溢价可能是后来回补进归档的（采集时间不变，不会替换浏览器里的旧快照），所以缺失时从同日另一份补上。 */
+function carryPremium(kept: DailySnapshot, other: DailySnapshot): DailySnapshot {
+  if (kept.metrics.premiumOpen != null || other.metrics.premiumOpen == null) return kept
+  return { ...kept, metrics: { ...kept.metrics, premiumOpen: other.metrics.premiumOpen, premiumClose: other.metrics.premiumClose } }
+}
 
 export function mergeSnapshots(...groups: DailySnapshot[][]): DailySnapshot[] {
   const rows = new Map<string, DailySnapshot>()
   for (const snapshot of groups.flat()) {
     const previous = rows.get(snapshot.dataDate)
-    if (!previous || canReplaceSnapshot(previous, snapshot)) rows.set(snapshot.dataDate, snapshot)
+    if (!previous) rows.set(snapshot.dataDate, snapshot)
+    else rows.set(snapshot.dataDate, canReplaceSnapshot(previous, snapshot) ? carryPremium(snapshot, previous) : carryPremium(previous, snapshot))
   }
   return [...rows.values()].sort((a, b) => b.dataDate.localeCompare(a.dataDate)).slice(0, 60)
 }

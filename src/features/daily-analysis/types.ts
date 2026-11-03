@@ -1,5 +1,5 @@
 export interface DailySource {
-  id: 'indices' | 'limitUp' | 'brokenUp' | 'limitDown' | 'amountRank' | 'turnoverRank' | 'flows'
+  id: 'indices' | 'limitUp' | 'brokenUp' | 'limitDown' | 'amountRank' | 'turnoverRank' | 'flows' | 'premium'
   label: string
   url: string
   date: string | null
@@ -20,6 +20,8 @@ export interface DailySnapshot {
     dtCount: number | null; dtOpen: number | null; dtSealRate: number | null
     volume: number | null; upCount: number | null; downCount: number | null
     lbCount: number | null; maxBoard: number | null; lbRate: number | null
+    /** 打板溢价（%）：昨日涨停股今日开盘/收盘相对昨收的平均涨跌幅。旧归档可能没有这两个字段。 */
+    premiumOpen?: number | null; premiumClose?: number | null
   }
   indices: DailyIndex[]
   upStocks: BoardStock[]

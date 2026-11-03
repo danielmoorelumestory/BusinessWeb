@@ -52,9 +52,9 @@ function Spark({ label, rows, keys, unit }: { label: string; rows: TrendRow[]; k
   const last = ordered.length - 1
   const active = Math.min(hover ?? last, last)
   const values = ordered.flatMap(row => keys.map(({ key }) => row[key])).filter((v): v is number => v !== null)
-  const max = Math.max(...values, 1), w = 240, h = 64, step = ordered.length > 1 ? w / (ordered.length - 1) : 0
+  const max = Math.max(...values, 1), min = Math.min(...values, 0), w = 240, h = 64, step = ordered.length > 1 ? w / (ordered.length - 1) : 0
   const x = (i: number) => ordered.length > 1 ? i * step : w / 2
-  const y = (v: number) => h - 4 - (v / max) * (h - 12)
+  const y = (v: number) => h - 4 - ((v - min) / (max - min)) * (h - 12)
   const lines = keys.map(({ key, cls }) => {
     const segments: string[] = []
     let open = ''
@@ -85,6 +85,7 @@ function Spark({ label, rows, keys, unit }: { label: string; rows: TrendRow[]; k
     <div className="daily-spark__plot" tabIndex={0} role="group" aria-label={`${label}趋势，左右方向键查看每个交易日`}
       onPointerMove={move} onPointerDown={move} onPointerLeave={() => setHover(null)} onBlur={() => setHover(null)} onKeyDown={press}>
       <svg viewBox={`0 0 ${w} ${h}`} aria-hidden="true" preserveAspectRatio="none">
+        {min < 0 && <line className="daily-spark__guide" x1="0" x2={w} y1={y(0)} y2={y(0)} />}
         <line className="daily-spark__guide" x1={x(active)} x2={x(active)} y1="0" y2={h} />
         {lines.map(line => <g key={line.key} className={line.cls}><path d={line.path} fill="none" />{line.dots.map(dot => <circle key={dot.i} cx={dot.x} cy={dot.y} r={dot.i === active ? 4 : 2.5} />)}</g>)}
       </svg>
@@ -120,7 +121,8 @@ export function TrendSection({ snapshots, selected, onSelect }: { snapshots: Dai
   const rows = useMemo(() => buildTrend(snapshots, backfill, days, boards), [snapshots, backfill, days, boards])
   const enough = (key: TrendMetric) => rows.filter(row => row[key] !== null).length >= 2
   const cell = (row: TrendRow, i: number, k: TrendMetric, suffix = '') => <td>{valueText(row[k], suffix)}<Delta rows={rows} index={i} k={k} /></td>
-  return <Card as="section" title="多日对比" description="每个交易日一行，▲▼ 为较前一交易日的变化。历史日期由东方财富股池按日期回补（已用财联社交叉核验），之后每天收盘自动归档。量能暂无可靠历史来源，显示 —；标「回补」的日期只有指数涨跌与连板数、最高板。">
+  const premiumCell = (row: TrendRow, i: number, k: TrendMetric) => <td><span className={tone(row[k])}>{signed(row[k], '%')}</span><Delta rows={rows} index={i} k={k} /></td>
+  return <Card as="section" title="多日对比" description="每个交易日一行，▲▼ 为较前一交易日的变化。历史日期由东方财富股池按日期回补（已用财联社交叉核验），之后每天收盘自动归档。量能暂无可靠历史来源，显示 —；标「回补」的日期只有指数涨跌与连板数、最高板。打板溢价是昨日涨停股今日开盘、收盘相对昨收（涨停价）的平均涨跌幅，含买不进的一字板，可能高于实际打板能拿到的收益。">
     <div className="daily-trend__toolbar" role="group" aria-label="对比天数">{RANGES.map(range => <button key={range} type="button" aria-pressed={days === range} onClick={() => setDays(range)}>近 {range} 日</button>)}</div>
     {enough('maxBoard') || enough('ztCount')
       ? <div className="daily-sparks">
@@ -129,15 +131,16 @@ export function TrendSection({ snapshots, selected, onSelect }: { snapshots: Dai
         <Spark label="封板率" unit="%" rows={rows} keys={[{ key: 'ztSealRate', cls: 'daily-line--accent' }]} />
         <Spark label="连板数" unit="只" rows={rows} keys={[{ key: 'lbCount', cls: 'daily-line--accent' }]} />
         <Spark label="最高连板" unit="板" rows={rows} keys={[{ key: 'maxBoard', cls: 'daily-line--up' }]} />
+        <Spark label="打板溢价" unit="%" rows={rows} keys={[{ key: 'premiumOpen', cls: 'daily-line--accent', name: '开盘' }, { key: 'premiumClose', cls: 'daily-line--up', name: '收盘' }]} />
       </div>
       : <EmptyState title={`已归档 ${snapshots.length} 天`}>满 2 个交易日的归档后显示涨停、量能等趋势；每个交易日收盘后会自动新增一天。</EmptyState>}
     <TableWrap label="多日对比"><table className="ui-table daily-table daily-trend"><thead><tr>
       <th scope="col">交易日</th><th scope="col">涨停</th><th scope="col">封板率</th><th scope="col">炸板</th><th scope="col">跌停</th><th scope="col">量能(亿)</th>
-      <th scope="col">连板</th><th scope="col">最高板</th><th scope="col">晋级率</th><th scope="col">上证</th><th scope="col">深成</th><th scope="col">创业板</th><th scope="col">成交额前五</th><th scope="col">换手率前五</th><th scope="col">流入</th><th scope="col">流出</th>
+      <th scope="col">连板</th><th scope="col">最高板</th><th scope="col">晋级率</th><th scope="col">打板溢价(开)</th><th scope="col">打板溢价(收)</th><th scope="col">上证</th><th scope="col">深成</th><th scope="col">创业板</th><th scope="col">成交额前五</th><th scope="col">换手率前五</th><th scope="col">流入</th><th scope="col">流出</th>
     </tr></thead><tbody>{rows.map((row, i) => <tr key={row.date} className={selected === row.date ? 'is-selected' : ''}>
       <th scope="row">{row.backfilled ? <>{row.date}<small>回补</small></> : <button type="button" className="daily-trend__date" aria-label={`查看 ${row.date} 复盘`} onClick={() => onSelect(row.date)}>{row.date}</button>}</th>
       {cell(row, i, 'ztCount')}{cell(row, i, 'ztSealRate', '%')}{cell(row, i, 'ztOpen')}{cell(row, i, 'dtCount')}{cell(row, i, 'volume')}
-      {cell(row, i, 'lbCount')}{cell(row, i, 'maxBoard')}{cell(row, i, 'lbRate', '%')}
+      {cell(row, i, 'lbCount')}{cell(row, i, 'maxBoard')}{cell(row, i, 'lbRate', '%')}{premiumCell(row, i, 'premiumOpen')}{premiumCell(row, i, 'premiumClose')}
       {(['sh', 'sz', 'cy'] as const).map(k => <td key={k} className={tone(row.index[k])}>{signed(row.index[k], '%')}</td>)}
       <RankCell picks={row.amountTop} unit="亿" label="成交额前五" /><RankCell picks={row.turnoverTop} unit="%" label="换手率前五" />
       <td className="daily-trend__names">{row.inflow.join('、') || '—'}</td><td className="daily-trend__names">{row.outflow.join('、') || '—'}</td>

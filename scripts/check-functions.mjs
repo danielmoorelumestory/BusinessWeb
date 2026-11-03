@@ -11,7 +11,7 @@ try {
   const pkg = JSON.parse(await readFile('package.json', 'utf8'))
   await writeFile(join(directory, 'package.json'), JSON.stringify({ type: pkg.type ?? 'commonjs' }))
   await mkdir(join(directory, 'server/functions'), { recursive: true })
-  for (const file of ['api/china-stock.js', 'api/grid-market.js', 'server/market.mjs', 'server/functions/daily-analysis.js', 'server/daily-analysis.mjs']) await copyFile(resolve(file), join(directory, file))
+  for (const file of ['api/china-stock.js', 'api/grid-market.js', 'server/market.mjs', 'server/functions/daily-analysis.js', 'server/daily-analysis.mjs', 'server/daily-premium.mjs']) await copyFile(resolve(file), join(directory, file))
   await writeFile(join(directory, 'check.mjs'), `
 import assert from 'node:assert/strict';
 import pulse from './api/pulse-sync.js';

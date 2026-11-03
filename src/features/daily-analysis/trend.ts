@@ -4,8 +4,8 @@ import type { DailySnapshot } from './types'
 
 export type TrendSymbol = 'sh000001' | 'sz399001' | 'sz399006'
 export type IndexChanges = Record<string, Partial<Record<TrendSymbol, number>>>
-export type TrendMetric = 'ztCount' | 'ztSealRate' | 'ztOpen' | 'dtCount' | 'volume' | 'lbCount' | 'maxBoard' | 'lbRate'
-export const trendMetrics: TrendMetric[] = ['ztCount', 'ztSealRate', 'ztOpen', 'dtCount', 'volume', 'lbCount', 'maxBoard', 'lbRate']
+export type TrendMetric = 'ztCount' | 'ztSealRate' | 'ztOpen' | 'dtCount' | 'volume' | 'lbCount' | 'maxBoard' | 'lbRate' | 'premiumOpen' | 'premiumClose'
+export const trendMetrics: TrendMetric[] = ['ztCount', 'ztSealRate', 'ztOpen', 'dtCount', 'volume', 'lbCount', 'maxBoard', 'lbRate', 'premiumOpen', 'premiumClose']
 
 export interface TrendRow extends Record<TrendMetric, number | null> {
   date: string

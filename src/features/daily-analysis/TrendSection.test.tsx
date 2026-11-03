@@ -21,6 +21,24 @@ describe('多日对比', () => {
     expect(screen.queryByRole('group', { name: /趋势/ })).toBeNull()
   })
 
+  it('显示打板溢价两列和趋势图，正负值带符号；旧快照显示 —', () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('{}', { status: 503 })))
+    const today = dailySnapshot(); today.metrics.premiumOpen = -1.5; today.metrics.premiumClose = 2.25
+    const older = dailySnapshot('2026-10-09'); older.metrics.premiumOpen = 1; older.metrics.premiumClose = 1
+    const oldest = dailySnapshot('2026-10-08')
+    render(<TrendSection snapshots={[today, older, oldest]} selected="2026-10-12" onSelect={() => {}} />)
+    expect(screen.getByRole('columnheader', { name: '打板溢价(开)' })).toBeTruthy()
+    expect(screen.getByRole('columnheader', { name: '打板溢价(收)' })).toBeTruthy()
+    expect(screen.getByRole('group', { name: /打板溢价趋势/ })).toBeTruthy()
+    const row = screen.getByRole('button', { name: '查看 2026-10-12 复盘' }).closest('tr')!
+    expect(within(row).getByText('-1.5%').className).toBe('daily-down')
+    expect(within(row).getByText('+2.25%').className).toBe('daily-up')
+    expect(within(row).getByText('▼2.5')).toBeTruthy()
+    const oldRow = screen.getByRole('button', { name: '查看 2026-10-08 复盘' }).closest('tr')!
+    const headers = screen.getAllByRole('columnheader').map(th => th.textContent)
+    expect(within(oldRow).getAllByRole('cell')[headers.indexOf('打板溢价(开)') - 1].textContent).toBe('—')
+  })
+
   it('每天一行并显示较前一日变化；点击日期切换到当天复盘', () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response('{}', { status: 503 })))
     const older = dailySnapshot('2026-10-09'); older.metrics.ztCount = 50

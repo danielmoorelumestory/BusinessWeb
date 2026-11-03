@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises'
+import { computePremium, MIN_PREMIUM_COVERAGE, symbolOf } from './daily-premium.mjs'
 
 const INDEX_NAMES = { sh000001: '上证指数', sz399001: '深证成指', sz399006: '创业板指' }
 const SINA = 'https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/'
@@ -50,6 +51,13 @@ function parseQuotes(text, today) {
   return quotes
 }
 
+function parsePremiumQuotes(text) {
+  return [...text.matchAll(/v_((?:sh|sz|bj)\d{6})="([^"]*)"/g)].map(match => {
+    const fields = match[2].split('~')
+    return { date: dateString(fields[30]?.slice(0, 8)), open: number(fields[5]) ?? 0, close: number(fields[3]) ?? 0, previousClose: number(fields[4]) ?? 0 }
+  })
+}
+
 function parseCandidates(body) {
   if (!Array.isArray(body) || !body.length || body.length > 5
     || body.some(row => !/^(sh|sz|bj)\d{6}$/.test(row?.symbol))
@@ -99,7 +107,7 @@ export async function buildDailyAnalysis({ fetchImpl = fetch, now = new Date(), 
   }
   const poolUrl = (path, sort) => `https://push2ex.eastmoney.com/${path}?${new URLSearchParams({ ut: POOL_TOKEN, dpt: 'wz.ztzt', Pageindex: '0', pagesize: '10000', sort, date: today.replace(/-/g, '') })}`
   const rankUrl = sort => `${SINA}Market_Center.getHQNodeData?${new URLSearchParams({ node: 'hs_a', sort, asc: '0', num: '5', page: '1' })}`
-  const [indices, up, broken, down, amount, turnover, flows] = await Promise.all([
+  const [indices, up, broken, down, amount, turnover, flows, yesterdayUp] = await Promise.all([
     collect('indices', '腾讯指数行情', `https://qt.gtimg.cn/q=${Object.keys(INDEX_NAMES).join(',')}`, raw => parseQuotes(raw, today), 'quotes'),
     collect('limitUp', '东方财富涨停股池', poolUrl('getTopicZTPool', 'fbt:asc'), body => parsePool(body, today, true)),
     collect('brokenUp', '东方财富炸板股池', poolUrl('getTopicZBPool', 'fbt:asc'), body => parsePool(body, today)),
@@ -107,13 +115,22 @@ export async function buildDailyAnalysis({ fetchImpl = fetch, now = new Date(), 
     collect('amountRank', '新浪成交额排名 / 腾讯报价', rankUrl('amount'), parseCandidates),
     collect('turnoverRank', '新浪换手率排名 / 腾讯报价', rankUrl('turnoverratio'), parseCandidates),
     collect('flows', '新浪行业资金流', `${SINA}MoneyFlow.ssl_bkzj_bk?paixu=op%2Fturnover&fenlei=0`, parseFlows),
+    collect('premium', '东方财富昨日涨停股池 / 腾讯报价', poolUrl('getYesterdayZTPool', 'zs:desc'), body => parsePool(body, today)),
   ])
+  const fetchPremiumQuotes = async rows => {
+    const symbols = rows.map(row => symbolOf(row.code))
+    const chunks = Array.from({ length: Math.ceil(symbols.length / 60) }, (_, i) => symbols.slice(i * 60, i * 60 + 60))
+    const results = await Promise.allSettled(chunks.map(chunk => get(`https://qt.gtimg.cn/q=${chunk.join(',')}`, 'quotes')))
+    return results.flatMap(result => result.status === 'fulfilled' ? parsePremiumQuotes(result.value) : [])
+  }
+  const premiumQuotesTask = fetchPremiumQuotes(yesterdayUp.value?.rows ?? [])
   const symbols = [...new Set([...(amount.value ?? []), ...(turnover.value ?? [])])]
   let rankQuotes = new Map()
   if (symbols.length) {
     try { rankQuotes = parseQuotes(await get(`https://qt.gtimg.cn/q=${symbols.join(',')}`, 'quotes'), today) }
     catch { /* 排名必须用实际报价日期校验；失败时不展示未核验的榜单。 */ }
   }
+  const premiumQuotes = await premiumQuotesTask
   const dates = [...(indices.value?.values() ?? []), ...rankQuotes.values()].map(row => row.date)
   dates.push(...[up, broken, down].flatMap(result => result.value ? [result.value.date] : []))
   const dataDate = dates.sort().at(-1)
@@ -126,6 +143,15 @@ export async function buildDailyAnalysis({ fetchImpl = fetch, now = new Date(), 
     return result.value.rows
   }
   const upStocks = aligned(up), brokenStocks = aligned(broken), downStocks = aligned(down)
+  // 股池的 qdate 只是最新交易日；休市日按日期查询返回空池，所以这里只认当天有名单的结果。
+  const yesterdayRows = aligned(yesterdayUp)
+  const premium = computePremium(premiumQuotes.filter(row => row.date === dataDate), yesterdayRows?.length ?? 0)
+  if (yesterdayRows) {
+    if (premium.open === null) {
+      yesterdayUp.source.status = 'unavailable'
+      yesterdayUp.source.note = yesterdayRows.length ? `仅 ${premium.sample}/${premium.total} 只有当日报价，不足 ${MIN_PREMIUM_COVERAGE * 100}%，未计算` : '没有昨日涨停名单（休市或超出保留期）'
+    } else yesterdayUp.source.note = `昨日涨停 ${premium.total} 只，有当日报价 ${premium.sample} 只`
+  }
   const indexRows = [...(indices.value?.values() ?? [])].filter(row => row.date === dataDate && row.symbol in INDEX_NAMES)
   if (indices.value) {
     indices.source.date = [...indices.value.values()].map(row => row.date).sort().at(-1) ?? null
@@ -163,6 +189,7 @@ export async function buildDailyAnalysis({ fetchImpl = fetch, now = new Date(), 
       upCount: null, downCount: null,
       lbCount: upStocks ? upStocks.filter(row => row.boards >= 2).length : null,
       maxBoard: upStocks ? Math.max(0, ...upStocks.map(row => row.boards)) : null, lbRate,
+      premiumOpen: premium.open, premiumClose: premium.close,
     },
     indices: indexRows.map(({ amount: _amount, turnover: _turnover, ...row }) => row),
     upStocks: upStocks ?? [],

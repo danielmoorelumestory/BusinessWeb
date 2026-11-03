@@ -33,6 +33,16 @@ describe('buildTrend', () => {
   })
 })
 
+describe('buildTrend 打板溢价', () => {
+  it('带出开盘与收盘溢价，负值的差值正常计算；旧快照没有字段时为空', () => {
+    const rows = buildTrend([snap('2026-10-12', { premiumOpen: -1.5, premiumClose: 2 }), snap('2026-10-09', { premiumOpen: 1, premiumClose: 2 }), snap('2026-10-08')], {}, 5)
+    expect(rows[0]).toMatchObject({ premiumOpen: -1.5, premiumClose: 2 })
+    expect(rows[2].premiumOpen).toBeNull()
+    expect(deltaOf(rows, 0, 'premiumOpen')).toBe(-2.5)
+    expect(deltaOf(rows, 1, 'premiumOpen')).toBeNull()
+  })
+})
+
 describe('buildTrend 榜单', () => {
   it('带出成交额与换手率前五；没有快照的日期为空，缺失数值的股票不入选', () => {
     const s = snap('2026-10-12')

@@ -39,6 +39,46 @@ function fixtureFetch(overrides: Record<string, unknown | Error> = {}) {
 }
 
 describe('每日分析：真实字段聚合与日期隔离', () => {
+  describe('打板溢价', () => {
+    const priced = (symbol: string, open: string, close: string, previous: string, date = '20261012') => {
+      const fields = Array(60).fill('')
+      Object.assign(fields, { 1: symbol, 3: close, 4: previous, 5: open, 30: `${date}150001` })
+      return `v_${symbol}="${fields.join('~')}";`
+    }
+    const withPremium = (yesterday: unknown, quotes: string | Error) => {
+      const base = fixtureFetch()
+      return async (input: string | URL | Request) => {
+        const url = String(input)
+        if (url.includes('getYesterdayZTPool')) return new Response(JSON.stringify(yesterday))
+        if (url.includes('sh600100')) { if (quotes instanceof Error) throw quotes; return new Response(quotes) }
+        return base(input)
+      }
+    }
+    const yesterday = pool([{ c: '600100', n: '甲' }, { c: '000100', n: '乙' }, { c: '430100', n: '丙' }, { c: '300100', n: '丁' }, { c: '688100', n: '戊' }])
+
+    it('按昨日涨停名单算开盘与收盘平均涨跌幅，停牌股不计入样本', async () => {
+      const quotes = priced('sh600100', '11', '10.5', '10') + priced('sz000100', '9', '9.5', '10') + priced('bj430100', '10', '10', '10') + priced('sz300100', '10.2', '10', '10') + priced('sh688100', '0', '10', '10')
+      const data = await buildDailyAnalysis({ fetchImpl: withPremium(yesterday, quotes), now: NOW, history: [] })
+      expect(data.metrics).toMatchObject({ premiumOpen: 0.5, premiumClose: 0 })
+      expect(data.sources.find(source => source.id === 'premium')).toMatchObject({ status: 'ready', date: '2026-10-12', note: '昨日涨停 5 只，有当日报价 4 只' })
+    })
+
+    it('报价日期不是当日（盘前）或请求失败时留空，不填假零值，其他指标不受影响', async () => {
+      const stale = ['sh600100', 'sz000100', 'bj430100', 'sz300100', 'sh688100'].map(symbol => priced(symbol, '11', '11', '10', '20261009')).join('')
+      for (const quotes of [stale, new Error('offline')]) {
+        const data = await buildDailyAnalysis({ fetchImpl: withPremium(yesterday, quotes), now: NOW, history: [] })
+        expect(data.metrics).toMatchObject({ premiumOpen: null, premiumClose: null, ztCount: 3 })
+        expect(data.sources.find(source => source.id === 'premium')?.status).toBe('unavailable')
+      }
+    })
+
+    it('休市日昨日股池为空时留空', async () => {
+      const data = await buildDailyAnalysis({ fetchImpl: withPremium(pool([]), ''), now: NOW, history: [] })
+      expect(data.metrics.premiumOpen).toBeNull()
+      expect(data.sources.find(source => source.id === 'premium')?.note).toContain('没有昨日涨停名单')
+    })
+  })
+
   it('自动统计股池和封板率，两市成交额不重复叠加创业板', async () => {
     const data = await buildDailyAnalysis({ fetchImpl: fixtureFetch(), now: NOW, history: [] })
     expect(data.dataDate).toBe('2026-10-12')
