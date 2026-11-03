@@ -20,7 +20,11 @@ const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a)
 const writeJson = (file, data) => writeJsonIfChanged(file, data)
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
-const { list: universe, source } = await fetchEtfUniverse()
+// 所有清单源都不可用时，至少继续更新上次已发布的国家队 ETF。
+const known = readJson(OUT_FILE, { etfs: [] }).etfs.map(etf => ({
+  code: etf.c, name: etf.n, market: /^[569]/.test(etf.c) ? 'sh' : 'sz', price: null, scale: etf.scale ?? null,
+}))
+const { list: universe, source } = await fetchEtfUniverse({ known })
 log(`ETF 清单 ${universe.length} 只（来源：${source}）`)
 const cache = readJson(CACHE_FILE, {})
 

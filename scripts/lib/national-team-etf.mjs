@@ -24,7 +24,8 @@ async function request(url, { headers = {}, retries = 4, timeoutMs = 25000, fetc
 // ---------------------------------------------------------------------------
 // 清单：东方财富 沪深全部 ETF/LOF（价格 f2 按 f1 位小数还原，f20 为总市值，近似规模）
 // ---------------------------------------------------------------------------
-const CLIST = 'https://push2.eastmoney.com/api/qt/clist/get'
+// push2 偶尔超时或返回 502，push2delay 是同一接口的延时入口。
+const CLIST_HOSTS = ['https://push2.eastmoney.com', 'https://push2delay.eastmoney.com']
 
 export function parseUniverseRow(x) {
   const digits = Number.isInteger(x.f1) ? x.f1 : 3
@@ -39,6 +40,18 @@ export function parseUniverseRow(x) {
 }
 
 async function fetchUniverseEastmoney({ fetchImpl = fetch } = {}) {
+  let lastError
+  for (const host of CLIST_HOSTS) {
+    try {
+      return await fetchUniverseEastmoneyHost(host, { fetchImpl })
+    } catch (error) {
+      lastError = error
+    }
+  }
+  throw lastError
+}
+
+async function fetchUniverseEastmoneyHost(host, { fetchImpl }) {
   const out = new Map()
   let total = Infinity
   for (let pn = 1; out.size < total && pn <= 40; pn += 1) {
@@ -46,7 +59,7 @@ async function fetchUniverseEastmoney({ fetchImpl = fetch } = {}) {
       pn: String(pn), pz: '100', po: '1', fid: 'f12', fs: 'b:MK0021,b:MK0022,b:MK0023,b:MK0024',
       fields: 'f1,f2,f12,f13,f14,f20',
     })
-    const json = await request(`${CLIST}?${params}`, { headers: { Referer: 'https://quote.eastmoney.com/' }, fetchImpl, retries: 3 })
+    const json = await request(`${host}/api/qt/clist/get?${params}`, { headers: { Referer: 'https://quote.eastmoney.com/' }, fetchImpl, retries: 3 })
     const data = json?.data
     total = data?.total ?? 0
     const rows = Array.isArray(data?.diff) ? data.diff : Object.values(data?.diff ?? {})
@@ -73,20 +86,26 @@ export function parseSzseRow(row) {
   return { code, name, market: 'sz', price: null, scale: null }
 }
 
-async function fetchUniverseExchanges({ fetchImpl = fetch } = {}) {
-  const out = new Map()
+async function fetchSseList({ fetchImpl }) {
+  const out = []
   const day = d => new Date(Date.now() + 8 * 3600 * 1000 - d * 86400000).toISOString().slice(0, 10)
-  for (let back = 1; back <= 10 && !out.size; back += 1) {
+  for (let back = 1; back <= 10 && !out.length; back += 1) {
     const json = await request(SSE_LIST(day(back)), { headers: { Referer: 'https://www.sse.com.cn/' }, fetchImpl, retries: 2 })
     for (const r of json?.result ?? []) {
       const code = String(r.SEC_CODE ?? '').trim()
-      if (code) out.set(code, { code, name: String(r.SEC_NAME ?? '').trim(), market: 'sh', price: null, scale: null })
+      if (code) out.push({ code, name: String(r.SEC_NAME ?? '').trim(), market: 'sh', price: null, scale: null })
     }
   }
+  if (!out.length) throw new Error('上交所 ETF 清单为空')
+  return out
+}
+
+async function fetchSzseList({ fetchImpl }) {
   // 深交所要先拿 cookie，否则返回空体
   const home = await fetchImpl(SZSE_INDEX, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(25000) })
   const cookie = (home.headers.getSetCookie?.() ?? []).map(c => c.split(';')[0]).join('; ')
   const headers = { Referer: SZSE_INDEX, Accept: 'application/json, text/javascript, */*; q=0.01', ...(cookie ? { Cookie: cookie } : {}) }
+  const out = []
   let pages = 1
   for (let page = 1; page <= pages; page += 1) {
     const blocks = await request(SZSE_LIST(page), { headers, fetchImpl, retries: 3 })
@@ -94,21 +113,51 @@ async function fetchUniverseExchanges({ fetchImpl = fetch } = {}) {
     pages = Number(block?.metadata?.pagecount) || pages
     for (const row of block?.data ?? []) {
       const parsed = parseSzseRow(row)
-      if (parsed) out.set(parsed.code, parsed)
+      if (parsed) out.push(parsed)
     }
   }
-  if (!out.size) throw new Error('交易所 ETF 清单为空')
-  return [...out.values()]
+  if (!out.length) throw new Error('深交所 ETF 清单为空')
+  return out
 }
 
-/** 优先东方财富（带价格与规模）；不可用时退到交易所清单。返回 { list, source }。 */
-export async function fetchEtfUniverse(opts = {}) {
+/** 分别抓两个交易所，一边失败不影响另一边。返回 { list, failed }。 */
+async function fetchUniverseExchanges({ fetchImpl = fetch } = {}) {
+  const out = new Map()
+  const failed = []
+  for (const [name, load] of [['上交所', fetchSseList], ['深交所', fetchSzseList]]) {
+    try {
+      for (const row of await load({ fetchImpl })) out.set(row.code, row)
+    } catch (error) {
+      failed.push(`${name}：${error.message}`)
+    }
+  }
+  return { list: [...out.values()], failed }
+}
+
+/**
+ * 依次尝试东方财富（带价格与规模）、交易所清单、上次发布的清单（known）。
+ * 清单不完整时用 known 补齐，只更新已知 ETF、暂不发现新 ETF；没有 known 就报错，避免丢失 ETF 名称和价格。
+ * 返回 { list, source }。
+ */
+export async function fetchEtfUniverse({ known = [], ...opts } = {}) {
   try {
     return { list: await fetchUniverseEastmoney(opts), source: '东方财富' }
   } catch (error) {
     console.warn(`  ⚠ 东方财富 ETF 清单不可用（${error.message}），改用上交所/深交所清单`)
-    return { list: await fetchUniverseExchanges(opts), source: '交易所' }
   }
+  const { list, failed } = await fetchUniverseExchanges(opts)
+  // 交易所只有简称且没有规模；分类依赖名称，所以已知 ETF 保留上次发布的全称和规模。
+  const knownByCode = new Map(known.map(item => [item.code, item]))
+  const preferKnown = list.map(item => {
+    const prior = knownByCode.get(item.code)
+    return prior ? { ...item, name: prior.name, scale: prior.scale } : item
+  })
+  if (!failed.length) return { list: preferKnown, source: '交易所' }
+  console.warn(`  ⚠ 交易所 ETF 清单不完整（${failed.join('；')}）`)
+  if (!known.length) throw new Error(`ETF 清单不可用：${failed.join('；')}`)
+  const seen = new Set(list.map(item => item.code))
+  const merged = [...preferKnown, ...known.filter(item => !seen.has(item.code))]
+  return { list: merged, source: list.length ? '交易所（部分）+上次发布清单' : '上次发布清单' }
 }
 
 // 新浪日 K：只取最近收盘价
