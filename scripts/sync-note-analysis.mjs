@@ -32,7 +32,7 @@ if (!rows.length) { console.log('\n没有可写入的内容。'); process.exit(s
 
 if (!write) { console.log('\n这是预览，没有修改数据库。确认无误后加 --write 写入。'); process.exit(0) }
 
-const wrangler = (args) => execFileSync('npx', ['wrangler', 'd1', 'execute', DATABASE, '--remote', '--json', ...args], { cwd: WORKER_DIR, encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] })
+const wrangler = (args) => execFileSync('npx', ['--yes', 'wrangler@4', 'd1', 'execute', DATABASE, '--remote', '--json', ...args], { cwd: WORKER_DIR, encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] })
 const count = () => Number(JSON.parse(wrangler(['--command', 'SELECT COUNT(*) AS n FROM note_analysis']))[0].results[0].n)
 const tmp = mkdtempSync(join(tmpdir(), 'note-analysis-'))
 try {

@@ -1,0 +1,42 @@
+name: Sync note analysis
+
+# 笔记推送到 main 后，把「结论速览」写入线上 D1，页面的短期/中期判断才会更新。
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/notes/*.md'
+      - 'src/data/notes.ts'
+      - 'scripts/noteAnalysis.mjs'
+      - 'scripts/sync-note-analysis.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: note-analysis-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Preview parsed notes
+        run: node scripts/sync-note-analysis.mjs
+      - name: Write to D1
+        env:
+          # 只需 D1 编辑权限的 Cloudflare API 令牌。
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: b0c0793c0bc65cf77d28e1150435f4c0
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::未配置 CLOUDFLARE_API_TOKEN，本次只预览，线上数据没有更新"
+            exit 0
+          fi
+          node scripts/sync-note-analysis.mjs --write
