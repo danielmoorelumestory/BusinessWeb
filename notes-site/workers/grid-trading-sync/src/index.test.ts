@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { dailyFetchBudget, type Env, readPremiums, runSync, syncPremiums } from './index';
+import { clsDayLimit, dailyFetchBudget, type Env, readPremiums, runSync, shouldTriggerDailyAnalysis, syncPremiums, triggerDailyAnalysis } from './index';
 
 type Call = { sql: string; bindings: unknown[] };
 
@@ -37,6 +37,45 @@ describe('dailyFetchBudget', () => {
     expect(dailyFetchBudget(41)).toBe(5);
     expect(41 + dailyFetchBudget(41) + Math.ceil(41 / 40)).toBe(48);
     expect(dailyFetchBudget(50)).toBe(0);
+  });
+});
+
+describe('定时任务 fetch 配额', () => {
+  it('日K 预算扣除 CLS 已用请求，总数不超过上限', () => {
+    expect(dailyFetchBudget(26, 7)).toBe(14);
+    expect(7 + 1 + 26 + dailyFetchBudget(26, 7)).toBe(48);
+    expect(dailyFetchBudget(26, 25)).toBe(0);
+  });
+  it('标的越多 CLS 补缺天数越少，但始终刷新最近 2 日', () => {
+    expect(clsDayLimit(0)).toBe(8);
+    expect(clsDayLimit(26)).toBe(6);
+    expect(clsDayLimit(47)).toBe(2);
+  });
+});
+
+describe('每日分析触发', () => {
+  const at = (iso: string) => Date.parse(iso);
+  it('只在北京时间 15:45 这一轮触发', () => {
+    expect(shouldTriggerDailyAnalysis(at('2026-11-03T07:45:00Z'))).toBe(true);
+    expect(shouldTriggerDailyAnalysis(at('2026-11-03T07:30:00Z'))).toBe(false);
+    expect(shouldTriggerDailyAnalysis(at('2026-11-03T02:45:00Z'))).toBe(false);
+  });
+  it('没有配置密钥时不发请求', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    await triggerDailyAnalysis(fakeEnv().env);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  it('配置密钥后触发 main 上的工作流，失败不抛错', async () => {
+    const fetchMock = vi.fn(async (_url: string, _init: RequestInit) => new Response('nope', { status: 403 }));
+    vi.stubGlobal('fetch', fetchMock);
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    await triggerDailyAnalysis({ ...fakeEnv().env, GITHUB_DISPATCH_TOKEN: 'token' });
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toContain('/actions/workflows/daily-analysis-snapshot.yml/dispatches');
+    expect(init.method).toBe('POST');
+    expect(init.body).toBe(JSON.stringify({ ref: 'main' }));
+    expect((init.headers as Record<string, string>).authorization).toBe('Bearer token');
   });
 });
 

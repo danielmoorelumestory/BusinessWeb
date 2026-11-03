@@ -3,7 +3,7 @@ import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-tec
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
 import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
 
-export interface Env { DB: D1Database }
+export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string }
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -74,8 +74,13 @@ type DailyBar = { open: number; close: number; high: number; low: number; volume
 // 免费版 Worker 单次调用最多 50 次 fetch 子请求（D1 查询不计入）。日K 抓取按预算计数，超出时抛出 BUDGET，剩余标的留到下一次触发。
 const FETCH_LIMIT = 48;
 export class Budget { used = 0; constructor(private limit: number) {} take() { if (++this.used > this.limit) throw new Error('BUDGET'); } }
-export const dailyFetchBudget = (codeCount: number) =>
-  Math.max(0, FETCH_LIMIT - codeCount - Math.ceil(codeCount / 40));
+const premiumFetches = (codeCount: number) => Math.ceil(codeCount / 40);
+/** 日K 可用请求数：扣除分钟线、溢价，以及本次调用已用掉的请求（如 CLS）。 */
+export const dailyFetchBudget = (codeCount: number, usedFetches = 0) =>
+  Math.max(0, FETCH_LIMIT - usedFetches - codeCount - premiumFetches(codeCount));
+/** CLS 单次可处理的天数：每天 3 次请求，另有 1 次取交易日；为分钟线和溢价留足配额，且始终刷新最近 2 日。 */
+export const clsDayLimit = (codeCount: number) =>
+  Math.min(8, Math.max(2, Math.floor((FETCH_LIMIT - codeCount - premiumFetches(codeCount) - 1) / 3)));
 // 前复权偏移的比较容差：价格最小变动单位是 0.001，小于一半即视为没有变化。
 const OFFSET_TOLERANCE = 5e-4;
 
@@ -230,6 +235,36 @@ async function refreshReviewCode(env: Env, code: string, budget = new Budget(FET
   });
 }
 
+const DAILY_ANALYSIS_DISPATCH = 'https://api.github.com/repos/danielmoorelumestory/BusinessWeb/actions/workflows/daily-analysis-snapshot.yml/dispatches';
+
+/** GitHub 的定时任务可能延迟数小时，由盘中 15 分钟任务在北京时间 15:45（UTC 07:45）这一轮准点触发。 */
+export const shouldTriggerDailyAnalysis = (scheduledTime: number) => {
+  const time = new Date(scheduledTime);
+  return time.getUTCHours() === 7 && time.getUTCMinutes() === 45;
+};
+
+/** 需要 GITHUB_DISPATCH_TOKEN（仅含本仓库 Actions 写权限）；未配置时跳过，失败不影响指标更新。 */
+export async function triggerDailyAnalysis(env: Env) {
+  if (!env.GITHUB_DISPATCH_TOKEN) return;
+  try {
+    const response = await fetch(DAILY_ANALYSIS_DISPATCH, {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${env.GITHUB_DISPATCH_TOKEN}`,
+        accept: 'application/vnd.github+json',
+        'content-type': 'application/json',
+        'user-agent': 'grid-trading-sync-worker',
+        'x-github-api-version': '2022-11-28',
+      },
+      body: JSON.stringify({ ref: 'main' }),
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!response.ok) console.error('每日分析触发失败', response.status, await response.text());
+  } catch (error) {
+    console.error('每日分析触发异常', error);
+  }
+}
+
 async function syncReviewTechnical(env: Env) {
   const codes = await trackedCodes(env);
   const saved = await readTechnicalSnapshots(env.DB, codes);
@@ -320,7 +355,7 @@ export async function syncPremiums(env: Env, codes: string[]): Promise<{ ok: num
   return { ok, skipped: unique.length - ok, failed };
 }
 
-export async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
+export async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[], usedFetches = 0) {
   const runAt = Date.now(), summary = { ok: 0, failed: 0 };
   // 溢价只有当天能取到，错过无法回填，而且每 40 个标的只需 1 次请求，所以排在最前，避免被分钟线和日K耗尽 fetch 配额。
   try {
@@ -344,7 +379,7 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', codes: strin
     } catch (logError) { console.error('写入 sync_log 失败', code, logError); }
   }
   // 分钟线阶段每个标的已用掉 1 次 fetch，日K 预算要扣除；按“日K 最近更新最久远”的顺序处理，保证预算有限时每个标的轮流得到更新。
-  const budget = new Budget(dailyFetchBudget(codes.length));
+  const budget = new Budget(dailyFetchBudget(codes.length, usedFetches));
   const { results: latest } = await env.DB.prepare('SELECT code, MAX(date) AS date FROM daily_bars GROUP BY code').all<{ code: string; date: string }>();
   const latestByCode = new Map(latest.map(row => [row.code, row.date]));
   const ordered = [...codes].sort((a, b) => (latestByCode.get(a) ?? '').localeCompare(latestByCode.get(b) ?? ''));
@@ -623,7 +658,7 @@ async function syncClsPlates(env: Env, { lookback = 20, maxDays = 8 } = {}) {
   const end = beijingToday();
   const start = addDays(end, -45);
   const days = (await clsTradingDays(start, end)).slice(0, lookback);
-  if (!days.length) return { days: 0, todo: 0, stored: 0, errors: [] as string[] };
+  if (!days.length) return { days: 0, todo: 0, stored: 0, errors: [] as string[], fetches: 1 };
 
   const { results: existing } = await env.DB.prepare(
     'SELECT date, up_limit FROM cls_plate_day WHERE date >= ?',
@@ -653,7 +688,7 @@ async function syncClsPlates(env: Env, { lookback = 20, maxDays = 8 } = {}) {
       console.error('CLS 板块同步失败', date, error);
     }
   }
-  return { days: days.length, todo: todo.length, stored, errors };
+  return { days: days.length, todo: todo.length, stored, errors, fetches: 1 + todo.length * 3 };
 }
 
 async function readClsPlateDay(env: Env, request: Request, url: URL) {
@@ -720,16 +755,20 @@ export default {
   // 先缓存 CLS 板块涨跌（股市 lab），再抓网格标的分钟线 / 日K。
   async scheduled(controller, env) {
     if (!['10 7 * * 1-5', '0 8 * * 1-5', '0 1 * * 1-5'].includes(controller.cron)) {
+      if (shouldTriggerDailyAnalysis(controller.scheduledTime)) await triggerDailyAnalysis(env);
       await syncReviewTechnical(env);
       return;
     }
+    const codes = await trackedCodes(env);
+    let clsFetches = 1;
     try {
-      const plate = await syncClsPlates(env);
+      const plate = await syncClsPlates(env, { maxDays: clsDayLimit(codes.length) });
+      clsFetches = plate.fetches;
       console.log('CLS 板块同步', plate);
     } catch (error) {
       console.error('CLS 板块同步异常', error);
     }
-    await runSync(env, 'cron', await trackedCodes(env));
+    await runSync(env, 'cron', codes, clsFetches);
   },
   async fetch(request, env, ctx): Promise<Response> {
     const url = new URL(request.url);

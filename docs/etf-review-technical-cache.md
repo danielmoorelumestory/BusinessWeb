@@ -22,6 +22,8 @@
 
 `wrangler.jsonc` 额外配置交易时段的15分钟任务，仅处理过期指标；原分钟线/CLS定时任务保留。跟踪范围包含有效网格记录及 `etf-review-meta.watchlist`，排除删除墓碑。受单次子请求预算限制时，按最久未更新的标的优先处理，其余留待下一轮；页面也可触发缺失数据补算。
 
+GitHub 的定时任务可能延迟数小时，所以盘中任务在北京时间 15:45 这一轮会触发 `daily-analysis-snapshot.yml`。这需要 Worker 密钥 `GITHUB_DISPATCH_TOKEN`（只给本仓库 Actions 写权限的细粒度令牌，用 `wrangler secret put GITHUB_DISPATCH_TOKEN` 配置）；未配置时跳过，工作流自身的定时任务仍然保留。
+
 表通过幂等 `CREATE TABLE IF NOT EXISTS` 自动初始化，DDL同时保留在Worker的 `schema.sql`。指标算法/存储格式变更时递增 `review-technical.ts` 的 `TECHNICAL_VERSION`，使旧快照失效。
 
 ## 验证
