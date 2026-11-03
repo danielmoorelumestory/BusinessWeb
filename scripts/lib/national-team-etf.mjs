@@ -146,11 +146,17 @@ export async function fetchEtfUniverse({ known = [], ...opts } = {}) {
     console.warn(`  ⚠ 东方财富 ETF 清单不可用（${error.message}），改用上交所/深交所清单`)
   }
   const { list, failed } = await fetchUniverseExchanges(opts)
-  if (!failed.length) return { list, source: '交易所' }
+  // 交易所只有简称且没有规模；分类依赖名称，所以已知 ETF 保留上次发布的全称和规模。
+  const knownByCode = new Map(known.map(item => [item.code, item]))
+  const preferKnown = list.map(item => {
+    const prior = knownByCode.get(item.code)
+    return prior ? { ...item, name: prior.name, scale: prior.scale } : item
+  })
+  if (!failed.length) return { list: preferKnown, source: '交易所' }
   console.warn(`  ⚠ 交易所 ETF 清单不完整（${failed.join('；')}）`)
   if (!known.length) throw new Error(`ETF 清单不可用：${failed.join('；')}`)
   const seen = new Set(list.map(item => item.code))
-  const merged = [...list, ...known.filter(item => !seen.has(item.code))]
+  const merged = [...preferKnown, ...known.filter(item => !seen.has(item.code))]
   return { list: merged, source: list.length ? '交易所（部分）+上次发布清单' : '上次发布清单' }
 }
 
