@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
   group: daily-analysis-snapshot
@@ -41,8 +40,3 @@ jobs:
           git commit -m "data(daily-analysis): archive verified market snapshot"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
-      - name: Deploy GitHub Pages
-        if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main
