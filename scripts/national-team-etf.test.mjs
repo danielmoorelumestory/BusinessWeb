@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
-  buildEtfDataset, classifyTheme, fetchNationalTeamHolders, parseKlineClose, parseReportDates, parseSzseRow, parseUniverseRow, pickNationalTeam,
+  buildEtfDataset, classifyTheme, fetchEtfUniverse, fetchNationalTeamHolders, parseKlineClose, parseReportDates, parseSzseRow, parseUniverseRow, pickNationalTeam,
 } from './lib/national-team-etf.mjs'
 
 test('parseUniverseRow 还原价格小数位', () => {
@@ -84,4 +84,36 @@ test('parseKlineClose 取最后一根 K 线收盘价', () => {
   const text = "/*<script>location.href='//sina.com';</script>*/\nvar _data=([{\"day\":\"2026-10-08\",\"close\":\"4.389\"},{\"day\":\"2026-10-09\",\"close\":\"4.385\"}]);"
   assert.equal(parseKlineClose(text), 4.385)
   assert.equal(parseKlineClose('garbage'), null)
+})
+
+// 按 URL 片段返回结果；未命中的上游一律连接失败。
+const universeFetch = routes => async url => {
+  const hit = Object.entries(routes).find(([part]) => String(url).includes(part))
+  if (!hit) throw new Error('connect ETIMEDOUT')
+  return new Response(JSON.stringify(hit[1]), { status: 200 })
+}
+const eastmoneyPage = { data: { total: 1, diff: [{ f1: 3, f2: 1484, f12: '510300', f13: 1, f14: '沪深300ETF', f20: 100 }] } }
+const ssePage = { result: [{ SEC_CODE: '510300', SEC_NAME: '沪深300ETF' }] }
+const known = [{ code: '159915', name: '创业板ETF', market: 'sz', price: null, scale: 5 }]
+
+test('fetchEtfUniverse 东方财富主域名失败时改用备用域名', async () => {
+  const { list, source } = await fetchEtfUniverse({ fetchImpl: universeFetch({ 'push2delay.eastmoney.com': eastmoneyPage }), known })
+  assert.equal(source, '东方财富')
+  assert.deepEqual(list.map(item => item.code), ['510300'])
+})
+
+test('fetchEtfUniverse 深交所不可用时保留上交所结果，并用上次发布清单补齐', async () => {
+  const { list, source } = await fetchEtfUniverse({ fetchImpl: universeFetch({ 'query.sse.com.cn': ssePage }), known })
+  assert.equal(source, '交易所（部分）+上次发布清单')
+  assert.deepEqual(list.map(item => item.code).sort(), ['159915', '510300'])
+})
+
+test('fetchEtfUniverse 所有上游失败时退回上次发布清单', async () => {
+  const { list, source } = await fetchEtfUniverse({ fetchImpl: universeFetch({}), known })
+  assert.equal(source, '上次发布清单')
+  assert.deepEqual(list, known)
+})
+
+test('fetchEtfUniverse 没有上次清单时，清单不完整就报错，避免丢失深市 ETF 名称', async () => {
+  await assert.rejects(fetchEtfUniverse({ fetchImpl: universeFetch({ 'query.sse.com.cn': ssePage }) }), /ETF 清单不可用/)
 })
