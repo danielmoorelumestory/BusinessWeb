@@ -35,8 +35,8 @@ export function parseNote(file, text, title = '') {
   }
   if (!short) return { skipped: '结论速览里没有「短期」行' }
   if (!mid) return { skipped: '结论速览里没有「中期（…）」行' }
-  // 数据基准日：兼容「数据基准：2026-10-09 收盘」「**数据基准**：2026-10-09收盘」等写法
-  const asOf = /数据基准[*：:\s]*(\d{4}-\d{2}-\d{2})/.exec(text)?.[1] ?? ''
+  // 数据基准日：兼容「数据基准：2026-10-09 收盘」「**数据基准**：2026-10-09收盘」「更新至 **2026-10-12 收盘**」等写法
+  const asOf = (/数据基准[*：:\s]*(\d{4}-\d{2}-\d{2})/.exec(text) ?? /更新至[*：:\s]*(\d{4}-\d{2}-\d{2})/.exec(text))?.[1] ?? ''
   return { code, slug, title: title || slug, asOf, short, mid }
 }
 

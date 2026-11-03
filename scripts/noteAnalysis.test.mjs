@@ -62,6 +62,12 @@ test('从 notes.ts 文本取 slug → title', () => {
   assert.equal(titles.get('b-analysis'), '乙')
 })
 
+test('数据基准日兼容「更新至」写法，且优先取「数据基准」', () => {
+  const note = header => `${header}\n\n## 一、结论速览\n\n| 期限 | 判断 |\n| --- | --- |\n| 短期（1–4 周） | 偏强 |\n| 中期（1–2 季度） | 震荡 |\n`
+  assert.equal(parseNote('510300-a.md', note('> 沪深300｜更新至 **2026-10-12 收盘**。')).asOf, '2026-10-12')
+  assert.equal(parseNote('510300-a.md', note('数据基准：2026-10-09 收盘；更新至 2026-10-12')).asOf, '2026-10-09')
+})
+
 test('仓库里所有标的分析笔记都能解析出短期与中期判断', () => {
   const dir = 'public/notes'
   const titles = titlesFromNotesTs(readFileSync('src/data/notes.ts', 'utf8'))
