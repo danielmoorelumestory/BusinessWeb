@@ -1,8 +1,8 @@
 name: Deploy GitHub Pages from main
 
+# 线上站点在 Cloudflare Pages，本仓库未开启 GitHub Pages，因此只保留手动运行。
+# 恢复方法：先在 Settings → Pages 把 Source 设为 GitHub Actions，再加回 push 触发。
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
