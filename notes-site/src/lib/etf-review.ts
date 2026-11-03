@@ -1,4 +1,5 @@
 import { evictCaches, pushCloudPayload } from './grid-trading';
+import { ensureCatalogSeed, isCatalogGroupId } from './etf-catalog-seed';
 import {
   type DailyNote,
   type EtfReviewMeta,
@@ -17,6 +18,7 @@ import {
 } from './etf-review-meta';
 
 export const ETF_REVIEW_META_KEY = 'etf-review-meta-v1';
+export const ETF_REVIEW_HISTORY_KEY = 'etf-review-meta-history-v1';
 
 export {
   ETF_REVIEW_META_ID,
@@ -78,6 +80,13 @@ function hasUsableGroups(meta: unknown): boolean {
 
 export function writeMeta(meta: EtfReviewMeta): void {
   const text = JSON.stringify(meta);
+  const previous = readJson<EtfReviewMeta | null>(ETF_REVIEW_META_KEY, null);
+  if (previous && JSON.stringify(previous) !== text) {
+    const history = readJson<{ savedAt: string; meta: EtfReviewMeta }[]>(ETF_REVIEW_HISTORY_KEY, []);
+    const snapshots = [{ savedAt: new Date().toISOString(), meta: previous }, ...history].slice(0, 8);
+    while (snapshots.length > 1 && JSON.stringify(snapshots).length > 750_000) snapshots.pop();
+    try { localStorage.setItem(ETF_REVIEW_HISTORY_KEY, JSON.stringify(snapshots)); } catch { /* 主记录写入仍有缓存清理和错误提示。 */ }
+  }
   try {
     localStorage.setItem(ETF_REVIEW_META_KEY, text);
     return;
@@ -92,24 +101,43 @@ export function writeMeta(meta: EtfReviewMeta): void {
   }
 }
 
-export function readMeta(): EtfReviewMeta {
-  const raw = readJson<unknown>(ETF_REVIEW_META_KEY, null);
-  if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) return raw;
-  const defaults = defaultMeta(new Date().toISOString());
-  const seeded = isEtfReviewMeta(raw)
-    ? { ...raw, groups: defaults.groups }
-    : defaults;
-  writeMeta(seeded);
-  return seeded;
-}
-
-function touch(meta: EtfReviewMeta): EtfReviewMeta {
-  const next = { ...meta, updatedAt: new Date().toISOString() };
+export function restoreReviewBackup(value: unknown): EtfReviewMeta {
+  if (!isEtfReviewMeta(value) || !Array.isArray(value.groups) || !value.groups.length || !Array.isArray(value.watchlist) || !value.memberships || !value.notes) throw new Error('不是有效的 ETF 复盘备份');
+  const current = readMeta();
+  const now = new Date().toISOString();
+  const restoredGroups = new Set(value.groups.map(group => group.id));
+  const deletedGroups = { ...current.deletedGroups, ...value.deletedGroups };
+  for (const group of current.groups) if (!restoredGroups.has(group.id)) deletedGroups[group.id] = now;
+  const next = { ...value, groups: value.groups.map(group => ({ ...group, updatedAt: now })), notes: { ...current.notes, ...value.notes }, dailyPremiums: { ...value.dailyPremiums, ...current.dailyPremiums }, updatedAt: now, workspaceUpdatedAt: now, deletedGroups,
+    membershipUpdatedAt: Object.fromEntries(Object.keys(value.memberships).map(code => [code, now])) };
   writeMeta(next);
   return next;
 }
 
-type NoteFields = Pick<DailyNote, 'emotion' | 'conclusion' | 'action' | 'risk' | 'remark'>;
+export function readMeta(): EtfReviewMeta {
+  const raw = readJson<unknown>(ETF_REVIEW_META_KEY, null);
+  let base: EtfReviewMeta;
+  if (isEtfReviewMeta(raw) && hasUsableGroups(raw)) {
+    base = raw;
+  } else {
+    const defaults = defaultMeta(new Date().toISOString());
+    base = isEtfReviewMeta(raw) ? { ...raw, groups: defaults.groups } : defaults;
+    writeMeta(base);
+  }
+  const { meta, changed } = ensureCatalogSeed(base);
+  // 清单 seed 不抬 updatedAt，避免空库 SEED_TS 被刷成“已脏”而压过云端。
+  if (changed) writeMeta(meta);
+  return meta;
+}
+
+function touch(meta: EtfReviewMeta, workspace = true): EtfReviewMeta {
+  const now = new Date().toISOString();
+  const next = { ...meta, updatedAt: now, workspaceUpdatedAt: workspace ? now : meta.workspaceUpdatedAt ?? meta.updatedAt };
+  writeMeta(next);
+  return next;
+}
+
+type NoteFields = Pick<DailyNote, 'emotion' | 'conclusion' | 'action' | 'risk' | 'remark' | 'summary'>;
 
 export function upsertDailyNote(code: string, date: string, fields: NoteFields): EtfReviewMeta {
   const meta = readMeta();
@@ -120,15 +148,32 @@ export function upsertDailyNote(code: string, date: string, fields: NoteFields):
     ...meta,
     notes: { ...meta.notes, [key]: note },
   };
-  return touch(next);
+  return touch(next, false);
 }
 
 export function setMemberships(code: string, groupIds: string[]): EtfReviewMeta {
   const meta = readMeta();
+  const nextIds = [...groupIds];
+  const prev = new Set(meta.memberships[code] ?? []);
+  const nextSet = new Set(nextIds);
+  const opted = new Set(meta.catalogMembershipOptOut?.[code] ?? []);
+  for (const id of prev) {
+    if (!isCatalogGroupId(id)) continue;
+    if (!nextSet.has(id)) opted.add(id);
+  }
+  for (const id of nextIds) {
+    if (isCatalogGroupId(id)) opted.delete(id);
+  }
+  const catalogMembershipOptOut = { ...(meta.catalogMembershipOptOut ?? {}) };
+  if (opted.size) catalogMembershipOptOut[code] = [...opted];
+  else delete catalogMembershipOptOut[code];
   const next: EtfReviewMeta = {
     ...meta,
-    memberships: { ...meta.memberships, [code]: [...groupIds] },
+    memberships: { ...meta.memberships, [code]: nextIds },
+    membershipUpdatedAt: { ...meta.membershipUpdatedAt, [code]: new Date().toISOString() },
   };
+  if (Object.keys(catalogMembershipOptOut).length) next.catalogMembershipOptOut = catalogMembershipOptOut;
+  else delete next.catalogMembershipOptOut;
   return touch(next);
 }
 
@@ -146,7 +191,7 @@ export function captureDailyPremiums(quotes: { code: string; date: string; premi
     dailyPremiums[key] = { rate: quote.premiumRate, referenceNav: quote.referenceNav, quoteDate: quote.date, updatedAt: now };
     changed = true;
   }
-  if (changed) touch({ ...meta, dailyPremiums });
+  if (changed) touch({ ...meta, dailyPremiums }, false);
   return changed;
 }
 
@@ -170,7 +215,7 @@ export function addWatch(code: string, name: string): EtfReviewMeta {
   const now = new Date().toISOString();
   let watchlist = meta.watchlist;
   if (idx >= 0) {
-    watchlist = meta.watchlist.map((w, i) => (i === idx ? { ...w, name } : w));
+    watchlist = meta.watchlist.map((w, i) => (i === idx ? { ...w, name, updatedAt: now } : w));
   } else {
     watchlist = [...meta.watchlist, { code: trimmed, name, addedAt: now }];
   }
@@ -185,13 +230,15 @@ export function removeWatch(code: string): EtfReviewMeta {
     ...meta,
     watchlist: meta.watchlist.filter(w => w.code !== trimmed),
     memberships,
+    deletedWatchlist: { ...meta.deletedWatchlist, [trimmed]: new Date().toISOString() },
+    membershipUpdatedAt: { ...meta.membershipUpdatedAt, [trimmed]: new Date().toISOString() },
   };
   return touch(next);
 }
 
 export function clearReviewWorkspace(): EtfReviewMeta {
   const now = new Date().toISOString();
-  const next = { ...defaultMeta(now), updatedAt: now };
+  const next = { ...defaultMeta(now), updatedAt: now, workspaceUpdatedAt: now, resetAt: now };
   writeMeta(next);
   return next;
 }

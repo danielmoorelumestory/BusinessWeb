@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
   group: macro-snapshot
@@ -43,8 +42,3 @@ jobs:
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
       # Action 用 GITHUB_TOKEN 推送不会触发其他工作流，这里手动触发 Pages 部署（Vercel 由其 GitHub 应用照常部署）
-      - name: Deploy GitHub Pages
-        if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main

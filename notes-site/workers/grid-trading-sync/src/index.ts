@@ -1,4 +1,7 @@
 import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
+import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
+import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
+import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
 
 export interface Env { DB: D1Database }
 
@@ -6,6 +9,37 @@ const json = (data: unknown, status = 200) => new Response(JSON.stringify(data),
   status,
   headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*', 'access-control-allow-headers': 'authorization, content-type' },
 });
+
+async function ensureMetaHistory(env: Env) {
+  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS review_meta_history (
+    owner_hash TEXT NOT NULL, record_id TEXT NOT NULL, version TEXT NOT NULL,
+    payload TEXT NOT NULL, archived_at INTEGER NOT NULL,
+    PRIMARY KEY (owner_hash, record_id, version))`).run();
+}
+
+async function archiveMeta(env: Env, owner: string, recordId: string, payload: string, now: number) {
+  await ensureMetaHistory(env);
+  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(payload));
+  const version = [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  await env.DB.prepare('INSERT INTO review_meta_history (owner_hash, record_id, version, payload, archived_at) VALUES (?, ?, ?, ?, ?) ON CONFLICT DO NOTHING').bind(owner, recordId, version, payload, now).run();
+  await env.DB.prepare(`DELETE FROM review_meta_history WHERE owner_hash = ?1 AND record_id = ?2 AND version NOT IN
+    (SELECT version FROM review_meta_history WHERE owner_hash = ?1 AND record_id = ?2 ORDER BY archived_at DESC LIMIT 20)`).bind(owner, recordId).run();
+}
+
+async function saveMergedMeta(env: Env, owner: string, incoming: EtfReviewMeta, now: number) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const existing = await env.DB.prepare('SELECT payload FROM records WHERE owner_hash = ? AND record_id = ?').bind(owner, incoming.id).first<{ payload: string }>();
+    const previous = existing ? JSON.parse(existing.payload) : null;
+    const merged = isEtfReviewMeta(previous) ? mergeMeta(previous, incoming) : incoming;
+    if (existing) await archiveMeta(env, owner, incoming.id, existing.payload, now);
+    // 比较读取时的完整版本；另一设备先写入时重新读取并合并，避免并发覆盖。
+    const result = await env.DB.prepare(`INSERT INTO records (owner_hash, record_id, payload, updated_at) VALUES (?1, ?2, ?3, ?4)
+      ON CONFLICT (owner_hash, record_id) DO UPDATE SET payload = excluded.payload, updated_at = excluded.updated_at
+      WHERE records.payload IS ?5`).bind(owner, incoming.id, JSON.stringify(merged), now, existing?.payload ?? null).run();
+    if (result.meta.changes) return result;
+  }
+  throw new Error('复盘数据正在被其他页面更新，请重试同步；本机数据已保留');
+}
 
 async function ownerHash(request: Request) {
   const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '')?.trim();
@@ -17,10 +51,16 @@ async function ownerHash(request: Request) {
 const fullSymbolOf = (code: string) => `${symbolOf(code)}${code}`;
 
 /** 已保存记录里出现过的标的代码（去重）。传入 owner 时只取该密钥名下的记录，否则取全部（定时任务用）。 */
-async function trackedCodes(env: Env, owner?: string) {
-  const statement = owner
-    ? env.DB.prepare("SELECT DISTINCT json_extract(payload, '$.row.code') AS code FROM records WHERE owner_hash = ?").bind(owner)
-    : env.DB.prepare("SELECT DISTINCT json_extract(payload, '$.row.code') AS code FROM records");
+export async function trackedCodes(env: Env, owner?: string) {
+  const scope = owner ? 'AND r.owner_hash = ?1' : '';
+  const sql = `SELECT DISTINCT code FROM (
+    SELECT json_extract(r.payload, '$.row.code') AS code FROM records r
+      WHERE COALESCE(json_extract(r.payload, '$.deleted'), 0) = 0 ${scope}
+    UNION ALL
+    SELECT json_extract(w.value, '$.code') AS code FROM records r, json_each(r.payload, '$.watchlist') w
+      WHERE json_extract(r.payload, '$.kind') = 'etf-review-meta' ${scope}
+  )`;
+  const statement = owner ? env.DB.prepare(sql).bind(owner) : env.DB.prepare(sql);
   const { results } = await statement.all<{ code: string | null }>();
   return results.map(row => row.code?.trim() ?? '').filter(code => /^\d{6}$/.test(code));
 }
@@ -33,36 +73,71 @@ type DailyBar = { open: number; close: number; high: number; low: number; volume
 
 // 免费版 Worker 单次调用最多 50 次 fetch 子请求（D1 查询不计入）。日K 抓取按预算计数，超出时抛出 BUDGET，剩余标的留到下一次触发。
 const FETCH_LIMIT = 48;
-class Budget { used = 0; constructor(private limit: number) {} take() { if (++this.used > this.limit) throw new Error('BUDGET'); } }
+export class Budget { used = 0; constructor(private limit: number) {} take() { if (++this.used > this.limit) throw new Error('BUDGET'); } }
 export const dailyFetchBudget = (codeCount: number) =>
   Math.max(0, FETCH_LIMIT - codeCount - Math.ceil(codeCount / 40));
 // 前复权偏移的比较容差：价格最小变动单位是 0.001，小于一半即视为没有变化。
 const OFFSET_TOLERANCE = 5e-4;
 
+// 腾讯行情在 Cloudflare 出口可能被限流（HTTP 501）；整段失败后冷却一段时间，期间直接走东方财富，避免白白消耗子请求预算。
+let tencentDownUntil = 0;
+/** 仅测试用：清除腾讯冷却状态。 */
+export const resetTencentCooldown = () => { tencentDownUntil = 0; };
+const TENCENT_COOLDOWN_MS = 5 * 60_000;
+/** 东方财富日 K：secid 市场前缀 1=沪、0=深，fqt 1=前复权、0=未复权，beg/end 为 YYYYMMDD，一次返回整段。 */
+export const eastmoneyUrl = (symbol: string, begin: string, end: string, fq: 'qfq' | '') =>
+  `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${symbol.startsWith('sh') ? 1 : 0}.${symbol.slice(2)}&klt=101&fqt=${fq ? 1 : 0}&beg=${compact(begin)}&end=${compact(end)}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56`;
+/** klines 每行 "日期,开,收,高,低,量"，与腾讯的行格式一致；丢弃日期格式不对或列数不足的行。 */
+export const parseEastmoneyKlines = (klines: unknown): string[][] => Array.isArray(klines)
+  ? klines.map(line => String(line).split(',')).filter(parts => parts.length >= 6 && /^\d{4}-\d{2}-\d{2}$/.test(parts[0]))
+  : [];
+
 /**
  * 日K（date → 开收高低量）。单次最多 640 根，起始日较早时从 end 向前分页，最多 6 页。
  * fq 为 'qfq' 时取前复权，否则为未复权。接口每行为 [日期, 开, 收, 高, 低, 量]。
  */
-async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: Budget): Promise<Map<string, DailyBar>> {
+export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: Budget): Promise<Map<string, DailyBar>> {
   const bars = new Map<string, DailyBar>();
   let end = beijingToday();
   for (let page = 0; page < 6; page++) {
-    // 两个域名返回相同数据；web.ifzq.gtimg.cn 会不定期拒绝 Cloudflare 出口（返回 501），所以优先用 ifzq.gtimg.cn，失败再换另一个。
-    let response: Response | undefined;
-    for (const host of ['ifzq.gtimg.cn', 'web.ifzq.gtimg.cn']) {
+    let data: { qfqday?: string[][]; day?: string[][] } | undefined;
+    let full = false; // 备用源按起止日一次返回整段，不需要继续分页。
+    const reasons: string[] = [];
+    if (Date.now() < tencentDownUntil) reasons.push('腾讯入口近期被拒，暂跳过');
+    else for (const endpoint of ['https://ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get', 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get']) {
       budget.take();
-      response = await fetch(`https://${host}/appstock/app/fqkline/get?param=${symbol},day,${begin},${end},640,${fq}`);
-      if (response.ok) break;
+      try {
+        const response = await fetch(`${endpoint}?param=${symbol},day,${begin},${end},640,${fq}`, { signal: AbortSignal.timeout(15000) });
+        if (!response.ok) { reasons.push(`${new URL(endpoint).hostname} HTTP ${response.status}`); continue; }
+        data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
+        if (data) break;
+        reasons.push(`${new URL(endpoint).hostname} 无 ${symbol} 数据`);
+      } catch (error) { reasons.push(`${new URL(endpoint).hostname} ${error instanceof Error ? error.message : String(error)}`); /* 拦截页、超时或无效 JSON 时切换备用入口。 */ }
     }
-    if (!response?.ok) throw new Error(`日线接口返回 ${response?.status}`);
-    const data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
+    if (!data) {
+      // 腾讯全部失败（如 Cloudflare 出口被限流返回 501）时改用东方财富，字段与腾讯一致：[日期, 开, 收, 高, 低, 量]。
+      // 东方财富并发时偶尔断连/520，失败后等 1 秒再试一次。
+      for (let attempt = 0; attempt < 2 && !data; attempt++) {
+        if (attempt) await new Promise(resolve => setTimeout(resolve, 1000));
+        budget.take();
+        try {
+          const response = await fetch(eastmoneyUrl(symbol, begin, end, fq), { signal: AbortSignal.timeout(15000) });
+          if (!response.ok) { reasons.push(`push2his.eastmoney.com HTTP ${response.status}`); continue; }
+          const payload = await response.json<{ data?: { klines?: unknown } | null }>();
+          if (!payload.data) { reasons.push(`push2his.eastmoney.com 无 ${symbol} 数据`); break; }
+          const rows = parseEastmoneyKlines(payload.data.klines);
+          data = { qfqday: rows, day: rows }; full = true; tencentDownUntil = Date.now() + TENCENT_COOLDOWN_MS;
+        } catch (error) { reasons.push(`push2his.eastmoney.com ${error instanceof Error ? error.message : String(error)}`); }
+      }
+    }
+    if (!data) throw new Error(`历史行情入口均不可用（${reasons.join('；') || '无响应'}）`);
     const batch = (fq ? data?.qfqday ?? data?.day : data?.day) ?? [];
     if (!batch.length) break;
     for (const row of batch) {
       const [open, close, high, low, volume] = row.slice(1, 6).map(Number);
       if ([open, close, high, low, volume].every(Number.isFinite)) bars.set(row[0], { open, close, high, low, volume });
     }
-    if (batch[0][0] <= begin || batch.length < 640) break;
+    if (full || batch[0][0] <= begin || batch.length < 640) break;
     end = addDays(batch[0][0], -1);
   }
   return bars;
@@ -90,8 +165,13 @@ const writeOffsets = (env: Env, code: string, offsets: Map<string, number>) => u
    ON CONFLICT (code, date) DO UPDATE SET offset = excluded.offset WHERE daily_offsets.offset IS NOT excluded.offset`, code, [...offsets]);
 
 /** 偏移 = 未复权收盘价 − 前复权收盘价（日期键为 YYYYMMDD，保留 6 位小数）。 */
-const offsetsOf = (raw: Map<string, { close: number }>, adjusted: Map<string, { close: number }>) =>
-  new Map([...raw].filter(([date]) => adjusted.has(date)).map(([date, bar]) => [compact(date), Math.round((bar.close - adjusted.get(date)!.close) * 1e6) / 1e6]));
+const offsetsOf = (raw: Map<string, { close: number }>, adjusted: Map<string, { close: number }>) => {
+  const latestAdjusted = [...adjusted.keys()].sort().at(-1);
+  // 腾讯前复权序列有时晚于原始日K一根；最新尚未进入复权序列的K线以当期原价为基准，偏移为0。
+  // 只补序列末端，不把中间缺口误当作零偏移；下一轮复权数据到齐后会覆盖重算。
+  return new Map([...raw].filter(([date]) => adjusted.has(date) || (latestAdjusted && date > latestAdjusted)).map(([date, bar]) =>
+    [compact(date), adjusted.has(date) ? Math.round((bar.close - adjusted.get(date)!.close) * 1e6) / 1e6 : 0]));
+};
 
 /** 该标的是否需要（重新）回填：从未回填过，或已保存记录里出现了比已回填起点更早的建仓日。 */
 async function needsBackfill(env: Env, code: string) {
@@ -110,7 +190,7 @@ async function syncDaily(env: Env, code: string, budget: Budget) {
   if (await needsBackfill(env, code)) {
     const start = await backfillStart(env, code);
     const [raw, adjusted] = [await dailyBars(symbol, start, '', budget), await dailyBars(symbol, start, 'qfq', budget)];
-    if (!raw.size) return;
+    if (!raw.size || !adjusted.size) throw new Error('日线或前复权数据为空');
     await writeDaily(env, code, raw);
     await writeOffsets(env, code, offsetsOf(raw, adjusted));
     await env.DB.prepare('INSERT OR REPLACE INTO daily_meta (code, backfilled_from) VALUES (?, ?)').bind(code, start).run();
@@ -118,7 +198,7 @@ async function syncDaily(env: Env, code: string, budget: Budget) {
   }
   const begin = addDays(beijingToday(), -30);
   const [raw, adjusted] = [await dailyBars(symbol, begin, '', budget), await dailyBars(symbol, begin, 'qfq', budget)];
-  if (!raw.size) return;
+  if (!raw.size || !adjusted.size) throw new Error('日线或前复权数据为空');
   await writeDaily(env, code, raw);
   const recent = offsetsOf(raw, adjusted);
   const { results: stored } = await env.DB.prepare('SELECT date, offset FROM daily_offsets WHERE code = ? AND date >= ?').bind(code, compact(begin)).all<{ date: string; offset: number }>();
@@ -131,6 +211,36 @@ async function syncDaily(env: Env, code: string, budget: Budget) {
   const { results: rawRows } = await env.DB.prepare('SELECT date, close FROM daily_bars WHERE code = ?').bind(code).all<{ date: string; close: number }>();
   const rawByDate = new Map(rawRows.map(row => [`${row.date.slice(0, 4)}-${row.date.slice(4, 6)}-${row.date.slice(6, 8)}`, { close: row.close }]));
   await writeOffsets(env, code, offsetsOf(rawByDate, fullAdjusted));
+}
+
+async function storedReviewCandles(env: Env, code: string): Promise<ReviewCandle[]> {
+  const begin = `${Number(beijingToday().slice(0, 4)) - 4}0101`;
+  const { results } = await env.DB.prepare(`SELECT
+    substr(b.date, 1, 4) || '-' || substr(b.date, 5, 2) || '-' || substr(b.date, 7, 2) AS date,
+    b.open - o.offset AS open, b.close - o.offset AS close, b.high - o.offset AS high, b.low - o.offset AS low
+    FROM daily_bars b JOIN daily_offsets o ON o.code = b.code AND o.date = b.date
+    WHERE b.code = ? AND b.date >= ? ORDER BY b.date`).bind(code, begin).all<ReviewCandle>();
+  return results;
+}
+
+async function refreshReviewCode(env: Env, code: string, budget = new Budget(FETCH_LIMIT)) {
+  return refreshTechnicalSnapshot(env.DB, code, async () => {
+    await syncDaily(env, code, budget);
+    return storedReviewCandles(env, code);
+  });
+}
+
+async function syncReviewTechnical(env: Env) {
+  const codes = await trackedCodes(env);
+  const saved = await readTechnicalSnapshots(env.DB, codes);
+  const pending = codes.filter(code => !isTechnicalFresh(saved[code])).sort((a, b) => (saved[a]?.updatedAt ?? 0) - (saved[b]?.updatedAt ?? 0));
+  const budget = new Budget(FETCH_LIMIT);
+  for (const code of pending) {
+    try { await refreshReviewCode(env, code, budget); } catch (error) {
+      if (error instanceof Error && error.message === 'BUDGET') break;
+      console.error('复盘指标更新失败', code, error);
+    }
+  }
 }
 
 /**
@@ -234,7 +344,10 @@ async function runSync(env: Env, trigger: 'cron' | 'manual', codes: string[]) {
   const note = (code: string, text: string) => env.DB.prepare("UPDATE sync_log SET error = CASE WHEN error IS NULL THEN ?1 ELSE error || '；' || ?1 END WHERE run_at = ?2 AND code = ?3 AND trigger = ?4")
     .bind(text, runAt, code, trigger).run().catch(() => undefined);
   for (const [index, code] of ordered.entries()) {
-    try { await syncDaily(env, code, budget); } catch (dailyError) {
+    try {
+      await syncDaily(env, code, budget);
+      await saveTechnicalSnapshot(env.DB, code, await storedReviewCandles(env, code));
+    } catch (dailyError) {
       const message = dailyError instanceof Error ? dailyError.message : String(dailyError);
       if (message === 'BUDGET') { await note(code, '日K 同步因请求预算用尽，留待下次触发'); for (const rest of ordered.slice(index + 1)) await note(rest, '日K 同步留待下次触发'); break; }
       console.error('日K 同步失败', code, dailyError);
@@ -604,7 +717,11 @@ async function readClsPlateDays(env: Env, request: Request, url: URL) {
 export default {
   // 定时任务（见 wrangler.jsonc 的 triggers.crons）：每个交易日 15:10、16:00 与次日 09:00。
   // 先缓存 CLS 板块涨跌（股市 lab），再抓网格标的分钟线 / 日K。
-  async scheduled(_controller, env) {
+  async scheduled(controller, env) {
+    if (!['10 7 * * 1-5', '0 8 * * 1-5', '0 1 * * 1-5'].includes(controller.cron)) {
+      await syncReviewTechnical(env);
+      return;
+    }
     try {
       const plate = await syncClsPlates(env);
       console.log('CLS 板块同步', plate);
@@ -643,6 +760,24 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { headers: { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET, PUT, POST, OPTIONS', 'access-control-allow-headers': 'authorization, content-type' } });
     const owner = await ownerHash(request);
     if (!owner) return json({ error: '请提供至少 16 位同步密钥。' }, 401);
+    if (request.method === 'GET' && url.pathname === '/review/backups') {
+      await ensureMetaHistory(env);
+      const { results } = await env.DB.prepare('SELECT payload, archived_at FROM review_meta_history WHERE owner_hash = ? ORDER BY archived_at DESC LIMIT 20').bind(owner).all<{ payload: string; archived_at: number }>();
+      return json({ backups: results.map(row => ({ savedAt: new Date(row.archived_at).toISOString(), meta: JSON.parse(row.payload) })) });
+    }
+    if (url.pathname === '/review/technical' && request.method === 'GET') {
+      const codes = [...new Set((url.searchParams.get('codes') ?? '').split(',').map(code => code.trim()))];
+      if (!codes.length || codes.length > 50 || codes.some(code => !/^\d{6}$/.test(code))) return json({ error: '请提供 1 至 50 个有效代码。' }, 400);
+      const records = await readTechnicalSnapshots(env.DB, codes);
+      return json({ records, stale: codes.filter(code => !isTechnicalFresh(records[code])) });
+    }
+    if (url.pathname === '/review/technical' && request.method === 'POST') {
+      const code = (url.searchParams.get('code') ?? '').trim();
+      if (!/^\d{6}$/.test(code)) return json({ error: '请提供有效代码。' }, 400);
+      try { return json(await refreshReviewCode(env, code)); } catch (error) {
+        return json({ error: `更新失败，保留原指标：${error instanceof Error ? error.message : String(error)}` }, 502);
+      }
+    }
     if (request.method === 'GET' && url.pathname === '/minute') return readMinuteBars(env, url);
     if (request.method === 'GET' && url.pathname === '/daily/extremes') return readExtremes(env, owner, url);
     if (request.method === 'GET' && url.pathname === '/analysis') return readAnalysis(env, url);
@@ -672,7 +807,16 @@ export default {
         ON CONFLICT (owner_hash, record_id) DO UPDATE SET payload = excluded.payload, updated_at = excluded.updated_at
         WHERE ${version('excluded.payload')} >= ${version('records.payload')}`;
       try {
-        const results = records.length ? await env.DB.batch(records.map(record => env.DB.prepare(upsert).bind(owner, record.id, JSON.stringify(record), now))) : [];
+        const metaResults = new Map<number, D1Result>();
+        // 即使旧页面上传了整份旧分组，也按字段保留云端已有的新标的、笔记和分组。
+        for (let index = 0; index < records.length; index++) {
+          if (!isEtfReviewMeta(records[index])) continue;
+          metaResults.set(index, await saveMergedMeta(env, owner, records[index] as EtfReviewMeta, now));
+        }
+        const ordinary = records.filter((_, index) => !metaResults.has(index));
+        const ordinaryResults = ordinary.length ? await env.DB.batch(ordinary.map(record => env.DB.prepare(upsert).bind(owner, record.id, JSON.stringify(record), now))) : [];
+        let cursor = 0;
+        const results = records.map((_, index) => metaResults.get(index) ?? ordinaryResults[cursor++]);
         const skipped = records.filter((_, index) => results[index].meta.changes === 0).map(record => record.id);
         // 墓碑（删除标记）客户端只保留 180 天，之后不再上传；服务端同样在写入后清理过期的，避免永久残留。
         const expired = new Date(now - 180 * 24 * 3600_000).toISOString();

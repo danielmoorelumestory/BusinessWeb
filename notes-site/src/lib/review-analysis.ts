@@ -1,45 +1,34 @@
 // Shared snapshot and descriptions keep the review list aligned with /industry-etf.
 import snapshot from '../../../src/data/etfTechnical.json';
-import { aggregateBars, technicalState } from '../../../scripts/etf-technical.mjs';
 import type { Candle } from './grid-trading';
-import { describeMa, describeDailyMaEvents } from '../../../src/utils/etfMaDescription';
-import { describeDailyMacdEvents, type DailyMacdDescription } from '../../../src/utils/etfDailyMacdDescription';
-import { describeDailyRsiEvents, type RsiCrossDescription } from '../../../src/utils/etfDailyRsiDescription';
-import { macdDescription, rsiDescription, tone, type Period } from '../../../src/utils/etfTechnicalDescription';
+import { arrangementWithMa20, describeMa, upgradeLegacyMaSegments } from '../../../src/utils/etfMaDescription';
+import { macdBar, macdOrder } from '../../../src/utils/etfDailyMacdDescription';
+import { macdDescription, rsiDescription, tone } from '../../../src/utils/etfTechnicalDescription';
 import { latestInvestmentNote } from '../../../src/utils/etfJudgment';
 
 export const REVIEW_ANALYSIS_AS_OF = snapshot.asOf;
-export type ReviewPeriod = 'day' | 'week' | 'month';
-type PeriodEvents = { ma: ReturnType<typeof describeDailyMaEvents>; macd: DailyMacdDescription; rsi: RsiCrossDescription };
-type ReviewRecord = { applicable: boolean; reason?: string; day?: Period; week?: Period; month?: Period; events?: Record<ReviewPeriod, PeriodEvents> };
+export type { ReviewPeriod } from './review-technical';
+import { calculateReviewTechnical, type ReviewRecord, type ReviewPeriod } from './review-technical';
 const records = snapshot.records as Record<string, ReviewRecord>;
 const calculated = new Map<string, ReviewRecord>();
 export const needsReviewAnalysis = (code: string) => !records[code.trim()] && !calculated.has(code.trim());
 export const canRefreshReviewAnalysis = (code: string) => records[code.trim()]?.applicable !== false;
-export function setReviewCandles(code: string, candles: Candle[], complete = true): boolean {
-  if (!canRefreshReviewAnalysis(code)) return false;
-  const valid = candles.filter(candle => /^\d{4}-\d{2}-\d{2}$/.test(candle.date) && [candle.open, candle.close, candle.high, candle.low].every(value => Number.isFinite(value) && value > 0)).sort((a, b) => a.date.localeCompare(b.date));
-  if (!valid.length) return false;
-  const bars = [...new Map(valid.map(candle => [candle.date, [candle.date, candle.open, candle.close, candle.high, candle.low, 0]])).values()];
-  const asOf = valid[valid.length - 1].date;
+export function setReviewRecord(code: string, record: ReviewRecord): boolean {
+  if (!canRefreshReviewAnalysis(code) || !record.day || !record.week || !record.month) return false;
   const current = calculated.get(code.trim()) ?? records[code.trim()];
-  if (current?.day && asOf < current.day.asOf) return false;
-  const date = new Date(`${asOf}T00:00:00Z`);
-  const next = new Date(date); next.setUTCDate(next.getUTCDate() + 1);
-  const weekly = aggregateBars(bars, 'week'), monthly = aggregateBars(bars, 'month');
-  const day = technicalState(bars, complete), week = technicalState(weekly, complete && date.getUTCDay() === 5), month = technicalState(monthly, complete && next.toISOString().slice(0, 7) !== asOf.slice(0, 7));
-  if (!day || !week || !month) return false;
-  const describe = (series: typeof bars): PeriodEvents => {
-    const closes = series.map(bar => Number(bar[2]));
-    return {
-      ma: describeDailyMaEvents(series.map(bar => ({ date: String(bar[0]), close: Number(bar[2]) }))),
-      macd: describeDailyMacdEvents(closes),
-      rsi: describeDailyRsiEvents(closes),
-    };
-  };
-  const events = { day: describe(bars), week: describe(weekly), month: describe(monthly) };
-  calculated.set(code.trim(), { applicable: true, day, week, month, events });
+  if (current?.day && record.day.asOf < current.day.asOf) return false;
+  calculated.set(code.trim(), record);
   return true;
+}
+export function setReviewCandles(code: string, candles: Candle[], complete = true): boolean {
+  const record = calculateReviewTechnical(candles, complete);
+  return !!record && setReviewRecord(code, record);
+}
+/** 最新价是否在指定周期的均线之上；缺数据返回 false。 */
+export function isPriceAboveMa(code: string, period: ReviewPeriod, ma: 5 | 10 | 20): boolean {
+  const state = (calculated.get(code.trim()) ?? records[code.trim()])?.[period];
+  const line = ma === 5 ? state?.ma5 : ma === 10 ? state?.ma10 : state?.ma20;
+  return !!state && line != null && Number.isFinite(line) && state.close > line;
 }
 const labels = { day: '日线', week: '周线', month: '月线' };
 const escapeHtml = (text: string) => text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
@@ -64,10 +53,22 @@ export function renderReviewAnalysis(code: string, period: ReviewPeriod, notesBa
   ];
   const content = `<div class="analysis-lines">${lines.map(([label, description, color]) => {
     if (label === 'RSI' && rsiEvent) {
+      // 新快照有分段：RSI6/RSI24/50 顺序、RSI6 箭头、交叉距今（极端时加超买/超卖）；旧快照没有 RSI6/24 数值，沿用旧文案。
+      if (rsiEvent.segments?.length) return `<div><span>RSI</span><div class="rsi-segments">${rsiEvent.segments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
       return `<div><span>RSI</span><div><strong class="signal-${rsiEvent.signal}">${escapeHtml(rsiEvent.description)}</strong>、<strong class="signal-${rsiTone}">${escapeHtml(rsiDescription(state).replace(/^\d+(?:\.\d+)?\s+/, ''))}</strong></div></div>`;
     }
     if (label === 'MACD' && macdEvent) {
-      return `<div><span>MACD</span><div class="macd-segments"><strong class="signal-${macdEvent.crossSignal}">${escapeHtml(macdEvent.cross)}</strong>${macdEvent.axis ? `、<strong class="signal-${macdEvent.axisSignal}">${escapeHtml(macdEvent.axis)}</strong>` : ''}${macdEvent.bars ? `、<strong class="signal-${macdEvent.barsSignal}">${escapeHtml(macdEvent.bars)}</strong>` : ''}</div></div>`;
+      // 旧快照没有分段：顺序与柱体由快照里的 DIF/DEA/柱值重算，交叉天数旧快照里没有，沿用旧的交叉文案。
+      const legacy = state.dif !== null && state.dea !== null ? [macdOrder(state.dif, state.dea), macdBar(2 * (state.dif - state.dea), state.previousHistogram), { text: macdEvent.cross, signal: macdEvent.crossSignal }] : null;
+      const segments = macdEvent.segments?.length ? macdEvent.segments : legacy;
+      if (segments) return `<div><span>MACD</span><div class="macd-segments">${segments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
+      return `<div><span>MACD</span><div class="macd-segments"><strong class="signal-${macdEvent.crossSignal}">${escapeHtml(macdEvent.cross)}</strong></div></div>`;
+    }
+    let maSegments = label === 'MA' && maEvent ? ('segments' in maEvent && maEvent.segments?.length ? maEvent.segments : upgradeLegacyMaSegments(maEvent.description, state)) : null;
+    // 周线的顺序段加入 MA20；MA20 来自快照里的周线状态，不依赖快照版本。
+    if (maSegments && period === 'week' && state.ma5 != null && state.ma10 != null && state.ma20 != null) maSegments = [arrangementWithMa20(state.close, state.ma5, state.ma10, state.ma20), ...maSegments.slice(1)];
+    if (maSegments) {
+      return `<div><span>MA</span><div class="ma-segments">${maSegments.map(segment => `<strong class="signal-${segment.signal}">${escapeHtml(segment.text)}</strong>`).join('')}</div></div>`;
     }
     return `<div><span>${label}</span><strong class="signal-${color}">${escapeHtml(description)}</strong></div>`;
   }).join('')}</div>${context ? `<small class="analysis-context">${escapeHtml(context)}</small>` : ''}`;

@@ -1,16 +1,22 @@
 export const ETF_REVIEW_META_ID = 'meta:etf-review-v1';
 export const SEED_TS = '1970-01-01T00:00:00.000Z';
 
+export const NOTE_EMOTIONS = ['恐慌', '悲观', '失望', '谨慎', '中性', '期待', '乐观', '兴奋', '亢奋'] as const;
+export const NOTE_CONCLUSIONS = ['上升趋势', '强势回调', '震荡偏强', '横盘震荡', '弱势反弹', '止跌企稳', '冲高回落', '震荡偏弱', '下降趋势', '待确认'] as const;
+export const NOTE_ACTIONS = ['观望', '持有', '建仓', '加仓', '减仓', '清仓'] as const;
+
 export type DailyNote = {
-  emotion: '冷静' | '犹豫' | 'FOMO' | '恐慌' | '';
-  conclusion: '看多' | '中性' | '看空' | '';
-  action: '加仓' | '减仓' | '观望' | '调参' | '';
+  // 兼容旧笔记的历史值，新笔记选项由上方常量定义。
+  emotion: typeof NOTE_EMOTIONS[number] | '冷静' | '犹豫' | 'FOMO' | '';
+  conclusion: typeof NOTE_CONCLUSIONS[number] | '看多' | '中性' | '看空' | '';
+  action: typeof NOTE_ACTIONS[number] | '调参' | '';
   risk: string;
   remark: string;
+  summary?: string;
   updatedAt: string;
 };
 
-export type ReviewGroup = { id: string; name: string; order: number };
+export type ReviewGroup = { id: string; name: string; order: number; updatedAt?: string };
 export type DailyPremium = { rate: number; referenceNav?: number; quoteDate: string; updatedAt: string };
 
 export type EtfReviewMeta = {
@@ -19,12 +25,19 @@ export type EtfReviewMeta = {
   savedAt: string;
   updatedAt: string;
   groups: ReviewGroup[];
-  watchlist: { code: string; name: string; addedAt: string }[];
+  watchlist: { code: string; name: string; addedAt: string; updatedAt?: string }[];
   memberships: Record<string, string[]>;
   // 每个分组独立保存标的顺序；空字符串代表未分组。兼容没有排序数据的旧记录。
   groupCodeOrder?: Record<string, string[]>;
   notes: Record<string, DailyNote>;
   dailyPremiums?: Record<string, DailyPremium>;
+  workspaceUpdatedAt?: string;
+  membershipUpdatedAt?: Record<string, string>;
+  /** code → 用户主动踢出的清单组 id；seed 只尊重这些，不因粗粒度 membershipUpdatedAt 漏补标的 */
+  catalogMembershipOptOut?: Record<string, string[]>;
+  deletedGroups?: Record<string, string>;
+  deletedWatchlist?: Record<string, string>;
+  resetAt?: string;
 };
 
 const GROUP_DEFS: { id: string; name: string; order: number }[] = [
@@ -60,7 +73,8 @@ export function truncateNote(note: DailyNote): DailyNote {
   return {
     ...note,
     risk: note.risk.slice(0, 200),
-    remark: note.remark.slice(0, 500),
+    remark: note.remark.slice(0, 2000),
+    summary: note.summary?.slice(0, 1000),
   };
 }
 
@@ -68,9 +82,64 @@ export function mergeMeta(local: EtfReviewMeta | null, remote: EtfReviewMeta | n
   if (!local && !remote) return defaultMeta(new Date().toISOString());
   if (!local) return remote!;
   if (!remote) return local;
-  const localTs = Date.parse(local.updatedAt) || 0;
-  const remoteTs = Date.parse(remote.updatedAt) || 0;
-  return remoteTs >= localTs ? remote : local;
+  if (local.updatedAt === SEED_TS) return remote;
+  if (remote.updatedAt === SEED_TS) return local;
+  if (remote.resetAt && remote.resetAt >= local.updatedAt) return remote;
+  if (local.resetAt && local.resetAt >= remote.updatedAt) return local;
+  const preferred = remote.updatedAt >= local.updatedAt ? remote : local;
+  const coreStamp = (meta: EtfReviewMeta) => meta.workspaceUpdatedAt ?? (local.workspaceUpdatedAt || remote.workspaceUpdatedAt ? meta.savedAt : meta.updatedAt);
+  const primary = coreStamp(remote) >= coreStamp(local) ? remote : local;
+  const secondary = primary === remote ? local : remote;
+  const times = (a: Record<string, string> = {}, b: Record<string, string> = {}) => {
+    const result = { ...a }; for (const [key, value] of Object.entries(b)) if (!result[key] || value >= result[key]) result[key] = value; return result;
+  };
+  const deletedGroups = times(local.deletedGroups, remote.deletedGroups);
+  const deletedWatchlist = times(local.deletedWatchlist, remote.deletedWatchlist);
+  const groupMap = new Map<string, ReviewGroup>();
+  const groupStamp = new Map<string, string>();
+  for (const meta of [secondary, primary]) for (const group of meta.groups) {
+    const existing = groupMap.get(group.id);
+    if (!existing || (group.updatedAt ?? coreStamp(meta)) >= groupStamp.get(group.id)!) { groupMap.set(group.id, group); groupStamp.set(group.id, group.updatedAt ?? coreStamp(meta)); }
+  }
+  const groups = [...primary.groups, ...secondary.groups].filter((group, index, all) => all.findIndex(item => item.id === group.id) === index)
+    .map(group => groupMap.get(group.id)!).filter(group => !deletedGroups[group.id] || deletedGroups[group.id] < groupStamp.get(group.id)!)
+    .map((group, order) => ({ ...group, order }));
+  const watchMap = new Map<string, EtfReviewMeta['watchlist'][number]>();
+  for (const meta of [secondary, primary]) for (const watch of meta.watchlist) {
+    const existing = watchMap.get(watch.code);
+    if (!existing || (watch.updatedAt ?? watch.addedAt) >= (existing.updatedAt ?? existing.addedAt)) watchMap.set(watch.code, watch);
+  }
+  const watchlist = [...watchMap.values()].filter(watch => !deletedWatchlist[watch.code] || deletedWatchlist[watch.code] < (watch.updatedAt ?? watch.addedAt));
+  const groupIds = new Set(groups.map(group => group.id));
+  const memberships: Record<string, string[]> = {};
+  for (const code of new Set([...Object.keys(local.memberships), ...Object.keys(remote.memberships), ...Object.keys(local.membershipUpdatedAt ?? {}), ...Object.keys(remote.membershipUpdatedAt ?? {})])) {
+    const source = (remote.membershipUpdatedAt?.[code] ?? coreStamp(remote)) >= (local.membershipUpdatedAt?.[code] ?? coreStamp(local)) ? remote : local;
+    const fallback = source === remote ? local : remote;
+    const ids = source.memberships[code] ?? (source.membershipUpdatedAt?.[code] ? undefined : fallback.memberships[code]);
+    if (ids && (!deletedWatchlist[code] || deletedWatchlist[code] < (source.membershipUpdatedAt?.[code] ?? coreStamp(source)))) memberships[code] = ids.filter(id => groupIds.has(id));
+  }
+  const mergeItems = <T extends { updatedAt: string }>(a: Record<string, T> = {}, b: Record<string, T> = {}) => {
+    const result = { ...a }; for (const [key, value] of Object.entries(b)) if (!result[key] || value.updatedAt >= result[key].updatedAt) result[key] = value; return result;
+  };
+  const groupCodeOrder = { ...secondary.groupCodeOrder, ...primary.groupCodeOrder };
+  const mergeOptOut = (a: Record<string, string[]> = {}, b: Record<string, string[]> = {}) => {
+    const result: Record<string, string[]> = { ...a };
+    for (const [code, ids] of Object.entries(b)) {
+      result[code] = [...new Set([...(result[code] ?? []), ...ids])];
+    }
+    return result;
+  };
+  const catalogMembershipOptOut = mergeOptOut(local.catalogMembershipOptOut, remote.catalogMembershipOptOut);
+  return {
+    ...preferred, groups, watchlist, memberships, notes: mergeItems(local.notes, remote.notes),
+    ...(local.dailyPremiums || remote.dailyPremiums ? { dailyPremiums: mergeItems(local.dailyPremiums, remote.dailyPremiums) } : {}),
+    ...(local.groupCodeOrder || remote.groupCodeOrder ? { groupCodeOrder } : {}),
+    ...(local.workspaceUpdatedAt || remote.workspaceUpdatedAt ? { workspaceUpdatedAt: coreStamp(primary) } : {}),
+    ...(local.membershipUpdatedAt || remote.membershipUpdatedAt ? { membershipUpdatedAt: times(local.membershipUpdatedAt, remote.membershipUpdatedAt) } : {}),
+    ...(Object.keys(catalogMembershipOptOut).length ? { catalogMembershipOptOut } : {}),
+    ...(Object.keys(deletedGroups).length ? { deletedGroups } : {}),
+    ...(Object.keys(deletedWatchlist).length ? { deletedWatchlist } : {}),
+  };
 }
 
 export function poolCodes(gridCodes: string[], watchlist: { code: string }[]): string[] {

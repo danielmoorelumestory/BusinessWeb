@@ -111,7 +111,7 @@ AI 实验室的 `/ai/dropshipping` 提供一件代发模式说明、30 天试验
 - **Cloudflare Pages（当前线上）**：推送 `main` 自动构建，前端与 `/api/*`（`functions/api/`）都在 Cloudflare。构建设置、变量、验证命令与回退办法见 [docs/cloudflare-pages.md](docs/cloudflare-pages.md)。
   - **notes 站点同域托管**：`notes-site/`（Astro）在构建时放进 `/note/`，用 `npm run build:cloudflare` 构建；只影响 Cloudflare 构建，GitHub Pages 不受影响。搬家前必读的本地数据说明见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
 - **Vercel（已停用）**：不再部署，仓库里的 Vercel 配置已删除；需要在 Vercel 控制台删除项目或断开 Git 集成，见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
-- **GitHub Pages**：由 [.github/workflows/pages.yml](.github/workflows/pages.yml) 在推送 `main` 时自动测试、构建并发布，也可在 Actions 中手动运行。首次迁移需在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**；若 `github-pages` 环境限制了部署分支，需允许 `main`。不要将 Pages 的来源直接设成 `main` 分支静态目录，React 源码需要先构建。Pages 不运行 Functions，没有后端接口（行情走浏览器直连，云同步不可用）。
+- **GitHub Pages（已停用自动部署）**：[.github/workflows/pages.yml](.github/workflows/pages.yml) 只保留手动运行，推送 `main` 和数据更新都不再触发。如需恢复，先在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**，否则部署会失败；若 `github-pages` 环境限制了部署分支，需允许 `main`。不要将 Pages 的来源直接设成 `main` 分支静态目录，React 源码需要先构建。Pages 不运行 Functions，没有后端接口（行情走浏览器直连，云同步不可用）。
   - 本地验证：`npm run build:pages`；构建产物上传为 Pages artifact，不提交到 `gh-pages`。`deploy` 脚本与 `gh-pages` 依赖已移除。
   - 确认新工作流部署成功后，才可以删除旧 `gh-pages` 分支。
 

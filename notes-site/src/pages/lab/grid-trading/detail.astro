@@ -177,7 +177,7 @@ const etfReviewUrl = href('lab/etf-review');
     rangeFromInput.value = from; rangeToInput.value = rangeTo ?? latest;
     // 上限放到「今天」（北京时间）：盘前、休市或行情未更新时最新日线可能早于今天，但仍应能选到今天。
     const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
-    rangeFromInput.max = rangeToInput.max = latest > today ? latest : today; rangeFromInput.min = rangeToInput.min = first;
+    rangeFromInput.max = rangeToInput.max = latest > today ? latest : today; rangeFromInput.min = rangeToInput.min = '2000-01-01'; // 不能用已加载日线的首日：那样只能选到建仓日，选更早的日期才会补拉行情；早于上市日的由上面夹到首日
     document.querySelectorAll<HTMLButtonElement>('.range-presets button').forEach(button => button.classList.toggle('active', button.dataset.range === rangeKey));
     renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid);
   }

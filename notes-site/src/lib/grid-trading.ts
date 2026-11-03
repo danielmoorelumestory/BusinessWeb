@@ -970,6 +970,8 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
   let localMetaBefore: EtfReviewMeta | null = null;
   try { localMetaBefore = readMeta(); } catch { /* 元数据存储不可用时仍继续同步网格记录 */ }
   const remote = await cloudRequest(token);
+  // 请求期间其他标签或用户可能继续编辑，合并时重新读取，不能只使用请求前的快照。
+  try { localMetaBefore = mergeMeta(localMetaBefore, readMeta()); } catch { /* 保留已经读取的本机版本。 */ }
   const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {})).map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
   const merged = new Map<string, CloudItem>();
   for (const item of [...readRecords(), ...tombstones, ...remote]) {
@@ -986,6 +988,41 @@ export async function syncAll(token: string): Promise<SavedRecord[]> {
   // 墓碑保留 180 天，足够其它设备同步到删除；过期后清理，避免占满云端 200 条上限。
   const alive = (split.tombstones as Tombstone[]).filter(item => Date.now() - stamp(item) < TOMBSTONE_TTL);
   await cloudRequest(token, { records: [...records, ...alive, ...(mergedMeta ? [mergedMeta] : [])] });
+  writeRecords(records);
+  writeJson(DELETED_KEY, Object.fromEntries(alive.map(item => [item.id, item.updatedAt])));
+  return records;
+}
+
+/** 单向上传本机快照。云端保留合并保护，本机记录完全不变，不先拉取云端。 */
+export async function uploadAll(token: string): Promise<{ uploaded: number; skipped: string[] }> {
+  const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {}))
+    .filter(([, at]) => Date.now() - Date.parse(at) < TOMBSTONE_TTL)
+    .map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
+  const records = [...readRecords(), ...tombstones, readMeta()];
+  const response = await fetch(SYNC_ENDPOINT, {
+    method: 'PUT', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ records }), signal: AbortSignal.timeout(15000),
+  });
+  if (!response.ok) throw new Error('上传失败，本机数据未改变');
+  const result = await response.json() as { skipped?: string[] };
+  return { uploaded: records.length, skipped: result.skipped ?? [] };
+}
+
+/** 单向拉取：只读云端，安全合并到本机，不执行任何云端写入。 */
+export async function pullAll(token: string): Promise<SavedRecord[]> {
+  const remote = await cloudRequest(token);
+  const localMeta = readMeta();
+  const tombstones: Tombstone[] = Object.entries(readJson<Record<string, string>>(DELETED_KEY, {})).map(([id, at]) => ({ id, savedAt: at, updatedAt: at, deleted: true }));
+  const merged = new Map<string, CloudItem>();
+  for (const item of [...readRecords(), ...tombstones, ...remote]) {
+    const previous = merged.get(item.id);
+    if (!previous || stamp(item) >= stamp(previous)) merged.set(item.id, item);
+  }
+  const split = splitCloudItems([...merged.values()]);
+  const meta = mergeMeta(localMeta, split.meta);
+  const records = split.records as SavedRecord[];
+  const alive = (split.tombstones as Tombstone[]).filter(item => Date.now() - stamp(item) < TOMBSTONE_TTL);
+  writeMeta(meta);
   writeRecords(records);
   writeJson(DELETED_KEY, Object.fromEntries(alive.map(item => [item.id, item.updatedAt])));
   return records;
@@ -1037,7 +1074,7 @@ export async function pushRecord(record: SavedRecord, what = '修正'): Promise<
 
 /**
  * 屏蔽复制：页面内容不可选中，复制/剪切、右键菜单、移动端长按菜单和拖拽都被拦截。
- * 输入框仍可正常输入和粘贴；同步密钥输入框可以复制（“复制密钥”按钮走独立的剪贴板接口，不受影响）。
+ * 输入框仍可正常输入和粘贴；同步密钥和 data-allow-copy 区域允许复制。
  * 注意：前端屏蔽只能降低随手复制的可能，挡不住查看源码、开发者工具或截图。
  */
 export function blockCopy() {
@@ -1045,13 +1082,15 @@ export function blockCopy() {
   document.documentElement.classList.add('no-copy');
   const style = document.createElement('style');
   style.textContent = '.no-copy, .no-copy * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }'
-    + '.no-copy input, .no-copy textarea, .no-copy select { -webkit-user-select: text; user-select: text; }';
+    + '.no-copy input, .no-copy textarea, .no-copy select { -webkit-user-select: text; user-select: text; }'
+    + '.no-copy [data-allow-copy], .no-copy [data-allow-copy] * { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }';
   document.head.append(style);
   const closest = (target: EventTarget | null, selector: string) => (target instanceof Element ? target : null)?.closest(selector) ?? null;
   const inField = (target: EventTarget | null) => !!closest(target, 'input, textarea, select');
   const keyField = (target: EventTarget | null) => !!closest(target, '#sync-key');
-  for (const type of ['copy', 'cut']) document.addEventListener(type, event => { if (!keyField(event.target)) event.preventDefault(); }, true);
-  for (const type of ['contextmenu', 'selectstart', 'dragstart']) document.addEventListener(type, event => { if (!inField(event.target)) event.preventDefault(); }, true);
+  const allowCopy = (target: EventTarget | null) => !!closest(target, '[data-allow-copy]');
+  for (const type of ['copy', 'cut']) document.addEventListener(type, event => { if (!keyField(event.target) && !allowCopy(event.target)) event.preventDefault(); }, true);
+  for (const type of ['contextmenu', 'selectstart', 'dragstart']) document.addEventListener(type, event => { if (!inField(event.target) && !allowCopy(event.target)) event.preventDefault(); }, true);
 }
 
 /**

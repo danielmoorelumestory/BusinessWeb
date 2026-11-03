@@ -90,3 +90,21 @@ CREATE TABLE IF NOT EXISTS etf_premiums (
   fetched_at INTEGER NOT NULL,
   PRIMARY KEY (code, date)
 ) WITHOUT ROWID;
+
+-- 复盘三周期指标快照。日K更新后由后台计算，页面只读取结果；租约避免重复抓取。
+CREATE TABLE IF NOT EXISTS review_technical (
+  code TEXT PRIMARY KEY,
+  payload TEXT,
+  updated_at INTEGER NOT NULL DEFAULT 0,
+  refreshing_until INTEGER NOT NULL DEFAULT 0
+);
+
+-- 同步覆盖复盘元数据前保留历史版本，支持误同步后的按用户恢复。
+CREATE TABLE IF NOT EXISTS review_meta_history (
+  owner_hash TEXT NOT NULL,
+  record_id TEXT NOT NULL,
+  version TEXT NOT NULL,
+  payload TEXT NOT NULL,
+  archived_at INTEGER NOT NULL,
+  PRIMARY KEY (owner_hash, record_id, version)
+);
