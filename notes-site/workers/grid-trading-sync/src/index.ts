@@ -78,6 +78,12 @@ const premiumFetches = (codeCount: number) => Math.ceil(codeCount / 40);
 /** 日K 可用请求数：扣除分钟线、溢价，以及本次调用已用掉的请求（如 CLS）。 */
 export const dailyFetchBudget = (codeCount: number, usedFetches = 0) =>
   Math.max(0, FETCH_LIMIT - usedFetches - codeCount - premiumFetches(codeCount));
+/** 本次调用可抓分钟线的标的数：扣除溢价和已用掉的请求（如 CLS）。 */
+export const minuteFetchBudget = (codeCount: number, usedFetches = 0) =>
+  Math.min(codeCount, Math.max(0, FETCH_LIMIT - usedFetches - premiumFetches(codeCount)));
+/** 按最久没有成功同步的顺序取前 limit 个，从未成功的最优先；配额不够一次抓完时，所有标的轮流得到更新。 */
+export const pickMinuteCodes = (codes: string[], lastSuccess: Map<string, number>, limit: number) =>
+  [...codes].sort((a, b) => (lastSuccess.get(a) ?? 0) - (lastSuccess.get(b) ?? 0)).slice(0, limit);
 /** CLS 单次可处理的天数：每天 3 次请求，另有 1 次取交易日；为分钟线和溢价留足配额，且始终刷新最近 2 日。 */
 export const clsDayLimit = (codeCount: number) =>
   Math.min(8, Math.max(2, Math.floor((FETCH_LIMIT - codeCount - premiumFetches(codeCount) - 1) / 3)));
@@ -302,7 +308,7 @@ async function syncMinuteBars(env: Env, code: string) {
 
 /**
  * 一次完整的抓取流程（定时任务与手动补抓共用），分两步：
- * 1. 逐个标的抓分钟线，并为每个标的写一条 sync_log（单个失败只记日志，不影响其余标的）；
+ * 1. 按配额轮流抓分钟线（最久没同步的优先），为每个抓取的标的写一条 sync_log（单个失败只记日志，不影响其余标的）；
  * 2. 逐个标的同步日K 与前复权偏移。日K 阶段失败不算抓取失败（分钟线已入库），只把原因追加到该标的日志的 error 里；
  *    子请求预算用完时（首次回填多个标的）停止，剩余标的留到下一次触发，分钟线优先保证。
  */
@@ -364,7 +370,10 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', codes: strin
   } catch (error) {
     console.error('ETF 溢价同步异常', error);
   }
-  for (const code of codes) {
+  const { results: synced } = await env.DB.prepare('SELECT code, MAX(run_at) AS last FROM sync_log WHERE ok = 1 GROUP BY code').all<{ code: string; last: number }>();
+  const lastSuccess = new Map(synced.map(row => [row.code, row.last]));
+  const minuteCodes = pickMinuteCodes(codes, lastSuccess, minuteFetchBudget(codes.length, usedFetches));
+  for (const code of minuteCodes) {
     let result = { fetched: 0, firstTs: null as string | null, lastTs: null as string | null }, ok = 1, error: string | null = null;
     try {
       result = await syncMinuteBars(env, code);
@@ -396,7 +405,7 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', codes: strin
       await note(code, `日K 同步失败：${message}`);
     }
   }
-  return { runAt, trigger, codes: codes.length, ...summary };
+  return { runAt, trigger, codes: codes.length, minuteCodes: minuteCodes.length, ...summary };
 }
 
 const FULL_DAY_BARS = 241; // 9:30—11:30、13:00—15:00，含 9:30 与 15:00 两端各一根

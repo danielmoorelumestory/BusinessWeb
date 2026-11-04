@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { clsDayLimit, dailyFetchBudget, type Env, readPremiums, runSync, shouldTriggerDailyAnalysis, syncPremiums, triggerDailyAnalysis } from './index';
+import { clsDayLimit, dailyFetchBudget, type Env, minuteFetchBudget, pickMinuteCodes, readPremiums, runSync, shouldTriggerDailyAnalysis, syncPremiums, triggerDailyAnalysis } from './index';
 
 type Call = { sql: string; bindings: unknown[] };
 
@@ -79,7 +79,43 @@ describe('每日分析触发', () => {
   });
 });
 
+describe('分钟线轮转', () => {
+  it('配额扣除溢价和已用请求，不超过标的数', () => {
+    expect(minuteFetchBudget(82, 7)).toBe(38);
+    expect(minuteFetchBudget(10, 7)).toBe(10);
+    expect(minuteFetchBudget(200, 60)).toBe(0);
+  });
+
+  it('从未成功的优先，其次是最久没同步的', () => {
+    const last = new Map([['a', 300], ['b', 100], ['c', 200]]);
+    expect(pickMinuteCodes(['a', 'b', 'c', 'd'], last, 3)).toEqual(['d', 'b', 'c']);
+  });
+
+  it('三轮内覆盖全部 82 只，每轮不超过配额', () => {
+    const codes = Array.from({ length: 82 }, (_, i) => String(510000 + i));
+    const last = new Map<string, number>(), seen = new Set<string>();
+    for (let run = 1; run <= 3; run++) {
+      const picked = pickMinuteCodes(codes, last, minuteFetchBudget(codes.length, 7));
+      expect(picked).toHaveLength(38);
+      for (const code of picked) { last.set(code, run); seen.add(code); }
+    }
+    expect(seen.size).toBe(82);
+  });
+});
+
 describe('runSync', () => {
+  it('标的超过配额时总请求数不超限，只给实际抓取的标的写日志，优先最久没同步的', async () => {
+    const codes = Array.from({ length: 82 }, (_, i) => String(510000 + i));
+    const { env, calls } = fakeEnv(codes.slice(0, 44).map((code, i) => ({ code, last: i + 1 })));
+    const fetchMock = vi.fn(async (_url: string) => new Response(JSON.stringify({ data: {} })));
+    vi.stubGlobal('fetch', fetchMock);
+    const result = await runSync(env, 'cron', codes, 7);
+    expect(7 + fetchMock.mock.calls.length).toBeLessThanOrEqual(48);
+    expect(result).toMatchObject({ codes: 82, minuteCodes: 38, ok: 38, failed: 0 });
+    const logged = calls.filter(call => call.sql.startsWith('INSERT INTO sync_log')).map(call => call.bindings[2]);
+    expect(logged).toEqual(codes.slice(44));
+  });
+
   it('fetches premiums before minute and daily bars so the worker fetch limit cannot starve them', async () => {
     const { env } = fakeEnv();
     const fetchMock = vi.fn(async (_url: string) => new Response(new TextEncoder().encode(quoteBody('510300'))));

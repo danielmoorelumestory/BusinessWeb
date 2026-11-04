@@ -95,7 +95,7 @@ notes 的"已保存标的"和**同步密钥**存放在浏览器的 `localStorage
 
 ## 网格后端（Worker）仍手动部署
 
-notes 的网格交易依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 数据库 + 每个交易日 3 次的分钟线定时抓取）。**它不随 Pages 部署，同步 notes 最新版时只更新了它的源码，没有重新部署它。**
+notes 的网格交易依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 数据库 + 每个交易日 3 次的分钟线定时抓取；免费版单次请求数有限，标的多时每轮约抓 38 只，最久没同步的优先，一天内轮流覆盖）。**它不随 Pages 部署，同步 notes 最新版时只更新了它的源码，没有重新部署它。**
 
 **同步到 `35f3747` 之后，Worker 与 D1 需要你自行更新**，否则新页面会调用不存在的接口：
 1. **D1 新表**：应用 `notes-site/workers/grid-trading-sync/schema.sql`，其中新增了 `cls_plate_day` 表（财联社板块日数据，按交易日与是否只看涨停缓存）。`schema.sql` 全部使用 `CREATE TABLE IF NOT EXISTS`，重复执行不会清空已有数据。
