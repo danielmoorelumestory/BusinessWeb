@@ -4,13 +4,13 @@
     {
       "schemaVersion": 1,
       "dataDate": "2026-11-05",
-      "fetchedAt": "2026-11-05T07:45:17.890Z",
+      "fetchedAt": "2026-11-05T15:44:37.057Z",
       "session": "closed",
       "metrics": {
         "ztCount": 84,
-        "ztOpen": null,
-        "ztSealRate": null,
-        "dtCount": null,
+        "ztOpen": 48,
+        "ztSealRate": 63.6,
+        "dtCount": 0,
         "dtOpen": null,
         "dtSealRate": null,
         "volume": 21179.53,
@@ -765,17 +765,17 @@
           "id": "brokenUp",
           "label": "东方财富炸板股池",
           "url": "https://push2ex.eastmoney.com/getTopicZBPool?ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wz.ztzt&Pageindex=0&pagesize=10000&sort=fbt%3Aasc&date=20261105",
-          "date": null,
-          "status": "unavailable",
-          "note": "The operation was aborted due to timeout"
+          "date": "2026-11-05",
+          "status": "ready",
+          "note": ""
         },
         {
           "id": "limitDown",
           "label": "东方财富跌停股池",
           "url": "https://push2ex.eastmoney.com/getTopicDTPool?ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wz.ztzt&Pageindex=0&pagesize=10000&sort=fund%3Aasc&date=20261105",
-          "date": null,
-          "status": "unavailable",
-          "note": "The operation was aborted due to timeout"
+          "date": "2026-11-05",
+          "status": "ready",
+          "note": ""
         },
         {
           "id": "amountRank",
