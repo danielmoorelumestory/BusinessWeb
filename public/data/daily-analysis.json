@@ -3,6 +3,816 @@
   "snapshots": [
     {
       "schemaVersion": 1,
+      "dataDate": "2026-11-05",
+      "fetchedAt": "2026-11-05T07:45:17.890Z",
+      "session": "closed",
+      "metrics": {
+        "ztCount": 84,
+        "ztOpen": null,
+        "ztSealRate": null,
+        "dtCount": null,
+        "dtOpen": null,
+        "dtSealRate": null,
+        "volume": 21179.53,
+        "upCount": null,
+        "downCount": null,
+        "lbCount": 21,
+        "maxBoard": 4,
+        "lbRate": 17.8,
+        "premiumOpen": 1.94,
+        "premiumClose": 4.49
+      },
+      "indices": [
+        {
+          "symbol": "sh000001",
+          "code": "000001",
+          "name": "上证指数",
+          "date": "2026-11-05",
+          "price": 3689.91,
+          "change": 0.1
+        },
+        {
+          "symbol": "sz399001",
+          "code": "399001",
+          "name": "深证成指",
+          "date": "2026-11-05",
+          "price": 11471.09,
+          "change": 1.19
+        },
+        {
+          "symbol": "sz399006",
+          "code": "399006",
+          "name": "创业板指",
+          "date": "2026-11-05",
+          "price": 2566.8,
+          "change": 0.87
+        }
+      ],
+      "upStocks": [
+        {
+          "code": "000017",
+          "name": "深中华A",
+          "boards": 2
+        },
+        {
+          "code": "002081",
+          "name": "金 螳 螂",
+          "boards": 2
+        },
+        {
+          "code": "002578",
+          "name": "闽发铝业",
+          "boards": 4
+        },
+        {
+          "code": "601599",
+          "name": "浙文影业",
+          "boards": 4
+        },
+        {
+          "code": "603381",
+          "name": "永臻股份",
+          "boards": 3
+        },
+        {
+          "code": "000603",
+          "name": "盛达资源",
+          "boards": 2
+        },
+        {
+          "code": "301697",
+          "name": "贝特利",
+          "boards": 2
+        },
+        {
+          "code": "603598",
+          "name": "引力传媒",
+          "boards": 2
+        },
+        {
+          "code": "001360",
+          "name": "南矿集团",
+          "boards": 2
+        },
+        {
+          "code": "002529",
+          "name": "海源复材",
+          "boards": 2
+        },
+        {
+          "code": "600641",
+          "name": "先导基电",
+          "boards": 2
+        },
+        {
+          "code": "603212",
+          "name": "赛伍技术",
+          "boards": 1
+        },
+        {
+          "code": "603657",
+          "name": "春光科技",
+          "boards": 2
+        },
+        {
+          "code": "002388",
+          "name": "新亚制程",
+          "boards": 2
+        },
+        {
+          "code": "002506",
+          "name": "协鑫集成",
+          "boards": 1
+        },
+        {
+          "code": "002309",
+          "name": "中利集团",
+          "boards": 2
+        },
+        {
+          "code": "605339",
+          "name": "南侨食品",
+          "boards": 1
+        },
+        {
+          "code": "688429",
+          "name": "时创能源",
+          "boards": 1
+        },
+        {
+          "code": "600481",
+          "name": "双良节能",
+          "boards": 1
+        },
+        {
+          "code": "001269",
+          "name": "欧晶科技",
+          "boards": 1
+        },
+        {
+          "code": "002045",
+          "name": "国光电器",
+          "boards": 1
+        },
+        {
+          "code": "000995",
+          "name": "皇台酒业",
+          "boards": 1
+        },
+        {
+          "code": "002135",
+          "name": "东南网架",
+          "boards": 1
+        },
+        {
+          "code": "603098",
+          "name": "森特股份",
+          "boards": 1
+        },
+        {
+          "code": "002307",
+          "name": "北新路桥",
+          "boards": 1
+        },
+        {
+          "code": "920007",
+          "name": "酉立智能",
+          "boards": 1
+        },
+        {
+          "code": "000533",
+          "name": "顺钠股份",
+          "boards": 1
+        },
+        {
+          "code": "002865",
+          "name": "钧达股份",
+          "boards": 1
+        },
+        {
+          "code": "600206",
+          "name": "有研新材",
+          "boards": 2
+        },
+        {
+          "code": "600683",
+          "name": "京投发展",
+          "boards": 1
+        },
+        {
+          "code": "002131",
+          "name": "利欧股份",
+          "boards": 1
+        },
+        {
+          "code": "600986",
+          "name": "浙文互联",
+          "boards": 1
+        },
+        {
+          "code": "300071",
+          "name": "福石控股",
+          "boards": 1
+        },
+        {
+          "code": "300493",
+          "name": "润欣科技",
+          "boards": 1
+        },
+        {
+          "code": "000710",
+          "name": "贝瑞基因",
+          "boards": 1
+        },
+        {
+          "code": "603185",
+          "name": "弘元绿能",
+          "boards": 1
+        },
+        {
+          "code": "002929",
+          "name": "润建股份",
+          "boards": 1
+        },
+        {
+          "code": "003033",
+          "name": "征和工业",
+          "boards": 2
+        },
+        {
+          "code": "603068",
+          "name": "博通集成",
+          "boards": 1
+        },
+        {
+          "code": "605287",
+          "name": "德才股份",
+          "boards": 2
+        },
+        {
+          "code": "000635",
+          "name": "英 力 特",
+          "boards": 1
+        },
+        {
+          "code": "002088",
+          "name": "鲁阳节能",
+          "boards": 3
+        },
+        {
+          "code": "002086",
+          "name": "东方海洋",
+          "boards": 1
+        },
+        {
+          "code": "600396",
+          "name": "华电辽能",
+          "boards": 1
+        },
+        {
+          "code": "300049",
+          "name": "福瑞医科",
+          "boards": 1
+        },
+        {
+          "code": "603893",
+          "name": "瑞芯微",
+          "boards": 2
+        },
+        {
+          "code": "603990",
+          "name": "麦迪科技",
+          "boards": 1
+        },
+        {
+          "code": "605488",
+          "name": "福莱新材",
+          "boards": 2
+        },
+        {
+          "code": "002421",
+          "name": "达实智能",
+          "boards": 1
+        },
+        {
+          "code": "600539",
+          "name": "狮头股份",
+          "boards": 1
+        },
+        {
+          "code": "300093",
+          "name": "金刚光伏",
+          "boards": 1
+        },
+        {
+          "code": "603956",
+          "name": "威派格",
+          "boards": 1
+        },
+        {
+          "code": "002318",
+          "name": "久立特材",
+          "boards": 1
+        },
+        {
+          "code": "002773",
+          "name": "康弘药业",
+          "boards": 1
+        },
+        {
+          "code": "603876",
+          "name": "鼎胜新材",
+          "boards": 1
+        },
+        {
+          "code": "002313",
+          "name": "日海智能",
+          "boards": 1
+        },
+        {
+          "code": "301209",
+          "name": "联合化学",
+          "boards": 1
+        },
+        {
+          "code": "000029",
+          "name": "深深房Ａ",
+          "boards": 1
+        },
+        {
+          "code": "605188",
+          "name": "国光连锁",
+          "boards": 1
+        },
+        {
+          "code": "600261",
+          "name": "阳光照明",
+          "boards": 1
+        },
+        {
+          "code": "603500",
+          "name": "祥和实业",
+          "boards": 1
+        },
+        {
+          "code": "000700",
+          "name": "模塑科技",
+          "boards": 1
+        },
+        {
+          "code": "603297",
+          "name": "永新光学",
+          "boards": 1
+        },
+        {
+          "code": "603682",
+          "name": "锦和商管",
+          "boards": 1
+        },
+        {
+          "code": "301000",
+          "name": "肇民科技",
+          "boards": 1
+        },
+        {
+          "code": "600569",
+          "name": "安阳钢铁",
+          "boards": 1
+        },
+        {
+          "code": "603151",
+          "name": "邦基科技",
+          "boards": 1
+        },
+        {
+          "code": "603737",
+          "name": "三棵树",
+          "boards": 1
+        },
+        {
+          "code": "601929",
+          "name": "吉视传媒",
+          "boards": 1
+        },
+        {
+          "code": "688648",
+          "name": "中邮科技",
+          "boards": 1
+        },
+        {
+          "code": "300709",
+          "name": "精研科技",
+          "boards": 1
+        },
+        {
+          "code": "001330",
+          "name": "博纳影业",
+          "boards": 1
+        },
+        {
+          "code": "002343",
+          "name": "慈文传媒",
+          "boards": 1
+        },
+        {
+          "code": "603699",
+          "name": "纽威股份",
+          "boards": 1
+        },
+        {
+          "code": "001393",
+          "name": "维通利",
+          "boards": 1
+        },
+        {
+          "code": "600865",
+          "name": "百大集团",
+          "boards": 1
+        },
+        {
+          "code": "002596",
+          "name": "海南瑞泽",
+          "boards": 1
+        },
+        {
+          "code": "688316",
+          "name": "青云科技-U",
+          "boards": 1
+        },
+        {
+          "code": "000428",
+          "name": "华天酒店",
+          "boards": 1
+        },
+        {
+          "code": "605069",
+          "name": "正和生态",
+          "boards": 1
+        },
+        {
+          "code": "000889",
+          "name": "中嘉博创",
+          "boards": 1
+        },
+        {
+          "code": "688109",
+          "name": "品茗科技",
+          "boards": 1
+        },
+        {
+          "code": "002565",
+          "name": "顺灏股份",
+          "boards": 2
+        },
+        {
+          "code": "603313",
+          "name": "梦百合",
+          "boards": 1
+        }
+      ],
+      "ladder": [
+        {
+          "boards": 4,
+          "stocks": [
+            {
+              "code": "002578",
+              "name": "闽发铝业",
+              "boards": 4
+            },
+            {
+              "code": "601599",
+              "name": "浙文影业",
+              "boards": 4
+            }
+          ]
+        },
+        {
+          "boards": 3,
+          "stocks": [
+            {
+              "code": "603381",
+              "name": "永臻股份",
+              "boards": 3
+            },
+            {
+              "code": "002088",
+              "name": "鲁阳节能",
+              "boards": 3
+            }
+          ]
+        },
+        {
+          "boards": 2,
+          "stocks": [
+            {
+              "code": "000017",
+              "name": "深中华A",
+              "boards": 2
+            },
+            {
+              "code": "002081",
+              "name": "金 螳 螂",
+              "boards": 2
+            },
+            {
+              "code": "000603",
+              "name": "盛达资源",
+              "boards": 2
+            },
+            {
+              "code": "301697",
+              "name": "贝特利",
+              "boards": 2
+            },
+            {
+              "code": "603598",
+              "name": "引力传媒",
+              "boards": 2
+            },
+            {
+              "code": "001360",
+              "name": "南矿集团",
+              "boards": 2
+            },
+            {
+              "code": "002529",
+              "name": "海源复材",
+              "boards": 2
+            },
+            {
+              "code": "600641",
+              "name": "先导基电",
+              "boards": 2
+            },
+            {
+              "code": "603657",
+              "name": "春光科技",
+              "boards": 2
+            },
+            {
+              "code": "002388",
+              "name": "新亚制程",
+              "boards": 2
+            },
+            {
+              "code": "002309",
+              "name": "中利集团",
+              "boards": 2
+            },
+            {
+              "code": "600206",
+              "name": "有研新材",
+              "boards": 2
+            },
+            {
+              "code": "003033",
+              "name": "征和工业",
+              "boards": 2
+            },
+            {
+              "code": "605287",
+              "name": "德才股份",
+              "boards": 2
+            },
+            {
+              "code": "603893",
+              "name": "瑞芯微",
+              "boards": 2
+            },
+            {
+              "code": "605488",
+              "name": "福莱新材",
+              "boards": 2
+            },
+            {
+              "code": "002565",
+              "name": "顺灏股份",
+              "boards": 2
+            }
+          ]
+        }
+      ],
+      "rankings": {
+        "amount": [
+          {
+            "symbol": "sz300308",
+            "code": "300308",
+            "name": "中际旭创",
+            "date": "2026-11-05",
+            "price": 493.33,
+            "change": -7.51,
+            "amount": 307.8,
+            "turnover": 5.63
+          },
+          {
+            "symbol": "sz300502",
+            "code": "300502",
+            "name": "新易盛",
+            "date": "2026-11-05",
+            "price": 185.61,
+            "change": -5.54,
+            "amount": 217.34,
+            "turnover": 9.39
+          },
+          {
+            "symbol": "sh688825",
+            "code": "688825",
+            "name": "长鑫科技",
+            "date": "2026-11-05",
+            "price": 42.53,
+            "change": -3.54,
+            "amount": 194.59,
+            "turnover": 10.07
+          },
+          {
+            "symbol": "sz300750",
+            "code": "300750",
+            "name": "宁德时代",
+            "date": "2026-11-05",
+            "price": 264.06,
+            "change": 4.42,
+            "amount": 184.02,
+            "turnover": 1.63
+          },
+          {
+            "symbol": "sz002384",
+            "code": "002384",
+            "name": "东山精密",
+            "date": "2026-11-05",
+            "price": 89.1,
+            "change": -5.54,
+            "amount": 159.66,
+            "turnover": 13.03
+          }
+        ],
+        "turnover": [
+          {
+            "symbol": "sz001381",
+            "code": "001381",
+            "name": "C皇冠新材",
+            "date": "2026-11-05",
+            "price": 57.1,
+            "change": -14.66,
+            "amount": 17.05,
+            "turnover": 63.37
+          },
+          {
+            "symbol": "sz002086",
+            "code": "002086",
+            "name": "东方海洋",
+            "date": "2026-11-05",
+            "price": 3.61,
+            "change": 10.06,
+            "amount": 29.19,
+            "turnover": 53
+          },
+          {
+            "symbol": "sz301569",
+            "code": "301569",
+            "name": "联亚药业",
+            "date": "2026-11-05",
+            "price": 21.79,
+            "change": 3.22,
+            "amount": 11.67,
+            "turnover": 47.43
+          },
+          {
+            "symbol": "sz301583",
+            "code": "301583",
+            "name": "托伦斯",
+            "date": "2026-11-05",
+            "price": 106.81,
+            "change": 11.04,
+            "amount": 14.88,
+            "turnover": 46.22
+          },
+          {
+            "symbol": "sz301513",
+            "code": "301513",
+            "name": "尚水智能",
+            "date": "2026-11-05",
+            "price": 59.19,
+            "change": -3.9,
+            "amount": 5.92,
+            "turnover": 46.16
+          }
+        ]
+      },
+      "flows": {
+        "inflow": [
+          {
+            "name": "电子器件",
+            "amount": 77.42
+          },
+          {
+            "name": "化工行业",
+            "amount": 42.14
+          },
+          {
+            "name": "生物制药",
+            "amount": 31.72
+          },
+          {
+            "name": "电子信息",
+            "amount": 28.56
+          },
+          {
+            "name": "汽车制造",
+            "amount": 24.24
+          }
+        ],
+        "outflow": [
+          {
+            "name": "煤炭行业",
+            "amount": -9.6
+          },
+          {
+            "name": "金融行业",
+            "amount": -5.91
+          },
+          {
+            "name": "陶瓷行业",
+            "amount": -2.38
+          },
+          {
+            "name": "石油行业",
+            "amount": -1.8
+          },
+          {
+            "name": "公路桥梁",
+            "amount": -1
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "indices",
+          "label": "腾讯指数行情",
+          "url": "https://qt.gtimg.cn/q=sh000001,sz399001,sz399006",
+          "date": "2026-11-05",
+          "status": "ready",
+          "note": ""
+        },
+        {
+          "id": "limitUp",
+          "label": "东方财富涨停股池",
+          "url": "https://push2ex.eastmoney.com/getTopicZTPool?ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wz.ztzt&Pageindex=0&pagesize=10000&sort=fbt%3Aasc&date=20261105",
+          "date": "2026-11-05",
+          "status": "ready",
+          "note": ""
+        },
+        {
+          "id": "brokenUp",
+          "label": "东方财富炸板股池",
+          "url": "https://push2ex.eastmoney.com/getTopicZBPool?ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wz.ztzt&Pageindex=0&pagesize=10000&sort=fbt%3Aasc&date=20261105",
+          "date": null,
+          "status": "unavailable",
+          "note": "The operation was aborted due to timeout"
+        },
+        {
+          "id": "limitDown",
+          "label": "东方财富跌停股池",
+          "url": "https://push2ex.eastmoney.com/getTopicDTPool?ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wz.ztzt&Pageindex=0&pagesize=10000&sort=fund%3Aasc&date=20261105",
+          "date": null,
+          "status": "unavailable",
+          "note": "The operation was aborted due to timeout"
+        },
+        {
+          "id": "amountRank",
+          "label": "新浪成交额排名 / 腾讯报价",
+          "url": "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?node=hs_a&sort=amount&asc=0&num=5&page=1",
+          "date": "2026-11-05",
+          "status": "ready",
+          "note": ""
+        },
+        {
+          "id": "turnoverRank",
+          "label": "新浪换手率排名 / 腾讯报价",
+          "url": "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?node=hs_a&sort=turnoverratio&asc=0&num=5&page=1",
+          "date": "2026-11-05",
+          "status": "ready",
+          "note": ""
+        },
+        {
+          "id": "flows",
+          "label": "新浪行业资金流",
+          "url": "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?paixu=op%2Fturnover&fenlei=0",
+          "date": null,
+          "status": "undated",
+          "note": "源未标注交易日期；仅代表本次获取的行业资金流快照，非主力净流入口径"
+        },
+        {
+          "id": "premium",
+          "label": "东方财富昨日涨停股池 / 腾讯报价",
+          "url": "https://push2ex.eastmoney.com/getYesterdayZTPool?ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wz.ztzt&Pageindex=0&pagesize=10000&sort=zs%3Adesc&date=20261105",
+          "date": "2026-11-05",
+          "status": "ready",
+          "note": "昨日涨停 118 只，有当日报价 118 只"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
       "dataDate": "2026-11-04",
       "fetchedAt": "2026-11-04T15:42:56.772Z",
       "session": "closed",
