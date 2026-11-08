@@ -134,7 +134,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     type Quote,
     type SavedRecord,
   } from '../../../lib/grid-trading';
-  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord, isPriceAboveMa } from '../../../lib/review-analysis';
+  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord, isPriceAboveAllMa } from '../../../lib/review-analysis';
   import { fundProfileUrl, isCatalogGroupId, subThemeCellHtml } from '../../../lib/etf-catalog-seed';
   import { fillCatalogRemarks, referenceSectionsHtml } from '../../../lib/etf-catalog-special';
   import { latestInvestmentNote } from '../../../../../src/utils/etfJudgment';
@@ -405,12 +405,7 @@ const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/'
     const cached = readTechnicalCache();
     for (const code of allCodes) if (cached[code]) setReviewRecord(code, cached[code].record);
     const groupCodes = filterByGroups(allCodes, meta.memberships, [...selectedGroupIds]);
-    const codes = selectedMaFilters.size
-      ? groupCodes.filter(code => [...selectedMaFilters].some(key => {
-        const [period, ma] = key.split(':');
-        return isPriceAboveMa(code, period as 'day' | 'week' | 'month', Number(ma) as 5 | 10 | 20);
-      }))
-      : groupCodes;
+    const codes = groupCodes.filter(code => isPriceAboveAllMa(code, [...selectedMaFilters]));
     const groups = groupsOf();
     const watchByCode = new Map(meta.watchlist.map(item => [item.code, item]));
     renderFilters();

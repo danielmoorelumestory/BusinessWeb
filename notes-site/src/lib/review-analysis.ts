@@ -30,6 +30,13 @@ export function isPriceAboveMa(code: string, period: ReviewPeriod, ma: 5 | 10 | 
   const line = ma === 5 ? state?.ma5 : ma === 10 ? state?.ma10 : state?.ma20;
   return !!state && line != null && Number.isFinite(line) && state.close > line;
 }
+/** 选中的均线条件（如 day:5）是否全部站上；未选择条件时返回 true。 */
+export function isPriceAboveAllMa(code: string, filters: string[]): boolean {
+  return filters.every(filter => {
+    const [period, ma] = filter.split(':');
+    return isPriceAboveMa(code, period as ReviewPeriod, Number(ma) as 5 | 10 | 20);
+  });
+}
 const labels = { day: '日线', week: '周线', month: '月线' };
 const escapeHtml = (text: string) => text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
 
