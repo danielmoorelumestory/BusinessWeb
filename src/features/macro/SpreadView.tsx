@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { ToneBadge } from './MacroViews'
 import type { Tone } from './stages'
-import { HORIZONS, average, baselineReturn, buildChannel, forwardReturn, sigmaOf, touchEvents, zoneOf, type SpreadSeries, type SpreadSnapshot, type Zone } from './spread'
+import { HORIZONS, average, baselineReturn, buildChannel, forwardReturn, movingAverage, sigmaOf, touchEvents, zoneOf, type SpreadSeries, type SpreadSnapshot, type Zone } from './spread'
 import './macro.css'
 
 const W = 720
@@ -108,12 +108,14 @@ function SpreadPanel({ data, name, label, note }: { data: SpreadSnapshot; name: 
   const ups = useMemo(() => touchEvents(rows, bands, 'upper'), [rows, bands])
   const downs = useMemo(() => touchEvents(rows, bands, 'lower'), [rows, bands])
   const firstBand = bands.findIndex(b => b !== null)
+  const ma = useMemo(() => movingAverage(rows, 200), [rows])
   const base = useMemo(() => HORIZONS.map(h => baselineReturn(rows, Math.max(0, firstBand), h)), [rows, firstBand])
 
   const last = rows.length - 1
   const nowBand = bands[last]
   if (!nowBand) return <p role="alert" className="macro-muted">股债息差数据不足，暂时画不出通道。</p>
   const now = rows[last], zone = zoneOf(now[1], nowBand), z = ZONE[zone]
+  const maNow = ma[last]
   const gapText = z.text || `离上轨还差 ${(nowBand.upper - now[1]).toFixed(2)} 个百分点，离下轨还有 ${(now[1] - nowBand.lower).toFixed(2)} 个百分点。`
 
   // 显示范围：按年份往回截
@@ -135,7 +137,7 @@ function SpreadPanel({ data, name, label, note }: { data: SpreadSnapshot; name: 
   for (let i = i0; i <= last; i++) {
     const b = bands[i], [, s, p] = rows[i]
     sLo = Math.min(sLo, s, b?.lower ?? s); sHi = Math.max(sHi, s, b?.upper ?? s)
-    pLo = Math.min(pLo, p); pHi = Math.max(pHi, p)
+    pLo = Math.min(pLo, p, ma[i] ?? p); pHi = Math.max(pHi, p, ma[i] ?? p)
   }
   const s1 = scale(sLo, sHi, H1, 0.08), s2 = scale(pLo, pHi, H2, 0.2)
   const line = (get: (i: number) => number | undefined, y: (v: number) => number): string => {
@@ -177,11 +179,13 @@ function SpreadPanel({ data, name, label, note }: { data: SpreadSnapshot; name: 
         </div>
         <h2 className="macro-hero__name">{now[1].toFixed(2)}<small className="macro-spread__unit"> 个百分点</small></h2>
         <p className="macro-hero__summary">偏离中轨 {sigmaOf(now[1], nowBand, data.k) >= 0 ? '+' : ''}{sigmaOf(now[1], nowBand, data.k).toFixed(2)} 倍标准差。{gapText}</p>
+        {maNow !== undefined && <p className="macro-hero__summary">趋势：{name} 在 200 日均线{now[2] > maNow ? '上方' : '下方'}（{now[2] > maNow ? '高出' : '低于'}均线 {Math.abs((now[2] / maNow - 1) * 100).toFixed(1)}%）。</p>}
         <dl className="macro-spread__stats">
           <div><dt>上轨</dt><dd>{nowBand.upper.toFixed(2)}</dd></div>
           <div><dt>中轨</dt><dd>{nowBand.mid.toFixed(2)}</dd></div>
           <div><dt>下轨</dt><dd>{nowBand.lower.toFixed(2)}</dd></div>
           <div><dt>{name}</dt><dd>{now[2].toFixed(0)}</dd></div>
+          {maNow !== undefined && <div><dt>200 日均线</dt><dd>{maNow.toFixed(0)}</dd></div>}
         </dl>
       </section>
 
@@ -209,6 +213,7 @@ function SpreadPanel({ data, name, label, note }: { data: SpreadSnapshot; name: 
           <h3 className="macro-h3" style={{ marginTop: 12 }}>{name} 指数</h3>
           <svg viewBox={`0 0 ${W} ${H2}`} role="img" onPointerMove={onMove} onPointerLeave={() => setHover(null)} aria-label={`${name} 指数同期走势，最新 ${now[2].toFixed(0)}`}>
             {axis(H2, niceTicks(s2.lo, s2.hi, 4), s2.y, 0)}
+            <path className="macro-spread__ma" d={line(i => ma[i], s2.y)} />
             <path className="macro-spark__line" d={line(i => rows[i][2], s2.y)} />
             {shown(ups).map(i => <path key={`u${i}`} className="macro-spread__up" d={tri(x(i), s2.y(rows[i][2]) + 20, true)} />)}
             {shown(downs).map(i => <path key={`d${i}`} className="macro-spread__down" d={tri(x(i), s2.y(rows[i][2]) - 20, false)} />)}
@@ -220,6 +225,7 @@ function SpreadPanel({ data, name, label, note }: { data: SpreadSnapshot; name: 
             <span><svg width="18" height="10" aria-hidden="true"><rect className="macro-spread__band" width="18" height="10" /></svg>上轨到下轨</span>
             <span><svg width="12" height="12" aria-hidden="true"><path className="macro-spread__up" d="M6,1l5,9h-10Z" /></svg>触及上轨</span>
             <span><svg width="12" height="12" aria-hidden="true"><path className="macro-spread__down" d="M6,11l5,-9h-10Z" /></svg>跌破下轨</span>
+            <span><svg width="18" height="8" aria-hidden="true"><line className="macro-spread__ma" x1="0" y1="4" x2="18" y2="4" /></svg>200 日均线</span>
           </figcaption>
         </figure>
       </section>
@@ -241,6 +247,7 @@ function SpreadPanel({ data, name, label, note }: { data: SpreadSnapshot; name: 
             </>
             : <li>在{name} 上按同样的算法，结果和沪深300 接近。它的成分股大多也在沪深300 里，触轨的时间也大多相同，不算另一份独立的证据。</li>}
           {note && <li>{note}</li>}
+          <li>200 日均线只描述趋势状态：指数在线上还是线下。我们回测过「线上持有股票、线下换成国债」的做法（2007 年至 2026 年，用含分红的指数、每月末判断一次）：年化约 8.2%，高于对照组合，但好处几乎全来自 2008 年那一次，最大回撤（−49%）也比股债各半（−40%）更深，没有被证明是可靠的择时方法。</li>
           <li>局限：样本只有十几次，每次间隔一两年；窗口和倍数是事先选定的，换一组参数结果会有出入；历史表现不代表以后。这里只给位置，不做预测。</li>
           <li>数据：{data.source}，更新于 {data.generatedAt}。更新命令：<code>npm run spread:update</code>。</li>
         </ul>

@@ -78,3 +78,15 @@ export const average = (values: (number | undefined)[]): number | undefined => {
   const v = values.filter((x): x is number => x !== undefined)
   return v.length ? v.reduce((a, b) => a + b, 0) / v.length : undefined
 }
+
+/** 指数收盘价的 n 日简单均线（含当天）；不足 n 天时为 undefined */
+export function movingAverage(rows: SpreadRow[], n: number): (number | undefined)[] {
+  const out: (number | undefined)[] = []
+  let sum = 0
+  for (let i = 0; i < rows.length; i++) {
+    sum += rows[i][2]
+    if (i >= n) sum -= rows[i - n][2]
+    out.push(i >= n - 1 ? sum / n : undefined)
+  }
+  return out
+}

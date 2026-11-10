@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { SpreadView } from './SpreadView'
-import { average, baselineReturn, buildChannel, forwardReturn, sigmaOf, touchEvents, zoneOf, type SpreadRow, type SpreadSnapshot } from './spread'
+import { average, baselineReturn, buildChannel, movingAverage, forwardReturn, sigmaOf, touchEvents, zoneOf, type SpreadRow, type SpreadSnapshot } from './spread'
 
 const day = (i: number): string => new Date(Date.UTC(2020, 0, 1 + i)).toISOString().slice(0, 10)
 const rowsOf = (spreads: number[], price = (i: number) => 100 + i): SpreadRow[] => spreads.map((s, i) => [day(i), s, price(i)])
@@ -101,5 +101,20 @@ describe('股债息差视图：多个指数', () => {
     fireEvent.click(screen.getByRole('button', { name: '沪深300（中位数）' }))
     expect(screen.getByLabelText('当前位置').textContent).toContain('沪深300（中位数） 盈利收益率')
     expect(screen.getByText('中位数说明')).toBeTruthy()
+  })
+})
+
+describe('200 日均线', () => {
+  it('均线含当天，不足天数时不给值', () => {
+    const ma = movingAverage(rowsOf([1, 1, 1, 1], i => [10, 20, 30, 40][i]), 3)
+    expect(ma[1]).toBeUndefined()
+    expect(ma[2]).toBeCloseTo(20)
+    expect(ma[3]).toBeCloseTo(30)
+  })
+
+  it('数据够 200 天时显示趋势状态', () => {
+    const spreads = Array.from({ length: 260 }, (_, i) => 5 + (i % 2 ? 0.1 : -0.1))
+    render(<SpreadView data={{ generatedAt: '2026-11-10', source: '测试源', window: 20, k: 2, rows: rowsOf(spreads) }} />)
+    expect(screen.getByLabelText('当前位置').textContent).toContain('在 200 日均线上方')
   })
 })
