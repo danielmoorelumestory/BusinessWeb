@@ -32,7 +32,7 @@ describe('INVEST_GROUPS', () => {
   it('收纳全部旧入口和 AI 工具，且无重复', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
-      '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/etf-review/', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/invest/ai-tools', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
+      '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/etf-review/', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/invest/ai-tools', '/invest/blogger-views', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
       '/investment-strategy', '/investment-targets', '/notes', '/industry-etf', '/invest/national-team', '/watch', '/daily-analysis',
       'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking',
       '/mainland-investment-targets', '/monitor', '/pulse', '/research-notes',

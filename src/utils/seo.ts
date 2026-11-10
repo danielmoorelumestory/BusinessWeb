@@ -22,6 +22,8 @@ const EXACT: Record<string, RouteSeo> = {
   '/ai/ai-skills': { title: 'AI Skills 工具库｜AI实验室', description: '可下载的 AI Skills：Orca 开发团队、投资分析、视频创作与小说写作，含安装方法和提示词示例。' },
   '/invest/etf': { title: 'ETF 投资指南', description: 'ETF 的选择、定投与网格交易思路。' },
   '/invest/national-team': { title: '国家队持仓｜汇金、证金、社保的 A 股持仓', description: '按报告期追踪中央汇金、证金公司、社保基金等持有的 A 股：机构、行业、个股持仓与季度变化。' },
+  // 对他人公开视频的整理，含未核实的说法，不交给搜索引擎
+  '/invest/blogger-views': { title: '博主观点整理', description: '财经博主公开视频的逐条整理，仅作了解。', noindex: true },
   '/ai': { title: 'AI 工作室｜独立开发与 AI 学习路线', description: '用 AI 做独立开发：学习路线、实验方向与工具笔记。' },
   '/blog': { title: '博客｜投资、AI 与自由生活', description: '关于投资的耐心、AI 的实践，和通往自由生活的每一步。' },
   '/ai/fullstack-roadmap': { title: 'AI 全栈学习路线', description: '从零到独立开发者的 AI 全栈学习计划。' },
@@ -55,6 +57,7 @@ const EXACT: Record<string, RouteSeo> = {
 const PREFIX: Array<[string, RouteSeo]> = [
   ['/grid-trading/', { title: '网格交易已迁移', noindex: true }],
   ['/limit-up-analysis/', { title: '已迁移', noindex: true }],
+  ['/invest/blogger-views/', { title: '博主观点整理', noindex: true }],
   ['/first-book/read/', { title: '《正念投资》在线阅读', description: '《正念投资》章节全文在线阅读。' }],
   ['/notes/', { title: '行业研究笔记', description: '行业深度笔记与完整报告。' }],
   ['/research-notes/', { title: '公司研究笔记', description: '单家公司的研究笔记、财务与估值要点。' }],
