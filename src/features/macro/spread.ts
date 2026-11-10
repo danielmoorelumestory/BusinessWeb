@@ -90,3 +90,16 @@ export function movingAverage(rows: SpreadRow[], n: number): (number | undefined
   }
   return out
 }
+
+/** 收盘价上穿、下穿均线的日子：前一天在线上或线下（含等于），当天换到另一侧 */
+export function crossings(rows: SpreadRow[], ma: (number | undefined)[]): { up: number[]; down: number[] } {
+  const up: number[] = [], down: number[] = []
+  for (let i = 1; i < rows.length; i++) {
+    const a = ma[i - 1], b = ma[i]
+    if (a === undefined || b === undefined) continue
+    const before = rows[i - 1][2] > a, after = rows[i][2] > b
+    if (!before && after) up.push(i)
+    if (before && !after) down.push(i)
+  }
+  return { up, down }
+}

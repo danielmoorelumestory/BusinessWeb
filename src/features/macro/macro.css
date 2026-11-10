@@ -171,6 +171,9 @@
 .macro-spread__line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .macro-spread__rail { fill: none; stroke: var(--text-tertiary); stroke-width: 1; }
 .macro-spread__ma { fill: none; stroke: var(--accent-warm); stroke-width: 1.5; stroke-dasharray: 5 3; }
+.macro-spread__ma10 { fill: none; stroke: var(--text-tertiary); stroke-width: 1; opacity: 0.7; }
+.macro-spread__cross-up { fill: var(--ok); stroke: var(--bg-card); stroke-width: 1; }
+.macro-spread__cross-down { fill: var(--accent-warm); stroke: var(--bg-card); stroke-width: 1; }
 .macro-spread__band { fill: var(--accent-soft); stroke: none; }
 .macro-spread__up { fill: var(--ok); stroke: var(--bg-card); stroke-width: 1.5; stroke-linejoin: round; }
 .macro-spread__down { fill: var(--accent-warm); stroke: var(--bg-card); stroke-width: 1.5; stroke-linejoin: round; }

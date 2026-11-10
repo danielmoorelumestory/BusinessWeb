@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { SpreadView } from './SpreadView'
-import { average, baselineReturn, buildChannel, movingAverage, forwardReturn, sigmaOf, touchEvents, zoneOf, type SpreadRow, type SpreadSnapshot } from './spread'
+import { average, baselineReturn, buildChannel, crossings, movingAverage, forwardReturn, sigmaOf, touchEvents, zoneOf, type SpreadRow, type SpreadSnapshot } from './spread'
 
 const day = (i: number): string => new Date(Date.UTC(2020, 0, 1 + i)).toISOString().slice(0, 10)
 const rowsOf = (spreads: number[], price = (i: number) => 100 + i): SpreadRow[] => spreads.map((s, i) => [day(i), s, price(i)])
@@ -66,7 +66,7 @@ describe('股债息差视图', () => {
     const all = screen.getByRole('button', { name: '全部' })
     fireEvent.click(all)
     expect(all.getAttribute('aria-pressed')).toBe('true')
-    expect(screen.getByRole('button', { name: '5 年' }).getAttribute('aria-pressed')).toBe('false')
+    expect(screen.getByRole('button', { name: '3 年' }).getAttribute('aria-pressed')).toBe('false')
   })
 
   it('数据太少时给出提示', () => {
@@ -116,5 +116,14 @@ describe('200 日均线', () => {
     const spreads = Array.from({ length: 260 }, (_, i) => 5 + (i % 2 ? 0.1 : -0.1))
     render(<SpreadView data={{ generatedAt: '2026-11-10', source: '测试源', window: 20, k: 2, rows: rowsOf(spreads) }} />)
     expect(screen.getByLabelText('当前位置').textContent).toContain('在 200 日均线上方')
+  })
+})
+
+describe('10 日均线穿越点', () => {
+  it('从线下到线上算站上，从线上到线下算跌破，均线没值的日子不算', () => {
+    const px = [10, 10, 10, 13, 14, 9, 8, 12]
+    const rows = rowsOf(px.map(() => 1), i => px[i])
+    const ma = movingAverage(rows, 3)
+    expect(crossings(rows, ma)).toEqual({ up: [3, 7], down: [5] })
   })
 })
