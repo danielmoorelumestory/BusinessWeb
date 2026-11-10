@@ -30,6 +30,7 @@
     "daily-analysis:rank-backfill": "node scripts/daily-analysis-rank-backfill.mjs",
     "daily-analysis:premium-backfill": "node scripts/daily-analysis-premium-backfill.mjs",
     "index:update": "node scripts/index-snapshot.mjs",
+    "spread:update": "python3 scripts/equity-bond-spread-snapshot.py",
     "index:fpe": "node scripts/index-snapshot.mjs fpe",
     "index:fpe-import": "node scripts/index-snapshot.mjs fpe-import",
     "index:ref-import": "node scripts/index-snapshot.mjs ref-import",

@@ -13,12 +13,14 @@ import { PageTabs, PageTitle, Segmented, type TabItem } from '../components/ui/P
 import { CyclesView } from '../features/macro/CycleViews'
 import { ValuationView } from '../features/macro/ValuationView'
 import type { IndexSnapshot } from '../features/macro/valuation'
+import { SpreadView } from '../features/macro/SpreadView'
+import type { SpreadSnapshot } from '../features/macro/spread'
 import { ChinaView, GuideView, HkView, OverviewView, StagesView, UsView } from '../features/macro/MacroViews'
 import type { MacroSnapshot } from '../features/macro/indicators'
 import type { CnKey } from '../features/macro/china'
 import type { HkKey } from '../features/macro/hk'
 
-type TabId = 'overview' | 'us' | 'cn' | 'hk' | 'cycles' | 'valuation' | 'stages' | 'guide' | 'archive'
+type TabId = 'overview' | 'us' | 'cn' | 'hk' | 'cycles' | 'valuation' | 'spread' | 'stages' | 'guide' | 'archive'
 const TABS: TabItem<TabId>[] = [
   { id: 'overview', label: '温度总览' },
   { id: 'us', label: '美国宏观' },
@@ -26,6 +28,7 @@ const TABS: TabItem<TabId>[] = [
   { id: 'hk', label: '港股宏观' },
   { id: 'cycles', label: '周期位置' },
   { id: 'valuation', label: '估值位置' },
+  { id: 'spread', label: '股债息差' },
   { id: 'stages', label: '阶段与动作' },
   { id: 'guide', label: '指标说明' },
   { id: 'archive', label: '旧版存档' },
@@ -59,11 +62,14 @@ export function mergeSnapshot<T extends MacroSnapshot<string>>(old: T | null, fr
 const timeText = (iso: string) => new Date(iso).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
 
 let indexCache: IndexSnapshot | null = null
+let spreadCache: SpreadSnapshot | null = null
 
 export default function Monitor(): JSX.Element {
   const [params, setParams] = useSearchParams()
   const [indexes, setIndexes] = useState<IndexSnapshot | null>(indexCache)
   const [indexError, setIndexError] = useState(false)
+  const [spread, setSpread] = useState<SpreadSnapshot | null>(spreadCache)
+  const [spreadError, setSpreadError] = useState(false)
   const tabParam = params.get('tab')
   const tab: TabId = TABS.some(t => t.id === tabParam) ? (tabParam as TabId) : 'overview'
   const archiveParam = params.get('old')
@@ -106,13 +112,18 @@ export default function Monitor(): JSX.Element {
     load('index-history.json', { cache: 'no-cache' }).then((d: IndexSnapshot) => { indexCache = d; setIndexes(d) }).catch(() => setIndexError(true))
   }, [params])
 
+  useEffect(() => {
+    if (params.get('tab') !== 'spread') return
+    load('equity-bond-spread.json', { cache: 'no-cache' }).then((d: SpreadSnapshot) => { spreadCache = d; setSpread(d) }).catch(() => setSpreadError(true))
+  }, [params])
+
   const go = (patch: Record<string, string | null>): void => setParams(prev => {
     const next = new URLSearchParams(prev)
     Object.entries(patch).forEach(([k, v]) => (v === null ? next.delete(k) : next.set(k, v)))
     return next
   }, { replace: true })
 
-  const needsData = tab !== 'archive' && tab !== 'valuation'
+  const needsData = tab !== 'archive' && tab !== 'valuation' && tab !== 'spread'
   const snap = data?.us
   return (
     <main className="container animate-fade-in page-shell">
@@ -134,6 +145,7 @@ export default function Monitor(): JSX.Element {
         {snap && tab === 'hk' && (data.hk ? <HkView snap={data.hk} /> : <p role="alert" className="macro-muted">港股数据加载失败，请刷新重试。</p>)}
         {snap && tab === 'cycles' && <CyclesView us={snap} cn={data.cn} />}
         {tab === 'valuation' && (indexes ? <ValuationView data={indexes} onData={d => { indexCache = d }} /> : <p role={indexError ? 'alert' : 'status'} className="macro-muted">{indexError ? '指数数据加载失败，请刷新重试。' : '正在加载指数数据…'}</p>)}
+        {tab === 'spread' && (spread ? <SpreadView data={spread} /> : <p role={spreadError ? 'alert' : 'status'} className="macro-muted">{spreadError ? '股债息差数据加载失败，请刷新重试。' : '正在加载股债息差数据…'}</p>)}
         {snap && tab === 'stages' && <StagesView snap={snap} />}
         {snap && tab === 'guide' && <GuideView snap={snap} cn={data.cn} hk={data.hk} />}
         {tab === 'archive' && (
