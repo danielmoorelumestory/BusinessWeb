@@ -1,3 +1,4 @@
+// 部署：推送到 main 后由 .github/workflows/worker-deploy.yml 自动发布，不需要在本机执行 wrangler deploy。
 import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
