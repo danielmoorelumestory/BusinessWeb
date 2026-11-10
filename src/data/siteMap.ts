@@ -89,6 +89,7 @@ export const INVEST_GROUPS: HubGroup[] = [
       { path: '/dcf', label: '现金流折现 DCF', desc: 'WACC + 五年现金流折现估值与安全边际，可保存记录' },
       { path: GRID_TRADING_PATH, label: '网格交易', desc: 'ETF / 个股网格模拟、回测与记录' },
       { path: '/invest/etf', label: 'ETF 流派地图', desc: '宽基、因子、主题、债券、商品等流派的主要 ETF 与风险' },
+      { path: '/invest/blogger-views', label: '博主观点整理', desc: '财经博主公开视频的逐条整理：讲了什么、给了哪些规则、哪些无法核实。仅作了解，不是本站方法' },
     ],
   },
 ]

@@ -34,7 +34,7 @@ describe('INVEST_GROUPS', () => {
   it('收纳全部入口，且无重复', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
-      '/dcf', '/first-book', '/future-trends', '/note/lab/etf-review/', '/note/lab/grid-trading/', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
+      '/dcf', '/first-book', '/future-trends', '/note/lab/etf-review/', '/note/lab/grid-trading/', '/invest/blogger-views', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
       '/notes', '/industry-etf', '/invest/national-team', '/watch', '/daily-analysis',
       '/note/lab/stock/#stock-analysis', '/note/lab/stock/#sector-rotation', '/note/lab/stock/#plate-ranking',
       '/monitor', '/pulse', '/research-notes',

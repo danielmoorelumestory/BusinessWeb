@@ -18,6 +18,8 @@ const EXACT: Record<string, RouteSeo> = {
   '/': { title: 'Live｜投资：A 股与美股研究、方法与工具', description: '沪深 A 股与美股标普 500 的研究笔记、投资方法、ETF 指南与网格交易工具。' },
   '/invest/etf': { title: 'ETF 投资指南', description: 'ETF 的选择、定投与网格交易思路。' },
   '/invest/national-team': { title: '国家队持仓｜汇金、证金、社保的 A 股持仓', description: '按报告期追踪中央汇金、证金公司、社保基金等持有的 A 股：机构、行业、个股持仓与季度变化。' },
+  // 对他人公开视频的整理，含未核实的说法，不交给搜索引擎
+  '/invest/blogger-views': { title: '博主观点整理', description: '财经博主公开视频的逐条整理，仅作了解。', noindex: true },
   '/blog': { title: '博客｜投资、AI 与自由生活', description: '关于投资的耐心、AI 的实践，和通往自由生活的每一步。' },
   '/about': { title: '关于', description: '《正念投资》作者，投资、AI 与独立开发的长期实验。' },
   '/pulse': { title: '市场脉搏', description: '每日市场情绪与宏观数据快照。' },
@@ -43,6 +45,7 @@ const EXACT: Record<string, RouteSeo> = {
 const PREFIX: Array<[string, RouteSeo]> = [
   ['/grid-trading/', { title: '网格交易已迁移', noindex: true }],
   ['/limit-up-analysis/', { title: '已迁移', noindex: true }],
+  ['/invest/blogger-views/', { title: '博主观点整理', noindex: true }],
   ['/first-book/read/', { title: '《正念投资》在线阅读', description: '《正念投资》章节全文在线阅读。' }],
   ['/notes/', { title: '行业研究笔记', description: '行业深度笔记与完整报告。' }],
   ['/research-notes/', { title: '公司研究笔记', description: '单家公司的研究笔记、财务与估值要点。' }],

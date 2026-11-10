@@ -36,6 +36,8 @@ const SolidStateCompany = lazy(() => import('./pages/SolidStateCompany'))
 const FutureTrendCompany = lazy(() => import('./pages/FutureTrendCompany'))
 const IndustryLandscape = lazy(() => import('./pages/IndustryLandscape'))
 const EtfGuide = lazy(() => import('./pages/EtfGuide'))
+const BloggerViews = lazy(() => import('./pages/BloggerViews'))
+const BloggerViewDetail = lazy(() => import('./pages/BloggerViewDetail'))
 
 function PageLoading(): JSX.Element {
   return <div role="status" className="container page-loading">加载中…</div>
@@ -83,6 +85,8 @@ export default function App(): JSX.Element {
           {/* 首页就是投资页；旧的 /invest 由 _redirects 跳转，这里是前端兜底 */}
           <Route path="/invest" element={<Navigate to="/" replace />} />
           <Route path="/invest/etf" element={<EtfGuide />} />
+          <Route path="/invest/blogger-views" element={<BloggerViews />} />
+          <Route path="/invest/blogger-views/:slug" element={<BloggerViewDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/pulse" element={<Pulse />} />
           <Route path="/notes" element={<Notes />} />
