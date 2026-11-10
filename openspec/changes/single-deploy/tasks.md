@@ -9,7 +9,7 @@
 - [x] 2.2 根目录 `package.json` 的 `devDependencies` 加入固定版本的 `wrangler`，更新 lock 文件
 - [x] 2.3 新增 `.github/workflows/worker-deploy.yml`：`push` 到 `main` 且路径为 `notes-site/workers/grid-trading-sync/**` 时触发，另加 `workflow_dispatch`；`permissions: contents: read`；`concurrency` 同组且不取消进行中的任务
 - [x] 2.4 工作流步骤：检出 → Node 24 → 根目录与 `notes-site/` 分别 `npm ci` → 只跑 Worker 目录的测试 → 检查密钥是否存在（缺失则失败并说明）→ `wrangler d1 execute grid-trading-sync --remote --file=schema.sql` → `wrangler deploy`（工作目录为 Worker 目录）
-- [ ] 2.5 合并工作流到 `main` 后手动触发一次，确认三步都成功；失败则根据日志修正（权限不足回到 1.1）
+- [x] 2.5 合并工作流到 `main` 后手动触发一次，确认三步都成功；失败则根据日志修正（权限不足回到 1.1）
 - [ ] 2.6 部署后在线上核对：`/note/lab/grid-trading/` 能回测、`/note/lab/grid-trading/saved` 能用同步密钥同步、`/note/lab/etf-review/` 与 `/note/lab/stock/` 正常加载数据
 
 ## 3. 入口地址固定为站内路径
@@ -34,7 +34,7 @@
 - [x] 5.1 `docs/notes-cohosting.md`：把「网格后端仍手动部署」改写为自动发布的说明，写明"改列需手动""接口向后兼容一个版本"两条限制与 `wrangler rollback` 回退方法；删除关于 Vercel、GitHub Pages 构建不受影响的段落
 - [x] 5.2 `docs/cloudflare-pages.md`、`docs/DEPLOYMENT.md`、`README.md`：部署一节只保留 Cloudflare，写明发布只用 `npm run build:cloudflare`；删除 README 里指向他人机器路径的 MCP 配置说明
 - [x] 5.3 `package.json` 的 `name` 改为 `businessweb`，同步 lock 文件
-- [ ] 5.4 使用者确认后执行 `git remote remove upstream`（仅本地配置，不影响远端仓库）
+- [x] 5.4 使用者确认后执行 `git remote remove upstream`（仅本地配置，不影响远端仓库）
 
 ## 6. 验收
 
