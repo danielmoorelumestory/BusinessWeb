@@ -9,7 +9,7 @@
 - `npm run typecheck`：通过。
 - `npm run test:functions`：通过。
 - `npm run test:scripts`：2项通过。
-- `npm run build`、`npm run build:pages`：通过；保留现有大型bundle警告。
+- `npm run build`：通过；保留现有大型bundle警告。
 
 回归覆盖：负利润/缺失指标、PEG百分数、FCFF/FCFE桥接、永续增长约束、报告结构/来源、模型版本保留、任务并发/取消/迟到事件、超过2000条事件后的终态重放、拒绝未知来源和Host、会话token、2MB正文限制、SIGTERM无响应后的强制结束。页面测试验证EPS与倍数修改立即复算且财务事实不变。
 

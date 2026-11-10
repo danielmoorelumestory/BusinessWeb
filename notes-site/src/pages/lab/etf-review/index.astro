@@ -6,7 +6,7 @@ import { NOTE_EMOTIONS, NOTE_CONCLUSIONS, NOTE_ACTIONS } from '../../../lib/etf-
 const gridListUrl = href('lab/grid-trading/saved');
 const calculatorUrl = href('lab/grid-trading');
 const detailUrl = href('lab/grid-trading/detail');
-const notesBase = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/').replace(/\/?$/, '/') + 'notes/';
+const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/';
 ---
 
 <Base wide title="ETF 复盘" current="lab" description="按分组观察 ETF，记录每日判断，并集中查看行情、网格状态与盈亏">

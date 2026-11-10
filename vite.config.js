@@ -10,8 +10,7 @@ import { dailyAnalysisMiddleware } from './server/daily-analysis.mjs'
 // 先运行 npm run dev:notes（构建并预览 notes-site，端口 4322；Astro 开发服务器的脚本在根路径，不能挂在 /note 下，所以用构建产物，改了 notes 代码需重跑），再运行 npm run dev。
 const NOTES_DEV_PORT = process.env.NOTES_DEV_PORT || 4322
 
-export default defineConfig(({ command, mode }) => {
-  if (command === 'serve' && mode === 'development' && process.env.VITE_NOTES_PATH === undefined) process.env.VITE_NOTES_PATH = '/note/'
+export default defineConfig(() => {
   return {
   plugins: [react(), { name: 'businessweb-market-api', configureServer(server) { server.middlewares.use(marketMiddleware) } },
     { name: 'businessweb-macro-api', configureServer(server) { server.middlewares.use(macroMiddleware) } },

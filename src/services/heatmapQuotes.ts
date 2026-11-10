@@ -12,9 +12,7 @@ export async function fetchHeatmapQuotes(stocks: HeatmapStock[], fetchImpl: type
   const base = (import.meta.env.VITE_API_BASE ?? '').replace(/\/$/, '')
   for (let offset = 0; offset < stocks.length; offset += 80) {
     const symbols = stocks.slice(offset, offset + 80).map(symbolOf).join(',')
-    const url = import.meta.env.VITE_MARKET_DIRECT === 'true'
-      ? `https://qt.gtimg.cn/q=${symbols}`
-      : `${base}/api/grid-market?${new URLSearchParams({ kind: 'quotes', symbols })}`
+    const url = `${base}/api/grid-market?${new URLSearchParams({ kind: 'quotes', symbols })}`
     const response = await fetchImpl(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) })
     if (!response.ok) throw new Error(`最新报价请求失败 HTTP ${response.status}`)
     const text = new TextDecoder('gbk').decode(await response.arrayBuffer())

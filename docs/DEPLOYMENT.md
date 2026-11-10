@@ -1,10 +1,10 @@
-# 云同步配置与 Vercel 停用说明
+# 云同步配置
 
-> 当前线上部署在 Cloudflare Pages，见 [cloudflare-pages.md](cloudflare-pages.md)。Vercel 部署已停用；本文说明云同步（复盘与候选池用 Cloudflare D1，评论用 Supabase）的配置，以及如何彻底下线 Vercel。
+> 当前线上部署在 Cloudflare Pages，见 [cloudflare-pages.md](cloudflare-pages.md)。本文说明云同步（复盘与候选池用 Cloudflare D1，评论用 Supabase）的配置。
 
 ## 当前技术栈
 
-React + Vite + TypeScript + React Router；Cloudflare Pages 托管静态页面与 Pages Functions。经济脉搏每日复盘（`/api/pulse-sync`）与候选池（`/api/candidates-sync`）的可选云同步存储在 Cloudflare D1（GitHub Pages 构建线没有 D1，这两个接口在那里返回 503）；章节评论（`/api/comments`）使用 Supabase。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
+React + Vite + TypeScript + React Router；Cloudflare Pages 托管静态页面与 Pages Functions。经济脉搏每日复盘（`/api/pulse-sync`）与候选池（`/api/candidates-sync`）的可选云同步存储在 Cloudflare D1；章节评论（`/api/comments`）使用 Supabase。网格交易已迁到 notes 站点（`/note/lab/grid-trading/`），它的同步走自己的 Worker 与 D1，不使用 Supabase。记录默认保存在浏览器，启用同步前建议导出 JSON 备份。
 
 R2 暂未接入：当前没有附件上传业务。将来需要图片、PDF 等文件时，再接入 R2 并在 Supabase 保存文件元数据。
 
@@ -23,17 +23,6 @@ npm run test:functions
 npm run typecheck
 npm run build
 ```
-
-## 停用 Vercel（需要你在 Vercel 控制台操作）
-
-仓库里的 `vercel.json`、`.vercelignore` 与旧的 `DEPLOY.md` 已删除，代码里的 Vercel 域名也已换成 Cloudflare 域名。但 Vercel 项目本身还在，并且仍连着 GitHub 仓库，**每次推送仍会触发一次构建**。请在 Vercel 控制台二选一：
-
-1. **删除项目（推荐）**：打开项目 → Settings → 最下方 **Delete Project**，输入项目名确认。这会让 `business-web-pi-eight.vercel.app` 不再可访问，并停止构建。
-2. **只断开 Git**：Settings → Git → **Disconnect**，保留项目但不再自动部署。
-
-删除前请确认：线上站点用的是 `https://businessweb-c0u.pages.dev`；Vercel 上没有你还需要的环境变量（上线时核对过为空）。删除后，浏览器里保存在 Vercel 域名下的本地数据（复盘、候选池、同步设置）也随域名不再可用——请先在新站点里同步到云端或导出。
-
-GitHub Pages 构建线以前通过 `VITE_API_BASE` 调用 Vercel 上的接口；Vercel 停用后它没有任何后端，行情走浏览器直连，云同步不可用。
 
 ## 创建自有 Supabase 免费项目（仅章节评论需要）
 
@@ -58,14 +47,6 @@ GitHub Pages 构建线以前通过 `VITE_API_BASE` 调用 Vercel 上的接口；
 
    不要加 `VITE_` 前缀，不要将密钥提交 Git。建议只为 Production 设置凭证，避免 Preview 与正式站点共用数据。
 
-
-## 保留 GitHub Pages
-
-```bash
-npm run build:pages
-```
-
-本地仅用于验证构建；`.github/workflows/pages.yml` 已停用自动部署，只保留手动运行，且需先在仓库设置里开启 GitHub Pages。此构建显式使用 `/BusinessWeb/` 资源和 Router 路径，并生成详情路由回退页面。GitHub Pages 不运行 Functions，所以热力图行情保留直接访问腾讯（受浏览器 CORS 限制），本次 Vercel 同步接口仅支持同源访问，Pages 网站不能直接跨域使用该接口；如保留 Pages 并需要云同步，需另外配置支持 CORS 的独立同步服务。
 
 ## 仍需独立处理的接口
 
@@ -107,7 +88,7 @@ https://developers.cloudflare.com/r2/pricing/
 |---|---|
 | 未授权读写 | 专用 Bearer token，常量时间比较；token ≥ 32 位；未绑定数据库或未配置令牌时返回 503；令牌校验先于任何数据库访问 |
 | 密钥泄露 | 令牌只在服务端 Secret；浏览器只持有同步 token；数据库只能由绑定它的 Pages Functions 访问 |
-| 跨站调用 | 接口不发 CORS 头，仅同源可调；GitHub Pages 没有后端，不能同步 |
+| 跨站调用 | 接口不发 CORS 头，仅同源可调 |
 | 脏数据/注入 | 服务端与客户端共用严格校验：未知字段、非法日期、负数/小数/NaN、超长字符串、重复日期、复盘超过 500 条、候选池超过 2000 条、超过 1 MB 一律拒绝；SQL 全部使用参数绑定 |
 | 多设备互相覆盖 | 读取时返回版本号（ETag），写入必须带 `If-Match`，数据库用带版本号条件的更新保证原子性，版本不符返回 409，本地数据保持不变 |
 | 误删/误覆盖 | 删除以「墓碑」同步，同步前列出新增/覆盖/删除并要求确认；写入前把旧版本存入历史表（保留 30 份）；有效记录减少超过一半（现有 ≥ 6 条）时服务端拒绝（422），需二次确认才强制写入；同步成功覆盖本地前先备份本地（`pulse_reviews_backup`） |

@@ -8,9 +8,9 @@
 - **公司估值工作台**：`/valuation`支持本地Pi/Codex/Claude/OpenCode及具体模型版本选择、财务采集、六方法三情景估值、参数复算和报告导出。启动方法见[本地估值说明](docs/valuation-local-setup.md)。
 
 - **行业研究笔记与行业 ETF 清单**：`/notes`（3 篇行业笔记，另含 2 份独立 HTML 完整报告，位于 `public/research/`）与 `/industry-etf`（7 个行业组、59 只 ETF），内容由原 notes 站点迁入；新增笔记的方法见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
-- **网格交易**：由 notes 站点的网格交易计算器提供（`notes-site/`，部署后在 `/note/lab/grid-trading/`），包含回测、已保存标的、详情与分钟线；云同步走自己的 Cloudflare Worker + D1，不依赖 Supabase。主站旧的 `/grid-trading*` 路径会跳转到那里（Cloudflare 上 302，其他构建显示迁移说明）。
+- **网格交易**：由 notes 站点的网格交易计算器提供（`notes-site/`，部署后在 `/note/lab/grid-trading/`），包含回测、已保存标的、详情与分钟线；云同步走自己的 Cloudflare Worker + D1，不依赖 Supabase。主站旧的 `/grid-trading*` 路径会 302 跳转到那里。
 - **AI 投研**：项目自带统一股票分析与交易分析 skill（见 [AI 投研 skills](#ai-投研-skills)），支持深度研究、圆桌观点与交易风险分析。
-- **多市场数据**：通过 MCP（yahoo-finance、baostock）和 `src/services/api.ts` 的本地封装，覆盖美股行情、A 股行情、ETF 实时数据、AkShare 数据字典。
+- **多市场数据**：通过 `src/services/api.ts` 的本地封装，覆盖美股行情、A 股行情、ETF 实时数据、AkShare 数据字典。
 - **每日分析**：`/daily-analysis` 自动获取 A 股指数、涨跌停、连板梯队和榜单，保存交易日快照；原手工记录保留在「历史旧版」。数据口径与定时归档见[每日分析说明](docs/daily-analysis.md)。
 
 栈：React 18 · Vite 5 · TypeScript · React Router 6 · Vitest · Node 24。
@@ -37,7 +37,6 @@ BusinessWeb/
 │   ├── design/             ETF 网格设计文档
 │   ├── research/           已完成的圆桌报告样例
 │   └── superpowers/        计划与设计 spec
-└── opencode.jsonc          opencode 配置（含 MCP servers）
 ```
 
 ## 快速开始
@@ -95,21 +94,12 @@ node /path/to/dev-team/scripts/dev-team.mjs init --project /path/to/other-projec
 
 每个 skill 内置研究纪律：数据可追溯、缺失标 `[MISSING]`，研究区间与情景价标明条件，结尾声明不构成投资建议。股票分析优先研究约 2:1 及以上的情景盈亏比，同时核实悲观压力、期限与证据；初筛数字不能直接认证。用户要求更新网站时，可将结果同步到 `src/data/companies.ts` 并显示在 `/research-notes`。
 
-## MCP 数据源
-
-在仓库根的 `opencode.jsonc` 中配置：
-
-- **yahoo-finance**（`yahoo-finance-mcp-server`）：美股行情 / 财报 / 基本面
-- **baostock**（`/Users/hassan/AndroidStudioProjects/gupiaoWS/.mcp-servers/mcp-baostock-server`）：A 股行情与财务数据（baostock 0.8.9）
-
 ## 部署
 
-- **Cloudflare Pages（当前线上）**：推送 `main` 自动构建，前端与 `/api/*`（`functions/api/`）都在 Cloudflare。构建设置、变量、验证命令与回退办法见 [docs/cloudflare-pages.md](docs/cloudflare-pages.md)。
-  - **notes 站点同域托管**：`notes-site/`（Astro）在构建时放进 `/note/`，用 `npm run build:cloudflare` 构建；只影响 Cloudflare 构建，GitHub Pages 不受影响。搬家前必读的本地数据说明见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
-- **Vercel（已停用）**：不再部署，仓库里的 Vercel 配置已删除；需要在 Vercel 控制台删除项目或断开 Git 集成，见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
-- **GitHub Pages（已停用自动部署）**：[.github/workflows/pages.yml](.github/workflows/pages.yml) 只保留手动运行，推送 `main` 和数据更新都不再触发。如需恢复，先在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**，否则部署会失败；若 `github-pages` 环境限制了部署分支，需允许 `main`。不要将 Pages 的来源直接设成 `main` 分支静态目录，React 源码需要先构建。Pages 不运行 Functions，没有后端接口（行情走浏览器直连，云同步不可用）。
-  - 本地验证：`npm run build:pages`；构建产物上传为 Pages artifact，不提交到 `gh-pages`。`deploy` 脚本与 `gh-pages` 依赖已移除。
-  - 确认新工作流部署成功后，才可以删除旧 `gh-pages` 分支。
+只有 Cloudflare 一条发布线，推送 `main` 就是发布：
+
+- **站点（Cloudflare Pages）**：推送 `main` 自动构建，构建命令 `npm run build:cloudflare`（主站 + `notes-site/` 的三个工具，后者放进 `/note/`）。前端与 `/api/*`（`functions/api/`）都在 Cloudflare。构建设置、变量、验证命令与回退办法见 [docs/cloudflare-pages.md](docs/cloudflare-pages.md)。
+- **网格后端（Cloudflare Worker `grid-trading-sync`）**：`notes-site/workers/grid-trading-sync/` 有改动推到 `main` 时，由 [.github/workflows/worker-deploy.yml](.github/workflows/worker-deploy.yml) 自动跑测试、应用表结构并部署，不需要在本机执行 `wrangler deploy`。限制与回退方法见 [docs/notes-cohosting.md](docs/notes-cohosting.md)。
 
 ## 限制与边界
 

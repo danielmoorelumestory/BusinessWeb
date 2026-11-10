@@ -32,4 +32,4 @@ npm run blog:import -- --source /path/to/gupiaoWS
 
 导入器只处理清单里已发布且填写了 `sourceFile` 的条目。它会复制 Markdown 和被引用的本地资源，并把已发布文章间的相对 `.md` 链接改成博客路由；未登记的相对 Markdown 链接会报错。若正文直接在本站维护，可省略 `sourceFile`，将文件放到清单指定的 `file` 路径。
 
-运行 `npm run dev` 本地预览，或用 `npm run build` / `npm run build:pages` 检查两种发布目标。构建会验证已发布文章文件存在。删除或撤回文章时，应同步移除以前复制到 `public/blog/assets/<slug>/` 的资源，再重新构建，避免旧资源仍可通过原 URL 访问。
+运行 `npm run dev` 本地预览，或用 `npm run build` 检查构建。构建会验证已发布文章文件存在。删除或撤回文章时，应同步移除以前复制到 `public/blog/assets/<slug>/` 的资源，再重新构建，避免旧资源仍可通过原 URL 访问。

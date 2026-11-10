@@ -1,0 +1,51 @@
+name: Deploy grid-trading-sync Worker
+
+# 网格后端（Cloudflare Worker + D1）的自动发布：Worker 目录有改动推到 main 就部署，不再需要本机 wrangler deploy。
+# 表结构文件只含 CREATE ... IF NOT EXISTS，可重复执行；改列、删列不在这里做，需手动处理（见 docs/notes-cohosting.md）。
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'notes-site/workers/grid-trading-sync/**'
+      - '.github/workflows/worker-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: worker-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # 需要「D1：编辑」与「Workers 脚本：编辑」两项权限的 Cloudflare API 令牌。
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: b0c0793c0bc65cf77d28e1150435f4c0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      # Worker 的 tsconfig 继承 notes-site 的配置（astro/tsconfigs/strict），测试需要这里的依赖。
+      - run: npm ci --no-audit --no-fund
+        working-directory: notes-site
+      - name: Test worker
+        run: node scripts/run-vitest.mjs --run notes-site/workers/grid-trading-sync
+      - name: Require Cloudflare token
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::error::未配置仓库密钥 CLOUDFLARE_API_TOKEN，Worker 没有部署"
+            exit 1
+          fi
+      - name: Apply schema (idempotent)
+        working-directory: notes-site/workers/grid-trading-sync
+        run: npx --no-install wrangler d1 execute grid-trading-sync --remote --file=schema.sql
+      - name: Deploy worker
+        working-directory: notes-site/workers/grid-trading-sync
+        run: npx --no-install wrangler deploy

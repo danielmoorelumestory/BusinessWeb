@@ -34,9 +34,9 @@ describe('INVEST_GROUPS', () => {
   it('收纳全部入口，且无重复', () => {
     const paths = allLinks.map(l => l.path).sort()
     expect(paths).toEqual([
-      '/dcf', '/first-book', '/future-trends', 'https://businessweb-c0u.pages.dev/note/lab/etf-review/', 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
+      '/dcf', '/first-book', '/future-trends', '/note/lab/etf-review/', '/note/lab/grid-trading/', '/invest/etf', '/industry-landscape', '/investment-plan-2026',
       '/notes', '/industry-etf', '/invest/national-team', '/watch', '/daily-analysis',
-      'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking',
+      '/note/lab/stock/#stock-analysis', '/note/lab/stock/#sector-rotation', '/note/lab/stock/#plate-ranking',
       '/monitor', '/pulse', '/research-notes',
       '/valuation',
     ].sort())
@@ -50,16 +50,10 @@ describe('INVEST_GROUPS', () => {
     }
   })
 
-  it('没有 VITE_NOTES_PATH 时网格入口直接指向部署了 notes 的站点上的计算器；设置后指向站内的 /note/ 路径', async () => {
-    expect(INVEST_GROUPS.flatMap(g => g.links).some(l => l.path === 'https://businessweb-c0u.pages.dev/note/lab/grid-trading/')).toBe(true)
-    vi.resetModules()
-    vi.stubEnv('VITE_NOTES_PATH', '/note/')
-    const withNotes = await import('./siteMap')
-    const paths = withNotes.INVEST_GROUPS.flatMap(g => g.links).map(l => l.path)
+  it('notes 的工具入口是固定的站内 /note/ 路径，不指向别的站点', () => {
+    const paths = INVEST_GROUPS.flatMap(g => g.links).map(l => l.path)
     expect(paths).toContain('/note/lab/grid-trading/')
-    expect(paths).not.toContain('https://businessweb-c0u.pages.dev/note/lab/grid-trading/')
-    vi.unstubAllEnvs()
-    vi.resetModules()
+    expect(paths.some(isAbsoluteUrl)).toBe(false)
   })
 
   it('分组顺序：读书 → 定规则 → 观察盘 → 分析筛选 → 工具与参考', () => {
@@ -69,7 +63,7 @@ describe('INVEST_GROUPS', () => {
   it('观察盘组直接展开，观察盘在最前，细节页跟在后面', () => {
     const watch = INVEST_GROUPS.find(g => g.id === 'watch')!
     expect(watch.collapsed).toBe(false)
-    expect(watch.links.map(l => l.path)).toEqual(['/watch', '/monitor', '/pulse', '/daily-analysis', 'https://businessweb-c0u.pages.dev/note/lab/etf-review/', 'https://businessweb-c0u.pages.dev/note/lab/stock/#stock-analysis', 'https://businessweb-c0u.pages.dev/note/lab/stock/#sector-rotation', 'https://businessweb-c0u.pages.dev/note/lab/stock/#plate-ranking'])
+    expect(watch.links.map(l => l.path)).toEqual(['/watch', '/monitor', '/pulse', '/daily-analysis', '/note/lab/etf-review/', '/note/lab/stock/#stock-analysis', '/note/lab/stock/#sector-rotation', '/note/lab/stock/#plate-ranking'])
   })
 
   it('分析筛选组从行业到公司，不放带具体买卖建议的观察池', () => {

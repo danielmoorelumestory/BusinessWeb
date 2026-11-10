@@ -3,7 +3,7 @@
 notes（Astro 站点）已复制到本仓库的 `notes-site/`；其中的笔记、报告与行业 ETF 清单已并入主站（见下文"内容迁入主站"），`/note/` 现在只提供网格交易计算器与股市分析两个实验页，Cloudflare 构建时把它的静态产物放进 `dist/note/`，所以它与主站在同一个域名下：
 
 - 主站：`https://businessweb-c0u.pages.dev/`
-- notes：`https://businessweb-c0u.pages.dev/note/`（路径与旧站 `https://danielmoorelumestory.github.io/note/` 一致）
+- notes：`https://businessweb-c0u.pages.dev/note/`
 
 这是"把 notes 逐步并入 BusinessWeb"的第一阶段：**原样托管，不改 notes 的任何页面代码**。设计与取舍见 `openspec/changes/cohost-notes-site/`（归档后在 `openspec/changes/archive/`）。
 
@@ -12,8 +12,8 @@ notes（Astro 站点）已复制到本仓库的 `notes-site/`；其中的笔记�
 ```
 notes-site/                      notes 的完整源码（来源：notes 仓库 main 的 35f3747；最初复制自 902f04b，见下方"同步记录"）
 ├── src/ public/ docs/           页面、静态资源与说明
-├── astro.config.mjs             增加了 Cloudflare 分支（见下）
-├── workers/grid-trading-sync/   网格后端 Worker 的源码（仍手动部署，见下）
+├── astro.config.mjs             base 固定为 /note，只有 Cloudflare 一条构建线
+├── workers/grid-trading-sync/   网格后端 Worker 的源码（推送 main 自动部署，见下）
 └── package.json                 独立的依赖，与根目录互不影响
 scripts/build-cloudflare.mjs     Cloudflare 构建脚本
 scripts/check-note-links.mjs     notes 内部链接检查
@@ -29,14 +29,14 @@ npm run build:cloudflare
 
 依次执行：
 
-1. `npm run build`（主站，设置 `VITE_NOTES_PATH=/note/`，让网格交易、股市分析的入口指向站内的 `/note/`）
+1. `npm run build`（主站；网格交易、ETF 复盘、股市分析的入口固定指向站内的 `/note/`）
 2. 在 `notes-site/` 内 `npm ci` 并构建
 3. 把 `notes-site/dist/` 复制为 `dist/note/`（先清掉旧的 `dist/note/`，不动 `dist` 里的其他文件）
 4. 检查 `dist/note/` 下所有以 `/note/` 开头的内部链接与资源是否存在
 
 任一步失败都会以非零状态退出。**构建失败时 Cloudflare 会保留上一个正常的部署**，线上站点不会被半成品替换。
 
-普通的 `npm run build`、`npm run build:pages`（GitHub Pages）和 Vercel 构建**不受影响**：它们不构建 notes，网格交易与股市分析的入口改指向线上 Cloudflare 站点的完整地址（那些环境没有 `/note/`）。
+发布只用 `npm run build:cloudflare`。单独的 `npm run build` 只构建主站、不含 `/note/`，仅用于本地检查主站本身。
 
 ## Cloudflare 配置
 
@@ -56,7 +56,7 @@ npx wrangler pages dev dist --compatibility-date=2026-10-07 --compatibility-flag
 # 打开 http://localhost:8788/note/
 ```
 
-本地联调主站和 notes（入口留在 `localhost:5173` 同域，和线上一样）：开两个终端，先 `npm run dev:notes`（构建并预览 notes-site，端口 4322），再 `npm run dev`；开发服务器把 `/note/` 代理到 4322，并默认设置 `VITE_NOTES_PATH=/note/`。改了 notes 代码需重跑 `dev:notes`。
+本地联调主站和 notes（入口留在 `localhost:5173` 同域，和线上一样）：开两个终端，先 `npm run dev:notes`（构建并预览 notes-site，端口 4322），再 `npm run dev`；开发服务器把 `/note/` 代理到 4322。改了 notes 代码需重跑 `dev:notes`。
 
 只调 notes：`cd notes-site && npm run dev`（Astro 开发服务器，地址 `http://localhost:4321/note/`）。
 
@@ -93,29 +93,43 @@ notes 的"已保存标的"和**同步密钥**存放在浏览器的 `localStorage
 
 **新增的 Vue 依赖**：股市分析 lab 用 Vue 3 写成，`notes-site/package.json` 新增 `vue` 与 `@astrojs/vue`，`astro.config.mjs` 里启用了 `vue()` 集成。它们只在 `notes-site/` 内部，不影响主站根目录的依赖；`build:cloudflare` 每次会在 `notes-site/` 里 `npm ci`。
 
-## 网格后端（Worker）仍手动部署
+## 网格后端（Worker）自动发布
 
-notes 的网格交易依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 数据库 + 每个交易日 3 次的分钟线定时抓取；免费版单次请求数有限，标的多时每轮约抓 38 只，最久没同步的优先，一天内轮流覆盖）。**它不随 Pages 部署，同步 notes 最新版时只更新了它的源码，没有重新部署它。**
+notes 的三个工具依赖独立的 Cloudflare Worker `grid-trading-sync`（D1 数据库 `grid-trading-sync` + 交易日的定时抓取）。它不属于 Pages，但同样是推送 `main` 就发布：
 
-**同步到 `35f3747` 之后，Worker 与 D1 需要你自行更新**，否则新页面会调用不存在的接口：
-1. **D1 新表**：应用 `notes-site/workers/grid-trading-sync/schema.sql`，其中新增了 `cls_plate_day` 表（财联社板块日数据，按交易日与是否只看涨停缓存）。`schema.sql` 全部使用 `CREATE TABLE IF NOT EXISTS`，重复执行不会清空已有数据。
-2. **重新部署 Worker**：新版 Worker 增加了 `/cls`（财联社转发与缓存）、`/stock/plate`、`/stock/plates`、`/stock/plate/dates`、`/stock/sync` 接口，以及收盘 cron 把板块日数据写入 `cls_plate_day`。`wrangler.jsonc` 里的 cron 触发时间没有变化。
-3. **来源白名单**：Worker 的 `/cls`、`/stock/*` 等接口只接受白名单来源（`clsOriginAllowed`），已加入 `businessweb-c0u.pages.dev`；不重新部署 Worker，线上股市分析 lab 会显示"来源不允许"。
-3. 网格计算器、已保存标的与分钟线主要使用原有接口；受影响最大的是新的"股市分析 lab"。
+- **触发**：`notes-site/workers/grid-trading-sync/` 下有改动推到 `main`，或在 GitHub Actions 页面手动运行 `Deploy grid-trading-sync Worker`（`.github/workflows/worker-deploy.yml`）。
+- **步骤**：安装依赖 → 只跑 Worker 目录的测试 → 对线上 D1 应用 `schema.sql` → `wrangler deploy`。任一步失败就停止，线上保持上一个版本。
+- **凭证**：仓库密钥 `CLOUDFLARE_API_TOKEN`，令牌需要「D1：编辑」与「Workers 脚本：编辑」两项权限（与 `note-analysis-sync.yml` 共用同一个密钥）。缺密钥时工作流失败并说明原因。Worker 自己的密钥（如 `GITHUB_DISPATCH_TOKEN`）存放在 Cloudflare，部署不会清掉它们。
+- **wrangler 版本**：固定在根目录 `package.json` 的 `devDependencies` 里，升级时改那里。
 
-- 前端直接访问 `https://grid-trading-sync.danielmoore-b0c.workers.dev`（写在 notes 的前端代码里）。Worker 对所有来源开放跨域，所以新域名可以直接使用，已实测预检通过。
-- Worker 源码现在位于 `notes-site/workers/grid-trading-sync/`。需要修改并重新部署时，进入该目录，使用 wrangler 部署（配置在其中的 `wrangler.jsonc`）。我没有核实你以前具体用哪条命令部署，请以你之前的做法为准。
-- 定时任务必须留在独立 Worker：Cloudflare 文档中没有提到 Pages Functions 支持定时触发。
+两条限制：
 
-## 新旧站点的关系
+1. **改列需手动**。`schema.sql` 只含 `CREATE TABLE IF NOT EXISTS` / `CREATE INDEX IF NOT EXISTS`，重复执行不会动已有数据，所以自动发布只能**新增**表和索引。给已有表加列、改列、删列不会生效，需要手动执行一次性语句（`npx wrangler d1 execute grid-trading-sync --remote --command "ALTER TABLE …"`），并先于依赖该列的 Worker 代码完成。不要往 `schema.sql` 里写 `DROP`、`ALTER`、`DELETE` 之类不可重复执行的语句。
+2. **接口向后兼容一个版本**。站点（Pages）与 Worker 分别构建，上线时间差在几分钟内，且浏览器里可能还开着旧页面。改 Worker 接口时先保留旧的请求与响应格式，等新页面上线稳定后的下一次改动再删。
 
-- **旧的 GitHub Pages 站点保持不动**：`https://danielmoorelumestory.github.io/note/` 仍然可以访问，notes 仓库也没有被改动。
-- RSS 不再提供：`/note/rss.xml` 现在 302 到主站 `/notes`；旧 GitHub Pages 站点的订阅源不受影响。
-- 迁移稳定后再决定旧站点的去留（例如在旧站放跳转或"已搬家"提示），不在本阶段。
+回退：
+
+```bash
+cd notes-site/workers/grid-trading-sync
+npx wrangler deployments list     # 找到上一个正常的版本
+npx wrangler rollback             # 回到上一个版本（或指定版本 ID）
+```
+
+回退只换 Worker 代码，不动 D1 里的数据。之后记得把 `main` 上的问题提交修掉或还原，否则下一次推送又会把它部署上去。
+
+其他事实：
+
+- 前端直接访问 `https://grid-trading-sync.danielmoore-b0c.workers.dev`（写在 notes 的前端代码里）。`/cls`、`/stock/*` 等接口只接受白名单来源（`clsOriginAllowed`），已包含 `businessweb-c0u.pages.dev`。
+- 定时任务必须留在独立 Worker：Cloudflare 文档中没有提到 Pages Functions 支持定时触发。cron 时间写在 `wrangler.jsonc`。
+
+## 旧站点
+
+- 旧的 GitHub Pages 站点 `https://danielmoorelumestory.github.io/note/` 属于独立的 notes 仓库，本仓库不再与它同步，也不再有 GitHub Pages 或 Vercel 的构建线。
+- RSS 不再提供：`/note/rss.xml` 302 到主站 `/notes`。
 
 ## 回退
 
-在 Cloudflare 后台把构建命令改回 `npm run build` 并重新部署：`/note/` 随之消失，主站不受影响，网格交易与股市分析的入口改指向线上完整地址；主站的笔记（`/notes`）不受影响。旧的 GitHub Pages 站点一直可用。
+站点：在 Cloudflare Pages 后台的 Deployments 里对上一个正常的部署点 **Rollback**。Worker：见上文 `wrangler rollback`。
 
 ## 已知限制与后续
 
@@ -138,7 +152,7 @@ notes 的内容已并入主站，外观与导航统一；`notes-site/` 里对应
 
 - 新增笔记：在 `public/notes/` 放 Markdown（不含 front matter），并在 `src/data/notes.ts` 按日期倒序登记；`notes.test.ts` 会检查文件存在、slug 与日期。
 - 两份报告原样迁入 `public/research/`，仍从 jsDelivr 加载 ECharts（外部脚本依赖，离线时图表不显示）。
-- 精简后 `/note/` 只保留 `lab/grid-trading`、`lab/stock` 与 `lab` 索引；`build-cloudflare` 以 `lab/index.html` 判断产物是否完整，notes 页面里指回主站的链接前缀由环境变量 `MAIN_SITE` 决定（Cloudflare 构建传 `/`，`npm run dev:notes` 同样传 `/`，其他环境默认指向线上主站）。
+- 精简后 `/note/` 只保留 `lab/grid-trading`、`lab/stock` 与 `lab` 索引；`build-cloudflare` 以 `lab/index.html` 判断产物是否完整，notes 页面里指回主站的链接前缀默认是站点根 `/`（同域托管），需要指向别处时可用环境变量 `MAIN_SITE` 覆盖。
 - 开发服务器的代理键是 `^/note/`（不是 `/note`），否则会把主站的 `/notes` 也代理走。
 
 ## 笔记结论入库（`note-analysis-columns`）
@@ -146,5 +160,5 @@ notes 的内容已并入主站，外观与导航统一；`notes-site/` 里对应
 「已保存标的」页的「短期判断」「中期判断」两列，数据来自云端 D1 的 `note_analysis` 表，由脚本从各标的分析笔记的「## 一、结论速览」表里提取：
 
 - 取第一列以「短期」开头的行、以「中期（」开头的行的「最终判断」列；标的代码取文件名开头的 6 位数字，数据基准日取正文「数据基准：YYYY-MM-DD」；同一代码有多篇笔记时取基准日最新的一篇。
-- **笔记推送到 `main` 后自动同步**：由 `.github/workflows/note-analysis-sync.yml` 写入线上 D1，需要仓库密钥 `CLOUDFLARE_API_TOKEN`（只给 D1 编辑权限）；未配置时只预览。也可手动运行：`npm run sync:analysis` 先预览（不改数据库），确认后 `npm run sync:analysis -- --write` 写入（需要已登录 wrangler）。脚本幂等，重复运行只会覆盖，不会产生重复行；结构不符（缺短期或中期行）的笔记会被跳过并列出。
-- Worker 的 `GET /analysis?codes=…`（需要同步密钥）读取这些数据；Worker 是手动部署的（见上文「网格后端仍手动部署」），改动接口后要重新 `wrangler deploy`。页面读取失败或没有对应笔记时显示「—」，不影响其他功能。
+- **笔记推送到 `main` 后自动同步**：由 `.github/workflows/note-analysis-sync.yml` 写入线上 D1，需要仓库密钥 `CLOUDFLARE_API_TOKEN`（与 Worker 自动发布共用）；未配置时只预览。也可手动运行：`npm run sync:analysis` 先预览（不改数据库），确认后 `npm run sync:analysis -- --write` 写入（需要已登录 wrangler）。脚本幂等，重复运行只会覆盖，不会产生重复行；结构不符（缺短期或中期行）的笔记会被跳过并列出。
+- Worker 的 `GET /analysis?codes=…`（需要同步密钥）读取这些数据；Worker 随 `main` 自动发布（见上文「网格后端（Worker）自动发布」）。页面读取失败或没有对应笔记时显示「—」，不影响其他功能。

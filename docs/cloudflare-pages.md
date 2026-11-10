@@ -1,6 +1,6 @@
 # Cloudflare Pages 部署
 
-前端和 `/api/*` 都托管在 Cloudflare Pages：静态页面来自 `dist/`，后端是 `functions/api/*` 下的 Pages Functions（与 Workers 同一个运行时）。Vercel 部署已停用（见本文末尾"Vercel 已停用"）。迁移过程见 `openspec/changes/deploy-to-cloudflare/`。
+前端和 `/api/*` 都托管在 Cloudflare Pages：静态页面来自 `dist/`，后端是 `functions/api/*` 下的 Pages Functions（与 Workers 同一个运行时）。这是唯一的发布线，发布只用 `npm run build:cloudflare`；网格后端 Worker 的自动发布见 [notes-cohosting.md](notes-cohosting.md)。迁移过程见 `openspec/changes/deploy-to-cloudflare/`。
 
 线上地址：https://businessweb-c0u.pages.dev
 
@@ -26,7 +26,6 @@
 | 变量 | 当前值 | 说明 |
 |---|---|---|
 | `VITE_API_BASE` | 不设置 | 为空时前端请求同域 `/api/*`，由本站的 Functions 处理 |
-| `VITE_MARKET_DIRECT` | 不设置 | 设为 `true` 时热力图的行情由浏览器直连腾讯，绕开 `/api/grid-market` |
 | `SITE_URL` | `https://businessweb-c0u.pages.dev`（建议设置） | 仅 `build:cloudflare` 使用，作为 notes 的 RSS 链接来源；不设置时使用每次部署各不相同的临时地址 |
 
 ## 服务端变量（运行时）
@@ -133,17 +132,11 @@ curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/sector-rotation  
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" $B/limit-up-analysis    # 302 -> /note/lab/stock/#stock-analysis
 ```
 
-先用 302（临时）便于回退；稳定后可以改成 301。GitHub Pages 的构建没有 `/note/`，那里 `/grid-trading*`、`/sector-rotation`、`/limit-up-analysis` 显示"已迁移"的说明页，并链接到 Cloudflare 站点上的对应工具。
-
-## Vercel 已停用
-
-原来的 Vercel 部署已停用：仓库里的 `vercel.json`、`.vercelignore` 与旧的 `DEPLOY.md` 已删除，页面与接口只在 Cloudflare Pages 上提供。在 Vercel 控制台里需要你自己删除项目或断开 Git 集成（否则每次推送仍会触发一次构建），详见 `docs/DEPLOYMENT.md`。
-
-如要回到 Vercel，从 git 历史恢复 `vercel.json` 再导入项目即可；注意复盘与候选池的云同步需要 D1，在 Vercel 上返回 503。
+先用 302（临时）便于回退；稳定后可以改成 301。前端路由里还有一层兜底：`/grid-trading*`、`/sector-rotation`、`/limit-up-analysis` 在本地开发或站内前端导航时由页面脚本跳到同样的地址。
 
 ## 已知限制与后续
 
-- **复盘与候选池的云同步**：存储在 D1，配置步骤见上文"D1 绑定"；GitHub Pages 构建线没有 D1，这两个接口在那里返回 503。章节评论仍需要 Supabase，未配置时 503。
+- **复盘与候选池的云同步**：存储在 D1，配置步骤见上文"D1 绑定"。章节评论仍需要 Supabase，未配置时 503。
 - **CPU 时间**：Workers 免费计划每次请求的 CPU 时间上限很低（官方文档为 10 ms）。`macro` 在线上连续多次实测未触发，但高峰期是否偶发超限需要观察；如出现 `Error 1102`，可升级 Workers Paid，或改为定时生成快照。
 - **自有域名**：暂未接入，目前使用 `*.pages.dev`。
 - **不上公网**：估值工作台（`npm run valuation:server`）依赖本机文件和 CLI。线上页面访问本地估值服务时，启动需追加 `VALUATION_ALLOWED_ORIGINS=https://businessweb-c0u.pages.dev`，并使用 Chrome 或 Edge。

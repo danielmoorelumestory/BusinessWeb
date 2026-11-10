@@ -2,23 +2,14 @@ import { defineConfig } from 'astro/config';
 import vue from '@astrojs/vue';
 import tailwindcss from '@tailwindcss/vite';
 
-// GitHub Pages serves this site from /note; Vercel serves it from the domain root.
-// Cloudflare Pages (BusinessWeb co-hosting) serves it from /note on the main site's domain.
-const isVercel = process.env.VERCEL === '1';
-const isCloudflare = process.env.CF_PAGES === '1';
-
-// RSS links use this origin. On Cloudflare, set SITE_URL to the stable site address;
-// CF_PAGES_URL is a per-deployment address and is only a fallback.
-const site = isVercel
-  ? `https://${process.env.VERCEL_URL}`
-  : isCloudflare
-    ? process.env.SITE_URL || process.env.CF_PAGES_URL || 'https://danielmoorelumestory.github.io'
-    : 'https://danielmoorelumestory.github.io';
+// 只有一条构建线：随主站一起发布到 Cloudflare Pages，放在主站域名的 /note 下。
+// site 用于生成绝对地址：优先 SITE_URL（稳定的站点地址），其次 CF_PAGES_URL（每次部署各不相同，只作兜底）。
+const site = process.env.SITE_URL || process.env.CF_PAGES_URL || 'https://businessweb-c0u.pages.dev';
 
 export default defineConfig({
   integrations: [vue()],
   site,
-  base: isVercel ? undefined : '/note',
+  base: '/note',
   markdown: {
     shikiConfig: {
       theme: 'github-light',

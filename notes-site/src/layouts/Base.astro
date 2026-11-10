@@ -3,8 +3,8 @@ import '../styles/global.css';
 import { href } from '../lib/url';
 
 // 笔记、行业专栏、RSS 已迁入主站；notes 只保留网格交易与股市分析两个实验页，页头的链接指回主站。
-// 同域托管（Cloudflare 构建）时 MAIN_SITE 是站点根 '/'；其他环境默认指向线上主站。
-const mainSite = (process.env.MAIN_SITE || 'https://businessweb-c0u.pages.dev/').replace(/\/?$/, '/');
+// notes 与主站同域托管，主站就是站点根 '/'；需要指向别处时用 MAIN_SITE 覆盖。
+const mainSite = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/');
 
 interface Props {
   title?: string;

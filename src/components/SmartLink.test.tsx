@@ -40,11 +40,11 @@ describe('SmartLink', () => {
     expect(ref.current?.className).toBe('active')
   })
 
-  it('notesLinks 读取环境变量前先用 typeof 防护：构建期的 Node 步骤会间接导入它，纯 Node 里 import.meta.env 是 undefined', async () => {
+  it('notesLinks 不读取环境变量：构建期的 Node 步骤会间接导入它，纯 Node 里 import.meta.env 是 undefined', async () => {
     const { readFileSync } = await import('node:fs')
     const { resolve } = await import('node:path')
     const source = readFileSync(resolve(__dirname, '../data/notesLinks.ts'), 'utf8')
-    expect(source).toMatch(/typeof import\.meta\.env !== 'undefined'/)
+    expect(source).not.toMatch(/import\.meta\.env/)
   })
 
   it('isAbsoluteUrl：只认 http(s) 完整地址', () => {
