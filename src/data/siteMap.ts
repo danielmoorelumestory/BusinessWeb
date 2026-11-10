@@ -9,8 +9,6 @@ export interface HubLink {
   path: string
   label: string
   desc: string
-  /** 已舍弃的页面：保留可访问，子页面顶部显示这条说明 */
-  archived?: string
 }
 
 export interface HubGroup {
@@ -22,17 +20,15 @@ export interface HubGroup {
   links: HubLink[]
 }
 
+// 首页就是投资页，所以「投资」指向根路径
 export const NAV_ITEMS: NavItem[] = [
-  { path: '/', label: '首页' },
-  { path: '/invest', label: '投资' },
-  { path: '/ai', label: 'AI实验室' },
-  { path: '/life', label: '自由空间' },
-  { path: '/about', label: '关于' },
+  { path: '/', label: '投资' },
   { path: '/notes', label: '笔记' },
   { path: '/blog', label: '博客' },
+  { path: '/about', label: '关于' },
 ]
 
-// 顺序：读书 → 定规则 → 观察盘 → 分析筛选 → 工具与参考；已舍弃的页面折叠在最后。
+// 顺序：读书 → 定规则 → 观察盘 → 分析筛选 → 工具与参考。
 // 分组同时决定子页面顶部的「同组切换条」，同一组只放同一件事。
 export const INVEST_GROUPS: HubGroup[] = [
   {
@@ -87,25 +83,12 @@ export const INVEST_GROUPS: HubGroup[] = [
     id: 'tools',
     step: '第五步',
     title: '工具与参考',
-    hint: '估值看价格贵不贵，网格管买卖节奏，ETF 地图查选品，AI 工具辅助研究。',
+    hint: '估值看价格贵不贵，网格管买卖节奏，ETF 地图查选品。',
     links: [
       { path: '/valuation', label: '公司估值', desc: '六方法三情景估值与报告导出' },
       { path: '/dcf', label: '现金流折现 DCF', desc: 'WACC + 五年现金流折现估值与安全边际，可保存记录' },
       { path: GRID_TRADING_PATH, label: '网格交易', desc: 'ETF / 个股网格模拟、回测与记录' },
       { path: '/invest/etf', label: 'ETF 流派地图', desc: '宽基、因子、主题、债券、商品等流派的主要 ETF 与风险' },
-      { path: '/invest/ai-tools', label: 'AI 工具', desc: '投资分析、视频创作与小说写作 Skills 的介绍和下载包' },
-    ],
-  },
-  {
-    id: 'archived',
-    title: '已舍弃',
-    hint: '和书里的方法不一致，不再更新，只留存档。',
-    collapsed: true,
-    links: [
-      { path: '/trading-philosophy', label: '道与术（短线策略）', desc: '早期短线交易体系', archived: '已舍弃：这是早期的短线交易体系，需要盯盘，和书里「不盯盘、不预测」的方法相反，仅留存档。' },
-      { path: '/investment-strategy', label: '综合投资策略框架', desc: '巴菲特 · 邓普顿 · 双阶段轮动', archived: '已舍弃：这套框架已不再使用，方法以书和 2026 投资计划为准，仅留存档。' },
-      { path: '/mainland-investment-targets', label: 'A 股观察池（AI 扩散）', desc: '2026 年 1 月的 AI 主题标的清单', archived: '已舍弃：这是 2026 年 1 月按 AI 主题整理的具体标的清单，含“立即配置”“回调加仓”等买卖建议和未注明来源的预测数字，与书里“不荐股、无来源的数字不写”相悖，内容已过期，仅留存档，不构成投资建议。观察池请按书第32、36章自己建立。' },
-      { path: '/investment-targets', label: '美股观察池', desc: '未完成的占位页', archived: '已舍弃：这一页从未完成。观察池请按书第32、36章自己建立：10到20家，每家一份统一决策记录（37.4）。' },
     ],
   },
 ]
@@ -128,11 +111,11 @@ export function findInvestEntry(pathname: string): { group: HubGroup; link: HubL
 }
 
 export function isNavActive(itemPath: string, pathname: string): boolean {
-  if (itemPath === '/') return pathname === '/'
-  if (itemPath === '/invest') {
-    // 收纳在投资页里、同时又是顶部导航独立一项的页面（如 /notes），只点亮它自己那一项
-    const ownNavItem = NAV_ITEMS.some(i => i.path !== '/' && i.path !== '/invest' && matchesPath(i.path, pathname))
-    return matchesPath('/invest', pathname) || (findInvestEntry(pathname) !== null && !ownNavItem)
+  if (itemPath === '/') {
+    // 「投资」即首页：根路径、/invest 下的子页面、投资页收纳的页面都点亮它；
+    // 同时又是顶部导航独立一项的页面（如 /notes），只点亮它自己那一项
+    const ownNavItem = NAV_ITEMS.some(i => i.path !== '/' && matchesPath(i.path, pathname))
+    return pathname === '/' || matchesPath('/invest', pathname) || (findInvestEntry(pathname) !== null && !ownNavItem)
   }
   return matchesPath(itemPath, pathname)
 }

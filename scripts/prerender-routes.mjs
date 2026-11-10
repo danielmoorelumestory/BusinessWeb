@@ -54,21 +54,13 @@ function describe(path) {
   const seo = resolveSeo(path)
   if (path === '/blog') return {
     title: seo.title, description: seo.description,
-    body: blogByPath.size ? `<p>${esc(seo.description)}</p><ul>${[...blogByPath.entries()].map(([url, entry]) => `<li><a href="${esc(blogHref(url, BASE_URL))}">${esc(entry.title)}</a> — ${esc(entry.summary)}</li>`).join('')}</ul>` : `<p>新的文章正在整理中。先读《正念投资》，或探索 AI 实验室。</p><p><a href="${esc(blogHref('/first-book', BASE_URL))}">我的书</a> · <a href="${esc(blogHref('/ai', BASE_URL))}">AI 实验室</a></p>`,
+    body: blogByPath.size ? `<p>${esc(seo.description)}</p><ul>${[...blogByPath.entries()].map(([url, entry]) => `<li><a href="${esc(blogHref(url, BASE_URL))}">${esc(entry.title)}</a> — ${esc(entry.summary)}</li>`).join('')}</ul>` : `<p>新的文章正在整理中。先读《正念投资》。</p><p><a href="${esc(blogHref('/first-book', BASE_URL))}">我的书</a></p>`,
   }
   const blogPost = blogByPath.get(path)
   if (blogPost) {
     if (blogPost.file !== `src/content/blog/posts/${blogPost.slug}.md`) throw new Error(`Invalid blog file for ${blogPost.slug}`)
     const markdown = readFileSync(resolve(ROOT, blogPost.file), 'utf8')
     return { title: seo.title, description: seo.description, body: `<p>${esc(blogPost.summary)}</p><p>发布于 ${esc(blogPost.publishedAt)}${blogPost.updatedAt ? ` · 更新于 ${esc(blogPost.updatedAt)}` : ''}</p>${renderBlogMarkdown(markdown, BASE_URL).html}` }
-  }
-  if (path === '/ai/dev-team') return {
-    title: seo.title, description: seo.description,
-    body: marked.parse(readFileSync(resolve(ROOT, 'src/content/dev-team-README.md'), 'utf8').replace(/^# .+\r?\n/, '')),
-  }
-  if (path === '/ai/dropshipping') return {
-    title: seo.title, description: seo.description,
-    body: marked.parse(readFileSync(resolve(ROOT, 'src/content/dropshipping-strategy.md'), 'utf8').replace(/^# .+\r?\n/, '')),
   }
   const file = path.startsWith('/first-book/read/') && decodeURIComponent(path.slice('/first-book/read/'.length))
   const chapter = file && book.get(file)

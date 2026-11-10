@@ -5,7 +5,7 @@
   "scripts": {
     "blog:import": "node scripts/import-blog.mjs",
     "predev": "node scripts/generate-blog-catalog.mjs",
-    "skills:package": "node scripts/generate-investment-method.mjs && node scripts/generate-future-trends-skill.mjs && python3 scripts/package-investment-skills.py",
+    "skills:package": "node scripts/generate-investment-method.mjs && node scripts/generate-future-trends-skill.mjs && python3 scripts/sync-skills.py",
     "future-trends:picks": "sh scripts/future-trends-picks/run.sh",
     "test:edge": "node --test server/edge/*.test.mjs",
     "dev": "vite --host",

@@ -39,8 +39,8 @@ export default function BlogIndex({ entries = publishedPosts() }: { entries?: Bl
     {posts.length === 0 ? <section className="blog-empty" aria-label="博客文章">
       <p className="blog-eyebrow">COMING SOON</p>
       <h2>新的文章正在整理中</h2>
-      <p>在下一篇文章发布前，可以先读完整的投资方法，或看看正在实践的 AI 项目。</p>
-      <div className="blog-empty__links"><Link to="/first-book">读我的书 <ArrowRight size={18} /></Link><Link to="/ai">探索 AI 实验室 <ArrowRight size={18} /></Link></div>
+      <p>在下一篇文章发布前，可以先读完整的投资方法。</p>
+      <div className="blog-empty__links"><Link to="/first-book">读我的书 <ArrowRight size={18} /></Link></div>
     </section> : <>
       <div className="blog-filterbar">
         <div className="blog-categories" role="group" aria-label="按栏目筛选">

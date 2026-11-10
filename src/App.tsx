@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom'
 import ErrorBoundary from './components/ErrorBoundary'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -7,19 +7,12 @@ import SectionChrome from './components/SectionChrome'
 import RouteSeo from './components/RouteSeo'
 import NotFound from './pages/NotFound'
 import InvestHub from './pages/InvestHub'
-import AiStudio from './pages/AiStudio'
-import LifeLab from './pages/LifeLab'
-import Home from './pages/Home'
 
-// 重页面按路由拆包：首屏只下载首页和几个小页面，其余进入时再加载
+// 重页面按路由拆包：首屏只下载首页（投资页）和几个小页面，其余进入时再加载
 const About = lazy(() => import('./pages/About'))
 const Pulse = lazy(() => import('./pages/Pulse'))
 const Monitor = lazy(() => import('./pages/Monitor'))
 const InvestmentPlan2026 = lazy(() => import('./pages/InvestmentPlan2026'))
-const InvestmentTargetsPage = lazy(() => import('./pages/InvestmentTargetsPage'))
-const TradingPhilosophy = lazy(() => import('./pages/TradingPhilosophy'))
-const MainlandInvestmentTargets = lazy(() => import('./pages/MainlandInvestmentTargets'))
-const InvestmentStrategy = lazy(() => import('./pages/InvestmentStrategy'))
 const FirstBook = lazy(() => import('./pages/FirstBook'))
 const MyBooks = lazy(() => import('./pages/MyBooks'))
 const ResearchNotes = lazy(() => import('./pages/ResearchNotes'))
@@ -33,7 +26,6 @@ const BlogArticle = lazy(() => import('./pages/BlogArticle'))
 const DailyAnalysis = lazy(() => import('./pages/DailyAnalysis'))
 const WatchBoard = lazy(() => import('./pages/WatchBoard'))
 const NationalTeam = lazy(() => import('./pages/NationalTeam'))
-const DevTeamGuide = lazy(() => import('./pages/DevTeamGuide'))
 const GridMoved = lazy(() => import('./pages/GridMoved'))
 // 旧的板块轮动、涨停分析同样已由 notes 的股市分析 lab 取代，旧路径由 StockToolsMoved 跳转或说明
 const StockToolsMoved = lazy(() => import('./pages/StockToolsMoved'))
@@ -43,10 +35,7 @@ const FutureTrends = lazy(() => import('./pages/FutureTrends'))
 const SolidStateCompany = lazy(() => import('./pages/SolidStateCompany'))
 const FutureTrendCompany = lazy(() => import('./pages/FutureTrendCompany'))
 const IndustryLandscape = lazy(() => import('./pages/IndustryLandscape'))
-const InvestmentAiTools = lazy(() => import('./pages/InvestmentAiTools'))
 const EtfGuide = lazy(() => import('./pages/EtfGuide'))
-const AiLabDirection = lazy(() => import('./pages/AiLabDirection'))
-const AiLearningPlan = lazy(() => import('./pages/AiLearningPlan'))
 
 function PageLoading(): JSX.Element {
   return <div role="status" className="container page-loading">加载中…</div>
@@ -90,14 +79,10 @@ export default function App(): JSX.Element {
         <Routes>
           <Route path="/valuation" element={<Valuation />} />
           <Route path="/dcf" element={<Dcf />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/invest" element={<InvestHub />} />
-          <Route path="/invest/ai-tools" element={<InvestmentAiTools />} />
+          <Route path="/" element={<InvestHub />} />
+          {/* 首页就是投资页；旧的 /invest 由 _redirects 跳转，这里是前端兜底 */}
+          <Route path="/invest" element={<Navigate to="/" replace />} />
           <Route path="/invest/etf" element={<EtfGuide />} />
-          <Route path="/ai" element={<AiStudio />} />
-          <Route path="/ai/fullstack-roadmap" element={<AiLearningPlan />} />
-          <Route path="/ai/:slug" element={<AiLabDirection />} />
-          <Route path="/life" element={<LifeLab />} />
           <Route path="/about" element={<About />} />
           <Route path="/pulse" element={<Pulse />} />
           <Route path="/notes" element={<Notes />} />
@@ -108,15 +93,10 @@ export default function App(): JSX.Element {
           <Route path="/daily-analysis" element={<DailyAnalysis />} />
           <Route path="/watch" element={<WatchBoard />} />
           <Route path="/invest/national-team" element={<NationalTeam />} />
-          <Route path="/ai/dev-team" element={<DevTeamGuide />} />
           <Route path="/monitor" element={<Monitor />} />
           <Route path="/investment-plan-2026" element={<InvestmentPlan2026 />} />
-          <Route path="/investment-targets" element={<InvestmentTargetsPage />} />
-          <Route path="/trading-philosophy" element={<TradingPhilosophy />} />
           <Route path="/sector-rotation" element={<StockToolsMoved />} />
           <Route path="/limit-up-analysis/*" element={<StockToolsMoved />} />
-          <Route path="/mainland-investment-targets" element={<MainlandInvestmentTargets />} />
-          <Route path="/investment-strategy" element={<InvestmentStrategy />} />
           <Route path="/first-book" element={<MyBooks />} />
           <Route path="/first-book/slow-is-fast" element={<FirstBook />} />
           <Route path="/first-book/read/:file" element={<FirstBook />} />

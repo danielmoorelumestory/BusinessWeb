@@ -20,7 +20,7 @@
 ```
 BusinessWeb/
 ├── src/
-│   ├── pages/              路由页面（Home / ResearchNotes / GridMoved 等）
+│   ├── pages/              路由页面（InvestHub / ResearchNotes / GridMoved 等）
 │   ├── features/
 │   ├── components/         复用组件（Header / Footer / 各市场卡片）
 │   ├── data/               标普500 / 沪深 / 概念板块数据源
@@ -65,21 +65,17 @@ npm run build
 
 项目内置 [dev-team 技能](.agents/skills/dev-team/SKILL.md)：当前 agent 作为唯一管理入口，通过 Orca 协调 Codex、Claude、Kimi、Antigravity 与 OpenCode MiniMax M3。Android、Web 前端、后端分别生成需求、设计与测试流程，全栈按契约组织并行；按场景加载文档，支持额度不足时交接与替补。
 
-在项目对话中输入 `$dev-team <开发目标>`（Claude Code 用 `/dev-team`，Kimi 用 `/skill:dev-team`）。网站「AI 实验室 › AI 工具 / Skill / Agent」与「AI 工具 › 开发协作」提供介绍、提示词、安装说明和下载入口。[操作与迁移说明](.agents/skills/dev-team/references/operations.md) 包含初始化、路由、真实派工、M3 兼容启动和恢复步骤。可分享 [独立 ZIP 包](public/ai-skills/dev-team.zip)，解压后在其他项目安装：
+在项目对话中输入 `$dev-team <开发目标>`（Claude Code 用 `/dev-team`，Kimi 用 `/skill:dev-team`）。[操作与迁移说明](.agents/skills/dev-team/references/operations.md) 包含初始化、路由、真实派工、M3 兼容启动和恢复步骤。在其他项目安装：
 
 ```bash
 node /path/to/dev-team/scripts/dev-team.mjs init --project /path/to/other-project
 ```
 
-依赖 Node 20+、支持 orchestration 的 Orca 和至少一个可用执行器；需在 Orca 打开目标项目后派工。当前网站下载包包含 `dev-team/` 与独立 [README 使用说明](src/content/dev-team-README.md)，介绍自检、项目配置、日常操作与验证范围。网站 `/ai/dev-team` 渲染完整说明，并提供 ZIP 与 Markdown 原文下载；旧原文阅读链接转向网页说明。`pack` 仅输出技能本体，更新网站下载包时需同时保留独立 README；项目运行记录与凭据不随包发布。
-
-## 无货源电商实施方案
-
-AI 实验室的 `/ai/dropshipping` 提供一件代发模式说明、30 天试验步骤、交互利润测算和订单记账模板。正文维护在 [src/content/dropshipping-strategy.md](src/content/dropshipping-strategy.md)，预算与首页摘要维护在 `src/data/aiLab.ts`；平台规则引用官方资料并标注核对日期。页面保持“未开始”，实际经营后再更新实验日志。
+依赖 Node 20+、支持 orchestration 的 Orca 和至少一个可用执行器；需在 Orca 打开目标项目后派工。项目运行记录与凭据不随技能分发。
 
 ## AI 投研 skills
 
-项目以 `stock-analysis` 融合研究方法、股票研究专家、腾讯自选股投研专家团与 Public Markets Investing，位于「AI 工具」第一项。新增商业模式驱动树、核心假设、预测归因、行业周期及证据追溯；回测与组合风险按需启用。交易分析团队保留独立入口；旧两套名称转入融合版。
+项目以 `stock-analysis` 融合研究方法、股票研究专家、腾讯自选股投研专家团与 Public Markets Investing。新增商业模式驱动树、核心假设、预测归因、行业周期及证据追溯；回测与组合风险按需启用。交易分析团队保留独立入口；旧两套名称转入融合版。
 
 从 BusinessWeb 目录启动工具。股票分析已安装到以下项目目录：
 
@@ -90,7 +86,7 @@ AI 实验室的 `/ai/dropshipping` 提供一件代发模式说明、30 天试验
 | OpenCode | `.opencode/skills/stock-analysis/SKILL.md` |
 | CodeBuddy Code | `.codebuddy/skills/stock-analysis/SKILL.md` |
 
-执行 `npm run skills:package` 会从 `.agents/skills/` 同步融合版股票分析及旧两套兼容入口到其他三个目录，并更新下载包。旧名称 ZIP 包含同级 `stock-analysis`，解压后可直接读取融合版。重新打开会话后确认 Skill 列表；普通分析一个 agent 即可，多视角不强制多 agent。
+执行 `npm run skills:package` 会从 `.agents/skills/` 同步融合版股票分析及旧两套兼容入口到其他三个目录（网站不再提供下载包）。重新打开会话后确认 Skill 列表；普通分析一个 agent 即可，多视角不强制多 agent。
 
 | Skill | 用途 | 何时触发 |
 |---|---|---|

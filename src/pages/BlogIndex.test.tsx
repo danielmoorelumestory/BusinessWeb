@@ -32,9 +32,9 @@ describe('BlogIndex', () => {
     expect(screen.getByText('投资规则')).toBeTruthy()
     expect(screen.queryByText('AI 工作流')).toBeNull()
   })
-  it('points to existing book and AI pages when there are no public posts', () => {
+  it('points to the book, and no longer to the removed AI lab, when there are no public posts', () => {
     renderAt('/blog', [])
     expect(screen.getByRole('link', { name: /我的书/ }).getAttribute('href')).toBe('/first-book')
-    expect(screen.getByRole('link', { name: /AI 实验室/ }).getAttribute('href')).toBe('/ai')
+    expect(screen.getAllByRole('link').some(a => a.getAttribute('href') === '/ai')).toBe(false)
   })
 })

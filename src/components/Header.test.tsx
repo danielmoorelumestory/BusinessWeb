@@ -20,17 +20,24 @@ const renderAt = (path: string) =>
 
 describe('Header', () => {
   it('品牌名是Live，链接回首页', () => {
-    renderAt('/invest')
+    renderAt('/pulse')
     const brand = screen.getByRole('link', { name: /Live/ })
     expect(brand.getAttribute('href')).toBe('/')
   })
 
-  it('主导航共 7 项（含笔记、博客）', () => {
+  it('主导航共 4 项：投资、笔记、博客、关于', () => {
     renderAt('/')
     const nav = screen.getByRole('navigation', { name: '主导航' })
-    expect(within(nav).getAllByRole('link').map(a => a.textContent)).toEqual([
-      '首页', '投资', 'AI实验室', '自由空间', '关于', '笔记', '博客',
-    ])
+    const links = within(nav).getAllByRole('link')
+    expect(links.map(a => a.textContent)).toEqual(['投资', '笔记', '博客', '关于'])
+    expect(links[0].getAttribute('href')).toBe('/')
+  })
+
+  it('根路径点亮「投资」', () => {
+    renderAt('/')
+    const nav = screen.getByRole('navigation', { name: '主导航' })
+    const active = within(nav).getAllByRole('link').filter(a => a.getAttribute('aria-current') === 'page')
+    expect(active.map(a => a.textContent)).toEqual(['投资'])
   })
 
   it('旧页面路径点亮「投资」', () => {

@@ -10,25 +10,11 @@ export interface SiteUpdate {
 // 使用中文描述结果和使用方式，不从 Git 提交、构建或日常数据刷新自动生成。
 export const SITE_UPDATES: readonly SiteUpdate[] = [
   {
-    id: 'dropshipping-strategy',
-    date: '2026-10-11',
-    title: '无货源电商：30 天实施方案',
-    description: '补充一件代发的选品、供应商与平台规则说明，提供利润测算、预算与周转金拆分、30 天任务和继续或停止条件，可下载订单记账模板。',
-    href: '/ai/dropshipping',
-  },
-  {
     id: 'mindful-investing-book',
     date: '2026-10-11',
     title: '《正念投资》书稿与听书更新',
     description: '新增导读与公司研究实战，提供阅读路线、章节搜索和字号调节；普通话听书支持本节、本章与全书，播放器可收起悬浮，书评独立放在书籍页底部。',
     href: '/first-book/slow-is-fast',
-  },
-  {
-    id: 'dev-team',
-    date: '2026-10-11',
-    title: 'Orca 开发团队 Skill 上线',
-    description: '更新包含独立 README 的完整 ZIP，使用说明可直接在线阅读，补充安装、自检、项目配置与验证范围；建议从只读评审开始。',
-    href: '/ai#lab-skills',
   },
   {
     id: 'national-team-holdings',

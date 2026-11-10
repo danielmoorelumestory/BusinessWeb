@@ -64,13 +64,12 @@ describe('About 页面：站点介绍', () => {
     expect(document.body.textContent).not.toMatch(/Hassan 投资工作台/)
   })
 
-  it('介绍里列出三个栏目，并链接到对应页面', () => {
+  it('介绍里的投资栏目链接到首页，不再指向已删除的 AI 实验室与自由空间', () => {
     mockFetchOnce(() => new Promise(() => {}))
     render(<MemoryRouter><About /></MemoryRouter>)
-    const hrefs = ['/invest', '/ai', '/life']
-    for (const h of hrefs) {
-      expect(screen.getAllByRole('link').some(a => a.getAttribute('href') === h), h).toBe(true)
-    }
+    const hrefs = screen.getAllByRole('link').map(a => a.getAttribute('href'))
+    expect(hrefs).toContain('/')
+    for (const h of ['/invest', '/ai', '/life']) expect(hrefs, h).not.toContain(h)
   })
 
   it('保留免责声明', () => {

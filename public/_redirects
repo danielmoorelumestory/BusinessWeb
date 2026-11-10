@@ -17,6 +17,25 @@
 /knowledge / 302
 /knowledge/ / 302
 
+# 首页就是投资页（变更 prune-site-sections）：旧的 /invest 回到首页；/invest/etf、/invest/national-team 仍是真实页面，不在此列。
+/invest / 302
+/invest/ / 302
+# 已删除的栏目与页面 -> 首页：AI 实验室、自由空间、投资页的「AI 工具」、已舍弃的四个页面。
+/invest/ai-tools / 302
+/invest/ai-tools/ / 302
+/ai / 302
+/ai/* / 302
+/life / 302
+/life/ / 302
+/trading-philosophy / 302
+/trading-philosophy/ / 302
+/investment-strategy / 302
+/investment-strategy/ / 302
+/mainland-investment-targets / 302
+/mainland-investment-targets/ / 302
+/investment-targets / 302
+/investment-targets/ / 302
+
 # notes 站点已精简：首页、笔记、RSS、独立报告迁入主站（变更 migrate-notes-content），旧地址跳转到主站对应页面。
 # 更具体的规则必须写在带占位符的规则前面。写作指南类笔记已删除，回到笔记列表。
 /note/notes/how-to-write /notes 302

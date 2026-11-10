@@ -13,11 +13,8 @@ function dateLabel(date: string): string {
   return new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`))
 }
 
-const nextStep: Record<string, { path: string; label: string; description: string }> = {
-  '投资': { path: '/first-book', label: '走进《正念投资》', description: '从文章回到一套完整的投资方法。' },
-  'AI': { path: '/ai', label: '探索 AI 实验室', description: '看看这些想法如何做成真实的工具。' },
-  '生活': { path: '/life', label: '看看自由空间', description: '继续读关于工作与生活的实践。' },
-}
+// 文末引导：所有栏目的文章都回到书
+const nextStep = { path: '/first-book', label: '走进《正念投资》', description: '从文章回到一套完整的投资方法。' }
 
 export default function BlogArticle({ entries, markdownLoader = loadBlogMarkdown }: { entries?: BlogEntry[]; markdownLoader?: (file: string) => Promise<string> }): JSX.Element {
   const { slug = '' } = useParams()
@@ -42,7 +39,7 @@ export default function BlogArticle({ entries, markdownLoader = loadBlogMarkdown
   const index = posts.findIndex(item => item.slug === slug)
   const adjacent = [posts[index - 1], posts[index + 1]].filter((item): item is BlogEntry => Boolean(item))
   const related = posts.filter(item => item.slug !== slug && item.category === post.category && !adjacent.some(other => other.slug === item.slug)).slice(0, 2)
-  const cta = nextStep[post.category] || nextStep['投资']
+  const cta = nextStep
 
   async function share() {
     const url = window.location.href

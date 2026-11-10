@@ -3,7 +3,6 @@ import { cleanup, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
 import InvestHub from './InvestHub'
-import LifeLab from './LifeLab'
 import { INVEST_GROUPS } from '../data/siteMap'
 
 afterEach(cleanup)
@@ -30,32 +29,15 @@ describe('InvestHub', () => {
     expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(8)
   })
 
-  it('已舍弃组默认折叠，放在页面最后', () => {
+  it('不再有「已舍弃」分组，也没有 AI 工具入口', () => {
     const { container } = wrap(<InvestHub />)
-    const folds = container.querySelectorAll('details')
-    expect(folds).toHaveLength(1)
-    expect(folds[0].open).toBe(false)
-    expect(folds[0].querySelector('summary')?.textContent).toBe('已舍弃')
-    expect(container.querySelector('main')?.lastElementChild).toBe(folds[0])
+    expect(container.querySelectorAll('details')).toHaveLength(0)
+    expect(screen.queryByText('已舍弃')).toBeNull()
+    expect(screen.getAllByRole('link').some(a => a.getAttribute('href') === '/invest/ai-tools')).toBe(false)
   })
 
   it('「读这本书」突出显示并链接到 /first-book', () => {
     wrap(<InvestHub />)
     expect(screen.getByRole('link', { name: /我的书/ }).getAttribute('href')).toBe('/first-book')
-  })
-})
-
-describe('LifeLab', () => {
-  it('LifeLab 标出“准备中”并给出阶段', () => {
-    wrap(<LifeLab />)
-    expect(screen.getByRole('heading', { level: 1, name: '自由空间' })).toBeTruthy()
-    expect(screen.getAllByText('准备中').length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/400/).length).toBeGreaterThan(0)
-  })
-
-  it('LifeLab 不公开起始金额：用 *** 代替，只写目标 400 万', () => {
-    const { container } = wrap(<LifeLab />)
-    expect(container.textContent).not.toMatch(/300/)
-    expect(screen.getByRole('heading', { level: 2, name: '*** → 目标 400 万' })).toBeTruthy()
   })
 })
