@@ -3,6 +3,8 @@
 
 /** [日期, 息差（百分点）, 沪深300 收盘] */
 export type SpreadRow = [string, number, number]
+/** 一条息差序列：name 是指数名，label 是按钮上的文字（同一指数的不同口径用它区分） */
+export interface SpreadSeries { id: string; name: string; label?: string; note: string; rows: SpreadRow[] }
 export interface SpreadSnapshot {
   generatedAt: string
   source: string
@@ -10,6 +12,8 @@ export interface SpreadSnapshot {
   window: number
   k: number
   rows: SpreadRow[]
+  /** 其他指数：同样的算法，rows 结构相同 */
+  extra?: SpreadSeries[]
 }
 
 export interface Band { mid: number; upper: number; lower: number }

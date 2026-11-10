@@ -74,3 +74,32 @@ describe('股债息差视图', () => {
     expect(screen.getByRole('alert').textContent).toContain('数据不足')
   })
 })
+
+describe('股债息差视图：多个指数', () => {
+  const spreads = Array.from({ length: 60 }, (_, i) => 5 + (i % 2 ? 0.1 : -0.1))
+  const base: SpreadSnapshot = { generatedAt: '2026-11-10', source: '测试源', window: 20, k: 2, rows: rowsOf(spreads) }
+
+  it('没有其他指数时不显示切换按钮', () => {
+    render(<SpreadView data={base} />)
+    expect(screen.queryByRole('group', { name: '选择指数' })).toBeNull()
+  })
+
+  it('切换到其他指数后显示该指数的名称、说明和空表提示', () => {
+    render(<SpreadView data={{ ...base, extra: [{ id: 'csi1000', name: '中证1000', note: '月度数据推算', rows: rowsOf(spreads, i => 6000 + i) }] }} />)
+    expect(screen.getByLabelText('当前位置').textContent).toContain('沪深300')
+    fireEvent.click(screen.getByRole('button', { name: '中证1000' }))
+    expect(screen.getByLabelText('当前位置').textContent).toContain('中证1000')
+    expect(screen.getByText('月度数据推算')).toBeTruthy()
+    expect(screen.getByLabelText('历次触及上轨').textContent).toContain('有数据以来没有出现过')
+  })
+
+  it('同一指数有两种口径时并排显示当前读数', () => {
+    render(<SpreadView data={{ ...base, extra: [{ id: 'csi300-median', name: '沪深300', label: '沪深300（中位数）', note: '中位数说明', rows: rowsOf(spreads.map(v => v - 2)) }] }} />)
+    const card = screen.getByLabelText('两种口径并排')
+    expect(card.textContent).toContain('沪深300（市值加权）')
+    expect(card.textContent).toContain('沪深300（中位数）')
+    fireEvent.click(screen.getByRole('button', { name: '沪深300（中位数）' }))
+    expect(screen.getByLabelText('当前位置').textContent).toContain('沪深300（中位数） 盈利收益率')
+    expect(screen.getByText('中位数说明')).toBeTruthy()
+  })
+})
