@@ -155,8 +155,8 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
   // 均线筛选（多选，所选条件需全部满足）：键为「周期:均线」，如 day:10
   const MA_FILTERS = [['day:5', '日线 MA5'], ['day:10', '日线 MA10'], ['week:5', '周线 MA5'], ['week:10', '周线 MA10'], ['week:20', '周线 MA20'], ['month:5', '月线 MA5'], ['month:10', '月线 MA10']] as const;
   // MACD 筛选：金叉 = DIF 在 DEA 之上，死叉 = DIF 在 DEA 之下；同一周期金叉/死叉互斥，与其他条件同时选中时需全部满足
-  const MACD_FILTERS = (['day', 'week', 'month'] as const).flatMap(period => (['golden', 'dead'] as const).map(cross =>
-    [`macd:${period}:${cross}`, `${{ day: '日', week: '周', month: '月' }[period]}${cross === 'golden' ? '金叉' : '死叉'}`, cross === 'golden' ? 'DIF 在 DEA 之上（金叉后尚未死叉）' : 'DIF 在 DEA 之下（死叉后尚未金叉）'] as const));
+  const MACD_FILTERS = (['golden', 'dead'] as const).flatMap(cross => (['day', 'week', 'month'] as const).map(period =>
+    [`macd:${period}:${cross}`, `${{ day: '日线', week: '周线', month: '月线' }[period]}${cross === 'golden' ? '金叉' : '死叉'}`, cross === 'golden' ? 'DIF 在 DEA 之上（金叉后尚未死叉）' : 'DIF 在 DEA 之下（死叉后尚未金叉）'] as const));
   const selectedMaFilters = new Set<string>();
   let quotes = new Map<string, Quote>();
   const cloudPremiums = new Map<string, CloudPremium>();
