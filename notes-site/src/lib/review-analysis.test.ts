@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isMacdGolden, isPriceAboveAllMa, matchesReviewFilters, setReviewRecord } from './review-analysis';
+import { isMacdGolden, isPriceAboveAllMa, macdCrossState, matchesReviewFilters, setReviewRecord } from './review-analysis';
 import type { ReviewRecord } from './review-technical';
 
 const state = (close: number, ma5: number | null, ma10: number | null, ma20: number | null) =>
@@ -32,7 +32,7 @@ describe('isPriceAboveAllMa', () => {
 const macdState = (close: number, ma10: number, dif: number | null, dea: number | null) =>
   ({ asOf: '2026-11-06', close, ma5: null, ma10, ma20: null, dif, dea });
 
-describe('MACD 金叉筛选', () => {
+describe('MACD 金叉/死叉筛选', () => {
   // 日线 DIF > DEA（金叉状态）、周线 DIF < DEA（死叉状态）
   setReviewRecord('999101', { applicable: true, day: macdState(10, 9, 0.2, 0.1), week: macdState(10, 9, -0.1, 0.05), month: macdState(10, 9, null, null) } as unknown as ReviewRecord);
 
@@ -46,10 +46,17 @@ describe('MACD 金叉筛选', () => {
     expect(isMacdGolden('999405', 'day')).toBe(false);
   });
 
+  it('DIF 在 DEA 之下为死叉，缺数据既不算金叉也不算死叉', () => {
+    expect(macdCrossState('999101', 'week')).toBe('dead');
+    expect(macdCrossState('999101', 'month')).toBe(null);
+    expect(matchesReviewFilters('999101', ['macd:month:dead'])).toBe(false);
+  });
+
   it('与均线条件同时选中时需全部满足', () => {
     expect(matchesReviewFilters('999101', [])).toBe(true);
-    expect(matchesReviewFilters('999101', ['macd:day', 'day:10'])).toBe(true);
-    expect(matchesReviewFilters('999101', ['macd:day', 'macd:week'])).toBe(false);
-    expect(matchesReviewFilters('999101', ['macd:week', 'day:10'])).toBe(false);
+    expect(matchesReviewFilters('999101', ['macd:day:golden', 'day:10'])).toBe(true);
+    expect(matchesReviewFilters('999101', ['macd:day:golden', 'macd:week:dead'])).toBe(true);
+    expect(matchesReviewFilters('999101', ['macd:day:golden', 'macd:week:golden'])).toBe(false);
+    expect(matchesReviewFilters('999101', ['macd:week:golden', 'day:10'])).toBe(false);
   });
 });

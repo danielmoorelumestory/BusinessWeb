@@ -154,8 +154,9 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
   const selectedGroupIds = new Set<string>();
   // 均线筛选（多选，所选条件需全部满足）：键为「周期:均线」，如 day:10
   const MA_FILTERS = [['day:5', '日线 MA5'], ['day:10', '日线 MA10'], ['week:5', '周线 MA5'], ['week:10', '周线 MA10'], ['week:20', '周线 MA20'], ['month:5', '月线 MA5'], ['month:10', '月线 MA10']] as const;
-  // MACD 金叉筛选：DIF 在 DEA 之上；与均线条件同时选中时需全部满足
-  const MACD_FILTERS = [['macd:day', '日 MACD 金叉'], ['macd:week', '周 MACD 金叉']] as const;
+  // MACD 筛选：金叉 = DIF 在 DEA 之上，死叉 = DIF 在 DEA 之下；同一周期金叉/死叉互斥，与其他条件同时选中时需全部满足
+  const MACD_FILTERS = (['day', 'week', 'month'] as const).flatMap(period => (['golden', 'dead'] as const).map(cross =>
+    [`macd:${period}:${cross}`, `${{ day: '日', week: '周', month: '月' }[period]}${cross === 'golden' ? '金叉' : '死叉'}`, cross === 'golden' ? 'DIF 在 DEA 之上（金叉后尚未死叉）' : 'DIF 在 DEA 之下（死叉后尚未金叉）'] as const));
   const selectedMaFilters = new Set<string>();
   let quotes = new Map<string, Quote>();
   const cloudPremiums = new Map<string, CloudPremium>();
@@ -251,7 +252,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
       <div class="industry-etf-nav__row" aria-label="MACD 筛选">
         <span class="filter-label">MACD</span>
         <div class="industry-etf-nav__pills">
-          ${MACD_FILTERS.map(([key, label]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button" title="DIF 在 DEA 之上（金叉后尚未死叉）"><span>${label}</span></button>`).join('')}
+          ${MACD_FILTERS.map(([key, label, tip]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button" title="${tip}"><span>${label}</span></button>`).join('')}
         </div>
       </div>
     `;
@@ -511,7 +512,11 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     if (maButton) {
       const key = maButton.dataset.ma!;
       if (selectedMaFilters.has(key)) selectedMaFilters.delete(key);
-      else selectedMaFilters.add(key);
+      else {
+        selectedMaFilters.add(key);
+        // 同一周期的 MACD 金叉与死叉互斥，选中一个时取消另一个
+        if (key.startsWith('macd:')) selectedMaFilters.delete(key.replace(/golden$|dead$/, cross => cross === 'golden' ? 'dead' : 'golden'));
+      }
       render();
       return;
     }

@@ -37,16 +37,18 @@ export function isPriceAboveAllMa(code: string, filters: string[]): boolean {
     return isPriceAboveMa(code, period as ReviewPeriod, Number(ma) as 5 | 10 | 20);
   });
 }
-/** 指定周期 MACD 是否处于金叉状态（DIF 在 DEA 之上，即最近一次交叉是金叉且尚未死叉）；缺数据返回 false。 */
-export function isMacdGolden(code: string, period: ReviewPeriod): boolean {
+/** 指定周期 MACD 状态：DIF 在 DEA 之上为金叉（金叉后尚未死叉），之下为死叉；相等或缺数据返回 null。 */
+export function macdCrossState(code: string, period: ReviewPeriod): 'golden' | 'dead' | null {
   const state = (calculated.get(code.trim()) ?? records[code.trim()])?.[period];
-  return !!state && state.dif != null && state.dea != null && Number.isFinite(state.dif) && Number.isFinite(state.dea) && state.dif > state.dea;
+  if (!state || state.dif == null || state.dea == null || !Number.isFinite(state.dif) || !Number.isFinite(state.dea) || state.dif === state.dea) return null;
+  return state.dif > state.dea ? 'golden' : 'dead';
 }
-/** 选中的筛选条件全部满足；均线键如 day:10，MACD 键如 macd:day；未选择条件时返回 true。 */
+export const isMacdGolden = (code: string, period: ReviewPeriod) => macdCrossState(code, period) === 'golden';
+/** 选中的筛选条件全部满足；均线键如 day:10，MACD 键如 macd:week:golden / macd:month:dead；未选择条件时返回 true。 */
 export function matchesReviewFilters(code: string, filters: string[]): boolean {
   return filters.every(filter => {
-    const [kind, value] = filter.split(':');
-    if (kind === 'macd') return isMacdGolden(code, value as ReviewPeriod);
+    const [kind, value, cross] = filter.split(':');
+    if (kind === 'macd') return macdCrossState(code, value as ReviewPeriod) === (cross === 'dead' ? 'dead' : 'golden');
     return isPriceAboveMa(code, kind as ReviewPeriod, Number(value) as 5 | 10 | 20);
   });
 }
