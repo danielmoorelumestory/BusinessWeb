@@ -27,6 +27,8 @@
         "rsi": 27.318349159068035,
         "kdjK": 10.989855053333066,
         "kdjD": 14.517056570947524,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -48,6 +50,8 @@
         "rsi": 36.933438666779246,
         "kdjK": 26.453107769264147,
         "kdjD": 36.1059409310037,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -69,6 +73,8 @@
         "rsi": null,
         "kdjK": 41.447959467592405,
         "kdjD": 50.07657772596063,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "不足"
       }
     },
@@ -93,6 +99,8 @@
         "rsi": 31.378228472598295,
         "kdjK": 16.05495595220391,
         "kdjD": 16.954186341564935,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -114,6 +122,8 @@
         "rsi": 35.48365347130459,
         "kdjK": 21.219205882582315,
         "kdjD": 27.7164770594934,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -135,6 +145,8 @@
         "rsi": 52.22911285121851,
         "kdjK": 19.714154395983478,
         "kdjD": 35.84896155693996,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -159,6 +171,8 @@
         "rsi": 25.308524752795293,
         "kdjK": 10.849465151462757,
         "kdjD": 12.510007385598662,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -180,6 +194,8 @@
         "rsi": 33.129768899509045,
         "kdjK": 18.67620904431768,
         "kdjD": 26.29214752781708,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -201,6 +217,8 @@
         "rsi": 47.962003694854346,
         "kdjK": 26.444342171610472,
         "kdjD": 47.53807772432145,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -225,6 +243,8 @@
         "rsi": 62.751549775328286,
         "kdjK": 52.91925247401444,
         "kdjD": 62.148450142194726,
+        "goldenCrossDate": "2026-09-18",
+        "kdAtGoldenCross": 6.663168375446617,
         "rsiState": "偏强"
       },
       "week": {
@@ -246,6 +266,8 @@
         "rsi": 74.20038792947821,
         "kdjK": 88.19692065613867,
         "kdjD": 88.02076757702638,
+        "goldenCrossDate": "2026-08-07",
+        "kdAtGoldenCross": 6.558397172561456,
         "rsiState": "超买"
       },
       "month": {
@@ -267,6 +289,8 @@
         "rsi": 77.90850785800956,
         "kdjK": 88.443255937717,
         "kdjD": 85.14375420265125,
+        "goldenCrossDate": "2025-06-30",
+        "kdAtGoldenCross": 10.23107083673488,
         "rsiState": "超买"
       }
     },
@@ -291,6 +315,8 @@
         "rsi": 54.211895953984694,
         "kdjK": 49.385391592359746,
         "kdjD": 45.582964784235735,
+        "goldenCrossDate": "2026-10-13",
+        "kdAtGoldenCross": 6.914744842218376,
         "rsiState": "偏强"
       },
       "week": {
@@ -312,6 +338,8 @@
         "rsi": 60.17582551635277,
         "kdjK": 52.87853106670104,
         "kdjD": 59.45787689991228,
+        "goldenCrossDate": "2026-08-21",
+        "kdAtGoldenCross": 17.727978410574565,
         "rsiState": "偏强"
       },
       "month": {
@@ -333,6 +361,8 @@
         "rsi": 60.62138566605142,
         "kdjK": 52.54492642409715,
         "kdjD": 50.03788521241064,
+        "goldenCrossDate": "2026-01-30",
+        "kdAtGoldenCross": 6.340212415855298,
         "rsiState": "偏强"
       }
     },
@@ -357,6 +387,8 @@
         "rsi": 71.81450363787536,
         "kdjK": 68.39436877062023,
         "kdjD": 61.04188661822069,
+        "goldenCrossDate": "2026-09-22",
+        "kdAtGoldenCross": 21.884241499814827,
         "rsiState": "超买"
       },
       "week": {
@@ -378,6 +410,8 @@
         "rsi": 60.32363508742579,
         "kdjK": 53.289504184706715,
         "kdjD": 46.43688074589814,
+        "goldenCrossDate": "2026-07-31",
+        "kdAtGoldenCross": -1.052148393966263,
         "rsiState": "偏强"
       },
       "month": {
@@ -399,6 +433,8 @@
         "rsi": 55.3378301969257,
         "kdjK": 40.957450973743946,
         "kdjD": 32.209686720004484,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -423,6 +459,8 @@
         "rsi": 32.20759313992461,
         "kdjK": 13.906120601709443,
         "kdjD": 22.01017595579228,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -444,6 +482,8 @@
         "rsi": 40.672900141213205,
         "kdjK": 43.4412877358809,
         "kdjD": 60.35158546290619,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -465,6 +505,8 @@
         "rsi": 53.10578807163689,
         "kdjK": 51.73366178543339,
         "kdjD": 62.55728962510854,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -489,6 +531,8 @@
         "rsi": 21.866702236671927,
         "kdjK": 12.601623030714741,
         "kdjD": 17.284755540990155,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -510,6 +554,8 @@
         "rsi": 29.269568073196538,
         "kdjK": 10.9747452803743,
         "kdjD": 14.919594210570992,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "month": {
@@ -531,6 +577,8 @@
         "rsi": 43.316223013469624,
         "kdjK": 19.673704798470645,
         "kdjD": 40.337110909916944,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -555,6 +603,8 @@
         "rsi": 26.075434264886866,
         "kdjK": 23.643572030129008,
         "kdjD": 20.437224070508012,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -576,6 +626,8 @@
         "rsi": 30.115691981274992,
         "kdjK": 15.697622599052927,
         "kdjD": 23.407441252519092,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -597,6 +649,8 @@
         "rsi": 51.13626774574634,
         "kdjK": 33.37549052009786,
         "kdjD": 53.85911392619112,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -621,6 +675,8 @@
         "rsi": 47.56974606835169,
         "kdjK": 53.7686051505155,
         "kdjD": 58.77709643698992,
+        "goldenCrossDate": "2026-10-08",
+        "kdAtGoldenCross": 18.211678289152708,
         "rsiState": "偏弱"
       },
       "week": {
@@ -642,6 +698,8 @@
         "rsi": 46.15686545359847,
         "kdjK": 36.24746340377565,
         "kdjD": 31.93749041733726,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -663,6 +721,8 @@
         "rsi": 51.52707332500209,
         "kdjK": 24.059930139115174,
         "kdjD": 36.389086241206,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -687,6 +747,8 @@
         "rsi": 38.83602636611354,
         "kdjK": 27.611453129614105,
         "kdjD": 26.361843065021,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -708,6 +770,8 @@
         "rsi": 35.374761042096054,
         "kdjK": 17.598721082192423,
         "kdjD": 27.204699066015852,
+        "goldenCrossDate": "2026-07-24",
+        "kdAtGoldenCross": 11.822424261098206,
         "rsiState": "偏弱"
       },
       "month": {
@@ -729,6 +793,8 @@
         "rsi": 44.76555667823986,
         "kdjK": 13.952557096150972,
         "kdjD": 17.483902217662358,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -753,6 +819,8 @@
         "rsi": 50.06001323643377,
         "kdjK": 47.96851127123725,
         "kdjD": 50.3400113007219,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       },
       "week": {
@@ -774,6 +842,8 @@
         "rsi": 60.9550309564581,
         "kdjK": 60.80933699755582,
         "kdjD": 67.50016442033503,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       },
       "month": {
@@ -795,6 +865,8 @@
         "rsi": 68.30014766913133,
         "kdjK": 83.28058966838277,
         "kdjD": 78.52590306823186,
+        "goldenCrossDate": "2025-06-30",
+        "kdAtGoldenCross": -3.5096967800637913,
         "rsiState": "偏强"
       }
     },
@@ -819,6 +891,8 @@
         "rsi": 21.818410465648057,
         "kdjK": 8.04401534978392,
         "kdjD": 12.323733655633806,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -840,6 +914,8 @@
         "rsi": 35.41352776154763,
         "kdjK": 15.153567849891198,
         "kdjD": 23.236217029037523,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -861,6 +937,8 @@
         "rsi": 49.82302384916529,
         "kdjK": 31.744471224635053,
         "kdjD": 54.371919045270076,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -885,6 +963,8 @@
         "rsi": 40.22169193743916,
         "kdjK": 18.657966276409958,
         "kdjD": 25.507017061282838,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -906,6 +986,8 @@
         "rsi": 41.3873084892129,
         "kdjK": 31.308507851922304,
         "kdjD": 43.467756640523284,
+        "goldenCrossDate": "2026-08-28",
+        "kdAtGoldenCross": 19.240096469272828,
         "rsiState": "偏弱"
       },
       "month": {
@@ -927,6 +1009,8 @@
         "rsi": 44.73840386926244,
         "kdjK": 23.008612621578468,
         "kdjD": 30.817600016383203,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -951,6 +1035,8 @@
         "rsi": 22.54820227458859,
         "kdjK": 7.699467602946509,
         "kdjD": 11.593015685578312,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -972,6 +1058,8 @@
         "rsi": 35.29457990327079,
         "kdjK": 16.423368810754663,
         "kdjD": 23.450406800762735,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -993,6 +1081,8 @@
         "rsi": 49.92672825538135,
         "kdjK": 32.79600973134171,
         "kdjD": 53.99291337779612,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1017,6 +1107,8 @@
         "rsi": 24.398622680663237,
         "kdjK": 15.237172959657077,
         "kdjD": 22.433462797215103,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -1038,6 +1130,8 @@
         "rsi": 29.267139615020653,
         "kdjK": 11.542078528473374,
         "kdjD": 14.718612482106407,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "month": {
@@ -1059,6 +1153,8 @@
         "rsi": 44.28569931739846,
         "kdjK": 18.456573119091196,
         "kdjD": 38.08519058497082,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1083,6 +1179,8 @@
         "rsi": 35.94259452978572,
         "kdjK": 20.78270761570717,
         "kdjD": 23.163181250691803,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1104,6 +1202,8 @@
         "rsi": 30.11842987897461,
         "kdjK": 19.477604248266367,
         "kdjD": 30.55907631880347,
+        "goldenCrossDate": "2026-08-14",
+        "kdAtGoldenCross": 9.360356668325256,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1125,6 +1225,8 @@
         "rsi": 33.03266025898614,
         "kdjK": 8.769702059799759,
         "kdjD": 17.283474161854414,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1149,6 +1251,8 @@
         "rsi": 45.4003531372386,
         "kdjK": 50.02325564292046,
         "kdjD": 42.04789919464237,
+        "goldenCrossDate": "2026-10-09",
+        "kdAtGoldenCross": -3.3641434375756027,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1170,6 +1274,8 @@
         "rsi": 34.43305137094822,
         "kdjK": 18.56337641887723,
         "kdjD": 22.47974231356457,
+        "goldenCrossDate": "2026-07-24",
+        "kdAtGoldenCross": 10.497623536755977,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1191,6 +1297,8 @@
         "rsi": 41.347331750004116,
         "kdjK": 10.11837067242681,
         "kdjD": 13.431112020406996,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1215,6 +1323,8 @@
         "rsi": 24.30134257100417,
         "kdjK": 9.038568230070391,
         "kdjD": 13.208016295282443,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -1236,6 +1346,8 @@
         "rsi": 34.71811357203501,
         "kdjK": 14.7676964625764,
         "kdjD": 19.453364763392656,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1257,6 +1369,8 @@
         "rsi": 51.549972338064194,
         "kdjK": 35.88044476937296,
         "kdjD": 57.95489519627322,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -1281,6 +1395,8 @@
         "rsi": 41.407480163988374,
         "kdjK": 53.903302034233604,
         "kdjD": 47.200306761068134,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1302,6 +1418,8 @@
         "rsi": 37.4023795048828,
         "kdjK": 27.06017596132317,
         "kdjD": 33.14201530806401,
+        "goldenCrossDate": "2026-08-14",
+        "kdAtGoldenCross": 10.810345840472937,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1323,6 +1441,8 @@
         "rsi": 43.06565799243883,
         "kdjK": 10.722925096940429,
         "kdjD": 15.887120624720895,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1347,6 +1467,8 @@
         "rsi": 34.551609540310295,
         "kdjK": 25.438586765898496,
         "kdjD": 28.95092141208505,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1368,6 +1490,8 @@
         "rsi": 35.53138892102314,
         "kdjK": 14.504832764282598,
         "kdjD": 20.015736204055226,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1389,6 +1513,8 @@
         "rsi": 39.92980270739854,
         "kdjK": 7.242101470514679,
         "kdjD": 14.52717921101556,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1413,6 +1539,8 @@
         "rsi": 40.39486520376828,
         "kdjK": 34.61317045313969,
         "kdjD": 33.03704101182815,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1434,6 +1562,8 @@
         "rsi": 40.69648050303743,
         "kdjK": 27.856347788946955,
         "kdjD": 39.956030417889,
+        "goldenCrossDate": "2026-08-07",
+        "kdAtGoldenCross": 17.420184093310063,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1455,6 +1585,8 @@
         "rsi": 39.369980353174974,
         "kdjK": 26.32515953831265,
         "kdjD": 28.674140785555338,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1479,6 +1611,8 @@
         "rsi": 37.57217188756851,
         "kdjK": 42.671172478445214,
         "kdjD": 41.39394382357802,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1500,6 +1634,8 @@
         "rsi": 37.54390118226017,
         "kdjK": 26.443492834566484,
         "kdjD": 37.81928636161139,
+        "goldenCrossDate": "2026-08-14",
+        "kdAtGoldenCross": 20.6915109114847,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1521,6 +1657,8 @@
         "rsi": 41.32441054134907,
         "kdjK": 10.425620067422997,
         "kdjD": 17.964569675588734,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1545,6 +1683,8 @@
         "rsi": 29.056221068469426,
         "kdjK": 12.743264697428888,
         "kdjD": 15.758715808969328,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -1566,6 +1706,8 @@
         "rsi": 34.70236550971214,
         "kdjK": 17.00874939356029,
         "kdjD": 24.399408874617045,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1587,6 +1729,8 @@
         "rsi": 47.137401542649414,
         "kdjK": 24.908455234821485,
         "kdjD": 44.544348021578934,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1611,6 +1755,8 @@
         "rsi": 38.90781335819521,
         "kdjK": 24.488912886435216,
         "kdjD": 37.33408987333272,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1632,6 +1778,8 @@
         "rsi": 39.52106004352736,
         "kdjK": 38.11656408901333,
         "kdjD": 48.995573493827045,
+        "goldenCrossDate": "2026-08-07",
+        "kdAtGoldenCross": 20.16467898473038,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1653,6 +1801,8 @@
         "rsi": 37.620696942747465,
         "kdjK": 24.031888450680206,
         "kdjD": 25.56680489230112,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1677,6 +1827,8 @@
         "rsi": 38.99560449926231,
         "kdjK": 12.46555375013585,
         "kdjD": 23.646654899656127,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1698,6 +1850,8 @@
         "rsi": 47.84546575828167,
         "kdjK": 48.82636958999749,
         "kdjD": 64.74530426908841,
+        "goldenCrossDate": "2026-07-17",
+        "kdAtGoldenCross": 13.947039685402395,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1719,6 +1873,8 @@
         "rsi": 53.660633048865535,
         "kdjK": 56.7678365726472,
         "kdjD": 47.48909383461684,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -1743,6 +1899,8 @@
         "rsi": 19.534925696063098,
         "kdjK": 8.128146112004409,
         "kdjD": 11.486389249396487,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -1764,6 +1922,8 @@
         "rsi": 31.06598515404022,
         "kdjK": 11.820923376488137,
         "kdjD": 17.985184044132748,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1785,6 +1945,8 @@
         "rsi": 48.80430913663594,
         "kdjK": 27.897704107126994,
         "kdjD": 52.13625366318258,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1809,6 +1971,8 @@
         "rsi": 54.80038627664972,
         "kdjK": 76.17606502278473,
         "kdjD": 68.38679054206976,
+        "goldenCrossDate": "2026-10-09",
+        "kdAtGoldenCross": 15.20024141716388,
         "rsiState": "偏强"
       },
       "week": {
@@ -1830,6 +1994,8 @@
         "rsi": 45.727870902441154,
         "kdjK": 40.882617975908815,
         "kdjD": 40.458349899710456,
+        "goldenCrossDate": "2026-07-31",
+        "kdAtGoldenCross": 22.49862176492538,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1851,6 +2017,8 @@
         "rsi": 39.152990905494356,
         "kdjK": 28.70559454028021,
         "kdjD": 24.88942125834189,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -1875,6 +2043,8 @@
         "rsi": 57.523076157861325,
         "kdjK": 55.53938564934669,
         "kdjD": 66.55227912804901,
+        "goldenCrossDate": "2026-09-21",
+        "kdAtGoldenCross": 17.205165320468055,
         "rsiState": "偏强"
       },
       "week": {
@@ -1896,6 +2066,8 @@
         "rsi": 63.474033076727785,
         "kdjK": 82.82087096747432,
         "kdjD": 81.95266116171956,
+        "goldenCrossDate": "2026-09-30",
+        "kdAtGoldenCross": 8.749395269952956,
         "rsiState": "偏强"
       },
       "month": {
@@ -1917,6 +2089,8 @@
         "rsi": 70.96263217924508,
         "kdjK": 83.36348278486109,
         "kdjD": 78.41693331163326,
+        "goldenCrossDate": "2024-03-29",
+        "kdAtGoldenCross": null,
         "rsiState": "超买"
       }
     },
@@ -1941,6 +2115,8 @@
         "rsi": 36.82420398581526,
         "kdjK": 17.135334203452693,
         "kdjD": 26.51863100760154,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -1962,6 +2138,8 @@
         "rsi": 43.864907788462794,
         "kdjK": 25.73177220207036,
         "kdjD": 34.914378819589636,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -1983,6 +2161,8 @@
         "rsi": 48.1934184018293,
         "kdjK": 49.248311583182755,
         "kdjD": 46.77703432576941,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2011,6 +2191,8 @@
         "rsi": 20.273457227090205,
         "kdjK": 15.531081086823548,
         "kdjD": 16.211015144977665,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -2032,6 +2214,8 @@
         "rsi": 28.226272105951622,
         "kdjK": 13.071571402158318,
         "kdjD": 17.304469541996326,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "month": {
@@ -2053,6 +2237,8 @@
         "rsi": 50.028197165734454,
         "kdjK": 29.537734044341242,
         "kdjD": 51.602703413443635,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -2077,6 +2263,8 @@
         "rsi": 21.532104306285206,
         "kdjK": 10.293533106662517,
         "kdjD": 14.928433284687047,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -2098,6 +2286,8 @@
         "rsi": 33.206065920347626,
         "kdjK": 19.215951015655566,
         "kdjD": 28.354110273507036,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2119,6 +2309,8 @@
         "rsi": 49.25273843320905,
         "kdjK": 31.280529726066504,
         "kdjD": 53.32721053409561,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2147,6 +2339,8 @@
         "rsi": 40.37756920775514,
         "kdjK": 29.783358405671017,
         "kdjD": 38.3592595068338,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2168,6 +2362,8 @@
         "rsi": 47.33007808341369,
         "kdjK": 30.819097313999684,
         "kdjD": 40.10908387875287,
+        "goldenCrossDate": "2026-07-10",
+        "kdAtGoldenCross": 14.006397411206763,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2189,6 +2385,8 @@
         "rsi": 47.128506393929115,
         "kdjK": 52.771361868720106,
         "kdjD": 44.718494818809575,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2213,6 +2411,8 @@
         "rsi": 39.00292759656186,
         "kdjK": 32.24219612228319,
         "kdjD": 26.56418867140234,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2234,6 +2434,8 @@
         "rsi": 39.88188576659284,
         "kdjK": 18.080106821929505,
         "kdjD": 27.786792846280832,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2255,6 +2457,8 @@
         "rsi": 48.63152302352367,
         "kdjK": 16.767131057757734,
         "kdjD": 23.805427716853348,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2279,6 +2483,8 @@
         "rsi": 24.82336504939569,
         "kdjK": 10.45794387172861,
         "kdjD": 16.3851860295911,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -2300,6 +2506,8 @@
         "rsi": 34.96335787851497,
         "kdjK": 28.538866826286363,
         "kdjD": 40.742843054674175,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2321,6 +2529,8 @@
         "rsi": 48.32191344265469,
         "kdjK": 32.70691979830646,
         "kdjD": 53.18318371388432,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2345,6 +2555,8 @@
         "rsi": 35.88168569305196,
         "kdjK": 20.31292813042545,
         "kdjD": 30.18758614729183,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2366,6 +2578,8 @@
         "rsi": 44.21076481920097,
         "kdjK": 37.60361570650262,
         "kdjD": 50.168182834135486,
+        "goldenCrossDate": "2026-07-17",
+        "kdAtGoldenCross": 9.962381662626498,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2387,6 +2601,8 @@
         "rsi": 44.7417033759297,
         "kdjK": 42.45749607940604,
         "kdjD": 37.842860482748044,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2411,6 +2627,8 @@
         "rsi": 44.21471426821049,
         "kdjK": 20.146927475098444,
         "kdjD": 31.096849191250783,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2432,6 +2650,8 @@
         "rsi": 42.427207192526495,
         "kdjK": 54.76099303567845,
         "kdjD": 59.49365054516957,
+        "goldenCrossDate": "2026-08-28",
+        "kdAtGoldenCross": 17.456616240698843,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2453,6 +2673,8 @@
         "rsi": 41.98986343416282,
         "kdjK": 23.72588872154318,
         "kdjD": 26.73320170078591,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2477,6 +2699,8 @@
         "rsi": 31.595107712172435,
         "kdjK": 13.330381129540614,
         "kdjD": 14.621888465066938,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2498,6 +2722,8 @@
         "rsi": 37.75055548752295,
         "kdjK": 19.043371357290923,
         "kdjD": 31.456005724950337,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2519,6 +2745,8 @@
         "rsi": 50.80977354311618,
         "kdjK": 19.1201240713858,
         "kdjD": 34.47529088268395,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -2543,6 +2771,8 @@
         "rsi": 38.199613182024834,
         "kdjK": 23.179371997354636,
         "kdjD": 20.738632555433924,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2564,6 +2794,8 @@
         "rsi": 36.35545202168193,
         "kdjK": 31.00930597598218,
         "kdjD": 37.81066024559124,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2585,6 +2817,8 @@
         "rsi": 45.84553686346561,
         "kdjK": 15.622113225106556,
         "kdjD": 27.193469159188094,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2609,6 +2843,8 @@
         "rsi": 54.325825517486074,
         "kdjK": 69.01140620942242,
         "kdjD": 60.44122838109317,
+        "goldenCrossDate": "2026-10-08",
+        "kdAtGoldenCross": 11.100117769513403,
         "rsiState": "偏强"
       },
       "week": {
@@ -2630,6 +2866,8 @@
         "rsi": 42.86467180709898,
         "kdjK": 35.5102482818699,
         "kdjD": 35.22815932390153,
+        "goldenCrossDate": "2026-07-31",
+        "kdAtGoldenCross": 20.896484949584806,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2651,6 +2889,8 @@
         "rsi": 35.2951453040134,
         "kdjK": 19.804720545361324,
         "kdjD": 17.93374554879665,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2675,6 +2915,8 @@
         "rsi": 61.651479667443155,
         "kdjK": 78.22885018921,
         "kdjD": 75.99754050663692,
+        "goldenCrossDate": "2026-10-08",
+        "kdAtGoldenCross": 18.466263419464454,
         "rsiState": "偏强"
       },
       "week": {
@@ -2696,6 +2938,8 @@
         "rsi": 63.648597159748086,
         "kdjK": 82.96014841478583,
         "kdjD": 79.77995463727254,
+        "goldenCrossDate": "2026-07-24",
+        "kdAtGoldenCross": 13.776621503500834,
         "rsiState": "偏强"
       },
       "month": {
@@ -2717,6 +2961,8 @@
         "rsi": 65.69977474442538,
         "kdjK": 76.86171861348123,
         "kdjD": 58.778766076415934,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -2741,6 +2987,8 @@
         "rsi": 40.74577201369466,
         "kdjK": 56.086548724264574,
         "kdjD": 43.85061818227596,
+        "goldenCrossDate": "2026-10-15",
+        "kdAtGoldenCross": 15.84161461955965,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2762,6 +3010,8 @@
         "rsi": 39.555060424223264,
         "kdjK": 19.11482889958553,
         "kdjD": 21.02581266329979,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2783,6 +3033,8 @@
         "rsi": 47.26263477345219,
         "kdjK": 23.6781535082718,
         "kdjD": 28.75693144644895,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -2807,6 +3059,8 @@
         "rsi": 58.50091274270551,
         "kdjK": 72.30346647459014,
         "kdjD": 72.4983739830447,
+        "goldenCrossDate": "2026-10-09",
+        "kdAtGoldenCross": 17.574413265449493,
         "rsiState": "偏强"
       },
       "week": {
@@ -2828,6 +3082,8 @@
         "rsi": 60.069179933298685,
         "kdjK": 74.92534235983078,
         "kdjD": 72.48227931557928,
+        "goldenCrossDate": "2026-07-31",
+        "kdAtGoldenCross": 19.811844969616253,
         "rsiState": "偏强"
       },
       "month": {
@@ -2849,6 +3105,8 @@
         "rsi": 59.373284092412604,
         "kdjK": 74.99923971875887,
         "kdjD": 62.292995784990595,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -2873,6 +3131,8 @@
         "rsi": 32.97530552327957,
         "kdjK": 25.874796736346354,
         "kdjD": 27.9526646573092,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2894,6 +3154,8 @@
         "rsi": 38.40475677619551,
         "kdjK": 24.672872888267364,
         "kdjD": 32.71743878997103,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2915,6 +3177,8 @@
         "rsi": 51.652903674360026,
         "kdjK": 31.326963654041375,
         "kdjD": 49.98307059385911,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -2939,6 +3203,8 @@
         "rsi": 41.61842890981898,
         "kdjK": 50.928469556250256,
         "kdjD": 52.40058721804877,
+        "goldenCrossDate": "2026-10-13",
+        "kdAtGoldenCross": 16.746268724855554,
         "rsiState": "偏弱"
       },
       "week": {
@@ -2960,6 +3226,8 @@
         "rsi": 39.78760123784189,
         "kdjK": 29.00450389156302,
         "kdjD": 37.820130105330584,
+        "goldenCrossDate": "2026-09-04",
+        "kdAtGoldenCross": 9.538524896803509,
         "rsiState": "偏弱"
       },
       "month": {
@@ -2981,6 +3249,8 @@
         "rsi": 43.1118963317587,
         "kdjK": 13.032692893947894,
         "kdjD": 20.848283107469157,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -3005,6 +3275,8 @@
         "rsi": 45.59181959951773,
         "kdjK": 46.3988539212836,
         "kdjD": 38.38381953717137,
+        "goldenCrossDate": "2026-10-12",
+        "kdAtGoldenCross": -1.0927355728782828,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3026,6 +3298,8 @@
         "rsi": 38.49490273266375,
         "kdjK": 15.893600407737418,
         "kdjD": 21.304165971066073,
+        "goldenCrossDate": "2026-07-24",
+        "kdAtGoldenCross": 12.077837876809575,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3047,6 +3321,8 @@
         "rsi": 43.351521051137766,
         "kdjK": 14.733278275622137,
         "kdjD": 17.283152813919493,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -3071,6 +3347,8 @@
         "rsi": 33.05229299417458,
         "kdjK": 23.469645373660384,
         "kdjD": 23.112642628523265,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3092,6 +3370,8 @@
         "rsi": 36.972887388834714,
         "kdjK": 16.65228851221657,
         "kdjD": 28.502463995714823,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3113,6 +3393,8 @@
         "rsi": 51.759060527144236,
         "kdjK": 17.36434752057378,
         "kdjD": 24.0192162439813,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -3137,6 +3419,8 @@
         "rsi": 39.77666449819667,
         "kdjK": 12.567975692453015,
         "kdjD": 24.744365099811024,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3158,6 +3442,8 @@
         "rsi": 48.838055886835825,
         "kdjK": 49.21929236438325,
         "kdjD": 65.01911250321777,
+        "goldenCrossDate": "2026-07-17",
+        "kdAtGoldenCross": 12.377436477732786,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3179,6 +3465,8 @@
         "rsi": 55.3678317362765,
         "kdjK": 61.58196582608335,
         "kdjD": 51.17893643549557,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -3203,6 +3491,8 @@
         "rsi": 34.67837948922548,
         "kdjK": 20.681249874673682,
         "kdjD": 20.62436926529312,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3224,6 +3514,8 @@
         "rsi": 30.65486644266015,
         "kdjK": 12.292171260260957,
         "kdjD": 19.96134591299946,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3245,6 +3537,8 @@
         "rsi": 41.28602652588561,
         "kdjK": 9.253472155057016,
         "kdjD": 14.560608833679995,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -3269,6 +3563,8 @@
         "rsi": 42.399281735218125,
         "kdjK": 24.1063012751142,
         "kdjD": 31.75237041772869,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3290,6 +3586,8 @@
         "rsi": 52.23597844781376,
         "kdjK": 52.460640919557285,
         "kdjD": 61.85700937258913,
+        "goldenCrossDate": "2026-07-31",
+        "kdAtGoldenCross": 15.678477541980634,
         "rsiState": "偏强"
       },
       "month": {
@@ -3311,6 +3609,8 @@
         "rsi": 65.49355640036016,
         "kdjK": 67.4684118554421,
         "kdjD": 64.35478662354947,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -3335,6 +3635,8 @@
         "rsi": 47.92536547624015,
         "kdjK": 22.68133909334714,
         "kdjD": 34.673216398719134,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3356,6 +3658,8 @@
         "rsi": 56.71985567076431,
         "kdjK": 50.42629570246696,
         "kdjD": 56.81041467023559,
+        "goldenCrossDate": "2026-06-26",
+        "kdAtGoldenCross": 5.630764676628942,
         "rsiState": "偏强"
       },
       "month": {
@@ -3377,6 +3681,8 @@
         "rsi": 65.85210256861944,
         "kdjK": 70.78875988643513,
         "kdjD": 69.05827354795838,
+        "goldenCrossDate": "2025-09-30",
+        "kdAtGoldenCross": 17.56114677512165,
         "rsiState": "偏强"
       }
     },
@@ -3401,6 +3707,8 @@
         "rsi": 24.210961484750385,
         "kdjK": 5.235729502050131,
         "kdjD": 10.758083699665539,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -3422,6 +3730,8 @@
         "rsi": 38.61539024051945,
         "kdjK": 22.25338127045162,
         "kdjD": 29.475129863766938,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3443,6 +3753,8 @@
         "rsi": 54.84323729660455,
         "kdjK": 45.06999395816962,
         "kdjD": 61.962117991330835,
+        "goldenCrossDate": "2024-03-29",
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -3467,6 +3779,8 @@
         "rsi": 49.00899370568222,
         "kdjK": 57.864274716105015,
         "kdjD": 65.73593620155492,
+        "goldenCrossDate": "2026-10-09",
+        "kdAtGoldenCross": 13.885387293023037,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3488,6 +3802,8 @@
         "rsi": 47.90879957487425,
         "kdjK": 42.69078950202018,
         "kdjD": 43.3857799210555,
+        "goldenCrossDate": "2026-08-21",
+        "kdAtGoldenCross": 10.86860569756405,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3509,6 +3825,8 @@
         "rsi": 59.08619643150605,
         "kdjK": 47.18725663887397,
         "kdjD": 52.36437820617092,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -3533,6 +3851,8 @@
         "rsi": 38.56265331860299,
         "kdjK": 27.64489863961083,
         "kdjD": 28.903388920404083,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3554,6 +3874,8 @@
         "rsi": 39.99216160511635,
         "kdjK": 21.624875017875755,
         "kdjD": 34.826380827170155,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3575,6 +3897,8 @@
         "rsi": 52.88021086641424,
         "kdjK": 32.357866096637736,
         "kdjD": 36.182879129643744,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -3599,6 +3923,8 @@
         "rsi": 25.924645367060876,
         "kdjK": 6.997614275153767,
         "kdjD": 10.480240625392472,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -3620,6 +3946,8 @@
         "rsi": 37.536898419102194,
         "kdjK": 16.42674593608533,
         "kdjD": 32.94886701700827,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3641,6 +3969,8 @@
         "rsi": 49.70221796224086,
         "kdjK": 16.669572105251405,
         "kdjD": 26.532444079485746,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -3665,6 +3995,8 @@
         "rsi": 55.3872287048969,
         "kdjK": 73.71080234165223,
         "kdjD": 63.541126831805215,
+        "goldenCrossDate": "2026-10-08",
+        "kdAtGoldenCross": 6.4989344640477285,
         "rsiState": "偏强"
       },
       "week": {
@@ -3686,6 +4018,8 @@
         "rsi": 44.785827714285006,
         "kdjK": 41.40175180529347,
         "kdjD": 39.50584326439398,
+        "goldenCrossDate": "2026-07-31",
+        "kdAtGoldenCross": 21.80926101729733,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3707,6 +4041,8 @@
         "rsi": 38.56947298026186,
         "kdjK": 25.546368557288417,
         "kdjD": 22.61167574658295,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -3731,6 +4067,8 @@
         "rsi": 40.14392586065356,
         "kdjK": 36.54995283882174,
         "kdjD": 40.086637232951965,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3752,6 +4090,8 @@
         "rsi": 34.446114025525105,
         "kdjK": 27.91254277724618,
         "kdjD": 34.718142645999116,
+        "goldenCrossDate": "2026-09-04",
+        "kdAtGoldenCross": 16.93741800801415,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3773,6 +4113,8 @@
         "rsi": 42.20051583821848,
         "kdjK": 11.838260214900483,
         "kdjD": 23.692463103890834,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -3797,6 +4139,8 @@
         "rsi": 47.885226913036526,
         "kdjK": 50.46725416092862,
         "kdjD": 55.79759973897205,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -3818,6 +4162,8 @@
         "rsi": 52.9740441663863,
         "kdjK": 39.30869705813014,
         "kdjD": 49.5103452781769,
+        "goldenCrossDate": "2026-08-21",
+        "kdAtGoldenCross": 19.325004654317908,
         "rsiState": "偏强"
       },
       "month": {
@@ -3839,6 +4185,8 @@
         "rsi": 53.854116528068744,
         "kdjK": 55.9059845209412,
         "kdjD": 58.088093075825284,
+        "goldenCrossDate": "2025-09-30",
+        "kdAtGoldenCross": 11.297484475789808,
         "rsiState": "偏强"
       }
     },
@@ -3863,6 +4211,8 @@
         "rsi": 23.635652055362968,
         "kdjK": 12.981269243977348,
         "kdjD": 16.47382839880862,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -3884,6 +4234,8 @@
         "rsi": 28.048643032058507,
         "kdjK": 12.42802463637342,
         "kdjD": 17.033575613711385,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "month": {
@@ -3905,6 +4257,8 @@
         "rsi": 39.305170053211604,
         "kdjK": 17.385931901763236,
         "kdjD": 35.541965951407036,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -3929,6 +4283,8 @@
         "rsi": 25.219736275637388,
         "kdjK": 7.635009953406323,
         "kdjD": 11.798539342819065,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -3950,6 +4306,8 @@
         "rsi": 37.26022728386382,
         "kdjK": 28.680008876509635,
         "kdjD": 41.07028510652546,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -3971,6 +4329,8 @@
         "rsi": 53.159923550253815,
         "kdjK": 35.989573587682834,
         "kdjD": 58.00212275675653,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -3995,6 +4355,8 @@
         "rsi": 23.277985432165835,
         "kdjK": 8.742697302849448,
         "kdjD": 12.407299075426836,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -4016,6 +4378,8 @@
         "rsi": 33.37998529861761,
         "kdjK": 12.998127716115354,
         "kdjD": 20.589133304831975,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4037,6 +4401,8 @@
         "rsi": 47.91626815446052,
         "kdjK": 20.317203742648204,
         "kdjD": 38.17905668204136,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -4061,6 +4427,8 @@
         "rsi": 21.54595321422792,
         "kdjK": 13.197527620673906,
         "kdjD": 18.14483408850102,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -4082,6 +4450,8 @@
         "rsi": 27.50759339751049,
         "kdjK": 9.792991446066829,
         "kdjD": 13.536406919398193,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "month": {
@@ -4103,6 +4473,8 @@
         "rsi": 40.87473476668278,
         "kdjK": 19.513171256676014,
         "kdjD": 39.75536448536084,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -4127,6 +4499,8 @@
         "rsi": 25.811312487971506,
         "kdjK": 9.556681908800767,
         "kdjD": 14.026991724393287,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -4148,6 +4522,8 @@
         "rsi": 34.721286504328134,
         "kdjK": 15.440545371221516,
         "kdjD": 22.77301850385264,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4169,6 +4545,8 @@
         "rsi": 48.850931387757775,
         "kdjK": 19.938154733615875,
         "kdjD": 37.02159646255113,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -4193,6 +4571,8 @@
         "rsi": 48.819682008169615,
         "kdjK": 41.12467384862444,
         "kdjD": 39.08954536071733,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -4214,6 +4594,8 @@
         "rsi": 35.39466974706673,
         "kdjK": 32.77989517849387,
         "kdjD": 32.18248465125032,
+        "goldenCrossDate": "2026-09-18",
+        "kdAtGoldenCross": -1.5739806571373443,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4235,6 +4617,8 @@
         "rsi": 37.69362752988912,
         "kdjK": 12.907401278152964,
         "kdjD": 22.096213000558823,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -4259,6 +4643,8 @@
         "rsi": 40.31282373928399,
         "kdjK": 23.279097346004217,
         "kdjD": 20.906034239994895,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -4280,6 +4666,8 @@
         "rsi": 43.82418694558967,
         "kdjK": 26.45149959331029,
         "kdjD": 42.528469156231864,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4301,6 +4689,8 @@
         "rsi": 52.22932800553731,
         "kdjK": 23.62898747979392,
         "kdjD": 29.224930007162556,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -4325,6 +4715,8 @@
         "rsi": 41.44047416009409,
         "kdjK": 27.205718012716652,
         "kdjD": 21.68707040925749,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -4346,6 +4738,8 @@
         "rsi": 41.6132789487263,
         "kdjK": 24.304636708763354,
         "kdjD": 38.780374285320434,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4367,6 +4761,8 @@
         "rsi": 56.71592085224181,
         "kdjK": 17.742275116340686,
         "kdjD": 28.896844460489408,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -4391,6 +4787,8 @@
         "rsi": 53.993357613677915,
         "kdjK": 74.14244086468963,
         "kdjD": 70.19511970418048,
+        "goldenCrossDate": "2026-09-30",
+        "kdAtGoldenCross": 1.9573388518298955,
         "rsiState": "偏强"
       },
       "week": {
@@ -4412,6 +4810,8 @@
         "rsi": 47.9580939522119,
         "kdjK": 34.079326613009236,
         "kdjD": 32.23919095241498,
+        "goldenCrossDate": "2026-10-09",
+        "kdAtGoldenCross": -3.7295449673098453,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4433,6 +4833,8 @@
         "rsi": 42.99641626826829,
         "kdjK": 37.51169433276121,
         "kdjD": 32.84933337202429,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -4457,6 +4859,8 @@
         "rsi": 31.017022622869234,
         "kdjK": 15.276485510028296,
         "kdjD": 17.298285187154633,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -4478,6 +4882,8 @@
         "rsi": 37.38132793926364,
         "kdjK": 17.65154349961981,
         "kdjD": 28.27752504516532,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4499,6 +4905,8 @@
         "rsi": 51.471105511113585,
         "kdjK": 20.17020664413767,
         "kdjD": 36.555489095220594,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -4523,6 +4931,8 @@
         "rsi": 21.95428746849217,
         "kdjK": 9.402558202595115,
         "kdjD": 14.08912945302031,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -4544,6 +4954,8 @@
         "rsi": 33.95875849678124,
         "kdjK": 11.724700593226542,
         "kdjD": 15.652721406586847,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4565,6 +4977,8 @@
         "rsi": 43.63237751322331,
         "kdjK": 19.739441649153235,
         "kdjD": 36.643555608085116,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       }
     },
@@ -4589,6 +5003,8 @@
         "rsi": 25.39329993485869,
         "kdjK": 11.409891317853212,
         "kdjD": 15.003031505806643,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -4610,6 +5026,8 @@
         "rsi": 38.06845190169118,
         "kdjK": 13.658764763060077,
         "kdjD": 17.709916841023716,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4631,6 +5049,8 @@
         "rsi": 50.77619574895731,
         "kdjK": 36.77870367159827,
         "kdjD": 54.948442729664286,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -4655,6 +5075,8 @@
         "rsi": 33.606928618262245,
         "kdjK": 19.772884010451637,
         "kdjD": 22.39019591260861,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "week": {
@@ -4676,6 +5098,8 @@
         "rsi": 46.80026195042932,
         "kdjK": 24.38332283542589,
         "kdjD": 31.810636668349403,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4697,6 +5121,8 @@
         "rsi": 60.09523368259797,
         "kdjK": 51.014201867784536,
         "kdjD": 64.04122131836431,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },
@@ -4721,6 +5147,8 @@
         "rsi": 25.952940819082528,
         "kdjK": 10.496485829550968,
         "kdjD": 14.856167932927441,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "超卖"
       },
       "week": {
@@ -4742,6 +5170,8 @@
         "rsi": 40.087314590339254,
         "kdjK": 17.479993594970523,
         "kdjD": 23.31871043155853,
+        "goldenCrossDate": null,
+        "kdAtGoldenCross": null,
         "rsiState": "偏弱"
       },
       "month": {
@@ -4763,6 +5193,8 @@
         "rsi": 53.62127412673452,
         "kdjK": 42.9119390517871,
         "kdjD": 59.721811640223876,
+        "goldenCrossDate": "2024-09-30",
+        "kdAtGoldenCross": null,
         "rsiState": "偏强"
       }
     },

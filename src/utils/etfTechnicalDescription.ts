@@ -3,6 +3,8 @@ export type Period = {
   macd: string; dif: number | null; dea: number | null; limitedMacdHistory: boolean; previousHistogram: number | null; previousRsi: number | null; rsi: number | null; rsiState: string
   /** KDJ(9,3,3) 的 K、D；版本 5 起才有，旧快照缺失 */
   kdjK?: number | null; kdjD?: number | null
+  /** 当前 MACD 多头周期的金叉日及当天 K−D；版本 6 起才有 */
+  goldenCrossDate?: string | null; kdAtGoldenCross?: number | null
 }
 
 export const tone = (state: string) => ['多头', '偏多', '金叉', '偏强'].includes(state) ? 'up'

@@ -74,3 +74,17 @@ test('KDJ(9,3,3)：RSV 用近 9 根最高/最低价，K、D 初值 50，不足 9
   assert.ok(s.kdjK > s.kdjD)
   assert.equal(technicalState(bars.slice(0, 8)).kdjK, null)
 })
+
+test('金叉当天 K−D：取当前多头周期的上穿日，等于截至该日计算的 K−D；死叉状态为 null', () => {
+  const closes = [...Array.from({ length: 40 }, (_, i) => 20 - i * 0.2), ...Array.from({ length: 15 }, (_, i) => 12 + i * 0.3)]
+  const bars = closes.map((c, i) => [`d${String(i).padStart(3, '0')}`, String(c), String(c), String(c + 0.1), String(c - 0.1), '1'])
+  const s = technicalState(bars)
+  assert.ok(s.dif > s.dea && s.goldenCrossDate)
+  const k = bars.findIndex(b => b[0] === s.goldenCrossDate)
+  const atCross = technicalState(bars.slice(0, k + 1)), before = technicalState(bars.slice(0, k))
+  assert.equal(atCross.macd, '金叉')
+  assert.ok(before.dif <= before.dea)
+  assert.ok(Math.abs(s.kdAtGoldenCross - (atCross.kdjK - atCross.kdjD)) < 1e-10)
+  const down = technicalState(bars.slice(0, 40))
+  assert.equal(down.goldenCrossDate, null); assert.equal(down.kdAtGoldenCross, null)
+})

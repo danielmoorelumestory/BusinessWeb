@@ -61,16 +61,16 @@ describe('MACD 金叉/死叉筛选', () => {
   });
 });
 
-describe('KDJ K−D 筛选', () => {
-  const kd = (kdjK: number | null, kdjD: number | null) => ({ asOf: '2026-11-06', close: 10, ma5: null, ma10: 9, ma20: null, dif: 1, dea: 0.5, kdjK, kdjD });
-  setReviewRecord('999201', { applicable: true, day: kd(70, 60), week: kd(50, 49), month: kd(null, null) } as unknown as ReviewRecord);
-  setReviewRecord('999202', { applicable: true, day: kd(55, 52), week: kd(50, 49), month: kd(null, null) } as unknown as ReviewRecord);
-  it('K−D 达到阈值才命中', () => {
+describe('金叉当天 K−D 筛选', () => {
+  const kd = (kdAtGoldenCross: number | null, kdjK = 50, kdjD = 60) => ({ asOf: '2026-11-06', close: 10, ma5: null, ma10: 9, ma20: null, dif: 1, dea: 0.5, kdjK, kdjD, goldenCrossDate: kdAtGoldenCross == null ? null : '2026-11-02', kdAtGoldenCross });
+  setReviewRecord('999201', { applicable: true, day: kd(8), week: kd(null), month: kd(null) } as unknown as ReviewRecord);
+  setReviewRecord('999202', { applicable: true, day: kd(3, 70, 50), week: kd(null), month: kd(null) } as unknown as ReviewRecord);
+  it('看金叉当天的 K−D，而不是当前 K−D', () => {
     expect(matchesReviewFilters('999201', ['kd:day:5.3'])).toBe(true);
     expect(matchesReviewFilters('999202', ['kd:day:5.3'])).toBe(false);
   });
-  it('缺少 KDJ 数据视为不命中，可与 MACD 组合', () => {
-    expect(matchesReviewFilters('999201', ['kd:month:5.3'])).toBe(false);
+  it('无金叉周期或缺数据视为不命中，可与其他条件组合', () => {
+    expect(matchesReviewFilters('999201', ['kd:week:5.3'])).toBe(false);
     expect(matchesReviewFilters('999201', ['kd:day:5.3', 'macd:day:golden'])).toBe(true);
     expect(matchesReviewFilters('999201', ['kd:day:5.3', 'macd:day:dead'])).toBe(false);
   });

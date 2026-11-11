@@ -44,16 +44,16 @@ export function macdCrossState(code: string, period: ReviewPeriod): 'golden' | '
   return state.dif > state.dea ? 'golden' : 'dead';
 }
 export const isMacdGolden = (code: string, period: ReviewPeriod) => macdCrossState(code, period) === 'golden';
-/** KDJ 的 K−D 是否不低于阈值（回测：K−D<5.3 的日线 MACD 金叉平均收益明显偏低）；缺数据（旧快照）返回 false。 */
-export function isKdAtLeast(code: string, period: ReviewPeriod, threshold: number): boolean {
+/** 当前处于 MACD 金叉周期，且这一轮金叉当天的 K−D 不低于阈值（与回测的入场过滤同口径）；死叉状态或缺数据（旧快照）返回 false。 */
+export function isGoldenCrossKdAtLeast(code: string, period: ReviewPeriod, threshold: number): boolean {
   const state = (calculated.get(code.trim()) ?? records[code.trim()])?.[period];
-  return !!state && state.kdjK != null && state.kdjD != null && Number.isFinite(state.kdjK) && Number.isFinite(state.kdjD) && state.kdjK - state.kdjD >= threshold;
+  return !!state && state.kdAtGoldenCross != null && Number.isFinite(state.kdAtGoldenCross) && state.kdAtGoldenCross >= threshold;
 }
-/** 选中的筛选条件全部满足；均线键如 day:10，MACD 键如 macd:week:golden / macd:month:dead，KDJ 键如 kd:day:5.3；未选择条件时返回 true。 */
+/** 选中的筛选条件全部满足；均线键如 day:10，MACD 键如 macd:week:golden / macd:month:dead，KDJ 键如 kd:day:5.3（金叉当天 K−D）；未选择条件时返回 true。 */
 export function matchesReviewFilters(code: string, filters: string[]): boolean {
   return filters.every(filter => {
     const [kind, value, cross] = filter.split(':');
-    if (kind === 'kd') return isKdAtLeast(code, value as ReviewPeriod, Number(cross));
+    if (kind === 'kd') return isGoldenCrossKdAtLeast(code, value as ReviewPeriod, Number(cross));
     if (kind === 'macd') return macdCrossState(code, value as ReviewPeriod) === (cross === 'dead' ? 'dead' : 'golden');
     return isPriceAboveMa(code, kind as ReviewPeriod, Number(value) as 5 | 10 | 20);
   });

@@ -157,7 +157,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
   // MACD 筛选：金叉 = DIF 在 DEA 之上，死叉 = DIF 在 DEA 之下；同一周期金叉/死叉互斥，与其他条件同时选中时需全部满足
   const MACD_FILTERS = (['golden', 'dead'] as const).flatMap(cross => (['day', 'week', 'month'] as const).map(period =>
     [`macd:${period}:${cross}`, `${{ day: '日线', week: '周线', month: '月线' }[period]}${cross === 'golden' ? '金叉' : '死叉'}`, cross === 'golden' ? 'DIF 在 DEA 之上（金叉后尚未死叉）' : 'DIF 在 DEA 之下（死叉后尚未金叉）'] as const));
-  // KDJ 筛选：日线 K−D ≥ 5.3（MACD 低质量金叉研究得出的阈值）
+  // KDJ 筛选：当前日线金叉周期中，金叉当天 K−D ≥ 5.3（MACD 低质量金叉研究的候选入场过滤）
   const KD_FILTER = 'kd:day:5.3';
   const selectedMaFilters = new Set<string>();
   let quotes = new Map<string, Quote>();
@@ -260,7 +260,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
       <div class="industry-etf-nav__row" aria-label="KDJ 筛选">
         <span class="filter-label">KDJ</span>
         <div class="industry-etf-nav__pills">
-          <button class="industry-etf-nav__pill${selectedMaFilters.has(KD_FILTER) ? ' is-active' : ''}" data-ma="${KD_FILTER}" type="button" title="日线 KDJ(9,3,3) 的 K 比 D 高至少 5.3。回测中，K−D 低于 5.3 时出现的日线 MACD 金叉平均收益明显偏低（2023 年前定阈值、2023 年后验证仍成立），可与“日线金叉”同时选用。历史统计，不构成投资建议。"><span>日线 K−D≥5.3</span></button>
+          <button class="industry-etf-nav__pill${selectedMaFilters.has(KD_FILTER) ? ' is-active' : ''}" data-ma="${KD_FILTER}" type="button" title="当前处于日线 MACD 金叉周期，且这一轮金叉当天收盘时 KDJ(9,3,3) 的 K 比 D 高至少 5.3（与回测的入场过滤同口径；看的是金叉当天，不是今天的 K−D）。回测中 K−D 偏低的金叉平均收益较差，但分年份不稳定、统计上尚未显著，只是候选过滤，未获得稳定样本外证据。历史统计，不构成投资建议。"><span>日线金叉日 K−D≥5.3</span></button>
         </div>
       </div>
     `;
