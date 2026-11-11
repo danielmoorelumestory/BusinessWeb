@@ -764,7 +764,8 @@ export default {
   // 定时任务（见 wrangler.jsonc 的 triggers.crons）：每个交易日 15:10、16:00 与次日 09:00。
   // 先缓存 CLS 板块涨跌（股市 lab），再抓网格标的分钟线 / 日K。
   async scheduled(controller, env) {
-    if (!['10 7 * * 1-5', '0 8 * * 1-5', '0 1 * * 1-5'].includes(controller.cron)) {
+    // 只按「分 时」识别三次行情同步，不依赖星期字段的写法（Cloudflare 可能改写它）
+    if (!/^(10 7|0 8|0 1) /.test(controller.cron)) {
       if (shouldTriggerDailyAnalysis(controller.scheduledTime)) await triggerDailyAnalysis(env);
       await syncReviewTechnical(env);
       return;
