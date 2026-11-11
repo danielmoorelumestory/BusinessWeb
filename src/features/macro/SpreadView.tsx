@@ -58,7 +58,7 @@ export function SpreadView({ data }: { data: SpreadSnapshot }): JSX.Element {
         </div>
       )}
       {trend
-        ? <TrendPanel key={trend.id} item={trend} data={data} />
+        ? <TrendPanel key={trend.id} item={trend} data={data} spreads={list} />
         : <>
           <CompareCard data={data} items={list.filter(x => x.name === item.name)} current={item.id} />
           <SpreadPanel key={item.id} data={{ ...data, rows: item.rows }} name={item.name} label={item.label ?? item.name} note={item.note} />

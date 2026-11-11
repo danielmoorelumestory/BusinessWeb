@@ -175,5 +175,7 @@ describe('10 日线规则回测', () => {
     expect(screen.getByLabelText('回测结果').textContent).toContain('10 日线规则')
     expect(screen.getByLabelText('最近的买卖').textContent).toContain('买入日')
     expect(document.body.textContent).toContain('说明文字')
+    expect(screen.getByRole('group', { name: '息差参考' }).textContent).toContain('股债息差通道')
+    expect(screen.getByRole('img', { name: '沪深300 股债息差同期走势' })).toBeTruthy()
   })
 })
