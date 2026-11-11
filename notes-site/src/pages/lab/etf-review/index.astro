@@ -36,7 +36,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     <div class="review-toolbar__header">
       <div class="review-toolbar__title">
         <span class="toolbar-title-dot"></span>
-        <span>观察池与均线筛选</span>
+        <span>观察池与均线 / MACD 筛选</span>
       </div>
       <div class="toolbar-actions">
         <button id="manage-groups" type="button">管理分组</button>
@@ -134,7 +134,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     type Quote,
     type SavedRecord,
   } from '../../../lib/grid-trading';
-  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord, isPriceAboveAllMa } from '../../../lib/review-analysis';
+  import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord, matchesReviewFilters } from '../../../lib/review-analysis';
   import { fundProfileUrl, isCatalogGroupId, subThemeCellHtml } from '../../../lib/etf-catalog-seed';
   import { fillCatalogRemarks, referenceSectionsHtml } from '../../../lib/etf-catalog-special';
   import { latestInvestmentNote } from '../../../../../src/utils/etfJudgment';
@@ -152,8 +152,10 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
   const syncInput = document.querySelector('#sync-key') as HTMLInputElement;
   const syncStatus = document.querySelector('#sync-status') as HTMLElement;
   const selectedGroupIds = new Set<string>();
-  // 均线筛选（多选，满足任一即保留）：键为「周期:均线」，如 day:10
+  // 均线筛选（多选，所选条件需全部满足）：键为「周期:均线」，如 day:10
   const MA_FILTERS = [['day:5', '日线 MA5'], ['day:10', '日线 MA10'], ['week:5', '周线 MA5'], ['week:10', '周线 MA10'], ['week:20', '周线 MA20'], ['month:5', '月线 MA5'], ['month:10', '月线 MA10']] as const;
+  // MACD 金叉筛选：DIF 在 DEA 之上；与均线条件同时选中时需全部满足
+  const MACD_FILTERS = [['macd:day', '日 MACD 金叉'], ['macd:week', '周 MACD 金叉']] as const;
   const selectedMaFilters = new Set<string>();
   let quotes = new Map<string, Quote>();
   const cloudPremiums = new Map<string, CloudPremium>();
@@ -244,6 +246,12 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
         <span class="filter-label">价格站上</span>
         <div class="industry-etf-nav__pills">
           ${MA_FILTERS.map(([key, label]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button"><span>${label}</span></button>`).join('')}
+        </div>
+      </div>
+      <div class="industry-etf-nav__row" aria-label="MACD 筛选">
+        <span class="filter-label">MACD</span>
+        <div class="industry-etf-nav__pills">
+          ${MACD_FILTERS.map(([key, label]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button" title="DIF 在 DEA 之上（金叉后尚未死叉）"><span>${label}</span></button>`).join('')}
         </div>
       </div>
     `;
@@ -405,7 +413,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     const cached = readTechnicalCache();
     for (const code of allCodes) if (cached[code]) setReviewRecord(code, cached[code].record);
     const groupCodes = filterByGroups(allCodes, meta.memberships, [...selectedGroupIds]);
-    const codes = groupCodes.filter(code => isPriceAboveAllMa(code, [...selectedMaFilters]));
+    const codes = groupCodes.filter(code => matchesReviewFilters(code, [...selectedMaFilters]));
     const groups = groupsOf();
     const watchByCode = new Map(meta.watchlist.map(item => [item.code, item]));
     renderFilters();

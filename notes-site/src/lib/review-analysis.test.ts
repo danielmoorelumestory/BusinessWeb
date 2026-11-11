@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isPriceAboveAllMa, setReviewRecord } from './review-analysis';
+import { isMacdGolden, isPriceAboveAllMa, matchesReviewFilters, setReviewRecord } from './review-analysis';
 import type { ReviewRecord } from './review-technical';
 
 const state = (close: number, ma5: number | null, ma10: number | null, ma20: number | null) =>
@@ -26,5 +26,30 @@ describe('isPriceAboveAllMa', () => {
   it('缺少均线数据的条件视为未站上', () => {
     expect(isPriceAboveAllMa('999001', ['day:5', 'month:5'])).toBe(false);
     expect(isPriceAboveAllMa('999404', ['day:5'])).toBe(false);
+  });
+});
+
+const macdState = (close: number, ma10: number, dif: number | null, dea: number | null) =>
+  ({ asOf: '2026-11-06', close, ma5: null, ma10, ma20: null, dif, dea });
+
+describe('MACD 金叉筛选', () => {
+  // 日线 DIF > DEA（金叉状态）、周线 DIF < DEA（死叉状态）
+  setReviewRecord('999101', { applicable: true, day: macdState(10, 9, 0.2, 0.1), week: macdState(10, 9, -0.1, 0.05), month: macdState(10, 9, null, null) } as unknown as ReviewRecord);
+
+  it('DIF 在 DEA 之上才算金叉', () => {
+    expect(isMacdGolden('999101', 'day')).toBe(true);
+    expect(isMacdGolden('999101', 'week')).toBe(false);
+  });
+
+  it('缺少 MACD 数据或无记录时不命中', () => {
+    expect(isMacdGolden('999101', 'month')).toBe(false);
+    expect(isMacdGolden('999405', 'day')).toBe(false);
+  });
+
+  it('与均线条件同时选中时需全部满足', () => {
+    expect(matchesReviewFilters('999101', [])).toBe(true);
+    expect(matchesReviewFilters('999101', ['macd:day', 'day:10'])).toBe(true);
+    expect(matchesReviewFilters('999101', ['macd:day', 'macd:week'])).toBe(false);
+    expect(matchesReviewFilters('999101', ['macd:week', 'day:10'])).toBe(false);
   });
 });
