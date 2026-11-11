@@ -431,7 +431,9 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     const row = (code: string, position: number, total: number) => rowHtml(code, meta, watchByCode, noteDates, position, total);
     const visibleGroups = selectedGroupIds.size ? groups.filter(group => selectedGroupIds.has(group.id)) : groups;
     const sections = visibleGroups.map(group => {
-      const inGroup = orderedGroupCodes(codes.filter(code => (meta.memberships[code] ?? []).includes(group.id)), meta.groupCodeOrder?.[group.id]);
+      // MACD优秀 未手动调整过顺序时，按回测的年化超额从高到低（数据文件里的顺序）
+      const defaultOrder = group.id === MACD_GOOD_CATALOG_GROUP_ID ? catalogGroupDef(group.id)?.items.map(item => item.code) : undefined;
+      const inGroup = orderedGroupCodes(codes.filter(code => (meta.memberships[code] ?? []).includes(group.id)), meta.groupCodeOrder?.[group.id] ?? defaultOrder);
       return sectionHtml(group.name, inGroup, row, noteDates, group.id);
     });
     // 「全部」时附上未分组；筛选分组时不展示未分组块

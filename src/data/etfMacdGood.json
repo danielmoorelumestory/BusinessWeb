@@ -1,6 +1,6 @@
 {
  "asOf": "2026-11-10",
- "rule": "MACD优秀：页面清单 ETF 用各自 MACD（12/26/9，复权价）回测，金叉次日开盘买、死叉次日开盘卖、单边 0.1% 成本，从上市后第 60 个交易日起至 2026-11-10。入选需同时满足：回测期≥3年；年化比一直持有高≥3个百分点；前、后两半段都跑赢一直持有；最大回撤更小。历史统计，不构成投资建议。",
+ "rule": "MACD优秀：页面清单 ETF 及半导体ETF 用各自 MACD（12/26/9，复权价）回测，金叉次日开盘买、死叉次日开盘卖、单边 0.1% 成本，从上市后第 60 个交易日起至 2026-11-10。入选需同时满足：回测期≥3年；年化比一直持有高≥3个百分点；前、后两半段都跑赢一直持有；最大回撤更小。按 MACD 年化减一直持有年化从高到低排序。历史统计，不构成投资建议。",
  "items": [
   {
    "code": "515790",
@@ -9,6 +9,7 @@
    "years": 5.6,
    "holdAnnual": -5.43,
    "macdAnnual": 12.06,
+   "excessAnnual": 17.49,
    "holdDrawdown": -67.07,
    "macdDrawdown": -30.55,
    "trades": 45
@@ -20,6 +21,7 @@
    "years": 5.4,
    "holdAnnual": -1.23,
    "macdAnnual": 12.78,
+   "excessAnnual": 14.0,
    "holdDrawdown": -49.36,
    "macdDrawdown": -30.72,
    "trades": 42
@@ -31,9 +33,22 @@
    "years": 4.6,
    "holdAnnual": 3.53,
    "macdAnnual": 16.73,
+   "excessAnnual": 13.19,
    "holdDrawdown": -38.27,
    "macdDrawdown": -32.51,
    "trades": 35
+  },
+  {
+   "code": "512480",
+   "name": "半导体ETF国联安",
+   "start": "2019-09-04",
+   "years": 7.2,
+   "holdAnnual": 14.33,
+   "macdAnnual": 26.53,
+   "excessAnnual": 12.2,
+   "holdDrawdown": -62.49,
+   "macdDrawdown": -27.32,
+   "trades": 60
   },
   {
    "code": "588200",
@@ -42,6 +57,7 @@
    "years": 3.8,
    "holdAnnual": 24.82,
    "macdAnnual": 35.94,
+   "excessAnnual": 11.12,
    "holdDrawdown": -54.17,
    "macdDrawdown": -31.67,
    "trades": 32
@@ -53,6 +69,7 @@
    "years": 5.2,
    "holdAnnual": -9.0,
    "macdAnnual": 1.47,
+   "excessAnnual": 10.47,
    "holdDrawdown": -55.04,
    "macdDrawdown": -30.61,
    "trades": 49
@@ -64,6 +81,7 @@
    "years": 8.9,
    "holdAnnual": -9.13,
    "macdAnnual": 1.21,
+   "excessAnnual": 10.33,
    "holdDrawdown": -65.22,
    "macdDrawdown": -44.3,
    "trades": 81
@@ -75,6 +93,7 @@
    "years": 5.5,
    "holdAnnual": -7.88,
    "macdAnnual": -0.66,
+   "excessAnnual": 7.22,
    "holdDrawdown": -61.15,
    "macdDrawdown": -42.93,
    "trades": 48
@@ -86,6 +105,7 @@
    "years": 5.5,
    "holdAnnual": -5.54,
    "macdAnnual": 1.08,
+   "excessAnnual": 6.62,
    "holdDrawdown": -67.3,
    "macdDrawdown": -44.2,
    "trades": 50
@@ -97,6 +117,7 @@
    "years": 10.0,
    "holdAnnual": -0.84,
    "macdAnnual": 5.68,
+   "excessAnnual": 6.52,
    "holdDrawdown": -45.45,
    "macdDrawdown": -30.42,
    "trades": 81
@@ -108,6 +129,7 @@
    "years": 6.4,
    "holdAnnual": 5.49,
    "macdAnnual": 10.77,
+   "excessAnnual": 5.27,
    "holdDrawdown": -41.84,
    "macdDrawdown": -28.99,
    "trades": 55
@@ -119,6 +141,7 @@
    "years": 3.8,
    "holdAnnual": 13.15,
    "macdAnnual": 17.4,
+   "excessAnnual": 4.25,
    "holdDrawdown": -48.31,
    "macdDrawdown": -27.85,
    "trades": 34
@@ -130,6 +153,7 @@
    "years": 4.9,
    "holdAnnual": -8.86,
    "macdAnnual": -4.76,
+   "excessAnnual": 4.1,
    "holdDrawdown": -53.83,
    "macdDrawdown": -37.15,
    "trades": 50
@@ -141,6 +165,7 @@
    "years": 5.3,
    "holdAnnual": -12.96,
    "macdAnnual": -9.27,
+   "excessAnnual": 3.69,
    "holdDrawdown": -58.98,
    "macdDrawdown": -46.61,
    "trades": 46
@@ -152,6 +177,7 @@
    "years": 11.0,
    "holdAnnual": 2.09,
    "macdAnnual": 5.55,
+   "excessAnnual": 3.45,
    "holdDrawdown": -44.03,
    "macdDrawdown": -40.89,
    "trades": 98
@@ -163,6 +189,7 @@
    "years": 5.4,
    "holdAnnual": -8.34,
    "macdAnnual": -5.07,
+   "excessAnnual": 3.27,
    "holdDrawdown": -50.42,
    "macdDrawdown": -35.15,
    "trades": 51
@@ -174,6 +201,7 @@
    "years": 5.4,
    "holdAnnual": 1.83,
    "macdAnnual": 4.92,
+   "excessAnnual": 3.09,
    "holdDrawdown": -57.69,
    "macdDrawdown": -53.52,
    "trades": 50
