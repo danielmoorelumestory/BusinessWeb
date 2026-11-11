@@ -135,7 +135,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     type SavedRecord,
   } from '../../../lib/grid-trading';
   import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord, matchesReviewFilters } from '../../../lib/review-analysis';
-  import { fundProfileUrl, isCatalogGroupId, subThemeCellHtml } from '../../../lib/etf-catalog-seed';
+  import { catalogGroupDef, fundProfileUrl, isCatalogGroupId, MACD_GOOD_CATALOG_GROUP_ID, subThemeCellHtml } from '../../../lib/etf-catalog-seed';
   import { fillCatalogRemarks, referenceSectionsHtml } from '../../../lib/etf-catalog-special';
   import { latestInvestmentNote } from '../../../../../src/utils/etfJudgment';
 
@@ -337,6 +337,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
             <h2 class="group-heading">${escapeHtml(title)}</h2>
             <span class="group-count">${codes.length} 只 ETF</span>
           </div>
+          ${groupId === MACD_GOOD_CATALOG_GROUP_ID ? `<p class="group-note">${escapeHtml(catalogGroupDef(groupId)?.description ?? '')}</p>` : ''}
           <div class="table-shell">
             <table class="review-table">
               <colgroup>
@@ -1359,6 +1360,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     align-items: flex-start;
     gap: 12px;
   }
+  .group-note { margin: 0; padding: 8px 20px 10px; color: #64748b; font-size: 12.5px; line-height: 1.6; border-bottom: 1px solid #eef2f7; }
   .filter-label {
     flex: none;
     width: 58px;

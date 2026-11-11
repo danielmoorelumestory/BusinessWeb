@@ -1,0 +1,182 @@
+{
+ "asOf": "2026-11-10",
+ "rule": "MACD优秀：页面清单 ETF 用各自 MACD（12/26/9，复权价）回测，金叉次日开盘买、死叉次日开盘卖、单边 0.1% 成本，从上市后第 60 个交易日起至 2026-11-10。入选需同时满足：回测期≥3年；年化比一直持有高≥3个百分点；前、后两半段都跑赢一直持有；最大回撤更小。历史统计，不构成投资建议。",
+ "items": [
+  {
+   "code": "515790",
+   "name": "光伏ETF华泰柏瑞",
+   "start": "2021-03-22",
+   "years": 5.6,
+   "holdAnnual": -5.43,
+   "macdAnnual": 12.06,
+   "holdDrawdown": -67.07,
+   "macdDrawdown": -30.55,
+   "trades": 45
+  },
+  {
+   "code": "159851",
+   "name": "金融科技ETF华宝",
+   "start": "2021-06-18",
+   "years": 5.4,
+   "holdAnnual": -1.23,
+   "macdAnnual": 12.78,
+   "holdDrawdown": -49.36,
+   "macdDrawdown": -30.72,
+   "trades": 42
+  },
+  {
+   "code": "562500",
+   "name": "机器人ETF华夏",
+   "start": "2022-03-31",
+   "years": 4.6,
+   "holdAnnual": 3.53,
+   "macdAnnual": 16.73,
+   "holdDrawdown": -38.27,
+   "macdDrawdown": -32.51,
+   "trades": 35
+  },
+  {
+   "code": "588200",
+   "name": "科创芯片ETF嘉实",
+   "start": "2023-01-19",
+   "years": 3.8,
+   "holdAnnual": 24.82,
+   "macdAnnual": 35.94,
+   "holdDrawdown": -54.17,
+   "macdDrawdown": -31.67,
+   "trades": 32
+  },
+  {
+   "code": "513130",
+   "name": "恒生科技ETF华泰柏瑞",
+   "start": "2021-08-25",
+   "years": 5.2,
+   "holdAnnual": -9.0,
+   "macdAnnual": 1.47,
+   "holdDrawdown": -55.04,
+   "macdDrawdown": -30.61,
+   "trades": 49
+  },
+  {
+   "code": "512200",
+   "name": "房地产ETF南方",
+   "start": "2017-12-25",
+   "years": 8.9,
+   "holdAnnual": -9.13,
+   "macdAnnual": 1.21,
+   "holdDrawdown": -65.22,
+   "macdDrawdown": -44.3,
+   "trades": 81
+  },
+  {
+   "code": "159852",
+   "name": "软件ETF嘉实",
+   "start": "2021-05-17",
+   "years": 5.5,
+   "holdAnnual": -7.88,
+   "macdAnnual": -0.66,
+   "holdDrawdown": -61.15,
+   "macdDrawdown": -42.93,
+   "trades": 48
+  },
+  {
+   "code": "516160",
+   "name": "新能源ETF南方",
+   "start": "2021-05-12",
+   "years": 5.5,
+   "holdAnnual": -5.54,
+   "macdAnnual": 1.08,
+   "holdDrawdown": -67.3,
+   "macdDrawdown": -44.2,
+   "trades": 50
+  },
+  {
+   "code": "512880",
+   "name": "证券ETF国泰",
+   "start": "2016-11-09",
+   "years": 10.0,
+   "holdAnnual": -0.84,
+   "macdAnnual": 5.68,
+   "holdDrawdown": -45.45,
+   "macdDrawdown": -30.42,
+   "trades": 81
+  },
+  {
+   "code": "513090",
+   "name": "香港证券ETF易方达",
+   "start": "2020-06-24",
+   "years": 6.4,
+   "holdAnnual": 5.49,
+   "macdAnnual": 10.77,
+   "holdDrawdown": -41.84,
+   "macdDrawdown": -28.99,
+   "trades": 55
+  },
+  {
+   "code": "159667",
+   "name": "工业母机ETF国泰",
+   "start": "2023-01-19",
+   "years": 3.8,
+   "holdAnnual": 13.15,
+   "macdAnnual": 17.4,
+   "holdDrawdown": -48.31,
+   "macdDrawdown": -27.85,
+   "trades": 34
+  },
+  {
+   "code": "159792",
+   "name": "港股通互联网ETF富国",
+   "start": "2021-12-28",
+   "years": 4.9,
+   "holdAnnual": -8.86,
+   "macdAnnual": -4.76,
+   "holdDrawdown": -53.83,
+   "macdDrawdown": -37.15,
+   "trades": 50
+  },
+  {
+   "code": "159883",
+   "name": "医疗器械ETF永赢",
+   "start": "2021-07-29",
+   "years": 5.3,
+   "holdAnnual": -12.96,
+   "macdAnnual": -9.27,
+   "holdDrawdown": -58.98,
+   "macdDrawdown": -46.61,
+   "trades": 46
+  },
+  {
+   "code": "512070",
+   "name": "证券保险ETF易方达",
+   "start": "2015-11-05",
+   "years": 11.0,
+   "holdAnnual": 2.09,
+   "macdAnnual": 5.55,
+   "holdDrawdown": -44.03,
+   "macdDrawdown": -40.89,
+   "trades": 98
+  },
+  {
+   "code": "159865",
+   "name": "养殖ETF国泰",
+   "start": "2021-06-04",
+   "years": 5.4,
+   "holdAnnual": -8.34,
+   "macdAnnual": -5.07,
+   "holdDrawdown": -50.42,
+   "macdDrawdown": -35.15,
+   "trades": 51
+  },
+  {
+   "code": "159869",
+   "name": "游戏ETF华夏",
+   "start": "2021-06-03",
+   "years": 5.4,
+   "holdAnnual": 1.83,
+   "macdAnnual": 4.92,
+   "holdDrawdown": -57.69,
+   "macdDrawdown": -53.52,
+   "trades": 50
+  }
+ ]
+}

@@ -8,6 +8,7 @@ import {
   broadPositioningOf,
   buildCatalogGroups,
   ensureCatalogSeed,
+  MACD_GOOD_CATALOG_GROUP_ID,
   fundProfileUrl,
   isCatalogGroupId,
   positioningOf,
@@ -57,7 +58,8 @@ describe('etf-catalog-seed', () => {
     const empty = defaultMeta('2026-10-20T00:00:00.000Z');
     const { meta: filled, changed } = ensureCatalogSeed(empty);
     expect(changed).toBe(true);
-    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(9);
+    // 9 个行业/策略/商品组 + MACD优秀
+    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(10);
     expect(filled.groups.some(group => group.id === MONEY_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.groups.some(group => group.id === BOND_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.watchlist.some(watch => watch.code === '511880')).toBe(false);
@@ -96,7 +98,8 @@ describe('etf-catalog-seed', () => {
       catalogMembershipOptOut: { '588200': ['g-catalog-ETF-01_TMT科技'] },
     };
     const again = ensureCatalogSeed(opted);
-    expect(again.meta.memberships['588200']).toEqual(['g-focus']);
+    // 588200 同时在 MACD优秀 清单中，只退出了 TMT 组
+    expect(again.meta.memberships['588200']).toEqual(['g-focus', MACD_GOOD_CATALOG_GROUP_ID]);
     expect(again.meta.memberships['588200']).not.toContain('g-catalog-ETF-01_TMT科技');
 
     const removed = {
@@ -155,5 +158,18 @@ describe('etf-catalog-seed', () => {
     const { meta } = ensureCatalogSeed(defaultMeta('2026-10-20T00:00:00.000Z'));
     const second = ensureCatalogSeed(meta);
     expect(second.changed).toBe(false);
+  });
+
+  it('MACD优秀 分组排在用户当前的 TMT 科技之前', () => {
+    const tmt = 'g-catalog-ETF-01_TMT科技';
+    const base = { ...defaultMeta('2026-11-11T00:00:00.000Z') };
+    const first = ensureCatalogSeed(base).meta;
+    const order = (meta: typeof first, id: string) => meta.groups.find(group => group.id === id)!.order;
+    expect(order(first, MACD_GOOD_CATALOG_GROUP_ID)).toBeLessThan(order(first, tmt));
+    // 用户重排过分组（TMT 排在第 2 位）后新增 MACD优秀，仍插在 TMT 前
+    const renumbered = { ...first, groups: first.groups.filter(group => group.id !== MACD_GOOD_CATALOG_GROUP_ID).map((group, index) => ({ ...group, order: group.id === tmt ? 2 : index + 10 })) };
+    const again = ensureCatalogSeed(renumbered).meta;
+    expect(order(again, MACD_GOOD_CATALOG_GROUP_ID)).toBe(1.5);
+    expect(Object.entries(again.memberships).filter(([, ids]) => ids.includes(MACD_GOOD_CATALOG_GROUP_ID)).length).toBeGreaterThan(0);
   });
 });
