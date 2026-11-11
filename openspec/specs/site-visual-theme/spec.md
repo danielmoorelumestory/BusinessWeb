@@ -2,7 +2,6 @@
 
 ## Purpose
 站点视觉主题：集中的设计令牌与冷色商务色板、状态色与行情涨跌色分离、全站系统无衬线字体、可复用的报告组件样式、文字对比度、窄屏无横向溢出、旧变量名兼容，以及品牌文件与主题一致。
-
 ## Requirements
 ### Requirement: 设计令牌集中定义，色板为冷色数据报告风格
 系统 SHALL 在 `src/index.css` 的 `:root` 中集中定义设计令牌，页面底色为冷灰蓝，卡片为白色并带 1px 浅边框、极淡阴影与 12px 圆角，主色为蓝色，按钮与标签为圆角矩形而不是胶囊，正文与次要文字为深灰蓝色系；站内组件的颜色 MUST 通过这些令牌取得，而不是各自写死。
@@ -105,12 +104,13 @@
 - **THEN** 它们不包含旧的 `#FAF6EE` 与 `#5B7B65`，并使用新色板中的浅底和蓝色
 
 ### Requirement: 换肤不改变功能与数据
-系统 SHALL 保证本次换肤不改变任何页面的功能、接口、数据与路由；所有现有自动化测试在更新与新色板相关的断言之后 MUST 通过，且 Cloudflare、Vercel、GitHub Pages 三条构建线的产物都能成功构建。
+系统 SHALL 保证换肤不改变任何页面的功能、接口、数据与路由；所有现有自动化测试在更新与新色板相关的断言之后 MUST 通过，且主站构建 `npm run build` 与发布构建 `npm run build:cloudflare` 的产物都能成功构建。
 
 #### Scenario: 功能回归
 - **WHEN** 运行前端测试、类型检查与构建
 - **THEN** 全部通过，没有功能性测试因换肤而失败
 
-#### Scenario: 三条构建线
-- **WHEN** 分别运行 `npm run build`、`npm run build:cloudflare` 与 `npm run build:pages`
-- **THEN** 三者都构建成功
+#### Scenario: 两种构建
+- **WHEN** 分别运行 `npm run build` 与 `npm run build:cloudflare`
+- **THEN** 两者都构建成功
+

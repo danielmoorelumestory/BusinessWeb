@@ -10,7 +10,7 @@
 - [x] 2.3 新增 `.github/workflows/worker-deploy.yml`：`push` 到 `main` 且路径为 `notes-site/workers/grid-trading-sync/**` 时触发，另加 `workflow_dispatch`；`permissions: contents: read`；`concurrency` 同组且不取消进行中的任务
 - [x] 2.4 工作流步骤：检出 → Node 24 → 根目录与 `notes-site/` 分别 `npm ci` → 只跑 Worker 目录的测试 → 检查密钥是否存在（缺失则失败并说明）→ `wrangler d1 execute grid-trading-sync --remote --file=schema.sql` → `wrangler deploy`（工作目录为 Worker 目录）
 - [x] 2.5 合并工作流到 `main` 后手动触发一次，确认三步都成功；失败则根据日志修正（权限不足回到 1.1）
-- [ ] 2.6 部署后在线上核对：`/note/lab/grid-trading/` 能回测、`/note/lab/grid-trading/saved` 能用同步密钥同步、`/note/lab/etf-review/` 与 `/note/lab/stock/` 正常加载数据
+- [x] 2.6 部署后在线上核对：`/note/lab/grid-trading/` 能回测、`/note/lab/grid-trading/saved` 能用同步密钥同步、`/note/lab/etf-review/` 与 `/note/lab/stock/` 正常加载数据
 
 ## 3. 入口地址固定为站内路径
 
@@ -39,5 +39,5 @@
 ## 6. 验收
 
 - [x] 6.1 运行 `npm test -- --run`、`npm run test:functions`、`npm run typecheck`、`npm run build`、`npm run build:cloudflare`，全部通过
-- [ ] 6.2 做一次端到端验证：在 Worker 里做一个无害改动（如注释）推到 `main`，确认工作流自动运行并成功，Cloudflare Pages 同时构建成功
-- [ ] 6.3 第一次自动部署后观察一个交易日，确认定时任务照常写入分钟线与板块日数据
+- [x] 6.2 做一次端到端验证：在 Worker 里做一个无害改动（如注释）推到 `main`，确认工作流自动运行并成功，Cloudflare Pages 同时构建成功
+- [x] 6.3 第一次自动部署后观察一个交易日，确认定时任务照常写入分钟线与板块日数据

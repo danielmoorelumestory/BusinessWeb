@@ -68,4 +68,4 @@
 - [x] 10.1 按规格 `site-navigation` 的「没有悬空引用」场景执行搜索，确认无匹配
 - [x] 10.2 运行 `npm test -- --run`、`npm run test:functions`、`npm run typecheck`、`npm run build`、`npm run build:cloudflare`，全部通过
 - [x] 10.3 本地预览逐项核对：`/` 显示投资页；导航四项；`/notes`、`/blog`、`/about`、`/first-book`、`/valuation`、`/watch` 正常；`/note/lab/grid-trading/`、`/note/lab/etf-review/`、`/note/lab/stock/` 正常
-- [ ] 10.4 合并到 `main`，部署后在线上抽查旧地址的 302 与首页
+- [x] 10.4 合并到 `main`，部署后在线上抽查旧地址的 302 与首页
