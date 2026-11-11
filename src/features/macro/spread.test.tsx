@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { SpreadView } from './SpreadView'
-import { average, baselineReturn, buildChannel, crossings, movingAverage, forwardReturn, sigmaOf, touchEvents, zoneOf, type SpreadRow, type SpreadSnapshot } from './spread'
+import { average, baselineReturn, buildChannel, crossings, maBacktest, movingAverage, navStats, yearlyReturns, forwardReturn, sigmaOf, touchEvents, zoneOf, type PriceRow, type SpreadRow, type SpreadSnapshot } from './spread'
 
 const day = (i: number): string => new Date(Date.UTC(2020, 0, 1 + i)).toISOString().slice(0, 10)
 const rowsOf = (spreads: number[], price = (i: number) => 100 + i): SpreadRow[] => spreads.map((s, i) => [day(i), s, price(i)])
@@ -125,5 +125,55 @@ describe('10 日均线穿越点', () => {
     const rows = rowsOf(px.map(() => 1), i => px[i])
     const ma = movingAverage(rows, 3)
     expect(crossings(rows, ma)).toEqual({ up: [3, 7], down: [5] })
+  })
+})
+
+describe('10 日线规则回测', () => {
+  const px = (closes: number[], opens?: number[]): PriceRow[] => closes.map((c, i) => [day(i), opens?.[i] ?? c, c])
+
+  it('信号日的下一天开盘成交，买入当天只算开盘到收盘，卖出当天只算昨收到开盘', () => {
+    const rows = px([10, 10, 12, 13, 9, 8], [10, 10, 11, 12.5, 12, 8.5])
+    const bt = maBacktest(rows, day(1), 2, 0)
+    // 第 2 天收盘站上，第 3 天开盘买；第 4 天收盘跌破，第 5 天开盘卖
+    expect(bt.trades).toHaveLength(1)
+    expect(bt.trades[0].buy).toBe(3)
+    expect(bt.trades[0].sell).toBe(5)
+    expect(bt.trades[0].ret).toBeCloseTo(8.5 / 12.5 - 1, 10)
+    expect(bt.nav[2]).toBe(1)
+    expect(bt.nav[3]).toBeCloseTo(13 / 12.5, 10)
+    expect(bt.nav[5]).toBeCloseTo(8.5 / 12.5, 10)
+  })
+
+  it('买卖各扣一次费用', () => {
+    const rows = px([10, 10, 12, 13, 9, 8], [10, 10, 11, 12.5, 12, 8.5])
+    const bt = maBacktest(rows, day(1), 2, 0.001)
+    expect(bt.nav[5]).toBeCloseTo((8.5 / 12.5) * 0.999 * 0.999, 10)
+    expect(bt.trades[0].ret).toBeCloseTo((8.5 / 12.5) * 0.999 * 0.999 - 1, 10)
+  })
+
+  it('最新一天的信号还没成交时，规则状态和实际持仓不同', () => {
+    const bt = maBacktest(px([10, 10, 10, 12]), day(1), 2, 0)
+    expect(bt.want).toBe(true)
+    expect(bt.holding).toBe(false)
+  })
+
+  it('回撤把起点算进高点，逐年收益首尾相接', () => {
+    const rows: PriceRow[] = [['2024-12-30', 10, 10], ['2024-12-31', 10, 8], ['2025-01-02', 8, 12]]
+    const nav = [undefined, 0.8, 1.2]
+    expect(navStats(rows, nav, 1).drawdown).toBeCloseTo(-0.2, 10)
+    const ys = yearlyReturns(rows, nav, 1)
+    expect(ys[0][1]).toBeCloseTo(-0.2, 10)
+    expect(ys[1][1]).toBeCloseTo(0.5, 10)
+  })
+
+  it('有科创50 时可切换，显示买卖点和局限说明', () => {
+    const closes = Array.from({ length: 60 }, (_, i) => 100 + 10 * Math.sin(i / 3))
+    const data: SpreadSnapshot = { generatedAt: '2026-11-11', source: 't', window: 4, k: 2, rows: rowsOf([1, 2, 3, 4, 5, 6]), trend: [{ id: 'star50', name: '科创50', note: '说明文字', start: day(12), rows: px(closes) }] }
+    render(<SpreadView data={data} />)
+    fireEvent.click(screen.getByRole('button', { name: '科创50' }))
+    expect(screen.getByRole('button', { name: '科创50' }).getAttribute('aria-pressed')).toBe('true')
+    expect(screen.getByLabelText('回测结果').textContent).toContain('10 日线规则')
+    expect(screen.getByLabelText('最近的买卖').textContent).toContain('买入日')
+    expect(document.body.textContent).toContain('说明文字')
   })
 })

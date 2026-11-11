@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { ToneBadge } from './MacroViews'
 import type { Tone } from './stages'
-import { HORIZONS, average, baselineReturn, buildChannel, crossings, forwardReturn, movingAverage, sigmaOf, touchEvents, zoneOf, type SpreadSeries, type SpreadSnapshot, type Zone } from './spread'
+import { HORIZONS, average, baselineReturn, buildChannel, crossings, forwardReturn, movingAverage, niceTicks, sigmaOf, signed, touchEvents, zoneOf, type SpreadSeries, type SpreadSnapshot, type Zone } from './spread'
+import { TrendPanel } from './TrendView'
 import './macro.css'
 
 const W = 720
@@ -19,15 +20,6 @@ const ZONE: Record<Zone, { tone: Tone; label: string; text: string }> = {
   above: { tone: 'gray', label: '中轨与上轨之间', text: '' },
   below: { tone: 'gray', label: '下轨与中轨之间', text: '' },
 }
-const signed = (v: number | undefined, d = 1): string => (v === undefined ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(d)}%`)
-const niceTicks = (lo: number, hi: number, n: number): number[] => {
-  const raw = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(raw)), f = raw / mag
-  const step = (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag
-  const out: number[] = []
-  for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(Number(v.toFixed(6)))
-  return out
-}
-
 function EventTable({ title, hint, events, data, base }: { title: string; hint: string; events: number[]; data: SpreadSnapshot; base: (number | undefined)[] }): JSX.Element {
   const rets = events.map(i => HORIZONS.map(h => forwardReturn(data.rows, i, h)))
   return (
@@ -55,15 +47,22 @@ export function SpreadView({ data }: { data: SpreadSnapshot }): JSX.Element {
   // 网址里带 index=sse50 这样的参数时，直接打开对应指数
   const [which, setWhich] = useState(() => new URLSearchParams(window.location.search).get('index') ?? 'csi300')
   const item = list.find(x => x.id === which) ?? list[0]
+  const trends = data.trend ?? []
+  const trend = trends.find(x => x.id === which)
   return (
     <div className="macro-stack">
-      {list.length > 1 && (
+      {list.length + trends.length > 1 && (
         <div className="macro-long__bar" role="group" aria-label="选择指数">
-          {list.map(x => <button key={x.id} type="button" className={`macro-long__tab${x.id === item.id ? ' is-on' : ''}`} aria-pressed={x.id === item.id} onClick={() => setWhich(x.id)}>{x.label ?? x.name}</button>)}
+          {list.map(x => <button key={x.id} type="button" className={`macro-long__tab${!trend && x.id === item.id ? ' is-on' : ''}`} aria-pressed={!trend && x.id === item.id} onClick={() => setWhich(x.id)}>{x.label ?? x.name}</button>)}
+          {trends.map(x => <button key={x.id} type="button" className={`macro-long__tab${x.id === trend?.id ? ' is-on' : ''}`} aria-pressed={x.id === trend?.id} onClick={() => setWhich(x.id)}>{x.label ?? x.name}</button>)}
         </div>
       )}
-      <CompareCard data={data} items={list.filter(x => x.name === item.name)} current={item.id} />
-      <SpreadPanel key={item.id} data={{ ...data, rows: item.rows }} name={item.name} label={item.label ?? item.name} note={item.note} />
+      {trend
+        ? <TrendPanel key={trend.id} item={trend} data={data} />
+        : <>
+          <CompareCard data={data} items={list.filter(x => x.name === item.name)} current={item.id} />
+          <SpreadPanel key={item.id} data={{ ...data, rows: item.rows }} name={item.name} label={item.label ?? item.name} note={item.note} />
+        </>}
     </div>
   )
 }
@@ -267,7 +266,7 @@ function SpreadPanel({ data, name, label, note }: { data: SpreadSnapshot; name: 
             </>
             : <li>在{name} 上按同样的算法，结果和沪深300 接近。它的成分股大多也在沪深300 里，触轨的时间也大多相同，不算另一份独立的证据。</li>}
           {note && <li>{note}</li>}
-          <li>10 日均线反映短期方向。绿点是收盘价从线下回到线上，橙点是从线上跌到线下。这类穿越一年有二三十次，大部分是来回震荡，单独看没有意义；它的用处是和上面的位置指标配合着看，比如息差已经到了便宜区，再看短期有没有止跌。这种配合用法我们没有回测过。</li>
+          <li>10 日均线反映短期方向。绿点是收盘价从线下回到线上，橙点是从线上跌到线下。这类穿越一年有二三十次，大部分是来回震荡，单独看没有意义；它的用处是和上面的位置指标配合着看，比如息差已经到了便宜区，再看短期有没有止跌。单独按它买卖我们回测过：在沪深300 上站上次日开盘买、跌破次日开盘卖，2012 年以来不计费用年化不到 1%，明显不如一直持有；和位置指标配合的用法没有回测过。</li>
           <li>200 日均线只描述趋势状态：指数在线上还是线下。我们回测过「线上持有股票、线下换成国债」的做法（2007 年至 2026 年，用含分红的指数、每月末判断一次）：年化约 8.2%，高于对照组合，但好处几乎全来自 2008 年那一次，最大回撤（−49%）也比股债各半（−40%）更深，没有被证明是可靠的择时方法。</li>
           <li>局限：样本只有十几次，每次间隔一两年；窗口和倍数是事先选定的，换一组参数结果会有出入；历史表现不代表以后。这里只给位置，不做预测。</li>
           <li>数据：{data.source}，更新于 {data.generatedAt}。更新命令：<code>npm run spread:update</code>。</li>

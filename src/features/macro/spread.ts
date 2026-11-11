@@ -14,6 +14,8 @@ export interface SpreadSnapshot {
   rows: SpreadRow[]
   /** 其他指数：同样的算法，rows 结构相同 */
   extra?: SpreadSeries[]
+  /** 只看价格和 10 日线的指数（没有息差） */
+  trend?: TrendSeries[]
 }
 
 export interface Band { mid: number; upper: number; lower: number }
@@ -102,4 +104,77 @@ export function crossings(rows: SpreadRow[], ma: (number | undefined)[]): { up: 
     if (before && !after) down.push(i)
   }
   return { up, down }
+}
+
+export const signed = (v: number | undefined, d = 1): string => (v === undefined ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(d)}%`)
+export const niceTicks = (lo: number, hi: number, n: number): number[] => {
+  const raw = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(raw)), f = raw / mag
+  const step = (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag
+  const out: number[] = []
+  for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(Number(v.toFixed(6)))
+  return out
+}
+
+export type PriceRow = [date: string, open: number, close: number]
+export interface TrendSeries { id: string; name: string; label?: string; note: string; /** 回测从这一天开始（之前的数据只用来算均线） */ start: string; rows: PriceRow[] }
+/** 一笔按规则的买卖：下标是成交日（信号日的下一个交易日），价格是当天开盘价；ret 已扣两次费用 */
+export interface MaTrade { buy: number; sell?: number; ret?: number }
+export interface MaBacktest {
+  first: number
+  trades: MaTrade[]
+  /** 每天收盘时的净值，下标与 rows 对齐，起点之前为 undefined */
+  nav: (number | undefined)[]
+  hold: (number | undefined)[]
+  /** 最新一天收盘后按规则应不应该持有，以及现在实际有没有持有 */
+  want: boolean
+  holding: boolean
+}
+
+/**
+ * 10 日线规则：收盘价高于 n 日均线（含当天）记为线上。前一天收盘在线上，今天开盘就持有；否则空仓。
+ * 也就是站上的下一个交易日开盘买、跌破的下一个交易日开盘卖。空仓拿现金，每次买或卖按 cost 扣费。
+ * 对照是从起点那天开盘买入后一直持有，不扣费。
+ */
+export function maBacktest(rows: PriceRow[], start: string, n = 10, cost = 0.001): MaBacktest {
+  const ma: (number | undefined)[] = []
+  let sum = 0
+  rows.forEach((r, i) => { sum += r[2]; if (i >= n) sum -= rows[i - n][2]; ma.push(i >= n - 1 ? sum / n : undefined) })
+  const above = (i: number): boolean => ma[i] !== undefined && rows[i][2] > ma[i]!
+  const first = Math.max(1, rows.findIndex(r => r[0] >= start))
+  const nav: (number | undefined)[] = rows.map(() => undefined), hold: (number | undefined)[] = rows.map(() => undefined)
+  const trades: MaTrade[] = []
+  let v = 1, h = 1, holding = false, entry = 1
+  for (let k = first; k < rows.length; k++) {
+    const [, open, close] = rows[k], prevClose = rows[k - 1][2], want = above(k - 1)
+    if (holding) v *= open / prevClose
+    if (want !== holding) {
+      if (want) { entry = v; trades.push({ buy: k }) } else { const t = trades[trades.length - 1]; t.sell = k; t.ret = (v * (1 - cost)) / entry - 1 }
+      v *= 1 - cost
+      holding = want
+    }
+    if (holding) v *= close / open
+    h *= k === first ? close / open : close / prevClose
+    nav[k] = v; hold[k] = h
+  }
+  return { first, trades, nav, hold, want: rows.length > 0 && above(rows.length - 1), holding }
+}
+
+/** 一条净值的年化收益和最大回撤（回撤按每天收盘算，起点净值 1 也算进高点） */
+export function navStats(rows: PriceRow[], nav: (number | undefined)[], first: number): { total: number; annual: number; drawdown: number } {
+  const last = rows.length - 1, end = nav[last] ?? 1
+  const years = (Date.parse(rows[last][0]) - Date.parse(rows[first][0])) / 86400000 / 365.25
+  let peak = 1, dd = 0
+  for (let i = first; i <= last; i++) { const x = nav[i] ?? 1; peak = Math.max(peak, x); dd = Math.min(dd, x / peak - 1) }
+  return { total: end - 1, annual: years > 0 ? (end ** (1 / years) - 1) : 0, drawdown: dd }
+}
+
+/** 按自然年拆收益：[年份, 该年收益] */
+export function yearlyReturns(rows: PriceRow[], nav: (number | undefined)[], first: number): [string, number][] {
+  const out: [string, number][] = []
+  let base = 1
+  for (let i = first; i < rows.length; i++) {
+    const y = rows[i][0].slice(0, 4)
+    if (i === rows.length - 1 || rows[i + 1][0].slice(0, 4) !== y) { out.push([y, (nav[i] ?? 1) / base - 1]); base = nav[i] ?? 1 }
+  }
+  return out
 }

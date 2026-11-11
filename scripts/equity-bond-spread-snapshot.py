@@ -44,6 +44,28 @@ def other_index(key: str, name: str, label: str, code: str, column: str, note: s
     return {"id": key, "name": name, "label": label, "note": note, "rows": rows}
 
 
+# (id, 指数名, 行情代码, 回测起点, 说明)
+TRENDS = [
+    ("star50", "科创50", "sh000688", "2020-07-23",
+     "回测从 2020-07-23 开始，这是科创50 实时行情发布的第一天，更早的数据是回溯值，只用来算均线。指数不含分红，实际交易科创50 ETF 时成交价会有偏差。"),
+]
+
+
+def trend_index(key: str, name: str, code: str, start: str, note: str) -> dict:
+    """只看价格的指数：保存每日开盘、收盘。盘中运行时当天还没收盘，去掉当天，避免用未完成的收盘价发信号。"""
+    from datetime import datetime, timedelta, timezone
+
+    px = ak.stock_zh_index_daily(symbol=code)
+    rows = [[str(d)[:10], round(float(o), 3), round(float(c), 3)] for d, o, c in zip(px["date"], px["open"], px["close"])]
+    now = datetime.now(timezone(timedelta(hours=8)))
+    if rows and rows[-1][0] == now.strftime("%Y-%m-%d") and (now.hour, now.minute) < (15, 30):
+        rows.pop()
+    if len(rows) < 500:
+        raise SystemExit(f"{name} 只取到 {len(rows)} 行，疑似上游异常，未写入")
+    print(f"{name}：{len(rows)} 行，{rows[0][0]} 至 {rows[-1][0]}")
+    return {"id": key, "name": name, "note": note, "start": start, "rows": rows}
+
+
 def main() -> None:
     df = ak.stock_ebs_lg()
     df = df.rename(columns={"日期": "date", "沪深300指数": "index", "股债利差": "spread"})
@@ -61,6 +83,7 @@ def main() -> None:
         "k": 2,
         "rows": rows,
         "extra": extra,
+        "trend": [trend_index(*item) for item in TRENDS],
     }
     OUT.write_text(json.dumps(snapshot, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     print(f"已写入 {OUT}：{len(rows)} 行，{rows[0][0]} 至 {rows[-1][0]}，最新息差 {rows[-1][1]}")
