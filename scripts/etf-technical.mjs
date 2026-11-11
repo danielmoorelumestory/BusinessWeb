@@ -27,9 +27,20 @@ export function technicalState(bars, complete = true) {
     dea += .2 * (dif - dea)
   }
   const gap = dif - dea
+  // KDJ(9,3,3)：RSV 取近 9 根（含当根）最高/最低价，K、D 初值 50；最高/最低缺失时退回收盘价。
+  const highs = bars.map((bar, i) => { const v = Number(bar[3]); return Number.isFinite(v) && v > 0 ? Math.max(v, closes[i]) : closes[i] })
+  const lows = bars.map((bar, i) => { const v = Number(bar[4]); return Number.isFinite(v) && v > 0 ? Math.min(v, closes[i]) : closes[i] })
+  let kdjK = 50, kdjD = 50
+  for (let i = 0; i < count; i++) {
+    const from = Math.max(0, i - 8), hh = Math.max(...highs.slice(from, i + 1)), ll = Math.min(...lows.slice(from, i + 1))
+    const rsv = hh > ll ? (closes[i] - ll) / (hh - ll) * 100 : 50
+    kdjK = kdjK * 2 / 3 + rsv / 3
+    kdjD = kdjD * 2 / 3 + kdjK / 3
+  }
   const macd = count < 26 ? '不足' : gap > 0 ? (previousGap <= 0 ? '金叉' : '偏多') : gap < 0 ? (previousGap >= 0 ? '死叉' : '偏空') : '中性'
   const rsi = count < 15 ? null : gain === 0 && loss === 0 ? 50 : loss === 0 ? 100 : 100 - 100 / (1 + gain / loss)
   return { asOf: bars[count - 1][0], complete, count, close, ma, ma5, ma10, ma20, macd, dif: count < 26 ? null : dif, dea: count < 26 ? null : dea, histogram: count < 26 ? null : 2 * gap, limitedMacdHistory: count >= 26 && count < 60, previousHistogram: count < 27 ? null : previousHistogram, previousRsi, rsi,
+    kdjK: count < 9 ? null : kdjK, kdjD: count < 9 ? null : kdjD,
     rsiState: rsi === null ? '不足' : rsi >= 70 ? '超买' : rsi <= 30 ? '超卖' : rsi > 50 ? '偏强' : rsi < 50 ? '偏弱' : '中性' }
 }
 

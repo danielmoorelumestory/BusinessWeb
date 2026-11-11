@@ -61,3 +61,16 @@ test('全清单覆盖，A50与已复核报告相符，暂态和不足不伪装�
   const short=archive.records.find(r=>r.month.count<15)
   assert.ok(short);assert.equal(short.month.rsi,null);assert.equal(short.month.macd,'不足')
 })
+
+test('KDJ(9,3,3)：RSV 用近 9 根最高/最低价，K、D 初值 50，不足 9 根为 null', () => {
+  const bars = Array.from({ length: 12 }, (_, i) => [`2026-01-${String(i + 1).padStart(2, '0')}`, '10', String(10 + i), String(11 + i), String(9 + i), '1'])
+  let k = 50, d = 50
+  for (let i = 0; i < bars.length; i++) {
+    const w = bars.slice(Math.max(0, i - 8), i + 1), hh = Math.max(...w.map(b => +b[3])), ll = Math.min(...w.map(b => +b[4]))
+    k = k * 2 / 3 + (+bars[i][2] - ll) / (hh - ll) * 100 / 3; d = d * 2 / 3 + k / 3
+  }
+  const s = technicalState(bars)
+  assert.ok(Math.abs(s.kdjK - k) < 1e-10 && Math.abs(s.kdjD - d) < 1e-10)
+  assert.ok(s.kdjK > s.kdjD)
+  assert.equal(technicalState(bars.slice(0, 8)).kdjK, null)
+})

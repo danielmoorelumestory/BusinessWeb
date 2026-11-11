@@ -4,7 +4,7 @@ import { describeDailyMacdEvents, type DailyMacdDescription, type PeriodUnit } f
 import { describeDailyRsiEvents, type RsiCrossDescription, type RsiUnit } from '../../../src/utils/etfDailyRsiDescription';
 import type { Period } from '../../../src/utils/etfTechnicalDescription';
 
-export const TECHNICAL_VERSION = 4;
+export const TECHNICAL_VERSION = 5;
 export type ReviewPeriod = 'day' | 'week' | 'month';
 export type ReviewCandle = { date: string; open: number; close: number; high: number; low: number };
 type PeriodEvents = { ma: ReturnType<typeof describeDailyMaEvents>; macd: DailyMacdDescription; rsi: RsiCrossDescription };
