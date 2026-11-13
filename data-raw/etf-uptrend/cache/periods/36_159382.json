@@ -1,0 +1,143 @@
+{
+ "ths_code": "36:159382",
+ "fetched_at": "2026-11-13T17:59:17+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-10",
+   "end_day": "2026-11-12",
+   "period_rise": 6.57,
+   "period_change": 0.117,
+   "main_amount_in": -523515,
+   "duration": 3,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-27",
+   "end_day": "2026-09-23",
+   "period_rise": 8.06,
+   "period_change": 0.203,
+   "main_amount_in": -22579143,
+   "duration": 20,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-09-10"
+   ]
+  },
+  {
+   "start_day": "2026-07-31",
+   "end_day": "2026-08-18",
+   "period_rise": 25.81,
+   "period_change": 0.577,
+   "main_amount_in": 19294724,
+   "duration": 13,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-08-10"
+   ]
+  },
+  {
+   "start_day": "2026-06-15",
+   "end_day": "2026-06-25",
+   "period_rise": 19.04,
+   "period_change": 0.543,
+   "main_amount_in": 5701253,
+   "duration": 8,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-05-22",
+   "end_day": "2026-06-04",
+   "period_rise": 12.81,
+   "period_change": 0.356,
+   "main_amount_in": 13656462,
+   "duration": 10,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-05-29"
+   ]
+  },
+  {
+   "start_day": "2026-05-06",
+   "end_day": "2026-05-15",
+   "period_rise": 12.3,
+   "period_change": 0.325,
+   "main_amount_in": 4299750,
+   "duration": 8,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-05-15"
+   ]
+  },
+  {
+   "start_day": "2026-04-07",
+   "end_day": "2026-04-23",
+   "period_rise": 25.39,
+   "period_change": 0.569,
+   "main_amount_in": 18118302,
+   "duration": 13,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-02-09",
+   "end_day": "2026-03-02",
+   "period_rise": 7.16,
+   "period_change": 0.162,
+   "main_amount_in": 30870688,
+   "duration": 10,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-03-02"
+   ]
+  },
+  {
+   "start_day": "2026-01-22",
+   "end_day": "2026-01-30",
+   "period_rise": 9.26,
+   "period_change": 0.209,
+   "main_amount_in": 7201038,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2025-12-19",
+   "end_day": "2026-01-15",
+   "period_rise": 16.99,
+   "period_change": 0.345,
+   "main_amount_in": -75855191,
+   "duration": 18,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2025-12-26",
+    "2025-12-29"
+   ]
+  },
+  {
+   "start_day": "2025-11-18",
+   "end_day": "2025-12-11",
+   "period_rise": 14.46,
+   "period_change": 0.259,
+   "main_amount_in": 1128109,
+   "duration": 18,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2025-12-03",
+    "2025-12-11"
+   ]
+  }
+ ]
+}

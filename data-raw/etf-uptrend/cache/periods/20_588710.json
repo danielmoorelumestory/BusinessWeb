@@ -1,0 +1,92 @@
+{
+ "ths_code": "20:588710",
+ "fetched_at": "2026-11-13T18:03:10+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 25.21,
+   "period_change": 0.151,
+   "main_amount_in": -817016400,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-15",
+   "end_day": "2026-09-23",
+   "period_rise": 13.07,
+   "period_change": 0.12,
+   "main_amount_in": -306527446,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-05",
+   "end_day": "2026-08-18",
+   "period_rise": 27.23,
+   "period_change": 0.244,
+   "main_amount_in": 264779996,
+   "duration": 10,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-08-13",
+    "2026-08-14"
+   ]
+  },
+  {
+   "start_day": "2026-06-09",
+   "end_day": "2026-07-01",
+   "period_rise": 75.09,
+   "period_change": 0.609,
+   "main_amount_in": -959237011,
+   "duration": 16,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-04-08",
+   "end_day": "2026-05-26",
+   "period_rise": 67.95,
+   "period_change": 0.371,
+   "main_amount_in": -209569622,
+   "duration": 32,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-05-22"
+   ]
+  },
+  {
+   "start_day": "2026-02-09",
+   "end_day": "2026-02-27",
+   "period_rise": 7.36,
+   "period_change": 0.044,
+   "main_amount_in": 42106974,
+   "duration": 9,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2025-11-26",
+   "end_day": "2026-01-23",
+   "period_rise": 41.09,
+   "period_change": 0.189,
+   "main_amount_in": -317267970,
+   "duration": 41,
+   "has_step_signal": true,
+   "step_signal_count": 3,
+   "step_signal_dates": [
+    "2025-12-03",
+    "2025-12-26",
+    "2026-01-22"
+   ]
+  }
+ ]
+}

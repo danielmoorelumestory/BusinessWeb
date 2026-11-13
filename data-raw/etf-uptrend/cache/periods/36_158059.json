@@ -1,0 +1,17 @@
+{
+ "ths_code": "36:158059",
+ "fetched_at": "2026-11-13T17:59:06+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-10",
+   "end_day": "2026-11-12",
+   "period_rise": 5.19,
+   "period_change": 0.036,
+   "main_amount_in": -2876667,
+   "duration": 3,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  }
+ ]
+}
