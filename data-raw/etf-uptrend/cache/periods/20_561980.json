@@ -1,0 +1,99 @@
+{
+ "ths_code": "20:561980",
+ "fetched_at": "2026-11-13T18:03:02+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 22.48,
+   "period_change": 0.098,
+   "main_amount_in": 93525247,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-15",
+   "end_day": "2026-09-23",
+   "period_rise": 10.37,
+   "period_change": 0.065,
+   "main_amount_in": 154828479,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-05",
+   "end_day": "2026-08-12",
+   "period_rise": 13.53,
+   "period_change": 0.087,
+   "main_amount_in": 159862052,
+   "duration": 6,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-07-21",
+   "end_day": "2026-07-27",
+   "period_rise": 13.2,
+   "period_change": 0.089,
+   "main_amount_in": 101570014,
+   "duration": 5,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-06-09",
+   "end_day": "2026-07-01",
+   "period_rise": 59.97,
+   "period_change": 0.349,
+   "main_amount_in": -1159895949,
+   "duration": 16,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-04-08",
+   "end_day": "2026-05-26",
+   "period_rise": 65.69,
+   "period_change": 0.268,
+   "main_amount_in": 195698805,
+   "duration": 32,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2025-12-22",
+   "end_day": "2026-01-21",
+   "period_rise": 28.02,
+   "period_change": 0.109,
+   "main_amount_in": -151274301,
+   "duration": 21,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2025-12-26"
+   ]
+  },
+  {
+   "start_day": "2025-11-26",
+   "end_day": "2025-12-15",
+   "period_rise": 7.92,
+   "period_change": 0.029,
+   "main_amount_in": 96246683,
+   "duration": 14,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2025-12-03",
+    "2025-12-11"
+   ]
+  }
+ ]
+}

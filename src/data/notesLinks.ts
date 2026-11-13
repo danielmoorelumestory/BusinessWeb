@@ -10,6 +10,9 @@ export const GRID_SAVED_PATH = '/note/lab/grid-trading/saved'
 /** ETF 复盘 hub：分组观察、每日复盘笔记；有网格的标的显示状态与盈亏 */
 export const ETF_REVIEW_PATH = '/note/lab/etf-review/'
 
+/** ETF 主升浪：同花顺主升浪榜单的每日快照（趋势回踩、新入池、分类筛选、历史上涨区间） */
+export const ETF_UPTREND_PATH = '/note/lab/etf-uptrend'
+
 /** 股市分析 lab（大涨股解读、板块轮动、板块排行），用 # 直接打开某个工具 */
 export const STOCK_LAB_BASE = '/note/lab/stock/'
 export const STOCK_ANALYSIS_PATH = `${STOCK_LAB_BASE}#stock-analysis`

@@ -1,0 +1,96 @@
+{
+ "ths_code": "20:588680",
+ "fetched_at": "2026-11-13T18:03:06+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 11.4,
+   "period_change": 0.216,
+   "main_amount_in": -995863,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-16",
+   "end_day": "2026-09-23",
+   "period_rise": 7.18,
+   "period_change": 0.178,
+   "main_amount_in": 446701,
+   "duration": 6,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-04",
+   "end_day": "2026-08-18",
+   "period_rise": 23.04,
+   "period_change": 0.518,
+   "main_amount_in": -1672230,
+   "duration": 11,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-08-13"
+   ]
+  },
+  {
+   "start_day": "2026-06-09",
+   "end_day": "2026-07-01",
+   "period_rise": 26.37,
+   "period_change": 0.642,
+   "main_amount_in": 166068,
+   "duration": 16,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-04-08",
+   "end_day": "2026-05-26",
+   "period_rise": 26.06,
+   "period_change": 0.537,
+   "main_amount_in": 1207558,
+   "duration": 32,
+   "has_step_signal": true,
+   "step_signal_count": 6,
+   "step_signal_dates": [
+    "2026-04-23",
+    "2026-04-24",
+    "2026-04-28",
+    "2026-05-14",
+    "2026-05-22",
+    "2026-05-26"
+   ]
+  },
+  {
+   "start_day": "2025-12-19",
+   "end_day": "2026-01-28",
+   "period_rise": 22.78,
+   "period_change": 0.434,
+   "main_amount_in": -17982794,
+   "duration": 27,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2025-12-30"
+   ]
+  },
+  {
+   "start_day": "2025-11-25",
+   "end_day": "2025-12-10",
+   "period_rise": 5.11,
+   "period_change": 0.094,
+   "main_amount_in": 223332,
+   "duration": 12,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2025-12-02"
+   ]
+  }
+ ]
+}

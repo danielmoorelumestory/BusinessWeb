@@ -1,0 +1,327 @@
+---
+import Base from '../../layouts/Base.astro';
+import { href } from '../../lib/url';
+
+// 数据由 .github/workflows/etf-uptrend.yml 每天采集后导出到主站 public/data/etf-uptrend/；notes 与主站同域，默认站点根 '/'。
+const mainSite = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/');
+const dataBase = `${mainSite}data/etf-uptrend/`;
+const detailUrl = href('lab/grid-trading/detail/');
+---
+
+<Base title="ETF 主升浪" current="lab" wide description="同花顺 ETF 主升浪榜单的每日快照：趋势回踩、新入池、分类筛选，单只 ETF 的历史上涨区间与来源 AI 上涨原因">
+  <div class="uptrend" id="uptrend" data-base={dataBase} data-detail-url={detailUrl}>
+    <header class="hero compact-hero">
+      <p class="kicker">ETF UPTREND</p>
+      <h1>ETF 主升浪</h1>
+      <p class="lede">同花顺「ETF 主升浪」榜单的每日快照：正处于上涨行情中的 ETF、趋势回踩与新入池标签，以及单只 ETF 的历史上涨区间和来源 AI 上涨原因。名单为来源原序，不是涨幅排行。</p>
+    </header>
+
+    <dl class="up-stats" id="stats" aria-live="polite"><div><dt>状态</dt><dd class="up-muted">加载中…</dd></div></dl>
+    <div id="banners" class="up-banners"></div>
+
+    <section class="up-card" aria-label="名单">
+      <div class="up-tabs" role="tablist" aria-label="分类" id="tabs"></div>
+      <div class="up-checks" id="checks">
+        <label><input type="checkbox" data-k="retr"> 趋势回踩</label>
+        <label><input type="checkbox" data-k="newPool"> 新入池</label>
+        <label><input type="checkbox" data-k="unique"> 同类ETF仅展示一只</label>
+        <label><input type="checkbox" data-k="entered"> 较上次新进</label>
+      </div>
+      <div class="up-toolbar">
+        <label class="up-field">快照日期 <select id="day" aria-label="快照日期"></select></label>
+        <input type="search" id="q" placeholder="搜索代码或名称" aria-label="搜索代码或名称">
+        <span class="up-count" id="count"></span>
+      </div>
+      <div class="up-table" id="table"></div>
+      <p class="up-gone" id="gone"></p>
+    </section>
+
+    <section class="up-notes">
+      <h2>口径与限制</h2>
+      <ul>
+        <li>「采集时间」是请求时间；「来源截止日」取本次新取到的在池 ETF 当前上涨区间的截止日，名单接口本身不带日期。两者不同（周末、休市、来源未更新）时，名单不代表采集日的行情。</li>
+        <li>今日涨幅、盘中累计涨幅、连续上涨天数、涨停指标需要登录才能取得，这里没有，也没有用别的数据冒充；因此只能按区间字段排序或保持来源原序。</li>
+        <li>分类（T+0、行业板块、宽基指数）和「同类ETF仅展示一只」取自同一榜单的子池与去重开关，保留哪一只由来源决定；勾选项同时生效时取交集，与来源一致。</li>
+        <li>区间列来自历史上涨区间接口，截至各自的截止日；<code>period_rise</code> 等字段按来源原值显示、单位未经核实，不等于 App 上的盘中累计涨幅。上涨原因是同花顺生成的 AI 文本，未独立核实。</li>
+        <li>「自选」只保存在本机浏览器；「较上次新进」与上一份快照比较，是本地计算。历史快照从 2026-11-13 起积累，分类数据从当晚起才有。</li>
+        <li>每天北京时间 <span id="sched">20:30</span> 自动采集，失败会在 21:30、22:30 补跑。来源：<a id="src" target="_blank" rel="noopener">同花顺 ETF 主升浪</a>。</li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import {
+    DEFAULT_FILTERS, TABS, bit, filterRows, gridDetailHref, latestPeriod, missingCats, nextSort, securityCode, sortRows, tabCount,
+    type Day, type Detail, type Filters, type SortKey, type SortState, type UptrendIndex,
+  } from '../../lib/etf-uptrend';
+
+  const root = document.querySelector('#uptrend') as HTMLElement;
+  const base = root.dataset.base!;
+  const detailUrl = root.dataset.detailUrl!;
+  const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector(s) as T;
+  const esc = (v: unknown) => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+  const fmtT = (s?: string) => (s ? s.replace('T', ' ').slice(0, 16) : '—');
+  const load = <T,>(k: string, d: T): T => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
+  const save = (k: string, v: unknown) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* 隐私模式等：只是不记住 */ } };
+
+  let index: UptrendIndex | null = null;
+  let detail: Record<string, Detail> = {};
+  const days = new Map<string, Day>();
+  let filters: Filters = { ...DEFAULT_FILTERS, ...load<Partial<Filters>>('etf-uptrend-filters', {}), q: '' };
+  if (!TABS.some(([t]) => t === filters.tab)) filters.tab = 'all';
+  let sort: SortState | null = load('etf-uptrend-sort', null);
+  const watch = new Set<string>(load<string[]>('etf-uptrend-watch', []));
+  let current = '';
+  let open: string | null = null;
+
+  async function getJson<T>(path: string): Promise<T> {
+    const res = await fetch(base + path, { cache: 'no-cache' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  }
+  async function getDay(d: string): Promise<Day | null> {
+    if (days.has(d)) return days.get(d)!;
+    try { const v = await getJson<Day>(`days/${d}.json`); days.set(d, v); return v; } catch { return null; }
+  }
+  const prevDate = (d: string) => { const ds = index!.days.map(x => x.d); const i = ds.indexOf(d); return i > 0 ? ds[i - 1] : null; };
+
+  function renderHead() {
+    const meta = index!.days.find(x => x.d === current);
+    const { last_run: lr, last_success: ls } = index!.status;
+    const latest = index!.days.at(-1)?.d;
+    const banners: string[] = [];
+    if (lr?.status === 'failed') {
+      banners.push(`<div class="up-banner warn"><b>最近一次采集失败</b>（${esc(fmtT(lr.started_at))}）：${esc(lr.message)}。下面是此前最近一次成功的数据${ls ? `（${esc(fmtT(ls.finished_at))}）` : ''}，未被覆盖。</div>`);
+    }
+    for (const n of meta?.notes ?? []) banners.push(`<div class="up-banner">${esc(n)}</div>`);
+    if (meta?.st === 'partial') banners.push(`<div class="up-banner">这份快照名单完整，但部分分类、历史区间或 AI 原因没取到，下次采集会补。</div>`);
+    $('#banners').innerHTML = banners.join('');
+    if (!meta) { $('#stats').innerHTML = `<div><dt>状态</dt><dd class="up-muted">还没有成功的快照</dd></div>`; return; }
+    const cell = (t: string, v: string, s = '') => `<div><dt>${t}</dt><dd>${v}${s ? `<small>${s}</small>` : ''}</dd></div>`;
+    $('#stats').innerHTML = [
+      cell('主升浪 ETF', `<span class="num">${meta.n.all ?? '—'}</span>`, '只'),
+      cell('趋势回踩', `<span class="num">${meta.n.trend_retracement ?? '—'}</span>`, '只'),
+      cell('新入池', `<span class="num">${meta.n.new_pool ?? '—'}</span>`, '只'),
+      cell('来源截止日', `<span class="num">${esc(meta.asof ?? '未知')}</span>`),
+      cell('采集时间', `<span class="num small">${esc(fmtT(meta.at))}</span>`, current === latest ? '' : '历史快照'),
+    ].join('');
+  }
+
+  function renderControls(day: Day) {
+    $('#tabs').innerHTML = TABS.map(([t, label]) => {
+      const c = tabCount(day, t, watch);
+      return `<button type="button" role="tab" data-t="${t}" aria-selected="${filters.tab === t}">${label}${c === null ? '' : `<span>${c}</span>`}</button>`;
+    }).join('');
+    root.querySelectorAll<HTMLInputElement>('#checks input').forEach(i => { i.checked = Boolean(filters[i.dataset.k as keyof Filters]); });
+  }
+
+  function periodCells(code: string) {
+    const lp = latestPeriod(detail[code]);
+    if (!lp) return `<td class="up-muted pending" colspan="5">区间待取</td>`;
+    return `<td>${esc(lp.start_day)}</td><td>${esc(lp.end_day)}</td><td>${esc(lp.duration ?? '—')}</td><td>${esc(lp.period_rise ?? '—')}</td><td>${esc(lp.step_signal_count ?? 0)}</td>`;
+  }
+
+  function detailHtml(code: string, name: string) {
+    const link = `<a class="up-grid-btn" href="${esc(gridDetailHref(detailUrl, securityCode(code), name))}">打开网格详情 →</a>`;
+    const d = detail[code];
+    if (!d) return `${link}<p class="up-muted">这只 ETF 的历史上涨区间还没取到，后续采集会按顺序补上。</p>`;
+    const ps = [...d.periods].sort((a, b) => (a.start_day < b.start_day ? 1 : -1));
+    let h = `<div class="up-detail-head"><h4>${esc(name)} · 历史上涨区间</h4>${link}</div><p class="up-src">同花顺历史区间接口，取数于 ${esc(fmtT(d.at))}；字段为来源原值。</p>`;
+    h += `<div class="up-subtable"><table><thead><tr><th>起</th><th>止</th><th>天数</th><th>period_rise</th><th>period_change</th><th>main_amount_in</th><th class="l">回踩日期</th></tr></thead><tbody>`;
+    for (const p of ps) h += `<tr><td>${esc(p.start_day)}</td><td>${esc(p.end_day)}</td><td>${esc(p.duration ?? '—')}</td><td>${esc(p.period_rise ?? '—')}</td><td>${esc(p.period_change ?? '—')}</td><td>${esc(p.main_amount_in ?? '—')}</td><td class="l">${(p.step_signal_dates ?? []).map(esc).join('、') || '—'}</td></tr>`;
+    h += `</tbody></table></div>`;
+    const rs = Object.entries(d.reasons ?? {}).sort((a, b) => (a[0] < b[0] ? 1 : -1));
+    if (!rs.length) return `${h}<p class="up-muted">上涨原因尚未取到。</p>`;
+    for (const [start, items] of rs) {
+      h += `<h4>上涨原因 <small>${esc(start)} 起的区间 · 同花顺 AI 生成，未独立核实</small></h4><div class="up-reasons">`;
+      h += (items ?? []).map(it => `<div><b>${esc(it.title)}</b>${esc(it.content)}</div>`).join('') || `<div class="up-muted">来源返回为空。</div>`;
+      h += `</div>`;
+    }
+    return h;
+  }
+
+  async function renderTable() {
+    const day = await getDay(current);
+    if (!day) { $('#table').innerHTML = `<p class="up-empty">这一天的快照加载失败，请稍后刷新。</p>`; return; }
+    renderControls(day);
+    const pd = prevDate(current);
+    const prev = pd ? await getDay(pd) : null;
+    const prevSet = prev ? new Set(prev.rows.map(r => r[0])) : null;
+    const rows = sortRows(filterRows(day, filters, watch, prevSet), sort, detail);
+    $('#count').textContent = `${rows.length} / ${day.rows.length} 只`;
+    const th = (k: SortKey, label: string) => {
+      const s = sort?.key === k ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none';
+      return `<th aria-sort="${s}"><button type="button" data-s="${k}">${label}</button></th>`;
+    };
+    let html = `<table><thead><tr><th class="l">ETF</th><th class="l">标签</th>${th('start', '当前区间起')}<th>区间止</th>${th('dur', '天数')}${th('rise', 'period_rise')}${th('steps', '回踩次数')}</tr></thead><tbody>`;
+    if (!rows.length) {
+      const msg = missingCats(day, filters).length ? '这份快照没有分类或去重数据（2026-11-13 晚起才采集），请换较新的快照或取消相应筛选。'
+        : filters.tab === 'watch' && !watch.size ? '还没有自选。点 ETF 名称前的 ☆ 加入；自选只存在本机浏览器里。'
+        : filters.entered && !prevSet ? '这是第一份快照，没有可比较的上一份。' : '没有符合条件的 ETF。';
+      html += `<tr><td colspan="7" class="up-empty">${msg}</td></tr>`;
+    }
+    const now = new Set(day.rows.map(r => r[0]));
+    for (const [code, name, f] of rows) {
+      const w = watch.has(code), isOpen = open === code;
+      const tags = (f & bit('trend_retracement') ? `<span class="up-tag retr">回踩</span>` : '') + (f & bit('new_pool') ? `<span class="up-tag new">新入池</span>` : '')
+        + (f & bit('t0') ? `<span class="up-tag">T+0</span>` : '') + (prevSet && !prevSet.has(code) ? `<span class="up-tag entered">较上次新进</span>` : '');
+      html += `<tr class="up-row" tabindex="0" data-c="${esc(code)}" aria-expanded="${isOpen}">`
+        + `<td class="l up-name"><div class="up-name-in"><button type="button" class="up-star" data-w="${esc(code)}" aria-pressed="${w}" aria-label="${w ? '移出' : '加入'}自选">${w ? '★' : '☆'}</button>`
+        + `<div><b>${esc(name)}</b><span class="num">${esc(securityCode(code))}</span><a class="up-grid" href="${esc(gridDetailHref(detailUrl, securityCode(code), name))}" aria-label="${esc(name)} 网格详情">网格详情</a></div>`
+        + `</div></td><td class="l">${tags}</td>${periodCells(code)}</tr>`;
+      if (isOpen) html += `<tr class="up-detail"><td colspan="7">${detailHtml(code, name)}</td></tr>`;
+    }
+    $('#table').innerHTML = `${html}</tbody></table>`;
+    const gone = prev ? prev.rows.filter(r => !now.has(r[0])) : [];
+    $('#gone').textContent = prev ? (gone.length ? `较上一份快照（${prev.d}）移出 ${gone.length} 只：${gone.map(r => r[1] || r[0]).join('、')}` : `较上一份快照（${prev.d}）没有移出。`) : '';
+  }
+
+  async function render() { renderHead(); await renderTable(); }
+  const persist = () => save('etf-uptrend-filters', { ...filters, q: '' });
+
+  $('#tabs').addEventListener('click', e => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>('button[data-t]'); if (!b) return;
+    filters.tab = b.dataset.t as Filters['tab']; persist(); renderTable();
+  });
+  $('#checks').addEventListener('change', e => {
+    const i = e.target as HTMLInputElement; const k = i.dataset.k as 'retr' | 'newPool' | 'unique' | 'entered';
+    filters[k] = i.checked; persist(); renderTable();
+  });
+  $('#q').addEventListener('input', e => { filters.q = (e.target as HTMLInputElement).value; renderTable(); });
+  $('#day').addEventListener('change', e => { current = (e.target as HTMLSelectElement).value; open = null; render(); });
+  const toggle = (tr: HTMLElement) => { const c = tr.dataset.c!; open = open === c ? null : c; renderTable(); };
+  $('#table').addEventListener('click', e => {
+    const t = e.target as HTMLElement;
+    const star = t.closest<HTMLElement>('button.up-star');
+    if (star) { const c = star.dataset.w!; watch.has(c) ? watch.delete(c) : watch.add(c); save('etf-uptrend-watch', [...watch]); renderTable(); return; }
+    const sb = t.closest<HTMLElement>('th button[data-s]');
+    if (sb) { sort = nextSort(sort, sb.dataset.s as SortKey); save('etf-uptrend-sort', sort); renderTable(); return; }
+    if (t.closest('a')) return;
+    const tr = t.closest<HTMLElement>('tr.up-row'); if (tr) toggle(tr);
+  });
+  $('#table').addEventListener('keydown', e => {
+    if ((e.target as HTMLElement).closest('button, a')) return;
+    const tr = (e.target as HTMLElement).closest<HTMLElement>('tr.up-row');
+    if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(tr); }
+  });
+
+  (async () => {
+    try {
+      index = await getJson<UptrendIndex>('index.json');
+    } catch (err) {
+      $('#stats').innerHTML = `<div><dt>状态</dt><dd class="up-muted">数据加载失败（${esc((err as Error).message)}），请稍后刷新。</dd></div>`;
+      $('#table').innerHTML = '';
+      return;
+    }
+    $('#sched').textContent = index.schedule?.time ?? '20:30';
+    ($('#src') as HTMLAnchorElement).href = index.source_page;
+    if (!index.days.length) { renderHead(); $('#table').innerHTML = `<p class="up-empty">还没有快照，首次采集后这里会出现名单。</p>`; return; }
+    current = index.days.at(-1)!.d;
+    $('#day').innerHTML = [...index.days].reverse()
+      .map(x => `<option value="${x.d}">${x.d}${x.asof && x.asof !== x.d ? `（来源截止 ${x.asof}）` : ''}</option>`).join('');
+    await render();
+    try { detail = await getJson<Record<string, Detail>>('detail.json'); } catch { /* 名单仍可用，区间列显示待取 */ }
+    await renderTable();
+  })();
+</script>
+
+<style is:global>
+  .uptrend .compact-hero { margin-bottom: 1.25rem; }
+  .uptrend .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .uptrend .up-muted { color: #94a3b8; }
+
+  .up-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 0 0 14px; }
+  .up-stats > div { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; box-shadow: 0 1px 2px rgb(15 23 42 / .04); min-width: 0; }
+  .up-stats dt { font-size: 12px; color: #64748b; }
+  .up-stats dd { margin: 4px 0 0; font-size: 22px; font-weight: 600; color: #0f172a; line-height: 1.2; }
+  .up-stats dd small { margin-left: 4px; font-size: 12px; font-weight: 400; color: #64748b; }
+  .up-stats dd .small { font-size: 15px; }
+  .up-stats dd.up-muted { font-size: 14px; font-weight: 400; }
+
+  .up-banners { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .up-banners:empty { display: none; }
+  .up-banner { border: 1px solid #bae6fd; background: #f0f9ff; color: #0c4a6e; border-radius: 10px; padding: 10px 14px; font-size: 13px; line-height: 1.6; }
+  .up-banner.warn { border-color: #fecaca; background: #fef2f2; color: #7f1d1d; }
+  .up-banner.warn b { color: #dc2626; }
+
+  .up-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; box-shadow: 0 1px 3px rgb(15 23 42 / .04); }
+  .up-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .up-tabs::-webkit-scrollbar { display: none; }
+  .up-tabs button { flex: none; border: 1px solid #e2e8f0; border-radius: 8px; padding: 7px 14px; background: #fff; color: #475569; font-size: 14px; font-weight: 500; cursor: pointer; transition: all .15s ease; }
+  .up-tabs button span { margin-left: 6px; font-family: var(--font-mono); font-size: 12px; color: #94a3b8; }
+  .up-tabs button:hover { border-color: #94a3b8; color: #0f172a; }
+  .up-tabs button[aria-selected='true'] { border-color: #0369a1; background: #f0f9ff; color: #0369a1; }
+  .up-tabs button[aria-selected='true'] span { color: #0369a1; }
+  .up-checks { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 12px 0 4px; font-size: 14px; color: #334155; }
+  .up-checks label { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+  .up-checks input { width: 16px; height: 16px; margin: 0; accent-color: #0369a1; }
+  .up-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+  .up-field { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; }
+  .up-toolbar select, .up-toolbar input { border: 1px solid #cbd5e1; border-radius: 7px; padding: 6px 10px; background: #fff; color: #0f172a; font-size: 13px; }
+  .up-toolbar input { flex: 1 1 180px; min-width: 0; max-width: 280px; }
+  .up-count { margin-left: auto; font-size: 13px; color: #64748b; }
+  .uptrend button:focus-visible, .uptrend a:focus-visible, .uptrend input:focus-visible, .uptrend select:focus-visible, .up-row:focus-visible { outline: 2px solid #0369a1; outline-offset: 2px; }
+
+  .up-table { overflow-x: auto; scrollbar-width: thin; }
+  .up-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .up-table th, .up-table td { padding: 10px 8px; text-align: right; white-space: nowrap; border-bottom: 1px solid #f1f5f9; font-variant-numeric: tabular-nums; }
+  .up-table th { font-size: 12px; font-weight: 500; color: #64748b; background: #f8fafc; }
+  .up-table .l { text-align: left; }
+  .up-table th button { border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: pointer; }
+  .up-table th button::after { content: ' ↕'; color: #cbd5e1; }
+  .up-table th[aria-sort='descending'], .up-table th[aria-sort='ascending'] { color: #0369a1; }
+  .up-table th[aria-sort='descending'] button::after { content: ' ↓'; color: inherit; }
+  .up-table th[aria-sort='ascending'] button::after { content: ' ↑'; color: inherit; }
+  .up-row { cursor: pointer; transition: background .12s ease; }
+  .up-row:hover td, .up-row[aria-expanded='true'] td { background: #f8fafc; }
+  .up-row td { font-family: var(--font-mono); color: #334155; }
+  .up-name { min-width: 14rem; width: 30%; white-space: normal !important; font-family: var(--font-sans) !important; }
+  .up-name-in { display: flex; align-items: center; gap: 4px; }
+  .up-name-in > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; flex: 1; min-width: 0; }
+  .up-name b { width: 100%; font-size: 14px; font-weight: 600; color: #0f172a; }
+  .up-name .num { font-size: 12px; color: #64748b; }
+  .up-star { border: 0; background: none; padding: 2px 6px 2px 0; font-size: 16px; line-height: 1; color: #cbd5e1; cursor: pointer; }
+  .up-star:hover { color: #f59e0b; }
+  .up-star[aria-pressed='true'] { color: #f59e0b; }
+  .up-grid { font-size: 12px; font-weight: 500; color: #0369a1; text-decoration: none; }
+  .up-grid:hover { text-decoration: underline; }
+  .up-tag { display: inline-block; margin-right: 4px; border: 1px solid #e2e8f0; border-radius: 999px; padding: 1px 8px; font-family: var(--font-sans); font-size: 11px; font-weight: 500; color: #64748b; background: #fff; }
+  .up-tag.retr { border-color: #fecaca; background: #fef2f2; color: #dc2626; }
+  .up-tag.new { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
+  .up-tag.entered { border-color: #bae6fd; background: #f0f9ff; color: #0369a1; }
+  .up-table td.pending { text-align: right; font-family: var(--font-sans); }
+  .up-empty { padding: 40px 16px !important; text-align: center !important; color: #64748b; white-space: normal !important; font-family: var(--font-sans); }
+
+  .up-detail > td { padding: 14px 16px 18px !important; background: #f8fafc; text-align: left !important; white-space: normal !important; font-family: var(--font-sans); }
+  .up-detail-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+  .up-detail h4 { margin: 12px 0 4px; font-size: 14px; font-weight: 600; color: #0f172a; }
+  .up-detail h4 small { margin-left: 6px; font-size: 12px; font-weight: 400; color: #64748b; }
+  .up-detail-head h4 { margin-top: 0; }
+  .up-src { margin: 0 0 8px; font-size: 12px; color: #64748b; }
+  .up-grid-btn { display: inline-block; border: 1px solid #0369a1; border-radius: 7px; padding: 5px 12px; background: #0369a1; color: #fff; font-size: 12px; font-weight: 500; text-decoration: none; }
+  .up-grid-btn:hover { background: #075985; }
+  .up-subtable { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; }
+  .up-subtable th, .up-subtable td { padding: 7px 10px; }
+  .up-subtable th:first-child, .up-subtable td:first-child { text-align: left; }
+  .up-subtable tr:last-child td { border-bottom: 0; }
+  .up-reasons { display: grid; gap: 8px; }
+  .up-reasons div { border-left: 3px solid #bae6fd; background: #fff; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 13px; line-height: 1.65; color: #475569; }
+  .up-reasons b { display: block; margin-bottom: 2px; color: #0f172a; }
+  .up-gone { margin: 10px 2px 0; font-size: 12px; color: #64748b; line-height: 1.6; }
+  .up-gone:empty { display: none; }
+
+  .up-notes { margin-top: 28px; font-size: 13px; line-height: 1.7; color: #64748b; }
+  .up-notes h2 { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: #0f172a; }
+  .up-notes ul { margin: 0; padding-left: 1.2em; list-style: disc; }
+  .up-notes code { border-radius: 4px; background: #f1f5f9; padding: 0 4px; color: #334155; }
+  .up-notes a { color: #0369a1; }
+
+  @media (max-width: 640px) {
+    .up-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .up-stats > div:nth-child(n+4) { grid-column: span 3; display: flex; justify-content: space-between; align-items: baseline; }
+    .up-stats dd { font-size: 19px; }
+    .up-count { margin-left: 0; }
+    .up-toolbar input { max-width: none; }
+  }
+</style>

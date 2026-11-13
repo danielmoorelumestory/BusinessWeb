@@ -1,0 +1,72 @@
+name: Update ETF uptrend
+
+on:
+  schedule:
+    # 北京时间每天 20:30 采集；21:30、22:30 为失败补跑，当天已在 20:30 之后成功采集过就自动跳过。
+    # 周末、休市也会运行：快照里会如实写明来源截止日，不当作当天行情。
+    - cron: '30 12 * * *'
+    - cron: '30 13 * * *'
+    - cron: '30 14 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: '强制重采（覆盖更新当天快照）'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: etf-uptrend
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test collector
+        run: python -m unittest discover -s scripts -p 'etf_uptrend_test.py'
+      - name: Collect THS ETF uptrend
+        id: fetch
+        shell: bash
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          status=0
+          if [ "${{ inputs.force }}" = "true" ]; then
+            python scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend run --no-page || status=1
+          else
+            python scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend run --scheduled --no-page || status=1
+          fi
+          # 失败也导出：页面要显示失败原因，并继续展示最近一次成功的数据
+          python scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend export --out public/data/etf-uptrend
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+      - name: Commit if changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          paths="public/data/etf-uptrend data-raw/etf-uptrend"
+          if git diff --quiet -- $paths && [ -z "$(git ls-files --others --exclude-standard -- $paths)" ]; then
+            echo "没有变化（当天已采集或来源未更新），不提交"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add $paths
+          git commit -m "data(etf-uptrend): 更新 ETF 主升浪快照 $(TZ=Asia/Shanghai date +%Y-%m-%d)"
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          exit 1
+      - name: Fail if collection failed
+        if: steps.fetch.outputs.status != '0'
+        run: |
+          echo "采集失败（已保留旧数据，页面会显示失败原因），详见上面步骤的日志" >&2
+          exit 1

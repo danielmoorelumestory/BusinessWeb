@@ -1,0 +1,96 @@
+{
+ "ths_code": "36:159552",
+ "fetched_at": "2026-11-13T18:06:28+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 8.81,
+   "period_change": 0.16,
+   "main_amount_in": -43887688,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-16",
+   "end_day": "2026-09-24",
+   "period_rise": 5.21,
+   "period_change": 0.115,
+   "main_amount_in": 57046334,
+   "duration": 7,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-09-24"
+   ]
+  },
+  {
+   "start_day": "2026-07-27",
+   "end_day": "2026-08-18",
+   "period_rise": 21.55,
+   "period_change": 0.417,
+   "main_amount_in": -25750813,
+   "duration": 17,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-08-13"
+   ]
+  },
+  {
+   "start_day": "2026-06-15",
+   "end_day": "2026-06-24",
+   "period_rise": 6.58,
+   "period_change": 0.146,
+   "main_amount_in": -10359957,
+   "duration": 7,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-06-24"
+   ]
+  },
+  {
+   "start_day": "2026-03-25",
+   "end_day": "2026-04-23",
+   "period_rise": 12.58,
+   "period_change": 0.256,
+   "main_amount_in": 61271177,
+   "duration": 21,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-03-31",
+    "2026-04-23"
+   ]
+  },
+  {
+   "start_day": "2026-02-06",
+   "end_day": "2026-02-27",
+   "period_rise": 5.3,
+   "period_change": 0.115,
+   "main_amount_in": -24715888,
+   "duration": 10,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-02-13"
+   ]
+  },
+  {
+   "start_day": "2025-12-19",
+   "end_day": "2026-01-27",
+   "period_rise": 16.43,
+   "period_change": 0.319,
+   "main_amount_in": -31000584,
+   "duration": 26,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2025-12-30"
+   ]
+  }
+ ]
+}

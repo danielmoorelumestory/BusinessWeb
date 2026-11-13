@@ -1,0 +1,99 @@
+{
+ "ths_code": "20:588230",
+ "fetched_at": "2026-11-13T18:00:48+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 12.1,
+   "period_change": 0.163,
+   "main_amount_in": -46858892,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-16",
+   "end_day": "2026-09-23",
+   "period_rise": 10.51,
+   "period_change": 0.182,
+   "main_amount_in": -1571708,
+   "duration": 6,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-04",
+   "end_day": "2026-08-18",
+   "period_rise": 26.19,
+   "period_change": 0.397,
+   "main_amount_in": -162240954,
+   "duration": 11,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-06-11",
+   "end_day": "2026-07-02",
+   "period_rise": 14.8,
+   "period_change": 0.287,
+   "main_amount_in": 2671569,
+   "duration": 15,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-06-23",
+    "2026-07-02"
+   ]
+  },
+  {
+   "start_day": "2026-04-07",
+   "end_day": "2026-05-20",
+   "period_rise": 30.59,
+   "period_change": 0.506,
+   "main_amount_in": -72581022,
+   "duration": 29,
+   "has_step_signal": true,
+   "step_signal_count": 3,
+   "step_signal_dates": [
+    "2026-04-23",
+    "2026-04-24",
+    "2026-05-15"
+   ]
+  },
+  {
+   "start_day": "2026-02-09",
+   "end_day": "2026-03-02",
+   "period_rise": 5.83,
+   "period_change": 0.1,
+   "main_amount_in": -22534339,
+   "duration": 10,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-02-13"
+   ]
+  },
+  {
+   "start_day": "2025-11-25",
+   "end_day": "2026-01-28",
+   "period_rise": 32.75,
+   "period_change": 0.446,
+   "main_amount_in": -167304253,
+   "duration": 45,
+   "has_step_signal": true,
+   "step_signal_count": 6,
+   "step_signal_dates": [
+    "2025-12-02",
+    "2025-12-11",
+    "2025-12-15",
+    "2025-12-30",
+    "2026-01-15",
+    "2026-01-20"
+   ]
+  }
+ ]
+}

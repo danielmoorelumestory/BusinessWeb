@@ -1,0 +1,92 @@
+{
+ "ths_code": "20:589660",
+ "fetched_at": "2026-11-13T18:05:09+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 12.23,
+   "period_change": 0.138,
+   "main_amount_in": 26067590,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-16",
+   "end_day": "2026-09-23",
+   "period_rise": 7.82,
+   "period_change": 0.116,
+   "main_amount_in": 70708539,
+   "duration": 6,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-04",
+   "end_day": "2026-08-18",
+   "period_rise": 19.82,
+   "period_change": 0.282,
+   "main_amount_in": 105394628,
+   "duration": 11,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-08-13"
+   ]
+  },
+  {
+   "start_day": "2026-06-11",
+   "end_day": "2026-07-01",
+   "period_rise": 24.03,
+   "period_change": 0.389,
+   "main_amount_in": -1882334,
+   "duration": 14,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-04-07",
+   "end_day": "2026-05-14",
+   "period_rise": 29.2,
+   "period_change": 0.381,
+   "main_amount_in": -3517061,
+   "duration": 25,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-04-23"
+   ]
+  },
+  {
+   "start_day": "2025-12-22",
+   "end_day": "2026-01-28",
+   "period_rise": 19.9,
+   "period_change": 0.25,
+   "main_amount_in": -19952279,
+   "duration": 26,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2025-12-31",
+    "2026-01-20"
+   ]
+  },
+  {
+   "start_day": "2025-11-25",
+   "end_day": "2025-12-10",
+   "period_rise": 5.16,
+   "period_change": 0.063,
+   "main_amount_in": -19960048,
+   "duration": 12,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2025-12-02"
+   ]
+  }
+ ]
+}

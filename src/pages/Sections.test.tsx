@@ -26,7 +26,7 @@ describe('InvestHub', () => {
     const group = screen.getByRole('heading', { name: '第三步观察盘' }).closest('section')
     expect(group?.closest('details')).toBeNull()
     expect(within(group as HTMLElement).getByText(/每天看一眼观察盘/)).toBeTruthy()
-    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(8)
+    expect(within(group as HTMLElement).getAllByRole('link')).toHaveLength(9)
   })
 
   it('不再有「已舍弃」分组，也没有 AI 工具入口', () => {

@@ -1,0 +1,98 @@
+{
+ "ths_code": "20:589180",
+ "fetched_at": "2026-11-13T18:04:16+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 14.03,
+   "period_change": 0.165,
+   "main_amount_in": 3300294,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-08",
+   "end_day": "2026-09-23",
+   "period_rise": 5.62,
+   "period_change": 0.093,
+   "main_amount_in": 10145996,
+   "duration": 12,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-09-11"
+   ]
+  },
+  {
+   "start_day": "2026-08-04",
+   "end_day": "2026-08-18",
+   "period_rise": 25.25,
+   "period_change": 0.385,
+   "main_amount_in": -1124530,
+   "duration": 11,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-06-09",
+   "end_day": "2026-07-02",
+   "period_rise": 32.93,
+   "period_change": 0.596,
+   "main_amount_in": -58053273,
+   "duration": 17,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-06-23",
+    "2026-07-02"
+   ]
+  },
+  {
+   "start_day": "2026-04-08",
+   "end_day": "2026-05-28",
+   "period_rise": 33.2,
+   "period_change": 0.487,
+   "main_amount_in": -1830715,
+   "duration": 34,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-05-15",
+    "2026-05-18"
+   ]
+  },
+  {
+   "start_day": "2026-02-09",
+   "end_day": "2026-03-02",
+   "period_rise": 8.19,
+   "period_change": 0.126,
+   "main_amount_in": -846455,
+   "duration": 10,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2025-11-26",
+   "end_day": "2026-01-27",
+   "period_rise": 26.36,
+   "period_change": 0.348,
+   "main_amount_in": -3057885,
+   "duration": 43,
+   "has_step_signal": true,
+   "step_signal_count": 6,
+   "step_signal_dates": [
+    "2025-12-02",
+    "2025-12-11",
+    "2025-12-31",
+    "2026-01-15",
+    "2026-01-20",
+    "2026-01-26"
+   ]
+  }
+ ]
+}

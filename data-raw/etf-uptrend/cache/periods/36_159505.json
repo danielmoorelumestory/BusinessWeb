@@ -1,0 +1,95 @@
+{
+ "ths_code": "36:159505",
+ "fetched_at": "2026-11-13T18:06:04+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-04",
+   "end_day": "2026-11-12",
+   "period_rise": 5.75,
+   "period_change": 0.077,
+   "main_amount_in": 4791159,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-16",
+   "end_day": "2026-09-23",
+   "period_rise": 5.38,
+   "period_change": 0.084,
+   "main_amount_in": -721623,
+   "duration": 6,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-03",
+   "end_day": "2026-08-18",
+   "period_rise": 14.23,
+   "period_change": 0.208,
+   "main_amount_in": -93388,
+   "duration": 12,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-08-13"
+   ]
+  },
+  {
+   "start_day": "2026-06-15",
+   "end_day": "2026-06-25",
+   "period_rise": 9.79,
+   "period_change": 0.166,
+   "main_amount_in": -1207133,
+   "duration": 8,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-03-25",
+   "end_day": "2026-05-14",
+   "period_rise": 18.74,
+   "period_change": 0.282,
+   "main_amount_in": -9770158,
+   "duration": 33,
+   "has_step_signal": true,
+   "step_signal_count": 4,
+   "step_signal_dates": [
+    "2026-03-31",
+    "2026-04-02",
+    "2026-04-23",
+    "2026-05-14"
+   ]
+  },
+  {
+   "start_day": "2026-02-06",
+   "end_day": "2026-03-02",
+   "period_rise": 7.84,
+   "period_change": 0.124,
+   "main_amount_in": 2306806,
+   "duration": 11,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-02-13"
+   ]
+  },
+  {
+   "start_day": "2025-12-17",
+   "end_day": "2026-01-28",
+   "period_rise": 20.68,
+   "period_change": 0.284,
+   "main_amount_in": 3981838,
+   "duration": 29,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-01-20",
+    "2026-01-28"
+   ]
+  }
+ ]
+}

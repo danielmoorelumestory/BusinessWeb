@@ -1,0 +1,95 @@
+{
+ "ths_code": "20:513290",
+ "fetched_at": "2026-11-13T17:59:35+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-09",
+   "end_day": "2026-11-12",
+   "period_rise": 8.9,
+   "period_change": 0.161,
+   "main_amount_in": 65971142,
+   "duration": 4,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-10-20",
+   "end_day": "2026-11-02",
+   "period_rise": 6.64,
+   "period_change": 0.116,
+   "main_amount_in": 98196796,
+   "duration": 10,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-10-26",
+    "2026-10-27"
+   ]
+  },
+  {
+   "start_day": "2026-09-18",
+   "end_day": "2026-09-30",
+   "period_rise": 8.1,
+   "period_change": 0.14,
+   "main_amount_in": 55077221,
+   "duration": 8,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-08-05",
+   "end_day": "2026-08-28",
+   "period_rise": 17.91,
+   "period_change": 0.281,
+   "main_amount_in": 30172597,
+   "duration": 18,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-08-27"
+   ]
+  },
+  {
+   "start_day": "2026-06-12",
+   "end_day": "2026-07-09",
+   "period_rise": 22.72,
+   "period_change": 0.322,
+   "main_amount_in": -106134374,
+   "duration": 19,
+   "has_step_signal": true,
+   "step_signal_count": 2,
+   "step_signal_dates": [
+    "2026-07-07",
+    "2026-07-09"
+   ]
+  },
+  {
+   "start_day": "2026-03-25",
+   "end_day": "2026-04-22",
+   "period_rise": 7.94,
+   "period_change": 0.111,
+   "main_amount_in": 60607824,
+   "duration": 20,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-04-07"
+   ]
+  },
+  {
+   "start_day": "2025-11-24",
+   "end_day": "2025-12-08",
+   "period_rise": 9.88,
+   "period_change": 0.144,
+   "main_amount_in": -112163418,
+   "duration": 11,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2025-12-08"
+   ]
+  }
+ ]
+}
