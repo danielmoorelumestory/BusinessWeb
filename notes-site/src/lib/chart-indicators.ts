@@ -49,6 +49,30 @@ export function macdEstimate(bars: { date: string; close: number }[], live: bool
   return { bull: series.dif[basis] > series.dea[basis], price, basisDate: bars[basis].date, forToday: live, lastClose: bars.at(-1)!.close };
 }
 
+/**
+ * 均线穿越临界价：第 i 天收盘后，下一交易日收盘价 P 与「含 P 的 n 日均线」比较，
+ * P ≥ (前 n−1 日收盘之和 + P) / n  ⇔  P ≥ 前 n−1 日收盘均值。所以临界价就是截至 i 的最近 n−1 日收盘均值。
+ */
+export function maCrossPriceAt(closes: number[], n: number, i: number): number | undefined {
+  if (i < n - 2 || i >= closes.length || n < 2) return undefined;
+  let sum = 0;
+  for (let k = i - n + 2; k <= i; k++) sum += closes[k];
+  return sum / (n - 1);
+}
+
+export type MaEstimate = { n: number; above: boolean; price: number; basisDate: string; forToday: boolean; lastClose: number };
+
+/** n 日线跌破 / 站上预估价，时点口径与 macdEstimate 相同；基准日收盘在均线上（含相等）时给跌破价，否则给站上价。 */
+export function maEstimate(bars: { date: string; close: number }[], n: number, live: boolean): MaEstimate | undefined {
+  const basis = bars.length - 1 - (live ? 1 : 0);
+  if (basis < n - 1) return undefined;
+  const closes = bars.map(bar => bar.close);
+  const price = maCrossPriceAt(closes, n, basis);
+  if (price === undefined || !(price > 0)) return undefined;
+  const ma = closes.slice(basis - n + 1, basis + 1).reduce((a, b) => a + b, 0) / n;
+  return { n, above: closes[basis] >= ma, price, basisDate: bars[basis].date, forToday: live, lastClose: closes.at(-1)! };
+}
+
 /** 最后一根日线是否为北京时间今天、且尚未收盘（15:00 前）。 */
 export function isLiveBar(lastDate: string | undefined, now = new Date()): boolean {
   const bj = new Date(now.getTime() + 8 * 3600e3);

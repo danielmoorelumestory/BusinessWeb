@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { etfBand, isLiveBar, macdCrossPrice, macdEstimate, macdSeries } from './chart-indicators';
+import { etfBand, isLiveBar, macdCrossPrice, macdEstimate, macdSeries, maCrossPriceAt, maEstimate } from './chart-indicators';
 
 describe('etfBand', () => {
   it('前 13 根没有完整窗口时为 null，之后为上涨路程占比', () => {
@@ -56,5 +56,28 @@ describe('macdEstimate', () => {
     expect(isLiveBar('2026-11-13', new Date('2026-11-13T05:00:00Z'))).toBe(true);   // 北京 13:00
     expect(isLiveBar('2026-11-13', new Date('2026-11-13T07:30:00Z'))).toBe(false);  // 北京 15:30
     expect(isLiveBar('2026-11-12', new Date('2026-11-13T05:00:00Z'))).toBe(false);
+  });
+});
+
+describe('maEstimate', () => {
+  const closes = [10, 10.2, 10.1, 10.4, 10.6, 10.5, 10.8, 10.9, 11, 11.2, 11.1, 11.3];
+  const bars = closes.map((close, i) => ({ date: `2026-01-${String(i + 1).padStart(2, '0')}`, close }));
+  it('临界价收盘时恰好等于新的 10 日均线', () => {
+    const p = maCrossPriceAt(closes, 10, closes.length - 1)!;
+    const next = [...closes.slice(-9), p];
+    expect(next.reduce((a, b) => a + b, 0) / 10).toBeCloseTo(p, 10);
+  });
+  it('收盘后用最后一根；盘中用前一根且对照现价', () => {
+    const after = maEstimate(bars, 10, false)!;
+    expect(after.above).toBe(true);
+    expect(after.basisDate).toBe('2026-01-12');
+    expect(after.price).toBeCloseTo(closes.slice(-9).reduce((a, b) => a + b, 0) / 9, 10);
+    const live = maEstimate(bars, 10, true)!;
+    expect(live.basisDate).toBe('2026-01-11');
+    expect(live.forToday).toBe(true);
+    expect(live.lastClose).toBe(11.3);
+  });
+  it('日线不足返回 undefined', () => {
+    expect(maEstimate(bars.slice(0, 9), 10, false)).toBeUndefined();
   });
 });
