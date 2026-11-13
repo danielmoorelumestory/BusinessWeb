@@ -1124,7 +1124,7 @@ function hardenTouch(svg: SVGSVGElement) {
  * 时间轴以 candles（显示用日线）为准，可通过 range 截取区间；区间可以早于建仓日，此时建仓前只有K线、资金线留空。
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
-export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean };
+export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean };
 
 export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true, indicators: ChartIndicators = {}) {
   const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
@@ -1138,8 +1138,9 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 副图（MACD、波段顶底）夹在价格图与资金图之间；指标用全部已取日线计算（含区间之前的预热数据），只显示区间内的部分。
   const offset = Math.max(0, candles.indexOf(bars[0]));
   const closesAll = candles.map(candle => candle.close);
-  // 10 日均线：用全部已取日线计算，区间开头也有值（调用方会多取一段预热日线）；不足 10 根时为空。
-  const ma10 = indicators.ma10 ? closesAll.map((_, i) => i >= 9 ? closesAll.slice(i - 9, i + 1).reduce((a, b) => a + b, 0) / 10 : null) : undefined;
+  // 10 / 20 日均线：用全部已取日线计算，区间开头也有值（调用方会多取一段预热日线）；不足 n 根时为空。
+  const maOf = (n: number) => closesAll.map((_, i) => i >= n - 1 ? closesAll.slice(i - n + 1, i + 1).reduce((a, b) => a + b, 0) / n : null);
+  const ma10 = indicators.ma10 ? maOf(10) : undefined, ma20 = indicators.ma20 ? maOf(20) : undefined;
   const macd = indicators.macd ? macdSeries(closesAll) : undefined, band = indicators.band ? etfBand(closesAll) : undefined;
   const panelHeight = compact ? 72 : 90, panelGap = 30;
   const priceTop = 30, priceHeight = compact ? 220 : 280;
@@ -1156,7 +1157,9 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const values = visible.flatMap(point => [point.positionValue, point.capitalUsed, point.pnl]);
   const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1, yMin = min - span * .06, yMax = max + span * .06;
   // 预计买卖线隐藏时不再参与纵轴范围。
-  const barMin = Math.min(...bars.map(bar => bar.low), ...(showGrid ? [buyLevel] : [])), barMax = Math.max(...bars.map(bar => bar.high), ...(showGrid ? [sellLevel] : []));
+  // 显示中的均线也纳入纵轴，避免区间开头均线远离K线时画出图外。
+  const maShown = [ma10, ma20].flatMap(ma => ma ? bars.map((_, index) => ma[offset + index]).filter((v): v is number => v !== null) : []);
+  const barMin = Math.min(...bars.map(bar => bar.low), ...(showGrid ? [buyLevel] : []), ...maShown), barMax = Math.max(...bars.map(bar => bar.high), ...(showGrid ? [sellLevel] : []), ...maShown);
   // 支撑/压力区间：与“K线与买卖价范围向两侧各扩 15%”有重叠的纳入纵轴（只取窗口内的部分，超出的裁剪），完全在窗口外的不撑大纵轴，改在边缘用箭头提示。
   const zoneWindow = (barMax - barMin || Math.max(barMax * .02, .01)) * .15, windowLow = barMin - zoneWindow, windowHigh = barMax + zoneWindow;
   const zones = (['support', 'resistance'] as const).flatMap(kind => (levels?.[kind] ?? []).map((level, index) => ({ kind, name: `${kind === 'support' ? 'S' : 'R'}${index + 1}`, index, ...level })));
@@ -1299,15 +1302,16 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     bandSvg = title(bandTop, '波段顶底（同花顺复现，13 日）· 低于 30 红柱 / 高于 70 绿柱', '#475569') + frame(bandTop, panelHeight)
       + guide(BAND_HIGH, DOWN_COLOR) + guide(BAND_LOW, UP_COLOR) + sticks + `<path d="${d}" fill="none" stroke="#334155" stroke-width="1.1"/>`;
   }
-  const MA10_COLOR = '#d97706';
-  let ma10Svg = '';
-  if (ma10) {
+  const MA10_COLOR = '#d97706', MA20_COLOR = '#0891b2';
+  const maPath = (ma: (number | null)[] | undefined, color: string) => {
+    if (!ma) return '';
     let d = '', pen = false;
-    bars.forEach((_, index) => { const value = ma10[offset + index]; if (value === null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${x(index).toFixed(1)},${priceY(value).toFixed(1)}`; pen = true; });
-    ma10Svg = `<path d="${d}" fill="none" stroke="${MA10_COLOR}" stroke-width="1.3" stroke-linejoin="round" opacity=".9"/>`;
-  }
+    bars.forEach((_, index) => { const value = ma[offset + index]; if (value === null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${x(index).toFixed(1)},${priceY(value).toFixed(1)}`; pen = true; });
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="1.3" stroke-linejoin="round" opacity=".9"/>`;
+  };
+  const ma10Svg = maPath(ma10, MA10_COLOR) + maPath(ma20, MA20_COLOR);
   const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(macd ? ['macd'] : []), ...(band ? ['band'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
-  svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日均线（橙）' : ''}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
+  svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
     + macdSvg + bandSvg + candleSvg + ma10Svg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
@@ -1339,14 +1343,14 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     const pctOf = (value: number) => base > 0 ? `${value >= base ? '+' : ''}${((value / base - 1) * 100).toFixed(2)}%` : '—';
     setText('open', `开 ${bar.open.toFixed(3)} ${pctOf(bar.open)}   收 ${bar.close.toFixed(3)} ${pctOf(bar.close)}`);
     setText('low', `高 ${bar.high.toFixed(3)} ${pctOf(bar.high)}   低 ${bar.low.toFixed(3)} ${pctOf(bar.low)}`);
-    const ma = ma10?.[offset + index];
-    setText('change', `涨幅 ${pctOf(bar.close)}   振幅 ${base > 0 ? ((bar.high - bar.low) / base * 100).toFixed(2) + '%' : '—'}${ma10 ? `   10日线 ${ma == null ? '—' : `${ma.toFixed(3)}（收盘${bar.close >= ma ? '在上' : '在下'}）`}` : ''}`);
+    const maText = (ma: (number | null)[] | undefined, n: number) => { if (!ma) return ''; const v = ma[offset + index]; return `   ${n}日线 ${v == null ? '—' : `${v.toFixed(3)}${bar.close >= v ? '↑' : '↓'}`}`; };
+    setText('change', `涨幅 ${pctOf(bar.close)}   振幅 ${base > 0 ? ((bar.high - bar.low) / base * 100).toFixed(2) + '%' : '—'}${maText(ma10, 10)}${maText(ma20, 20)}`);
     if (macd) { const i = offset + index; setText('macd', `MACD  DIF ${macd.dif[i].toFixed(3)}  DEA ${macd.dea[i].toFixed(3)}  柱 ${macd.hist[i].toFixed(3)}  ${macd.dif[i] > macd.dea[i] ? '多头' : '空头'}`); }
     if (band) { const value = band[offset + index]; setText('band', `波段顶底  ${value === null ? '—' : value.toFixed(3)}${value !== null && value < BAND_LOW ? '（低于 30）' : value !== null && value > BAND_HIGH ? '（高于 70）' : ''}`); }
     setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
     setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
     setText('profit', point ? `总盈亏  ${formatMoney(point.pnl)}` : '总盈亏  —');
-    const tooltipWidth = macd ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
+    const tooltipWidth = macd || (ma10 && ma20) ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
     const tooltipY = Math.max(priceTop, Math.min(plotBottom - tooltipHeight, pointerY - tooltipHeight / 2));
     tooltip.setAttribute('transform', `translate(${tooltipX},${tooltipY})`);
