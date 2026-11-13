@@ -10,6 +10,7 @@ import {
   splitCloudItems,
 } from './etf-review-meta';
 import { noteKey, readMeta, writeMeta } from './etf-review';
+import { macdCloseSignals } from './macd-signals';
 
 export type Candle = { date: string; open: number; close: number; high: number; low: number };
 export type Trade = {
@@ -1124,7 +1125,8 @@ function hardenTouch(svg: SVGSVGElement) {
  * 时间轴以 candles（显示用日线）为准，可通过 range 截取区间；区间可以早于建仓日，此时建仓前只有K线、资金线留空。
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
-export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean };
+// macdTrades：在日K上标 MACD收盘卖策略的买卖点（金叉次日开盘买、死叉当日收盘卖），调用方需传入上市以来的日线。
+export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean };
 
 export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true, indicators: ChartIndicators = {}) {
   const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
@@ -1259,6 +1261,22 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     return `<line x1="${xx.toFixed(1)}" x2="${xx.toFixed(1)}" y1="${priceY(bar.high).toFixed(1)}" y2="${priceY(bar.low).toFixed(1)}" stroke="${color}" stroke-width="1"/>`
       + `<rect x="${(xx - bodyWidth / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bodyWidth.toFixed(1)}" height="${Math.max(1, bottom - top).toFixed(1)}" fill="${color}"/>`;
   }).join('');
+  // MACD收盘卖买卖点：用全部已取日线计算（前 120 根只预热），买 ▲ 画在当日最低价下方，卖 ▼ 画在当日最高价上方；
+  // 最后一根金叉、尚未成交时画空心 ▲ 表示下一交易日开盘待买。
+  const macdTrades = indicators.macdTrades ? macdCloseSignals(candles) : undefined;
+  const TRADE_BUY = '#2563eb', TRADE_SELL = '#9333ea';
+  const barIndexOf = new Map(bars.map((bar, index) => [bar.date, index]));
+  const tradeSignalOf = new Map((macdTrades?.signals ?? []).map(signal => [signal.date, signal]));
+  const triangle = (xx: number, yy: number, up: boolean, size: number) => `M${xx.toFixed(1)},${yy.toFixed(1)}l${-size},${(up ? 1 : -1) * size * 1.6}h${size * 2}z`;
+  const markSize = Math.max(4.5, Math.min(6.5, slot * .5));
+  const tradeMarkSvg = macdTrades ? macdTrades.signals.map(signal => {
+    const index = barIndexOf.get(signal.date);
+    if (index === undefined) return '';
+    const bar = bars[index], buy = signal.side === 'buy';
+    const tip = buy ? `MACD 金叉（${signal.signalDate}）次日开盘买 ${signal.price.toFixed(3)}` : `MACD 死叉当日收盘卖 ${signal.price.toFixed(3)}${signal.ret !== undefined ? ` · 本笔 ${formatPercent(signal.ret)}` : ''}`;
+    return `<path d="${triangle(x(index), buy ? priceY(bar.low) + 4 : priceY(bar.high) - 4, buy, markSize)}" fill="${buy ? TRADE_BUY : TRADE_SELL}" stroke="#fff" stroke-width=".8"><title>${tip}</title></path>`;
+  }).join('') + (macdTrades.pendingBuy && macdTrades.pendingBuy.signalDate === bars.at(-1)!.date
+    ? `<path d="${triangle(x(count - 1), priceY(bars.at(-1)!.low) + 4, true, markSize)}" fill="#fff" stroke="${TRADE_BUY}" stroke-width="1.2"><title>MACD 金叉，下一交易日开盘待买</title></path>` : '') : '';
   // 备份点：在备份日画一条竖线（穿过两张图）并标注，便于区分备份时的数据与之后按网格续跑的走向；备份日不在区间内时不画。
   const markerIndex = marker && marker.date >= bars[0].date ? bars.findIndex(bar => bar.date >= marker.date) : -1;
   const markerSvg = marker && markerIndex >= 0
@@ -1317,11 +1335,11 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 10 日线预估价：橙色虚线，标签放右侧，避免和左侧的 MACD 标签重叠
   const ma10EstSvg = ma10Est && ma10Est.price >= priceMin && ma10Est.price <= priceMax
     ? `<line x1="${left}" x2="${width - right}" y1="${priceY(ma10Est.price).toFixed(1)}" y2="${priceY(ma10Est.price).toFixed(1)}" stroke="${MA10_COLOR}" stroke-width="1" stroke-dasharray="2 3" opacity=".9"/><text x="${width - right - 6}" y="${(priceY(ma10Est.price) - 3).toFixed(1)}" text-anchor="end" fill="${MA10_COLOR}" font-size="9" font-weight="600">10日线 ${ma10Est.forToday ? '今日' : '次日'}${ma10Est.above ? '跌破' : '站上'}价 ${ma10Est.price.toFixed(3)}</text>` : '';
-  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
+  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...(macdTrades ? ['mtrade'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
   svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
-    + macdSvg + bandSvg + candleSvg + ma10Svg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
+    + macdSvg + bandSvg + candleSvg + ma10Svg + tradeMarkSvg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
     + `<g class="chart-crosshair" visibility="hidden" pointer-events="none"><line class="crosshair-v" y1="${priceTop}" y2="${plotBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/><line class="crosshair-h" x1="${left}" x2="${width - right}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
     + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')
@@ -1359,7 +1377,10 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
     setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
     setText('profit', point ? `总盈亏  ${formatMoney(point.pnl)}` : '总盈亏  —');
-    const tooltipWidth = macd || (ma10 && ma20) ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
+    const tradeSignal = tradeSignalOf.get(bar.date);
+    setText('mtrade', tradeSignal ? (tradeSignal.side === 'buy' ? `收盘卖策略  次日开盘买 ${tradeSignal.price.toFixed(3)}` : `收盘卖策略  收盘卖 ${tradeSignal.price.toFixed(3)}${tradeSignal.ret !== undefined ? ` 本笔 ${formatPercent(tradeSignal.ret)}` : ''}`)
+      : macdTrades?.pendingBuy?.signalDate === bar.date ? '收盘卖策略  金叉，次日开盘待买' : '收盘卖策略  —');
+    const tooltipWidth = macd || macdTrades || (ma10 && ma20) ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
     const tooltipY = Math.max(priceTop, Math.min(plotBottom - tooltipHeight, pointerY - tooltipHeight / 2));
     tooltip.setAttribute('transform', `translate(${tooltipX},${tooltipY})`);
