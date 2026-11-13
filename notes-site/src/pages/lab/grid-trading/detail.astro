@@ -14,7 +14,7 @@ const etfReviewUrl = href('lab/etf-review');
   </div>
   <section id="stats" class="stats"></section>
   <section class="chart-panel">
-    <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="kline-swatch up"></span>涨 <span class="kline-swatch down"></span>跌 <span class="zone-swatch support"></span>支撑区间 <span class="zone-swatch resistance"></span>压力区间（★ 越多越强） <span class="line fib-sw-retr"></span>斐波那契回撤 <span class="line fib-sw-ext"></span>延长线 <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>
+    <div class="chart-head"><div><h2>资金与收盘价变化曲线</h2><p>当前标的的历史回测数据；上图价格、下图资金，共用同一条时间轴；勾选 MACD / 波段顶底会在价格图下方加副图（只用于观察，不参与回测）</p></div><div class="legend axis-legend"><div class="legend-row"><b class="axis-tag tag-price">上图 · 价格</b><span class="kline-swatch up"></span>涨 <span class="kline-swatch down"></span>跌 <span class="zone-swatch support"></span>支撑区间 <span class="zone-swatch resistance"></span>压力区间（★ 越多越强） <span class="line fib-sw-retr"></span>斐波那契回撤 <span class="line fib-sw-ext"></span>延长线 <span class="line buy-level"></span>预计买入 <span class="line sell-level"></span>预计卖出</div><div class="legend-row"><b class="axis-tag tag-money">下图 · 资金</b><span class="line position"></span>持仓市值 <span class="line capital"></span>占用本金 <span class="line profit"></span>总盈亏</div></div></div>
     <div class="range-bar" id="range-bar" aria-label="曲线时间区间">
       <div class="range-presets" role="group" aria-label="快捷区间">
         <button type="button" data-range="1">近 1 月</button><button type="button" data-range="3">近 3 月</button><button type="button" data-range="6">近半年</button><button type="button" data-range="12">近 1 年</button><button type="button" data-range="all" class="active">全部</button>
@@ -27,6 +27,8 @@ const etfReviewUrl = href('lab/etf-review');
       <label><input id="view-levels" type="checkbox" checked> 手动支撑压力</label>
       <label><input id="view-fib" type="checkbox"> 斐波那契</label>
       <label id="view-grid-label"><input id="view-grid" type="checkbox" checked> 预计买卖线</label>
+      <label><input id="view-macd" type="checkbox"> MACD</label>
+      <label><input id="view-band" type="checkbox"> 波段顶底</label>
     </div>
     <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>
     <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
@@ -120,7 +122,7 @@ const etfReviewUrl = href('lab/etf-review');
   import {
     calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord, pullRecord, recordByCode, pullByCode, newWatchRecord, watchIdOf,
     renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, parseFib, fibFromDates, normalizeFibSets, normalizeView, MAX_FIB_SETS, type FibSet, MAX_LEVELS, type Candle, type Levels, type Fib, type View, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
-    blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar,
+    blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar, type ChartIndicators,
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
   } from '../../../lib/grid-trading';
   import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
@@ -150,12 +152,17 @@ const etfReviewUrl = href('lab/etf-review');
   const monthsBefore = (date: string, months: number) => { const day = new Date(`${date}T00:00:00Z`); day.setUTCMonth(day.getUTCMonth() - months); return day.toISOString().slice(0, 10); };
 
   // 手动区间缺省显示；斐波那契缺省在已配置时显示。
+  // 副图指标开关只存在本机（不写入云端记录）；指标需要预热数据，勾选时多取区间起点前 6 个月的日线参与计算、不显示。
+  const INDICATOR_KEY = 'grid-detail-indicators';
+  const readIndicators = (): ChartIndicators => { try { return JSON.parse(localStorage.getItem(INDICATOR_KEY) ?? '{}') ?? {}; } catch { return {}; } };
+  let indicators: ChartIndicators = readIndicators();
   const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: !input.watch && input.view?.grid !== false });
   async function drawEquity() {
     const input = chartInput;
     if (!input) return;
     const run = ++chartRun;
-    const begin = rangeFrom && rangeFrom < input.openDate ? rangeFrom : input.openDate;
+    const shownBegin = rangeFrom && rangeFrom < input.openDate ? rangeFrom : input.openDate;
+    const begin = indicators.macd || indicators.band ? monthsBefore(shownBegin, 6) : shownBegin;
     try {
       // 已有的显示用日线起点不晚于需要的起点就复用（getCandles 本身还有按代码的本地缓存）。
       if (!chartCandles || chartCandles.code !== input.code || chartCandles.begin > begin) {
@@ -179,7 +186,7 @@ const etfReviewUrl = href('lab/etf-review');
     const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
     rangeFromInput.max = rangeToInput.max = latest > today ? latest : today; rangeFromInput.min = rangeToInput.min = '2000-01-01'; // 不能用已加载日线的首日：那样只能选到建仓日，选更早的日期才会补拉行情；早于上市日的由上面夹到首日
     document.querySelectorAll<HTMLButtonElement>('.range-presets button').forEach(button => button.classList.toggle('active', button.dataset.range === rangeKey));
-    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid);
+    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid, indicators);
   }
 
   function bindRange() {
@@ -452,6 +459,15 @@ const etfReviewUrl = href('lab/etf-review');
     viewLevelsBox.addEventListener('change', onView);
     viewFibBox.addEventListener('change', onView);
     viewGridBox.addEventListener('change', onView);
+    const macdBox = document.querySelector('#view-macd') as HTMLInputElement, bandBox = document.querySelector('#view-band') as HTMLInputElement;
+    macdBox.checked = !!indicators.macd; bandBox.checked = !!indicators.band;
+    const onIndicator = () => {
+      indicators = { macd: macdBox.checked, band: bandBox.checked };
+      try { localStorage.setItem(INDICATOR_KEY, JSON.stringify(indicators)); } catch { /* 隐私模式等写不进去时只影响记忆 */ }
+      void drawEquity();
+    };
+    macdBox.addEventListener('change', onIndicator);
+    bandBox.addEventListener('change', onIndicator);
   }
   bindFib();
   function drawCompare() {

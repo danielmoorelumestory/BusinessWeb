@@ -1,6 +1,7 @@
 // 网格交易回测的共享逻辑：行情获取与缓存、网格计算、当前状态、记录存储与云同步、资金曲线绘制。
 // 计算器、复盘列表、回测详情三个页面共用，避免同一套规则在多处各自维护。
 
+import { BAND_HIGH, BAND_LOW, etfBand, macdCrossPrice, macdSeries } from './chart-indicators';
 import { SYNC_ENDPOINT } from './endpoints';
 import {
   type EtfReviewMeta,
@@ -1123,7 +1124,9 @@ function hardenTouch(svg: SVGSVGElement) {
  * 时间轴以 candles（显示用日线）为准，可通过 range 截取区间；区间可以早于建仓日，此时建仓前只有K线、资金线留空。
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
-export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true) {
+export type ChartIndicators = { macd?: boolean; band?: boolean };
+
+export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true, indicators: ChartIndicators = {}) {
   const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
   // 没有网格的关注记录：series 为空、不画预计买卖线，只显示K线与叠加内容。
   const noGrid = !series.length && !showGrid;
@@ -1131,8 +1134,16 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   if (!bars.length) { svg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">所选区间内没有行情数据</text>'; return; }
   const buyLevel = nextBuy ?? NaN, sellLevel = nextSell ?? NaN;
   const width = chartWidthOf(svg), compact = width < 600, left = compact ? 56 : 62, right = compact ? 70 : 70, chartWidth = width - left - right;
-  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range, levels, fib, showGrid));
-  const priceTop = 30, priceHeight = compact ? 220 : 280, moneyTop = priceTop + priceHeight + 38, moneyHeight = noGrid ? 0 : 150, plotBottom = noGrid ? priceTop + priceHeight : moneyTop + moneyHeight, height = plotBottom + 30;
+  watchResize(svg, width, () => renderEquityChart(svg, series, nextBuy, nextSell, trades, marker, gridStep, candles, range, levels, fib, showGrid, indicators));
+  // 副图（MACD、波段顶底）夹在价格图与资金图之间；指标用全部已取日线计算（含区间之前的预热数据），只显示区间内的部分。
+  const offset = Math.max(0, candles.indexOf(bars[0]));
+  const closesAll = candles.map(candle => candle.close);
+  const macd = indicators.macd ? macdSeries(closesAll) : undefined, band = indicators.band ? etfBand(closesAll) : undefined;
+  const panelHeight = compact ? 72 : 90, panelGap = 30;
+  const priceTop = 30, priceHeight = compact ? 220 : 280;
+  const macdTop = priceTop + priceHeight + panelGap, bandTop = macdTop + (macd ? panelHeight + panelGap : 0);
+  const indicatorBottom = bandTop + (band ? panelHeight : -panelGap);
+  const moneyTop = indicatorBottom + 38, moneyHeight = noGrid ? 0 : 150, plotBottom = noGrid ? indicatorBottom : moneyTop + moneyHeight, height = plotBottom + 30;
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   hardenTouch(svg);
   const count = bars.length, slot = chartWidth / count;
@@ -1246,11 +1257,51 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const markerSvg = marker && markerIndex >= 0
     ? `<line x1="${x(markerIndex)}" x2="${x(markerIndex)}" y1="${priceTop}" y2="${plotBottom}" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="4 3"/><text x="${x(markerIndex) + (markerIndex > count * .8 ? -5 : 5)}" y="${priceTop + 11}" text-anchor="${markerIndex > count * .8 ? 'end' : 'start'}" fill="#0ea5e9" font-size="10" font-weight="600">${marker.label}</text>` : '';
   const noMoney = visible.length ? '' : `<text x="${(left + width - right) / 2}" y="${moneyTop + moneyHeight / 2}" text-anchor="middle" fill="#94a3b8" font-size="12">${noGrid ? '还没有添加网格，没有资金数据' : '所选区间在建仓日之前，没有资金数据'}</text>`;
-  const tipLines = noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change', 'position', 'capital', 'profit'];
+  const MACD_COLORS = { dif: '#2563eb', dea: '#f59e0b' };
+  let macdSvg = '', macdLo = 0, macdHi = 1;
+  const macdY = (value: number) => macdTop + (macdHi - value) / (macdHi - macdLo) * panelHeight;
+  if (macd) {
+    const idx = bars.map((_, index) => offset + index), vals = idx.flatMap(i => [macd.dif[i], macd.dea[i], macd.hist[i]]);
+    const lo = Math.min(0, ...vals), hi = Math.max(0, ...vals), pad = (hi - lo || 1e-6) * .08; macdLo = lo - pad; macdHi = hi + pad;
+    const histSvg = idx.map((i, index) => { const value = macd.hist[i], y0 = macdY(0), y1 = macdY(value); return `<rect x="${(x(index) - Math.max(.5, slot * .3)).toFixed(1)}" y="${Math.min(y0, y1).toFixed(1)}" width="${Math.max(1, slot * .6).toFixed(1)}" height="${Math.max(.5, Math.abs(y1 - y0)).toFixed(1)}" fill="${value >= 0 ? UP_COLOR : DOWN_COLOR}" opacity=".55"/>`; }).join('');
+    const line = (arr: number[], color: string) => `<path d="${idx.map((i, index) => `${index ? 'L' : 'M'}${x(index).toFixed(1)},${macdY(arr[i]).toFixed(1)}`).join('')}" fill="none" stroke="${color}" stroke-width="1.1"/>`;
+    // 金叉 / 死叉：收盘后 DIF 上穿 / 下穿 DEA 的那一天，在副图上标小三角
+    const crosses = idx.map((i, index) => {
+      if (i < 1) return '';
+      const now = macd.dif[i] > macd.dea[i], before = macd.dif[i - 1] > macd.dea[i - 1];
+      if (now === before) return '';
+      const yy = macdY(macd.dif[i]), xx = x(index);
+      return now ? `<path d="M${xx.toFixed(1)},${(yy + 2).toFixed(1)}l4,7h-8Z" fill="${UP_COLOR}"><title>金叉 ${bars[index].date}</title></path>` : `<path d="M${xx.toFixed(1)},${(yy - 2).toFixed(1)}l4,-7h-8Z" fill="${DOWN_COLOR}"><title>死叉 ${bars[index].date}</title></path>`;
+    }).join('');
+    // 只有区间末端就是最新一根时，才给出下一交易日的交叉临界价
+    const lastAll = candles.length - 1, cross = offset + count - 1 === lastAll ? macdCrossPrice(macd) : undefined;
+    const bull = macd.dif[lastAll] > macd.dea[lastAll];
+    const crossText = cross !== undefined && Number.isFinite(cross) && cross > 0 ? ` · 下一交易日${bull ? '死叉' : '金叉'}临界价 ≈ ${cross.toFixed(3)}（较最新价 ${((cross / candles[lastAll].close - 1) * 100).toFixed(2)}%）` : '';
+    macdSvg = title(macdTop, `MACD(12,26,9) · DIF 蓝 / DEA 橙 / 柱 2×(DIF−DEA)${crossText}`, '#475569') + frame(macdTop, panelHeight)
+      + `<line x1="${left}" x2="${width - right}" y1="${macdY(0).toFixed(1)}" y2="${macdY(0).toFixed(1)}" stroke="#cbd5e1"/>` + histSvg + line(macd.dif, MACD_COLORS.dif) + line(macd.dea, MACD_COLORS.dea) + crosses
+      + ticks(macdLo, macdHi, macdTop, panelHeight, value => value.toFixed(3), '#94a3b8');
+  }
+  let bandSvg = '';
+  const bandY = (value: number) => bandTop + (100 - value) / 100 * panelHeight;
+  if (band) {
+    const vals = bars.map((_, index) => band[offset + index]);
+    let d = '', pen = false;
+    vals.forEach((value, index) => { if (value === null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${x(index).toFixed(1)},${bandY(value).toFixed(1)}`; pen = true; });
+    // 同花顺画法：低于 30 从 30 画红柱到波段值，高于 70 从 70 画绿柱到波段值
+    const sticks = vals.map((value, index) => {
+      if (value === null || (value >= BAND_LOW && value <= BAND_HIGH)) return '';
+      const from = value < BAND_LOW ? BAND_LOW : BAND_HIGH, y0 = bandY(from), y1 = bandY(value);
+      return `<rect x="${(x(index) - Math.max(.5, slot * .3)).toFixed(1)}" y="${Math.min(y0, y1).toFixed(1)}" width="${Math.max(1, slot * .6).toFixed(1)}" height="${Math.max(.5, Math.abs(y1 - y0)).toFixed(1)}" fill="${value < BAND_LOW ? UP_COLOR : DOWN_COLOR}" opacity=".7"/>`;
+    }).join('');
+    const guide = (value: number, color: string) => `<line x1="${left}" x2="${width - right}" y1="${bandY(value)}" y2="${bandY(value)}" stroke="${color}" stroke-width="1" stroke-dasharray="4 3"/><text x="${left - 8}" y="${bandY(value) + 4}" text-anchor="end" fill="${color}" font-size="10">${value}</text>`;
+    bandSvg = title(bandTop, '波段顶底（同花顺复现，13 日）· 低于 30 红柱 / 高于 70 绿柱', '#475569') + frame(bandTop, panelHeight)
+      + guide(BAND_HIGH, DOWN_COLOR) + guide(BAND_LOW, UP_COLOR) + sticks + `<path d="${d}" fill="none" stroke="#334155" stroke-width="1.1"/>`;
+  }
+  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(macd ? ['macd'] : []), ...(band ? ['band'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
   svg.innerHTML = `<g>${title(priceTop, '价格（元）· 日K / 预计买卖价', '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
-    + candleSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
+    + macdSvg + bandSvg + candleSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
     + `<g class="chart-crosshair" visibility="hidden" pointer-events="none"><line class="crosshair-v" y1="${priceTop}" y2="${plotBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/><line class="crosshair-h" x1="${left}" x2="${width - right}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
     + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')
@@ -1265,7 +1316,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     const pointerX = (event.clientX - bounds.left) * width / bounds.width, pointerY = (event.clientY - bounds.top) * height / bounds.height;
     const index = Math.max(0, Math.min(count - 1, Math.floor((pointerX - left) / slot)));
     const bar = bars[index], point = points[index], xx = x(index), trade = tradeByDate.get(bar.date);
-    const inPanel = (pointerY >= priceTop && pointerY <= priceTop + priceHeight) || (!noGrid && pointerY >= moneyTop && pointerY <= plotBottom);
+    const inPanel = (pointerY >= priceTop && pointerY <= priceTop + priceHeight) || (!!macd && pointerY >= macdTop && pointerY <= macdTop + panelHeight) || (!!band && pointerY >= bandTop && pointerY <= bandTop + panelHeight) || (!noGrid && pointerY >= moneyTop && pointerY <= plotBottom);
     set('.crosshair-v', { x1: xx, x2: xx });
     set('.crosshair-h', { y1: pointerY, y2: pointerY, visibility: inPanel ? 'visible' : 'hidden' }); // 横向十字线只在两张图内显示
     for (const [name, valueOf] of [['position', (p: EquityPoint) => p.positionValue], ['capital', (p: EquityPoint) => p.capitalUsed], ['profit', (p: EquityPoint) => p.pnl]] as const) {
@@ -1280,10 +1331,12 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     setText('open', `开 ${bar.open.toFixed(3)} ${pctOf(bar.open)}   收 ${bar.close.toFixed(3)} ${pctOf(bar.close)}`);
     setText('low', `高 ${bar.high.toFixed(3)} ${pctOf(bar.high)}   低 ${bar.low.toFixed(3)} ${pctOf(bar.low)}`);
     setText('change', `涨幅 ${pctOf(bar.close)}   振幅 ${base > 0 ? ((bar.high - bar.low) / base * 100).toFixed(2) + '%' : '—'}`);
+    if (macd) { const i = offset + index; setText('macd', `MACD  DIF ${macd.dif[i].toFixed(3)}  DEA ${macd.dea[i].toFixed(3)}  柱 ${macd.hist[i].toFixed(3)}  ${macd.dif[i] > macd.dea[i] ? '多头' : '空头'}`); }
+    if (band) { const value = band[offset + index]; setText('band', `波段顶底  ${value === null ? '—' : value.toFixed(3)}${value !== null && value < BAND_LOW ? '（低于 30）' : value !== null && value > BAND_HIGH ? '（高于 70）' : ''}`); }
     setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
     setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
     setText('profit', point ? `总盈亏  ${formatMoney(point.pnl)}` : '总盈亏  —');
-    const tooltipWidth = 236, tooltipHeight = 18 * tipLines.length + 8;
+    const tooltipWidth = macd ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
     const tooltipY = Math.max(priceTop, Math.min(plotBottom - tooltipHeight, pointerY - tooltipHeight / 2));
     tooltip.setAttribute('transform', `translate(${tooltipX},${tooltipY})`);
