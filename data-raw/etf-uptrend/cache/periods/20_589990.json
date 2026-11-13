@@ -1,17 +1,19 @@
 {
  "ths_code": "20:589990",
- "fetched_at": "2026-11-13T18:05:30+08:00",
+ "fetched_at": "2026-11-14T04:58:01+08:00",
  "periods": [
   {
    "start_day": "2026-11-04",
-   "end_day": "2026-11-12",
-   "period_rise": 12.03,
-   "period_change": 0.145,
-   "main_amount_in": 407143,
-   "duration": 7,
-   "has_step_signal": false,
-   "step_signal_count": 0,
-   "step_signal_dates": []
+   "end_day": "2026-11-13",
+   "period_rise": 9.46,
+   "period_change": 0.114,
+   "main_amount_in": 757940,
+   "duration": 8,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-11-13"
+   ]
   },
   {
    "start_day": "2026-09-16",

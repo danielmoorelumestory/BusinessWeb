@@ -1,14 +1,14 @@
 {
  "ths_code": "20:513290",
- "fetched_at": "2026-11-13T17:59:35+08:00",
+ "fetched_at": "2026-11-14T04:58:19+08:00",
  "periods": [
   {
    "start_day": "2026-11-09",
-   "end_day": "2026-11-12",
-   "period_rise": 8.9,
-   "period_change": 0.161,
-   "main_amount_in": 65971142,
-   "duration": 4,
+   "end_day": "2026-11-13",
+   "period_rise": 9.01,
+   "period_change": 0.163,
+   "main_amount_in": 75084153,
+   "duration": 5,
    "has_step_signal": false,
    "step_signal_count": 0,
    "step_signal_dates": []

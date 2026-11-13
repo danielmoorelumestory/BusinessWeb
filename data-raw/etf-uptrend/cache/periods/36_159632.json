@@ -1,0 +1,65 @@
+{
+ "ths_code": "36:159632",
+ "fetched_at": "2026-11-14T04:58:13+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-10",
+   "end_day": "2026-11-13",
+   "period_rise": 5.46,
+   "period_change": 0.127,
+   "main_amount_in": 13756672,
+   "duration": 4,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-09-16",
+   "end_day": "2026-10-14",
+   "period_rise": 8.07,
+   "period_change": 0.195,
+   "main_amount_in": -102378043,
+   "duration": 15,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-10-13"
+   ]
+  },
+  {
+   "start_day": "2026-07-31",
+   "end_day": "2026-08-10",
+   "period_rise": 10.59,
+   "period_change": 0.239,
+   "main_amount_in": 65498015,
+   "duration": 7,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-06-12",
+   "end_day": "2026-06-22",
+   "period_rise": 7.27,
+   "period_change": 0.17,
+   "main_amount_in": 57132318,
+   "duration": 6,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": []
+  },
+  {
+   "start_day": "2026-04-01",
+   "end_day": "2026-06-03",
+   "period_rise": 35.76,
+   "period_change": 0.667,
+   "main_amount_in": 147263568,
+   "duration": 42,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-05-15"
+   ]
+  }
+ ]
+}
