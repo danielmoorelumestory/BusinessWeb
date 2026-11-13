@@ -24,10 +24,35 @@ export function macdSeries(closes: number[]): MacdSeries {
  * 下一根收盘价高于它则 DIF>DEA（多头），低于它则 DIF<DEA。当前多头时它是死叉价，空头时是金叉价。
  */
 export function macdCrossPrice(series: MacdSeries): number | undefined {
-  const last = series.dif.length - 1;
-  if (last < 0) return undefined;
+  return macdCrossPriceAt(series, series.dif.length - 1);
+}
+
+/** 第 i 根收盘后，对第 i+1 根收盘价的交叉临界价（i 越界返回 undefined）。 */
+export function macdCrossPriceAt(series: MacdSeries, i: number): number | undefined {
+  if (i < 0 || i >= series.dif.length) return undefined;
   const a = 2 / 13, b = 2 / 27;
-  return (series.dea[last] - (1 - a) * series.ema12[last] + (1 - b) * series.ema26[last]) / (a - b);
+  return (series.dea[i] - (1 - a) * series.ema12[i] + (1 - b) * series.ema26[i]) / (a - b);
+}
+
+export type MacdEstimate = { bull: boolean; price: number; basisDate: string; forToday: boolean; lastClose: number };
+
+/**
+ * MACD 金叉 / 死叉预估价。盘中（最后一根是今天、还没收盘）用昨天收盘后的状态，估的是「今天收盘」的临界价，
+ * 拿现价直接对照；收盘后或非交易时段用最后一根，估的是「下一交易日收盘」的临界价。
+ * 基准日多头时给死叉价（收盘低于它即死叉），空头时给金叉价（收盘高于它即金叉）。
+ */
+export function macdEstimate(bars: { date: string; close: number }[], live: boolean): MacdEstimate | undefined {
+  if (bars.length < 35) return undefined;
+  const series = macdSeries(bars.map(bar => bar.close)), basis = bars.length - 1 - (live ? 1 : 0);
+  const price = macdCrossPriceAt(series, basis);
+  if (price === undefined || !Number.isFinite(price) || price <= 0) return undefined;
+  return { bull: series.dif[basis] > series.dea[basis], price, basisDate: bars[basis].date, forToday: live, lastClose: bars.at(-1)!.close };
+}
+
+/** 最后一根日线是否为北京时间今天、且尚未收盘（15:00 前）。 */
+export function isLiveBar(lastDate: string | undefined, now = new Date()): boolean {
+  const bj = new Date(now.getTime() + 8 * 3600e3);
+  return !!lastDate && lastDate === bj.toISOString().slice(0, 10) && bj.getUTCHours() < 15;
 }
 
 /**

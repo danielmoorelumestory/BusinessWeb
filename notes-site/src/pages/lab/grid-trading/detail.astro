@@ -32,6 +32,7 @@ const etfReviewUrl = href('lab/etf-review');
       <label><input id="view-macd" type="checkbox"> MACD</label>
       <label><input id="view-band" type="checkbox"> 波段顶底</label>
     </div>
+    <p id="macd-estimate" class="macd-estimate" hidden></p>
     <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>
     <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
       <div class="levels-head"><h3>支撑 / 压力区间</h3><span>数量自己增减（每侧最多 10 个），可设强度（弱 / 中 / 强，越强色带越深、边线越粗），只用于在价格图上显示，不参与回测；全空的行保存时忽略；只有一个价位时，下沿和上沿填同一个价格</span></div>
@@ -128,6 +129,7 @@ const etfReviewUrl = href('lab/etf-review');
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
   } from '../../../lib/grid-trading';
   import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
+  import { isLiveBar, macdEstimate } from '../../../lib/chart-indicators';
 
   blockCopy(); // 屏蔽页面内容复制
 
@@ -160,12 +162,24 @@ const etfReviewUrl = href('lab/etf-review');
   // 10 / 20 日均线默认显示（没存过对应设置时）
   let indicators: ChartIndicators = { ma10: true, ma20: true, ...readIndicators() };
   const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: !input.watch && input.view?.grid !== false });
+  // MACD 金叉 / 死叉预估：不依赖副图开关，始终显示在图上方。盘中按昨收后的状态估今天收盘，收盘后估下一交易日。
+  const macdEstimateNote = document.querySelector('#macd-estimate') as HTMLElement;
+  function showMacdEstimate(candles: Candle[]) {
+    const est = macdEstimate(candles, isLiveBar(candles.at(-1)?.date));
+    macdEstimateNote.hidden = !est;
+    if (!est) return;
+    const gap = (est.price / est.lastClose - 1) * 100, when = est.forToday ? '今天收盘' : '下一交易日收盘';
+    const state = est.bull ? `MACD 多头（截至 ${est.basisDate} 收盘）` : `MACD 空头（截至 ${est.basisDate} 收盘）`;
+    const action = est.bull ? `${when}低于 <b>${est.price.toFixed(3)}</b> 将死叉` : `${when}高于 <b>${est.price.toFixed(3)}</b> 将金叉`;
+    macdEstimateNote.innerHTML = `<span class="est-tag ${est.bull ? 'bull' : 'bear'}">${est.bull ? '死叉预估' : '金叉预估'}</span>${state}，${action}；${est.forToday ? '现价' : '最新收盘'} ${est.lastClose.toFixed(3)}，距离 ${gap >= 0 ? '+' : ''}${gap.toFixed(2)}%。<span class="est-note">按 MACD(12,26,9) 反推，只是收盘价的临界值，不预测会不会发生。</span>`;
+  }
   async function drawEquity() {
     const input = chartInput;
     if (!input) return;
     const run = ++chartRun;
     const shownBegin = rangeFrom && rangeFrom < input.openDate ? rangeFrom : input.openDate;
-    const begin = indicators.macd || indicators.band ? monthsBefore(shownBegin, 6) : indicators.ma20 ? monthsBefore(shownBegin, 2) : indicators.ma10 ? monthsBefore(shownBegin, 1) : shownBegin;
+    // 多取 6 个月日线作指标预热（MACD 预估始终显示，也需要预热），只显示区间内的部分
+    const begin = monthsBefore(shownBegin, 6);
     try {
       // 已有的显示用日线起点不晚于需要的起点就复用（getCandles 本身还有按代码的本地缓存）。
       if (!chartCandles || chartCandles.code !== input.code || chartCandles.begin > begin) {
@@ -180,6 +194,7 @@ const etfReviewUrl = href('lab/etf-review');
       return;
     }
     const candles = chartCandles.candles;
+    showMacdEstimate(candles);
     const latest = candles.at(-1)?.date ?? '', first = candles[0]?.date ?? '';
     // 请求的起点早于实际有行情的第一天（如标的上市较晚）：夹到第一根日线。
     if (rangeFrom && first && rangeFrom < first) rangeFrom = first;
@@ -1213,6 +1228,12 @@ const etfReviewUrl = href('lab/etf-review');
   .range-bar label { display:flex; align-items:center; gap:6px; }
   .range-bar input[type=date] { border:1px solid #cbd5e1; border-radius:6px; padding:3px 6px; background:#fff; color:#334155; font-size:12px; }
   .range-note { color:#dc2626; font-size:12px; }
+  .macd-estimate { margin:2px 0 6px; color:#334155; font-size:13px; line-height:1.6; }
+  .macd-estimate b { font-variant-numeric:tabular-nums; }
+  .macd-estimate .est-tag { display:inline-block; margin-right:6px; padding:0 7px; border-radius:999px; font-size:12px; font-weight:600; }
+  .macd-estimate .est-tag.bull { background:#dcfce7; color:#166534; }
+  .macd-estimate .est-tag.bear { background:#fee2e2; color:#991b1b; }
+  .macd-estimate .est-note { color:#94a3b8; font-size:12px; margin-left:4px; }
   .minute-controls { display:flex; align-items:center; gap:14px; color:#475569; font-size:13px; }
   .minute-controls label { display:flex; align-items:center; gap:6px; }
   .minute-controls select { border:1px solid #cbd5e1; border-radius:6px; padding:5px 8px; background:#fff; color:#334155; font-size:13px; }
