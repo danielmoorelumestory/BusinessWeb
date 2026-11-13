@@ -4,7 +4,7 @@
     {
       "schemaVersion": 1,
       "dataDate": "2026-11-13",
-      "fetchedAt": "2026-11-13T07:45:52.277Z",
+      "fetchedAt": "2026-11-13T15:38:31.014Z",
       "session": "closed",
       "metrics": {
         "ztCount": 37,
@@ -340,7 +340,58 @@
             "turnover": 7.19
           }
         ],
-        "turnover": []
+        "turnover": [
+          {
+            "symbol": "sz301697",
+            "code": "301697",
+            "name": "贝特利",
+            "date": "2026-11-13",
+            "price": 29.8,
+            "change": -11.23,
+            "amount": 7.1,
+            "turnover": 52.21
+          },
+          {
+            "symbol": "sh601091",
+            "code": "601091",
+            "name": "沈鼓集团",
+            "date": "2026-11-13",
+            "price": 22.23,
+            "change": 6.26,
+            "amount": 22.56,
+            "turnover": 48.85
+          },
+          {
+            "symbol": "bj920157",
+            "code": "920157",
+            "name": "宇特光电",
+            "date": "2026-11-13",
+            "price": 61,
+            "change": 3.08,
+            "amount": 3.41,
+            "turnover": 44.42
+          },
+          {
+            "symbol": "bj920202",
+            "code": "920202",
+            "name": "安达股份",
+            "date": "2026-11-13",
+            "price": 14.05,
+            "change": 13.31,
+            "amount": 1.44,
+            "turnover": 43.87
+          },
+          {
+            "symbol": "sh688827",
+            "code": "688827",
+            "name": "C钶锐",
+            "date": "2026-11-13",
+            "price": 95.98,
+            "change": -12.5,
+            "amount": 5.57,
+            "turnover": 43.27
+          }
+        ]
       },
       "flows": {
         "inflow": [
@@ -433,9 +484,9 @@
           "id": "turnoverRank",
           "label": "新浪换手率排名 / 腾讯报价",
           "url": "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?node=hs_a&sort=turnoverratio&asc=0&num=5&page=1",
-          "date": null,
-          "status": "unavailable",
-          "note": "The operation was aborted due to timeout"
+          "date": "2026-11-13",
+          "status": "ready",
+          "note": ""
         },
         {
           "id": "flows",
