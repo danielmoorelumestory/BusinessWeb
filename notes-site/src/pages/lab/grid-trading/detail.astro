@@ -21,6 +21,7 @@ const etfReviewUrl = href('lab/etf-review');
       </div>
       <label>起 <input id="range-from" type="date"></label><label>止 <input id="range-to" type="date"></label>
       <span id="range-note" class="range-note" hidden></span>
+      <div class="chart-nav" role="group" aria-label="日K缩放与平移"><button type="button" data-nav="out" title="缩小（显示更多日线）">－</button><button type="button" data-nav="in" title="放大（显示更少日线）">＋</button><button type="button" data-nav="left" title="向左（更早）">◀</button><button type="button" data-nav="right" title="向右（更新）">▶</button><span class="chart-nav-hint">图上拖动平移 · 双指或 ⌘/Ctrl+滚轮缩放</span></div>
     </div>
     <div class="view-bar" aria-label="叠加内容显示">
       <span>显示：</span>
@@ -131,6 +132,7 @@ const etfReviewUrl = href('lab/etf-review');
   } from '../../../lib/grid-trading';
   import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
   import { isLiveBar, macdEstimate, maEstimate } from '../../../lib/chart-indicators';
+  import { panViewport, zoomViewport, type Viewport } from '../../../lib/chart-viewport';
 
   blockCopy(); // 屏蔽页面内容复制
 
@@ -208,6 +210,12 @@ const etfReviewUrl = href('lab/etf-review');
       equitySvg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">行情获取失败，暂时无法绘制曲线</text>';
       return;
     }
+    renderChart();
+  }
+  // 用已取到的日线按当前区间同步重绘（拖动、缩放时逐帧调用，不发请求）。
+  function renderChart() {
+    const input = chartInput;
+    if (!input || !chartCandles) return;
     const candles = chartCandles.candles;
     showMacdEstimate(candles);
     const latest = candles.at(-1)?.date ?? '', first = candles[0]?.date ?? '';
@@ -247,6 +255,106 @@ const etfReviewUrl = href('lab/etf-review');
     rangeToInput.addEventListener('change', onDateChange);
   }
   bindRange();
+
+  // ---------- 日K拖动平移、缩放 ----------
+  // 鼠标拖动 / 单指左右滑动平移；双指捏合、⌘/Ctrl + 滚轮（触控板捏合同样如此）缩放；触控板左右滑动或 Shift + 滚轮平移；也可用按钮。
+  // 只改显示区间（起止日期），用已取的日线同步重绘；拖到已取日线的最左端松手时再按区间向前补取行情。
+  function currentViewport(): Viewport | undefined {
+    if (!chartInput || !chartCandles?.candles.length) return undefined;
+    const candles = chartCandles.candles, from = rangeFrom ?? chartInput.openDate;
+    let start = candles.findIndex(candle => candle.date >= from); if (start < 0) start = candles.length - 1;
+    let end = candles.length - 1;
+    if (rangeTo) { while (end > start && candles[end].date > rangeTo) end--; }
+    return { start, end };
+  }
+  let viewFrame = 0;
+  function applyViewport(view: Viewport) {
+    const candles = chartCandles?.candles;
+    if (!candles?.length || view.end < view.start) return;
+    rangeFrom = candles[view.start].date;
+    rangeTo = view.end >= candles.length - 1 ? undefined : candles[view.end].date; // 右端在最新一根时继续跟随最新行情
+    rangeKey = 'custom'; showRangeNote('');
+    if (!viewFrame) viewFrame = requestAnimationFrame(() => { viewFrame = 0; renderChart(); });
+  }
+  // 松手后：左端已到已取日线的第一根，按新区间向前补取（drawEquity 会多取 6 个月）。
+  function settleViewport() {
+    const view = currentViewport();
+    if (view && view.start === 0) void drawEquity();
+  }
+  const zoomBy = (factor: number, anchor = .5) => { const view = currentViewport(); if (view) applyViewport(zoomViewport(chartCandles!.candles.length, view, factor, anchor)); };
+  const panBy = (delta: number) => { const view = currentViewport(); if (view) applyViewport(panViewport(chartCandles!.candles.length, view, delta)); };
+  // 指针位置换算：viewBox 坐标、相对绘图区的比例、每根日线的宽度
+  function plotGeometry(clientX: number) {
+    const bounds = equitySvg.getBoundingClientRect(), data = equitySvg.dataset;
+    const scale = Number(data.viewWidth) / bounds.width, left = Number(data.plotLeft), plotWidth = Number(data.plotWidth), count = Number(data.plotCount);
+    const xx = (clientX - bounds.left) * scale;
+    return { scale, slot: plotWidth / Math.max(1, count), anchor: Math.min(1, Math.max(0, (xx - left) / plotWidth)) };
+  }
+  function bindPanZoom() {
+    equitySvg.addEventListener('wheel', event => {
+      if (!currentViewport()) return;
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+        zoomBy(Math.exp(Math.max(-50, Math.min(50, event.deltaY)) * .006), plotGeometry(event.clientX).anchor); // 鼠标滚轮一格约 ±35%，触控板捏合更细腻
+      } else if (event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        event.preventDefault();
+        const { scale, slot } = plotGeometry(event.clientX);
+        panBy((event.shiftKey && !event.deltaX ? event.deltaY : event.deltaX) * scale / slot);
+        clearTimeout(wheelSettle); wheelSettle = setTimeout(settleViewport, 300);
+      } // 普通竖向滚轮照常滚动页面
+    }, { passive: false });
+    let wheelSettle: ReturnType<typeof setTimeout> | undefined;
+    const pointers = new Map<number, number>(); // pointerId → clientX
+    let drag: { x: number; view: Viewport; moved: boolean } | undefined;
+    let pinch: { distance: number; view: Viewport; anchor: number } | undefined;
+    const spread = () => { const xs = [...pointers.values()]; return Math.max(8, Math.abs(xs[0] - xs[1])); };
+    equitySvg.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      const view = currentViewport();
+      if (!view) return;
+      pointers.set(event.pointerId, event.clientX);
+      if (pointers.size === 1) { drag = { x: event.clientX, view, moved: false }; pinch = undefined; }
+      else if (pointers.size === 2) {
+        const xs = [...pointers.values()];
+        drag = undefined; pinch = { distance: spread(), view, anchor: plotGeometry((xs[0] + xs[1]) / 2).anchor };
+      }
+      try { equitySvg.setPointerCapture(event.pointerId); } catch { /* 部分浏览器对 SVG 子元素不支持 */ }
+    });
+    equitySvg.addEventListener('pointermove', event => {
+      if (!pointers.has(event.pointerId) || !chartCandles) return;
+      pointers.set(event.pointerId, event.clientX);
+      if (pinch && pointers.size >= 2) {
+        applyViewport(zoomViewport(chartCandles.candles.length, pinch.view, pinch.distance / spread(), pinch.anchor));
+      } else if (drag) {
+        const dx = event.clientX - drag.x;
+        if (!drag.moved && Math.abs(dx) < 4) return; // 小幅移动仍当作点击查看十字光标
+        drag.moved = true; equitySvg.style.cursor = 'grabbing';
+        const { scale, slot } = plotGeometry(event.clientX);
+        applyViewport(panViewport(chartCandles.candles.length, drag.view, -dx * scale / slot)); // 向右拖看更早的日期
+      }
+    });
+    const release = (event: PointerEvent) => {
+      if (!pointers.delete(event.pointerId)) return;
+      const changed = drag?.moved || !!pinch;
+      // 双指松开一指：剩下的手指从当前位置接着平移
+      if (pointers.size === 1 && pinch) { const x = [...pointers.values()][0], view = currentViewport(); pinch = undefined; drag = view ? { x, view, moved: true } : undefined; return; }
+      if (!pointers.size) { drag = undefined; pinch = undefined; equitySvg.style.cursor = ''; if (changed) settleViewport(); }
+    };
+    equitySvg.addEventListener('pointerup', release);
+    equitySvg.addEventListener('pointercancel', release);
+    document.querySelector('.chart-nav')!.addEventListener('click', event => {
+      const button = (event.target as HTMLElement).closest('button');
+      const view = currentViewport();
+      if (!button || !view) return;
+      const length = view.end - view.start + 1, action = button.dataset.nav;
+      if (action === 'in') zoomBy(.6, 1);
+      else if (action === 'out') zoomBy(1 / .6, 1);
+      else if (action === 'left') panBy(-Math.max(1, Math.round(length / 4)));
+      else if (action === 'right') panBy(Math.max(1, Math.round(length / 4)));
+      settleViewport();
+    });
+  }
+  bindPanZoom();
 
   // ---------- 支撑 / 压力区间 ----------
   const levelsPanel = document.querySelector('#levels-panel') as HTMLElement;
@@ -1240,6 +1348,10 @@ const etfReviewUrl = href('lab/etf-review');
   .line.fib-sw-ext { border-top:1.5px dashed #db2777; background:none; height:0; }
   .range-bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:6px 0 4px; color:#475569; font-size:13px; }
   .range-presets { display:flex; flex-wrap:wrap; gap:6px; }
+  .chart-nav { display:flex; align-items:center; gap:4px; }
+  .chart-nav button { min-width:28px; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; background:#fff; color:#334155; font-size:12px; cursor:pointer; }
+  .chart-nav button:hover { border-color:#6366f1; color:#4338ca; }
+  .chart-nav-hint { margin-left:4px; color:#94a3b8; font-size:11px; }
   .range-presets button { border:1px solid #cbd5e1; border-radius:6px; padding:4px 10px; background:#fff; color:#334155; font-size:12px; cursor:pointer; }
   .range-presets button.active { border-color:#6366f1; background:#eef2ff; color:#4338ca; font-weight:600; }
   .range-bar label { display:flex; align-items:center; gap:6px; }

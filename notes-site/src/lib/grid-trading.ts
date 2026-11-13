@@ -1154,6 +1154,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   hardenTouch(svg);
   const count = bars.length, slot = chartWidth / count;
+  // 供页面的拖动 / 缩放手势把指针位置换算成日线根数（viewBox 坐标）。
+  Object.assign(svg.dataset, { plotLeft: String(left), plotWidth: String(chartWidth), plotCount: String(count), viewWidth: String(width) });
   const seriesByDate = new Map(series.map(point => [point.date, point]));
   const points = bars.map(bar => seriesByDate.get(bar.date)); // 建仓日之前为 undefined
   const visible = points.filter((point): point is EquityPoint => !!point);
