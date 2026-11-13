@@ -11,6 +11,11 @@ export const labs: Lab[] = [
     summary: '按分组观察 ETF：每日结构化笔记、行情摘要；有网格的标的显示状态与盈亏。',
   },
   {
+    slug: 'etf-uptrend',
+    title: 'ETF 主升浪',
+    summary: '同花顺主升浪榜单每日快照：趋势回踩、新入池、T+0/行业/宽基分类与同类去重，单只 ETF 的历史上涨区间与 AI 上涨原因。',
+  },
+  {
     slug: 'stock',
     title: '股市分析',
     summary: '大涨股解读、板块轮动、板块排行；财联社行情 + IndexedDB 本地缓存。',
