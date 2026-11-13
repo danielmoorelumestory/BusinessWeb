@@ -30,6 +30,7 @@ const etfReviewUrl = href('lab/etf-review');
       <label id="view-grid-label"><input id="view-grid" type="checkbox" checked> 预计买卖线</label>
       <label><input id="view-ma10" type="checkbox" checked> 10 日线</label>
       <label><input id="view-ma20" type="checkbox" checked> 20 日线</label>
+      <label><input id="view-volume" type="checkbox" checked> 成交量</label>
       <label><input id="view-macd" type="checkbox"> MACD</label>
       <label><input id="view-band" type="checkbox"> 波段顶底</label>
       <label title="MACD(12,26,9)：空仓金叉→次日开盘买，持仓死叉→当日收盘卖；指标用上市以来前复权日线计算，前 120 根只预热"><input id="view-macd-trades" type="checkbox"> MACD收盘卖买卖点 <span class="macd-sw buy">▲</span>买 <span class="macd-sw sell">▼</span>卖</label>
@@ -165,7 +166,7 @@ const etfReviewUrl = href('lab/etf-review');
   const INDICATOR_KEY = 'grid-detail-indicators';
   const readIndicators = (): ChartIndicators => { try { return JSON.parse(localStorage.getItem(INDICATOR_KEY) ?? '{}') ?? {}; } catch { return {}; } };
   // 10 / 20 日均线默认显示（没存过对应设置时）
-  let indicators: ChartIndicators = { ma10: true, ma20: true, ...readIndicators() };
+  let indicators: ChartIndicators = { ma10: true, ma20: true, volume: true, ...readIndicators() };
   const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: !input.watch && input.view?.grid !== false });
   // MACD 金叉 / 死叉、10 日线跌破 / 站上预估：不依赖图上开关，始终显示在图上方。盘中按昨收后的状态估今天收盘，收盘后估下一交易日。
   const macdEstimateNote = document.querySelector('#macd-estimate') as HTMLElement;
@@ -600,16 +601,17 @@ const etfReviewUrl = href('lab/etf-review');
     viewLevelsBox.addEventListener('change', onView);
     viewFibBox.addEventListener('change', onView);
     viewGridBox.addEventListener('change', onView);
-    const macdBox = document.querySelector('#view-macd') as HTMLInputElement, bandBox = document.querySelector('#view-band') as HTMLInputElement, ma10Box = document.querySelector('#view-ma10') as HTMLInputElement, ma20Box = document.querySelector('#view-ma20') as HTMLInputElement, tradesBox = document.querySelector('#view-macd-trades') as HTMLInputElement;
-    macdBox.checked = !!indicators.macd; bandBox.checked = !!indicators.band; ma10Box.checked = indicators.ma10 !== false; ma20Box.checked = indicators.ma20 !== false; tradesBox.checked = !!indicators.macdTrades;
+    const macdBox = document.querySelector('#view-macd') as HTMLInputElement, bandBox = document.querySelector('#view-band') as HTMLInputElement, ma10Box = document.querySelector('#view-ma10') as HTMLInputElement, ma20Box = document.querySelector('#view-ma20') as HTMLInputElement, tradesBox = document.querySelector('#view-macd-trades') as HTMLInputElement, volumeBox = document.querySelector('#view-volume') as HTMLInputElement;
+    macdBox.checked = !!indicators.macd; bandBox.checked = !!indicators.band; ma10Box.checked = indicators.ma10 !== false; ma20Box.checked = indicators.ma20 !== false; tradesBox.checked = !!indicators.macdTrades; volumeBox.checked = indicators.volume !== false;
     const onIndicator = () => {
-      indicators = { macd: macdBox.checked, band: bandBox.checked, ma10: ma10Box.checked, ma20: ma20Box.checked, macdTrades: tradesBox.checked };
+      indicators = { macd: macdBox.checked, band: bandBox.checked, ma10: ma10Box.checked, ma20: ma20Box.checked, macdTrades: tradesBox.checked, volume: volumeBox.checked };
       try { localStorage.setItem(INDICATOR_KEY, JSON.stringify(indicators)); } catch { /* 隐私模式等写不进去时只影响记忆 */ }
       void drawEquity();
     };
     macdBox.addEventListener('change', onIndicator);
     bandBox.addEventListener('change', onIndicator);
     tradesBox.addEventListener('change', onIndicator);
+    volumeBox.addEventListener('change', onIndicator);
     ma10Box.addEventListener('change', onIndicator);
     ma20Box.addEventListener('change', onIndicator);
   }

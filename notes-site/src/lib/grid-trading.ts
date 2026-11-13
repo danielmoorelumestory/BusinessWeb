@@ -12,7 +12,8 @@ import {
 import { noteKey, readMeta, writeMeta } from './etf-review';
 import { macdCloseSignals } from './macd-signals';
 
-export type Candle = { date: string; open: number; close: number; high: number; low: number };
+// volume：成交量（手），旧缓存或个别数据源缺失时为 undefined。
+export type Candle = { date: string; open: number; close: number; high: number; low: number; volume?: number };
 export type Trade = {
   // manual/id：手动添加的成交记录（详情页“添加记录”），其余为网格模拟成交。
   manual?: boolean; id?: string;
@@ -231,7 +232,7 @@ export const RECORDS_KEY = 'grid-trading-saved-v1';
 export const SYNC_KEY_STORAGE = 'grid-trading-sync-key-v1';
 const DELETED_KEY = 'grid-trading-deleted-v1';
 const EXTREMES_CACHE_PREFIX = 'grid-trading-extremes-v1:';
-const CANDLE_CACHE_PREFIX = 'grid-trading-candles-v3:';
+const CANDLE_CACHE_PREFIX = 'grid-trading-candles-v4:'; // v4 起带成交量
 const QUOTE_CACHE_KEY = 'grid-trading-quotes-v1';
 const QUOTE_TTL = 60 * 1000;
 const TOMBSTONE_TTL = 180 * 24 * 3600 * 1000;
@@ -294,7 +295,7 @@ const candleRequests = new Map<string, Promise<CandleCache>>();
 
 // 旧版缓存按“代码 + 建仓日”分别保存，同一标的会重复下载；改为按代码缓存后清理旧键。
 // v2 日线缓存没有开盘价，同样清理，页面会重新取数。
-try { Object.keys(localStorage).filter(key => key.startsWith('grid-trading-market-cache-v1:') || key.startsWith('grid-trading-candles-v2:')).forEach(key => localStorage.removeItem(key)); } catch { /* ignore */ }
+try { Object.keys(localStorage).filter(key => key.startsWith('grid-trading-market-cache-v1:') || (key.startsWith('grid-trading-candles-v2:') || key.startsWith('grid-trading-candles-v3:'))).forEach(key => localStorage.removeItem(key)); } catch { /* ignore */ }
 
 async function downloadCandles(code: string, from: string): Promise<Candle[]> {
   const symbol = symbolOf(code);
@@ -323,7 +324,7 @@ async function downloadCandles(code: string, from: string): Promise<Candle[]> {
     const previous = new Date(`${firstDate}T00:00:00Z`); previous.setUTCDate(previous.getUTCDate() - 1); end = previous.toISOString().slice(0, 10);
   }
   return [...new Map(lines.map(line => [line[0], line])).values()]
-    .map(line => ({ date: line[0], open: Number(line[1]), close: Number(line[2]), high: Number(line[3]), low: Number(line[4]) }))
+    .map(line => ({ date: line[0], open: Number(line[1]), close: Number(line[2]), high: Number(line[3]), low: Number(line[4]), ...(Number.isFinite(Number(line[5])) && line[5] !== undefined ? { volume: Number(line[5]) } : {}) }))
     .filter(candle => candle.date >= from && Number.isFinite(candle.close))
     .sort((a, b) => a.date.localeCompare(b.date));
 }
@@ -380,7 +381,7 @@ export async function getFourYearExtremes(code: string): Promise<{ high: number;
   return range;
 }
 
-export type Quote = { code: string; name: string; price: number; high: number; low: number; date: string; open?: number; changePercent?: number; premiumRate?: number; referenceNav?: number };
+export type Quote = { code: string; name: string; price: number; high: number; low: number; date: string; open?: number; volume?: number; changePercent?: number; premiumRate?: number; referenceNav?: number };
 
 /** 批量获取实时报价：多只标的合并为一次请求；结果在本会话内缓存 60 秒，页面间切换不重复请求。 */
 export async function fetchQuotes(codes: string[]): Promise<Map<string, Quote>> {
@@ -401,6 +402,7 @@ export async function fetchQuotes(codes: string[]): Promise<Map<string, Quote>> 
       const fields = match[2].split('~'), stamp = fields[30] ?? '';
       const quote: Quote = { code: match[1], name: fields[1]?.trim() ?? '', price: Number(fields[3]), open: Number(fields[5]), high: Number(fields[33]), low: Number(fields[34]), date: `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}` };
       if (fields[32]?.trim() && Number.isFinite(Number(fields[32]))) quote.changePercent = Number(fields[32]);
+      if (fields[6]?.trim() && Number(fields[6]) >= 0) quote.volume = Number(fields[6]); // 当日累计成交量（手）
       // ETF 专属字段：77 为行情源折溢价率（百分数），78 为对应参考净值。
       // 空字段不能按 Number('') 当成零溢价，股票的同位置字段也不套用。
       if (fields[61]?.trim() === 'ETF' && fields[77]?.trim() && Number.isFinite(Number(fields[77])) && Number(fields[78]) > 0) {
@@ -423,10 +425,10 @@ export function mergeQuote(candles: Candle[], quote?: Quote): Candle[] {
   const index = candles.findIndex(candle => candle.date === quote.date);
   if (index >= 0) {
     const merged = [...candles], previous = candles[index];
-    merged[index] = { date: quote.date, open: previous.open, close: quote.price, high: Math.max(previous.high, quote.high), low: Math.min(previous.low, quote.low) };
+    merged[index] = { date: quote.date, open: previous.open, close: quote.price, high: Math.max(previous.high, quote.high), low: Math.min(previous.low, quote.low), ...(quote.volume !== undefined || previous.volume !== undefined ? { volume: Math.max(quote.volume ?? 0, previous.volume ?? 0) } : {}) };
     return merged;
   }
-  return !candles.length || quote.date > candles.at(-1)!.date ? [...candles, { date: quote.date, open: quote.open && quote.open > 0 ? quote.open : quote.price, close: quote.price, high: quote.high, low: quote.low }] : candles;
+  return !candles.length || quote.date > candles.at(-1)!.date ? [...candles, { date: quote.date, open: quote.open && quote.open > 0 ? quote.open : quote.price, close: quote.price, high: quote.high, low: quote.low, ...(quote.volume !== undefined ? { volume: quote.volume } : {}) }] : candles;
 }
 
 // ---------- 网格计算 ----------
@@ -824,9 +826,9 @@ async function fetchDailyBars(code: string, from: string): Promise<Candle[] | nu
   try {
     const response = await fetch(`${SYNC_ENDPOINT}/daily?code=${encodeURIComponent(code)}&from=${from}&adjust=qfq`, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000) });
     if (!response.ok) return null;
-    const payload = await response.json() as { coveredFrom: string | null; bars: { date: string; open?: number; close: number; high: number; low: number }[] };
+    const payload = await response.json() as { coveredFrom: string | null; bars: { date: string; open?: number; close: number; high: number; low: number; volume?: number }[] };
     if (!payload.bars?.length || !payload.coveredFrom || payload.coveredFrom > from) return null;
-    return payload.bars.map(bar => ({ date: bar.date, open: Number.isFinite(bar.open) ? bar.open! : bar.close, close: bar.close, high: bar.high, low: bar.low }));
+    return payload.bars.map(bar => ({ date: bar.date, open: Number.isFinite(bar.open) ? bar.open! : bar.close, close: bar.close, high: bar.high, low: bar.low, ...(Number.isFinite(bar.volume) ? { volume: bar.volume } : {}) }));
   } catch { return null; }
 }
 
@@ -1126,7 +1128,7 @@ function hardenTouch(svg: SVGSVGElement) {
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
 // macdTrades：在日K上标 MACD收盘卖策略的买卖点（金叉次日开盘买、死叉当日收盘卖），调用方需传入上市以来的日线。
-export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean };
+export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean; volume?: boolean };
 
 export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true, indicators: ChartIndicators = {}) {
   const bars = candles.filter(candle => (!range?.from || candle.date >= range.from) && (!range?.to || candle.date <= range.to));
@@ -1148,7 +1150,10 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const macd = indicators.macd ? macdSeries(closesAll) : undefined, band = indicators.band ? etfBand(closesAll) : undefined;
   const panelHeight = compact ? 72 : 90, panelGap = 30;
   const priceTop = 30, priceHeight = compact ? 220 : 280;
-  const macdTop = priceTop + priceHeight + panelGap, bandTop = macdTop + (macd ? panelHeight + panelGap : 0);
+  // 成交量副图紧贴价格图下方；区间内没有任何成交量数据（旧缓存、数据源缺失）时不画。
+  const showVolume = !!indicators.volume && bars.some(bar => Number.isFinite(bar.volume)), volumeHeight = compact ? 50 : 64;
+  const volumeTop = priceTop + priceHeight + 26;
+  const macdTop = (showVolume ? volumeTop + volumeHeight : priceTop + priceHeight) + panelGap, bandTop = macdTop + (macd ? panelHeight + panelGap : 0);
   const indicatorBottom = bandTop + (band ? panelHeight : -panelGap);
   const moneyTop = indicatorBottom + 38, moneyHeight = noGrid ? 0 : 150, plotBottom = noGrid ? indicatorBottom : moneyTop + moneyHeight, height = plotBottom + 30;
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -1337,11 +1342,22 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 10 日线预估价：橙色虚线，标签放右侧，避免和左侧的 MACD 标签重叠
   const ma10EstSvg = ma10Est && ma10Est.price >= priceMin && ma10Est.price <= priceMax
     ? `<line x1="${left}" x2="${width - right}" y1="${priceY(ma10Est.price).toFixed(1)}" y2="${priceY(ma10Est.price).toFixed(1)}" stroke="${MA10_COLOR}" stroke-width="1" stroke-dasharray="2 3" opacity=".9"/><text x="${width - right - 6}" y="${(priceY(ma10Est.price) - 3).toFixed(1)}" text-anchor="end" fill="${MA10_COLOR}" font-size="9" font-weight="600">10日线 ${ma10Est.forToday ? '今日' : '次日'}${ma10Est.above ? '跌破' : '站上'}价 ${ma10Est.price.toFixed(3)}</text>` : '';
-  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...(macdTrades ? ['mtrade'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
+  // 成交量：柱子与K线同色（红涨绿跌），纵轴从 0 到区间最大量；单位手，≥1 万显示“万手”，≥1 亿显示“亿手”。
+  const volumeText = (volume: number) => volume >= 1e8 ? `${(volume / 1e8).toFixed(2)}亿手` : volume >= 1e4 ? `${(volume / 1e4).toFixed(1)}万手` : `${Math.round(volume)}手`;
+  const maxVolume = showVolume ? Math.max(1, ...bars.map(bar => bar.volume ?? 0)) : 1;
+  const volumeY = (value: number) => volumeTop + volumeHeight - value / maxVolume * volumeHeight;
+  const volumeSvg = showVolume ? title(volumeTop, `成交量（手）· 区间最大 ${volumeText(maxVolume)}`, '#475569') + frame(volumeTop, volumeHeight)
+    + `<line x1="${left}" x2="${width - right}" y1="${volumeTop}" y2="${volumeTop}" stroke="#f1f5f9"/><text x="${left - 8}" y="${volumeTop + 4}" text-anchor="end" fill="#94a3b8" font-size="10">${volumeText(maxVolume)}</text>`
+    + bars.map((bar, index) => {
+      if (!Number.isFinite(bar.volume)) return '';
+      const top = volumeY(bar.volume!), barWidth = Math.max(1, Math.min(14, slot * .62));
+      return `<rect x="${(x(index) - barWidth / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${Math.max(.5, volumeTop + volumeHeight - top).toFixed(1)}" fill="${bar.close >= bar.open ? UP_COLOR : DOWN_COLOR}" opacity=".75"/>`;
+    }).join('') : '';
+  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(showVolume ? ['volume'] : []), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...(macdTrades ? ['mtrade'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
   svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
-    + macdSvg + bandSvg + candleSvg + ma10Svg + tradeMarkSvg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
+    + volumeSvg + macdSvg + bandSvg + candleSvg + ma10Svg + tradeMarkSvg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
     + `<g class="chart-crosshair" visibility="hidden" pointer-events="none"><line class="crosshair-v" y1="${priceTop}" y2="${plotBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/><line class="crosshair-h" x1="${left}" x2="${width - right}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
     + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')
@@ -1356,7 +1372,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     const pointerX = (event.clientX - bounds.left) * width / bounds.width, pointerY = (event.clientY - bounds.top) * height / bounds.height;
     const index = Math.max(0, Math.min(count - 1, Math.floor((pointerX - left) / slot)));
     const bar = bars[index], point = points[index], xx = x(index), trade = tradeByDate.get(bar.date);
-    const inPanel = (pointerY >= priceTop && pointerY <= priceTop + priceHeight) || (!!macd && pointerY >= macdTop && pointerY <= macdTop + panelHeight) || (!!band && pointerY >= bandTop && pointerY <= bandTop + panelHeight) || (!noGrid && pointerY >= moneyTop && pointerY <= plotBottom);
+    const inPanel = (pointerY >= priceTop && pointerY <= priceTop + priceHeight) || (showVolume && pointerY >= volumeTop && pointerY <= volumeTop + volumeHeight) || (!!macd && pointerY >= macdTop && pointerY <= macdTop + panelHeight) || (!!band && pointerY >= bandTop && pointerY <= bandTop + panelHeight) || (!noGrid && pointerY >= moneyTop && pointerY <= plotBottom);
     set('.crosshair-v', { x1: xx, x2: xx });
     set('.crosshair-h', { y1: pointerY, y2: pointerY, visibility: inPanel ? 'visible' : 'hidden' }); // 横向十字线只在两张图内显示
     for (const [name, valueOf] of [['position', (p: EquityPoint) => p.positionValue], ['capital', (p: EquityPoint) => p.capitalUsed], ['profit', (p: EquityPoint) => p.pnl]] as const) {
@@ -1375,6 +1391,12 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     if (ma10) { const i = offset + index, p = maCrossPriceAt(closesAll, 10, i), v = ma10[i]; setText('macross', p !== undefined && v != null ? `收盘后预估：下一交易日收盘${bar.close >= v ? `低于 ${p.toFixed(3)} 跌破10日线` : `高于 ${p.toFixed(3)} 站上10日线`}` : '10日线预估  —'); }
     if (macd) { const i = offset + index, p = macdCrossPriceAt(macd, i), bull = macd.dif[i] > macd.dea[i]; setText('cross', p !== undefined && p > 0 ? `收盘后预估：下一交易日收盘${bull ? `低于 ${p.toFixed(3)} 死叉` : `高于 ${p.toFixed(3)} 金叉`}` : '收盘后预估  —'); }
     if (macd) { const i = offset + index; setText('macd', `MACD  DIF ${macd.dif[i].toFixed(3)}  DEA ${macd.dea[i].toFixed(3)}  柱 ${macd.hist[i].toFixed(3)}  ${macd.dif[i] > macd.dea[i] ? '多头' : '空头'}`); }
+    if (showVolume) {
+      // 量比：当日量 ÷ 前 5 日平均量（前面不足 5 根时不显示）
+      const i = offset + index, previous = candles.slice(Math.max(0, i - 5), i).map(candle => candle.volume).filter((value): value is number => Number.isFinite(value));
+      const ratio = bar.volume !== undefined && previous.length === 5 ? bar.volume / (previous.reduce((a, b) => a + b, 0) / 5) : undefined;
+      setText('volume', bar.volume === undefined ? '成交量  —' : `成交量  ${volumeText(bar.volume)}${ratio !== undefined && Number.isFinite(ratio) ? `   量比(5日) ${ratio.toFixed(2)}` : ''}`);
+    }
     if (band) { const value = band[offset + index]; setText('band', `波段顶底  ${value === null ? '—' : value.toFixed(3)}${value !== null && value < BAND_LOW ? '（低于 30）' : value !== null && value > BAND_HIGH ? '（高于 70）' : ''}`); }
     setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
     setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
