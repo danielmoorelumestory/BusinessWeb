@@ -1,0 +1,8 @@
+.etf-flow__chart { width: 100%; height: auto; margin: 8px 0 4px; }
+.etf-flow__note {
+  color: var(--muted, #5f6a7d);
+  font-size: .84rem;
+  line-height: 1.6;
+  margin: 10px 0 0;
+}
+.etf-flow__foot { color: var(--muted, #5f6a7d); font-size: .8rem; margin-top: 6px; }
