@@ -33,7 +33,7 @@ const etfReviewUrl = href('lab/etf-review');
       <label><input id="view-volume" type="checkbox" checked> 成交量</label>
       <label><input id="view-macd" type="checkbox"> MACD</label>
       <label><input id="view-band" type="checkbox"> 波段顶底</label>
-      <label title="创业板 ETF（159915）÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；2011 年起"><input id="view-r2" type="checkbox"> R2 风格比值</label>
+      <label title="创业板 ETF（159915）÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；2011 年起"><input id="view-r2" type="checkbox"> 择时</label>
       <label title="MACD(12,26,9)：空仓金叉→次日开盘买，持仓死叉→当日收盘卖；指标用上市以来前复权日线计算，前 120 根只预热"><input id="view-macd-trades" type="checkbox"> MACD收盘卖买卖点 <span class="macd-sw buy">▲</span>买 <span class="macd-sw sell">▼</span>卖</label>
     </div>
     <div id="macd-estimate" class="macd-estimate" hidden></div>
@@ -188,7 +188,7 @@ const etfReviewUrl = href('lab/etf-review');
       const action = ma.above ? `${when}低于 <b>${ma.price.toFixed(3)}</b> 将跌破 10 日线` : `${when}高于 <b>${ma.price.toFixed(3)}</b> 将站上 10 日线`;
       lines.push(`<div><span class="est-tag ${ma.above ? 'bull' : 'bear'}">${ma.above ? '跌破预估' : '站上预估'}</span>${state}，${action}；${gapText(ma.price, ma.lastClose, ma.forToday)}。<span class="est-note">临界价 = 最近 9 日收盘均值（10 日线会随当天收盘一起变）。</span></div>`);
     }
-    for (const [name, label, points, note] of [['R2', '创业板 ÷ 红利', ratioPoints.r2 ?? [], '回测覆盖 2011 年以来']] as const) {
+    for (const [name, label, points, note] of [['择时', '创业板 ÷ 红利', ratioPoints.r2 ?? [], '回测覆盖 2011 年以来']] as const) {
       const est = ratioEstimate(points, isLiveBar(points.at(-1)?.date));
       if (!est) continue;
       const whenR = est.live ? '今天收盘' : '下一交易日收盘', gap = (est.critical / est.ratio - 1) * 100;

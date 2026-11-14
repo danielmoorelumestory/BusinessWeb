@@ -1128,11 +1128,11 @@ function hardenTouch(svg: SVGSVGElement) {
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
 // macdTrades：在日K上标 MACD收盘卖策略的买卖点（金叉次日开盘买、死叉当日收盘卖），调用方需传入上市以来的日线。
-// r2：R2 风格比值（创业板 ÷ 红利，与其 20 日均线比较）：MACD 上方单独一张副图，熊市（偏防守）日期同时在 K 线图铺灰底；数据由调用方经 ratioPoints 传入。
+// r2：择时（即研究中的 R2：创业板 ÷ 红利，与其 20 日均线比较）：MACD 上方单独一张副图，熊市（偏防守）日期同时在 K 线图铺灰底；数据由调用方经 ratioPoints 传入。
 export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean; volume?: boolean; r2?: boolean };
 export type RatioPanels = { r2?: RatioPoint[] };
 const RATIO_PANELS = [
-  { key: 'r2', name: 'R2', label: '创业板 ÷ 红利' },
+  { key: 'r2', name: '择时', label: '创业板 ÷ 红利' },
 ] as const;
 
 export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nextBuy: number | undefined, nextSell: number | undefined, trades: Trade[] = [], marker?: { date: string; label: string }, gridStep?: { down: number; up: number }, candles: Candle[] = [], range?: { from?: string; to?: string }, levels?: Levels, fib?: Fib, showGrid = true, indicators: ChartIndicators = {}, ratioPoints: RatioPanels = {}) {
@@ -1353,7 +1353,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       points.forEach((point, index) => { const value = point ? valueOf(point) : null; if (value === null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${x(index).toFixed(1)},${yOf(value).toFixed(1)}`; pen = true; });
       return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${widthPx}" stroke-linejoin="round"/>`;
     };
-    return shade(priceTop, priceHeight, .12) + title(top, `${name} 风格比值 · ${label}（深灰）/ 20 日均线（橙）· 灰底 = 偏防守，按 ${name} 金叉不买`, '#475569') + frame(top, panelHeight)
+    return shade(priceTop, priceHeight, .12) + title(top, `${name} · ${label}（深灰）/ 20 日均线（橙）· 灰底 = 偏防守，金叉不买`, '#475569') + frame(top, panelHeight)
       + shade(top, panelHeight, .14) + ticks(yLo, yHi, top, panelHeight, value => value.toFixed(3), '#94a3b8') + line(point => point.ma, '#d97706', 1.1) + line(point => point.ratio, '#334155', 1.2);
   }).join('');
   const MA10_COLOR = '#d97706', MA20_COLOR = '#0891b2';
@@ -1383,7 +1383,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       return `<rect x="${(x(index) - barWidth / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${Math.max(.5, volumeTop + volumeHeight - top).toFixed(1)}" fill="${bar.close >= bar.open ? UP_COLOR : DOWN_COLOR}" opacity=".75"/>`;
     }).join('') : '';
   const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(showVolume ? ['volume'] : []), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...ratios.map(panel => panel.key), ...(macdTrades ? ['mtrade'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
-  svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}${ratios.length ? ' / 灰底 = R2 偏防守（金叉不买）' : ''}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
+  svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}${ratios.length ? ' / 灰底 = 择时偏防守（金叉不买）' : ''}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
     + volumeSvg + macdSvg + bandSvg + ratioSvg + candleSvg + ma10Svg + tradeMarkSvg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
