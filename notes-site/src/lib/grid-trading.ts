@@ -11,6 +11,7 @@ import {
 } from './etf-review-meta';
 import { noteKey, readMeta, writeMeta } from './etf-review';
 import { macdCloseSignals } from './macd-signals';
+import { bullLookup, kd10Signals } from './kd10-signals';
 
 // volume：成交量（手），旧缓存或个别数据源缺失时为 undefined。
 export type Candle = { date: string; open: number; close: number; high: number; low: number; volume?: number };
@@ -1128,8 +1129,9 @@ function hardenTouch(svg: SVGSVGElement) {
  * 资金数值始终是回测的累计值，区间只决定显示哪些日期。
  */
 // macdTrades：在日K上标 MACD收盘卖策略的买卖点（金叉次日开盘买、死叉当日收盘卖），调用方需传入上市以来的日线。
+// kd10Trades：在日K上标「择时 + B+KD10」策略的买卖点（见 kd10-signals.ts），择时用 ratioPoints.r2，同样需上市以来的日线。
 // r2：择时（即研究中的 R2：创业板 ÷ 红利，与其 20 日均线比较）：MACD 上方单独一张副图，熊市（偏防守）日期同时在 K 线图铺灰底；数据由调用方经 ratioPoints 传入。
-export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean; volume?: boolean; r2?: boolean };
+export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean; kd10Trades?: boolean; volume?: boolean; r2?: boolean };
 export type RatioPanels = { r2?: RatioPoint[] };
 const RATIO_PANELS = [
   { key: 'r2', name: '择时', label: '创业板 ÷ 红利' },
@@ -1297,6 +1299,47 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     return `<path d="${triangle(x(index), buy ? priceY(bar.low) + 4 : priceY(bar.high) - 4, buy, markSize)}" fill="${buy ? TRADE_BUY : TRADE_SELL}" stroke="#fff" stroke-width=".8"><title>${tip}</title></path>`;
   }).join('') + (macdTrades.pendingBuy && macdTrades.pendingBuy.signalDate === bars.at(-1)!.date
     ? `<path d="${triangle(x(count - 1), priceY(bars.at(-1)!.low) + 4, true, markSize)}" fill="#fff" stroke="${TRADE_BUY}" stroke-width="1.2"><title>MACD 金叉，下一交易日开盘待买</title></path>` : '') : '';
+  // 择时 + B+KD10 买卖点：青色 ▲ 买、橙色 ▼ 卖，画得比 MACD收盘卖的标记更靠外，两者可同时显示；最后一根产生买入信号时画空心 ▲。
+  const kd10 = indicators.kd10Trades ? kd10Signals(candles, bullLookup(ratioPoints.r2 ?? [])) : undefined;
+  const KD10_BUY = '#0d9488', KD10_SELL = '#ea580c';
+  const kd10SignalOf = new Map((kd10?.signals ?? []).map(signal => [signal.date, signal]));
+  const kd10Gap = macdTrades ? 16 : 5;
+  const kd10Tip = (signal: NonNullable<typeof kd10>['signals'][number]) => signal.side === 'buy'
+    ? `择时+KD10：${signal.reason}（${signal.signalDate}）次日开盘买 ${signal.price.toFixed(3)}`
+    : `择时+KD10：${signal.reason}${signal.signalDate !== signal.date ? `（${signal.signalDate}，买入当天不能卖）次日开盘卖` : '当日收盘卖'} ${signal.price.toFixed(3)}${signal.ret !== undefined ? ` · 本笔 ${formatPercent(signal.ret)}` : ''}`;
+  // 每笔持仓：买点到卖点画连线（赚红亏绿，A 股习惯），价格图底部画持仓色带；买卖点用带字小标签「买」「卖」，比三角更醒目。
+  const kd10Label = (xx: number, yy: number, buy: boolean, tip: string, hollow = false) => {
+    const w = 15, h = 13, top = buy ? yy : yy - h, color = buy ? KD10_BUY : KD10_SELL;
+    return `<g><title>${tip}</title><rect x="${(xx - w / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${w}" height="${h}" rx="3" fill="${hollow ? '#fff' : color}" stroke="${hollow ? color : '#fff'}" stroke-width="${hollow ? 1.2 : .8}"${hollow ? ' stroke-dasharray="2 1.5"' : ''}/><text x="${xx.toFixed(1)}" y="${(top + 10).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${hollow ? color : '#fff'}">${buy ? '买' : '卖'}</text></g>`;
+  };
+  const kd10Holds: { from: number; to: number; buyPrice: number; sellPrice: number; ret?: number; open: boolean; tip: string }[] = [];
+  if (kd10) {
+    const first = bars[0].date, last = bars.at(-1)!.date;
+    const clampIndex = (date: string) => date < first ? 0 : date > last ? count - 1 : barIndexOf.get(date) ?? bars.findIndex(bar => bar.date >= date);
+    for (let k = 0; k < kd10.signals.length; k++) {
+      const buy = kd10.signals[k];
+      if (buy.side !== 'buy') continue;
+      const sell = kd10.signals[k + 1]?.side === 'sell' ? kd10.signals[k + 1] : undefined;
+      if (sell ? sell.date < first : false) continue;
+      if (buy.date > last) continue;
+      const lastClose = bars.at(-1)!.close;
+      kd10Holds.push({ from: clampIndex(buy.date), to: sell ? clampIndex(sell.date) : count - 1, buyPrice: buy.price, sellPrice: sell ? sell.price : lastClose, ret: sell ? sell.ret : lastClose / buy.price - 1, open: !sell,
+        tip: `择时+KD10 持仓 ${buy.date} → ${sell ? sell.date : '至今'}：${buy.price.toFixed(3)} → ${(sell ? sell.price : lastClose).toFixed(3)}（${sell ? '本笔' : '浮动'} ${formatPercent(sell ? sell.ret ?? 0 : lastClose / buy.price - 1)}）` });
+    }
+  }
+  const kd10HoldSvg = kd10Holds.map(hold => {
+    const up = (hold.ret ?? 0) >= 0, color = hold.open ? KD10_BUY : up ? '#dc2626' : '#16a34a';
+    const x1 = x(hold.from), x2 = x(hold.to), y1 = priceY(hold.buyPrice), y2 = priceY(hold.sellPrice);
+    return `<g><title>${hold.tip}</title><rect x="${(x1 - slot / 2).toFixed(1)}" y="${priceBottom - 5}" width="${Math.max(2, x2 - x1 + slot).toFixed(1)}" height="5" fill="${color}" opacity=".55"/>`
+      + `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${color}" stroke-width="1.6" stroke-dasharray="${hold.open ? '4 3' : 'none'}" opacity=".85"/></g>`;
+  }).join('');
+  const kd10MarkSvg = kd10 ? kd10HoldSvg + kd10.signals.map(signal => {
+    const index = barIndexOf.get(signal.date);
+    if (index === undefined) return '';
+    const bar = bars[index], buy = signal.side === 'buy';
+    return kd10Label(x(index), buy ? priceY(bar.low) + kd10Gap : priceY(bar.high) - kd10Gap, buy, kd10Tip(signal));
+  }).join('') + (kd10.pendingBuy && kd10.pendingBuy.signalDate === bars.at(-1)!.date
+    ? kd10Label(x(count - 1), priceY(bars.at(-1)!.low) + kd10Gap, true, `择时+KD10：${kd10.pendingBuy.reason}，下一交易日开盘待买`, true) : '') : '';
   // 备份点：在备份日画一条竖线（穿过两张图）并标注，便于区分备份时的数据与之后按网格续跑的走向；备份日不在区间内时不画。
   const markerIndex = marker && marker.date >= bars[0].date ? bars.findIndex(bar => bar.date >= marker.date) : -1;
   const markerSvg = marker && markerIndex >= 0
@@ -1382,11 +1425,11 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       const top = volumeY(bar.volume!), barWidth = Math.max(1, Math.min(14, slot * .62));
       return `<rect x="${(x(index) - barWidth / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${Math.max(.5, volumeTop + volumeHeight - top).toFixed(1)}" fill="${bar.close >= bar.open ? UP_COLOR : DOWN_COLOR}" opacity=".75"/>`;
     }).join('') : '';
-  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(showVolume ? ['volume'] : []), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...ratios.map(panel => panel.key), ...(macdTrades ? ['mtrade'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
+  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(showVolume ? ['volume'] : []), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...ratios.map(panel => panel.key), ...(macdTrades ? ['mtrade'] : []), ...(kd10 ? ['ktrade'] : []), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
   svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}${ratios.length ? ' / 灰底 = 择时偏防守（金叉不买）' : ''}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
-    + volumeSvg + macdSvg + bandSvg + ratioSvg + candleSvg + ma10Svg + tradeMarkSvg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
+    + volumeSvg + macdSvg + bandSvg + ratioSvg + candleSvg + ma10Svg + tradeMarkSvg + kd10MarkSvg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
     + `<g class="chart-crosshair" visibility="hidden" pointer-events="none"><line class="crosshair-v" y1="${priceTop}" y2="${plotBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/><line class="crosshair-h" x1="${left}" x2="${width - right}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
     + ['position:#3b82f6', 'capital:#f59e0b', 'profit:#f43f5e'].map(item => { const [name, color] = item.split(':'); return `<circle class="dot-${name}" r="3.5" fill="${color}" stroke="#fff" stroke-width="1.5"/>`; }).join('')
@@ -1434,7 +1477,9 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     const tradeSignal = tradeSignalOf.get(bar.date);
     setText('mtrade', tradeSignal ? (tradeSignal.side === 'buy' ? `收盘卖策略  次日开盘买 ${tradeSignal.price.toFixed(3)}` : `收盘卖策略  ${tradeSignal.signalDate !== tradeSignal.date ? 'T+1 开盘卖' : '收盘卖'} ${tradeSignal.price.toFixed(3)}${tradeSignal.ret !== undefined ? ` 本笔 ${formatPercent(tradeSignal.ret)}` : ''}`)
       : macdTrades?.pendingBuy?.signalDate === bar.date ? '收盘卖策略  金叉，次日开盘待买' : '收盘卖策略  —');
-    const tooltipWidth = macd || macdTrades || (ma10 && ma20) ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
+    const kd10Signal = kd10SignalOf.get(bar.date);
+    setText('ktrade', kd10Signal ? `择时+KD10  ${kd10Signal.reason}·${kd10Signal.side === 'buy' ? '次日开盘买' : kd10Signal.signalDate !== kd10Signal.date ? 'T+1 开盘卖' : '收盘卖'} ${kd10Signal.price.toFixed(3)}${kd10Signal.ret !== undefined ? ` 本笔 ${formatPercent(kd10Signal.ret)}` : ''}` : kd10?.pendingBuy?.signalDate === bar.date ? `择时+KD10  ${kd10.pendingBuy.reason}，次日开盘待买` : '择时+KD10  —');
+    const tooltipWidth = macd || macdTrades || kd10 || (ma10 && ma20) ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
     const tooltipY = Math.max(priceTop, Math.min(plotBottom - tooltipHeight, pointerY - tooltipHeight / 2));
     tooltip.setAttribute('transform', `translate(${tooltipX},${tooltipY})`);
