@@ -9,6 +9,7 @@ import {
   buildCatalogGroups,
   ensureCatalogSeed,
   MACD_GOOD_CATALOG_GROUP_ID,
+  HS300_TIMING_CATALOG_GROUP_ID,
   fundProfileUrl,
   isCatalogGroupId,
   positioningOf,
@@ -58,8 +59,8 @@ describe('etf-catalog-seed', () => {
     const empty = defaultMeta('2026-10-20T00:00:00.000Z');
     const { meta: filled, changed } = ensureCatalogSeed(empty);
     expect(changed).toBe(true);
-    // 9 个行业/策略/商品组 + MACD优秀
-    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(10);
+    // 9 个行业/策略/商品组 + MACD优秀 + 沪深300择时优选
+    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(11);
     expect(filled.groups.some(group => group.id === MONEY_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.groups.some(group => group.id === BOND_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.watchlist.some(watch => watch.code === '511880')).toBe(false);
@@ -171,5 +172,18 @@ describe('etf-catalog-seed', () => {
     const again = ensureCatalogSeed(renumbered).meta;
     expect(order(again, MACD_GOOD_CATALOG_GROUP_ID)).toBe(1.5);
     expect(Object.entries(again.memberships).filter(([, ids]) => ids.includes(MACD_GOOD_CATALOG_GROUP_ID)).length).toBeGreaterThan(0);
+  });
+
+  it('沪深300择时优选 排在 MACD优秀 之后、TMT 科技之前，并加入成员', () => {
+    const tmt = 'g-catalog-ETF-01_TMT科技';
+    const first = ensureCatalogSeed(defaultMeta('2026-11-14T00:00:00.000Z')).meta;
+    const order = (meta: typeof first, id: string) => meta.groups.find(group => group.id === id)!.order;
+    expect(order(first, MACD_GOOD_CATALOG_GROUP_ID)).toBeLessThan(order(first, HS300_TIMING_CATALOG_GROUP_ID));
+    expect(order(first, HS300_TIMING_CATALOG_GROUP_ID)).toBeLessThan(order(first, tmt));
+    // 已有 MACD优秀 的老用户（TMT 被重排到第 2 位）新增本组，仍落在两者之间
+    const renumbered = { ...first, groups: first.groups.filter(group => group.id !== HS300_TIMING_CATALOG_GROUP_ID).map((group, index) => ({ ...group, order: group.id === tmt ? 2 : group.id === MACD_GOOD_CATALOG_GROUP_ID ? 1.5 : index + 10 })) };
+    const again = ensureCatalogSeed(renumbered).meta;
+    expect(order(again, HS300_TIMING_CATALOG_GROUP_ID)).toBe(1.75);
+    expect(again.memberships['159755']).toContain(HS300_TIMING_CATALOG_GROUP_ID);
   });
 });

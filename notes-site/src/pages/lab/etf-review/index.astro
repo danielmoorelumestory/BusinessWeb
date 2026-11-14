@@ -135,7 +135,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     type SavedRecord,
   } from '../../../lib/grid-trading';
   import { renderReviewAnalysis, canRefreshReviewAnalysis, setReviewRecord, matchesReviewFilters } from '../../../lib/review-analysis';
-  import { catalogGroupDef, fundProfileUrl, isCatalogGroupId, MACD_GOOD_CATALOG_GROUP_ID, subThemeCellHtml } from '../../../lib/etf-catalog-seed';
+  import { BACKTEST_CATALOG_GROUP_IDS, catalogGroupDef, fundProfileUrl, isCatalogGroupId, subThemeCellHtml } from '../../../lib/etf-catalog-seed';
   import { fillCatalogRemarks, referenceSectionsHtml } from '../../../lib/etf-catalog-special';
   import { latestInvestmentNote } from '../../../../../src/utils/etfJudgment';
 
@@ -337,7 +337,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
             <h2 class="group-heading">${escapeHtml(title)}</h2>
             <span class="group-count">${codes.length} 只 ETF</span>
           </div>
-          ${groupId === MACD_GOOD_CATALOG_GROUP_ID ? `<p class="group-note">${escapeHtml(catalogGroupDef(groupId)?.description ?? '')}</p>` : ''}
+          ${groupId && BACKTEST_CATALOG_GROUP_IDS.has(groupId) ? `<p class="group-note">${escapeHtml(catalogGroupDef(groupId)?.description ?? '')}</p>` : ''}
           <div class="table-shell">
             <table class="review-table">
               <colgroup>
@@ -431,8 +431,8 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     const row = (code: string, position: number, total: number) => rowHtml(code, meta, watchByCode, noteDates, position, total);
     const visibleGroups = selectedGroupIds.size ? groups.filter(group => selectedGroupIds.has(group.id)) : groups;
     const sections = visibleGroups.map(group => {
-      // MACD优秀 未手动调整过顺序时，按回测的年化超额从高到低（数据文件里的顺序）
-      const defaultOrder = group.id === MACD_GOOD_CATALOG_GROUP_ID ? catalogGroupDef(group.id)?.items.map(item => item.code) : undefined;
+      // MACD优秀、沪深300择时优选 未手动调整过顺序时，按回测结果从高到低（数据文件里的顺序）
+      const defaultOrder = BACKTEST_CATALOG_GROUP_IDS.has(group.id) ? catalogGroupDef(group.id)?.items.map(item => item.code) : undefined;
       const inGroup = orderedGroupCodes(codes.filter(code => (meta.memberships[code] ?? []).includes(group.id)), meta.groupCodeOrder?.[group.id] ?? defaultOrder);
       return sectionHtml(group.name, inGroup, row, noteDates, group.id);
     });
