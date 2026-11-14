@@ -1,16 +1,17 @@
 // 择时 + B+KD10 策略的买卖点：只用于在日K上标注，不参与网格回测。
-// 与研究回测（扩展高波动ETF检验/KD10破线卖改造对照.py 的 E0）一致：
+// 与研究回测（扩展高波动ETF检验/B加KD10择时破线卖对照.py 的 Y1）一致：
 // - 择时（R2：创业板 ÷ 红利 高于其 20 日均线）为牛市时，空仓出现
 //   ① MACD(12,26,9) 金叉，或 ② 收盘由 10 日线下/平 站上 10 日线 且 KDJ(9,3,3) 的 K−D ≥ 5.3
 //   → 下一交易日开盘买入。择时为熊市时不开新仓。
-// - 持仓时 MACD 死叉，或 MACD 处于空头（最近一次是死叉、尚未再金叉）且收盘跌破 10 日线 → 当日收盘卖出；
+// - 持仓时 MACD 死叉，或 当天择时为熊市 且收盘跌破 10 日线（不看 MACD 多空）→ 当日收盘卖出；
+//   择时为牛市时跌破 10 日线不卖，只等死叉。
 //   买入当天触发（T+1 不能卖）则下一交易日开盘卖出。
 // - 择时缺数据（2011 年前、均线未形成）按牛市处理；某日无比值时沿用之前最近一天。
 // - 前 warmup 根只用于预热指标，不产生买卖。
 import { MACD_WARMUP } from './macd-signals';
 
 export type Kd10Bar = { date: string; open: number; high: number; low: number; close: number };
-export type Kd10Reason = '金叉' | '站上10日线' | '死叉' | '破10日线';
+export type Kd10Reason = '金叉' | '站上10日线' | '死叉' | '熊市破10日线';
 export type Kd10Signal = {
   date: string;
   side: 'buy' | 'sell';
@@ -57,12 +58,11 @@ export function kd10Signals(bars: Kd10Bar[], bullOf: (date: string) => boolean |
     const rsv = hi > lo ? 100 * (bars[i].close - lo) / (hi - lo) : 50;
     k = (2 * k + rsv) / 3; d = (2 * d + k) / 3; kd.push(k - d);
   }
-  let macdLong = false, holding = false, entry = 0, entryIndex = -1;
+  let holding = false, entry = 0, entryIndex = -1;
   let pending: { side: 'buy' | 'sell'; reason: Kd10Reason } | undefined;
-  const exitReason = (i: number): Kd10Reason | undefined => dead[i] ? '死叉' : !macdLong && below[i] ? '破10日线' : undefined;
+  const exitReason = (i: number, bull: boolean | undefined): Kd10Reason | undefined => dead[i] ? '死叉' : bull === false && below[i] ? '熊市破10日线' : undefined;
   for (let i = 0; i < n; i++) {
     const bar = bars[i];
-    if (gold[i]) macdLong = true; else if (dead[i]) macdLong = false;
     if (pending) {
       if (pending.side === 'buy') { holding = true; entry = bar.open; entryIndex = i; }
       else holding = false;
@@ -70,14 +70,15 @@ export function kd10Signals(bars: Kd10Bar[], bullOf: (date: string) => boolean |
       pending = undefined;
     }
     if (i < warmup) continue;
+    const bull = bullOf(bar.date);
     if (holding) {
-      const why = exitReason(i);
+      const why = exitReason(i, bull);
       if (!why) continue;
       if (entryIndex === i) pending = { side: 'sell', reason: why };
       else { holding = false; signals.push({ date: bar.date, side: 'sell', price: bar.close, signalDate: bar.date, reason: why, ret: entry > 0 ? bar.close / entry - 1 : undefined }); }
       continue;
     }
-    if (bullOf(bar.date) === false) continue;
+    if (bull === false) continue;
     if (gold[i]) pending = { side: 'buy', reason: '金叉' };
     else if (i > 0 && above[i] && !above[i - 1] && kd[i] >= KD10_THRESHOLD) pending = { side: 'buy', reason: '站上10日线' };
   }

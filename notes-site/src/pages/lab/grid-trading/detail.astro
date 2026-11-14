@@ -35,7 +35,7 @@ const etfReviewUrl = href('lab/etf-review');
       <label><input id="view-band" type="checkbox"> 波段顶底</label>
       <label title="创业板 ETF（159915）÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；2011 年起"><input id="view-r2" type="checkbox"> 择时</label>
       <label title="MACD(12,26,9)：空仓金叉→次日开盘买，持仓死叉→当日收盘卖；指标用上市以来前复权日线计算，前 120 根只预热"><input id="view-macd-trades" type="checkbox"> MACD收盘卖买卖点 <span class="macd-sw buy">▲</span>买 <span class="macd-sw sell">▼</span>卖</label>
-      <label title="择时为牛市（创业板÷红利 在 20 日均线上方）时：MACD 金叉，或收盘站上 10 日线且 KDJ 的 K−D ≥ 5.3 → 次日开盘买；熊市不开新仓。持仓时 MACD 死叉，或 MACD 空头时收盘跌破 10 日线 → 当日收盘卖（买入当天不能卖则次日开盘卖）。用上市以来前复权日线，前 120 根只预热"><input id="view-kd10-trades" type="checkbox"> 择时+KD10买卖点 <span class="macd-sw kbuy">▲</span>买 <span class="macd-sw ksell">▼</span>卖</label>
+      <label title="择时为牛市（创业板÷红利 在 20 日均线上方）时：MACD 金叉，或收盘站上 10 日线且 KDJ 的 K−D ≥ 5.3 → 次日开盘买；熊市不开新仓。持仓时 MACD 死叉，或择时为熊市时收盘跌破 10 日线（牛市跌破不卖） → 当日收盘卖（买入当天不能卖则次日开盘卖）。用上市以来前复权日线，前 120 根只预热"><input id="view-kd10-trades" type="checkbox"> 择时+KD10买卖点 <span class="macd-sw kbuy">▲</span>买 <span class="macd-sw ksell">▼</span>卖</label>
     </div>
     <div id="macd-estimate" class="macd-estimate" hidden></div>
     <div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div>

@@ -12,21 +12,28 @@ for (let i = 0; i < 2500; i++) {
 
 describe('kd10Signals', () => {
   const all = kd10Signals(bars, () => true);
+  // 择时每 60 天切换一次牛熊，用来覆盖熊市破线卖
+  const bullOf = (date: string) => Math.floor(bars.findIndex(bar => bar.date === date) / 60) % 2 === 0;
+  const mixed = kd10Signals(bars, bullOf);
   it('买卖交替、价格取开盘/收盘、T+1 顺延时为次日开盘卖', () => {
-    expect(all.signals.length).toBeGreaterThan(20);
+    expect(mixed.signals.length).toBeGreaterThan(20);
     let deferred = 0;
-    all.signals.forEach((signal, index) => {
+    mixed.signals.forEach((signal, index) => {
       expect(signal.side).toBe(index % 2 ? 'sell' : 'buy');
       const i = bars.findIndex(bar => bar.date === signal.date);
       if (signal.side === 'buy') { expect(signal.price).toBe(bars[i].open); expect(signal.signalDate).toBe(bars[i - 1].date); expect(['金叉', '站上10日线']).toContain(signal.reason); return; }
-      expect(['死叉', '破10日线']).toContain(signal.reason);
-      expect(signal.date > all.signals[index - 1].date).toBe(true);
-      if (signal.signalDate !== signal.date) { deferred++; expect(signal.price).toBe(bars[i].open); expect(signal.signalDate).toBe(all.signals[index - 1].date); }
+      expect(['死叉', '熊市破10日线']).toContain(signal.reason);
+      if (signal.reason === '熊市破10日线') expect(bullOf(signal.signalDate)).toBe(false);
+      expect(signal.date > mixed.signals[index - 1].date).toBe(true);
+      if (signal.signalDate !== signal.date) { deferred++; expect(signal.price).toBe(bars[i].open); expect(signal.signalDate).toBe(mixed.signals[index - 1].date); }
       else expect(signal.price).toBe(bars[i].close);
     });
-    expect(all.signals.some(signal => signal.reason === '站上10日线')).toBe(true);
-    expect(all.signals.some(signal => signal.reason === '破10日线')).toBe(true);
+    expect(mixed.signals.some(signal => signal.reason === '站上10日线')).toBe(true);
+    expect(mixed.signals.some(signal => signal.reason === '熊市破10日线')).toBe(true);
     expect(deferred).toBeGreaterThan(0);
+  });
+  it('择时为牛市时跌破 10 日线不卖，只等死叉', () => {
+    expect(all.signals.filter(signal => signal.side === 'sell').every(signal => signal.reason === '死叉')).toBe(true);
   });
   it('择时为熊市时不开新仓', () => {
     expect(kd10Signals(bars, () => false).signals).toEqual([]);
