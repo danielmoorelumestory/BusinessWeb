@@ -6,10 +6,11 @@ import { href } from '../../lib/url';
 const mainSite = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/');
 const dataBase = `${mainSite}data/etf-uptrend/`;
 const detailUrl = href('lab/grid-trading/detail/');
+const reviewUrl = href('lab/etf-review/');
 ---
 
 <Base title="ETF 主升浪" current="lab" wide description="同花顺 ETF 主升浪榜单的每日快照：趋势回踩、新入池、分类筛选，单只 ETF 的历史上涨区间与来源 AI 上涨原因">
-  <div class="uptrend" id="uptrend" data-base={dataBase} data-detail-url={detailUrl}>
+  <div class="uptrend" id="uptrend" data-base={dataBase} data-detail-url={detailUrl} data-review-url={reviewUrl}>
     <header class="hero compact-hero">
       <p class="kicker">ETF UPTREND</p>
       <h1>ETF 主升浪</h1>
@@ -32,6 +33,7 @@ const detailUrl = href('lab/grid-trading/detail/');
         <input type="search" id="q" placeholder="搜索代码或名称" aria-label="搜索代码或名称">
         <span class="up-count" id="count"></span>
       </div>
+      <p class="up-review-note" id="review-note" role="status" hidden></p>
       <div class="up-table" id="table"></div>
       <p class="up-gone" id="gone"></p>
     </section>
@@ -55,10 +57,19 @@ const detailUrl = href('lab/grid-trading/detail/');
     DEFAULT_FILTERS, TABS, bit, filterRows, gridDetailHref, latestPeriod, missingCats, nextSort, securityCode, sortRows, tabCount,
     type Day, type Detail, type Filters, type SortKey, type SortState, type UptrendIndex,
   } from '../../lib/etf-uptrend';
+  import { addWatch, readMeta } from '../../lib/etf-review';
+  import { poolCodes } from '../../lib/etf-review-meta';
+  import { readGridRecords } from '../../lib/grid-trading';
 
   const root = document.querySelector('#uptrend') as HTMLElement;
   const base = root.dataset.base!;
   const detailUrl = root.dataset.detailUrl!;
+  const reviewUrl = root.dataset.reviewUrl!;
+  // 复盘池 = 有网格的标的 + 复盘页的观察列表（与复盘页同一份本机数据）；每次渲染时重读，其他页面改过也能反映出来。
+  const reviewCodes = () => { try { return new Set(poolCodes(readGridRecords().map(item => item.row.code.trim()), readMeta().watchlist)); } catch { return new Set<string>(); } };
+  const reviewButton = (code6: string, name: string, pool: Set<string>) => pool.has(code6)
+    ? `<a class="up-review in" href="${esc(reviewUrl)}" title="已在 ETF 复盘列表中，点击打开复盘页">已在复盘</a>`
+    : `<button type="button" class="up-review" data-r="${esc(code6)}" data-n="${esc(name)}" aria-label="把 ${esc(name)} 加入 ETF 复盘列表">＋复盘</button>`;
   const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector(s) as T;
   const esc = (v: unknown) => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
   const fmtT = (s?: string) => (s ? s.replace('T', ' ').slice(0, 16) : '—');
@@ -162,13 +173,14 @@ const detailUrl = href('lab/grid-trading/detail/');
       html += `<tr><td colspan="7" class="up-empty">${msg}</td></tr>`;
     }
     const now = new Set(day.rows.map(r => r[0]));
+    const pool = reviewCodes();
     for (const [code, name, f] of rows) {
       const w = watch.has(code), isOpen = open === code;
       const tags = (f & bit('trend_retracement') ? `<span class="up-tag retr">回踩</span>` : '') + (f & bit('new_pool') ? `<span class="up-tag new">新入池</span>` : '')
         + (f & bit('t0') ? `<span class="up-tag">T+0</span>` : '') + (prevSet && !prevSet.has(code) ? `<span class="up-tag entered">较上次新进</span>` : '');
       html += `<tr class="up-row" tabindex="0" data-c="${esc(code)}" aria-expanded="${isOpen}">`
         + `<td class="l up-name"><div class="up-name-in"><button type="button" class="up-star" data-w="${esc(code)}" aria-pressed="${w}" aria-label="${w ? '移出' : '加入'}自选">${w ? '★' : '☆'}</button>`
-        + `<div><b>${esc(name)}</b><span class="num">${esc(securityCode(code))}</span><a class="up-grid" href="${esc(gridDetailHref(detailUrl, securityCode(code), name))}" aria-label="${esc(name)} 网格详情">网格详情</a></div>`
+        + `<div><b>${esc(name)}</b><span class="num">${esc(securityCode(code))}</span><a class="up-grid" href="${esc(gridDetailHref(detailUrl, securityCode(code), name))}" aria-label="${esc(name)} 网格详情">网格详情</a>${reviewButton(securityCode(code), name, pool)}</div>`
         + `</div></td><td class="l">${tags}</td>${periodCells(code)}</tr>`;
       if (isOpen) html += `<tr class="up-detail"><td colspan="7">${detailHtml(code, name)}</td></tr>`;
     }
@@ -194,6 +206,18 @@ const detailUrl = href('lab/grid-trading/detail/');
   $('#table').addEventListener('click', e => {
     const t = e.target as HTMLElement;
     const star = t.closest<HTMLElement>('button.up-star');
+    const add = t.closest<HTMLElement>('button.up-review');
+    if (add) {
+      const code6 = add.dataset.r!, name = add.dataset.n ?? '';
+      const note = $('#review-note');
+      try {
+        addWatch(code6, name);
+        note.innerHTML = `已把 ${esc(name)}（${esc(code6)}）加入 <a href="${esc(reviewUrl)}">ETF 复盘列表</a>，保存在本机；需要同步到其他设备时，到复盘页点「上传云端」。`;
+      } catch (reason) { note.textContent = reason instanceof Error ? reason.message : '加入复盘失败，请重试。'; }
+      note.hidden = false;
+      renderTable();
+      return;
+    }
     if (star) { const c = star.dataset.w!; watch.has(c) ? watch.delete(c) : watch.add(c); save('etf-uptrend-watch', [...watch]); renderTable(); return; }
     const sb = t.closest<HTMLElement>('th button[data-s]');
     if (sb) { sort = nextSort(sort, sb.dataset.s as SortKey); save('etf-uptrend-sort', sort); renderTable(); return; }
@@ -286,6 +310,11 @@ const detailUrl = href('lab/grid-trading/detail/');
   .up-star[aria-pressed='true'] { color: #f59e0b; }
   .up-grid { font-size: 12px; font-weight: 500; color: #0369a1; text-decoration: none; }
   .up-grid:hover { text-decoration: underline; }
+  .up-review { border: 1px solid #c7d2fe; border-radius: 999px; padding: 0 8px; background: #eef2ff; color: #4338ca; font-family: var(--font-sans); font-size: 11px; font-weight: 500; line-height: 18px; cursor: pointer; text-decoration: none; }
+  .up-review:hover { border-color: #6366f1; background: #e0e7ff; }
+  .up-review.in { border-color: #e2e8f0; background: #f8fafc; color: #64748b; }
+  .up-review-note { margin: 8px 0 0; border: 1px solid #c7d2fe; border-radius: 8px; padding: 8px 12px; background: #eef2ff; color: #3730a3; font-size: 13px; line-height: 1.6; }
+  .up-review-note a { color: #4338ca; font-weight: 600; }
   .up-tag { display: inline-block; margin-right: 4px; border: 1px solid #e2e8f0; border-radius: 999px; padding: 1px 8px; font-family: var(--font-sans); font-size: 11px; font-weight: 500; color: #64748b; background: #fff; }
   .up-tag.retr { border-color: #fecaca; background: #fef2f2; color: #dc2626; }
   .up-tag.new { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
