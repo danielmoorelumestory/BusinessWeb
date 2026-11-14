@@ -86,6 +86,19 @@ test('ETF 清单不可用：优雅跳过不写、不抛异常', async () => {
   assert.equal(readBaseline(root).date, '2026-11-13') // 前值未被覆盖
 })
 
+test('市价全缺（价源故障、回退无价清单）：跳过不写假0日', async () => {
+  const root = tmpRoot({ '510300': 1e9 })
+  const r = await runSnapshot({
+    today: '2026-11-14', root, lastCloseFn,
+    universeFn: async () => ({ list: [{ code: '510300', name: '300', market: 'sh', price: null, scale: null }] }),
+    fetchSharesFn: async () => ({ sse: { '510300': 1.1e9 }, szse: {} }),
+  })
+  assert.equal(r.written, false)
+  assert.match(r.reason, /市价/)
+  assert.equal(existsSync(join(root, 'public/data/etf-flow.json')), false)
+  assert.equal(readBaseline(root).date, '2026-11-13') // 前值未被覆盖
+})
+
 test('同日重跑幂等：series 不重复追加', async () => {
   const root = tmpRoot({ '510300': 1e9, '512480': 1e9 })
   const run = () => runSnapshot({

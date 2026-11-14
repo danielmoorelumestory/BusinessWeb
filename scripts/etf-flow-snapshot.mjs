@@ -46,6 +46,12 @@ export async function runSnapshot({
     return { written: false, reason: 'ETF 清单为空' }
   }
   const priceOf = new Map(list.map(e => [e.code, e.price]))
+  // 市价源（东财 clist）故障会回退到交易所清单，此时每只 price 为 null。
+  // 若全无正价，所有净流入都会被计为 null → 否则会静默落一个假「0」日，故像非交易日一样跳过。
+  if (![...priceOf.values()].some(p => p != null && p > 0)) {
+    log(`${today} 市价全缺（价源故障/回退无价清单），跳过`)
+    return { written: false, reason: '市价全缺（价源故障）' }
+  }
 
   const { sse, szse } = await fetchSharesFn({ date: today, fetchImpl })
   if (Object.keys(sse).length === 0) {

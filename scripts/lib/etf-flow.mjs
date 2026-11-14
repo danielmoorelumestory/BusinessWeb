@@ -30,7 +30,9 @@ export function parseSseShares(raw) {
   for (const row of raw?.result ?? []) {
     const code = String(row?.SEC_CODE ?? '').trim()
     const vol = Number(String(row?.TOT_VOL ?? '').replace(/,/g, ''))
-    if (code && Number.isFinite(vol)) out[code] = vol * WAN
+    // 必须为正：字段改名/空值会使 Number('')===0，若收下就得到一个非空全零 map，
+    // 绕过「沪市份额为空」守卫并毒化次日基准。丢弃非正值 → 字段漂移时返回空 map、守卫正常触发。
+    if (code && vol > 0) out[code] = vol * WAN
   }
   return out
 }
@@ -45,7 +47,7 @@ export function parseSzseShares(raw) {
     if (row?.jjlb && row.jjlb !== 'ETF') continue
     const code = CODE_RE.exec(row?.sys_key ?? '')?.[1]
     const gm = Number(String(row?.dqgm ?? '').replace(/,/g, ''))
-    if (code && Number.isFinite(gm)) out[code] = gm * WAN
+    if (code && gm > 0) out[code] = gm * WAN // 同沪市：非正值（含字段改名/空）丢弃，不产生全零 map
   }
   return out
 }

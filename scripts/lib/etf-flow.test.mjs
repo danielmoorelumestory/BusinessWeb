@@ -21,6 +21,24 @@ test('parseSseShares 万份转份', () => {
 test('parseSzseShares 剥HTML、去逗号、转份，仅ETF', () => {
   near(parseSzseShares(szseFixture)['159919'], 13565016600)
 })
+test('parseSseShares 空/0/缺失份额行被丢弃（字段改名不致全零 map）', () => {
+  const r = parseSseShares({ result: [
+    { SEC_CODE: '510300', TOT_VOL: '' },      // 字段改名/空 → 丢弃
+    { SEC_CODE: '510500', TOT_VOL: '0' },     // 0 份 → 丢弃
+    { SEC_CODE: '159901', TOT_VOL: '100' },   // 正常
+  ] })
+  assert.equal(r['510300'], undefined)
+  assert.equal(r['510500'], undefined)
+  assert.equal(r['159901'], 100 * 10000)
+})
+test('parseSzseShares 空/0 dqgm 行被丢弃', () => {
+  const r = parseSzseShares([{ data: [
+    { sys_key: '<u>159919</u>', jjlb: 'ETF', dqgm: '' },
+    { sys_key: '<u>159915</u>', jjlb: 'ETF', dqgm: '100' },
+  ] }])
+  assert.equal(r['159919'], undefined)
+  assert.equal(r['159915'], 100 * 10000)
+})
 test('parseSseShares 空响应得空对象', () => {
   assert.deepEqual(parseSseShares({}), {})
   assert.deepEqual(parseSseShares({ result: [] }), {})
