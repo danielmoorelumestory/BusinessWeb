@@ -105,6 +105,8 @@ export const BAND_HIGH = 70, BAND_LOW = 30;
  * 研究来源：扩展高波动ETF检验/多元行情协议.md（R1-20，T1 熊市不开新仓）。
  */
 export const R1_CODES = { growth: '159949', defensive: '512890' } as const;
+/** R2：创业板 ETF ÷ 红利 ETF，历史从 2011 年起（研究中的 R2-20）。 */
+export const R2_CODES = { growth: '159915', defensive: '510880' } as const;
 export const R1_MA = 20;
 export type RatioPoint = { date: string; ratio: number; ma: number | null; bull: boolean | null };
 
