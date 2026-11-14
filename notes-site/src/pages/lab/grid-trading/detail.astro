@@ -33,6 +33,7 @@ const etfReviewUrl = href('lab/etf-review');
       <label><input id="view-volume" type="checkbox" checked> 成交量</label>
       <label><input id="view-macd" type="checkbox"> MACD</label>
       <label><input id="view-band" type="checkbox"> 波段顶底</label>
+      <label title="创业板50 ETF（159949）÷ 红利低波 ETF（512890）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守"><input id="view-r1" type="checkbox"> R1 风格比值</label>
       <label title="MACD(12,26,9)：空仓金叉→次日开盘买，持仓死叉→当日收盘卖；指标用上市以来前复权日线计算，前 120 根只预热"><input id="view-macd-trades" type="checkbox"> MACD收盘卖买卖点 <span class="macd-sw buy">▲</span>买 <span class="macd-sw sell">▼</span>卖</label>
     </div>
     <div id="macd-estimate" class="macd-estimate" hidden></div>
@@ -132,7 +133,7 @@ const etfReviewUrl = href('lab/etf-review');
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
   } from '../../../lib/grid-trading';
   import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
-  import { isLiveBar, macdEstimate, maEstimate } from '../../../lib/chart-indicators';
+  import { isLiveBar, macdEstimate, maEstimate, R1_CODES, r1Estimate, styleRatio, type RatioPoint } from '../../../lib/chart-indicators';
   import { panViewport, zoomViewport, type Viewport } from '../../../lib/chart-viewport';
 
   blockCopy(); // 屏蔽页面内容复制
@@ -187,8 +188,28 @@ const etfReviewUrl = href('lab/etf-review');
       const action = ma.above ? `${when}低于 <b>${ma.price.toFixed(3)}</b> 将跌破 10 日线` : `${when}高于 <b>${ma.price.toFixed(3)}</b> 将站上 10 日线`;
       lines.push(`<div><span class="est-tag ${ma.above ? 'bull' : 'bear'}">${ma.above ? '跌破预估' : '站上预估'}</span>${state}，${action}；${gapText(ma.price, ma.lastClose, ma.forToday)}。<span class="est-note">临界价 = 最近 9 日收盘均值（10 日线会随当天收盘一起变）。</span></div>`);
     }
+    const r1 = r1Estimate(r1Points, isLiveBar(r1Points.at(-1)?.date));
+    if (r1) {
+      const when1 = r1.live ? '今天收盘' : '下一交易日收盘', gap = (r1.critical / r1.ratio - 1) * 100;
+      const state = `创业板50 ÷ 红利低波 = ${r1.ratio.toFixed(4)}，20 日均线 ${r1.ma.toFixed(4)}（${r1.live ? '盘中' : `截至 ${r1.date} 收盘`}）`;
+      const rule = r1.bull ? '按 R1：MACD 金叉可买入' : '按 R1：MACD 金叉不买，已持有的等死叉尾盘卖';
+      const flip = r1.bull ? `${when1}比值低于 <b>${r1.critical.toFixed(4)}</b> 将转偏防守` : `${when1}比值高于 <b>${r1.critical.toFixed(4)}</b> 将转偏进攻`;
+      lines.push(`<div><span class="est-tag ${r1.bull ? 'bull' : 'bear'}">${r1.bull ? 'R1 偏进攻' : 'R1 偏防守'}</span>${state}；${rule}。${flip}（距离 ${gap >= 0 ? '+' : ''}${gap.toFixed(2)}%）。<span class="est-note">R1 是全市场共用的风格信号，回测只覆盖 2019 年以来。</span></div>`);
+    }
     macdEstimateNote.hidden = !lines.length;
     macdEstimateNote.innerHTML = lines.length ? lines.join('') + '<div class="est-note">只是收盘价的临界值，不预测会不会发生。</div>' : '';
+  }
+  // R1 风格比值：两只 ETF 的前复权日线 + 实时报价；失败时只是不显示，不影响主图。
+  let r1Points: RatioPoint[] = [];
+  let r1Begin = '';
+  async function loadR1(begin: string) {
+    if (r1Points.length && r1Begin && r1Begin <= begin) return;
+    try {
+      const codes = [R1_CODES.growth, R1_CODES.defensive];
+      const [growth, defensive, quotes] = await Promise.all([getCandles(codes[0], begin), getCandles(codes[1], begin), fetchQuotes(codes)]);
+      r1Points = styleRatio(mergeQuote(growth, quotes.get(codes[0])), mergeQuote(defensive, quotes.get(codes[1])));
+      r1Begin = begin;
+    } catch { r1Points = []; }
   }
   async function drawEquity() {
     const input = chartInput;
@@ -201,7 +222,8 @@ const etfReviewUrl = href('lab/etf-review');
     try {
       // 已有的显示用日线起点不晚于需要的起点就复用（getCandles 本身还有按代码的本地缓存）。
       if (!chartCandles || chartCandles.code !== input.code || chartCandles.begin > begin) {
-        const candles = mergeQuote(await getCandles(input.code, begin), (await fetchQuotes([input.code])).get(input.code));
+        const [main] = await Promise.all([getCandles(input.code, begin), loadR1(begin < '2019-01-01' ? '2019-01-01' : begin)]);
+        const candles = mergeQuote(main, (await fetchQuotes([input.code])).get(input.code));
         if (run !== chartRun) return;
         chartCandles = { code: input.code, begin, candles };
       }
@@ -228,7 +250,7 @@ const etfReviewUrl = href('lab/etf-review');
     const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
     rangeFromInput.max = rangeToInput.max = latest > today ? latest : today; rangeFromInput.min = rangeToInput.min = '2000-01-01'; // 不能用已加载日线的首日：那样只能选到建仓日，选更早的日期才会补拉行情；早于上市日的由上面夹到首日
     document.querySelectorAll<HTMLButtonElement>('.range-presets button').forEach(button => button.classList.toggle('active', button.dataset.range === rangeKey));
-    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid, indicators);
+    renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid, indicators, r1Points);
   }
 
   function bindRange() {
@@ -601,10 +623,10 @@ const etfReviewUrl = href('lab/etf-review');
     viewLevelsBox.addEventListener('change', onView);
     viewFibBox.addEventListener('change', onView);
     viewGridBox.addEventListener('change', onView);
-    const macdBox = document.querySelector('#view-macd') as HTMLInputElement, bandBox = document.querySelector('#view-band') as HTMLInputElement, ma10Box = document.querySelector('#view-ma10') as HTMLInputElement, ma20Box = document.querySelector('#view-ma20') as HTMLInputElement, tradesBox = document.querySelector('#view-macd-trades') as HTMLInputElement, volumeBox = document.querySelector('#view-volume') as HTMLInputElement;
-    macdBox.checked = !!indicators.macd; bandBox.checked = !!indicators.band; ma10Box.checked = indicators.ma10 !== false; ma20Box.checked = indicators.ma20 !== false; tradesBox.checked = !!indicators.macdTrades; volumeBox.checked = indicators.volume !== false;
+    const macdBox = document.querySelector('#view-macd') as HTMLInputElement, bandBox = document.querySelector('#view-band') as HTMLInputElement, ma10Box = document.querySelector('#view-ma10') as HTMLInputElement, ma20Box = document.querySelector('#view-ma20') as HTMLInputElement, tradesBox = document.querySelector('#view-macd-trades') as HTMLInputElement, volumeBox = document.querySelector('#view-volume') as HTMLInputElement, r1Box = document.querySelector('#view-r1') as HTMLInputElement;
+    macdBox.checked = !!indicators.macd; bandBox.checked = !!indicators.band; ma10Box.checked = indicators.ma10 !== false; ma20Box.checked = indicators.ma20 !== false; tradesBox.checked = !!indicators.macdTrades; volumeBox.checked = indicators.volume !== false; r1Box.checked = !!indicators.r1;
     const onIndicator = () => {
-      indicators = { macd: macdBox.checked, band: bandBox.checked, ma10: ma10Box.checked, ma20: ma20Box.checked, macdTrades: tradesBox.checked, volume: volumeBox.checked };
+      indicators = { macd: macdBox.checked, band: bandBox.checked, ma10: ma10Box.checked, ma20: ma20Box.checked, macdTrades: tradesBox.checked, volume: volumeBox.checked, r1: r1Box.checked };
       try { localStorage.setItem(INDICATOR_KEY, JSON.stringify(indicators)); } catch { /* 隐私模式等写不进去时只影响记忆 */ }
       void drawEquity();
     };
@@ -612,6 +634,7 @@ const etfReviewUrl = href('lab/etf-review');
     bandBox.addEventListener('change', onIndicator);
     tradesBox.addEventListener('change', onIndicator);
     volumeBox.addEventListener('change', onIndicator);
+    r1Box.addEventListener('change', onIndicator);
     ma10Box.addEventListener('change', onIndicator);
     ma20Box.addEventListener('change', onIndicator);
   }

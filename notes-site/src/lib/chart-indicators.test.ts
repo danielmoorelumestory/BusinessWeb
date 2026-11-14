@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { etfBand, isLiveBar, macdCrossPrice, macdEstimate, macdSeries, maCrossPriceAt, maEstimate } from './chart-indicators';
+import { etfBand, isLiveBar, macdCrossPrice, macdEstimate, macdSeries, maCrossPriceAt, maEstimate, r1Estimate, styleRatio } from './chart-indicators';
 
 describe('etfBand', () => {
   it('前 13 根没有完整窗口时为 null，之后为上涨路程占比', () => {
@@ -79,5 +79,30 @@ describe('maEstimate', () => {
   });
   it('日线不足返回 undefined', () => {
     expect(maEstimate(bars.slice(0, 9), 10, false)).toBeUndefined();
+  });
+});
+
+describe('styleRatio / r1Estimate', () => {
+  const days = Array.from({ length: 25 }, (_, i) => `2026-02-${String(i + 1).padStart(2, '0')}`);
+  const growth = days.map((date, i) => ({ date, close: 1 + i * 0.01 }));
+  const defensive = days.map(date => ({ date, close: 2 }));
+  it('只按两边都有的日期计算比值，并与 20 日均线比较', () => {
+    const pts = styleRatio(growth, defensive.filter((_, i) => i !== 3));
+    expect(pts.length).toBe(24);
+    expect(pts[0].ratio).toBeCloseTo(0.5, 10);
+    expect(pts[18].ma).toBeNull();
+    expect(pts[19].ma).not.toBeNull();
+    expect(pts.at(-1)!.bull).toBe(true);
+  });
+  it('临界比值收盘时恰好等于新的 20 日均线', () => {
+    const pts = styleRatio(growth, defensive);
+    const est = r1Estimate(pts, false)!;
+    const next = [...pts.slice(-19).map(p => p.ratio), est.critical];
+    expect(next.reduce((a, b) => a + b, 0) / 20).toBeCloseTo(est.critical, 10);
+    expect(est.basisDate).toBe(days.at(-1));
+    expect(r1Estimate(pts, true)!.basisDate).toBe(days.at(-2));
+  });
+  it('均线未形成时返回 undefined', () => {
+    expect(r1Estimate(styleRatio(growth.slice(0, 10), defensive.slice(0, 10)), false)).toBeUndefined();
   });
 });
