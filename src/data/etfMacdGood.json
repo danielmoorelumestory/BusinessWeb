@@ -1,7 +1,19 @@
 {
  "asOf": "2026-11-10",
- "rule": "MACD优秀：页面清单 ETF 及半导体ETF 用各自 MACD（12/26/9，复权价）回测，金叉次日开盘买、死叉次日开盘卖、单边 0.1% 成本，从上市后第 60 个交易日起至 2026-11-10。入选需同时满足：回测期≥3年；年化比一直持有高≥3个百分点；前、后两半段都跑赢一直持有；最大回撤更小。按 MACD 年化减一直持有年化从高到低排序。历史统计，不构成投资建议。",
+ "rule": "MACD优秀：页面清单 ETF、半导体ETF 及池外高波动 10 只（创业板、科创50、芯片国泰等）用各自 MACD（12/26/9，复权价）回测，金叉次日开盘买、死叉次日开盘卖、单边 0.1% 成本，从上市后第 60 个交易日起至 2026-11-10。入选需同时满足：回测期≥3年；年化比一直持有高≥3个百分点；前、后两半段都跑赢一直持有；最大回撤更小。按 MACD 年化减一直持有年化从高到低排序。历史统计，不构成投资建议。",
  "items": [
+  {
+   "code": "588000",
+   "name": "科创50ETF华夏",
+   "start": "2021-02-09",
+   "years": 5.7,
+   "holdAnnual": -1.11,
+   "macdAnnual": 17.73,
+   "excessAnnual": 18.85,
+   "holdDrawdown": -59.64,
+   "macdDrawdown": -30.94,
+   "trades": 44
+  },
   {
    "code": "515790",
    "name": "光伏ETF华泰柏瑞",
@@ -39,6 +51,18 @@
    "trades": 35
   },
   {
+   "code": "159939",
+   "name": "信息技术ETF广发",
+   "start": "2015-05-11",
+   "years": 11.5,
+   "holdAnnual": 0.07,
+   "macdAnnual": 12.78,
+   "excessAnnual": 12.71,
+   "holdDrawdown": -79.14,
+   "macdDrawdown": -47.29,
+   "trades": 98
+  },
+  {
    "code": "512480",
    "name": "半导体ETF国联安",
    "start": "2019-09-04",
@@ -48,6 +72,18 @@
    "excessAnnual": 12.2,
    "holdDrawdown": -62.49,
    "macdDrawdown": -27.32,
+   "trades": 60
+  },
+  {
+   "code": "512760",
+   "name": "芯片ETF国泰",
+   "start": "2019-09-04",
+   "years": 7.2,
+   "holdAnnual": 14.11,
+   "macdAnnual": 25.25,
+   "excessAnnual": 11.14,
+   "holdDrawdown": -62.23,
+   "macdDrawdown": -31.48,
    "trades": 60
   },
   {
