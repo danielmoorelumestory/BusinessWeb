@@ -99,6 +99,15 @@ test('市价全缺（价源故障、回退无价清单）：跳过不写假0日'
   assert.equal(readBaseline(root).date, '2026-11-13') // 前值未被覆盖
 })
 
+test('深市当日缺失不清空深市基准（F3：恢复日不漏算）', async () => {
+  const root = tmpRoot({ '510300': 1e9, '159919': 2e9 }) // 昨日沪+深都有
+  await runSnapshot({
+    today: '2026-11-14', root, universeFn, lastCloseFn,
+    fetchSharesFn: async () => ({ sse: { '510300': 1.1e9 }, szse: {} }), // 今日深市瞬断
+  })
+  assert.equal(readBaseline(root).shares['159919'], 2e9) // 深市基准仍保留（合并而非覆盖）
+})
+
 test('同日重跑幂等：series 不重复追加', async () => {
   const root = tmpRoot({ '510300': 1e9, '512480': 1e9 })
   const run = () => runSnapshot({

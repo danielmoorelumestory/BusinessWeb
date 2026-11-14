@@ -78,14 +78,15 @@ export async function runSnapshot({
   series.sort((a, b) => a.date.localeCompare(b.date))
 
   const data = {
-    updated: new Date().toISOString(),
+    updated: new Date().toISOString(), // 该字段在 writeJsonIfChanged 里按 VOLATILE 忽略，内容不变不会触发重写
     note: NOTE,
     sample: false,
     series,
     kpi: { all: kpiFor(series, 'flow_all'), broad: kpiFor(series, 'flow_broad') },
   }
   writeJsonIfChanged(outFile, data, { pretty: true })
-  writeJsonIfChanged(baselineFile, { date: today, shares: sharesToday })
+  // 合并而非覆盖：单市场当日瞬断（如深市缺失）不清空该市场基准，避免恢复首日把它全当新上市漏算。
+  writeJsonIfChanged(baselineFile, { date: today, shares: { ...prev, ...sharesToday } })
   log(`${today} 全A=${toYi(all)}亿 宽基=${toYi(broad)}亿 指数=${index ?? 'null'} series=${series.length}`)
   return { written: true }
 }
