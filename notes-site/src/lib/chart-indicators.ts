@@ -100,17 +100,15 @@ export function etfBand(closes: number[], period = 13): (number | null)[] {
 export const BAND_HIGH = 70, BAND_LOW = 30;
 
 /**
- * R1 风格比值：创业板50 ETF ÷ 红利低波 ETF（前复权收盘），与比值自身 20 日均线比较。
- * 比值在均线上方 = 偏进攻（按 R1，MACD 金叉可买）；下方 = 偏防守（金叉不买，持仓等死叉尾盘卖）。
- * 研究来源：扩展高波动ETF检验/多元行情协议.md（R1-20，T1 熊市不开新仓）。
+ * R2 风格比值（牛熊择时）：创业板 ETF ÷ 红利 ETF（前复权收盘），与比值自身 20 日均线比较，历史从 2011 年起。
+ * 比值在均线上方 = 偏进攻（MACD 金叉可买）；下方 = 偏防守（金叉不买，持仓等死叉尾盘卖）。
+ * 研究来源：扩展高波动ETF检验/多元行情协议.md（R2-20，T1 熊市不开新仓）。
  */
-export const R1_CODES = { growth: '159949', defensive: '512890' } as const;
-/** R2：创业板 ETF ÷ 红利 ETF，历史从 2011 年起（研究中的 R2-20）。 */
 export const R2_CODES = { growth: '159915', defensive: '510880' } as const;
-export const R1_MA = 20;
+export const RATIO_MA = 20;
 export type RatioPoint = { date: string; ratio: number; ma: number | null; bull: boolean | null };
 
-export function styleRatio(growth: { date: string; close: number }[], defensive: { date: string; close: number }[], n = R1_MA): RatioPoint[] {
+export function styleRatio(growth: { date: string; close: number }[], defensive: { date: string; close: number }[], n = RATIO_MA): RatioPoint[] {
   const other = new Map(defensive.map(bar => [bar.date, bar.close]));
   const ratios = growth.filter(bar => other.has(bar.date) && bar.close > 0 && other.get(bar.date)! > 0)
     .map(bar => ({ date: bar.date, ratio: bar.close / other.get(bar.date)! }))
@@ -124,13 +122,13 @@ export function styleRatio(growth: { date: string; close: number }[], defensive:
   });
 }
 
-export type R1Estimate = { bull: boolean; ratio: number; ma: number; date: string; live: boolean; critical: number; basisDate: string };
+export type RatioEstimate = { bull: boolean; ratio: number; ma: number; date: string; live: boolean; critical: number; basisDate: string };
 
 /**
  * 当前状态 + 转向临界比值。live（最后一根是今天、未收盘）时状态是盘中暂态，临界值针对「今天收盘」；
  * 否则针对「下一交易日收盘」。临界比值 = 待估那天之前最近 n−1 个比值的均值（与 10 日线临界价同理）。
  */
-export function r1Estimate(points: RatioPoint[], live: boolean, n = R1_MA): R1Estimate | undefined {
+export function ratioEstimate(points: RatioPoint[], live: boolean, n = RATIO_MA): RatioEstimate | undefined {
   const last = points.at(-1);
   if (!last || last.ma === null || last.bull === null) return undefined;
   const basis = points.length - 1 - (live ? 1 : 0);

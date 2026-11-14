@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { etfBand, isLiveBar, macdCrossPrice, macdEstimate, macdSeries, maCrossPriceAt, maEstimate, r1Estimate, styleRatio } from './chart-indicators';
+import { etfBand, isLiveBar, macdCrossPrice, macdEstimate, macdSeries, maCrossPriceAt, maEstimate, ratioEstimate, styleRatio } from './chart-indicators';
 
 describe('etfBand', () => {
   it('前 13 根没有完整窗口时为 null，之后为上涨路程占比', () => {
@@ -82,7 +82,7 @@ describe('maEstimate', () => {
   });
 });
 
-describe('styleRatio / r1Estimate', () => {
+describe('styleRatio / ratioEstimate', () => {
   const days = Array.from({ length: 25 }, (_, i) => `2026-02-${String(i + 1).padStart(2, '0')}`);
   const growth = days.map((date, i) => ({ date, close: 1 + i * 0.01 }));
   const defensive = days.map(date => ({ date, close: 2 }));
@@ -96,13 +96,13 @@ describe('styleRatio / r1Estimate', () => {
   });
   it('临界比值收盘时恰好等于新的 20 日均线', () => {
     const pts = styleRatio(growth, defensive);
-    const est = r1Estimate(pts, false)!;
+    const est = ratioEstimate(pts, false)!;
     const next = [...pts.slice(-19).map(p => p.ratio), est.critical];
     expect(next.reduce((a, b) => a + b, 0) / 20).toBeCloseTo(est.critical, 10);
     expect(est.basisDate).toBe(days.at(-1));
-    expect(r1Estimate(pts, true)!.basisDate).toBe(days.at(-2));
+    expect(ratioEstimate(pts, true)!.basisDate).toBe(days.at(-2));
   });
   it('均线未形成时返回 undefined', () => {
-    expect(r1Estimate(styleRatio(growth.slice(0, 10), defensive.slice(0, 10)), false)).toBeUndefined();
+    expect(ratioEstimate(styleRatio(growth.slice(0, 10), defensive.slice(0, 10)), false)).toBeUndefined();
   });
 });
