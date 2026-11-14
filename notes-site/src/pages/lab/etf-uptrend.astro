@@ -29,7 +29,7 @@ const reviewUrl = href('lab/etf-review/');
         <label><input type="checkbox" data-k="entered"> 较上次新进</label>
       </div>
       <div class="up-toolbar">
-        <label class="up-field">快照日期 <select id="day" aria-label="快照日期"></select></label>
+        <label class="up-field">行情日 <select id="day" aria-label="行情日"></select></label>
         <input type="search" id="q" placeholder="搜索代码或名称" aria-label="搜索代码或名称">
         <span class="up-count" id="count"></span>
       </div>
@@ -41,12 +41,12 @@ const reviewUrl = href('lab/etf-review/');
     <section class="up-notes">
       <h2>口径与限制</h2>
       <ul>
-        <li>「采集时间」是请求时间；「来源截止日」取本次新取到的在池 ETF 当前上涨区间的截止日，名单接口本身不带日期。两者不同（周末、休市、来源未更新）时，名单不代表采集日的行情。</li>
+        <li>「来源截止日」取本次新取到的在池 ETF 当前上涨区间的截止日（名单接口本身不带日期），快照按它命名，即「行情日」；「采集时间」是请求时间，周末、休市再采只会更新同一行情日的快照。</li>
         <li>今日涨幅、盘中累计涨幅、连续上涨天数、涨停指标需要登录才能取得，这里没有，也没有用别的数据冒充；因此只能按区间字段排序或保持来源原序。</li>
         <li>分类（T+0、行业板块、宽基指数）和「同类ETF仅展示一只」取自同一榜单的子池与去重开关，保留哪一只由来源决定；勾选项同时生效时取交集，与来源一致。</li>
         <li>区间列来自历史上涨区间接口，截至各自的截止日；<code>period_rise</code> 等字段按来源原值显示、单位未经核实，不等于 App 上的盘中累计涨幅。上涨原因是同花顺生成的 AI 文本，未独立核实。</li>
         <li>「自选」只保存在本机浏览器；「较上次新进」与上一份快照比较，是本地计算。历史快照从 2026-11-13 起积累，分类数据从当晚起才有。</li>
-        <li>每天北京时间 <span id="sched">20:30</span> 自动采集，失败会在 21:30、22:30 补跑。来源：<a id="src" target="_blank" rel="noopener">同花顺 ETF 主升浪</a>。</li>
+        <li>来源一般晚上才更新当天数据，所以每天北京时间 <span id="sched">23:30、07:00</span> 各检查一次：来源截止日前进了才重新采集。来源：<a id="src" target="_blank" rel="noopener">同花顺 ETF 主升浪</a>。</li>
       </ul>
     </section>
   </div>
@@ -238,7 +238,7 @@ const reviewUrl = href('lab/etf-review/');
       $('#table').innerHTML = '';
       return;
     }
-    $('#sched').textContent = index.schedule?.time ?? '20:30';
+    $('#sched').textContent = index.schedule?.times?.join('、') ?? '23:30、07:00';
     ($('#src') as HTMLAnchorElement).href = index.source_page;
     if (!index.days.length) { renderHead(); $('#table').innerHTML = `<p class="up-empty">还没有快照，首次采集后这里会出现名单。</p>`; return; }
     current = index.days.at(-1)!.d;

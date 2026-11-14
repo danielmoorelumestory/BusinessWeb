@@ -8,7 +8,7 @@
   python -m bruce_replica uptrend run --scheduled     # 定时入口：当天已成功则跳过
   python -m bruce_replica uptrend show [--date D]     # 终端查看最近成功快照或某日快照
   python -m bruce_replica uptrend page                # 重新生成页面
-  python -m bruce_replica uptrend schedule install [--time 20:30]
+  python -m bruce_replica uptrend schedule install [--time 23:30 --time 07:00]
   python -m bruce_replica uptrend schedule status | uninstall
 
 数据边界（与同花顺页面的差异）：
@@ -16,7 +16,8 @@
   涨停指标的接口要求登录（未登录返回 401），这里不采集、不伪造。名单顺序是接口原序，不是涨幅排行。
 - 历史区间的 period_rise 截至该区间 end_day，不是 App 里的盘中累计涨幅。
 - 名单接口不带日期。「来源截止日」取本次新取到的在池 ETF 最近上涨区间的 end_day 最大值；
-  采集日与来源截止日不同（周末、休市、来源尚未更新）时如实标出，不当作当日行情。
+  快照按来源截止日（行情日）命名，采集时间另记；来源晚上才更新，所以默认北京时间 23:30 和次日 07:00 各采一次，
+  定时运行先探测来源截止日，没有前进就跳过。
 - 历史快照只能从开始采集之日起积累，不回填。
 """
 from __future__ import annotations
@@ -65,7 +66,9 @@ LABEL = "com.gupiaows.ths-etf-uptrend"
 PLIST = Path.home() / "Library" / "LaunchAgents" / f"{LABEL}.plist"
 
 DEFAULT_CONFIG = {
-    "time": "20:30",          # 北京时间
+    # 北京时间采集时点。同花顺当天的榜单一般要到深夜才更新（实测 21:25 仍是前一日、次日 04:57 已更新），
+    # 所以 23:30 一次、次日 07:00 再兜底一次；来源没有新数据时只发一个探测请求就跳过。
+    "times": ["23:30", "07:00"],
     "period_budget": 120,     # 每次最多刷新多少只 ETF 的历史区间（其余用缓存，并标出缓存日期）
     "reason_budget": 40,      # 每次最多新取多少条 AI 原因（按 ETF + 区间起始日缓存）
     "min_interval": 0.35,     # 两次请求之间的最短间隔（秒），顺序请求、并发为 1
@@ -73,9 +76,8 @@ DEFAULT_CONFIG = {
     "retries": 3,
     "pool_timeout": 30,       # 名单接口晚间偶尔很慢或断连，单独放宽
     "pool_retries": 5,
-    "retry_offsets_min": [60, 120],
     "detail_deadline_s": 900,  # 历史区间与 AI 原因阶段的总时长上限，超时后留待下次
-    "detail_max_consecutive_failures": 5,  # 连续失败这么多次就判定上游不稳，停止明细请求  # 主时点之后的当晚补跑（分钟）；当天已成功会自动跳过
+    "detail_max_consecutive_failures": 5,  # 连续失败这么多次就判定上游不稳，停止明细请求
     "probe_count": 3,         # 每次必定新取历史区间的在池 ETF 数，用来确定来源截止日
 }
 
@@ -117,7 +119,9 @@ def read_json(path: Path, default: Any = None) -> Any:
 
 def load_config(root: Path = DATA_ROOT) -> dict:
     cfg = dict(DEFAULT_CONFIG)
-    cfg.update(read_json(root / "config.json", {}) or {})
+    saved = read_json(root / "config.json", {}) or {}
+    saved.pop("time", None)          # 旧版单一时点配置，已由 times 取代
+    cfg.update(saved)
     return cfg
 
 
@@ -293,6 +297,27 @@ def snapshot_path(root: Path, day: str) -> Path:
     return root / "snapshots" / f"{day}.json"
 
 
+def rekey_snapshots(root: Path) -> list[tuple[str, str]]:
+    """把旧版按采集日命名的快照改名为按来源截止日命名；同一行情日有多份时保留采集较晚的一份。"""
+    moved = []
+    d = root / "snapshots"
+    for path in sorted(d.glob("*.json")) if d.exists() else []:
+        snap = read_json(path)
+        key = (snap or {}).get("source_as_of")
+        if not key or key == path.stem:
+            continue
+        target = snapshot_path(root, key)
+        other = read_json(target)
+        if other and (other.get("fetch_completed_at") or "") >= (snap.get("fetch_completed_at") or ""):
+            path.unlink()
+        else:
+            snap["date"] = key
+            write_json_atomic(target, snap)
+            path.unlink()
+        moved.append((path.stem, key))
+    return moved
+
+
 def list_snapshots(root: Path) -> list[str]:
     d = root / "snapshots"
     return sorted(p.stem for p in d.glob("*.json")) if d.exists() else []
@@ -391,18 +416,14 @@ def collect(root: Path = DATA_ROOT, cfg: dict | None = None, fetcher: Fetcher | 
             errors.append({"stage": "ai_reasons", "ths_code": c, "message": str(exc)})
 
     finished = clock()
-    prev = [d for d in list_snapshots(root) if d < day]
-    prev_snap = read_json(snapshot_path(root, prev[-1])) if prev else None
+    # 快照以来源截止日（行情日）为键：周末、休市或来源未更新时重跑，只会更新同一行情日的快照。
+    key = as_of or day
     notes = []
     if as_of is None:
-        notes.append("本次没有取到历史区间，无法确定来源截止日。")
-    elif as_of < day:
-        notes.append(f"来源数据截止 {as_of}，早于采集日 {day}（周末、休市或来源尚未更新），不是 {day} 的行情。")
-    if prev_snap and prev_snap.get("source_as_of") == as_of and \
-            [r["ths_code"] for r in prev_snap["etfs"]] == [r["ths_code"] for r in rows]:
-        notes.append(f"名单与 {prev[-1]} 的快照相同且来源截止日未变，来源可能尚未更新。")
+        notes.append(f"本次没有取到历史区间，无法确定来源截止日，暂按采集日 {day} 保存。")
 
     snap = {
+        "date": key,
         "collected_on": day,
         "source_as_of": as_of,
         "fetch_started_at": iso(started),
@@ -420,7 +441,7 @@ def collect(root: Path = DATA_ROOT, cfg: dict | None = None, fetcher: Fetcher | 
     raw_path = root / "raw" / day / f"{run_id}.json.gz"
     write_json_atomic(raw_path, {"run_id": run_id, "requests": f.raw}, gz=True)
     snap["raw_file"] = str(raw_path.relative_to(root))
-    write_json_atomic(snapshot_path(root, day), snap)
+    write_json_atomic(snapshot_path(root, key), snap)
     write_json_atomic(root / "latest.json", snap)
     return snap
 
@@ -436,32 +457,42 @@ def record_run(root: Path, entry: dict) -> None:
     write_json_atomic(root / "status.json", status)
 
 
-def already_done(existing: dict | None, at: datetime, time_str: str) -> bool:
-    """定时任务的同日去重：当天已有成功快照，且它是在定时时点之后采集的、或来源截止日已是当天。
-    上午手动跑过（来源还没更新）不会挡住晚上的定时采集；睡眠唤醒后的补跑不会重复写入。"""
-    if not existing or existing.get("status") != "success":
-        return False
-    day = at.astimezone(TZ).date().isoformat()
-    if existing.get("collected_on") != day:
-        return False
-    hh, mm = parse_hhmm(time_str)
-    sched = at.astimezone(TZ).replace(hour=hh, minute=mm, second=0, microsecond=0)
-    started = datetime.fromisoformat(existing["fetch_started_at"])
-    return started >= sched or existing.get("source_as_of") == day
+def probe_as_of(latest: dict, cfg: dict, fetcher: Fetcher | None = None) -> str | None:
+    """只取上次名单前几只 ETF 的历史区间，看来源截止日有没有前进。请求全部失败时返回 None（交给完整采集处理）。"""
+    f = fetcher or Fetcher(cfg["timeout"], cfg["retries"], cfg["min_interval"])
+    lists = []
+    for r in (latest.get("etfs") or [])[:cfg["probe_count"]]:
+        market, code = r["ths_code"].split(":", 1)
+        try:
+            ps = f.json(f"{PERIOD_API}/{market}/{code}")
+            if isinstance(ps, list):
+                lists.append(ps)
+        except RuntimeError:
+            continue
+    return source_as_of(lists)
+
+
+def already_current(latest: dict | None, probed: str | None) -> bool:
+    """定时去重：最近一份完整快照的来源截止日不早于来源当前的截止日，说明没有新数据。
+    不看采集时刻：来源还没更新时采过的快照，不会挡住之后的采集。"""
+    return bool(latest and latest.get("status") == "success" and probed
+                and latest.get("source_as_of") and latest["source_as_of"] >= probed)
 
 
 def run(root: Path = DATA_ROOT, scheduled: bool = False, allow_empty: bool = False,
         make_page: bool = True, collector: Callable[..., dict] = collect,
-        clock: Callable[[], datetime] = now) -> int:
+        clock: Callable[[], datetime] = now, prober: Callable[[dict], str | None] | None = None) -> int:
     with run_lock(root) as ok:
         if not ok:
             print("另一次采集正在进行，本次退出。")
             return 0
-        day = clock().date().isoformat()
-        existing = read_json(snapshot_path(root, day))
-        if scheduled and already_done(existing, clock(), load_config(root)["time"]):
-            print(f"{day} 已有定时时点之后的成功快照（{existing['fetch_completed_at']}），跳过。手动重跑请用 run。")
-            return 0
+        rekey_snapshots(root)
+        latest = read_json(root / "latest.json")
+        if scheduled and latest and latest.get("status") == "success":
+            probed = (prober or (lambda snap: probe_as_of(snap, load_config(root))))(latest)
+            if already_current(latest, probed):
+                print(f"来源截止日仍是 {probed}，已有完整快照（采集于 {latest['fetch_completed_at']}），跳过。手动重跑请用 run。")
+                return 0
         started = clock()
         entry = {"run_id": started.strftime("%Y%m%dT%H%M%S"), "started_at": iso(started),
                  "trigger": "scheduled" if scheduled else "manual"}
@@ -509,7 +540,7 @@ def page_data(root: Path = DATA_ROOT) -> dict:
         detail[c] = {"at": cached["fetched_at"], "periods": cached["periods"], "reasons": reasons}
     cfg = load_config(root)
     return {"history": history, "detail": detail, "status": read_json(root / "status.json", {}) or {},
-            "generated_at": iso(now()), "schedule": {"time": cfg["time"], "tz": TZ_NAME},
+            "generated_at": iso(now()), "schedule": {"times": cfg["times"], "tz": TZ_NAME},
             "source_page": SOURCE_PAGE}
 
 
@@ -530,6 +561,11 @@ def export_site(root: Path, out_dir: Path) -> list[Path]:
         written.append(path)
 
     days = []
+    keep = {f"{h['d']}.json" for h in data["history"]}
+    for old in (out_dir / "days").glob("*.json") if (out_dir / "days").exists() else []:
+        if old.name not in keep:          # 旧版按采集日命名的快照已改名
+            old.unlink()
+            written.append(old)
     for h in data["history"]:
         put(out_dir / "days" / f"{h['d']}.json", {"d": h["d"], "cats": h["cats"], "rows": h["rows"]})
         days.append({k: h[k] for k in ("d", "asof", "at", "st", "n", "notes")})
@@ -561,8 +597,7 @@ def show(root: Path, day: str | None, limit: int) -> int:
         print("没有快照。" if not day else f"{day} 没有快照。已有：{', '.join(list_snapshots(root)) or '无'}")
         return 1
     n = snap["counts"]
-    print(f"采集日 {snap['collected_on']}（完成于 {snap['fetch_completed_at']}）  来源截止日 {snap['source_as_of'] or '未知'}  "
-          f"状态 {snap['status']}")
+    print(f"行情日（来源截止日） {snap['source_as_of'] or '未知'}  采集于 {snap['fetch_completed_at']}  状态 {snap['status']}")
     print(f"主升浪 {n['all']} 只  趋势回踩 {n['trend_retracement']} 只  新入池 {n['new_pool']} 只")
     labels = {"t0": "T+0", "industry": "行业板块", "broad_index": "宽基指数", "unique_rep": "同类仅一只"}
     extra = "  ".join(f"{v} {n[k]} 只" if k in n else f"{v} 未取到" for k, v in labels.items())
@@ -595,13 +630,14 @@ def next_fire(hh: int, mm: int, ref: datetime | None = None) -> datetime:
 
 
 def fire_times(cfg: dict) -> list[tuple[int, int]]:
-    """主时点 + 当晚补跑时点（北京时间），只保留不跨日的。"""
-    hh, mm = parse_hhmm(cfg["time"])
-    out = [(hh, mm)]
-    for off in cfg.get("retry_offsets_min") or []:
-        t = hh * 60 + mm + int(off)
-        if 0 < int(off) and t < 24 * 60 and (t // 60, t % 60) not in out:
-            out.append((t // 60, t % 60))
+    """配置里的北京时间采集时点，去重并保持配置顺序。"""
+    out: list[tuple[int, int]] = []
+    for t in cfg.get("times") or []:
+        hm = parse_hhmm(t)
+        if hm not in out:
+            out.append(hm)
+    if not out:
+        raise ValueError("至少要配置一个采集时点")
     return out
 
 
@@ -624,15 +660,17 @@ def _launchctl(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run(["launchctl", *args], capture_output=True, text=True)
 
 
-def schedule_install(time_str: str | None, root: Path = DATA_ROOT) -> int:
+def schedule_install(time_strs: list[str] | None, root: Path = DATA_ROOT) -> int:
     cfg = load_config(root)
-    if time_str:
-        parse_hhmm(time_str)
-        cfg["time"] = time_str
+    if time_strs:
+        for t in time_strs:
+            parse_hhmm(t)
+        cfg["times"] = list(time_strs)
     times = fire_times(cfg)
     local = [shanghai_to_local(h, m) for h, m in times]
     saved = read_json(root / "config.json", {}) or {}
-    saved.update(time=cfg["time"], installed_local_utcoffset=now().astimezone().strftime("%z"),
+    saved.pop("time", None)
+    saved.update(times=cfg["times"], installed_local_utcoffset=now().astimezone().strftime("%z"),
                  installed_local_tz=str(datetime.now().astimezone().tzinfo))
     write_json_atomic(root / "config.json", saved)
     (root / "logs").mkdir(parents=True, exist_ok=True)
@@ -646,7 +684,7 @@ def schedule_install(time_str: str | None, root: Path = DATA_ROOT) -> int:
         return 1
     _launchctl("enable", f"{domain}/{LABEL}")
     fmt = lambda ts: "、".join(f"{h:02d}:{m:02d}" for h, m in ts)
-    print(f"已注册 {LABEL}：每天北京时间 {cfg['time']}，失败补跑 {fmt(times[1:]) or '无'}（本机时间 {fmt(local)}）")
+    print(f"已注册 {LABEL}：每天北京时间 {fmt(times)}（本机时间 {fmt(local)}）")
     return schedule_status(root)
 
 
@@ -669,7 +707,7 @@ def schedule_status(root: Path = DATA_ROOT) -> int:
         sci = p["StartCalendarInterval"]
         got = [(d["Hour"], d["Minute"]) for d in (sci if isinstance(sci, list) else [sci])]
         exp = [shanghai_to_local(h, m) for h, m in times]
-        print(f"  本机触发时间 {fmt(got)}，对应北京时间 {fmt(times)}（首个为主时点，其余为失败补跑）"
+        print(f"  本机触发时间 {fmt(got)}，对应北京时间 {fmt(times)}"
               + ("" if got == exp else f"  ⚠ 与配置或本机时区不符，应为 {fmt(exp)}，请重新 install"))
         print(f"  命令：{' '.join(p['ProgramArguments'])}（工作目录 {p['WorkingDirectory']}）")
     if loaded:
@@ -680,7 +718,7 @@ def schedule_status(root: Path = DATA_ROOT) -> int:
             if key in ("state", "runs", "last exit code") and key not in seen:
                 seen.add(key)
                 print("  " + s)
-    print(f"  下一次触发：{iso(min(next_fire(h, m) for h, m in times))}（北京时间；Mac 睡眠错过时会在唤醒后补跑一次，当天已成功则跳过）")
+    print(f"  下一次触发：{iso(min(next_fire(h, m) for h, m in times))}（北京时间；Mac 睡眠错过时会在唤醒后补跑一次；来源截止日没前进就只探测不采集）")
     st = read_json(root / "status.json", {}) or {}
     for k, label in (("last_run", "最近运行"), ("last_success", "最近成功")):
         e = st.get(k)
@@ -709,11 +747,13 @@ def cli(argv: list[str] | None = None) -> int:
     ex.add_argument("--out", type=Path, required=True)
     sc = sub.add_parser("schedule", help="launchd 定时任务")
     sc.add_argument("action", choices=["install", "uninstall", "status"])
-    sc.add_argument("--time", help="北京时间 HH:MM，默认读配置（20:30）")
+    sc.add_argument("--time", action="append", help="北京时间 HH:MM，可重复；默认读配置（23:30、07:00）")
     a = p.parse_args(argv)
     root = a.data_dir
     if a.cmd == "run":
         return run(root, scheduled=a.scheduled, allow_empty=a.allow_empty, make_page=not a.no_page)
+    if a.cmd in ("show", "export", "page"):
+        rekey_snapshots(root)            # 旧版按采集日命名的快照改为按行情日命名
     if a.cmd == "show":
         return show(root, a.date, a.limit)
     if a.cmd == "export":

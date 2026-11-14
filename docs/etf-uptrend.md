@@ -18,12 +18,12 @@
 
 ## 每日采集
 
-`.github/workflows/etf-uptrend.yml`：北京时间每天 20:30 运行，21:30、22:30 为失败补跑（当天已在 20:30 之后成功就跳过）。脚本 `scripts/etf_uptrend.py` 只用 Python 标准库：
+`.github/workflows/etf-uptrend.yml`：北京时间每天 23:30 运行，次日 07:00 兜底（来源一般 21:30 之后才更新当天数据；GitHub 定时也常延迟）。每次先只取上次名单前几只 ETF 的历史区间探测来源截止日，已有该行情日的完整快照就跳过、不提交；来源前进了、上次失败或部分成功、探测失败，都会完整采集。脚本 `scripts/etf_uptrend.py` 只用 Python 标准库：
 
 - 名单接口 30 秒超时、5 次指数退避重试；请求顺序发出，间隔 0.35 秒。
 - 历史区间每次最多刷新 120 只（趋势回踩、新入池、未缓存优先），AI 原因按 ETF + 区间起始日缓存，每次最多新取 40 条；明细阶段最多 15 分钟、连续失败 5 次即停。
 - 名单失败：不写快照，最近成功数据不变，页面显示失败原因。分类或明细缺失：快照记为 `partial`，下次补。
-- 「来源截止日」= 本次新取到的在池 ETF 当前上涨区间 `end_day` 的最大值；早于采集日时快照里写明，不当作当天行情。
+- 「来源截止日」= 本次新取到的在池 ETF 当前上涨区间 `end_day` 的最大值。快照按它命名（页面叫「行情日」），采集时间另记；周末、休市再采只会覆盖同一行情日的快照。旧版按采集日命名的快照会在运行时自动改名。
 
 存储：
 
@@ -32,9 +32,9 @@
 
 ## 手动操作
 
-- 补跑：GitHub → Actions → Update ETF uptrend → Run workflow；勾选「强制重采」会覆盖更新当天快照。
+- 补跑：GitHub → Actions → Update ETF uptrend → Run workflow；勾选「强制重采」会跳过探测，覆盖更新该行情日快照。
 - 停用：在 Actions 页面对该工作流点 Disable workflow；或删掉 `on.schedule`。
-- 改时间：改 workflow 的 cron（UTC）。脚本的同日去重以北京时间 20:30 为准，可在 `data-raw/etf-uptrend/config.json` 写 `{"time": "21:00"}` 一并修改。
+- 改时间：改 workflow 的 cron（UTC）。去重只看来源截止日，不依赖时间；`config.json` 的 `times` 只用于页面显示和本机 launchd 注册。
 - 本地运行：
 
 ```sh

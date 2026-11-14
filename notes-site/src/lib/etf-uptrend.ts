@@ -29,7 +29,7 @@ export interface RunEntry {
 export interface UptrendIndex {
   days: DayMeta[];
   status: { last_run?: RunEntry; last_success?: RunEntry };
-  schedule: { time: string; tz: string };
+  schedule: { times: string[]; tz: string };
   source_page: string;
 }
 

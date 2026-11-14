@@ -2,15 +2,14 @@ name: Update ETF uptrend
 
 on:
   schedule:
-    # 北京时间每天 20:30 采集；21:30、22:30 为失败补跑，当天已在 20:30 之后成功采集过就自动跳过。
-    # 周末、休市也会运行：快照里会如实写明来源截止日，不当作当天行情。
-    - cron: '30 12 * * *'
-    - cron: '30 13 * * *'
-    - cron: '30 14 * * *'
+    # 来源一般北京时间 21:30 之后才更新当天数据：每天 23:30 采集，次日 07:00 兜底（GitHub 定时常有延迟）。
+    # 每次先探测来源截止日，已有该行情日的完整快照就跳过；快照按来源截止日（行情日）命名，周末不会多出一份。
+    - cron: '30 15 * * *'
+    - cron: '0 23 * * *'
   workflow_dispatch:
     inputs:
       force:
-        description: '强制重采（覆盖更新当天快照）'
+        description: '强制重采（不探测，覆盖更新该行情日快照）'
         type: boolean
         default: false
 
@@ -53,7 +52,7 @@ jobs:
           set -euo pipefail
           paths="public/data/etf-uptrend data-raw/etf-uptrend"
           if git diff --quiet -- $paths && [ -z "$(git ls-files --others --exclude-standard -- $paths)" ]; then
-            echo "没有变化（当天已采集或来源未更新），不提交"
+            echo "没有变化（来源未更新），不提交"
             exit 0
           fi
           git config user.name 'github-actions[bot]'
