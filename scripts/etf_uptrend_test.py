@@ -1,4 +1,4 @@
-"""同花顺 ETF 主升浪采集的关键逻辑：解析、来源截止日、同日幂等、失败保留旧数据、并发互斥、定时注册参数。
+"""同花顺 ETF 主升浪采集的关键逻辑：解析、按来源截止日命名快照、同一行情日幂等、按来源是否前进去重、失败保留旧数据、并发互斥、定时注册参数。
 
 只用标准库，可直接运行：python3 -m unittest discover -s scripts -p "etf_uptrend_test.py"
 """
@@ -126,11 +126,28 @@ class TestCollect(Base):
         self.assertTrue(U.reason_cache_path(self.root, "20:560670", "2026-11-04").exists())
         self.assertEqual(U.read_json(self.root / "latest.json")["run_id"], s["run_id"])
 
-    def test_stale_source_is_labelled(self):
-        s = self.collect("2026-11-15T20:30:00", end_day="2026-11-13")  # 周日
+    def test_snapshot_keyed_by_source_as_of(self):
+        s = self.collect("2026-11-15T07:00:00", end_day="2026-11-13")  # 周日早上采到的是周五的行情
         self.assertEqual(s["collected_on"], "2026-11-15")
-        self.assertEqual(s["source_as_of"], "2026-11-13")
-        self.assertIn("早于采集日", s["notes"][0])
+        self.assertEqual((s["date"], s["source_as_of"]), ("2026-11-13", "2026-11-13"))
+        self.assertEqual(U.list_snapshots(self.root), ["2026-11-13"])
+        self.assertEqual(s["notes"], [])
+
+    def test_rekey_old_snapshots(self):
+        self.collect("2026-11-14T04:57:00", end_day="2026-11-13")
+        snaps = self.root / "snapshots"
+        old = U.read_json(snaps / "2026-11-13.json")
+        (snaps / "2026-11-13.json").rename(snaps / "2026-11-14.json")      # 模拟旧版按采集日命名
+        earlier = dict(old, fetch_completed_at="2026-11-13T21:00:00+08:00", source_as_of="2026-11-12")
+        U.write_json_atomic(snaps / "2026-11-13.json", earlier)
+        dup = dict(old, fetch_completed_at="2026-11-12T20:00:00+08:00", source_as_of="2026-11-12")
+        U.write_json_atomic(snaps / "2026-11-12.json", dup)
+        moved = U.rekey_snapshots(self.root)
+        self.assertEqual(sorted(moved), [("2026-11-13", "2026-11-12"), ("2026-11-14", "2026-11-13")])
+        self.assertEqual(U.list_snapshots(self.root), ["2026-11-12", "2026-11-13"])
+        kept = U.read_json(snaps / "2026-11-12.json")                       # 同一行情日保留较晚采集的
+        self.assertEqual((kept["date"], kept["fetch_completed_at"]), ("2026-11-12", "2026-11-13T21:00:00+08:00"))
+        self.assertEqual(U.rekey_snapshots(self.root), [])
 
     def test_rerun_same_day_updates_and_uses_cache(self):
         self.collect("2026-11-13T20:30:00")
@@ -172,17 +189,26 @@ class TestCollect(Base):
         with self.assertRaises(RuntimeError):
             self.collect("2026-11-13T20:30:00", all_rows=[])
 
-    def test_unchanged_note(self):
-        self.collect("2026-11-14T20:30:00", end_day="2026-11-13")
-        s = self.collect("2026-11-15T20:30:00", end_day="2026-11-13")
-        self.assertTrue(any("尚未更新" in n for n in s["notes"]))
+    def test_same_source_day_overwrites(self):
+        self.collect("2026-11-14T07:00:00", end_day="2026-11-13")
+        s = self.collect("2026-11-15T07:00:00", end_day="2026-11-13")
+        self.assertEqual(U.list_snapshots(self.root), ["2026-11-13"])
+        self.assertEqual(U.read_json(U.snapshot_path(self.root, "2026-11-13"))["run_id"], s["run_id"])
 
 
 class TestRun(Base):
-    def run_with(self, at, scheduled=False, **kw):
+    def run_with(self, at, scheduled=False, probed=None, **kw):
         def collector(root, clock, allow_empty):
             return U.collect(root, cfg=dict(U.DEFAULT_CONFIG), fetcher=FakeFetcher(**kw), clock=clock)
-        return U.run(self.root, scheduled=scheduled, make_page=False, collector=collector, clock=clock_at(at))
+        self.probes = []
+        def prober(latest):
+            self.probes.append(latest["source_as_of"])
+            return probed
+        return U.run(self.root, scheduled=scheduled, make_page=False, collector=collector, clock=clock_at(at),
+                     prober=prober)
+
+    def runs(self):
+        return len((self.root / "runs.jsonl").read_text().splitlines())
 
     def test_failure_keeps_last_success(self):
         self.assertEqual(self.run_with("2026-11-13T20:30:00"), 0)
@@ -195,26 +221,40 @@ class TestRun(Base):
         self.assertEqual(st["last_success"]["started_at"], "2026-11-13T20:30:00+08:00")
         self.assertEqual(len((self.root / "runs.jsonl").read_text().splitlines()), 2)
 
-    def test_scheduled_dedup(self):
-        self.run_with("2026-11-13T14:00:00", end_day="2026-11-12")  # 白天手动跑，来源未更新
-        self.assertFalse(U.already_done(U.read_json(U.snapshot_path(self.root, "2026-11-13")),
-                                        clock_at("2026-11-13T20:30:00")(), "20:30"))
-        self.run_with("2026-11-13T20:30:00", scheduled=True)
-        snap = U.read_json(U.snapshot_path(self.root, "2026-11-13"))
-        self.assertTrue(U.already_done(snap, clock_at("2026-11-13T23:00:00")(), "20:30"))
-        n = len((self.root / "runs.jsonl").read_text().splitlines())
-        self.run_with("2026-11-13T23:00:00", scheduled=True)   # 唤醒补跑：跳过，不新增运行记录
-        self.assertEqual(len((self.root / "runs.jsonl").read_text().splitlines()), n)
-        self.assertFalse(U.already_done(snap, clock_at("2026-11-14T20:30:00")(), "20:30"))
+    def test_scheduled_dedup_follows_source(self):
+        self.run_with("2026-11-13T23:30:00", scheduled=True, end_day="2026-11-12")   # 来源还没更新
+        self.assertEqual(U.list_snapshots(self.root), ["2026-11-12"])
+        n = self.runs()
+        # 07:00 探测到来源已前进到 11-13：真正采集，不因为 23:30 采过就跳过
+        self.assertEqual(self.run_with("2026-11-14T07:00:00", scheduled=True, probed="2026-11-13"), 0)
+        self.assertEqual(self.probes, ["2026-11-12"])
+        self.assertEqual(self.runs(), n + 1)
+        self.assertEqual(U.list_snapshots(self.root), ["2026-11-12", "2026-11-13"])
+        # 周末：来源仍是 11-13，跳过且不新增运行记录
+        self.run_with("2026-11-14T23:30:00", scheduled=True, probed="2026-11-13")
+        self.assertEqual(self.runs(), n + 1)
+        # 探测失败（None）不能当作「已是最新」
+        self.run_with("2026-11-15T07:00:00", scheduled=True, probed=None)
+        self.assertEqual(self.runs(), n + 2)
+        # 手动 run 不探测
+        self.run_with("2026-11-15T08:00:00")
+        self.assertEqual((self.probes, self.runs()), ([], n + 3))
 
-    def test_retry_slot_after_failure(self):
-        self.assertEqual(self.run_with("2026-11-13T20:30:00", scheduled=True, fail_pool=True), 1)
-        self.assertFalse(U.snapshot_path(self.root, "2026-11-13").exists())
-        self.assertEqual(self.run_with("2026-11-13T21:30:00", scheduled=True), 0)   # 补跑时点真正采集
+    def test_retry_after_failure_and_partial(self):
+        self.assertEqual(self.run_with("2026-11-13T23:30:00", scheduled=True, fail_pool=True), 1)
+        self.assertEqual(U.list_snapshots(self.root), [])
+        self.assertEqual(self.run_with("2026-11-14T07:00:00", scheduled=True), 0)    # 没有成功快照：不探测，直接采
+        self.assertEqual(self.probes, [])
         self.assertEqual(U.read_json(self.root / "status.json")["last_success"]["trigger"], "scheduled")
-        n = len((self.root / "runs.jsonl").read_text().splitlines())
-        self.run_with("2026-11-13T22:30:00", scheduled=True)                       # 已成功，跳过
-        self.assertEqual(len((self.root / "runs.jsonl").read_text().splitlines()), n)
+        self.assertFalse(U.already_current({"status": "partial", "source_as_of": "2026-11-13"}, "2026-11-13"))
+        self.assertTrue(U.already_current({"status": "success", "source_as_of": "2026-11-13"}, "2026-11-12"))
+
+    def test_probe_as_of(self):
+        latest = {"etfs": [{"ths_code": c} for _, _, c in ALL]}
+        f = FakeFetcher(end_day="2026-11-13")
+        self.assertEqual(U.probe_as_of(latest, dict(U.DEFAULT_CONFIG), f), "2026-11-13")
+        self.assertEqual(len(f.calls), U.DEFAULT_CONFIG["probe_count"])
+        self.assertIsNone(U.probe_as_of(latest, dict(U.DEFAULT_CONFIG), FakeFetcher(fail_details=True)))
 
     def test_lock_prevents_reentry(self):
         called = []
@@ -259,8 +299,10 @@ class TestScheduleAndPage(Base):
         p = U.build_plist("/usr/bin/python3", [(16, 30), (17, 30)], self.root)
         self.assertEqual(p["Label"], U.LABEL)
         self.assertEqual(p["StartCalendarInterval"], [{"Hour": 16, "Minute": 30}, {"Hour": 17, "Minute": 30}])
-        self.assertEqual(U.fire_times(U.DEFAULT_CONFIG), [(20, 30), (21, 30), (22, 30)])
-        self.assertEqual(U.fire_times({"time": "23:00", "retry_offsets_min": [60]}), [(23, 0)])  # 不跨日
+        self.assertEqual(U.fire_times(U.DEFAULT_CONFIG), [(23, 30), (7, 0)])
+        self.assertEqual(U.fire_times({"times": ["07:00", "7:00", "23:30"]}), [(7, 0), (23, 30)])
+        with self.assertRaises(ValueError):
+            U.fire_times({"times": []})
         self.assertEqual(p["ProgramArguments"][-2:], ["run", "--scheduled"])
         with self.assertRaises(ValueError):
             U.parse_hhmm("25:00")
