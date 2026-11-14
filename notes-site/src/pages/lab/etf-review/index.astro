@@ -294,7 +294,8 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     const changePercent = quotes.get(code)?.changePercent;
     const changeText = changePercent === undefined ? '—' : `${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
     const changeTone = changePercent === undefined || changePercent === 0 ? 'muted' : changePercent > 0 ? 'up' : 'down';
-    return `<tr data-code="${attr(code)}">
+    const gridDetailHref = record ? `${detailUrl}?id=${encodeURIComponent(record.id)}` : `${detailUrl}?code=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}`;
+    return `<tr data-code="${attr(code)}" data-detail-href="${attr(gridDetailHref)}">
       <td class="identity-cell"><div class="stock-name">${escapeHtml(name)}</div><div class="code-cell">${escapeHtml(code)}</div><div class="position-actions"><button type="button" data-action="move-up" aria-label="上移 ${attr(name)}" title="在本分组上移" ${position === 0 ? 'disabled' : ''}>↑</button><button type="button" data-action="move-down" aria-label="下移 ${attr(name)}" title="在本分组下移" ${position === total - 1 ? 'disabled' : ''}>↓</button></div></td>
       ${subThemeCellHtml(code, escapeHtml)}
       <td class="computed"><div>${formatPrice(price)}</div><div class="daily-change ${changeTone}" title="当日涨跌幅">${changeText}</div></td>
@@ -321,7 +322,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
             return analysis ? `<a href="${attr(notesBase + encodeURIComponent(analysis.slug) + '/')}" target="_blank" rel="noopener">分析报告</a>` : '';
           })()}
           <a href="${attr(fundProfileUrl(code))}" target="_blank" rel="noopener">基金档案</a>
-          <a href="${record ? `${detailUrl}?id=${encodeURIComponent(record.id)}` : `${detailUrl}?code=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}`}">网格详情</a>
+          <a href="${attr(gridDetailHref)}">网格详情</a>
           <button class="danger" data-action="remove" type="button">移出标的</button>
         </div>
       </td>
@@ -685,6 +686,13 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     if (target.closest('#empty-add')) { showAddDialog(); return; }
     const button = target.closest<HTMLButtonElement>('[data-action]');
     const row = target.closest<HTMLTableRowElement>('tr[data-code]');
+    if (!button && row?.dataset.detailHref && !target.closest('a, button, input, select, textarea, label, summary, [contenteditable]')) {
+      // 点击行内空白处进入网格详情；选中文字时不跳转，Ctrl/⌘ 点击新标签打开
+      if (window.getSelection()?.toString()) return;
+      if (event.metaKey || event.ctrlKey) window.open(row.dataset.detailHref, '_blank', 'noopener');
+      else window.location.href = row.dataset.detailHref;
+      return;
+    }
     if (!button || !row?.dataset.code) return;
     const code = row.dataset.code;
     if (button.dataset.action === 'move-up' || button.dataset.action === 'move-down') {
@@ -1261,7 +1269,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     overflow-x:auto; background:#fff;
     scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent;
   }
-  .review-table { table-layout:fixed; width:100%; min-width:2430px; border-collapse:collapse; font-size:12px; }.review-table th { height:46px; padding:10px 7px; border-bottom:1px solid #cbd5e1; background:#f8fafc; color:#475569; font-weight:600; white-space:nowrap; text-align:center; }.review-table td { min-height:50px; padding:8px 7px; overflow-wrap:anywhere; border-bottom:1px solid #f1f5f9; color:#334155; text-align:center; vertical-align:middle; font-variant-numeric:tabular-nums; }.review-table tr:last-child td { border-bottom:0; }.review-table tbody tr:hover { background:#f8fafc; }
+  .review-table { table-layout:fixed; width:100%; min-width:2430px; border-collapse:collapse; font-size:12px; }.review-table th { height:46px; padding:10px 7px; border-bottom:1px solid #cbd5e1; background:#f8fafc; color:#475569; font-weight:600; white-space:nowrap; text-align:center; }.review-table td { min-height:50px; padding:8px 7px; overflow-wrap:anywhere; border-bottom:1px solid #f1f5f9; color:#334155; text-align:center; vertical-align:middle; font-variant-numeric:tabular-nums; }.review-table tr:last-child td { border-bottom:0; }.review-table tbody tr:hover { background:#f8fafc; }.review-table tbody tr[data-detail-href] { cursor:pointer; }
   .review-table .muted { color:#94a3b8; }.review-table .code-cell { margin-top:4px; color:#64748b; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:500; }.review-table .identity-cell { min-width:0; text-align:center; }.review-table .stock-name { white-space:normal; overflow-wrap:anywhere; font-weight:600; line-height:1.45; }.review-table .computed { min-width:0; white-space:normal; }.review-table .up { color:#dc2626; font-weight:700; }.review-table .down { color:#16a34a; font-weight:700; }
   .review-table .etf-subtheme-cell { text-align:left; font-variant-numeric:normal; }
   .review-table .subtheme-list { display:flex; flex-direction:column; gap:5px; align-items:flex-start; }
