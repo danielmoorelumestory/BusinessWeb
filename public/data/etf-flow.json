@@ -1,0 +1,7 @@
+{
+  "updated": "",
+  "note": "等待首次快照。市价估算（份额差×市价），非同花顺原口径；无盘中数据，T+1。",
+  "sample": true,
+  "series": [],
+  "kpi": { "all": { "yesterday": 0, "cum60": 0 }, "broad": { "yesterday": 0, "cum60": 0 } }
+}
