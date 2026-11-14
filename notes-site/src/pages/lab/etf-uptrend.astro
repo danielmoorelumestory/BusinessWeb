@@ -34,6 +34,15 @@ const reviewUrl = href('lab/etf-review/');
         <span class="up-count" id="count"></span>
       </div>
       <p class="up-review-note" id="review-note" role="status" hidden></p>
+      <dialog class="up-dialog" id="review-dialog" aria-labelledby="review-title">
+        <form method="dialog" id="review-form">
+          <h3 id="review-title">加入复盘</h3>
+          <p class="up-dialog-sub" id="review-sub"></p>
+          <div class="up-group-list" id="review-groups"></div>
+          <p class="up-dialog-hint">可多选，也可以都不选（放在「未分组」）。分组在 <a id="review-manage">ETF 复盘</a> 页管理。</p>
+          <footer><button type="button" class="up-btn" id="review-cancel">取消</button><button type="submit" class="up-btn primary" id="review-submit">加入复盘</button></footer>
+        </form>
+      </dialog>
       <div class="up-table" id="table"></div>
       <p class="up-gone" id="gone"></p>
     </section>
@@ -57,7 +66,7 @@ const reviewUrl = href('lab/etf-review/');
     DEFAULT_FILTERS, TABS, bit, filterRows, gridDetailHref, latestPeriod, missingCats, nextSort, securityCode, sortRows, tabCount,
     type Day, type Detail, type Filters, type SortKey, type SortState, type UptrendIndex,
   } from '../../lib/etf-uptrend';
-  import { addWatch, readMeta } from '../../lib/etf-review';
+  import { addWatch, readMeta, setMemberships } from '../../lib/etf-review';
   import { poolCodes } from '../../lib/etf-review-meta';
   import { readGridRecords } from '../../lib/grid-trading';
 
@@ -68,13 +77,50 @@ const reviewUrl = href('lab/etf-review/');
   // 复盘池 = 有网格的标的 + 复盘页的观察列表（与复盘页同一份本机数据）；每次渲染时重读，其他页面改过也能反映出来。
   const reviewCodes = () => { try { return new Set(poolCodes(readGridRecords().map(item => item.row.code.trim()), readMeta().watchlist)); } catch { return new Set<string>(); } };
   const reviewButton = (code6: string, name: string, pool: Set<string>) => pool.has(code6)
-    ? `<a class="up-review in" href="${esc(reviewUrl)}" title="已在 ETF 复盘列表中，点击打开复盘页">已在复盘</a>`
+    ? `<button type="button" class="up-review in" data-r="${esc(code6)}" data-n="${esc(name)}" data-in="1" title="已在 ETF 复盘列表中，点击调整分组">已在复盘</button>`
     : `<button type="button" class="up-review" data-r="${esc(code6)}" data-n="${esc(name)}" aria-label="把 ${esc(name)} 加入 ETF 复盘列表">＋复盘</button>`;
   const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector(s) as T;
   const esc = (v: unknown) => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
   const fmtT = (s?: string) => (s ? s.replace('T', ' ').slice(0, 16) : '—');
   const load = <T,>(k: string, d: T): T => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
   const save = (k: string, v: unknown) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* 隐私模式等：只是不记住 */ } };
+  // 加入复盘 / 调整分组对话框：分组取复盘页的全部分组（与复盘页「编辑分组」一致），可多选；
+  // 新加入时默认勾上一次加入时选的分组，方便连续把同一类标的加进同一组。
+  const LAST_GROUPS_KEY = 'etf-uptrend-review-groups';
+  const reviewDialog = $<HTMLDialogElement>('#review-dialog');
+  let reviewTarget: { code: string; name: string; inPool: boolean } | null = null;
+  function openReviewDialog(code: string, name: string, inPool: boolean) {
+    const meta = readMeta(), groups = [...meta.groups].sort((a, b) => a.order - b.order);
+    const known = new Set(groups.map(group => group.id));
+    const checked = new Set(inPool ? meta.memberships[code] ?? [] : load<string[]>(LAST_GROUPS_KEY, []).filter(id => known.has(id)));
+    reviewTarget = { code, name, inPool };
+    $('#review-title').textContent = inPool ? '调整复盘分组' : '加入复盘';
+    $('#review-sub').textContent = `${name}（${code}）${inPool ? ' · 已在复盘列表中' : ''}`;
+    $('#review-groups').innerHTML = groups.map(group => `<label><input type="checkbox" value="${esc(group.id)}"${checked.has(group.id) ? ' checked' : ''}> ${esc(group.name)}</label>`).join('')
+      || '<p class="up-muted">复盘页还没有分组，加入后会放在「未分组」。</p>';
+    $('#review-submit').textContent = inPool ? '保存分组' : '加入复盘';
+    $<HTMLAnchorElement>('#review-manage').href = reviewUrl;
+    reviewDialog.showModal();
+  }
+  $('#review-cancel').addEventListener('click', () => reviewDialog.close());
+  $('#review-form').addEventListener('submit', event => {
+    event.preventDefault();
+    if (!reviewTarget) return;
+    const { code, name, inPool } = reviewTarget;
+    const ids = [...$('#review-groups').querySelectorAll<HTMLInputElement>('input:checked')].map(input => input.value);
+    const meta = readMeta(), names = ids.map(id => meta.groups.find(group => group.id === id)?.name ?? id);
+    const note = $('#review-note');
+    try {
+      if (!inPool) addWatch(code, name);
+      setMemberships(code, ids);
+      if (!inPool) save(LAST_GROUPS_KEY, ids);
+      const where = names.length ? `分组：${names.map(esc).join('、')}` : '未分组';
+      note.innerHTML = `${inPool ? '已更新' : '已把'} ${esc(name)}（${esc(code)}）${inPool ? '的复盘分组' : ' 加入 <a href="' + esc(reviewUrl) + '">ETF 复盘列表</a>'}（${where}），保存在本机；需要同步到其他设备时，到复盘页点「上传云端」。`;
+      reviewDialog.close();
+    } catch (reason) { note.textContent = reason instanceof Error ? reason.message : '保存失败，请重试。'; reviewDialog.close(); }
+    note.hidden = false;
+    renderTable();
+  });
 
   let index: UptrendIndex | null = null;
   let detail: Record<string, Detail> = {};
@@ -207,17 +253,7 @@ const reviewUrl = href('lab/etf-review/');
     const t = e.target as HTMLElement;
     const star = t.closest<HTMLElement>('button.up-star');
     const add = t.closest<HTMLElement>('button.up-review');
-    if (add) {
-      const code6 = add.dataset.r!, name = add.dataset.n ?? '';
-      const note = $('#review-note');
-      try {
-        addWatch(code6, name);
-        note.innerHTML = `已把 ${esc(name)}（${esc(code6)}）加入 <a href="${esc(reviewUrl)}">ETF 复盘列表</a>，保存在本机；需要同步到其他设备时，到复盘页点「上传云端」。`;
-      } catch (reason) { note.textContent = reason instanceof Error ? reason.message : '加入复盘失败，请重试。'; }
-      note.hidden = false;
-      renderTable();
-      return;
-    }
+    if (add) { openReviewDialog(add.dataset.r!, add.dataset.n ?? '', add.dataset.in === '1'); return; }
     if (star) { const c = star.dataset.w!; watch.has(c) ? watch.delete(c) : watch.add(c); save('etf-uptrend-watch', [...watch]); renderTable(); return; }
     const sb = t.closest<HTMLElement>('th button[data-s]');
     if (sb) { sort = nextSort(sort, sb.dataset.s as SortKey); save('etf-uptrend-sort', sort); renderTable(); return; }
@@ -315,6 +351,20 @@ const reviewUrl = href('lab/etf-review/');
   .up-review.in { border-color: #e2e8f0; background: #f8fafc; color: #64748b; }
   .up-review-note { margin: 8px 0 0; border: 1px solid #c7d2fe; border-radius: 8px; padding: 8px 12px; background: #eef2ff; color: #3730a3; font-size: 13px; line-height: 1.6; }
   .up-review-note a { color: #4338ca; font-weight: 600; }
+  .up-dialog { position: fixed; inset: 0; margin: auto; height: fit-content; max-height: calc(100vh - 32px); overflow-y: auto; background: #fff; width: min(420px, calc(100vw - 32px)); border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; box-shadow: 0 20px 50px rgb(15 23 42 / .2); color: #0f172a; }
+  .up-dialog::backdrop { background: rgb(15 23 42 / .35); }
+  .up-dialog h3 { margin: 0; font-size: 16px; font-weight: 600; }
+  .up-dialog-sub { margin: 4px 0 12px; font-size: 13px; color: #64748b; }
+  .up-group-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; max-height: 50vh; overflow-y: auto; }
+  .up-group-list label { display: flex; align-items: center; gap: 7px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; font-size: 14px; cursor: pointer; }
+  .up-group-list label:has(input:checked) { border-color: #6366f1; background: #eef2ff; color: #3730a3; }
+  .up-group-list input { width: 16px; height: 16px; margin: 0; accent-color: #4f46e5; }
+  .up-dialog-hint { margin: 12px 0 0; font-size: 12px; color: #64748b; }
+  .up-dialog-hint a { color: #4338ca; }
+  .up-dialog footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+  .up-btn { border: 1px solid #cbd5e1; border-radius: 8px; padding: 7px 16px; background: #fff; color: #334155; font-size: 13px; cursor: pointer; }
+  .up-btn.primary { border-color: #4f46e5; background: #4f46e5; color: #fff; }
+  .up-btn.primary:hover { background: #4338ca; }
   .up-tag { display: inline-block; margin-right: 4px; border: 1px solid #e2e8f0; border-radius: 999px; padding: 1px 8px; font-family: var(--font-sans); font-size: 11px; font-weight: 500; color: #64748b; background: #fff; }
   .up-tag.retr { border-color: #fecaca; background: #fef2f2; color: #dc2626; }
   .up-tag.new { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
