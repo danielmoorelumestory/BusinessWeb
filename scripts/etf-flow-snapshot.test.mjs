@@ -73,6 +73,19 @@ test('首次运行无前值：产出当天(合计0)并建立基准', async () =>
   assert.equal(readBaseline(root).date, '2026-11-14') // 基准已建立
 })
 
+test('ETF 清单不可用：优雅跳过不写、不抛异常', async () => {
+  const root = tmpRoot({ '510300': 1e9 })
+  const r = await runSnapshot({
+    today: '2026-11-14', root, lastCloseFn,
+    universeFn: async () => { throw new Error('清单接口 502') },
+    fetchSharesFn: async () => ({ sse: { '510300': 1.1e9 }, szse: {} }),
+  })
+  assert.equal(r.written, false)
+  assert.match(r.reason, /清单/)
+  assert.equal(existsSync(join(root, 'public/data/etf-flow.json')), false)
+  assert.equal(readBaseline(root).date, '2026-11-13') // 前值未被覆盖
+})
+
 test('同日重跑幂等：series 不重复追加', async () => {
   const root = tmpRoot({ '510300': 1e9, '512480': 1e9 })
   const run = () => runSnapshot({

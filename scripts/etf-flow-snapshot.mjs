@@ -33,7 +33,18 @@ export async function runSnapshot({
   const outFile = join(root, 'public/data/etf-flow.json')
   const baselineFile = join(root, 'data-raw/etf-flow/shares-latest.json')
 
-  const { list = [] } = await universeFn({ fetchImpl })
+  let list = []
+  try {
+    ({ list = [] } = await universeFn({ fetchImpl }))
+  } catch (error) {
+    // 清单接口暂时不可用：像非交易日一样优雅跳过，不写、不毒化前值、不让定时任务报错。
+    log(`${today} ETF 清单不可用（${error.message}），跳过`)
+    return { written: false, reason: 'ETF 清单不可用' }
+  }
+  if (list.length === 0) {
+    log(`${today} ETF 清单为空，跳过`)
+    return { written: false, reason: 'ETF 清单为空' }
+  }
   const priceOf = new Map(list.map(e => [e.code, e.price]))
 
   const { sse, szse } = await fetchSharesFn({ date: today, fetchImpl })
