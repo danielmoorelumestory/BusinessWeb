@@ -1,0 +1,53 @@
+name: Update ETF flow snapshot
+
+on:
+  schedule:
+    # 每个交易日 UTC 14:30（北京 22:30）。净值/份额收盘后到齐；非交易日脚本会自行跳过、不提交。
+    - cron: '30 14 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: etf-flow
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Fetch ETF flow snapshot
+        id: fetch
+        shell: bash
+        run: |
+          status=0
+          node scripts/etf-flow-snapshot.mjs || status=1
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+      - name: Commit if changed
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          # 脚本在非交易日/数据未到齐/无实质变化时不写盘，这里直接看 diff。
+          if git diff --quiet -- public/data/etf-flow.json data-raw/etf-flow \
+            && [ -z "$(git ls-files --others --exclude-standard -- public/data/etf-flow.json data-raw/etf-flow)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/etf-flow.json data-raw/etf-flow
+          git commit -m "data(etf-flow): 更新 ETF 资金净流入 $(date -u +%Y-%m-%d)"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Fail if the fetch step had errors
+        if: steps.fetch.outputs.status != '0'
+        run: |
+          echo "快照脚本返回非零状态" >&2
+          exit 1

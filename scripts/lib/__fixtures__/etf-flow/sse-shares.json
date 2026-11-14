@@ -1,0 +1,36 @@
+{
+  "result": [
+    {
+      "STAT_DATE": "2026-11-12",
+      "ETF_TYPE": "跨市",
+      "SEC_CODE": "510300",
+      "NUM": "21",
+      "SEC_NAME": "300ETF",
+      "TOT_VOL": "4581768.77"
+    },
+    {
+      "STAT_DATE": "2026-11-12",
+      "ETF_TYPE": "跨市",
+      "SEC_CODE": "512480",
+      "NUM": "116",
+      "SEC_NAME": "半导体",
+      "TOT_VOL": "2096600.72"
+    },
+    {
+      "STAT_DATE": "2026-11-12",
+      "ETF_TYPE": "跨市",
+      "SEC_CODE": "510500",
+      "NUM": "31",
+      "SEC_NAME": "500ETF",
+      "TOT_VOL": "925256.86"
+    },
+    {
+      "STAT_DATE": "2026-11-12",
+      "ETF_TYPE": "单市",
+      "SEC_CODE": "510050",
+      "NUM": "5",
+      "SEC_NAME": "50ETF",
+      "TOT_VOL": "1639686.68"
+    }
+  ]
+}

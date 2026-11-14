@@ -1,0 +1,43 @@
+[
+  {
+    "metadata": {
+      "cols": {
+        "sys_key": "基金代码",
+        "jjlb": "基金类别",
+        "dqgm": "当前规模（万份）"
+      }
+    },
+    "data": [
+      {
+        "sys_key": "<a href='http://www.szse.cn/market/trend/index.html?code=159919'><u>159919</u></a>",
+        "jjjcurl": "<a href='http://www.szse.cn/disclosure/fund/notice/index.html?stock=159919&name=沪深300ETF嘉实' title=点击简称查询公告><u>沪深300ETF嘉实</u></a>",
+        "jjlb": "ETF",
+        "tzlb": "股票基金",
+        "ssrq": "2012-05-28",
+        "dqgm": "1,356,501.66",
+        "glrmc": "嘉实基金管理有限公司",
+        "cxjqhq": "<a href='javascript:void(0);' a-back=1 a-param='/ShowReport/data?SHOWTYPE=JSON&CATALOGID=1785_child&TABKEY=tab1&txtDm=159919'>查看</a>"
+      },
+      {
+        "sys_key": "<a href='http://www.szse.cn/market/trend/index.html?code=159915'><u>159915</u></a>",
+        "jjjcurl": "<a href='http://www.szse.cn/disclosure/fund/notice/index.html?stock=159915&name=创业板ETF易方达' title=点击简称查询公告><u>创业板ETF易方达</u></a>",
+        "jjlb": "ETF",
+        "tzlb": "股票基金",
+        "ssrq": "2011-12-09",
+        "dqgm": "4,520,045.49",
+        "glrmc": "易方达基金管理有限公司",
+        "cxjqhq": "<a href='javascript:void(0);' a-back=1 a-param='/ShowReport/data?SHOWTYPE=JSON&CATALOGID=1785_child&TABKEY=tab1&txtDm=159915'>查看</a>"
+      },
+      {
+        "sys_key": "<a href='http://www.szse.cn/market/trend/index.html?code=159922'><u>159922</u></a>",
+        "jjjcurl": "<a href='http://www.szse.cn/disclosure/fund/notice/index.html?stock=159922&name=中证500ETF嘉实' title=点击简称查询公告><u>中证500ETF嘉实</u></a>",
+        "jjlb": "ETF",
+        "tzlb": "股票基金",
+        "ssrq": "2013-03-15",
+        "dqgm": "349,767.67",
+        "glrmc": "嘉实基金管理有限公司",
+        "cxjqhq": "<a href='javascript:void(0);' a-back=1 a-param='/ShowReport/data?SHOWTYPE=JSON&CATALOGID=1785_child&TABKEY=tab1&txtDm=159922'>查看</a>"
+      }
+    ]
+  }
+]

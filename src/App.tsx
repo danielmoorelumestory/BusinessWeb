@@ -38,6 +38,7 @@ const IndustryLandscape = lazy(() => import('./pages/IndustryLandscape'))
 const EtfGuide = lazy(() => import('./pages/EtfGuide'))
 const BloggerViews = lazy(() => import('./pages/BloggerViews'))
 const BloggerViewDetail = lazy(() => import('./pages/BloggerViewDetail'))
+const EtfFlow = lazy(() => import('./pages/EtfFlow'))
 
 function PageLoading(): JSX.Element {
   return <div role="status" className="container page-loading">加载中…</div>
@@ -96,6 +97,7 @@ export default function App(): JSX.Element {
           <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="/daily-analysis" element={<DailyAnalysis />} />
           <Route path="/watch" element={<WatchBoard />} />
+          <Route path="/etf-flow" element={<EtfFlow />} />
           <Route path="/invest/national-team" element={<NationalTeam />} />
           <Route path="/monitor" element={<Monitor />} />
           <Route path="/investment-plan-2026" element={<InvestmentPlan2026 />} />

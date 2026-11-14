@@ -59,6 +59,7 @@ export const INVEST_GROUPS: HubGroup[] = [
       { path: '/monitor', label: '宏观温度', desc: '中美经济温度、周期阶段与对应动作' },
       { path: '/pulse', label: '全球行情', desc: '全球指数、商品外汇与 A 股涨跌停' },
       { path: '/daily-analysis', label: 'A股每日复盘', desc: '自动获取 A 股行情、涨跌停与连板复盘，保留交易日快照' },
+      { path: '/etf-flow', label: 'ETF 资金', desc: '全A / 宽基 ETF 日度净流入（份额差×市价估算）红绿柱 + 上证指数叠加，看资金进出大周期' },
       { path: ETF_REVIEW_PATH, label: '复盘列表', desc: 'ETF 分组观察、每日复盘笔记；有网格的标的显示状态与盈亏' },
       { path: ETF_UPTREND_PATH, label: 'ETF 主升浪', desc: '同花顺主升浪榜单每日快照：趋势回踩、新入池、分类筛选与历史上涨区间' },
       { path: STOCK_ANALYSIS_PATH, label: '大涨股解读', desc: '涨停梯队与各板块涨停个股，可选日期' },
