@@ -31,6 +31,27 @@ describe('macdCloseSignals', () => {
     expect(result.holding).toBe(false);
   });
 
+  it('T+1：买入当天死叉不当天卖，改为次日开盘卖', () => {
+    // 带固定种子的随机游走，足够长以出现「金叉次日就死叉」的情形
+    let seed = 7; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+    const walk: MacdBar[] = []; let price = 10;
+    for (let i = 0; i < 3000; i++) { const open = price * (1 + (rnd() - .5) * .01); price = open * (1 + (rnd() - .5) * .04); walk.push({ date: day(i), open, close: price }); }
+    const { signals } = macdCloseSignals(walk, { warmup: 30 });
+    let deferred = 0;
+    signals.forEach((signal, index) => {
+      expect(signal.side).toBe(index % 2 ? 'sell' : 'buy');
+      if (signal.side === 'buy') return;
+      const buy = signals[index - 1], i = walk.findIndex(bar => bar.date === signal.date);
+      expect(signal.date > buy.date).toBe(true);
+      if (signal.signalDate !== signal.date) {
+        deferred++;
+        expect(signal.signalDate).toBe(buy.date);
+        expect(signal.price).toBe(walk[i].open);
+      } else expect(signal.price).toBe(walk[i].close);
+    });
+    expect(deferred).toBeGreaterThan(0);
+  });
+
   it('空数据', () => {
     expect(macdCloseSignals([])).toEqual({ signals: [], holding: false });
   });

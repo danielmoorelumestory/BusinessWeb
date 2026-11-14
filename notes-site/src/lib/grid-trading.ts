@@ -1293,7 +1293,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     const index = barIndexOf.get(signal.date);
     if (index === undefined) return '';
     const bar = bars[index], buy = signal.side === 'buy';
-    const tip = buy ? `MACD 金叉（${signal.signalDate}）次日开盘买 ${signal.price.toFixed(3)}` : `MACD 死叉当日收盘卖 ${signal.price.toFixed(3)}${signal.ret !== undefined ? ` · 本笔 ${formatPercent(signal.ret)}` : ''}`;
+    const tip = buy ? `MACD 金叉（${signal.signalDate}）次日开盘买 ${signal.price.toFixed(3)}` : signal.signalDate !== signal.date ? `MACD 死叉（${signal.signalDate}，买入当天不能卖）次日开盘卖 ${signal.price.toFixed(3)}` : `MACD 死叉当日收盘卖 ${signal.price.toFixed(3)}${signal.ret !== undefined ? ` · 本笔 ${formatPercent(signal.ret)}` : ''}`;
     return `<path d="${triangle(x(index), buy ? priceY(bar.low) + 4 : priceY(bar.high) - 4, buy, markSize)}" fill="${buy ? TRADE_BUY : TRADE_SELL}" stroke="#fff" stroke-width=".8"><title>${tip}</title></path>`;
   }).join('') + (macdTrades.pendingBuy && macdTrades.pendingBuy.signalDate === bars.at(-1)!.date
     ? `<path d="${triangle(x(count - 1), priceY(bars.at(-1)!.low) + 4, true, markSize)}" fill="#fff" stroke="${TRADE_BUY}" stroke-width="1.2"><title>MACD 金叉，下一交易日开盘待买</title></path>` : '') : '';
@@ -1432,7 +1432,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
     setText('profit', point ? `总盈亏  ${formatMoney(point.pnl)}` : '总盈亏  —');
     const tradeSignal = tradeSignalOf.get(bar.date);
-    setText('mtrade', tradeSignal ? (tradeSignal.side === 'buy' ? `收盘卖策略  次日开盘买 ${tradeSignal.price.toFixed(3)}` : `收盘卖策略  收盘卖 ${tradeSignal.price.toFixed(3)}${tradeSignal.ret !== undefined ? ` 本笔 ${formatPercent(tradeSignal.ret)}` : ''}`)
+    setText('mtrade', tradeSignal ? (tradeSignal.side === 'buy' ? `收盘卖策略  次日开盘买 ${tradeSignal.price.toFixed(3)}` : `收盘卖策略  ${tradeSignal.signalDate !== tradeSignal.date ? 'T+1 开盘卖' : '收盘卖'} ${tradeSignal.price.toFixed(3)}${tradeSignal.ret !== undefined ? ` 本笔 ${formatPercent(tradeSignal.ret)}` : ''}`)
       : macdTrades?.pendingBuy?.signalDate === bar.date ? '收盘卖策略  金叉，次日开盘待买' : '收盘卖策略  —');
     const tooltipWidth = macd || macdTrades || (ma10 && ma20) ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
