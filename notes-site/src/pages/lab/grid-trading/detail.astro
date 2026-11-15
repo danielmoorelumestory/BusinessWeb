@@ -22,7 +22,6 @@ const etfReviewUrl = href('lab/etf-review');
       </div>
       <label>起 <input id="range-from" type="date"></label><label>止 <input id="range-to" type="date"></label>
       <span id="range-note" class="range-note" hidden></span>
-      <div class="chart-nav" role="group" aria-label="日K缩放与平移"><button type="button" data-nav="out" title="缩小（显示更多日线）">－</button><button type="button" data-nav="in" title="放大（显示更少日线）">＋</button><button type="button" data-nav="left" title="向左（更早）">◀</button><button type="button" data-nav="right" title="向右（更新）">▶</button><span class="chart-nav-hint">图上拖动平移 · 双指或 ⌘/Ctrl+滚轮缩放</span></div>
     </div>
     <div class="view-bar" aria-label="叠加内容显示">
       <span>显示：</span>
@@ -416,17 +415,6 @@ const etfReviewUrl = href('lab/etf-review');
     };
     equitySvg.addEventListener('pointerup', release);
     equitySvg.addEventListener('pointercancel', release);
-    document.querySelector('.chart-nav')!.addEventListener('click', event => {
-      const button = (event.target as HTMLElement).closest('button');
-      const view = currentViewport();
-      if (!button || !view) return;
-      const length = view.end - view.start + 1, action = button.dataset.nav;
-      if (action === 'in') zoomBy(.6, 1);
-      else if (action === 'out') zoomBy(1 / .6, 1);
-      else if (action === 'left') panBy(-Math.max(1, Math.round(length / 4)));
-      else if (action === 'right') panBy(Math.max(1, Math.round(length / 4)));
-      settleViewport();
-    });
   }
   bindPanZoom();
 
@@ -1445,10 +1433,6 @@ const etfReviewUrl = href('lab/etf-review');
   .line.fib-sw-ext { border-top:1.5px dashed #db2777; background:none; height:0; }
   .range-bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:6px 0 4px; color:#475569; font-size:13px; }
   .range-presets { display:flex; flex-wrap:wrap; gap:6px; }
-  .chart-nav { display:flex; align-items:center; gap:4px; }
-  .chart-nav button { min-width:28px; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; background:#fff; color:#334155; font-size:12px; cursor:pointer; }
-  .chart-nav button:hover { border-color:#6366f1; color:#4338ca; }
-  .chart-nav-hint { margin-left:4px; color:#94a3b8; font-size:11px; }
   .range-presets button { border:1px solid #cbd5e1; border-radius:6px; padding:4px 10px; background:#fff; color:#334155; font-size:12px; cursor:pointer; }
   .range-presets button.active { border-color:#6366f1; background:#eef2ff; color:#4338ca; font-weight:600; }
   .range-bar label { display:flex; align-items:center; gap:6px; }
