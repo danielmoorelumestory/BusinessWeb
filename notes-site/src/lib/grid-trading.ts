@@ -1316,10 +1316,10 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     ? `${name}：${signal.reason}（${signal.signalDate}）次日开盘买 ${signal.price.toFixed(3)}`
     : `${name}：${signal.reason}${signal.signalDate !== signal.date ? `（${signal.signalDate}，买入当天不能卖）次日开盘卖` : '当日收盘卖'} ${signal.price.toFixed(3)}${signal.ret !== undefined ? ` · 本笔 ${formatPercent(signal.ret)}` : ''}`;
   const planMarkSvg = plans.map((plan, order) => {
-    const color = PLAN_COLOR[plan.key], gap = (macdTrades ? 14 : 4) + order * 11, bandY = priceBottom - 5 - order * 6;
+    const color = PLAN_COLOR[plan.key], gap = (macdTrades ? 14 : 4) + order * 11, bandY = priceBottom - 5 - order * 16;
     const first = bars[0].date, last = bars.at(-1)!.date, lastClose = bars.at(-1)!.close;
     const clampIndex = (date: string) => date < first ? 0 : date > last ? count - 1 : barIndexOf.get(date) ?? bars.findIndex(bar => bar.date >= date);
-    let holds = '';
+    let holds = '', labelEnd = -Infinity;
     for (let k = 0; k < plan.signals.length; k++) {
       const buy = plan.signals[k];
       if (buy.side !== 'buy' || buy.date > last) continue;
@@ -1331,6 +1331,12 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       const x1 = x(from), x2 = x(to);
       holds += `<g><title>${tip}</title><rect x="${(x1 - slot / 2).toFixed(1)}" y="${bandY}" width="${Math.max(2, x2 - x1 + slot).toFixed(1)}" height="5" fill="${holdColor}" opacity=".55"/>`
         + `<line x1="${x1.toFixed(1)}" y1="${priceY(buy.price).toFixed(1)}" x2="${x2.toFixed(1)}" y2="${priceY(sellPrice).toFixed(1)}" stroke="${holdColor}" stroke-width="1.6" stroke-dasharray="${sell ? 'none' : '4 3'}" opacity=".85"/></g>`;
+      // 每笔盈亏直接标在持仓色带上方；与前一个标签挤在一起时省略（放大后会显示，悬停色带仍可看）
+      const text = `${ret >= 0 ? '+' : ''}${(ret * 100).toFixed(1)}%`, textWidth = text.length * 5.4, center = (x1 + x2) / 2;
+      if (center - textWidth / 2 > labelEnd + 2) {
+        labelEnd = center + textWidth / 2;
+        holds += `<text x="${center.toFixed(1)}" y="${bandY - 2}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${holdColor === color.buy ? color.buy : ret >= 0 ? '#b91c1c' : '#15803d'}" stroke="#fff" stroke-width="2.5" paint-order="stroke" pointer-events="none">${text}</text>`;
+      }
     }
     const marks = plan.signals.map(signal => {
       const index = barIndexOf.get(signal.date);
