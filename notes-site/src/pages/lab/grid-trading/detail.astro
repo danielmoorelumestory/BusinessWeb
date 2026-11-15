@@ -230,7 +230,7 @@ const etfReviewUrl = href('lab/etf-review');
     planTagsBox.hidden = false;
     planTagsBox.innerHTML = tags.length
       ? tags.map((tag, i) => `<div class="plan-tag ${tag.group}"><span class="plan-chip">${tag.name}</span><span><b>择时：</b>${tag.timing}；<b>买卖：</b>${tag.plan}。<span class="plan-stats">${tag.stats}。</span></span>${tag.views?.length ? `<button type="button" class="plan-show" data-tag="${i}">显示对应开关</button>` : ''}</div>`).join('') + (tags.length > 1 ? '<div class="plan-note">同时入选两个分组：两套方案的历史回测都比基准好，择时口径不同，按自己的习惯选一套即可。</div>' : '') + '<div class="plan-note">回测分组只是历史统计，不构成投资建议。</div>'
-      : '<div class="plan-tag none"><span class="plan-chip">未入选回测优选</span><span>不在「MACD优秀」「沪深300择时优选」分组里，页面默认的择时（创业板 ÷ 红利）+ KD10 买卖点只作观察。</span></div>';
+      : '<div class="plan-tag none"><span class="plan-chip">未入选回测优选</span><span>不在「创业板择时优选」「沪深300择时优选」分组里，页面默认的择时（创业板 ÷ 红利）+ KD10 买卖点只作观察。</span></div>';
     planTagsBox.querySelectorAll<HTMLButtonElement>('.plan-show').forEach(button => button.addEventListener('click', () => {
       const tag = tags[Number(button.dataset.tag)];
       for (const view of tag.views ?? []) {

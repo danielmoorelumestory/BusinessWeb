@@ -59,7 +59,7 @@ describe('etf-catalog-seed', () => {
     const empty = defaultMeta('2026-10-20T00:00:00.000Z');
     const { meta: filled, changed } = ensureCatalogSeed(empty);
     expect(changed).toBe(true);
-    // 9 个行业/策略/商品组 + MACD优秀 + 沪深300择时优选
+    // 9 个行业/策略/商品组 + 创业板择时优选 + 沪深300择时优选
     expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(11);
     expect(filled.groups.some(group => group.id === MONEY_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.groups.some(group => group.id === BOND_CATALOG_GROUP_ID)).toBe(false);
@@ -99,7 +99,7 @@ describe('etf-catalog-seed', () => {
       catalogMembershipOptOut: { '588200': ['g-catalog-ETF-01_TMT科技'] },
     };
     const again = ensureCatalogSeed(opted);
-    // 588200 同时在 MACD优秀 清单中，只退出了 TMT 组
+    // 588200 同时在 创业板择时优选 清单中，只退出了 TMT 组
     expect(again.meta.memberships['588200']).toEqual(['g-focus', MACD_GOOD_CATALOG_GROUP_ID]);
     expect(again.meta.memberships['588200']).not.toContain('g-catalog-ETF-01_TMT科技');
 
@@ -174,7 +174,17 @@ describe('etf-catalog-seed', () => {
     expect(Object.entries(again.memberships).filter(([, ids]) => ids.includes(MACD_GOOD_CATALOG_GROUP_ID)).length).toBeGreaterThan(0);
   });
 
-  it('沪深300择时优选 排在 MACD优秀 之后、TMT 科技之前，并加入成员', () => {
+  it('回测分组重新筛选后，落选的 ETF 退出该组，手动分组与 watchlist 保留', () => {
+    const first = ensureCatalogSeed(defaultMeta('2026-11-15T00:00:00.000Z')).meta;
+    const stale = { ...first, memberships: { ...first.memberships, '510300': ['g-focus', MACD_GOOD_CATALOG_GROUP_ID, HS300_TIMING_CATALOG_GROUP_ID] } };
+    const again = ensureCatalogSeed(stale);
+    expect(again.changed).toBe(true);
+    expect(again.meta.memberships['510300']).toEqual(['g-focus']);
+    expect(again.meta.memberships['562500']).toContain(MACD_GOOD_CATALOG_GROUP_ID);
+    expect(again.meta.memberships['562500']).not.toContain(HS300_TIMING_CATALOG_GROUP_ID);
+  });
+
+  it('沪深300择时优选 排在 创业板择时优选 之后、TMT 科技之前，并加入成员', () => {
     const tmt = 'g-catalog-ETF-01_TMT科技';
     const first = ensureCatalogSeed(defaultMeta('2026-11-14T00:00:00.000Z')).meta;
     const order = (meta: typeof first, id: string) => meta.groups.find(group => group.id === id)!.order;

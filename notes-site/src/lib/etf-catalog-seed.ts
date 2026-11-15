@@ -31,9 +31,9 @@ export type CatalogGroupDef = {
 };
 
 export const BROAD_CATALOG_GROUP_ID = 'g-catalog-broad';
-/** 回测筛出的 MACD 效果明显的清单 ETF；排在 TMT 科技（第一个行业组）之前 */
+/** 回测筛出的「Y1 + 创业板择时」逐年稳定的 ETF（原「MACD优秀」，沿用 id）；排在 TMT 科技（第一个行业组）之前 */
 export const MACD_GOOD_CATALOG_GROUP_ID = 'g-catalog-macd-good';
-/** 回测筛出的「只认金叉 + 沪深300 择时」年化明显提升且收益高的 ETF；排在 MACD优秀 之后、TMT 科技之前 */
+/** 回测筛出的「只认金叉 + 沪深300 择时」逐年稳定的 ETF；排在 创业板择时优选 之后、TMT 科技之前 */
 export const HS300_TIMING_CATALOG_GROUP_ID = 'g-catalog-hs300-timing';
 /** 回测筛选出的分组：条目没有行业分布等资料，组内默认按数据文件顺序，并展示筛选规则 */
 export const BACKTEST_CATALOG_GROUP_IDS = new Set([MACD_GOOD_CATALOG_GROUP_ID, HS300_TIMING_CATALOG_GROUP_ID]);
@@ -98,7 +98,7 @@ export function buildCatalogGroups(): CatalogGroupDef[] {
     }));
   const macd: CatalogGroupDef = {
     id: MACD_GOOD_CATALOG_GROUP_ID,
-    name: 'MACD优秀',
+    name: '创业板择时优选',
     order: 9.5,
     description: macdGood.rule,
     items: macdGood.items.map(item => ({ code: item.code, name: item.name })),
@@ -313,6 +313,17 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
     }
     if (existing.name !== def.name) {
       groups = groups.map(group => (group.id === def.id ? { ...group, name: def.name } : group));
+      changed = true;
+    }
+  }
+
+  // 回测分组的成员以数据文件为准：重新筛选后落选的 ETF 退出该组（只移除组关系，不动 watchlist）
+  for (const def of defs) {
+    if (!BACKTEST_CATALOG_GROUP_IDS.has(def.id)) continue;
+    const keep = new Set(def.items.map(item => item.code.trim()));
+    for (const [code, ids] of Object.entries(memberships)) {
+      if (keep.has(code) || !ids.includes(def.id)) continue;
+      memberships[code] = ids.filter(id => id !== def.id);
       changed = true;
     }
   }
