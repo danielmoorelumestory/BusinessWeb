@@ -52,6 +52,21 @@ describe('macdCloseSignals', () => {
     expect(deferred).toBeGreaterThan(0);
   });
 
+  it('给出择时时，熊市的金叉不开新仓，持仓照常等死叉卖', () => {
+    let seed = 7; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+    const walk: MacdBar[] = []; let price = 10;
+    for (let i = 0; i < 3000; i++) { const open = price * (1 + (rnd() - .5) * .01); price = open * (1 + (rnd() - .5) * .04); walk.push({ date: day(i), open, close: price }); }
+    const all = macdCloseSignals(walk, { warmup: 30 }).signals;
+    const firstBuy = all.find(signal => signal.side === 'buy')!;
+    // 第一笔买入的信号日判为熊市，其余为牛：这一笔消失，其后的买卖与不择时一致
+    const timed = macdCloseSignals(walk, { warmup: 30, bull: date => date !== firstBuy.signalDate }).signals;
+    expect(timed.some(signal => signal.side === 'buy' && signal.signalDate === firstBuy.signalDate)).toBe(false);
+    expect(timed.every(signal => signal.side === 'sell' || signal.signalDate !== firstBuy.signalDate)).toBe(true);
+    // 全部为熊：一笔都不买；undefined 视为牛：与不择时相同
+    expect(macdCloseSignals(walk, { warmup: 30, bull: () => false }).signals).toEqual([]);
+    expect(macdCloseSignals(walk, { warmup: 30, bull: () => undefined }).signals).toEqual(all);
+  });
+
   it('空数据', () => {
     expect(macdCloseSignals([])).toEqual({ signals: [], holding: false });
   });

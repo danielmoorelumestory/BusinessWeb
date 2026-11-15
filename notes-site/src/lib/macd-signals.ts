@@ -23,7 +23,8 @@ export type MacdCloseResult = {
 
 export const MACD_WARMUP = 120;
 
-export function macdCloseSignals(bars: MacdBar[], { fast = 12, slow = 26, signal = 9, warmup = MACD_WARMUP } = {}): MacdCloseResult {
+/** bull：可选的择时判定（按日期返回牛/熊，undefined 视为牛）；给出时择时熊市不开新仓，已持有的照常等死叉卖。 */
+export function macdCloseSignals(bars: MacdBar[], { fast = 12, slow = 26, signal = 9, warmup = MACD_WARMUP, bull }: { fast?: number; slow?: number; signal?: number; warmup?: number; bull?: (date: string) => boolean | undefined } = {}): MacdCloseResult {
   const signals: MacdSignal[] = [];
   if (!bars.length) return { signals, holding: false };
   const kf = 2 / (fast + 1), ks = 2 / (slow + 1), kd = 2 / (signal + 1);
@@ -53,7 +54,7 @@ export function macdCloseSignals(bars: MacdBar[], { fast = 12, slow = 26, signal
     } else if (holding && dead) {
       holding = false;
       signals.push({ date: bar.date, side: 'sell', price: bar.close, signalDate: bar.date, ret: entry > 0 ? bar.close / entry - 1 : undefined });
-    } else if (!holding && gold) {
+    } else if (!holding && gold && bull?.(bar.date) !== false) {
       pending = true;
     }
   }

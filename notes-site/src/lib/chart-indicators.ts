@@ -105,6 +105,8 @@ export const BAND_HIGH = 70, BAND_LOW = 30;
  * 研究来源：扩展高波动ETF检验/多元行情协议.md（R2-20，T1 熊市不开新仓）。
  */
 export const R2_CODES = { growth: '159915', defensive: '510880' } as const;
+/** 沪深300择时（研究中的 H1）：沪深300 指数 ÷ 红利 ETF（前复权），同样与 20 日均线比较。 */
+export const H1_CODES = { growth: 'sh000300', defensive: '510880' } as const;
 export const RATIO_MA = 20;
 export type RatioPoint = { date: string; ratio: number; ma: number | null; bull: boolean | null };
 
