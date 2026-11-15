@@ -35,14 +35,14 @@ export function planTagsOf(code: string): PlanTag[] {
   const cyb = (cybTiming.items as BacktestItem[]).find(item => item.code === code);
   if (cyb) tags.push({
     group: 'macd-good', name: '创业板择时优选', timing: '创业板 ÷ 红利（页面「创业板择时」）',
-    plan: 'Y1（页面「创业板择时+KD10买卖点」）：牛市金叉或站上10日线且 K−D≥5.3 次日开盘买，熊市不开新仓；死叉，或熊市跌破10日线当日收盘卖',
+    plan: 'Y1（页面「创业板择时买卖点」）：牛市金叉或站上10日线且 K−D≥5.3 次日开盘买，熊市不开新仓；死叉，或熊市跌破10日线当日收盘卖',
     stats: statsOf(cyb),
     views: ['r2', 'kd10Trades'],
   });
   const hs = (hs300Timing.items as BacktestItem[]).find(item => item.code === code);
   if (hs) tags.push({
     group: 'hs300-timing', name: '沪深300择时优选', timing: '沪深300 ÷ 红利，高于 20 日均线为牛（页面「沪深300择时」）',
-    plan: '只认金叉（页面「沪深300择时金叉买卖点」）：牛市 MACD 金叉次日开盘买，熊市不开新仓；死叉当日收盘卖',
+    plan: '只认金叉（页面「沪深300择时买卖点」）：牛市 MACD 金叉次日开盘买，熊市不开新仓；死叉当日收盘卖',
     stats: statsOf(hs),
     views: ['h1', 'h1Trades'],
   });
