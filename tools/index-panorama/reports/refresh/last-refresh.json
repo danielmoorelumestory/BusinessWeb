@@ -1,28 +1,420 @@
 {
- "startedAt": "2026-11-16T09:09:33Z",
- "startedAtBeijing": "2026-11-16T17:09:33+08:00",
+ "startedAt": "2026-11-16T11:27:24Z",
+ "startedAtBeijing": "2026-11-16T19:27:24+08:00",
  "mode": "online",
  "steps": [
   {
    "name": "行情/中证 fetch_data",
    "status": "ok",
    "detail": "腾讯行情在线刷新；中证仅刷新生产已有中证 store 的指数（选源不变）；丢弃生产中不存在的新中证 store ['data/store/indicator_932000_CSI.csv']（保持既有选源）",
-   "seconds": 14.3
+   "seconds": 14.7
   },
   {
    "name": "provider domestic",
    "status": "ok",
-   "detail": "修订 1 个旧观测值；新字段 0；0 个请求错误（这些接口沿用上一份有效 raw）",
-   "seconds": 203.7,
-   "headTrim": [],
+   "detail": "修订 0 个旧观测值；新字段 0；0 个请求错误（这些接口沿用上一份有效 raw）；蛋卷滚动尾点被更新尾点取代 41 列（已记入报告，非丢数据）",
+   "seconds": 154.3,
+   "headTrim": [
+    "399001.SZ.pe 裁头 1",
+    "399001.SZ.pb 裁头 1",
+    "399006.SZ.pe 裁头 1",
+    "399006.SZ.pb 裁头 1",
+    "000016.SH.pb 裁头 1",
+    "000300.SH.pb 裁头 1",
+    "000905.SH.pb 裁头 1",
+    "000852.SH.pb 裁头 1",
+    "000903.SH.pb 裁头 1",
+    "000922.CSI.pb 裁头 1",
+    "000932.SH.pb 裁头 1",
+    "399967.SZ.pb 裁头 1",
+    "399975.SZ.pb 裁头 1",
+    "399986.SZ.pb 裁头 1",
+    "399971.SZ.pb 裁头 1",
+    "000827.SH.pb 裁头 1",
+    "000989.SH.pb 裁头 1",
+    "000991.SH.pb 裁头 1",
+    "000993.SH.pb 裁头 1"
+   ],
+   "tailReplaced": [
+    {
+     "code": "399001.SZ",
+     "field": "pe",
+     "replaced": [
+      "2026-11-13",
+      24.6441
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399001.SZ",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      2.2185
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399001.SZ",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      9.0
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399006.SZ",
+     "field": "pe",
+     "replaced": [
+      "2026-11-13",
+      27.506
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399006.SZ",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      3.8673
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399006.SZ",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      14.06
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000688.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      6.2962
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000688.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      6.73
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000016.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      1.2335
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000016.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      10.54
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000300.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      1.3326
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000300.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      9.93
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000905.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      2.0066
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000905.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      7.32
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000852.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      1.9903
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000852.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      5.25
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000903.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      1.7228
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000903.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      10.83
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000922.CSI",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      0.8871
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000922.CSI",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      9.72
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000932.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      3.5726
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000932.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      13.09
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399967.SZ",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      2.9424
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399967.SZ",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      5.37
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399975.SZ",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      1.1172
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399975.SZ",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      9.36
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399986.SZ",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      0.7379
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399986.SZ",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      9.47
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399971.SZ",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      2.2512
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "399971.SZ",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      6.19
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000827.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      2.1195
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000827.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      8.1
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000989.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      1.9447
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000989.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      8.94
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000991.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      2.87
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000991.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      10.17
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000993.SH",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      4.5411
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "000993.SH",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      12.26
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "HSTECH.HK",
+     "field": "pe",
+     "replaced": [
+      "2026-11-13",
+      20.0276
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "HSTECH.HK",
+     "field": "pb",
+     "replaced": [
+      "2026-11-13",
+      2.0545
+     ],
+     "newLast": "2026-11-16"
+    },
+    {
+     "code": "HSTECH.HK",
+     "field": "roe",
+     "replaced": [
+      "2026-11-13",
+      10.26
+     ],
+     "newLast": "2026-11-16"
+    }
+   ],
    "errors": []
   },
   {
    "name": "provider supplemental",
    "status": "partial",
    "detail": "修订 0 个旧观测值；新字段 0；2 个请求错误（这些接口沿用上一份有效 raw）",
-   "seconds": 19.5,
+   "seconds": 23.5,
    "headTrim": [],
+   "tailReplaced": [],
    "errors": [
     "{\"source\": \"hsi_monthly_xlsx\", \"url\": \"https://www.hsi.com.hk/content/dam/wpb/hsil/index_operation/historical_pe/en_hk/hstech/hstech.xlsx\", \"error\": \"FetchError: 重定向到错误页 https://www.hsi.com.hk/errors/404/\"}",
     "{\"source\": \"hsi_monthly_xlsx\", \"url\": \"https://www.hsi.com.hk/content/dam/wpb/hsil/index_operation/historical_dy/en_hk/hstech/hstech.xlsx\", \"error\": \"FetchError: 重定向到错误页 https://www.hsi.com.hk/errors/404/\"}"
@@ -31,15 +423,15 @@
   {
    "name": "原站 EPS",
    "status": "ok",
-   "detail": "抓取 2026-11-16T09:13:41.117Z，原站面板日 20261116，修订 0 个旧值",
-   "seconds": 77.5,
+   "detail": "抓取 2026-11-16T11:30:47.454Z，原站面板日 20261116，修订 0 个旧值",
+   "seconds": 79.4,
    "detail_by_code": {
     "000001.SH": {
      "count": 1206,
      "first": "20020110",
      "last": "20261116",
      "oldCount": 1206,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "000016.SH": {
@@ -47,7 +439,7 @@
      "first": "20040105",
      "last": "20261116",
      "oldCount": 1111,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "000300.SH": {
@@ -55,15 +447,15 @@
      "first": "20050412",
      "last": "20261116",
      "oldCount": 1050,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "000688.SH": {
      "count": 307,
      "first": "20200722",
      "last": "20261116",
-     "oldCount": 306,
-     "oldLast": "20261113",
+     "oldCount": 307,
+     "oldLast": "20261116",
      "revised": 0
     },
     "000827.SH": {
@@ -71,23 +463,23 @@
      "first": "20121008",
      "last": "20261116",
      "oldCount": 686,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "000852.SH": {
      "count": 588,
      "first": "20141017",
      "last": "20261116",
-     "oldCount": 587,
-     "oldLast": "20261113",
+     "oldCount": 588,
+     "oldLast": "20261116",
      "revised": 0
     },
     "000903.SH": {
      "count": 996,
      "first": "20060529",
      "last": "20261116",
-     "oldCount": 995,
-     "oldLast": "20261113",
+     "oldCount": 996,
+     "oldLast": "20261116",
      "revised": 0
     },
     "000905.SH": {
@@ -95,7 +487,7 @@
      "first": "20070118",
      "last": "20261116",
      "oldCount": 964,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "000906.SH": {
@@ -103,7 +495,7 @@
      "first": "20070118",
      "last": "20261116",
      "oldCount": 964,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "000922.CSI": {
@@ -111,7 +503,7 @@
      "first": "20080529",
      "last": "20261116",
      "oldCount": 898,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "399001.SZ": {
@@ -119,7 +511,7 @@
      "first": "20020110",
      "last": "20261116",
      "oldCount": 1206,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "399006.SZ": {
@@ -127,15 +519,15 @@
      "first": "20100607",
      "last": "20261116",
      "oldCount": 799,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "399967.SZ": {
      "count": 627,
      "first": "20131226",
      "last": "20261116",
-     "oldCount": 626,
-     "oldLast": "20261113",
+     "oldCount": 627,
+     "oldLast": "20261116",
      "revised": 0
     },
     "399975.SZ": {
@@ -143,7 +535,7 @@
      "first": "20130716",
      "last": "20261116",
      "oldCount": 649,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "399986.SZ": {
@@ -151,7 +543,7 @@
      "first": "20130716",
      "last": "20261116",
      "oldCount": 649,
-     "oldLast": "20261113",
+     "oldLast": "20261116",
      "revised": 0
     },
     "HSCEI.HK": {
@@ -205,20 +597,48 @@
   {
    "name": "数据包门禁",
    "status": "ok",
-   "detail": "结构/观测/末日/选源/EPS 一一对应通过；manager_audit 通过；修订 1 个旧值",
-   "seconds": 18.5
+   "detail": "结构/观测/末日/选源/EPS 一一对应通过；manager_audit 通过；修订 0 个旧值",
+   "seconds": 18.1
   },
   {
    "name": "发布",
    "status": "ok",
-   "detail": "原子替换 186 个文件；备份 data/refresh-backups/20261116T090933Z",
+   "detail": "原子替换 182 个文件；备份 data/refresh-backups/20261116T112724Z",
    "seconds": 0.1,
    "files": [
     "data/manifest.json",
     "data/providers/domestic.json",
+    "data/providers/domestic_raw/accum_dy_csi_000001.json",
+    "data/providers/domestic_raw/accum_dy_csi_000016.json",
+    "data/providers/domestic_raw/accum_dy_csi_000300.json",
+    "data/providers/domestic_raw/accum_dy_csi_000688.json",
+    "data/providers/domestic_raw/accum_dy_csi_000827.json",
+    "data/providers/domestic_raw/accum_dy_csi_000852.json",
+    "data/providers/domestic_raw/accum_dy_csi_000903.json",
+    "data/providers/domestic_raw/accum_dy_csi_000905.json",
+    "data/providers/domestic_raw/accum_dy_csi_000906.json",
+    "data/providers/domestic_raw/accum_dy_csi_000922.json",
+    "data/providers/domestic_raw/accum_dy_csi_000932.json",
+    "data/providers/domestic_raw/accum_dy_csi_000985.json",
+    "data/providers/domestic_raw/accum_dy_csi_000986.json",
+    "data/providers/domestic_raw/accum_dy_csi_000987.json",
+    "data/providers/domestic_raw/accum_dy_csi_000988.json",
+    "data/providers/domestic_raw/accum_dy_csi_000989.json",
+    "data/providers/domestic_raw/accum_dy_csi_000990.json",
+    "data/providers/domestic_raw/accum_dy_csi_000991.json",
+    "data/providers/domestic_raw/accum_dy_csi_000992.json",
+    "data/providers/domestic_raw/accum_dy_csi_000993.json",
+    "data/providers/domestic_raw/accum_dy_csi_000994.json",
+    "data/providers/domestic_raw/accum_dy_csi_000995.json",
+    "data/providers/domestic_raw/accum_dy_csi_399967.json",
+    "data/providers/domestic_raw/accum_dy_csi_399971.json",
+    "data/providers/domestic_raw/accum_dy_csi_399975.json",
+    "data/providers/domestic_raw/accum_dy_csi_399986.json",
+    "data/providers/domestic_raw/accum_dy_csi_932000.json",
+    "data/providers/domestic_raw/accum_dy_dj_HKHSTECH.json",
+    "data/providers/domestic_raw/accum_dy_dj_SZ399001.json",
+    "data/providers/domestic_raw/accum_dy_dj_SZ399006.json",
     "data/providers/domestic_raw/accum_pb_csival_000001.json",
-    "data/providers/domestic_raw/cnindex_daily_399303.json",
-    "data/providers/domestic_raw/cnindex_list.json",
     "data/providers/domestic_raw/csi_ind_000001.xls",
     "data/providers/domestic_raw/csi_ind_000016.xls",
     "data/providers/domestic_raw/csi_ind_000300.xls",
@@ -246,55 +666,405 @@
     "data/providers/domestic_raw/csi_ind_399975.xls",
     "data/providers/domestic_raw/csi_ind_399986.xls",
     "data/providers/domestic_raw/csi_ind_932000.xls",
-    "data/providers/domestic_raw/csi_pe_000001.json",
-    "data/providers/domestic_raw/csi_pe_000016.json",
-    "data/providers/domestic_raw/csi_pe_000300.json",
-    "data/providers/domestic_raw/csi_pe_000688.json",
-    "data/providers/domestic_raw/csi_pe_000827.json",
-    "data/providers/domestic_raw/csi_pe_000852.json",
-    "data/providers/domestic_raw/csi_pe_000903.json",
-    "data/providers/domestic_raw/csi_pe_000905.json",
-    "data/providers/domestic_raw/csi_pe_000906.json",
-    "data/providers/domestic_raw/csi_pe_000922.json",
-    "data/providers/domestic_raw/csi_pe_000932.json",
-    "data/providers/domestic_raw/csi_pe_000985.json",
-    "data/providers/domestic_raw/csi_pe_000986.json",
-    "data/providers/domestic_raw/csi_pe_000987.json",
-    "data/providers/domestic_raw/csi_pe_000988.json",
-    "data/providers/domestic_raw/csi_pe_000989.json",
-    "data/providers/domestic_raw/csi_pe_000990.json",
-    "data/providers/domestic_raw/csi_pe_000991.json",
-    "data/providers/domestic_raw/csi_pe_000992.json",
-    "data/providers/domestic_raw/csi_pe_000993.json",
-    "data/providers/domestic_raw/csi_pe_000994.json",
-    "data/providers/domestic_raw/csi_pe_000995.json",
-    "data/providers/domestic_raw/csi_pe_399967.json",
-    "data/providers/domestic_raw/csi_pe_399971.json",
-    "data/providers/domestic_raw/csi_pe_399975.json",
-    "data/providers/domestic_raw/csi_pe_399986.json",
-    "data/providers/domestic_raw/csi_pe_932000.json",
-    "data/providers/domestic_raw/csi_valuation.json",
     "…"
    ]
   }
  ],
  "published": true,
  "providerAsOf": "2026-11-16",
- "revisions": [
+ "revisions": [],
+ "headTrim": [
+  "399001.SZ.pe 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "399001.SZ.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "399006.SZ.pe 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "399006.SZ.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000016.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000300.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000905.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000852.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000903.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000922.CSI.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000932.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "399967.SZ.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "399975.SZ.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "399986.SZ.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "399971.SZ.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000827.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000989.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000991.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）",
+  "000993.SH.pb 最早端裁掉 1 个（2016-11-14~2016-11-14）"
+ ],
+ "tailReplaced": [
   {
-   "code": "SPX.US",
+   "code": "399001.SZ",
+   "field": "pe",
+   "replaced": [
+    "2026-11-13",
+    24.6441
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399001.SZ",
    "field": "pb",
-   "count": 1,
-   "samples": [
-    [
-     "2026-11-13",
-     5.2883,
-     5.2884
-    ]
-   ]
+   "replaced": [
+    "2026-11-13",
+    2.2185
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399001.SZ",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    9.0
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399006.SZ",
+   "field": "pe",
+   "replaced": [
+    "2026-11-13",
+    27.506
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399006.SZ",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    3.8673
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399006.SZ",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    14.06
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000688.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    6.2962
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000688.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    6.73
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000016.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    1.2335
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000016.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    10.54
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000300.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    1.3326
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000300.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    9.93
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000905.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    2.0066
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000905.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    7.32
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000852.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    1.9903
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000852.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    5.25
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000903.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    1.7228
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000903.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    10.83
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000922.CSI",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    0.8871
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000922.CSI",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    9.72
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000932.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    3.5726
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000932.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    13.09
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399967.SZ",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    2.9424
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399967.SZ",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    5.37
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399975.SZ",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    1.1172
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399975.SZ",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    9.36
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399986.SZ",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    0.7379
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399986.SZ",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    9.47
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399971.SZ",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    2.2512
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "399971.SZ",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    6.19
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000827.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    2.1195
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000827.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    8.1
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000989.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    1.9447
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000989.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    8.94
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000991.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    2.87
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000991.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    10.17
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000993.SH",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    4.5411
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "000993.SH",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    12.26
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "HSTECH.HK",
+   "field": "pe",
+   "replaced": [
+    "2026-11-13",
+    20.0276
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "HSTECH.HK",
+   "field": "pb",
+   "replaced": [
+    "2026-11-13",
+    2.0545
+   ],
+   "newLast": "2026-11-16"
+  },
+  {
+   "code": "HSTECH.HK",
+   "field": "roe",
+   "replaced": [
+    "2026-11-13",
+    10.26
+   ],
+   "newLast": "2026-11-16"
   }
  ],
- "headTrim": [],
  "fields": [
   {
    "code": "000001.SH",
@@ -306,20 +1076,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3667,
+    "last": "2026-11-16",
+    "count": 3668,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
-    "count": 2,
+    "last": "2026-11-16",
+    "count": 3,
     "provider": "domestic",
     "frequency": "single"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -352,20 +1122,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-13",
-    "count": 1,
+    "last": "2026-11-16",
+    "count": 2,
     "provider": "domestic",
     "frequency": "single"
    },
@@ -376,7 +1146,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -398,20 +1168,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-13",
-    "count": 1,
+    "last": "2026-11-16",
+    "count": 2,
     "provider": "domestic",
     "frequency": "single"
    },
@@ -422,7 +1192,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -444,20 +1214,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 1542,
+    "last": "2026-11-16",
+    "count": 1543,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 355,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -468,7 +1238,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 355,
     "provider": "domestic",
     "frequency": "weekly"
@@ -490,20 +1260,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -514,7 +1284,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 365,
     "provider": "domestic",
     "frequency": "weekly"
@@ -536,20 +1306,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -560,7 +1330,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 362,
     "provider": "domestic",
     "frequency": "weekly"
@@ -582,20 +1352,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -606,7 +1376,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -628,20 +1398,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3489,
+    "last": "2026-11-16",
+    "count": 3490,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -652,7 +1422,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -674,20 +1444,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -698,7 +1468,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 365,
     "provider": "domestic",
     "frequency": "weekly"
@@ -720,8 +1490,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -732,8 +1502,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -766,8 +1536,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -778,8 +1548,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -852,14 +1622,14 @@
    "code": "932000.CSI",
    "name": "中证2000",
    "price": {
-    "last": "2026-11-13",
-    "count": 3128,
+    "last": "2026-11-16",
+    "count": 3129,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 828,
+    "last": "2026-11-16",
+    "count": 829,
     "provider": "csi",
     "frequency": "daily"
    },
@@ -870,8 +1640,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -888,8 +1658,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-13",
-    "count": 3128,
+    "last": "2026-11-16",
+    "count": 3129,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -904,20 +1674,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -928,7 +1698,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 365,
     "provider": "domestic",
     "frequency": "weekly"
@@ -950,20 +1720,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -974,7 +1744,7 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -996,20 +1766,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3067,
+    "last": "2026-11-16",
+    "count": 3068,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1020,7 +1790,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1042,20 +1812,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 2793,
+    "last": "2026-11-16",
+    "count": 2794,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1066,7 +1836,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1088,20 +1858,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 2793,
+    "last": "2026-11-16",
+    "count": 2794,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1112,7 +1882,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 365,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1134,20 +1904,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 2921,
+    "last": "2026-11-16",
+    "count": 2922,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1158,7 +1928,7 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 365,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1180,20 +1950,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1204,7 +1974,7 @@
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1226,8 +1996,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1238,8 +2008,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1272,8 +2042,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1284,8 +2054,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1318,8 +2088,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1330,8 +2100,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1364,20 +2134,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1388,7 +2158,7 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 365,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1410,8 +2180,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1422,8 +2192,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1456,20 +2226,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1480,7 +2250,7 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1502,8 +2272,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1514,8 +2284,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1548,20 +2318,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1572,7 +2342,7 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 384,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1594,8 +2364,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1606,8 +2376,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1640,8 +2410,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 3669,
+    "last": "2026-11-16",
+    "count": 3670,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1652,8 +2422,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-11",
-    "count": 20,
+    "last": "2026-11-16",
+    "count": 22,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1686,8 +2456,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 30,
+    "last": "2026-11-16",
+    "count": 31,
     "provider": "supplemental",
     "frequency": "daily"
    },
@@ -1698,8 +2468,8 @@
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-13",
-    "count": 30,
+    "last": "2026-11-16",
+    "count": 31,
     "provider": "supplemental",
     "frequency": "daily"
    },
@@ -1732,20 +2502,20 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 326,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "pb": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 326,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-13",
-    "count": 1,
+    "last": "2026-11-16",
+    "count": 2,
     "provider": "domestic",
     "frequency": "single"
    },
@@ -1756,7 +2526,7 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "count": 326,
     "provider": "domestic",
     "frequency": "weekly"
@@ -1778,8 +2548,8 @@
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-13",
-    "count": 30,
+    "last": "2026-11-16",
+    "count": 31,
     "provider": "supplemental",
     "frequency": "daily"
    },
@@ -1790,8 +2560,8 @@
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-13",
-    "count": 30,
+    "last": "2026-11-16",
+    "count": 31,
     "provider": "supplemental",
     "frequency": "daily"
    },
@@ -1954,11 +2724,11 @@
   }
  ],
  "dataAsOf": "2026-11-16",
- "previousAsOf": "2026-11-13",
- "backup": "data/refresh-backups/20261116T090933Z",
- "endedAt": "2026-11-16T09:15:09Z",
- "endedAtBeijing": "2026-11-16T17:15:09+08:00",
+ "previousAsOf": "2026-11-16",
+ "backup": "data/refresh-backups/20261116T112724Z",
+ "endedAt": "2026-11-16T11:32:16Z",
+ "endedAtBeijing": "2026-11-16T19:32:16+08:00",
  "status": "partial",
  "exitCode": 10,
- "workDir": "data/refresh-work/20261116T090933Z"
+ "workDir": "data/refresh-work/20261116T112724Z"
 }
