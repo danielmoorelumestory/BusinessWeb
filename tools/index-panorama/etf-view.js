@@ -100,10 +100,11 @@
   }
 
   function rowHtml(p, direct) {
+    var detailUrl = '/note/lab/grid-trading/detail/?code=' + encodeURIComponent(p.code) + '&name=' + encodeURIComponent(p.name);
     var bench = '<b class="pe-bench">' + esc(p.benchmarkName) + '</b> <span class="pe-code">' + esc(p.benchmarkCode) + '</span>';
     var note = p.demoted ? '来源标为跟踪，但实际跟踪 ' + p.benchmarkName + '（' + p.benchmarkCode + '），不是本指数' : p.relationNote;
     return '<li class="pe-item">' +
-      '<div class="pe-main"><span class="pe-name">' + esc(p.name) + '</span>' +
+      '<div class="pe-main"><a class="pe-name pe-detail" href="' + esc(detailUrl) + '" title="查看 ' + esc(p.name) + ' 的 ETF 详情">' + esc(p.name) + ' ›</a>' +
       '<span class="pe-tick"><b>' + esc(p.code) + '</b><span class="pe-ex">' + esc(p.exchange) + '</span>' +
       '<button type="button" class="pe-copy" data-pe-copy="' + esc(p.code) + '" aria-label="复制基金代码 ' + esc(p.code) + '">复制代码</button></span></div>' +
       '<div class="pe-meta"><span>' + (direct ? '跟踪指数：' : '实际跟踪：') + bench + '</span>' +
