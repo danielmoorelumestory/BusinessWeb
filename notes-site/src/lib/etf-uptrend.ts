@@ -39,6 +39,36 @@ export interface Day {
   rows: Row[];
 }
 
+/** /api/etf-uptrend-live 的返回：实时从来源拉取、未存档的当前名单。 */
+export interface LiveResult {
+  asof: string | null;
+  at: string;
+  cats: TagKey[];
+  rows: Row[];
+  n: DayMeta['n'];
+}
+
+/** 北京时间的日期 YYYY-MM-DD。 */
+export function shanghaiDate(now: Date): string {
+  return new Date(now.getTime() + 8 * 3600_000).toISOString().slice(0, 10);
+}
+
+/** 存档里最新的行情日早于今天（北京时间）时，才去来源实时检查。 */
+export function needsLiveCheck(days: DayMeta[], now: Date): boolean {
+  const asof = days.at(-1)?.asof ?? days.at(-1)?.d;
+  return !asof || asof < shanghaiDate(now);
+}
+
+/** 实时结果比存档新时，生成一份临时快照（不存档）；否则返回 null。 */
+export function liveSnapshot(days: DayMeta[], live: LiveResult): { meta: DayMeta; day: Day } | null {
+  const latest = days.at(-1)?.asof ?? days.at(-1)?.d ?? '';
+  if (!live.asof || live.asof <= latest || !live.rows.length) return null;
+  return {
+    meta: { d: live.asof, asof: live.asof, at: live.at, st: 'live', n: live.n, notes: [] },
+    day: { d: live.asof, cats: live.cats, rows: live.rows },
+  };
+}
+
 export interface Period {
   start_day: string;
   end_day: string;
