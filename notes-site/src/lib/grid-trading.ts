@@ -299,7 +299,7 @@ const candleRequests = new Map<string, Promise<CandleCache>>();
 // v2 日线缓存没有开盘价，同样清理，页面会重新取数。
 try { Object.keys(localStorage).filter(key => key.startsWith('grid-trading-market-cache-v1:') || (key.startsWith('grid-trading-candles-v2:') || key.startsWith('grid-trading-candles-v3:'))).forEach(key => localStorage.removeItem(key)); } catch { /* ignore */ }
 
-async function downloadCandles(code: string, from: string): Promise<Candle[]> {
+async function downloadCandles(code: string, from: string, fq: 'qfq' | 'hfq' = 'qfq'): Promise<Candle[]> {
   const symbol = symbolOf(code);
   let end = marketToday(), lines: string[][] = [];
   // 前复权接口单次最多返回 640 根日线；起始日期较早时向前分段补齐。
@@ -308,7 +308,7 @@ async function downloadCandles(code: string, from: string): Promise<Candle[]> {
     // 主域名偶尔返回拦截页；腾讯财经代理提供相同的前复权数据格式。
     for (const endpoint of ['https://web.ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get']) {
       try {
-        const response = await fetch(`${endpoint}?param=${symbol},day,${from},${end},640,qfq`, { signal: AbortSignal.timeout(15000) });
+        const response = await fetch(`${endpoint}?param=${symbol},day,${from},${end},640,${fq}`, { signal: AbortSignal.timeout(15000) });
         if (!response.ok) continue;
         const candidate = await response.json();
         if (!candidate.data?.[symbol]) continue;
@@ -318,7 +318,7 @@ async function downloadCandles(code: string, from: string): Promise<Candle[]> {
     }
     if (!payload) throw new Error('行情服务暂不可用');
     // 部分 ETF 的前复权接口以 day 返回日线，股票通常为 qfqday。
-    const batch: string[][] = payload.data?.[symbol]?.qfqday ?? payload.data?.[symbol]?.day ?? [];
+    const batch: string[][] = payload.data?.[symbol]?.[`${fq}day`] ?? payload.data?.[symbol]?.day ?? [];
     if (!batch.length) break;
     lines = [...batch, ...lines];
     const firstDate = batch[0][0];
@@ -424,6 +424,41 @@ export async function fetchQuotes(codes: string[]): Promise<Map<string, Quote>> 
 }
 
 /** 用实时报价补齐当日 K 线：已有当日日线则合并高低价，否则追加一根。 */
+/**
+ * 后复权日线（择时比值用）：腾讯前复权对 ETF 是按累计分红「减固定金额」，分红多的 ETF（如红利 510880）早年价格被压低、涨跌幅被放大，
+ * 算出的风格比值与研究回测（加回分红）口径不一致；后复权与研究口径基本一致。按自然日缓存，不走云端（云端只存前复权）。
+ */
+const hfqRequests = new Map<string, Promise<Candle[]>>();
+export async function getHfqCandles(code: string, begin: string): Promise<Candle[]> {
+  const key = `${CANDLE_CACHE_PREFIX}hfq:${code.trim()}`, today = marketToday();
+  const cached = readJson<CandleCache | null>(key, null);
+  if (cached && cached.from <= begin && cached.candles.length && cached.fetchedOn === today) return cached.candles.filter(candle => candle.date >= begin);
+  let request = hfqRequests.get(key);
+  if (!request) {
+    request = downloadCandles(code, begin, 'hfq').then(candles => {
+      if (candles.length) writeJson(key, { fetchedOn: today, from: begin, candles });
+      return candles;
+    }).finally(() => hfqRequests.delete(key));
+    hfqRequests.set(key, request);
+  }
+  return (await request).filter(candle => candle.date >= begin);
+}
+
+/** 后复权日线并入实时报价：报价是不复权价格，按当日涨跌幅换算到后复权口径；没有涨跌幅时不并入。 */
+export function mergeQuoteByChange(candles: Candle[], quote?: Quote): Candle[] {
+  if (!quote || quote.changePercent === undefined || !candles.length) return candles;
+  const index = candles.findIndex(candle => candle.date === quote.date);
+  const base = index >= 0 ? candles[index - 1] : quote.date > candles.at(-1)!.date ? candles.at(-1) : undefined;
+  if (!base) return candles;
+  const close = base.close * (1 + quote.changePercent / 100);
+  if (index >= 0) {
+    const merged = [...candles], previous = candles[index];
+    merged[index] = { ...previous, close, high: Math.max(previous.high, close), low: Math.min(previous.low, close) };
+    return merged;
+  }
+  return [...candles, { date: quote.date, open: close, close, high: close, low: close }];
+}
+
 export function mergeQuote(candles: Candle[], quote?: Quote): Candle[] {
   if (!quote) return candles;
   const index = candles.findIndex(candle => candle.date === quote.date);

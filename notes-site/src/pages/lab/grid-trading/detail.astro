@@ -132,7 +132,7 @@ const etfReviewUrl = href('lab/etf-review');
 
 <script>
   import {
-    calculateGrid, adjustmentsOf, getCandles, fetchQuotes, mergeQuote, refreshRecord, readRecords, saveRecord, pushRecord, pullRecord, recordByCode, pullByCode, newWatchRecord, watchIdOf,
+    calculateGrid, adjustmentsOf, getCandles, getHfqCandles, fetchQuotes, mergeQuote, mergeQuoteByChange, refreshRecord, readRecords, saveRecord, pushRecord, pullRecord, recordByCode, pullByCode, newWatchRecord, watchIdOf,
     renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, parseFib, fibFromDates, normalizeFibSets, normalizeView, MAX_FIB_SETS, type FibSet, MAX_LEVELS, type Candle, type Levels, type Fib, type View, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
     blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar, type ChartIndicators, type RatioPanels,
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
@@ -217,8 +217,12 @@ const etfReviewUrl = href('lab/etf-review');
     const next: RatioPanels = {};
     await Promise.all(pairs.map(async ([key, codes]) => {
       try {
-        const [growth, defensive] = await Promise.all([getCandles(codes.growth, begin), getCandles(codes.defensive, begin)]);
-        next[key] = styleRatio(mergeQuote(growth, quotes.get(codes.growth)), mergeQuote(defensive, quotes.get(codes.defensive)));
+        // 指数（sh/sz 前缀）不涉及分红复权；ETF 用后复权，与研究回测口径一致（前复权对分红多的红利 ETF 会扭曲比值）。
+        const series = async (code: string) => /^(sh|sz)/.test(code)
+          ? mergeQuote(await getCandles(code, begin), quotes.get(code))
+          : mergeQuoteByChange(await getHfqCandles(code, begin), quotes.get(code));
+        const [growth, defensive] = await Promise.all([series(codes.growth), series(codes.defensive)]);
+        next[key] = styleRatio(growth, defensive);
       } catch { /* 单个比值取数失败只是不显示 */ }
     }));
     ratioPoints = next; ratioBegin = begin;
