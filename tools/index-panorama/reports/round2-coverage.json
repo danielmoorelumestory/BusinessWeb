@@ -1,17 +1,17 @@
 {
- "generatedAt": "2026-11-16T13:51:35Z",
+ "generatedAt": "2026-11-16T22:34:43Z",
  "asOf": "2026-11-16",
  "mode": "enrich-only",
  "before": {
   "baseline": "reports/round2-baseline.json",
   "baselineAsOf": "2026-11-13",
-  "previousBundleGeneratedAt": "2026-11-16T13:46:29Z"
+  "previousBundleGeneratedAt": "2026-11-16T22:28:10Z"
  },
  "providers": {
   "domestic": {
    "status": "ok",
    "path": "data/providers/domestic.json",
-   "retrievedAt": "2026-11-16T11:30:12Z",
+   "retrievedAt": "2026-11-16T22:32:58Z",
    "codes": 63,
    "okFields": 171,
    "errors": [],
@@ -21,7 +21,7 @@
   "supplemental": {
    "status": "ok",
    "path": "data/providers/supplemental.json",
-   "retrievedAt": "2026-11-16T11:30:13Z",
+   "retrievedAt": "2026-11-16T22:32:58Z",
    "codes": 63,
    "okFields": 68,
    "errors": [
@@ -34,8 +34,8 @@
   "original_eps": {
    "status": "ok",
    "path": "data/providers/original_eps.json",
-   "retrievedAt": "2026-11-16T11:30:47.454Z",
-   "codes": 36,
+   "retrievedAt": "2026-11-16T22:33:36.248Z",
+   "codes": 63,
    "okFields": 15,
    "errors": [],
    "rejected": [],
@@ -141,7 +141,7 @@
    "lost": []
   },
   "dy": {
-   "beforeNonEmpty": 19,
+   "beforeNonEmpty": 20,
    "afterNonEmpty": 61,
    "filled": [
     "000001.SH",
@@ -155,7 +155,6 @@
     "000903.SH",
     "000906.SH",
     "000985.SH",
-    "932000.CSI",
     "000922.CSI",
     "000932.SH",
     "399967.SZ",
@@ -4334,14 +4333,14 @@
     },
     "dy": {
      "before": {
-      "count": 0,
-      "first": null,
-      "last": null
+      "count": 20,
+      "first": "2026-10-19",
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 0,
-      "first": null,
-      "last": null
+      "count": 20,
+      "first": "2026-10-19",
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4353,9 +4352,9 @@
       "first": "2026-10-15",
       "last": "2026-11-16"
      },
-     "filled": true,
+     "filled": false,
      "lost": false,
-     "delta": 22
+     "delta": 2
     },
     "mcap": {
      "before": {
@@ -10044,13 +10043,13 @@
     },
     "pe": {
      "before": {
-      "count": 3253,
-      "first": "2013-06-28",
+      "count": 3252,
+      "first": "2013-07-01",
       "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 3253,
-      "first": "2013-06-28",
+      "count": 3252,
+      "first": "2013-07-01",
       "last": "2026-11-16"
      },
      "after": {
@@ -10065,7 +10064,7 @@
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "pb": {
      "before": {
@@ -10144,12 +10143,12 @@
     },
     "amt": {
      "before": {
-      "count": 5309,
+      "count": 5308,
       "first": "2005-01-04",
       "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5308,
       "first": "2005-01-04",
       "last": "2026-11-16"
      },
@@ -10165,7 +10164,7 @@
      },
      "filled": false,
      "lost": false,
-     "delta": -1
+     "delta": 0
     },
     "turn": {
      "before": {
@@ -10208,7 +10207,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -10364,13 +10363,13 @@
     },
     "pe": {
      "before": {
-      "count": 3253,
-      "first": "2013-06-28",
+      "count": 3252,
+      "first": "2013-07-01",
       "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 3253,
-      "first": "2013-06-28",
+      "count": 3252,
+      "first": "2013-07-01",
       "last": "2026-11-16"
      },
      "after": {
@@ -10385,7 +10384,7 @@
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "pb": {
      "before": {
@@ -10464,12 +10463,12 @@
     },
     "amt": {
      "before": {
-      "count": 5309,
+      "count": 5308,
       "first": "2005-01-04",
       "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5308,
       "first": "2005-01-04",
       "last": "2026-11-16"
      },
@@ -10485,7 +10484,7 @@
      },
      "filled": false,
      "lost": false,
-     "delta": -1
+     "delta": 0
     },
     "turn": {
      "before": {
@@ -10528,7 +10527,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -10848,7 +10847,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -11168,7 +11167,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -11488,7 +11487,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -11644,13 +11643,13 @@
     },
     "pe": {
      "before": {
-      "count": 3253,
-      "first": "2013-06-28",
+      "count": 3252,
+      "first": "2013-07-01",
       "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 3253,
-      "first": "2013-06-28",
+      "count": 3252,
+      "first": "2013-07-01",
       "last": "2026-11-16"
      },
      "after": {
@@ -11665,7 +11664,7 @@
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "pb": {
      "before": {
@@ -11744,12 +11743,12 @@
     },
     "amt": {
      "before": {
-      "count": 5309,
+      "count": 5308,
       "first": "2005-01-04",
       "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5308,
       "first": "2005-01-04",
       "last": "2026-11-16"
      },
@@ -11765,7 +11764,7 @@
      },
      "filled": false,
      "lost": false,
-     "delta": -1
+     "delta": 0
     },
     "turn": {
      "before": {
@@ -11808,7 +11807,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -12128,7 +12127,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -12448,7 +12447,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -12768,7 +12767,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -13088,7 +13087,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -13408,7 +13407,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -13728,7 +13727,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -14048,7 +14047,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -14368,7 +14367,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -14688,7 +14687,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -15008,7 +15007,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -15328,7 +15327,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -15648,7 +15647,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -15968,7 +15967,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -16288,7 +16287,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -16608,7 +16607,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -16928,7 +16927,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -17248,7 +17247,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -17568,7 +17567,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -17888,7 +17887,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -18208,7 +18207,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -18528,7 +18527,7 @@
       "provider": null,
       "frequency": null,
       "unit": null,
-      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+      "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推；original_eps: 原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
       "count": 0,
       "first": null,
       "last": null
@@ -18799,13 +18798,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 30,
+      "count": 31,
       "first": "2026-10-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 30
+     "delta": 31
     },
     "turn": {
      "before": {
@@ -19119,13 +19118,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 30,
+      "count": 31,
       "first": "2026-10-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 30
+     "delta": 31
     },
     "turn": {
      "before": {
@@ -19439,13 +19438,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 30,
+      "count": 31,
       "first": "2026-10-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 30
+     "delta": 31
     },
     "turn": {
      "before": {
@@ -19599,9 +19598,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5505,
+      "count": 5506,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -19609,24 +19608,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5505,
+      "count": 5506,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5504,
+      "count": 5505,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5504,
+      "count": 5505,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -19634,9 +19633,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5504,
+      "count": 5505,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -19921,9 +19920,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5503,
+      "count": 5504,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -19931,24 +19930,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5503,
+      "count": 5504,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5502,
+      "count": 5503,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5502,
+      "count": 5503,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -19956,9 +19955,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5502,
+      "count": 5503,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -20219,7 +20218,7 @@
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-13",
+      "date": "2026-11-16",
       "value": 3395,
       "reason": "",
       "rejected": []
@@ -20241,9 +20240,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5506,
+      "count": 5507,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -20251,24 +20250,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5506,
+      "count": 5507,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5505,
+      "count": 5506,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5505,
+      "count": 5506,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -20276,9 +20275,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5505,
+      "count": 5506,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -20301,13 +20300,13 @@
       "frequency": "single",
       "unit": "倍",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-13",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "pb": {
      "before": {
@@ -20351,13 +20350,13 @@
       "frequency": "single",
       "unit": "%",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-13",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "mcap": {
      "before": {

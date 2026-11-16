@@ -2,7 +2,7 @@
  "note": "cnindex indexList 原响应中该指数的整行（未改动字段）；日期由同站日行情收盘点位匹配得到",
  "listUrl": "https://www.cnindex.com.cn/index/indexList?channelCode=-1&rows=2000&pageNum=1",
  "dailyUrl": "https://hq.cnindex.com.cn/market/market/getIndexDailyDataWithDataFormat?indexCode=399006&startDate=2026-10-27&endDate=2026-11-16&frequency=day",
- "retrievedAt": "2026-11-16T11:30:25Z",
+ "retrievedAt": "2026-11-16T22:33:15Z",
  "matchedDate": "2026-11-13",
  "listRow": {
   "id": 2932,

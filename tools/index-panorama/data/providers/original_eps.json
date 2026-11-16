@@ -1,13 +1,13 @@
 {
  "provider": "original_eps",
- "retrievedAt": "2026-11-16T11:30:47.454Z",
- "builtAt": "2026-11-16T11:31:55Z",
+ "retrievedAt": "2026-11-16T22:33:36.248Z",
+ "builtAt": "2026-11-16T22:34:43Z",
  "asOf": "2026-11-16",
  "mode": "cache",
  "sourceLabel": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
  "sourceUrl": "https://lishenqi.vip/#/panorama",
  "capture": {
-  "capturedAt": "2026-11-16T11:30:47.454Z",
+  "capturedAt": "2026-11-16T22:33:36.248Z",
   "page": "https://lishenqi.vip/",
   "range": "all",
   "via": "PANO_IX.series(code,'all',PANO_IX.FIELDS) → Cloud.call('lsqSiteAdmin',{action:'ixSeries'})",
@@ -2441,7 +2441,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000001.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1206 个（2002-01-10~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000001.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1206 个（2002-01-10~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000001.SH",
       "origName": "上证指数",
       "range": "all",
@@ -2453,7 +2453,7 @@
       "rawSampleCount": 1206,
       "rawFirstDate": "2002-01-10",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -4885,7 +4885,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399001.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1206 个（2002-01-10~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('399001.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1206 个（2002-01-10~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "399001.SZ",
       "origName": "深证成指",
       "range": "all",
@@ -4897,7 +4897,7 @@
       "rawSampleCount": 1206,
       "rawFirstDate": "2002-01-10",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -6515,7 +6515,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399006.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 799 个（2010-06-07~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('399006.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 799 个（2010-06-07~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "399006.SZ",
       "origName": "创业板指",
       "range": "all",
@@ -6527,7 +6527,7 @@
       "rawSampleCount": 799,
       "rawFirstDate": "2010-06-07",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -7161,7 +7161,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000688.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 307 个（2020-07-22~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000688.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 307 个（2020-07-22~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000688.SH",
       "origName": "科创50",
       "range": "all",
@@ -7173,7 +7173,7 @@
       "rawSampleCount": 307,
       "rawFirstDate": "2020-07-22",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -9415,7 +9415,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000016.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1111 个（2004-01-05~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000016.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1111 个（2004-01-05~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000016.SH",
       "origName": "上证50",
       "range": "all",
@@ -9427,7 +9427,7 @@
       "rawSampleCount": 1111,
       "rawFirstDate": "2004-01-05",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -11547,7 +11547,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000300.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1050 个（2005-04-12~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000300.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1050 个（2005-04-12~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000300.SH",
       "origName": "沪深300",
       "range": "all",
@@ -11559,7 +11559,7 @@
       "rawSampleCount": 1050,
       "rawFirstDate": "2005-04-12",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -13507,7 +13507,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000905.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 964 个（2007-01-18~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000905.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 964 个（2007-01-18~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000905.SH",
       "origName": "中证500",
       "range": "all",
@@ -13519,7 +13519,7 @@
       "rawSampleCount": 964,
       "rawFirstDate": "2007-01-18",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -14715,7 +14715,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000852.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 588 个（2014-10-17~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000852.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 588 个（2014-10-17~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000852.SH",
       "origName": "中证1000",
       "range": "all",
@@ -14727,7 +14727,7 @@
       "rawSampleCount": 588,
       "rawFirstDate": "2014-10-17",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -16739,7 +16739,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000903.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 996 个（2006-05-29~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000903.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 996 个（2006-05-29~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000903.SH",
       "origName": "中证100",
       "range": "all",
@@ -16751,7 +16751,7 @@
       "rawSampleCount": 996,
       "rawFirstDate": "2006-05-29",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -18699,7 +18699,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000906.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 964 个（2007-01-18~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000906.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 964 个（2007-01-18~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000906.SH",
       "origName": "中证800",
       "range": "all",
@@ -18711,7 +18711,7 @@
       "rawSampleCount": 964,
       "rawFirstDate": "2007-01-18",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -20578,7 +20578,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000922.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 898 个（2008-05-29~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000922.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 898 个（2008-05-29~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000922.SH",
       "origName": "中证红利",
       "range": "all",
@@ -20590,7 +20590,7 @@
       "rawSampleCount": 898,
       "rawFirstDate": "2008-05-29",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -21881,7 +21881,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399967.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 627 个（2013-12-26~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('399967.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 627 个（2013-12-26~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "399967.SZ",
       "origName": "中证军工",
       "range": "all",
@@ -21893,7 +21893,7 @@
       "rawSampleCount": 627,
       "rawFirstDate": "2013-12-26",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -23211,7 +23211,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399975.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 649 个（2013-07-16~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('399975.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 649 个（2013-07-16~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "399975.SZ",
       "origName": "证券公司",
       "range": "all",
@@ -23223,7 +23223,7 @@
       "rawSampleCount": 649,
       "rawFirstDate": "2013-07-16",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -24541,7 +24541,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399986.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 649 个（2013-07-16~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('399986.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 649 个（2013-07-16~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "399986.SZ",
       "origName": "中证银行",
       "range": "all",
@@ -24553,7 +24553,7 @@
       "rawSampleCount": 649,
       "rawFirstDate": "2013-07-16",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -25962,7 +25962,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000827.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 686 个（2012-10-08~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T11:30:47.454Z",
+      "method": "原站页面只读调用 PANO_IX.series('000827.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6030 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 686 个（2012-10-08~2026-11-16），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-16T22:33:36.248Z",
       "origCode": "000827.SH",
       "origName": "中证环保",
       "range": "all",
@@ -25974,7 +25974,7 @@
       "rawSampleCount": 686,
       "rawFirstDate": "2012-10-08",
       "rawLastDate": "2026-11-16",
-      "capturedAt": "2026-11-16T11:30:47.454Z",
+      "capturedAt": "2026-11-16T22:33:36.248Z",
       "calcVerified": false
      }
     }
@@ -26134,6 +26134,465 @@
    }
   },
   "000995.SH": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "H30184.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "H30202.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "931160.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "931775.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "930697.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "H30199.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "990001.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "930651.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "930713.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "H30590.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "931079.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "931151.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "399976.SZ": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "931719.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "399989.SZ": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "931152.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "930743.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "399997.SZ": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "930653.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "399998.SZ": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "000819.SH": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "930606.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "000949.SH": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "399973.SZ": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "931066.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "H30269.CSI": {
+   "fields": {
+    "eps": {
+     "d": [],
+     "v": [],
+     "status": "unavailable",
+     "reason": "原站指数全景名册没有该指数（已核对 ixPanel roster），保留缺失，不用其他来源替代",
+     "frequency": "",
+     "source": {
+      "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
+      "url": "https://lishenqi.vip/#/panorama",
+      "unit": "元",
+      "method": ""
+     }
+    }
+   }
+  },
+  "399809.SZ": {
    "fields": {
     "eps": {
      "d": [],
