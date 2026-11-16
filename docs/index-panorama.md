@@ -43,6 +43,7 @@ runner 在隔离目录里跑完整流程（腾讯/中证行情 → domestic → 
 
 `.github/workflows/index-panorama.yml`：周一至周五 UTC 12:30（北京时间 20:30），也可手动运行（可选跳过 EPS）。
 
+- 运行环境固定 `ubuntu-24.04` + Python 3.12：`ubuntu-latest` 已指向 26.04，而 `playwright==1.55.0` 的 `install --with-deps` 不支持该系统（首次手动运行 43836609715 在安装依赖步骤失败）。以后要换系统，先确认 Playwright 版本支持再一起改。
 - 同组 `concurrency` 不并行；`permissions: contents: write`；超时 45 分钟。
 - 大且可重新下载的 raw（`domestic_raw` 非 `accum_*`、`supplemental_raw/shiller`）不入库，用 `actions/cache` 保留；缓存未命中时在线重下（本机冷缓存实测约 6.5 分钟）。
 - runner 退出 0 或 10 才发布；发布脚本再次校验并拒绝“指数减少、字段末日回退、整列消失”。失败时丢弃全部改动，线上保留上一版。

@@ -26,7 +26,9 @@ concurrency:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    # 固定 24.04：ubuntu-latest 已切到 26.04，playwright==1.55.0 的 install --with-deps 不支持该系统（run 43836609715）。
+    # 升级 runner 系统前须先确认 Playwright 版本支持，再一起改。
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       APP: tools/index-panorama
