@@ -545,11 +545,13 @@ def danjuan_hist(c: Collector, code: str, sym: str, kind: str) -> dict:
         source = {"label": "蛋卷基金指数估值", "url": url, "unit": "%",
                   "method": "蛋卷估值表 ROE 历史（蛋卷自有口径，计算公式未独立验证；非指数公司官方值）；"
                             "接口为小数，按估值页 https://danjuanfunds.com/djmodule/value-center 渲染方式 roe×100 记为百分数；"
-                            "周频，约2018-2020年起；0 视为缺失占位，负值保留"}
+                            "采样：每周一网格 + 最新交易日 1 个尾点（尾点值同 detail，每个交易日被新尾点取代，旧尾点不保留）；"
+                            "约2018-2020年起；0 视为缺失占位，负值保留"}
     else:
         source = {"label": "蛋卷基金指数估值", "url": url, "unit": "倍",
                   "method": f"蛋卷估值表 {kind.upper()} 历史（蛋卷自有计算口径，TTM/静态等定义接口未标明、未独立验证；非指数公司官方值，"
-                            "与中证/国证/恒生/标普官方数值不同，不与其拼接）；周频约10年，0/负值视为缺失"}
+                            "与中证/国证/恒生/标普官方数值不同，不与其拼接）；约10年；采样：每周一网格 + 最新交易日 1 个尾点"
+                            "（尾点值同 detail，每个交易日被新尾点取代，旧尾点不保留）；0/负值视为缺失"}
     name = f"dj_{kind}_{sym}.json"
     raw = c.fetch(name, url, v_danjuan(kind))
     pairs = {}

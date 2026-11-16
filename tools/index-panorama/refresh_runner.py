@@ -161,11 +161,26 @@ def commit_paths(app: str = APP) -> list[str]:
 # 门禁（纯函数，可单测）
 # ---------------------------------------------------------------------------
 
-def _series_diff(old: dict, new: dict) -> dict:
-    """old/new: {date: value}（非空观测）。返回丢失/裁头/回退/修订信息。"""
+# 蛋卷 index_eva/{pe,pb,roe}_history：周一网格 + 一个“最新交易日”滚动尾点（值与同源 detail 相同）。
+# 2026-11-16 实测：17:09 时尾点为 11-13，18:32 蛋卷生成 11-16 后，11-13 被 11-16 取代（样本数不变）。
+# 这种“旧尾点被更新的尾点取代”不是丢数据，但按通用规则会被判为区间内丢失、整份 domestic 回退旧缓存。
+DANJUAN_HISTORY_MARK = "danjuanfunds.com/djapi/index_eva/"
+
+
+def is_rolling_tail_source(src: dict | None) -> bool:
+    """蛋卷估值历史（周频 + 滚动尾点）才适用尾点替换规则；detail 单期累积、其他来源都不适用。"""
+    url = (src or {}).get("url") or ""
+    return DANJUAN_HISTORY_MARK in url and "_history/" in url
+
+
+def _series_diff(old: dict, new: dict, rolling_tail: bool = False) -> dict:
+    """old/new: {date: value}（非空观测）。返回丢失/裁头/回退/修订信息。
+
+    rolling_tail=True（蛋卷周频历史）：旧序列的最后一个观测若不在新序列里、且新序列末日更晚，
+    记为 tailReplaced（上游用更新的尾点取代了临时尾点），不算 lostInside；只放行这一个日期。"""
     res = {"oldCount": len(old), "newCount": len(new), "oldLast": max(old) if old else None,
            "newLast": max(new) if new else None, "lostInside": [], "headTrim": [], "revised": [],
-           "_old": sorted(old)[:1], "_new": sorted(new)[:1]}
+           "tailReplaced": [], "_old": sorted(old)[:1], "_new": sorted(new)[:1]}
     if not old:
         return res
     if not new:
@@ -178,6 +193,8 @@ def _series_diff(old: dict, new: dict) -> dict:
                 res["revised"].append((d, old[d], new[d]))
         elif d < nf:
             res["headTrim"].append(d)
+        elif rolling_tail and d == res["oldLast"] and nl > d:
+            res["tailReplaced"].append((d, old[d]))
         elif d <= nl:
             res["lostInside"].append(d)
     return res
@@ -230,20 +247,33 @@ def _provider_maps(payload: dict) -> dict:
     return out
 
 
+def _provider_rolling(payload: dict) -> set:
+    """新旧缓存里来源都是蛋卷周频历史的 (code, field)。"""
+    out = set()
+    for code, node in ((payload or {}).get("series") or {}).items():
+        for f, fld in ((node or {}).get("fields") or {}).items():
+            if isinstance(fld, dict) and is_rolling_tail_source(fld.get("source")):
+                out.add((code, f))
+    return out
+
+
 def provider_gate(old_payload: dict | None, new_payload: dict | None) -> dict:
     """provider 新缓存与生产旧缓存比：旧 ok 字段不得消失/丢观测/末日回退。"""
     if not isinstance(new_payload, dict) or not isinstance(new_payload.get("series"), dict):
         return {"ok": False, "problems": ["新缓存缺失或结构无效"], "revised": 0, "headTrim": [], "newFields": 0}
     om, nm = _provider_maps(old_payload), _provider_maps(new_payload)
-    problems, revised, head = [], 0, []
+    rolling = _provider_rolling(old_payload) & _provider_rolling(new_payload)
+    problems, revised, head, tail = [], 0, [], []
     for key, old in om.items():
-        diff = _series_diff(old, nm.get(key, {}))
+        diff = _series_diff(old, nm.get(key, {}), rolling_tail=key in rolling)
         for w in judge_diff(diff):
             problems.append(f"{key[0]}.{key[1]}: {w}")
         revised += len(diff["revised"])
         if diff["headTrim"]:
             head.append(f"{key[0]}.{key[1]} 裁头 {len(diff['headTrim'])}")
-    return {"ok": not problems, "problems": problems, "revised": revised, "headTrim": head,
+        for d, v in diff["tailReplaced"]:
+            tail.append({"code": key[0], "field": key[1], "replaced": [d, v], "newLast": diff["newLast"]})
+    return {"ok": not problems, "problems": problems, "revised": revised, "headTrim": head, "tailReplaced": tail,
             "newFields": len([k for k in nm if k not in om]), "errors": list(new_payload.get("errors") or [])[:20]}
 
 
@@ -289,9 +319,9 @@ def bundle_maps(bundle: dict) -> dict:
 
 def bundle_gate(old: dict | None, new: dict | None, fd, eps_raw: dict | None) -> dict:
     """最终包与生产包比较。fd 为 fetch_data 模块（用其 validate_bundle/INDICES）。"""
-    problems, revisions, head, switched_ok = [], [], [], []
+    problems, revisions, head, switched_ok, tails = [], [], [], [], []
     if not new:
-        return {"ok": False, "problems": ["新数据包不可读"], "revisions": [], "headTrim": []}
+        return {"ok": False, "problems": ["新数据包不可读"], "revisions": [], "headTrim": [], "tailReplaced": []}
     problems += [f"validate_bundle: {e}" for e in fd.validate_bundle(new)[:20]]
     O, N = bundle_maps(old), bundle_maps(new)
     if old and set(O) - set(N):
@@ -303,7 +333,11 @@ def bundle_gate(old: dict | None, new: dict | None, fd, eps_raw: dict | None) ->
         for f in FIELDS:
             om = {d: v for d, v in zip(o["d"], o[f]) if v is not None}
             nm = {d: v for d, v in zip(n["d"], n[f]) if v is not None}
-            diff = _series_diff(om, nm)
+            rolling = (is_rolling_tail_source((o.get("sources") or {}).get(f))
+                       and is_rolling_tail_source((n.get("sources") or {}).get(f)))
+            diff = _series_diff(om, nm, rolling_tail=rolling)
+            for d, v in diff["tailReplaced"]:
+                tails.append({"code": code, "field": f, "replaced": [d, v], "newLast": diff["newLast"]})
             for w in (judge_resampled(diff) if f == "eps" else judge_diff(diff)):
                 problems.append(f"{code}.{f}: {w}")
             if f == "eps":
@@ -335,7 +369,8 @@ def bundle_gate(old: dict | None, new: dict | None, fd, eps_raw: dict | None) ->
                 problems.append(f"{code}.eps: 与原站 raw 不一一对应（包 {len(got)} / raw {len(exp)}）")
             if got and (n.get("sources", {}).get("eps") or {}).get("provider") != "original_eps":
                 problems.append(f"{code}.eps: 来源不是 original_eps")
-    return {"ok": not problems, "problems": problems, "revisions": revisions, "headTrim": head}
+    return {"ok": not problems, "problems": problems, "revisions": revisions, "headTrim": head,
+            "tailReplaced": tails}
 
 
 def field_summary(bundle: dict | None) -> list[dict]:
@@ -563,7 +598,10 @@ class Runner:
         status = "cache" if self.mode == "offline" else ("partial" if errs else "ok")
         detail = (f"修订 {gate['revised']} 个旧观测值；新字段 {gate['newFields']}；"
                   f"{len(errs)} 个请求错误（这些接口沿用上一份有效 raw）")
+        if gate.get("tailReplaced"):
+            detail += f"；蛋卷滚动尾点被更新尾点取代 {len(gate['tailReplaced'])} 列（已记入报告，非丢数据）"
         self.step(f"provider {name}", status, detail, t0, headTrim=gate["headTrim"][:20],
+                  tailReplaced=gate.get("tailReplaced", [])[:200],
                   errors=[e if isinstance(e, str) else json.dumps(e, ensure_ascii=False) for e in errs[:20]])
 
     def s4_eps(self, as_of: str) -> None:
@@ -624,6 +662,7 @@ class Runner:
         gate = bundle_gate(old, new, fd, eps_raw)
         self.report["revisions"] = gate["revisions"][:200]
         self.report["headTrim"] = gate["headTrim"][:200]
+        self.report["tailReplaced"] = gate.get("tailReplaced", [])[:200]
         self.report["fields"] = field_summary(new)
         self.report["dataAsOf"] = (new or {}).get("asOf")
         self.report["previousAsOf"] = (old or {}).get("asOf")
@@ -790,6 +829,10 @@ def render_md(r: dict) -> str:
     rev = r.get("revisions") or []
     lines += ["", "## 历史修订（上游改了旧日期的值；不拒收，只列出）", ""]
     lines += [f"- {x['code']}.{x['field']}: {x['count']} 处，如 {x['samples'][:2]}" for x in rev[:60]] or ["- 无"]
+    if r.get("tailReplaced"):
+        lines += ["", "## 蛋卷滚动尾点替换（周一网格 + 最新交易日尾点；旧尾点被更新尾点取代，不是丢数据）", ""]
+        lines += [f"- {x['code']}.{x['field']}: {x['replaced'][0]}={x['replaced'][1]} → 新末日 {x['newLast']}"
+                  for x in r["tailReplaced"][:60]]
     if r.get("headTrim"):
         lines += ["", "## 最早端裁剪（上游滚动窗口，新样本≥原 90%）", ""] + [f"- {x}" for x in r["headTrim"][:60]]
     lines += ["", "口径：EPS 唯一来源为李神奇数据网（计算口径未核实，元/每股，每 5 个交易日取 1 点）；与 PE 来源不同、不可互相换算。"]

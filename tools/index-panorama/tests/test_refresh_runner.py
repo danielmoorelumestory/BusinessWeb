@@ -87,6 +87,104 @@ class TestProviderGate(unittest.TestCase):
         self.assertFalse(rr.provider_gate({}, {"series": []})["ok"])
 
 
+DJ = "https://danjuanfunds.com/djapi/index_eva/{k}_history/SZ399006?day=all"
+
+
+def dj_fld(d, v, kind="pe"):
+    f = fld(d, v)
+    f["frequency"] = "weekly"
+    f["source"] = {"label": "蛋卷基金指数估值", "url": DJ.format(k=kind), "unit": "倍", "method": "m"}
+    return f
+
+
+class TestDanjuanRollingTail(unittest.TestCase):
+    """蛋卷 {pe,pb,roe}_history = 周一网格 + 最新交易日滚动尾点。
+    2026-11-16 浏览器实测创业板：17:09 尾点 11-13（27.506），18:32 后变为 11-16（26.3822），11-13 消失，样本数仍 516。"""
+
+    OLD_D = ["2026-10-26", "2026-11-02", "2026-11-09", "2026-11-13"]
+    OLD_V = [30.847, 27.7107, 27.9519, 27.506]
+    NEW_D = ["2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16"]
+    NEW_V = [30.847, 27.7107, 27.9519, 26.3822]
+
+    def test_rule_only_releases_old_last(self):
+        old, new = dict(zip(self.OLD_D, self.OLD_V)), dict(zip(self.NEW_D, self.NEW_V))
+        # 通用规则：判为区间内丢失（这就是 2026-11-16 前会让整份 domestic 回退旧缓存的原因）
+        self.assertTrue(rr.judge_diff(rr._series_diff(old, new)))
+        d = rr._series_diff(old, new, rolling_tail=True)
+        self.assertEqual(rr.judge_diff(d), [])
+        self.assertEqual(d["tailReplaced"], [("2026-11-13", 27.506)])
+        # 丢的是网格点（非旧末日）→ 仍拒收
+        bad = dict(new); bad.pop("2026-11-02")
+        self.assertTrue(rr.judge_diff(rr._series_diff(old, bad, rolling_tail=True)))
+        # 新末日不晚于旧末日 → 末日回退，拒收
+        back = {k: v for k, v in old.items() if k != "2026-11-13"}
+        self.assertTrue(any("末日回退" in w for w in rr.judge_diff(rr._series_diff(old, back, rolling_tail=True))))
+        # 新序列里仍有旧末日 → 不记录替换
+        keep = dict(old); keep["2026-11-16"] = 26.3822
+        self.assertEqual(rr._series_diff(old, keep, rolling_tail=True)["tailReplaced"], [])
+
+    def test_source_detection(self):
+        self.assertTrue(rr.is_rolling_tail_source({"url": DJ.format(k="pb")}))
+        self.assertFalse(rr.is_rolling_tail_source({"url": "https://danjuanfunds.com/djapi/index_eva/detail/SZ399006"}))
+        self.assertFalse(rr.is_rolling_tail_source({"url": "https://www.csindex.com.cn/x"}))
+        self.assertFalse(rr.is_rolling_tail_source(None))
+
+    def test_provider_gate_danjuan_only(self):
+        old = payload({"pe": dj_fld(self.OLD_D, self.OLD_V)})
+        new = payload({"pe": dj_fld(self.NEW_D, self.NEW_V)})
+        g = rr.provider_gate(old, new)
+        self.assertTrue(g["ok"], g["problems"])
+        self.assertEqual(g["tailReplaced"][0]["replaced"], ["2026-11-13", 27.506])
+        # 同样形状但来源不是蛋卷历史 → 仍按丢观测拒收
+        g = rr.provider_gate(payload({"pe": fld(self.OLD_D, self.OLD_V)}), payload({"pe": fld(self.NEW_D, self.NEW_V)}))
+        self.assertFalse(g["ok"])
+
+    def test_replay_real_domestic_cache(self):
+        """用仓库里真实的 domestic.json（尾点 11-13）模拟蛋卷把所有历史列的尾点换成 11-16。"""
+        path = os.path.join(HERE, "data", "providers", "domestic.json")
+        old = rj(path)
+        new = copy.deepcopy(old)
+        moved = 0
+        for node in new["series"].values():
+            for f in node["fields"].values():
+                if f.get("status") == "ok" and rr.is_rolling_tail_source(f.get("source")) and f["d"]:
+                    last = f["d"][-1]
+                    if last == "2026-11-13":
+                        f["d"][-1] = "2026-11-16"
+                        f["v"][-1] = round(f["v"][-1] * 0.96, 4)
+                        moved += 1
+        self.assertGreater(moved, 20)
+        g = rr.provider_gate(old, new)
+        self.assertTrue(g["ok"], g["problems"][:5])
+        self.assertEqual(len(g["tailReplaced"]), moved)
+        codes = {(x["code"], x["field"]) for x in g["tailReplaced"]}
+        self.assertIn(("399006.SZ", "pe"), codes)
+        self.assertIn(("399006.SZ", "pb"), codes)
+        self.assertIn(("399006.SZ", "roe"), codes)
+
+    def test_bundle_gate_replay(self):
+        path = os.path.join(HERE, "data-bundle.js")
+        if not os.path.exists(path):
+            self.skipTest("源目录没有 data-bundle.js（先 npm run index-panorama:restore）")
+        old = rr.read_bundle(path)
+        new = copy.deepcopy(old)
+        s = next(x for x in new["indices"] if x["code"] == "399006.SZ")
+        self.assertTrue(rr.is_rolling_tail_source(s["sources"]["pe"]))
+        i13, i16 = s["d"].index("2026-11-13"), s["d"].index("2026-11-16")
+        for f in ("pe", "pb", "roe"):
+            if s[f][i13] is not None and s[f][i16] is None:
+                s[f][i16], s[f][i13] = s[f][i13] * 0.96, None
+        g = rr.bundle_gate(old, new, fd, None)
+        self.assertTrue(g["ok"], g["problems"][:5])
+        self.assertEqual({x["field"] for x in g["tailReplaced"]}, {"pe", "pb", "roe"})
+        # 中证官网 PE（非蛋卷历史）丢掉末日观测 → 仍拒收
+        csi = next(x for x in new["indices"] if x["code"] == "000300.SH")
+        self.assertFalse(rr.is_rolling_tail_source(csi["sources"]["pe"]))
+        j = max(k for k, v in enumerate(csi["pe"]) if v is not None)
+        csi["pe"][j] = None
+        self.assertFalse(rr.bundle_gate(old, new, fd, None)["ok"])
+
+
 RAW = {"capturedAt": "2026-11-16T12:30:00Z", "page": "https://lishenqi.vip/#/panorama", "range": "all",
        "via": "x", "panelDay": "20261116", "unitEps": "yuan", "roster": {}, "errors": [],
        "series": {"000001.SH": {"origCode": "000001.SH", "origName": "上证指数", "freq": "week", "step": 5,
