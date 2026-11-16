@@ -439,7 +439,7 @@
         animation: false,
         color: res.lines.map(function (l) { return colorOf[l.code] || '#5b6b7f'; }),
         grid: { left: 46, right: 16, top: 30, bottom: 52 },
-        tooltip: { trigger: 'axis', confine: true, axisPointer: { type: 'cross', crossStyle: { color: '#718096', type: 'dashed', width: 1 } }, valueFormatter: function (v) { return isNum(v) ? v.toFixed(2) : '—'; } },
+        tooltip: { trigger: 'axis', confine: true, axisPointer: { type: 'cross', snap: true, crossStyle: { color: '#718096', type: 'dashed', width: 1 } }, valueFormatter: function (v) { return isNum(v) ? v.toFixed(2) : '—'; } },
         xAxis: { type: 'category', data: res.dates, boundaryGap: false, axisLabel: { color: '#94a3b8' }, axisLine: { lineStyle: { color: '#e2e8f0' } } },
         yAxis: { type: 'value', scale: true, name: '起点=100', nameTextStyle: { color: '#94a3b8' }, axisLabel: { color: '#94a3b8' }, splitLine: { lineStyle: { color: '#f0f3f7' } } },
         dataZoom: [{ type: 'inside' }, { type: 'slider', height: 18, bottom: 10 }],
@@ -447,6 +447,7 @@
           return { name: l.name, type: 'line', data: l.values, showSymbol: false, lineStyle: { width: 1.6 }, emphasis: { focus: 'series' } };
         })
       });
+      if (root.PanoChartEdge) root.PanoChartEdge.attach(ch); // 左右轴边距吸附可见区间首末交易日
     }
     // 相关性
     var corr = res.corr;

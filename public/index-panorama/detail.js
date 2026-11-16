@@ -257,6 +257,7 @@
     }
     var chart = root.echarts.init(el, null, { renderer: 'canvas' });
     chart.setOption(option);
+    if (root.PanoChartEdge) root.PanoChartEdge.attach(chart); // 左右轴边距吸附可见区间首末观测
     state.charts.push(chart);
   }
 
@@ -264,7 +265,7 @@
     return {
       animation: false,
       grid: { left: 52, right: 52, top: 26, bottom: 46, containLabel: false },
-      tooltip: { trigger: 'axis', confine: true, axisPointer: { type: 'cross', crossStyle: { color: '#718096', type: 'dashed', width: 1 } } },
+      tooltip: { trigger: 'axis', confine: true, axisPointer: { type: 'cross', snap: true, crossStyle: { color: '#718096', type: 'dashed', width: 1 } } },
       xAxis: {
         type: 'time', axisLine: { lineStyle: { color: COLORS.grid } },
         axisLabel: { color: COLORS.text, hideOverlap: true }, splitLine: { show: false }
@@ -286,8 +287,11 @@
       var arr = Array.isArray(params) ? params : [params];
       if (!arr.length) return '';
       var d = arr[0].value && arr[0].value[0];
-      var lines = [esc(d)];
+      var lines = [esc(d)], seen = {};
       arr.forEach(function (p) {
+        // lttb 抽样后末点可能出现两次（同一系列、同一日期），只列一次
+        if (seen[p.seriesIndex]) return;
+        seen[p.seriesIndex] = true;
         var v = p.value && p.value[1];
         var m = (p.seriesId && FIELD_INFO[p.seriesId]) ? p.seriesId : metric;
         lines.push(p.marker + esc(p.seriesName) + '：' + esc(fmtVal(v, m)));

@@ -21,6 +21,7 @@ export const PUBLIC_FILES = [
   'styles.css',
   'detail.css',
   'analytics.js',
+  'chart-edge.js',
   'detail.js',
   'home.js',
   'app.js',

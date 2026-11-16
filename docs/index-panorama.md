@@ -1,6 +1,6 @@
 # 指数全景（/index-panorama/）
 
-36 只 A 股、港股、美股指数的点位、PE/PB/股息率等历史分位与走势，有首页（`#/panorama`）和详情（`#/index/<代码>`，如 `#/index/000300.SH`），图表带十字参考线，15 只指数有原站 EPS。页面是独立的静态应用（原生 JS + 本地 ECharts），打开时不联网取数，数据全部在 `data-bundle.js` 里。
+36 只 A 股、港股、美股指数的点位、PE/PB/股息率等历史分位与走势，有首页（`#/panorama`）和详情（`#/index/<代码>`，如 `#/index/000300.SH`），图表带十字参考线（鼠标移到绘图区左右轴边距时吸附当前可见区间的首/末真实观测），15 只指数有原站 EPS。页面是独立的静态应用（原生 JS + 本地 ECharts），打开时不联网取数，数据全部在 `data-bundle.js` 里。
 
 入口：投资首页「第五步 · 工具与参考」→「指数全景」，地址 `https://businessweb-c0u.pages.dev/index-panorama/`（`/index-panorama` 会 308 到带斜杠的地址）。
 
@@ -9,7 +9,7 @@
 | 路径 | 内容 | 是否公开 |
 |---|---|---|
 | `tools/index-panorama/` | 源目录：前端源码、数据管线（`fetch_data.py`、`providers/`、`refresh_runner.py`）、测试、刷新需要的缓存（`data/store`、`data/providers`）、数据口径报告（`reports/`） | 否 |
-| `public/index-panorama/` | 发布目录：只有页面运行需要的 10 个文件（`index.html`、3 个 css/js 组、`assets/echarts.min.js` 与许可、`data-bundle.js`） | 是，随站点构建 |
+| `public/index-panorama/` | 发布目录：只有页面运行需要的 11 个文件（`index.html`、css/js（含图表端点吸附 `chart-edge.js`）、`assets/echarts.min.js` 与许可、`data-bundle.js`） | 是，随站点构建 |
 | `scripts/index-panorama-sync.mjs` | 源目录 → 发布目录：白名单复制、数据包校验、拒绝退化；`check` 核对两边一致 | — |
 | `.github/workflows/index-panorama.yml` | 工作日定时刷新 | — |
 
