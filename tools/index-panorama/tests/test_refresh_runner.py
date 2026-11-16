@@ -5,6 +5,7 @@
 发布中途出错全部回滚、锁占用跳过、提交白名单不含大 raw。不联网。
 """
 import copy
+import datetime as dt
 import json
 import os
 import shutil
@@ -139,51 +140,108 @@ class TestDanjuanRollingTail(unittest.TestCase):
         g = rr.provider_gate(payload({"pe": fld(self.OLD_D, self.OLD_V)}), payload({"pe": fld(self.NEW_D, self.NEW_V)}))
         self.assertFalse(g["ok"])
 
+    def test_monday_grid_last_is_protected(self):
+        """旧末日是周一（网格点）时，即使新末日更晚也不能被删。"""
+        old = {"2026-11-09": 27.9519, "2026-11-16": 26.3822}          # 11-16 周一
+        new = {"2026-11-09": 27.9519, "2026-11-17": 26.0}             # 11-16 被删
+        d = rr._series_diff(old, new, rolling_tail=True)
+        self.assertEqual(d["tailReplaced"], [])
+        self.assertTrue(any("区间内丢失" in w for w in rr.judge_diff(d)))
+        # 正常情况：周一网格保留、周二新尾点追加 → 通过
+        ok = {"2026-11-09": 27.9519, "2026-11-16": 26.3822, "2026-11-17": 26.0}
+        self.assertEqual(rr.judge_diff(rr._series_diff(old, ok, rolling_tail=True)), [])
+        # 周二尾点被周三尾点取代 → 放行
+        old2, new2 = dict(ok), {"2026-11-09": 27.9519, "2026-11-16": 26.3822, "2026-11-18": 25.9}
+        d = rr._series_diff(old2, new2, rolling_tail=True)
+        self.assertEqual(rr.judge_diff(d), [])
+        self.assertEqual(d["tailReplaced"], [("2026-11-17", 26.0)])
+
+    def test_tail_gap_limit(self):
+        self.assertTrue(rr.is_replaceable_tail("2026-11-13", "2026-11-16"))
+        self.assertTrue(rr.is_replaceable_tail("2026-09-30", "2026-10-09"))   # 长假
+        self.assertFalse(rr.is_replaceable_tail("2026-11-16", "2026-11-17"))  # 周一网格
+        self.assertFalse(rr.is_replaceable_tail("2026-11-13", "2026-11-13"))
+        self.assertFalse(rr.is_replaceable_tail("2026-11-13", "2026-12-01"))  # 超过 14 天
+        old = {"2026-11-09": 1.0, "2026-11-13": 2.0}
+        self.assertTrue(rr.judge_diff(rr._series_diff(old, {"2026-11-09": 1.0, "2026-12-01": 3.0}, rolling_tail=True)))
+
+    @staticmethod
+    def _advance(fld_):
+        """把一列蛋卷历史按上游规则前移一个交易日，与生产包当前末日无关：
+        末日非周一 → 用下一个工作日取代它（临时尾点被替换）；末日是周一 → 保留并追加周二尾点。"""
+        last = dt.date.fromisoformat(fld_["d"][-1])
+        nxt = last + dt.timedelta(days=1)
+        while nxt.weekday() >= 5:
+            nxt += dt.timedelta(days=1)
+        if last.weekday() != 0:
+            fld_["d"][-1], fld_["v"][-1] = nxt.isoformat(), round(fld_["v"][-1] * 0.99, 4)
+            return "replaced"
+        fld_["d"].append(nxt.isoformat())
+        fld_["v"].append(round(fld_["v"][-1] * 0.99, 4))
+        return "appended"
+
     def test_replay_real_domestic_cache(self):
-        """用仓库里真实的 domestic.json（尾点 11-13）模拟蛋卷把所有历史列的尾点换成 11-16。"""
-        path = os.path.join(HERE, "data", "providers", "domestic.json")
-        old = rj(path)
-        new = copy.deepcopy(old)
-        moved = 0
-        for node in new["series"].values():
-            for f in node["fields"].values():
-                if f.get("status") == "ok" and rr.is_rolling_tail_source(f.get("source")) and f["d"]:
-                    last = f["d"][-1]
-                    if last == "2026-11-13":
-                        f["d"][-1] = "2026-11-16"
-                        f["v"][-1] = round(f["v"][-1] * 0.96, 4)
-                        moved += 1
-        self.assertGreater(moved, 20)
-        g = rr.provider_gate(old, new)
-        self.assertTrue(g["ok"], g["problems"][:5])
-        self.assertEqual(len(g["tailReplaced"]), moved)
-        codes = {(x["code"], x["field"]) for x in g["tailReplaced"]}
-        self.assertIn(("399006.SZ", "pe"), codes)
-        self.assertIn(("399006.SZ", "pb"), codes)
-        self.assertIn(("399006.SZ", "roe"), codes)
+        """用仓库里真实的 domestic.json（无论当前末日是哪天）模拟蛋卷尾点前移一个交易日，两轮。"""
+        cur = rj(os.path.join(HERE, "data", "providers", "domestic.json"))
+        for _ in range(2):
+            nxt = copy.deepcopy(cur)
+            kinds = []
+            for node in nxt["series"].values():
+                for f in node["fields"].values():
+                    if f.get("status") == "ok" and rr.is_rolling_tail_source(f.get("source")) and f["d"]:
+                        kinds.append(self._advance(f))
+            self.assertGreater(len(kinds), 20)
+            g = rr.provider_gate(cur, nxt)
+            self.assertTrue(g["ok"], g["problems"][:5])
+            self.assertEqual(len(g["tailReplaced"]), kinds.count("replaced"))
+            cur = nxt
+        # 周一网格末日被删 → 拒收
+        bad = copy.deepcopy(cur)
+        f = bad["series"]["399006.SZ"]["fields"]["pe"]
+        mondays = [i for i, x in enumerate(f["d"]) if dt.date.fromisoformat(x).weekday() == 0]
+        f["d"], f["v"] = f["d"][:mondays[-1]], f["v"][:mondays[-1]]
+        f["d"].append((dt.date.fromisoformat(cur["series"]["399006.SZ"]["fields"]["pe"]["d"][-1])
+                       + dt.timedelta(days=1)).isoformat())
+        f["v"].append(25.0)
+        self.assertFalse(rr.provider_gate(cur, bad)["ok"])
 
-    def test_bundle_gate_replay(self):
-        path = os.path.join(HERE, "data-bundle.js")
-        if not os.path.exists(path):
-            self.skipTest("源目录没有 data-bundle.js（先 npm run index-panorama:restore）")
-        old = rr.read_bundle(path)
-        new = copy.deepcopy(old)
-        s = next(x for x in new["indices"] if x["code"] == "399006.SZ")
-        self.assertTrue(rr.is_rolling_tail_source(s["sources"]["pe"]))
-        i13, i16 = s["d"].index("2026-11-13"), s["d"].index("2026-11-16")
-        for f in ("pe", "pb", "roe"):
-            if s[f][i13] is not None and s[f][i16] is None:
-                s[f][i16], s[f][i13] = s[f][i13] * 0.96, None
+    @staticmethod
+    def _dj_bundle(dates, pe, pe_url=DJ.format(k="pe")):
+        s = {"code": "399006.SZ", "name": "创业板指", "category": "全局坐标", "market": "A", "componentNum": 100,
+             "componentDate": "2026-11-13", "d": list(dates), "sources": {}, "availability": {}}
+        for f in FIELDS:
+            s[f] = [None] * len(dates)
+        s["price"] = [2300.0 + i for i in range(len(dates))]
+        s["pe"] = list(pe)
+        for f in ("price", "pe"):
+            prov = {"pe": "domestic", "price": "tencent"}[f]
+            s["availability"][f] = {"status": "ok", "provider": prov, "count": sum(v is not None for v in s[f]),
+                                    "candidates": [{"provider": prov, "selected": True}]}
+            s["sources"][f] = {"unit": {"pe": "倍", "price": "点"}[f], "provider": prov}
+        s["sources"]["pe"]["url"] = pe_url
+        for f in FIELDS:
+            s["availability"].setdefault(f, {"status": "unavailable", "provider": None, "count": 0, "candidates": []})
+        return {"asOf": dates[-1], "indices": [s]}
+
+    def test_bundle_gate_fixture(self):
+        """独立的确定性数据包 fixture（不依赖生产包当前日期）。"""
+        d = ["2026-11-09", "2026-11-13", "2026-11-16"]
+        old = self._dj_bundle(d, [27.9519, 27.506, None])
+        new = self._dj_bundle(d, [27.9519, None, 26.3822])
         g = rr.bundle_gate(old, new, fd, None)
-        self.assertTrue(g["ok"], g["problems"][:5])
-        self.assertEqual({x["field"] for x in g["tailReplaced"]}, {"pe", "pb", "roe"})
-        # 中证官网 PE（非蛋卷历史）丢掉末日观测 → 仍拒收
-        csi = next(x for x in new["indices"] if x["code"] == "000300.SH")
-        self.assertFalse(rr.is_rolling_tail_source(csi["sources"]["pe"]))
-        j = max(k for k, v in enumerate(csi["pe"]) if v is not None)
-        csi["pe"][j] = None
-        self.assertFalse(rr.bundle_gate(old, new, fd, None)["ok"])
-
+        self.assertTrue(g["ok"], g["problems"])
+        self.assertEqual(g["tailReplaced"], [{"code": "399006.SZ", "field": "pe", "replaced": ["2026-11-13", 27.506],
+                                             "newLast": "2026-11-16"}])
+        # 周一网格末日被删 → 拒收
+        d2 = ["2026-11-09", "2026-11-16", "2026-11-17"]
+        g = rr.bundle_gate(self._dj_bundle(d2, [27.9519, 26.3822, None]),
+                           self._dj_bundle(d2, [27.9519, None, 26.0]), fd, None)
+        self.assertFalse(g["ok"])
+        # 同样形状但来源不是蛋卷历史（如中证 peg）→ 拒收
+        csi = "https://www.csindex.com.cn/csindex-home/perf/indexCsiDsPe?indexCode=399006"
+        g = rr.bundle_gate(self._dj_bundle(d, [27.9519, 27.506, None], csi),
+                           self._dj_bundle(d, [27.9519, None, 26.3822], csi), fd, None)
+        self.assertFalse(g["ok"])
 
 RAW = {"capturedAt": "2026-11-16T12:30:00Z", "page": "https://lishenqi.vip/#/panorama", "range": "all",
        "via": "x", "panelDay": "20261116", "unitEps": "yuan", "roster": {}, "errors": [],

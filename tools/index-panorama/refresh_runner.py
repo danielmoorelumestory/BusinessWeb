@@ -161,10 +161,20 @@ def commit_paths(app: str = APP) -> list[str]:
 # 门禁（纯函数，可单测）
 # ---------------------------------------------------------------------------
 
-# 蛋卷 index_eva/{pe,pb,roe}_history：周一网格 + 一个“最新交易日”滚动尾点（值与同源 detail 相同）。
-# 2026-11-16 实测：17:09 时尾点为 11-13，18:32 蛋卷生成 11-16 后，11-13 被 11-16 取代（样本数不变）。
+# 蛋卷 index_eva/{pe,pb,roe}_history：周网格 + 一个“最新交易日”滚动尾点（值与同源 detail 相同）。
+# 2026-11-16 实测：17:09 时尾点为 11-13（周五），18:32 蛋卷生成 11-16 后，11-13 被 11-16 取代（样本数不变）。
 # 这种“旧尾点被更新的尾点取代”不是丢数据，但按通用规则会被判为区间内丢失、整份 domestic 回退旧缓存。
+# 网格日：本地 47 列（A股/港股/美股）2026-10-19 以来 188 个网格点全部是周一；但更早的节假日周会顺延到
+# 周二~周四（个别为周六），所以只放行“非周一”的旧末日，周一末日按网格点保护、被删即拒收；
+# 另限新末日比旧末日晚不超过 ROLLING_TAIL_MAX_DAYS 天（尾点按交易日前移，长假也不超过两周）。
 DANJUAN_HISTORY_MARK = "danjuanfunds.com/djapi/index_eva/"
+ROLLING_TAIL_MAX_DAYS = 14
+
+
+def is_replaceable_tail(old_last: str, new_last: str) -> bool:
+    """旧末日可视为临时尾点：非周一（周一是网格日），且新末日更晚、相距不超过 ROLLING_TAIL_MAX_DAYS 天。"""
+    o, n = dt.date.fromisoformat(old_last), dt.date.fromisoformat(new_last)
+    return o.weekday() != 0 and 0 < (n - o).days <= ROLLING_TAIL_MAX_DAYS
 
 
 def is_rolling_tail_source(src: dict | None) -> bool:
@@ -176,8 +186,9 @@ def is_rolling_tail_source(src: dict | None) -> bool:
 def _series_diff(old: dict, new: dict, rolling_tail: bool = False) -> dict:
     """old/new: {date: value}（非空观测）。返回丢失/裁头/回退/修订信息。
 
-    rolling_tail=True（蛋卷周频历史）：旧序列的最后一个观测若不在新序列里、且新序列末日更晚，
-    记为 tailReplaced（上游用更新的尾点取代了临时尾点），不算 lostInside；只放行这一个日期。"""
+    rolling_tail=True（蛋卷周频历史）：旧序列的最后一个观测若不在新序列里、且是可替换的临时尾点
+    （is_replaceable_tail：非周一、新末日更晚且相距≤14天），记为 tailReplaced，不算 lostInside；
+    只放行这一个日期。周一末日（网格点）被删仍算丢失。"""
     res = {"oldCount": len(old), "newCount": len(new), "oldLast": max(old) if old else None,
            "newLast": max(new) if new else None, "lostInside": [], "headTrim": [], "revised": [],
            "tailReplaced": [], "_old": sorted(old)[:1], "_new": sorted(new)[:1]}
@@ -193,7 +204,7 @@ def _series_diff(old: dict, new: dict, rolling_tail: bool = False) -> dict:
                 res["revised"].append((d, old[d], new[d]))
         elif d < nf:
             res["headTrim"].append(d)
-        elif rolling_tail and d == res["oldLast"] and nl > d:
+        elif rolling_tail and d == res["oldLast"] and is_replaceable_tail(d, nl):
             res["tailReplaced"].append((d, old[d]))
         elif d <= nl:
             res["lostInside"].append(d)
