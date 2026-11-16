@@ -304,6 +304,11 @@ def rekey_snapshots(root: Path) -> list[tuple[str, str]]:
     for path in sorted(d.glob("*.json")) if d.exists() else []:
         snap = read_json(path)
         key = (snap or {}).get("source_as_of")
+        legacy = [n for n in snap.get("notes") or [] if "早于采集日" in n] if snap else []
+        if legacy:  # 旧版「来源早于采集日」的说明：按行情日命名后已不成立
+            snap["notes"] = [n for n in snap["notes"] if n not in legacy]
+            if key == path.stem:
+                write_json_atomic(path, snap)
         if not key or key == path.stem:
             continue
         target = snapshot_path(root, key)
@@ -458,11 +463,20 @@ def record_run(root: Path, entry: dict) -> None:
 
 
 def probe_as_of(latest: dict, cfg: dict, fetcher: Fetcher | None = None) -> str | None:
-    """只取上次名单前几只 ETF 的历史区间，看来源截止日有没有前进。请求全部失败时返回 None（交给完整采集处理）。"""
+    """定时去重用的轻量探测：先取一次当前全量名单（成员变了就说明来源已更新），再取当前名单前几只的历史区间，
+    看来源截止日。必须用当前名单：上一份名单里的 ETF 可能已经出池，它们的区间截止日不会再前进。
+    返回 None 表示「不能确认没更新」（名单变了或请求失败），交给完整采集处理。"""
     f = fetcher or Fetcher(cfg["timeout"], cfg["retries"], cfg["min_interval"])
+    try:
+        rows = parse_pool(f.json(POOL_API, pool_payload()))
+    except RuntimeError:
+        return None
+    codes = [r["code"] for r in rows]
+    if set(codes) != {r["ths_code"] for r in latest.get("etfs") or []}:
+        return None
     lists = []
-    for r in (latest.get("etfs") or [])[:cfg["probe_count"]]:
-        market, code = r["ths_code"].split(":", 1)
+    for c in codes[:cfg["probe_count"]]:
+        market, code = c.split(":", 1)
         try:
             ps = f.json(f"{PERIOD_API}/{market}/{code}")
             if isinstance(ps, list):

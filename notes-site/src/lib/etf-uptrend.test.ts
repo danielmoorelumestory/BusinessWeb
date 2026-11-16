@@ -1,8 +1,8 @@
 // notes-site/src/lib/etf-uptrend.test.ts
 import { describe, expect, it } from 'vitest';
 import {
-  DEFAULT_FILTERS, TAG_KEYS, bit, filterRows, gridDetailHref, missingCats, nextSort, sortRows, tabCount,
-  type Day, type Detail, type Filters,
+  DEFAULT_FILTERS, TAG_KEYS, bit, filterRows, gridDetailHref, liveSnapshot, missingCats, needsLiveCheck, nextSort, shanghaiDate, sortRows, tabCount,
+  type Day, type DayMeta, type Detail, type Filters, type LiveResult,
 } from './etf-uptrend';
 
 const f = (...keys: (typeof TAG_KEYS)[number][]) => keys.reduce((s, k) => s | bit(k), 0);
@@ -66,5 +66,25 @@ describe('grid detail link', () => {
   it('编码代码与名称', () => {
     expect(gridDetailHref('/note/lab/grid-trading/detail', '159593', 'A50ETF平安'))
       .toBe('/note/lab/grid-trading/detail?code=159593&name=A50ETF%E5%B9%B3%E5%AE%89');
+  });
+});
+
+describe('实时补拉', () => {
+  const meta = (d: string): DayMeta => ({ d, asof: d, at: '', st: 'success', n: {}, notes: [] });
+  const days = [meta('2026-11-12'), meta('2026-11-13')];
+  it('按北京时间判断今天', () => {
+    expect(shanghaiDate(new Date('2026-11-15T16:30:00Z'))).toBe('2026-11-16');
+    expect(needsLiveCheck(days, new Date('2026-11-13T15:00:00Z'))).toBe(false);   // 北京 11-13 23:00
+    expect(needsLiveCheck(days, new Date('2026-11-16T12:00:00Z'))).toBe(true);
+    expect(needsLiveCheck([], new Date())).toBe(true);
+  });
+  it('只有来源更新了才生成临时快照', () => {
+    const live: LiveResult = { asof: '2026-11-16', at: '2026-11-16T14:00:00.000Z', cats: ['new_pool'], rows: day.rows, n: { all: 4 } };
+    const snap = liveSnapshot(days, live)!;
+    expect(snap.meta).toMatchObject({ d: '2026-11-16', st: 'live' });
+    expect(snap.day.rows).toHaveLength(4);
+    expect(liveSnapshot(days, { ...live, asof: '2026-11-13' })).toBeNull();
+    expect(liveSnapshot(days, { ...live, asof: null })).toBeNull();
+    expect(liveSnapshot(days, { ...live, rows: [] })).toBeNull();
   });
 });

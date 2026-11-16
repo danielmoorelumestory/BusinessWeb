@@ -5,12 +5,14 @@ import { href } from '../../lib/url';
 // 数据由 .github/workflows/etf-uptrend.yml 每天采集后导出到主站 public/data/etf-uptrend/；notes 与主站同域，默认站点根 '/'。
 const mainSite = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/');
 const dataBase = `${mainSite}data/etf-uptrend/`;
+// 存档比今天旧时，页面调用这个接口从来源实时检查（只展示、不存档），见 server/etf-uptrend-live.mjs
+const liveApi = `${mainSite}api/etf-uptrend-live`;
 const detailUrl = href('lab/grid-trading/detail/');
 const reviewUrl = href('lab/etf-review/');
 ---
 
 <Base title="ETF 主升浪" current="lab" wide description="同花顺 ETF 主升浪榜单的每日快照：趋势回踩、新入池、分类筛选，单只 ETF 的历史上涨区间与来源 AI 上涨原因">
-  <div class="uptrend" id="uptrend" data-base={dataBase} data-detail-url={detailUrl} data-review-url={reviewUrl}>
+  <div class="uptrend" id="uptrend" data-base={dataBase} data-live-api={liveApi} data-detail-url={detailUrl} data-review-url={reviewUrl}>
     <header class="hero compact-hero">
       <p class="kicker">ETF UPTREND</p>
       <h1>ETF 主升浪</h1>
@@ -63,8 +65,8 @@ const reviewUrl = href('lab/etf-review/');
 
 <script>
   import {
-    DEFAULT_FILTERS, TABS, bit, filterRows, gridDetailHref, latestPeriod, missingCats, nextSort, securityCode, sortRows, tabCount,
-    type Day, type Detail, type Filters, type SortKey, type SortState, type UptrendIndex,
+    DEFAULT_FILTERS, TABS, bit, filterRows, gridDetailHref, latestPeriod, liveSnapshot, missingCats, needsLiveCheck, nextSort, securityCode, sortRows, tabCount,
+    type Day, type Detail, type Filters, type LiveResult, type SortKey, type SortState, type UptrendIndex,
   } from '../../lib/etf-uptrend';
   import { addWatch, readMeta, setMemberships } from '../../lib/etf-review';
   import { poolCodes } from '../../lib/etf-review-meta';
@@ -72,6 +74,7 @@ const reviewUrl = href('lab/etf-review/');
 
   const root = document.querySelector('#uptrend') as HTMLElement;
   const base = root.dataset.base!;
+  const liveApi = root.dataset.liveApi!;
   const detailUrl = root.dataset.detailUrl!;
   const reviewUrl = root.dataset.reviewUrl!;
   // 复盘池 = 有网格的标的 + 复盘页的观察列表（与复盘页同一份本机数据）；每次渲染时重读，其他页面改过也能反映出来。
@@ -131,6 +134,10 @@ const reviewUrl = href('lab/etf-review/');
   const watch = new Set<string>(load<string[]>('etf-uptrend-watch', []));
   let current = '';
   let open: string | null = null;
+  // 实时补拉：liveDay 是实时临时快照的行情日；liveNote 是检查结果说明；liveDetail 记下已实时取过详情的 ETF
+  let liveDay: string | null = null;
+  let liveNote = '';
+  const liveDetail = new Set<string>();
 
   async function getJson<T>(path: string): Promise<T> {
     const res = await fetch(base + path, { cache: 'no-cache' });
@@ -151,6 +158,8 @@ const reviewUrl = href('lab/etf-review/');
     if (lr?.status === 'failed') {
       banners.push(`<div class="up-banner warn"><b>最近一次采集失败</b>（${esc(fmtT(lr.started_at))}）：${esc(lr.message)}。下面是此前最近一次成功的数据${ls ? `（${esc(fmtT(ls.finished_at))}）` : ''}，未被覆盖。</div>`);
     }
+    if (meta?.st === 'live') banners.push(`<div class="up-banner live"><b>实时数据，尚未存档</b>：存档里还没有 ${esc(meta.d)} 的快照，这是打开页面时刚从同花顺拉取的名单（${esc(fmtT(meta.at))}）。区间列沿用存档里的数据，展开某只 ETF 会实时取它的最新区间；定时任务正式采集后会存入历史。</div>`);
+    else if (liveNote && current === latest) banners.push(`<div class="up-banner">${liveNote}</div>`);
     for (const n of meta?.notes ?? []) banners.push(`<div class="up-banner">${esc(n)}</div>`);
     if (meta?.st === 'partial') banners.push(`<div class="up-banner">这份快照名单完整，但部分分类、历史区间或 AI 原因没取到，下次采集会补。</div>`);
     $('#banners').innerHTML = banners.join('');
@@ -248,7 +257,48 @@ const reviewUrl = href('lab/etf-review/');
   });
   $('#q').addEventListener('input', e => { filters.q = (e.target as HTMLInputElement).value; renderTable(); });
   $('#day').addEventListener('change', e => { current = (e.target as HTMLSelectElement).value; open = null; render(); });
-  const toggle = (tr: HTMLElement) => { const c = tr.dataset.c!; open = open === c ? null : c; renderTable(); };
+  async function fetchLiveDetail(code: string) {
+    liveDetail.add(code);
+    try {
+      const res = await fetch(`${liveApi}?code=${encodeURIComponent(code)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      detail[code] = await res.json() as Detail;
+    } catch { liveDetail.delete(code); return; }
+    if (open === code) renderTable();
+  }
+  const toggle = (tr: HTMLElement) => {
+    const c = tr.dataset.c!; open = open === c ? null : c; renderTable();
+    // 实时快照里的 ETF、或存档里还没有区间的 ETF：展开时实时取一次
+    if (open === c && !liveDetail.has(c) && (current === liveDay || !detail[c])) fetchLiveDetail(c);
+  };
+  async function checkLive() {
+    if (!index || !needsLiveCheck(index.days, new Date())) return;
+    const before = index.days.at(-1)?.asof ?? index.days.at(-1)?.d;
+    let live: LiveResult;
+    try {
+      const res = await fetch(liveApi);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      live = await res.json();
+    } catch {
+      liveNote = '实时检查同花顺失败，下面是存档里最新的快照。';
+      if (current === index.days.at(-1)?.d) renderHead();
+      return;
+    }
+    const snap = liveSnapshot(index.days, live);
+    if (!snap) {
+      liveNote = `已实时检查同花顺：来源截止日仍是 ${esc(live.asof ?? before ?? '未知')}，没有更新的数据（来源一般在交易日晚上 21:30 之后才更新当天名单）。`;
+      if (current === index.days.at(-1)?.d) renderHead();
+      return;
+    }
+    const wasLatest = current === index.days.at(-1)?.d;
+    liveDay = snap.meta.d;
+    index.days.push(snap.meta);
+    days.set(snap.day.d, snap.day);
+    const opt = document.createElement('option');
+    opt.value = liveDay; opt.textContent = `${liveDay}（实时，未存档）`;
+    $<HTMLSelectElement>('#day').prepend(opt);
+    if (wasLatest) { current = liveDay; $<HTMLSelectElement>('#day').value = liveDay; open = null; await render(); }
+  }
   $('#table').addEventListener('click', e => {
     const t = e.target as HTMLElement;
     const star = t.closest<HTMLElement>('button.up-star');
@@ -283,6 +333,7 @@ const reviewUrl = href('lab/etf-review/');
     await render();
     try { detail = await getJson<Record<string, Detail>>('detail.json'); } catch { /* 名单仍可用，区间列显示待取 */ }
     await renderTable();
+    await checkLive();
   })();
 </script>
 
@@ -304,6 +355,7 @@ const reviewUrl = href('lab/etf-review/');
   .up-banner { border: 1px solid #bae6fd; background: #f0f9ff; color: #0c4a6e; border-radius: 10px; padding: 10px 14px; font-size: 13px; line-height: 1.6; }
   .up-banner.warn { border-color: #fecaca; background: #fef2f2; color: #7f1d1d; }
   .up-banner.warn b { color: #dc2626; }
+  .up-banner.live { border-color: #fde68a; background: #fffbeb; color: #78350f; }
 
   .up-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; box-shadow: 0 1px 3px rgb(15 23 42 / .04); }
   .up-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }

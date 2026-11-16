@@ -138,6 +138,7 @@ class TestCollect(Base):
         snaps = self.root / "snapshots"
         old = U.read_json(snaps / "2026-11-13.json")
         (snaps / "2026-11-13.json").rename(snaps / "2026-11-14.json")      # 模拟旧版按采集日命名
+        old["notes"] = ["来源数据截止 2026-11-13，早于采集日 2026-11-14（周末、休市或来源尚未更新），不是 2026-11-14 的行情。"]
         earlier = dict(old, fetch_completed_at="2026-11-13T21:00:00+08:00", source_as_of="2026-11-12")
         U.write_json_atomic(snaps / "2026-11-13.json", earlier)
         dup = dict(old, fetch_completed_at="2026-11-12T20:00:00+08:00", source_as_of="2026-11-12")
@@ -147,6 +148,7 @@ class TestCollect(Base):
         self.assertEqual(U.list_snapshots(self.root), ["2026-11-12", "2026-11-13"])
         kept = U.read_json(snaps / "2026-11-12.json")                       # 同一行情日保留较晚采集的
         self.assertEqual((kept["date"], kept["fetch_completed_at"]), ("2026-11-12", "2026-11-13T21:00:00+08:00"))
+        self.assertEqual(U.read_json(snaps / "2026-11-13.json")["notes"], [])          # 旧说明已清掉
         self.assertEqual(U.rekey_snapshots(self.root), [])
 
     def test_rerun_same_day_updates_and_uses_cache(self):
@@ -253,8 +255,14 @@ class TestRun(Base):
         latest = {"etfs": [{"ths_code": c} for _, _, c in ALL]}
         f = FakeFetcher(end_day="2026-11-13")
         self.assertEqual(U.probe_as_of(latest, dict(U.DEFAULT_CONFIG), f), "2026-11-13")
-        self.assertEqual(len(f.calls), U.DEFAULT_CONFIG["probe_count"])
+        self.assertEqual(f.calls[0], U.POOL_API)                                  # 先取当前名单
+        self.assertEqual(len(f.calls), 1 + U.DEFAULT_CONFIG["probe_count"])
         self.assertIsNone(U.probe_as_of(latest, dict(U.DEFAULT_CONFIG), FakeFetcher(fail_details=True)))
+        self.assertIsNone(U.probe_as_of(latest, dict(U.DEFAULT_CONFIG), FakeFetcher(fail_pool=True)))
+        # 名单成员变了（有 ETF 出池）：不能确认没更新，不再请求区间
+        f2 = FakeFetcher(all_rows=ALL[1:])
+        self.assertIsNone(U.probe_as_of(latest, dict(U.DEFAULT_CONFIG), f2))
+        self.assertEqual(f2.calls, [U.POOL_API])
 
     def test_lock_prevents_reentry(self):
         called = []

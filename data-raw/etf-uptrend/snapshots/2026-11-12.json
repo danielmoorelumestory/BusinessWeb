@@ -3234,9 +3234,7 @@
  ],
  "warnings": [],
  "errors": [],
- "notes": [
-  "来源数据截止 2026-11-12，早于采集日 2026-11-13（周末、休市或来源尚未更新），不是 2026-11-13 的行情。"
- ],
+ "notes": [],
  "periods_refreshed": 5,
  "source_page": "https://fund.10jqka.com.cn/thsjj-jj-fe-market-domain/uptrend-list/index.html#/",
  "raw_file": "raw/2026-11-13/20261113T212343.json.gz",
