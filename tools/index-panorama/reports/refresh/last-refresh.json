@@ -1,0 +1,1964 @@
+{
+ "startedAt": "2026-11-16T09:09:33Z",
+ "startedAtBeijing": "2026-11-16T17:09:33+08:00",
+ "mode": "online",
+ "steps": [
+  {
+   "name": "行情/中证 fetch_data",
+   "status": "ok",
+   "detail": "腾讯行情在线刷新；中证仅刷新生产已有中证 store 的指数（选源不变）；丢弃生产中不存在的新中证 store ['data/store/indicator_932000_CSI.csv']（保持既有选源）",
+   "seconds": 14.3
+  },
+  {
+   "name": "provider domestic",
+   "status": "ok",
+   "detail": "修订 1 个旧观测值；新字段 0；0 个请求错误（这些接口沿用上一份有效 raw）",
+   "seconds": 203.7,
+   "headTrim": [],
+   "errors": []
+  },
+  {
+   "name": "provider supplemental",
+   "status": "partial",
+   "detail": "修订 0 个旧观测值；新字段 0；2 个请求错误（这些接口沿用上一份有效 raw）",
+   "seconds": 19.5,
+   "headTrim": [],
+   "errors": [
+    "{\"source\": \"hsi_monthly_xlsx\", \"url\": \"https://www.hsi.com.hk/content/dam/wpb/hsil/index_operation/historical_pe/en_hk/hstech/hstech.xlsx\", \"error\": \"FetchError: 重定向到错误页 https://www.hsi.com.hk/errors/404/\"}",
+    "{\"source\": \"hsi_monthly_xlsx\", \"url\": \"https://www.hsi.com.hk/content/dam/wpb/hsil/index_operation/historical_dy/en_hk/hstech/hstech.xlsx\", \"error\": \"FetchError: 重定向到错误页 https://www.hsi.com.hk/errors/404/\"}"
+   ]
+  },
+  {
+   "name": "原站 EPS",
+   "status": "ok",
+   "detail": "抓取 2026-11-16T09:13:41.117Z，原站面板日 20261116，修订 0 个旧值",
+   "seconds": 77.5,
+   "detail_by_code": {
+    "000001.SH": {
+     "count": 1206,
+     "first": "20020110",
+     "last": "20261116",
+     "oldCount": 1206,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000016.SH": {
+     "count": 1111,
+     "first": "20040105",
+     "last": "20261116",
+     "oldCount": 1111,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000300.SH": {
+     "count": 1050,
+     "first": "20050412",
+     "last": "20261116",
+     "oldCount": 1050,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000688.SH": {
+     "count": 307,
+     "first": "20200722",
+     "last": "20261116",
+     "oldCount": 306,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000827.SH": {
+     "count": 686,
+     "first": "20121008",
+     "last": "20261116",
+     "oldCount": 686,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000852.SH": {
+     "count": 588,
+     "first": "20141017",
+     "last": "20261116",
+     "oldCount": 587,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000903.SH": {
+     "count": 996,
+     "first": "20060529",
+     "last": "20261116",
+     "oldCount": 995,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000905.SH": {
+     "count": 964,
+     "first": "20070118",
+     "last": "20261116",
+     "oldCount": 964,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000906.SH": {
+     "count": 964,
+     "first": "20070118",
+     "last": "20261116",
+     "oldCount": 964,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "000922.CSI": {
+     "count": 898,
+     "first": "20080529",
+     "last": "20261116",
+     "oldCount": 898,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "399001.SZ": {
+     "count": 1206,
+     "first": "20020110",
+     "last": "20261116",
+     "oldCount": 1206,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "399006.SZ": {
+     "count": 799,
+     "first": "20100607",
+     "last": "20261116",
+     "oldCount": 799,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "399967.SZ": {
+     "count": 627,
+     "first": "20131226",
+     "last": "20261116",
+     "oldCount": 626,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "399975.SZ": {
+     "count": 649,
+     "first": "20130716",
+     "last": "20261116",
+     "oldCount": 649,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "399986.SZ": {
+     "count": 649,
+     "first": "20130716",
+     "last": "20261116",
+     "oldCount": 649,
+     "oldLast": "20261113",
+     "revised": 0
+    },
+    "HSCEI.HK": {
+     "count": 0,
+     "first": null,
+     "last": null,
+     "oldCount": 0,
+     "oldLast": null,
+     "revised": 0
+    },
+    "HSI.HK": {
+     "count": 0,
+     "first": null,
+     "last": null,
+     "oldCount": 0,
+     "oldLast": null,
+     "revised": 0
+    },
+    "HSTECH.HK": {
+     "count": 0,
+     "first": null,
+     "last": null,
+     "oldCount": 0,
+     "oldLast": null,
+     "revised": 0
+    },
+    "IXIC.US": {
+     "count": 0,
+     "first": null,
+     "last": null,
+     "oldCount": 0,
+     "oldLast": null,
+     "revised": 0
+    },
+    "SPX.US": {
+     "count": 0,
+     "first": null,
+     "last": null,
+     "oldCount": 0,
+     "oldLast": null,
+     "revised": 0
+    }
+   }
+  },
+  {
+   "name": "最终数据包 enrich-only",
+   "status": "ok",
+   "detail": "三 provider 缓存统一生成",
+   "seconds": 1.8
+  },
+  {
+   "name": "数据包门禁",
+   "status": "ok",
+   "detail": "结构/观测/末日/选源/EPS 一一对应通过；manager_audit 通过；修订 1 个旧值",
+   "seconds": 18.5
+  },
+  {
+   "name": "发布",
+   "status": "ok",
+   "detail": "原子替换 186 个文件；备份 data/refresh-backups/20261116T090933Z",
+   "seconds": 0.1,
+   "files": [
+    "data/manifest.json",
+    "data/providers/domestic.json",
+    "data/providers/domestic_raw/accum_pb_csival_000001.json",
+    "data/providers/domestic_raw/cnindex_daily_399303.json",
+    "data/providers/domestic_raw/cnindex_list.json",
+    "data/providers/domestic_raw/csi_ind_000001.xls",
+    "data/providers/domestic_raw/csi_ind_000016.xls",
+    "data/providers/domestic_raw/csi_ind_000300.xls",
+    "data/providers/domestic_raw/csi_ind_000688.xls",
+    "data/providers/domestic_raw/csi_ind_000827.xls",
+    "data/providers/domestic_raw/csi_ind_000852.xls",
+    "data/providers/domestic_raw/csi_ind_000903.xls",
+    "data/providers/domestic_raw/csi_ind_000905.xls",
+    "data/providers/domestic_raw/csi_ind_000906.xls",
+    "data/providers/domestic_raw/csi_ind_000922.xls",
+    "data/providers/domestic_raw/csi_ind_000932.xls",
+    "data/providers/domestic_raw/csi_ind_000985.xls",
+    "data/providers/domestic_raw/csi_ind_000986.xls",
+    "data/providers/domestic_raw/csi_ind_000987.xls",
+    "data/providers/domestic_raw/csi_ind_000988.xls",
+    "data/providers/domestic_raw/csi_ind_000989.xls",
+    "data/providers/domestic_raw/csi_ind_000990.xls",
+    "data/providers/domestic_raw/csi_ind_000991.xls",
+    "data/providers/domestic_raw/csi_ind_000992.xls",
+    "data/providers/domestic_raw/csi_ind_000993.xls",
+    "data/providers/domestic_raw/csi_ind_000994.xls",
+    "data/providers/domestic_raw/csi_ind_000995.xls",
+    "data/providers/domestic_raw/csi_ind_399967.xls",
+    "data/providers/domestic_raw/csi_ind_399971.xls",
+    "data/providers/domestic_raw/csi_ind_399975.xls",
+    "data/providers/domestic_raw/csi_ind_399986.xls",
+    "data/providers/domestic_raw/csi_ind_932000.xls",
+    "data/providers/domestic_raw/csi_pe_000001.json",
+    "data/providers/domestic_raw/csi_pe_000016.json",
+    "data/providers/domestic_raw/csi_pe_000300.json",
+    "data/providers/domestic_raw/csi_pe_000688.json",
+    "data/providers/domestic_raw/csi_pe_000827.json",
+    "data/providers/domestic_raw/csi_pe_000852.json",
+    "data/providers/domestic_raw/csi_pe_000903.json",
+    "data/providers/domestic_raw/csi_pe_000905.json",
+    "data/providers/domestic_raw/csi_pe_000906.json",
+    "data/providers/domestic_raw/csi_pe_000922.json",
+    "data/providers/domestic_raw/csi_pe_000932.json",
+    "data/providers/domestic_raw/csi_pe_000985.json",
+    "data/providers/domestic_raw/csi_pe_000986.json",
+    "data/providers/domestic_raw/csi_pe_000987.json",
+    "data/providers/domestic_raw/csi_pe_000988.json",
+    "data/providers/domestic_raw/csi_pe_000989.json",
+    "data/providers/domestic_raw/csi_pe_000990.json",
+    "data/providers/domestic_raw/csi_pe_000991.json",
+    "data/providers/domestic_raw/csi_pe_000992.json",
+    "data/providers/domestic_raw/csi_pe_000993.json",
+    "data/providers/domestic_raw/csi_pe_000994.json",
+    "data/providers/domestic_raw/csi_pe_000995.json",
+    "data/providers/domestic_raw/csi_pe_399967.json",
+    "data/providers/domestic_raw/csi_pe_399971.json",
+    "data/providers/domestic_raw/csi_pe_399975.json",
+    "data/providers/domestic_raw/csi_pe_399986.json",
+    "data/providers/domestic_raw/csi_pe_932000.json",
+    "data/providers/domestic_raw/csi_valuation.json",
+    "…"
+   ]
+  }
+ ],
+ "published": true,
+ "providerAsOf": "2026-11-16",
+ "revisions": [
+  {
+   "code": "SPX.US",
+   "field": "pb",
+   "count": 1,
+   "samples": [
+    [
+     "2026-11-13",
+     5.2883,
+     5.2884
+    ]
+   ]
+  }
+ ],
+ "headTrim": [],
+ "fields": [
+  {
+   "code": "000001.SH",
+   "name": "上证指数",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3667,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 2,
+    "provider": "domestic",
+    "frequency": "single"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 1062,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "399001.SZ",
+   "name": "深证成指",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "domestic",
+    "frequency": "single"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 1062,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "399006.SZ",
+   "name": "创业板指",
+   "price": {
+    "last": "2026-11-16",
+    "count": 3996,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "domestic",
+    "frequency": "single"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 799,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3995,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000688.SH",
+   "name": "科创50",
+   "price": {
+    "last": "2026-11-16",
+    "count": 1664,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 1542,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 355,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 307,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 355,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 1664,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000016.SH",
+   "name": "上证50",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 1062,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 365,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000300.SH",
+   "name": "沪深300",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 1050,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 362,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000905.SH",
+   "name": "中证500",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 964,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000852.SH",
+   "name": "中证1000",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3489,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 588,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000903.SH",
+   "name": "中证A100",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 996,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 365,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5068,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000906.SH",
+   "name": "中证800",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 964,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000985.SH",
+   "name": "中证全指",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "399303.SZ",
+   "name": "国证2000",
+   "price": {
+    "last": "2026-11-16",
+    "count": 3071,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "domestic",
+    "frequency": "single"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "domestic",
+    "frequency": "single"
+   },
+   "dy": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3071,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "932000.CSI",
+   "name": "中证2000",
+   "price": {
+    "last": "2026-11-13",
+    "count": 3128,
+    "provider": "csi",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 828,
+    "provider": "csi",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-13",
+    "count": 3128,
+    "provider": "csi",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000922.CSI",
+   "name": "中证红利",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 898,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 365,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000932.SH",
+   "name": "中证消费",
+   "price": {
+    "last": "2026-11-16",
+    "count": 4219,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 4219,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "399967.SZ",
+   "name": "中证军工",
+   "price": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3067,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 627,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "399975.SZ",
+   "name": "证券公司",
+   "price": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 2793,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 649,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "399986.SZ",
+   "name": "中证银行",
+   "price": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 2793,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 649,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 365,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "399971.SZ",
+   "name": "中证传媒",
+   "price": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 2921,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 365,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 2735,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000827.SH",
+   "name": "中证环保",
+   "price": {
+    "last": "2026-11-16",
+    "count": 3609,
+    "provider": "tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": "2026-11-16",
+    "count": 686,
+    "provider": "original_eps",
+    "frequency": "weekly"
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3609,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000986.SH",
+   "name": "全指能源",
+   "price": {
+    "last": "2026-11-16",
+    "count": 4095,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3712,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000987.SH",
+   "name": "全指材料",
+   "price": {
+    "last": "2026-11-16",
+    "count": 4095,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3712,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000988.SH",
+   "name": "全指工业",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000989.SH",
+   "name": "全指可选",
+   "price": {
+    "last": "2026-11-16",
+    "count": 4095,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 365,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3712,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000990.SH",
+   "name": "全指消费",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000991.SH",
+   "name": "全指医药",
+   "price": {
+    "last": "2026-11-16",
+    "count": 4095,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3712,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000992.SH",
+   "name": "全指金融",
+   "price": {
+    "last": "2026-11-16",
+    "count": 4095,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3712,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000993.SH",
+   "name": "全指信息",
+   "price": {
+    "last": "2026-11-16",
+    "count": 4095,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 384,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 3712,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000994.SH",
+   "name": "全指通信",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "000995.SH",
+   "name": "全指公用",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 3669,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-11",
+    "count": 20,
+    "provider": "domestic",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": "2026-11-16",
+    "count": 5310,
+    "provider": "tencent",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "HSI.HK",
+   "name": "恒生指数",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5390,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 30,
+    "provider": "supplemental",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-13",
+    "count": 30,
+    "provider": "supplemental",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 364,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-13",
+    "count": 30,
+    "provider": "supplemental",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "HSTECH.HK",
+   "name": "恒生科技",
+   "price": {
+    "last": "2026-11-16",
+    "count": 1553,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 326,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 326,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "domestic",
+    "frequency": "single"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 326,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-13",
+    "count": 30,
+    "provider": "supplemental",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "HSCEI.HK",
+   "name": "恒生国企",
+   "price": {
+    "last": "2026-11-16",
+    "count": 5388,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 30,
+    "provider": "supplemental",
+    "frequency": "daily"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-13",
+    "count": 30,
+    "provider": "supplemental",
+    "frequency": "daily"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 365,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": "2026-11-13",
+    "count": 30,
+    "provider": "supplemental",
+    "frequency": "daily"
+   }
+  },
+  {
+   "code": "SPX.US",
+   "name": "标普500",
+   "price": {
+    "last": "2026-11-13",
+    "count": 5505,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "supplemental",
+    "frequency": "single"
+   },
+   "pb": {
+    "last": "2026-11-13",
+    "count": 516,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "dy": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "supplemental",
+    "frequency": "single"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": "2026-11-13",
+    "count": 415,
+    "provider": "domestic",
+    "frequency": "weekly"
+   },
+   "amt": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   }
+  },
+  {
+   "code": "IXIC.US",
+   "name": "纳斯达克综指",
+   "price": {
+    "last": "2026-11-13",
+    "count": 5503,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   }
+  },
+  {
+   "code": "DJI.US",
+   "name": "道琼斯工业",
+   "price": {
+    "last": "2026-11-13",
+    "count": 5506,
+    "provider": "cache+tencent",
+    "frequency": "daily"
+   },
+   "pe": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "supplemental",
+    "frequency": "single"
+   },
+   "pb": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "dy": {
+    "last": "2026-11-13",
+    "count": 1,
+    "provider": "supplemental",
+    "frequency": "single"
+   },
+   "eps": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "roe": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   },
+   "amt": {
+    "last": null,
+    "count": 0,
+    "provider": null,
+    "frequency": null
+   }
+  }
+ ],
+ "dataAsOf": "2026-11-16",
+ "previousAsOf": "2026-11-13",
+ "backup": "data/refresh-backups/20261116T090933Z",
+ "endedAt": "2026-11-16T09:15:09Z",
+ "endedAtBeijing": "2026-11-16T17:15:09+08:00",
+ "status": "partial",
+ "exitCode": 10,
+ "workDir": "data/refresh-work/20261116T090933Z"
+}

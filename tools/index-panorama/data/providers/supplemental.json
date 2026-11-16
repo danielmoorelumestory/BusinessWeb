@@ -1,17 +1,19 @@
 {
  "provider": "supplemental",
- "retrievedAt": "2026-11-15T18:31:43Z",
- "builtAt": "2026-11-15T18:32:11Z",
- "asOf": "2026-11-15",
+ "retrievedAt": "2026-11-16T09:13:11Z",
+ "builtAt": "2026-11-16T09:13:31Z",
+ "asOf": "2026-11-16",
  "series": {
   "000001.SH": {
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      269875.59
+      269875.59,
+      264756.67
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -79,7 +81,7 @@
    },
    "componentNum": {
     "value": 2236,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000001",
@@ -303,10 +305,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      24588.22
+      24588.22,
+      24246.85
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -374,7 +378,7 @@
    },
    "componentNum": {
     "value": 50,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000688",
@@ -388,10 +392,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      89402.03
+      89402.03,
+      89707.22
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -459,7 +465,7 @@
    },
    "componentNum": {
     "value": 50,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000016",
@@ -473,10 +479,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      232035.16
+      232035.16,
+      228659.49
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -544,7 +552,7 @@
    },
    "componentNum": {
     "value": 300,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000300",
@@ -558,10 +566,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      84391.83
+      84391.83,
+      81278.92
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -629,7 +639,7 @@
    },
    "componentNum": {
     "value": 500,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000905",
@@ -643,10 +653,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      73402.64
+      73402.64,
+      69961.86
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -714,7 +726,7 @@
    },
    "componentNum": {
     "value": 1000,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000852",
@@ -728,10 +740,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      136267.04
+      136267.04,
+      134340.6
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -799,7 +813,7 @@
    },
    "componentNum": {
     "value": 100,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000903",
@@ -813,10 +827,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      316426.99
+      316426.99,
+      309938.41
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -884,7 +900,7 @@
    },
    "componentNum": {
     "value": 800,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000906",
@@ -898,10 +914,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      486761.17
+      486761.17,
+      472846.78
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -969,7 +987,7 @@
    },
    "componentNum": {
     "value": 5117,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000985",
@@ -1088,10 +1106,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      59926.26
+      59926.26,
+      57225.97
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1159,7 +1179,7 @@
    },
    "componentNum": {
     "value": 2000,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/932000",
@@ -1173,10 +1193,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      51410.32
+      51410.32,
+      52028.05
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1244,7 +1266,7 @@
    },
    "componentNum": {
     "value": 100,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000922",
@@ -1258,10 +1280,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      20076.12
+      20076.12,
+      20519.8
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1329,7 +1353,7 @@
    },
    "componentNum": {
     "value": 36,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000932",
@@ -1343,10 +1367,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      12785.73
+      12785.73,
+      12457.19
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1414,7 +1440,7 @@
    },
    "componentNum": {
     "value": 79,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399967",
@@ -1428,10 +1454,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      16878.64
+      16878.64,
+      16648.89
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1499,7 +1527,7 @@
    },
    "componentNum": {
     "value": 47,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399975",
@@ -1513,10 +1541,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      33965.37
+      33965.37,
+      34588.16
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1584,7 +1614,7 @@
    },
    "componentNum": {
     "value": 42,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399986",
@@ -1598,10 +1628,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      7620.17
+      7620.17,
+      7317.52
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1669,7 +1701,7 @@
    },
    "componentNum": {
     "value": 50,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399971",
@@ -1683,10 +1715,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      28004.19
+      28004.19,
+      27176.76
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1754,7 +1788,7 @@
    },
    "componentNum": {
     "value": 100,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000827",
@@ -1768,10 +1802,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      9647.21
+      9647.21,
+      9667.79
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1839,7 +1875,7 @@
    },
    "componentNum": {
     "value": 50,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000986",
@@ -1853,10 +1889,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      39372.6
+      39372.6,
+      37561.6
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -1924,7 +1962,7 @@
    },
    "componentNum": {
     "value": 158,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000987",
@@ -1938,10 +1976,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      71889.46
+      71889.46,
+      69495.86
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2009,7 +2049,7 @@
    },
    "componentNum": {
     "value": 362,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000988",
@@ -2023,10 +2063,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      25130.67
+      25130.67,
+      24774.85
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2094,7 +2136,7 @@
    },
    "componentNum": {
     "value": 140,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000989",
@@ -2108,10 +2150,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      21217.38
+      21217.38,
+      21663.22
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2179,7 +2223,7 @@
    },
    "componentNum": {
     "value": 50,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000990",
@@ -2193,10 +2237,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      23393.96
+      23393.96,
+      23095.25
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2264,7 +2310,7 @@
    },
    "componentNum": {
     "value": 119,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000991",
@@ -2278,10 +2324,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      62323.66
+      62323.66,
+      62689.85
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2349,7 +2397,7 @@
    },
    "componentNum": {
     "value": 127,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000992",
@@ -2363,10 +2411,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      69096.44
+      69096.44,
+      66699.31
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2434,7 +2484,7 @@
    },
    "componentNum": {
     "value": 147,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000993",
@@ -2448,10 +2498,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      26921.88
+      26921.88,
+      24970.22
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2519,7 +2571,7 @@
    },
    "componentNum": {
     "value": 57,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000994",
@@ -2533,10 +2585,12 @@
    "fields": {
     "mcap": {
      "d": [
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-13"
      ],
      "v": [
-      11355.46
+      11355.46,
+      11414.66
      ],
      "source": {
       "label": "中证指数官网·指数特征",
@@ -2604,7 +2658,7 @@
    },
    "componentNum": {
     "value": 50,
-    "date": "2026-11-11",
+    "date": "2026-11-13",
     "source": {
      "label": "中证指数官网·指数特征",
      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000995",
@@ -2943,7 +2997,7 @@
    },
    "componentNum": {
     "value": 95,
-    "date": "2026-11-13",
+    "date": "2026-11-16",
     "source": {
      "label": "恒生指数公司官网·成分股",
      "url": "https://www.hsi.com.hk/en-hk/indexes/all-indexes/index-details/?seriesCode=hsi",
@@ -3313,7 +3367,7 @@
    },
    "componentNum": {
     "value": 30,
-    "date": "2026-11-13",
+    "date": "2026-11-16",
     "source": {
      "label": "恒生指数公司官网·成分股",
      "url": "https://www.hsi.com.hk/en-hk/indexes/all-indexes/index-details/?seriesCode=hstech",
@@ -3729,7 +3783,7 @@
    },
    "componentNum": {
     "value": 50,
-    "date": "2026-11-13",
+    "date": "2026-11-16",
     "source": {
      "label": "恒生指数公司官网·成分股",
      "url": "https://www.hsi.com.hk/en-hk/indexes/all-indexes/index-details/?seriesCode=hscei",
@@ -15387,8 +15441,8 @@
  ],
  "mode": "online",
  "lastOnline": {
-  "retrievedAt": "2026-11-15T18:31:43Z",
-  "finishedAt": "2026-11-15T18:32:11Z",
+  "retrievedAt": "2026-11-16T09:13:11Z",
+  "finishedAt": "2026-11-16T09:13:31Z",
   "errorCount": 2
  }
 }

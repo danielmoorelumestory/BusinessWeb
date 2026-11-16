@@ -1,17 +1,17 @@
 {
- "generatedAt": "2026-11-16T07:06:29Z",
- "asOf": "2026-11-13",
+ "generatedAt": "2026-11-16T09:14:48Z",
+ "asOf": "2026-11-16",
  "mode": "enrich-only",
  "before": {
   "baseline": "reports/round2-baseline.json",
   "baselineAsOf": "2026-11-13",
-  "previousBundleGeneratedAt": "2026-11-16T07:05:43Z"
+  "previousBundleGeneratedAt": "2026-11-16T09:09:44Z"
  },
  "providers": {
   "domestic": {
    "status": "ok",
    "path": "data/providers/domestic.json",
-   "retrievedAt": "2026-11-15T18:43:18Z",
+   "retrievedAt": "2026-11-16T09:13:11Z",
    "codes": 36,
    "okFields": 107,
    "errors": [],
@@ -21,7 +21,7 @@
   "supplemental": {
    "status": "ok",
    "path": "data/providers/supplemental.json",
-   "retrievedAt": "2026-11-15T18:31:43Z",
+   "retrievedAt": "2026-11-16T09:13:11Z",
    "codes": 36,
    "okFields": 41,
    "errors": [
@@ -34,7 +34,7 @@
   "original_eps": {
    "status": "ok",
    "path": "data/providers/original_eps.json",
-   "retrievedAt": "2026-11-15T20:02:24.128Z",
+   "retrievedAt": "2026-11-16T09:13:41.117Z",
    "codes": 36,
    "okFields": 15,
    "errors": [],
@@ -168,7 +168,7 @@
    "lost": []
   },
   "mcap": {
-   "beforeNonEmpty": 1,
+   "beforeNonEmpty": 0,
    "afterNonEmpty": 30,
    "filled": [
     "000001.SH",
@@ -183,6 +183,7 @@
     "000906.SH",
     "000985.SH",
     "399303.SZ",
+    "932000.CSI",
     "000922.CSI",
     "000932.SH",
     "399967.SZ",
@@ -336,9 +337,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -346,24 +347,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -371,9 +372,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -386,9 +387,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3666,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -396,13 +397,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3666,
+      "count": 3667,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3666
+     "delta": 3667
     },
     "pb": {
      "before": {
@@ -411,9 +412,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -421,13 +422,13 @@
       "frequency": "single",
       "unit": "倍",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "dy": {
      "before": {
@@ -436,9 +437,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -461,9 +462,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -471,13 +472,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -486,9 +487,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -496,13 +497,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -536,9 +537,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1062,
-      "first": "2005-01-06",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -547,8 +548,8 @@
       "unit": "元",
       "reason": "",
       "count": 1062,
-      "first": "2005-01-06",
-      "last": "2026-11-13"
+      "first": "2005-01-07",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -611,9 +612,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -621,20 +622,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 2236,
       "reason": "",
       "rejected": []
@@ -656,9 +657,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -666,24 +667,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -691,9 +692,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -706,9 +707,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -731,9 +732,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -756,9 +757,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -781,9 +782,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -806,9 +807,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -816,13 +817,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -856,9 +857,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1062,
-      "first": "2005-01-06",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -867,8 +868,8 @@
       "unit": "元",
       "reason": "",
       "count": 1062,
-      "first": "2005-01-06",
-      "last": "2026-11-13"
+      "first": "2005-01-07",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -881,9 +882,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -931,9 +932,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -941,13 +942,13 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
@@ -976,9 +977,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3995,
+      "count": 3996,
       "first": "2010-06-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -986,24 +987,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 3995,
+      "count": 3996,
       "first": "2010-06-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 3994,
+      "count": 3995,
       "first": "2010-06-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 3994,
+      "count": 3995,
       "first": "2010-06-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1011,9 +1012,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 3994,
+      "count": 3995,
       "first": "2010-06-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -1026,9 +1027,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1051,9 +1052,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1076,9 +1077,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1101,9 +1102,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1126,9 +1127,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3994,
+      "count": 3995,
       "first": "2010-06-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1136,13 +1137,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3994,
+      "count": 3995,
       "first": "2010-06-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -1176,9 +1177,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 799,
-      "first": "2010-06-04",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1187,8 +1188,8 @@
       "unit": "元",
       "reason": "",
       "count": 799,
-      "first": "2010-06-04",
-      "last": "2026-11-13"
+      "first": "2010-06-07",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -1201,9 +1202,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1251,9 +1252,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3995,
+      "count": 3996,
       "first": "2010-06-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1261,13 +1262,13 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3995,
+      "count": 3996,
       "first": "2010-06-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
@@ -1296,9 +1297,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 1663,
+      "count": 1664,
       "first": "2020-01-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1306,24 +1307,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 1663,
+      "count": 1664,
       "first": "2020-01-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 1662,
+      "count": 1663,
       "first": "2020-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 1662,
+      "count": 1663,
       "first": "2020-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1331,9 +1332,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 1662,
+      "count": 1663,
       "first": "2020-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -1346,9 +1347,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1541,
-      "first": "2020-07-06",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1356,13 +1357,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 1541,
+      "count": 1542,
       "first": "2020-07-06",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1541
+     "delta": 1542
     },
     "pb": {
      "before": {
@@ -1371,9 +1372,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 355,
-      "first": "2019-12-31",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1396,9 +1397,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1421,9 +1422,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1431,13 +1432,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -1446,9 +1447,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 1663,
+      "count": 1664,
       "first": "2020-01-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1456,13 +1457,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 1663,
+      "count": 1664,
       "first": "2020-01-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -1496,9 +1497,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 306,
-      "first": "2020-07-28",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1506,13 +1507,13 @@
       "frequency": "weekly",
       "unit": "元",
       "reason": "",
-      "count": 306,
-      "first": "2020-07-28",
-      "last": "2026-11-13"
+      "count": 307,
+      "first": "2020-07-22",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 306
+     "delta": 307
     },
     "roe": {
      "before": {
@@ -1521,9 +1522,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 355,
-      "first": "2019-12-31",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1571,9 +1572,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 1663,
+      "count": 1664,
       "first": "2020-01-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1581,20 +1582,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 1663,
+      "count": 1664,
       "first": "2020-01-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 50,
       "reason": "",
       "rejected": []
@@ -1616,9 +1617,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1626,24 +1627,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1651,9 +1652,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -1666,9 +1667,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1676,13 +1677,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -1691,9 +1692,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1716,9 +1717,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1741,9 +1742,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1751,13 +1752,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -1766,9 +1767,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1776,13 +1777,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -1816,9 +1817,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1062,
-      "first": "2005-01-06",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1827,8 +1828,8 @@
       "unit": "元",
       "reason": "",
       "count": 1062,
-      "first": "2005-01-06",
-      "last": "2026-11-13"
+      "first": "2005-01-07",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -1841,9 +1842,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 365,
-      "first": "2019-10-30",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1891,9 +1892,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1901,20 +1902,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 50,
       "reason": "",
       "rejected": []
@@ -1936,9 +1937,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1946,24 +1947,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -1971,9 +1972,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -1986,9 +1987,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -1996,13 +1997,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -2011,9 +2012,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2036,9 +2037,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2061,9 +2062,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2071,13 +2072,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -2086,9 +2087,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2096,13 +2097,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -2136,9 +2137,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1050,
-      "first": "2005-04-11",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2147,8 +2148,8 @@
       "unit": "元",
       "reason": "",
       "count": 1050,
-      "first": "2005-04-11",
-      "last": "2026-11-13"
+      "first": "2005-04-12",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -2161,9 +2162,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 362,
-      "first": "2019-11-20",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2211,9 +2212,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2221,20 +2222,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 300,
       "reason": "",
       "rejected": []
@@ -2256,9 +2257,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2266,24 +2267,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2291,9 +2292,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -2306,9 +2307,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2316,13 +2317,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -2331,9 +2332,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2356,9 +2357,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2381,9 +2382,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2391,13 +2392,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -2406,9 +2407,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2416,13 +2417,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -2456,9 +2457,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 964,
-      "first": "2007-01-17",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2467,8 +2468,8 @@
       "unit": "元",
       "reason": "",
       "count": 964,
-      "first": "2007-01-17",
-      "last": "2026-11-13"
+      "first": "2007-01-18",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -2481,9 +2482,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2531,9 +2532,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2541,20 +2542,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 500,
       "reason": "",
       "rejected": []
@@ -2576,9 +2577,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2586,24 +2587,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2611,9 +2612,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -2626,9 +2627,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3488,
-      "first": "2012-06-29",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2636,13 +2637,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3488,
+      "count": 3489,
       "first": "2012-06-29",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3488
+     "delta": 3489
     },
     "pb": {
      "before": {
@@ -2651,9 +2652,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2676,9 +2677,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2701,9 +2702,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2711,13 +2712,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -2726,9 +2727,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2736,13 +2737,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -2776,9 +2777,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 587,
-      "first": "2014-10-23",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2786,13 +2787,13 @@
       "frequency": "weekly",
       "unit": "元",
       "reason": "",
-      "count": 587,
-      "first": "2014-10-23",
-      "last": "2026-11-13"
+      "count": 588,
+      "first": "2014-10-17",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 587
+     "delta": 588
     },
     "roe": {
      "before": {
@@ -2801,9 +2802,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2851,9 +2852,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2861,20 +2862,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 1000,
       "reason": "",
       "rejected": []
@@ -2896,9 +2897,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2906,24 +2907,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -2931,9 +2932,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -2946,9 +2947,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2956,13 +2957,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -2971,9 +2972,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -2996,9 +2997,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3021,9 +3022,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3031,13 +3032,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -3046,9 +3047,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5067,
+      "count": 5068,
       "first": "2006-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3056,13 +3057,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5067,
+      "count": 5068,
       "first": "2006-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -3096,9 +3097,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 995,
-      "first": "2006-06-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3106,13 +3107,13 @@
       "frequency": "weekly",
       "unit": "元",
       "reason": "",
-      "count": 995,
-      "first": "2006-06-02",
-      "last": "2026-11-13"
+      "count": 996,
+      "first": "2006-05-29",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 995
+     "delta": 996
     },
     "roe": {
      "before": {
@@ -3121,9 +3122,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 365,
-      "first": "2019-10-30",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3171,9 +3172,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5066,
+      "count": 5067,
       "first": "2006-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3181,20 +3182,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5066,
+      "count": 5067,
       "first": "2006-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 100,
       "reason": "",
       "rejected": []
@@ -3216,9 +3217,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3226,24 +3227,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3251,9 +3252,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -3266,9 +3267,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3276,13 +3277,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -3316,9 +3317,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3341,9 +3342,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3351,13 +3352,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -3366,9 +3367,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3376,13 +3377,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -3416,9 +3417,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 964,
-      "first": "2007-01-17",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3427,8 +3428,8 @@
       "unit": "元",
       "reason": "",
       "count": 964,
-      "first": "2007-01-17",
-      "last": "2026-11-13"
+      "first": "2007-01-18",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -3491,9 +3492,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3501,20 +3502,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 800,
       "reason": "",
       "rejected": []
@@ -3536,9 +3537,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3546,24 +3547,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3571,9 +3572,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -3586,9 +3587,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3596,13 +3597,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -3636,9 +3637,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3661,9 +3662,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3671,13 +3672,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -3686,9 +3687,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3696,13 +3697,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -3811,9 +3812,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3821,20 +3822,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 5117,
       "reason": "",
       "rejected": []
@@ -3856,9 +3857,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3070,
+      "count": 3071,
       "first": "2014-03-31",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3866,24 +3867,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 3070,
+      "count": 3071,
       "first": "2014-03-31",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 3069,
+      "count": 3070,
       "first": "2014-04-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 3069,
+      "count": 3070,
       "first": "2014-04-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -3891,9 +3892,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 3069,
+      "count": 3070,
       "first": "2014-04-01",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -3906,9 +3907,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3931,9 +3932,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -3981,9 +3982,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4006,9 +4007,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3070,
+      "count": 3071,
       "first": "2014-03-31",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4016,13 +4017,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3070,
+      "count": 3071,
       "first": "2014-03-31",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -4131,9 +4132,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3070,
+      "count": 3071,
       "first": "2014-03-31",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4141,13 +4142,13 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3070,
+      "count": 3071,
       "first": "2014-03-31",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
@@ -4171,14 +4172,14 @@
    "fields": {
     "price": {
      "before": {
-      "count": 3126,
+      "count": 3128,
       "first": "2013-12-31",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3126,
+      "count": 3128,
       "first": "2013-12-31",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "after": {
       "status": "ok",
@@ -4186,9 +4187,9 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 3126,
+      "count": 3128,
       "first": "2013-12-31",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": false,
      "lost": false,
@@ -4196,14 +4197,14 @@
     },
     "chg": {
      "before": {
-      "count": 3125,
+      "count": 3127,
       "first": "2014-01-02",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3125,
+      "count": 3127,
       "first": "2014-01-02",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "after": {
       "status": "ok",
@@ -4211,9 +4212,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 3125,
+      "count": 3127,
       "first": "2014-01-02",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": false,
      "lost": false,
@@ -4221,14 +4222,14 @@
     },
     "pe": {
      "before": {
-      "count": 827,
+      "count": 828,
       "first": "2023-06-13",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 827,
+      "count": 828,
       "first": "2023-06-13",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "after": {
       "status": "ok",
@@ -4236,9 +4237,9 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 827,
+      "count": 828,
       "first": "2023-06-13",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": false,
      "lost": false,
@@ -4296,14 +4297,14 @@
     },
     "mcap": {
      "before": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4311,24 +4312,24 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
-     "filled": false,
+     "filled": true,
      "lost": false,
-     "delta": 0
+     "delta": 2
     },
     "amt": {
      "before": {
-      "count": 3126,
+      "count": 3128,
       "first": "2013-12-31",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3126,
+      "count": 3128,
       "first": "2013-12-31",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "after": {
       "status": "ok",
@@ -4336,9 +4337,9 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3126,
+      "count": 3128,
       "first": "2013-12-31",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": false,
      "lost": false,
@@ -4474,7 +4475,7 @@
      "after": {
       "status": "ok",
       "provider": "csi",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 2000,
       "reason": "",
       "rejected": []
@@ -4496,9 +4497,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4506,24 +4507,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4531,9 +4532,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -4546,9 +4547,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4556,13 +4557,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -4571,9 +4572,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4596,9 +4597,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4621,9 +4622,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4631,13 +4632,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -4646,9 +4647,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4656,13 +4657,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -4696,9 +4697,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 898,
-      "first": "2008-05-28",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4707,8 +4708,8 @@
       "unit": "元",
       "reason": "",
       "count": 898,
-      "first": "2008-05-28",
-      "last": "2026-11-13"
+      "first": "2008-05-29",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -4721,9 +4722,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 365,
-      "first": "2019-10-29",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4771,9 +4772,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4781,20 +4782,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 100,
       "reason": "",
       "rejected": []
@@ -4816,9 +4817,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4218,
+      "count": 4219,
       "first": "2009-07-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4826,24 +4827,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 4218,
+      "count": 4219,
       "first": "2009-07-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 4217,
+      "count": 4218,
       "first": "2009-07-06",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 4217,
+      "count": 4218,
       "first": "2009-07-06",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4851,9 +4852,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 4217,
+      "count": 4218,
       "first": "2009-07-06",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -4866,9 +4867,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4876,13 +4877,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -4891,9 +4892,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4916,9 +4917,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4941,9 +4942,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -4951,13 +4952,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -4966,9 +4967,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4218,
+      "count": 4219,
       "first": "2009-07-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -4976,13 +4977,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 4218,
+      "count": 4219,
       "first": "2009-07-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -5041,9 +5042,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5091,9 +5092,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4218,
+      "count": 4219,
       "first": "2009-07-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5101,20 +5102,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 4218,
+      "count": 4219,
       "first": "2009-07-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 36,
       "reason": "",
       "rejected": []
@@ -5136,9 +5137,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5146,24 +5147,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5171,9 +5172,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -5186,9 +5187,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3066,
-      "first": "2014-04-02",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5196,13 +5197,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3066,
+      "count": 3067,
       "first": "2014-04-02",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3066
+     "delta": 3067
     },
     "pb": {
      "before": {
@@ -5211,9 +5212,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5236,9 +5237,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5261,9 +5262,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5271,13 +5272,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -5286,9 +5287,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5296,13 +5297,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -5336,9 +5337,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 626,
-      "first": "2014-01-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5346,13 +5347,13 @@
       "frequency": "weekly",
       "unit": "元",
       "reason": "",
-      "count": 626,
-      "first": "2014-01-02",
-      "last": "2026-11-13"
+      "count": 627,
+      "first": "2013-12-26",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
-     "delta": 626
+     "delta": 627
     },
     "roe": {
      "before": {
@@ -5361,9 +5362,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5411,9 +5412,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5421,20 +5422,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 79,
       "reason": "",
       "rejected": []
@@ -5456,9 +5457,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5466,24 +5467,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5491,9 +5492,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -5506,9 +5507,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 2792,
-      "first": "2015-05-18",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5516,13 +5517,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 2792,
+      "count": 2793,
       "first": "2015-05-18",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 2792
+     "delta": 2793
     },
     "pb": {
      "before": {
@@ -5531,9 +5532,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5556,9 +5557,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5581,9 +5582,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5591,13 +5592,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -5606,9 +5607,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5616,13 +5617,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -5656,9 +5657,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 649,
-      "first": "2013-07-15",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5667,8 +5668,8 @@
       "unit": "元",
       "reason": "",
       "count": 649,
-      "first": "2013-07-15",
-      "last": "2026-11-13"
+      "first": "2013-07-16",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -5681,9 +5682,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-04",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5731,9 +5732,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5741,20 +5742,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 47,
       "reason": "",
       "rejected": []
@@ -5776,9 +5777,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5786,24 +5787,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5811,9 +5812,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -5826,9 +5827,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 2792,
-      "first": "2015-05-18",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5836,13 +5837,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 2792,
+      "count": 2793,
       "first": "2015-05-18",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 2792
+     "delta": 2793
     },
     "pb": {
      "before": {
@@ -5851,9 +5852,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5876,9 +5877,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5901,9 +5902,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5911,13 +5912,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -5926,9 +5927,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -5936,13 +5937,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -5976,9 +5977,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 649,
-      "first": "2013-07-15",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -5987,8 +5988,8 @@
       "unit": "元",
       "reason": "",
       "count": 649,
-      "first": "2013-07-15",
-      "last": "2026-11-13"
+      "first": "2013-07-16",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -6001,9 +6002,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 365,
-      "first": "2019-10-29",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6051,9 +6052,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6061,20 +6062,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 42,
       "reason": "",
       "rejected": []
@@ -6096,9 +6097,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6106,24 +6107,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6131,9 +6132,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 2733,
+      "count": 2734,
       "first": "2015-08-12",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -6146,9 +6147,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 2920,
-      "first": "2014-11-06",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6156,13 +6157,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 2920,
+      "count": 2921,
       "first": "2014-11-06",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 2920
+     "delta": 2921
     },
     "pb": {
      "before": {
@@ -6171,9 +6172,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6196,9 +6197,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6221,9 +6222,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6231,13 +6232,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -6246,9 +6247,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6256,13 +6257,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -6321,9 +6322,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 365,
-      "first": "2019-11-01",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6371,9 +6372,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6381,20 +6382,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 2734,
+      "count": 2735,
       "first": "2015-08-11",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 50,
       "reason": "",
       "rejected": []
@@ -6416,9 +6417,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3608,
+      "count": 3609,
       "first": "2012-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6426,24 +6427,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 3608,
+      "count": 3609,
       "first": "2012-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 3607,
+      "count": 3608,
       "first": "2012-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 3607,
+      "count": 3608,
       "first": "2012-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6451,9 +6452,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 3607,
+      "count": 3608,
       "first": "2012-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -6466,9 +6467,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-07-08",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6476,13 +6477,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-07-08",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -6491,9 +6492,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6516,9 +6517,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6541,9 +6542,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6551,13 +6552,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -6566,9 +6567,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3608,
+      "count": 3609,
       "first": "2012-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6576,13 +6577,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3608,
+      "count": 3609,
       "first": "2012-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -6616,9 +6617,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 686,
-      "first": "2012-09-28",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6627,8 +6628,8 @@
       "unit": "元",
       "reason": "",
       "count": 686,
-      "first": "2012-09-28",
-      "last": "2026-11-13"
+      "first": "2012-10-08",
+      "last": "2026-11-16"
      },
      "filled": true,
      "lost": false,
@@ -6641,9 +6642,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6691,9 +6692,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3608,
+      "count": 3609,
       "first": "2012-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6701,20 +6702,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3608,
+      "count": 3609,
       "first": "2012-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 100,
       "reason": "",
       "rejected": []
@@ -6736,9 +6737,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6746,24 +6747,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6771,9 +6772,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -6786,9 +6787,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6796,13 +6797,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -6836,9 +6837,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6861,9 +6862,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -6871,13 +6872,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -6886,9 +6887,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -6896,13 +6897,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -7011,9 +7012,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7021,20 +7022,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 50,
       "reason": "",
       "rejected": []
@@ -7056,9 +7057,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7066,24 +7067,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7091,9 +7092,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -7106,9 +7107,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7116,13 +7117,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -7156,9 +7157,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7181,9 +7182,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7191,13 +7192,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -7206,9 +7207,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7216,13 +7217,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -7331,9 +7332,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7341,20 +7342,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 158,
       "reason": "",
       "rejected": []
@@ -7376,9 +7377,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7386,24 +7387,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7411,9 +7412,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -7426,9 +7427,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7436,13 +7437,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -7476,9 +7477,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7501,9 +7502,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7511,13 +7512,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -7526,9 +7527,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7536,13 +7537,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -7651,9 +7652,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7661,20 +7662,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 362,
       "reason": "",
       "rejected": []
@@ -7696,9 +7697,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7706,24 +7707,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7731,9 +7732,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -7746,9 +7747,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7756,13 +7757,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -7771,9 +7772,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7796,9 +7797,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7821,9 +7822,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7831,13 +7832,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -7846,9 +7847,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7856,13 +7857,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -7921,9 +7922,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 365,
-      "first": "2019-10-29",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -7971,9 +7972,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -7981,20 +7982,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 140,
       "reason": "",
       "rejected": []
@@ -8016,9 +8017,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8026,24 +8027,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8051,9 +8052,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -8066,9 +8067,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8076,13 +8077,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -8116,9 +8117,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8141,9 +8142,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8151,13 +8152,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -8166,9 +8167,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8176,13 +8177,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -8291,9 +8292,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8301,20 +8302,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 50,
       "reason": "",
       "rejected": []
@@ -8336,9 +8337,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8346,24 +8347,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8371,9 +8372,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -8386,9 +8387,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8396,13 +8397,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -8411,9 +8412,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8436,9 +8437,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8461,9 +8462,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8471,13 +8472,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -8486,9 +8487,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8496,13 +8497,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -8561,9 +8562,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8611,9 +8612,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8621,20 +8622,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 119,
       "reason": "",
       "rejected": []
@@ -8656,9 +8657,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8666,24 +8667,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8691,9 +8692,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -8706,9 +8707,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8716,13 +8717,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -8756,9 +8757,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8781,9 +8782,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -8791,13 +8792,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -8806,9 +8807,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8816,13 +8817,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -8931,9 +8932,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8941,20 +8942,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 127,
       "reason": "",
       "rejected": []
@@ -8976,9 +8977,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -8986,24 +8987,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 4094,
+      "count": 4095,
       "first": "2010-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9011,9 +9012,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 4093,
+      "count": 4094,
       "first": "2010-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -9026,9 +9027,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9036,13 +9037,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -9051,9 +9052,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9076,9 +9077,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9101,9 +9102,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9111,13 +9112,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -9126,9 +9127,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9136,13 +9137,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -9201,9 +9202,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 384,
-      "first": "2019-06-20",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9251,9 +9252,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9261,20 +9262,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 3711,
+      "count": 3712,
       "first": "2011-08-02",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 147,
       "reason": "",
       "rejected": []
@@ -9296,9 +9297,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9306,24 +9307,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9331,9 +9332,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -9346,9 +9347,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9356,13 +9357,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -9396,9 +9397,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9421,9 +9422,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9431,13 +9432,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -9446,9 +9447,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9456,13 +9457,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -9571,9 +9572,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9581,20 +9582,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 57,
       "reason": "",
       "rejected": []
@@ -9616,9 +9617,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9626,24 +9627,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9651,9 +9652,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5308,
+      "count": 5309,
       "first": "2005-01-05",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -9666,9 +9667,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 3668,
-      "first": "2011-06-28",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9676,13 +9677,13 @@
       "frequency": "daily",
       "unit": "倍",
       "reason": "",
-      "count": 3668,
+      "count": 3669,
       "first": "2011-06-28",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 3668
+     "delta": 3669
     },
     "pb": {
      "before": {
@@ -9716,9 +9717,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 20,
-      "first": "2026-10-15",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9741,9 +9742,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-11",
-      "last": "2026-11-11"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -9751,13 +9752,13 @@
       "frequency": "single",
       "unit": "亿元",
       "reason": "",
-      "count": 1,
+      "count": 2,
       "first": "2026-11-11",
-      "last": "2026-11-11"
+      "last": "2026-11-13"
      },
      "filled": true,
      "lost": false,
-     "delta": 1
+     "delta": 2
     },
     "amt": {
      "before": {
@@ -9766,9 +9767,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9776,13 +9777,13 @@
       "frequency": "daily",
       "unit": "亿元",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "turn": {
      "before": {
@@ -9891,9 +9892,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9901,20 +9902,20 @@
       "frequency": "daily",
       "unit": "股",
       "reason": "",
-      "count": 5309,
+      "count": 5310,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "componentNum": {
      "before": null,
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-11",
+      "date": "2026-11-13",
       "value": 50,
       "reason": "",
       "rejected": []
@@ -9936,9 +9937,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5389,
+      "count": 5390,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9946,24 +9947,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5389,
+      "count": 5390,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5388,
+      "count": 5389,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5388,
+      "count": 5389,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -9971,9 +9972,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5388,
+      "count": 5389,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -9986,9 +9987,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 30,
-      "first": "2026-10-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10011,9 +10012,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10036,9 +10037,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 30,
-      "first": "2026-10-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10086,9 +10087,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 30,
-      "first": "2026-10-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10161,9 +10162,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 364,
-      "first": "2019-11-05",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10234,7 +10235,7 @@
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-13",
+      "date": "2026-11-16",
       "value": 95,
       "reason": "",
       "rejected": []
@@ -10256,9 +10257,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 1552,
+      "count": 1553,
       "first": "2020-07-27",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -10266,24 +10267,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 1552,
+      "count": 1553,
       "first": "2020-07-27",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 1551,
+      "count": 1552,
       "first": "2020-07-28",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 1551,
+      "count": 1552,
       "first": "2020-07-28",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -10291,9 +10292,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 1551,
+      "count": 1552,
       "first": "2020-07-28",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -10306,9 +10307,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 326,
-      "first": "2020-07-27",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10331,9 +10332,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 326,
-      "first": "2020-07-27",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10356,9 +10357,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10406,9 +10407,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 30,
-      "first": "2026-10-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10481,9 +10482,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 326,
-      "first": "2020-07-27",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10554,7 +10555,7 @@
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-13",
+      "date": "2026-11-16",
       "value": 30,
       "reason": "",
       "rejected": []
@@ -10576,9 +10577,9 @@
       "last": "2026-11-13"
      },
      "previousBundle": {
-      "count": 5387,
+      "count": 5388,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -10586,24 +10587,24 @@
       "frequency": "daily",
       "unit": "点",
       "reason": "",
-      "count": 5387,
+      "count": 5388,
       "first": "2005-01-03",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
-     "delta": 0
+     "delta": 1
     },
     "chg": {
      "before": {
-      "count": 5386,
+      "count": 5387,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "previousBundle": {
-      "count": 5386,
+      "count": 5387,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "after": {
       "status": "ok",
@@ -10611,9 +10612,9 @@
       "frequency": "daily",
       "unit": "%",
       "reason": "",
-      "count": 5386,
+      "count": 5387,
       "first": "2005-01-04",
-      "last": "2026-11-13"
+      "last": "2026-11-16"
      },
      "filled": false,
      "lost": false,
@@ -10626,9 +10627,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 30,
-      "first": "2026-10-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10651,9 +10652,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10676,9 +10677,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 30,
-      "first": "2026-10-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10726,9 +10727,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 30,
-      "first": "2026-10-02",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10801,9 +10802,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 365,
-      "first": "2019-11-01",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10874,7 +10875,7 @@
      "after": {
       "status": "ok",
       "provider": "supplemental",
-      "date": "2026-11-13",
+      "date": "2026-11-16",
       "value": 50,
       "reason": "",
       "rejected": []
@@ -10946,9 +10947,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10971,9 +10972,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 516,
-      "first": "2016-11-14",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -10996,9 +10997,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -11121,9 +11122,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 415,
-      "first": "2018-11-06",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -11588,9 +11589,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
@@ -11638,9 +11639,9 @@
       "last": null
      },
      "previousBundle": {
-      "count": 1,
-      "first": "2026-11-13",
-      "last": "2026-11-13"
+      "count": 0,
+      "first": null,
+      "last": null
      },
      "after": {
       "status": "ok",
