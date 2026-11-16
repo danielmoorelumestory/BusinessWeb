@@ -3,8 +3,9 @@ import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
 import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
+import { alertPhaseOf, buildPlanAlert, sendTelegram, type AlertPhase } from './plan-alert';
 
-export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string }
+export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string; TELEGRAM_BOT_TOKEN?: string; TELEGRAM_CHAT_ID?: string }
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -270,6 +271,27 @@ export async function triggerDailyAnalysis(env: Env) {
   } catch (error) {
     console.error('每日分析触发异常', error);
   }
+}
+
+/** 择时提醒用的日线：约 900 个自然日（腾讯单页 640 根内），足够 MACD/KDJ 收敛与持仓状态同步。 */
+const planBars = (budget: Budget) => async (symbol: string) => {
+  const begin = addDays(beijingToday(), -900);
+  const bars = await dailyBars(symbol, begin, 'qfq', budget);
+  return [...bars].map(([date, bar]) => ({ date, open: bar.open, high: bar.high, low: bar.low, close: bar.close })).sort((a, b) => a.date.localeCompare(b.date));
+};
+
+/** 两组择时优选的买卖提醒；未配置 Telegram 或无信号时不发，同一交易日同一时段只发一次。 */
+export async function runPlanAlert(env: Env, phase: AlertPhase) {
+  if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) { console.log('择时提醒：未配置 TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID，跳过'); return; }
+  const today = beijingToday();
+  await env.DB.prepare('CREATE TABLE IF NOT EXISTS plan_alert_log (date TEXT NOT NULL, phase TEXT NOT NULL, sent_at INTEGER NOT NULL, text TEXT NOT NULL, PRIMARY KEY (date, phase))').run();
+  if (await env.DB.prepare('SELECT 1 AS hit FROM plan_alert_log WHERE date = ? AND phase = ?').bind(today, phase).first()) return;
+  const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)) }, phase);
+  if (!alert.tradingDay) { console.log('择时提醒：非交易日，跳过', today); return; }
+  console.log('择时提醒', phase, JSON.stringify(alert.results.map(result => ({ group: result.group.title, alerts: result.alerts, failed: result.failed }))));
+  if (!alert.text) return;
+  await sendTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, alert.text);
+  await env.DB.prepare('INSERT OR IGNORE INTO plan_alert_log (date, phase, sent_at, text) VALUES (?, ?, ?, ?)').bind(today, phase, Date.now(), alert.text).run();
 }
 
 async function syncReviewTechnical(env: Env) {
@@ -767,6 +789,12 @@ export default {
     // 只按「分 时」识别三次行情同步，不依赖星期字段的写法（Cloudflare 可能改写它）
     if (!/^(10 7|0 8|0 1) /.test(controller.cron)) {
       if (shouldTriggerDailyAnalysis(controller.scheduledTime)) await triggerDailyAnalysis(env);
+      // 北京 14:45 / 15:15 这两轮改发择时买卖提醒（单次调用子请求有限，这两轮不再更新复盘指标，下一轮补上）。
+      const phase = alertPhaseOf(controller.scheduledTime);
+      if (phase) {
+        try { await runPlanAlert(env, phase); } catch (error) { console.error('择时提醒失败', phase, error); }
+        return;
+      }
       await syncReviewTechnical(env);
       return;
     }
@@ -828,6 +856,12 @@ export default {
       try { return json(await refreshReviewCode(env, code)); } catch (error) {
         return json({ error: `更新失败，保留原指标：${error instanceof Error ? error.message : String(error)}` }, 502);
       }
+    }
+    // 预览择时提醒（不发送）：?phase=pre|close
+    if (request.method === 'GET' && url.pathname === '/plan-alert/preview') {
+      const phase: AlertPhase = url.searchParams.get('phase') === 'pre' ? 'pre' : 'close';
+      const alert = await buildPlanAlert({ today: beijingToday(), loadBars: planBars(new Budget(FETCH_LIMIT - 4)) }, phase);
+      return json(alert);
     }
     if (request.method === 'GET' && url.pathname === '/minute') return readMinuteBars(env, url);
     if (request.method === 'GET' && url.pathname === '/daily/extremes') return readExtremes(env, owner, url);

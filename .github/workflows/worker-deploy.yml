@@ -9,6 +9,13 @@ on:
       - 'notes-site/workers/grid-trading-sync/**'
       # Worker 打包了复盘指标的共享计算代码，改动后也要重新部署
       - 'notes-site/src/lib/review-technical.ts'
+      # 择时买卖 Telegram 提醒打包了买卖点规则与优选名单
+      - 'notes-site/src/lib/plan-trades.ts'
+      - 'notes-site/src/lib/kd10-signals.ts'
+      - 'notes-site/src/lib/macd-signals.ts'
+      - 'notes-site/src/lib/chart-indicators.ts'
+      - 'src/data/etfMacdGood.json'
+      - 'src/data/etfHs300Timing.json'
       - 'scripts/etf-technical.mjs'
       - '.github/workflows/worker-deploy.yml'
   workflow_dispatch:

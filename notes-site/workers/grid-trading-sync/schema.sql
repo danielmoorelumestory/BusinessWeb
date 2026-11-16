@@ -108,3 +108,12 @@ CREATE TABLE IF NOT EXISTS review_meta_history (
   archived_at INTEGER NOT NULL,
   PRIMARY KEY (owner_hash, record_id, version)
 );
+
+-- 择时买卖 Telegram 提醒：同一交易日同一时段（pre 14:45 / close 15:15）只发一次。
+CREATE TABLE IF NOT EXISTS plan_alert_log (
+  date TEXT NOT NULL,
+  phase TEXT NOT NULL,
+  sent_at INTEGER NOT NULL,
+  text TEXT NOT NULL,
+  PRIMARY KEY (date, phase)
+);
