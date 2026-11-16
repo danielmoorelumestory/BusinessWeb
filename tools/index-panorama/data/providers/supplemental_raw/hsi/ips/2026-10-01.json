@@ -1,0 +1,23 @@
+{
+ "note": "Index Performance Summary 原 xls 中目标指数价格指数行的原样单元格（未改动）",
+ "url": "https://www.hsi.com.hk/api/wsit-hsi-ddoc-ea-public-website-proxy/v1/content/gcs/download?resource=/public-website/webapp/contents/en/indexes/Index_Performance_Summary_1Oct26.xls",
+ "retrievedAt": "2026-11-15T18:20:44Z",
+ "rows": [
+  [
+   "Trade Date",
+   "Index",
+   "Index",
+   "Constituents Listing Place",
+   "Constituents Listing Place",
+   "Index Currency",
+   "Previous Close",
+   "Index Close",
+   "Point Change",
+   "% Change",
+   "Daily High",
+   "Daily Low",
+   "* Index Turnover (Mn)",
+   "Market Turnover (Mn)"
+  ]
+ ]
+}

@@ -1,0 +1,149 @@
+name: Update index panorama
+
+# 指数全景（/index-panorama/）的数据刷新。源目录 tools/index-panorama，发布目录 public/index-panorama。
+# 只运行仓库内的 Python/Node 脚本，不需要 Orca、Claude 或 MCP。
+# 推送由 GITHUB_TOKEN 完成：GitHub 不会因此触发其他 workflow，但 Cloudflare Pages 的 Git 集成（GitHub App webhook）
+# 会照常为该提交构建并部署（已核对：github-actions[bot] 的数据提交 bcbb2258 等都有 Cloudflare Pages 成功检查）。
+
+on:
+  schedule:
+    # 周一至周五 UTC 12:30 = 北京时间 20:30。A 股收盘、中证当日指标和港股日报已出；美股只取已发布的最近收盘。
+    # 休市日来源没有新观测，runner 不补造当天数据；数据包的实际观测与上一版相同时不提交（不产生部署）。
+    - cron: '30 12 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      skip_eps:
+        description: '跳过原站 EPS 在线抓取（沿用已提交的 raw）'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: index-panorama
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      APP: tools/index-panorama
+      PYTHONDONTWRITEBYTECODE: '1'
+      TZ: Asia/Shanghai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # 大且可重新下载的 raw（domestic_raw、shiller 等）不入 Git，用 Actions 缓存跨次保留；缓存缺失时 runner 会重新下载
+      - name: Restore provider raw cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/index-panorama/data/providers/domestic_raw
+            tools/index-panorama/data/providers/supplemental_raw/shiller
+          key: index-panorama-raw-${{ github.run_id }}
+          restore-keys: index-panorama-raw-
+
+      - name: Install dependencies
+        run: |
+          # requirements-ci.txt：xlrd + playwright（精确版本）。Chromium 只用于原站 EPS 的匿名只读抓取
+          python -m pip install --disable-pip-version-check -r "$APP/requirements-ci.txt"
+          if [ "${{ inputs.skip_eps }}" != "true" ]; then
+            python -m playwright install --with-deps chromium
+          fi
+
+      - name: Test pipeline and page scripts
+        run: |
+          # 源目录的 data-bundle.js 不入库（只提交 public 那份），部分测试与 runner 门禁需要它作为“上一版”
+          node scripts/index-panorama-sync.mjs restore
+          (cd "$APP" && python -m unittest discover -s tests -p 'test_*.py' && node --test tests/*.cjs)
+          node --test scripts/index-panorama-sync.test.mjs
+
+      - name: Refresh data (staging → gate → publish, keeps old data on failure)
+        id: refresh
+        shell: bash
+        run: |
+          set +e
+          node scripts/index-panorama-sync.mjs restore
+          args=(--mode online)
+          if [ "${{ inputs.skip_eps }}" = "true" ]; then args+=(--skip-eps); fi
+          python "$APP/refresh_runner.py" "${args[@]}"
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "runner 退出码 $code（0 成功；10 部分成功：有来源沿用旧缓存或跳过 EPS，验证已通过；20 失败未改生产数据；3 有刷新正在进行）"
+          exit 0
+
+      - name: Publish static assets
+        id: publish
+        if: steps.refresh.outputs.code == '0' || steps.refresh.outputs.code == '10'
+        run: |
+          node scripts/index-panorama-sync.mjs publish
+          node scripts/index-panorama-sync.mjs check
+          (cd "$APP" && python reports/manager_audit.py > /dev/null)
+
+      - name: Report
+        if: always()
+        shell: bash
+        run: |
+          report="$APP/reports/refresh/last-refresh.md"
+          if [ -f "$report" ]; then cat "$report" >> "$GITHUB_STEP_SUMMARY"; else echo "runner 未生成报告" >> "$GITHUB_STEP_SUMMARY"; fi
+
+      - name: Upload refresh report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: index-panorama-refresh-${{ github.run_id }}
+          path: tools/index-panorama/reports/refresh/
+          if-no-files-found: warn
+          retention-days: 30
+
+      # 失败保旧：刷新或发布失败时丢弃工作区里的所有改动，只提交通过门禁的数据。
+      # 观测没有变化时同样丢弃（只是生成时间、报告等元数据变化），本次结果只留在 Summary 与 artifact 里。
+      - name: Discard changes on failure or when nothing new
+        if: steps.publish.outcome != 'success' || steps.publish.outputs.unchanged == 'true'
+        run: |
+          git checkout -- tools/index-panorama public/index-panorama
+          git clean -fdq -- tools/index-panorama public/index-panorama
+
+      - name: Commit if changed
+        if: steps.publish.outcome == 'success' && steps.publish.outputs.unchanged != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          # runner 的提交白名单（数据、累积状态、报告）；源目录的 data-bundle.js 被忽略，数据包只提交 public 里那份
+          mapfile -t paths < <(python "$APP/refresh_runner.py" --print-commit-paths | grep -v '^data-bundle.js$' | sed "s#^#$APP/#")
+          paths+=(public/index-panorama)
+          git add -- "${paths[@]}"
+          if git diff --cached --quiet; then
+            echo "数据没有变化（休市或来源未更新），不提交"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "data(index-panorama): 刷新指数全景数据 $(date +%Y-%m-%d)"
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          exit 1
+
+      - name: Fail unless refresh fully succeeded
+        if: always()
+        shell: bash
+        run: |
+          code='${{ steps.refresh.outputs.code }}'
+          if [ "$code" = "10" ] && [ '${{ steps.publish.outcome }}' = 'success' ]; then
+            echo "::warning::部分成功：有来源沿用旧缓存（或跳过了 EPS），已发布通过门禁的数据；详见报告"
+            exit 0
+          fi
+          if [ "$code" != "0" ] || [ '${{ steps.publish.outcome }}' != 'success' ]; then
+            echo "刷新失败（runner 退出码 ${code:-无}，发布 ${{ steps.publish.outcome }}），线上保留上一版数据，详见报告" >&2
+            exit 1
+          fi

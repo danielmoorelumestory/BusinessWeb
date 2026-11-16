@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
 import { INVEST_GROUPS, NAV_ITEMS, findInvestEntry, isNavActive } from './siteMap'
-import { isAbsoluteUrl, isNotesPath } from './notesLinks'
+import { INDEX_PANORAMA_PATH, isAbsoluteUrl, isNotesPath, isStaticToolPath } from './notesLinks'
 
 const appSource = readFileSync(resolve(__dirname, '../App.tsx'), 'utf8')
 
@@ -38,14 +38,14 @@ describe('INVEST_GROUPS', () => {
       '/notes', '/industry-etf', '/invest/national-team', '/watch', '/daily-analysis', '/etf-flow',
       '/note/lab/stock/#stock-analysis', '/note/lab/stock/#sector-rotation', '/note/lab/stock/#plate-ranking',
       '/monitor', '/pulse', '/research-notes',
-      '/valuation',
+      '/valuation', '/index-panorama/',
     ].sort())
     expect(new Set(paths).size).toBe(paths.length)
   })
 
   it('每个入口路径都在 App.tsx 路由表里（/note/ 开头的是 notes 站点的静态页面，不在前端路由里；完整地址属于别的站点）', () => {
     for (const l of allLinks) {
-      if (isNotesPath(l.path) || isAbsoluteUrl(l.path)) continue
+      if (isNotesPath(l.path) || isStaticToolPath(l.path) || isAbsoluteUrl(l.path)) continue
       expect(appSource.includes(`path="${l.path}"`) || appSource.includes(`path="${l.path}/*"`), l.path).toBe(true)
     }
   })
@@ -54,6 +54,16 @@ describe('INVEST_GROUPS', () => {
     const paths = INVEST_GROUPS.flatMap(g => g.links).map(l => l.path)
     expect(paths).toContain('/note/lab/grid-trading/')
     expect(paths.some(isAbsoluteUrl)).toBe(false)
+  })
+
+  it('指数全景在工具组 DCF 之后，指向本站 public/index-panorama 的静态页面', () => {
+    const tools = INVEST_GROUPS.find(g => g.id === 'tools')!
+    expect(tools.links.map(l => l.path).slice(0, 3)).toEqual(['/valuation', '/dcf', INDEX_PANORAMA_PATH])
+    expect(tools.links[2].label).toBe('指数全景')
+    expect(isStaticToolPath('/index-panorama/')).toBe(true)
+    expect(isStaticToolPath('/index-panorama/#/index/000300.SH')).toBe(true)
+    expect(isStaticToolPath('/index-panoramax')).toBe(false)
+    expect(readFileSync(resolve(__dirname, '../../public/index-panorama/index.html'), 'utf8')).toContain('data-bundle.js')
   })
 
   it('分组顺序：读书 → 定规则 → 观察盘 → 分析筛选 → 工具与参考', () => {

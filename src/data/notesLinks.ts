@@ -19,6 +19,12 @@ export const STOCK_ANALYSIS_PATH = `${STOCK_LAB_BASE}#stock-analysis`
 export const SECTOR_ROTATION_PATH = `${STOCK_LAB_BASE}#sector-rotation`
 export const PLATE_RANKING_PATH = `${STOCK_LAB_BASE}#plate-ranking`
 
+/** 指数全景：tools/index-panorama 构建出的独立静态页面（public/index-panorama/），hash 路由 #/panorama 首页、#/index/<代码> 详情 */
+export const INDEX_PANORAMA_PATH = '/index-panorama/'
+
+/** 本站自带的独立静态页面（不属于前端路由，必须整页加载） */
+export const isStaticToolPath = (path: string): boolean => path === INDEX_PANORAMA_PATH || path.startsWith(`${INDEX_PANORAMA_PATH}#`) || path.startsWith(`${INDEX_PANORAMA_PATH}index.html`)
+
 /** 以 /note/ 开头的路径由静态托管提供，不属于前端路由，必须整页加载 */
 export const isNotesPath = (path: string): boolean => path === '/note' || path.startsWith('/note/')
 

@@ -1,0 +1,16 @@
+# 只在 public/index-panorama 提交一份数据包；刷新前用 npm run index-panorama:restore 取回
+data-bundle.js
+.venv/
+__pycache__/
+*.pyc
+data/.tmp_*
+.tmp_*
+data/last_run.log
+data/refresh-work/
+data/refresh-backups/
+data/.refresh-runner.lock/
+data/.scheduled-refresh.lock/
+# 大且可重新下载的 raw（refresh_runner.py --print-cache-paths），在 Actions 里用 actions/cache 保留；累积型 accum_* 必须入库
+data/providers/domestic_raw/*
+!data/providers/domestic_raw/accum_*.json
+data/providers/supplemental_raw/shiller/

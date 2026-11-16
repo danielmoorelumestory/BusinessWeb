@@ -1,0 +1,41 @@
+{
+ "note": "成分股 rt 接口原响应中的 numOfConsList（原样）与成分股 dateTime 去重集合",
+ "url": "https://www.hsi.com.hk/api/wsit-hsi-ddoc-ea-public-website-proxy/v1/product-data/pub/constituent/metadata/v2?data=rt&seriesCode=hsi&language=en-hk",
+ "retrievedAt": "2026-11-15T18:31:57Z",
+ "numOfConsList": [
+  {
+   "indexName": "Hang Seng Index",
+   "indexCode": "00001.00",
+   "subIndexes": [
+    {
+     "indexName": "Hang Seng Index - Finance",
+     "indexCode": "00001.01",
+     "subIndexes": null,
+     "count": 10
+    },
+    {
+     "indexName": "Hang Seng Index - Properties",
+     "indexCode": "00001.03",
+     "subIndexes": null,
+     "count": 10
+    },
+    {
+     "indexName": "Hang Seng Index - Utilities",
+     "indexCode": "00001.02",
+     "subIndexes": null,
+     "count": 6
+    },
+    {
+     "indexName": "Hang Seng Index - Commerce & Industry",
+     "indexCode": "00001.04",
+     "subIndexes": null,
+     "count": 69
+    }
+   ],
+   "count": 95
+  }
+ ],
+ "dateTimes": [
+  "2026-11-13"
+ ]
+}

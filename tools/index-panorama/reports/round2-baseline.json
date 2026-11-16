@@ -1,0 +1,2210 @@
+{
+  "asOf": "2026-11-13",
+  "rows": [
+    {
+      "code": "000001.SH",
+      "name": "上证指数",
+      "category": "全局坐标",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "399001.SZ",
+      "name": "深证成指",
+      "category": "全局坐标",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "399006.SZ",
+      "name": "创业板指",
+      "category": "全局坐标",
+      "fields": {
+        "price": {
+          "count": 3995,
+          "first": "2010-06-01",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3994,
+          "first": "2010-06-01",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3995,
+          "first": "2010-06-01",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000688.SH",
+      "name": "科创50",
+      "category": "全局坐标",
+      "fields": {
+        "price": {
+          "count": 1663,
+          "first": "2020-01-02",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 1663,
+          "first": "2020-01-02",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 1663,
+          "first": "2020-01-02",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000016.SH",
+      "name": "上证50",
+      "category": "核心宽基",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000300.SH",
+      "name": "沪深300",
+      "category": "核心宽基",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000905.SH",
+      "name": "中证500",
+      "category": "核心宽基",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000852.SH",
+      "name": "中证1000",
+      "category": "核心宽基",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000903.SH",
+      "name": "中证A100",
+      "category": "宽基谱系",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5067,
+          "first": "2006-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5066,
+          "first": "2006-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000906.SH",
+      "name": "中证800",
+      "category": "宽基谱系",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000985.SH",
+      "name": "中证全指",
+      "category": "宽基谱系",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "399303.SZ",
+      "name": "国证2000",
+      "category": "宽基谱系",
+      "fields": {
+        "price": {
+          "count": 3070,
+          "first": "2014-03-31",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3070,
+          "first": "2014-03-31",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3070,
+          "first": "2014-03-31",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000922.CSI",
+      "name": "中证红利",
+      "category": "行业与主题",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000932.SH",
+      "name": "中证消费",
+      "category": "行业与主题",
+      "fields": {
+        "price": {
+          "count": 4218,
+          "first": "2009-07-03",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 4218,
+          "first": "2009-07-03",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 4218,
+          "first": "2009-07-03",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "399967.SZ",
+      "name": "中证军工",
+      "category": "行业与主题",
+      "fields": {
+        "price": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "399975.SZ",
+      "name": "证券公司",
+      "category": "行业与主题",
+      "fields": {
+        "price": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "399986.SZ",
+      "name": "中证银行",
+      "category": "行业与主题",
+      "fields": {
+        "price": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "399971.SZ",
+      "name": "中证传媒",
+      "category": "行业与主题",
+      "fields": {
+        "price": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 2734,
+          "first": "2015-08-11",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000827.SH",
+      "name": "中证环保",
+      "category": "行业与主题",
+      "fields": {
+        "price": {
+          "count": 3608,
+          "first": "2012-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3608,
+          "first": "2012-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3608,
+          "first": "2012-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000986.SH",
+      "name": "全指能源",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 4094,
+          "first": "2010-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000987.SH",
+      "name": "全指材料",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 4094,
+          "first": "2010-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000988.SH",
+      "name": "全指工业",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000989.SH",
+      "name": "全指可选",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 4094,
+          "first": "2010-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000990.SH",
+      "name": "全指消费",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000991.SH",
+      "name": "全指医药",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 4094,
+          "first": "2010-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000992.SH",
+      "name": "全指金融",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 4094,
+          "first": "2010-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000993.SH",
+      "name": "全指信息",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 4094,
+          "first": "2010-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 3711,
+          "first": "2011-08-02",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000994.SH",
+      "name": "全指通信",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "000995.SH",
+      "name": "全指公用",
+      "category": "行业指数",
+      "fields": {
+        "price": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 5309,
+          "first": "2005-01-04",
+          "last": "2026-11-13"
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "HSI.HK",
+      "name": "恒生指数",
+      "category": "跨境对照",
+      "fields": {
+        "price": {
+          "count": 5389,
+          "first": "2005-01-03",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 0,
+          "first": null,
+          "last": null
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "HSTECH.HK",
+      "name": "恒生科技",
+      "category": "跨境对照",
+      "fields": {
+        "price": {
+          "count": 1552,
+          "first": "2020-07-27",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 0,
+          "first": null,
+          "last": null
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "HSCEI.HK",
+      "name": "恒生国企",
+      "category": "跨境对照",
+      "fields": {
+        "price": {
+          "count": 5387,
+          "first": "2005-01-03",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 0,
+          "first": null,
+          "last": null
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "SPX.US",
+      "name": "标普500",
+      "category": "跨境对照",
+      "fields": {
+        "price": {
+          "count": 5505,
+          "first": "2005-01-03",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 0,
+          "first": null,
+          "last": null
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "IXIC.US",
+      "name": "纳斯达克综指",
+      "category": "跨境对照",
+      "fields": {
+        "price": {
+          "count": 5503,
+          "first": "2005-01-03",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 0,
+          "first": null,
+          "last": null
+        }
+      },
+      "componentNum": null
+    },
+    {
+      "code": "DJI.US",
+      "name": "道琼斯工业",
+      "category": "跨境对照",
+      "fields": {
+        "price": {
+          "count": 5506,
+          "first": "2005-01-03",
+          "last": "2026-11-13"
+        },
+        "pe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "pb": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "dy": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "mcap": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "amt": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "turn": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "eps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "roe": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "bps": {
+          "count": 0,
+          "first": null,
+          "last": null
+        },
+        "volume": {
+          "count": 0,
+          "first": null,
+          "last": null
+        }
+      },
+      "componentNum": null
+    }
+  ]
+}

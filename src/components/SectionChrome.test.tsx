@@ -27,9 +27,11 @@ describe('SectionChrome', () => {
     renderAt('/valuation')
     const tabs = screen.getByRole('navigation', { name: '同组页面' })
     const links = within(tabs).getAllByRole('link')
-    expect(links.map(a => a.textContent)).toEqual(['公司估值', '现金流折现 DCF', '网格交易', 'ETF 流派地图', '博主观点整理'])
+    expect(links.map(a => a.textContent)).toEqual(['公司估值', '现金流折现 DCF', '指数全景', '网格交易', 'ETF 流派地图', '博主观点整理'])
     expect(links[0].getAttribute('aria-current')).toBe('page')
     expect(links[1].getAttribute('aria-current')).toBeNull()
+    // 指数全景是独立静态页面：普通 <a> 整页加载，不走前端路由
+    expect(links[2].getAttribute('href')).toBe('/index-panorama/')
   })
 
   it('深层路径仍落在同组并高亮父入口', () => {

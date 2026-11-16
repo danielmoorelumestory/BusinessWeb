@@ -35,7 +35,12 @@
     "index:ref-import": "node scripts/index-snapshot.mjs ref-import",
     "national-team:update": "node scripts/national-team-snapshot.mjs && node scripts/national-team-etf-snapshot.mjs",
     "national-team:stocks": "node scripts/national-team-snapshot.mjs",
-    "national-team:etf": "node scripts/national-team-etf-snapshot.mjs"
+    "national-team:etf": "node scripts/national-team-etf-snapshot.mjs",
+    "index-panorama:restore": "node scripts/index-panorama-sync.mjs restore",
+    "index-panorama:refresh": "node scripts/index-panorama-sync.mjs restore && python3 tools/index-panorama/refresh_runner.py --mode online",
+    "index-panorama:publish": "node scripts/index-panorama-sync.mjs publish",
+    "index-panorama:check": "node scripts/index-panorama-sync.mjs check",
+    "index-panorama:test": "node scripts/index-panorama-sync.mjs restore && cd tools/index-panorama && python3 -m unittest discover -s tests -p \"test_*.py\" && node --test tests/*.cjs"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",

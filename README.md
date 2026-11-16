@@ -11,6 +11,7 @@
 - **网格交易**：由 notes 站点的网格交易计算器提供（`notes-site/`，部署后在 `/note/lab/grid-trading/`），包含回测、已保存标的、详情与分钟线；云同步走自己的 Cloudflare Worker + D1，不依赖 Supabase。主站旧的 `/grid-trading*` 路径会 302 跳转到那里。
 - **AI 投研**：项目自带统一股票分析与交易分析 skill（见 [AI 投研 skills](#ai-投研-skills)），支持深度研究、圆桌观点与交易风险分析。
 - **多市场数据**：通过 `src/services/api.ts` 的本地封装，覆盖美股行情、A 股行情、ETF 实时数据、AkShare 数据字典。
+- **指数全景**：`/index-panorama/` 是独立静态页面（源目录 `tools/index-panorama`，发布目录 `public/index-panorama`），36 只指数的点位与估值分位，工作日北京时间 20:30 由 GitHub Actions 刷新。说明见 [docs/index-panorama.md](docs/index-panorama.md)。
 - **每日分析**：`/daily-analysis` 自动获取 A 股指数、涨跌停、连板梯队和榜单，保存交易日快照；原手工记录保留在「历史旧版」。数据口径与定时归档见[每日分析说明](docs/daily-analysis.md)。
 - **ETF 主升浪**：`/note/lab/etf-uptrend` 展示同花顺「ETF 主升浪」榜单的每日快照（趋势回踩、新入池、T+0/行业/宽基分类、同类去重、历史上涨区间与 AI 上涨原因），每只 ETF 可跳到网格详情。GitHub Actions 每天北京时间 23:30 采集、次日 07:00 兜底，口径与操作见 [ETF 主升浪说明](docs/etf-uptrend.md)。
 

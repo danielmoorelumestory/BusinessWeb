@@ -1,0 +1,16 @@
+{
+ "note": "成分股 rt 接口原响应中的 numOfConsList（原样）与成分股 dateTime 去重集合",
+ "url": "https://www.hsi.com.hk/api/wsit-hsi-ddoc-ea-public-website-proxy/v1/product-data/pub/constituent/metadata/v2?data=rt&seriesCode=hscei&language=en-hk",
+ "retrievedAt": "2026-11-15T18:32:03Z",
+ "numOfConsList": [
+  {
+   "indexName": "Hang Seng China Enterprises Index",
+   "indexCode": "00014.00",
+   "subIndexes": null,
+   "count": 50
+  }
+ ],
+ "dateTimes": [
+  "2026-11-13"
+ ]
+}

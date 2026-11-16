@@ -1,0 +1,71 @@
+{
+ "note": "Index Performance Summary 原 xls 中目标指数价格指数行的原样单元格（未改动）",
+ "url": "https://www.hsi.com.hk/api/wsit-hsi-ddoc-ea-public-website-proxy/v1/content/gcs/download?resource=/public-website/webapp/contents/en/indexes/Index_Performance_Summary_20Oct26.xls",
+ "retrievedAt": "2026-11-15T18:20:35Z",
+ "rows": [
+  [
+   "Trade Date",
+   "Index",
+   "Index",
+   "Constituents Listing Place",
+   "Constituents Listing Place",
+   "Index Currency",
+   "Previous Close",
+   "Index Close",
+   "Point Change",
+   "% Change",
+   "Daily High",
+   "Daily Low",
+   "* Index Turnover (Mn)",
+   "Market Turnover (Mn)"
+  ],
+  [
+   "20261020",
+   "Hang Seng Index",
+   "恒生指數",
+   "Hong Kong-listed",
+   "香港上市",
+   "HKD",
+   "24186.83",
+   "23867.74",
+   -319.09,
+   -1.32,
+   "24035",
+   "23846.99",
+   "83468",
+   ""
+  ],
+  [
+   "20261020",
+   "Hang Seng China Enterprises Index",
+   "恒生中國企業指數",
+   "Hong Kong-listed",
+   "香港上市",
+   "HKD",
+   "8128.25",
+   "8030.26",
+   -97.99,
+   -1.21,
+   "8099.96",
+   "8021.3",
+   "64397",
+   ""
+  ],
+  [
+   "20261020",
+   "Hang Seng TECH Index",
+   "恒生科技指數",
+   "Hong Kong-listed",
+   "香港上市",
+   "HKD",
+   "4108.24",
+   "4045.91",
+   -62.33,
+   -1.52,
+   "4083.66",
+   "4026.9",
+   "43321",
+   ""
+  ]
+ ]
+}

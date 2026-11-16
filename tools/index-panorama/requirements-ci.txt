@@ -1,0 +1,4 @@
+# 无人值守刷新（GitHub Actions ubuntu-latest / Python 3.12）所需全部 Python 依赖；精确版本，勿改成范围。
+# 安装后还需：python -m playwright install --with-deps chromium （下载 Chromium 及系统库）
+xlrd==2.0.1
+playwright==1.55.0

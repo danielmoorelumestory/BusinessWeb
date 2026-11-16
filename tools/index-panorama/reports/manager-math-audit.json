@@ -1,0 +1,25 @@
+{
+  "outcome": "passed",
+  "bundleSha256": "09fa52c217d16ce846a309bbeb1a0c3ec677afb66581293954b68b9ecf60da93",
+  "asOf": "2026-11-13",
+  "indices": 36,
+  "statsAndDrawdownCases": 2160,
+  "correlationCells": 9,
+  "comparisonCommonDays": 2359,
+  "weeklyReturnPairs": 501,
+  "sourceSpotChecks": 4,
+  "fieldObservationCounts": {
+    "pe": 92205,
+    "pb": 11003,
+    "dy": 605,
+    "mcap": 30,
+    "turn": 0,
+    "eps": 12359,
+    "roe": 8037,
+    "bps": 0
+  },
+  "limits": [
+    "本审查只复核实际观测的数值计算；缺失字段、单期或短窗口限制详见逐页报告与coverage。",
+    "原始缓存上游未独立全面核验，缺少原站授权数据，未做逐位一致性承诺。"
+  ]
+}

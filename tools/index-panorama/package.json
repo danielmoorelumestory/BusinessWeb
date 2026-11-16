@@ -1,0 +1,6 @@
+{
+  "name": "index-panorama",
+  "private": true,
+  "description": "指数全景：浏览器脚本是经典脚本（非 ES 模块），本文件让 node --test 按 CommonJS 加载，不受根目录 type: module 影响",
+  "type": "commonjs"
+}

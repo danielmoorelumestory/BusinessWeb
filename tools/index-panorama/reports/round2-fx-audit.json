@@ -1,0 +1,8 @@
+{
+  "outcome": "passed",
+  "amountObservations": 90,
+  "indices": 3,
+  "rateSource": "ECB eurofxref-hist-90d.xml",
+  "unmatchedDates": 0,
+  "method": "Independent Decimal: original HKD amount × CNY/EUR ÷ HKD/EUR, exact same date, two decimals"
+}
