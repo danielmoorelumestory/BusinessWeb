@@ -117,3 +117,26 @@ describe('buildPlanAlert', () => {
     expect(result.results.flatMap(r => r.alerts).filter(a => a.action === 'buy-next-open')).toEqual([]);
   });
 });
+
+describe('择时比值用后复权', () => {
+  it('创业板、红利 ETF 按后复权取数，指数与买卖标的仍用前复权；比值 ETF 不与买卖标的重叠', async () => {
+    const { RATIO_HFQ_SYMBOLS } = await import('./plan-alert');
+    expect([...RATIO_HFQ_SYMBOLS].sort()).toEqual(['sh510880', 'sz159915']);
+    for (const group of PLAN_GROUPS) for (const item of group.items) expect(RATIO_HFQ_SYMBOLS.has(marketSymbol(item.code))).toBe(false);
+    const asked: string[] = [];
+    await buildPlanAlert({ today: '2026-11-13', loadBars: async (symbol, fq) => { asked.push(`${symbol}:${fq ?? 'qfq'}`); return []; }, loadQuotes: async () => new Map() }, 'close');
+    expect(asked).toContain('sh510880:hfq');
+    expect(asked).toContain('sz159915:hfq');
+    expect(asked).toContain('sh000300:qfq');
+    expect(asked.filter(entry => entry.endsWith(':hfq'))).toHaveLength(2);
+  });
+  it('后复权日线按涨跌幅并入实时价', async () => {
+    const { mergeLiveByChange } = await import('./plan-alert');
+    const bars = [{ date: '2026-11-12', open: 4, high: 4, low: 4, close: 4 }];
+    const quote = { date: '2026-11-13', price: 3.1, open: 3, high: 3.2, low: 3, changePercent: 2.5 };
+    const merged = mergeLiveByChange(bars, quote, '2026-11-13');
+    expect(merged.at(-1)!.close).toBeCloseTo(4.1);
+    expect(mergeLiveByChange(merged, { ...quote, changePercent: -1 }, '2026-11-13').at(-1)!.close).toBeCloseTo(3.96);
+    expect(mergeLiveByChange(bars, { ...quote, changePercent: undefined }, '2026-11-13')).toBe(bars);
+  });
+});

@@ -98,8 +98,8 @@ let tencentDownUntil = 0;
 export const resetTencentCooldown = () => { tencentDownUntil = 0; };
 const TENCENT_COOLDOWN_MS = 5 * 60_000;
 /** 东方财富日 K：secid 市场前缀 1=沪、0=深，fqt 1=前复权、0=未复权，beg/end 为 YYYYMMDD，一次返回整段。 */
-export const eastmoneyUrl = (symbol: string, begin: string, end: string, fq: 'qfq' | '') =>
-  `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${symbol.startsWith('sh') ? 1 : 0}.${symbol.slice(2)}&klt=101&fqt=${fq ? 1 : 0}&beg=${compact(begin)}&end=${compact(end)}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56`;
+export const eastmoneyUrl = (symbol: string, begin: string, end: string, fq: 'qfq' | 'hfq' | '') =>
+  `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${symbol.startsWith('sh') ? 1 : 0}.${symbol.slice(2)}&klt=101&fqt=${fq === 'hfq' ? 2 : fq ? 1 : 0}&beg=${compact(begin)}&end=${compact(end)}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56`;
 /** klines 每行 "日期,开,收,高,低,量"，与腾讯的行格式一致；丢弃日期格式不对或列数不足的行。 */
 export const parseEastmoneyKlines = (klines: unknown): string[][] => Array.isArray(klines)
   ? klines.map(line => String(line).split(',')).filter(parts => parts.length >= 6 && /^\d{4}-\d{2}-\d{2}$/.test(parts[0]))
@@ -109,11 +109,11 @@ export const parseEastmoneyKlines = (klines: unknown): string[][] => Array.isArr
  * 日K（date → 开收高低量）。单次最多 640 根，起始日较早时从 end 向前分页，最多 6 页。
  * fq 为 'qfq' 时取前复权，否则为未复权。接口每行为 [日期, 开, 收, 高, 低, 量]。
  */
-export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', budget: Budget): Promise<Map<string, DailyBar>> {
+export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | 'hfq' | '', budget: Budget): Promise<Map<string, DailyBar>> {
   const bars = new Map<string, DailyBar>();
   let end = beijingToday();
   for (let page = 0; page < 6; page++) {
-    let data: { qfqday?: string[][]; day?: string[][] } | undefined;
+    let data: { qfqday?: string[][]; hfqday?: string[][]; day?: string[][] } | undefined;
     let full = false; // 备用源按起止日一次返回整段，不需要继续分页。
     const reasons: string[] = [];
     if (Date.now() < tencentDownUntil) reasons.push('腾讯入口近期被拒，暂跳过');
@@ -122,7 +122,7 @@ export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', b
       try {
         const response = await fetch(`${endpoint}?param=${symbol},day,${begin},${end},640,${fq}`, { signal: AbortSignal.timeout(15000) });
         if (!response.ok) { reasons.push(`${new URL(endpoint).hostname} HTTP ${response.status}`); continue; }
-        data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
+        data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; hfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
         if (data) break;
         reasons.push(`${new URL(endpoint).hostname} 无 ${symbol} 数据`);
       } catch (error) { reasons.push(`${new URL(endpoint).hostname} ${error instanceof Error ? error.message : String(error)}`); /* 拦截页、超时或无效 JSON 时切换备用入口。 */ }
@@ -139,12 +139,12 @@ export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | '', b
           const payload = await response.json<{ data?: { klines?: unknown } | null }>();
           if (!payload.data) { reasons.push(`push2his.eastmoney.com 无 ${symbol} 数据`); break; }
           const rows = parseEastmoneyKlines(payload.data.klines);
-          data = { qfqday: rows, day: rows }; full = true; tencentDownUntil = Date.now() + TENCENT_COOLDOWN_MS;
+          data = { qfqday: rows, hfqday: rows, day: rows }; full = true; tencentDownUntil = Date.now() + TENCENT_COOLDOWN_MS;
         } catch (error) { reasons.push(`push2his.eastmoney.com ${error instanceof Error ? error.message : String(error)}`); }
       }
     }
     if (!data) throw new Error(`历史行情入口均不可用（${reasons.join('；') || '无响应'}）`);
-    const batch = (fq ? data?.qfqday ?? data?.day : data?.day) ?? [];
+    const batch = (fq ? data?.[`${fq}day`] ?? data?.day : data?.day) ?? [];
     if (!batch.length) break;
     for (const row of batch) {
       const [open, close, high, low, volume] = row.slice(1, 6).map(Number);
@@ -274,9 +274,9 @@ export async function triggerDailyAnalysis(env: Env) {
 }
 
 /** 择时提醒用的日线：约 900 个自然日（腾讯单页 640 根内），足够 MACD/KDJ 收敛与持仓状态同步。 */
-const planBars = (budget: Budget) => async (symbol: string) => {
+const planBars = (budget: Budget) => async (symbol: string, fq: 'qfq' | 'hfq' = 'qfq') => {
   const begin = addDays(beijingToday(), -900);
-  const bars = await dailyBars(symbol, begin, 'qfq', budget);
+  const bars = await dailyBars(symbol, begin, fq, budget);
   return [...bars].map(([date, bar]) => ({ date, open: bar.open, high: bar.high, low: bar.low, close: bar.close })).sort((a, b) => a.date.localeCompare(b.date));
 };
 

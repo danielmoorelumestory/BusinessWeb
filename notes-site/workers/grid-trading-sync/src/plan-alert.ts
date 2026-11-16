@@ -14,7 +14,7 @@ import { H1_CODES, R2_CODES, styleRatio } from '../../../src/lib/chart-indicator
 export type AlertPhase = 'pre' | 'close';
 export type AlertAction = 'sell-today-close' | 'buy-next-open' | 'sell-next-open';
 export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number };
-export type Quote = { price: number; open: number; high: number; low: number; date: string };
+export type Quote = { price: number; open: number; high: number; low: number; date: string; changePercent?: number };
 export type GroupDef = { key: 'cyb' | 'hs'; title: string; timing: string; items: { code: string; name: string }[] };
 
 export const PLAN_GROUPS: GroupDef[] = [
@@ -30,6 +30,24 @@ export const alertPhaseOf = (scheduledTime: number): AlertPhase | undefined => {
 
 /** 行情代码：ETF 按首位判断沪深，已带前缀的（指数 sh000300）原样使用。 */
 export const marketSymbol = (code: string) => /^(sh|sz)\d{6}$/.test(code) ? code : `${/^[569]/.test(code) ? 'sh' : 'sz'}${code}`;
+
+/**
+ * 择时比值里的 ETF（创业板 159915、红利 510880）取后复权日线：腾讯前复权对 ETF 是按累计分红减固定金额，
+ * 分红多的红利 ETF 涨跌幅被放大，比值与研究回测（加回分红）口径不一致；后复权与研究基本一致（同向约 99.5%）。
+ * 指数（sh000300）无复权问题。这些代码不能同时是买卖标的（标的买卖点仍用前复权）。
+ */
+export const RATIO_HFQ_SYMBOLS = new Set([R2_CODES, H1_CODES].flatMap(codes => [codes.growth, codes.defensive]).filter(code => !/^(sh|sz)/.test(code)).map(marketSymbol));
+
+/** 后复权日线并入实时报价：报价是不复权价格，按当日涨跌幅换算；没有涨跌幅时不并入。 */
+export function mergeLiveByChange(bars: PlanBar[], quote: Quote | undefined, today: string): PlanBar[] {
+  if (!quote || quote.date !== today || quote.changePercent === undefined || !bars.length) return bars;
+  const last = bars.at(-1)!;
+  const base = last.date === today ? bars.at(-2) : last.date < today ? last : undefined;
+  if (!base) return bars;
+  const close = base.close * (1 + quote.changePercent / 100);
+  if (last.date === today) return [...bars.slice(0, -1), { ...last, close, high: Math.max(last.high, close), low: Math.min(last.low, close) }];
+  return [...bars, { date: today, open: close, high: close, low: close, close }];
+}
 
 /** 实时报价并入日线：同日则更新收盘/高/低，晚于最后一根则追加；只合并今天的报价。 */
 export function mergeLive(bars: PlanBar[], quote: Quote | undefined, today: string): PlanBar[] {
@@ -51,7 +69,7 @@ export function todayActions(bars: PlanBar[], today: string, run: (bars: PlanBar
   const last = bars.at(-1);
   if (!last || last.date !== today) return [];
   const result = run([...bars, { date: NEXT, open: last.close, high: last.close, low: last.close, close: last.close }]);
-  return result.signals.flatMap(signal => {
+  return result.signals.flatMap((signal): Omit<PlanAlert, 'code' | 'name'>[] => {
     if (signal.signalDate !== today) return [];
     if (signal.date === today && signal.side === 'sell') return [{ action: 'sell-today-close' as const, reason: signal.reason, price: last.close }];
     if (signal.date === NEXT) return [{ action: signal.side === 'buy' ? 'buy-next-open' as const : 'sell-next-open' as const, reason: signal.reason, price: last.close }];
@@ -115,7 +133,8 @@ export async function fetchLiveQuotes(symbols: string[]): Promise<Map<string, Qu
   const quotes = new Map<string, Quote>();
   for (const match of text.matchAll(/v_((?:sh|sz)\d{6})="([^"]*)"/g)) {
     const fields = match[2].split('~'), stamp = fields[30] ?? '';
-    const quote = { price: Number(fields[3]), open: Number(fields[5]), high: Number(fields[33]), low: Number(fields[34]), date: `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}` };
+    const quote: Quote = { price: Number(fields[3]), open: Number(fields[5]), high: Number(fields[33]), low: Number(fields[34]), date: `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}` };
+    if (fields[32]?.trim() && Number.isFinite(Number(fields[32]))) quote.changePercent = Number(fields[32]);
     if (stamp.length >= 8 && quote.price > 0 && quote.high > 0 && quote.low > 0) quotes.set(match[1], quote);
   }
   return quotes;
@@ -138,8 +157,8 @@ export const allSymbols = () => [...new Set([
 
 export type AlertDeps = {
   today: string;
-  /** 取某行情代码近两年多的前复权日线（升序）。 */
-  loadBars: (symbol: string) => Promise<PlanBar[]>;
+  /** 取某行情代码近两年多的日线（升序）；默认前复权，择时比值里的 ETF 传 'hfq' 取后复权。 */
+  loadBars: (symbol: string, fq?: 'qfq' | 'hfq') => Promise<PlanBar[]>;
   loadQuotes?: (symbols: string[]) => Promise<Map<string, Quote>>;
 };
 
@@ -151,7 +170,11 @@ export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQu
   if (anchor && anchor.date !== today) return { tradingDay: false as const };
   const barsOf = new Map<string, PlanBar[]>();
   for (const symbol of symbols) {
-    try { barsOf.set(symbol, mergeLive(await loadBars(symbol), quotes.get(symbol), today)); } catch (error) {
+    try {
+      barsOf.set(symbol, RATIO_HFQ_SYMBOLS.has(symbol)
+        ? mergeLiveByChange(await loadBars(symbol, 'hfq'), quotes.get(symbol), today)
+        : mergeLive(await loadBars(symbol), quotes.get(symbol), today));
+    } catch (error) {
       console.error('择时提醒：日线失败', symbol, error);
       if (error instanceof Error && error.message === 'BUDGET') break;
     }
