@@ -280,3 +280,9 @@ test('失败导入不改变锚点与数据', () => {
   assert.equal(JSON.stringify(anchorBase), snap);
   assert.equal(A.statsAnchor(BASE_AS_OF, anchorBase), '2026-11-10');
 });
+
+test('CSV 导入：数据包里已有的新分类可用，未知分类仍拒绝', () => {
+  const ex = [Object.assign({}, base[0], { code: 'N1.SH', category: '新增主题' })];
+  assert.equal(A.validateImport(H + '\nX1,甲,新增主题,2026-01-05,1,,,,,,,,,,,\n', ex).ok, true);
+  assert.equal(A.validateImport(H + '\nX1,甲,不存在分类,2026-01-05,1,,,,,,,,,,,\n', ex).ok, false);
+});

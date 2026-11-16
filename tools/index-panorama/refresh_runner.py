@@ -11,7 +11,7 @@
                    providers/original_eps_capture.js（页面自身匿名只读 PANO_IX.series，顺序、1.5s 间隔、遇错即停）
                    → 门禁 → providers/original_eps.py 离线解析；失败 → 保留旧 raw/缓存
   S5 最终包：      fetch_data.py --enrich-only                （默认 domestic,supplemental,original_eps 三个 provider）
-  S6 门禁：        结构/36 指数/逐字段不丢观测、末日不回退、选源不切换、EPS 与 raw 一一对应、manager_audit（有 node 时）
+  S6 门禁：        结构/指数不减少（清单见 fetch_data.INDICES，2026-11-16 起 63 只）/逐字段不丢观测、末日不回退、选源不切换、EPS 与 raw 一一对应、manager_audit（有 node 时）
   S7 发布：        备份将被覆盖的生产文件 → 逐文件原子替换（data-bundle.js 最后）→ 任一失败全部回滚
 
 说明：fetch_data.py --collect-providers 在进程内调用 domestic.collect(out_path=None)，不会写 domestic.json，
@@ -541,6 +541,8 @@ class Runner:
     # csi_*/indicator_*（只有中证2000 的 csi 点位）。若直接跑完整在线 fetch_data，会新建 27 份中证 store，
     # select_column 随之把 50 余列切到 csi/csi_indicator（2026-11-16 在线演练实测，被门禁拦下）。
     # 为不改变既有来源优先级：只为“生产中已存在的中证 store”刷新中证，其余指数 --no-csi。
+    # 腾讯无日K的指数（中证2000 及 2026-11-16 新增的 19 只 93xxxx/H3xxxx/990001）以 data/store/csi_*.csv 初始化，
+    # 因而自动落在此名单里持续刷新点位/成交额/PE，不依赖外部研究目录缓存。
     def csi_codes_in_prod(self) -> list[str]:
         fd = self.load_fd()
         out = []

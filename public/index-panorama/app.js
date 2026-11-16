@@ -112,7 +112,11 @@
     if (unknown.length) res.warnings.push('忽略未知列：' + unknown.join(', '));
     if (!FIELDS.some(function (f) { return f in idx; })) { res.errors.push('表头中没有任何数值列（' + FIELDS.join(',') + '）'); return res; }
     var exMap = dict();
-    (existing || []).forEach(function (s) { if (s && s.code) exMap[s.code] = s; });
+    var allowedCats = CATEGORIES.slice();
+    (existing || []).forEach(function (s) {
+      if (s && s.code) exMap[s.code] = s;
+      if (s && s.category && s.category !== IMPORT_CATEGORY && allowedCats.indexOf(s.category) < 0) allowedCats.push(s.category);
+    });
     var errCount = 0;
     function err(line, msg) { errCount++; if (res.errors.length < MAX_ERRORS) res.errors.push('第 ' + line + ' 行：' + msg); }
 
@@ -130,7 +134,7 @@
       var date = rawDate ? normalizeDate(rawDate) : null;
       if (!rawDate) { err(line, 'date 为空'); bad = true; }
       else if (!date) { err(line, 'date “' + rawDate + '”不是有效日期（YYYY-MM-DD）'); bad = true; }
-      if (cat && CATEGORIES.indexOf(cat) < 0) { err(line, 'category “' + cat + '”不在 ' + CATEGORIES.join('/') + ' 中，可留空'); bad = true; }
+      if (cat && allowedCats.indexOf(cat) < 0) { err(line, 'category “' + cat + '”不在 ' + allowedCats.join('/') + ' 中，可留空'); bad = true; }
       var vals = dict(), anyNum = false;
       FIELDS.forEach(function (f) {
         if (!(f in idx)) { vals[f] = null; return; }
@@ -380,7 +384,7 @@
     anchor: null, baseAnchor: null,                   // 统计锚点：初始化与成功导入后重算
     range: '10', metric: 'pe', homeRange: '10',
     favorites: [], favPersist: true, route: null, view: null, current: null,
-    query: '', collapsed: dict(), importedCodes: dict(), navOpen: false
+    query: '', collapsed: dict(), importedCodes: dict(), navOpen: false, etfFocus: null, scrollEtf: false
   };
 
   state.anchor = state.baseAnchor = statsAnchor(state.baseAsOf, state.indices);
@@ -483,7 +487,8 @@
   function matches(s, q) {
     if (!q) return true;
     return (s.name || '').toLowerCase().indexOf(q) >= 0 || (s.code || '').toLowerCase().indexOf(q) >= 0 ||
-      (s.category || '').toLowerCase().indexOf(q) >= 0;
+      (s.category || '').toLowerCase().indexOf(q) >= 0 ||
+      (root.PanoEtf && q.length >= 2 ? root.PanoEtf.searchText(s.code).indexOf(q) >= 0 : false);
   }
   // 分类说明：只描述“点进去能回答什么问题”，不含任何数值
   var CAT_MEAN = dict({
@@ -491,8 +496,8 @@
     '全局坐标': '四条大盘主线：先看全市场往哪走。',
     '核心宽基': '大中小盘代表，看市场主体的位置与估值。',
     '宽基谱系': '更宽或更细的规模切片，补齐大小盘全貌。',
-    '行业与主题': '红利、消费、军工等主题，看风格偏好。',
-    '行业指数': '中证全指一级行业，看板块轮动。',
+    '行业与主题': '红利、消费、科技、医药、周期等主题，看风格偏好。',
+    '行业指数': '中证全指一级行业及细分行业，看板块轮动。',
     '跨境对照': '港股、美股，看外部水位与同日涨跌。'
   });
   function itemHTML(s, currentCode) {
@@ -577,6 +582,7 @@
     root.PanoHome.render(v, state.indices, {
       range: state.homeRange, anchor: state.anchor || undefined, anchorNote: anchorNote(), favorites: state.favorites.slice(),
       onSelect: function (code) { navigate(indexHash(code)); },
+      onSelectEtf: function (code) { state.etfFocus = code; navigate(indexHash(code)); },
       onToggleFavorite: toggleFavorite,
       onRangeChange: function (r) { state.homeRange = r; },
       notesCount: datasetWarnings().length,
@@ -607,6 +613,12 @@
       '<dt>历史区间</dt><dd>' + esc(s.d.length ? s.d[0] + ' 至 ' + s.d[s.d.length - 1] + '，' + s.d.length + ' 行' : '无数据') + '</dd>' +
       '<dt>来源</dt><dd>' + Object.keys(src).map(function (k) { return esc(k + '：' + (src[k] && src[k].label || '')); }).join('；') + '</dd></dl></section>';
   }
+  // 首页“直接ETF”入口：进入详情后定位到 ETF 区块（只生效一次）
+  function takeEtfFocus(code) {
+    var hit = state.etfFocus === code;
+    state.etfFocus = null;
+    return hit;
+  }
   function renderDetail(route) {
     var v = $('view');
     var s = findSeries(route.code);
@@ -623,6 +635,7 @@
     state.view = 'detail'; state.current = s;
     setExport(s);
     document.title = s.name + ' ' + s.code + ' · 指数全景';
+    state.scrollEtf = takeEtfFocus(s.code);
     v.innerHTML = detailBarHTML(s) + '<div id="detailHost"></div>';
     var host = $('detailHost');
     if (!root.PanoDetail || typeof root.PanoDetail.render !== 'function') { host.innerHTML = fallbackDetailHTML(s); return; }
@@ -673,6 +686,11 @@
       var main = $('main');
       if (t && t.hasAttribute('tabindex')) t.focus({ preventScroll: true });
       else if (main) main.focus({ preventScroll: true });
+    }
+    if (state.scrollEtf) {
+      state.scrollEtf = false;
+      var sec = $('pd-etf');
+      if (sec) { sec.scrollIntoView({ block: 'start' }); sec.focus({ preventScroll: true }); }
     }
   }
   function navigate(hash) {

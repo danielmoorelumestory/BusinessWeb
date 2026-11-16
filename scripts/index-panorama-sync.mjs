@@ -5,6 +5,7 @@
 //   node scripts/index-panorama-sync.mjs restore   源目录没有 data-bundle.js 时，从已发布的副本取回（刷新前用作“上一版”基准）
 //   node scripts/index-panorama-sync.mjs check     核对发布目录与源目录一致、数据包结构有效（不写盘）
 //
+// etf-catalog.js 由 ETF 目录维护者生成（已核实的产品目录），与数据包一样在发布前校验。
 // data-bundle.js 只在 public/index-panorama 里提交一份（源目录的副本被 .gitignore 忽略），避免 13MB 文件重复入库。
 import { appendFileSync, copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
@@ -14,6 +15,7 @@ export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 export const SOURCE_DIR = join(ROOT, 'tools', 'index-panorama')
 export const PUBLIC_DIR = join(ROOT, 'public', 'index-panorama')
 export const BUNDLE = 'data-bundle.js'
+export const ETF_CATALOG = 'etf-catalog.js'
 
 /** 页面运行需要的全部文件（相对路径）。其余（Python、测试、缓存、报告）不进入公开目录。 */
 export const PUBLIC_FILES = [
@@ -22,11 +24,13 @@ export const PUBLIC_FILES = [
   'detail.css',
   'analytics.js',
   'chart-edge.js',
+  'etf-view.js',
   'detail.js',
   'home.js',
   'app.js',
   'assets/echarts.min.js',
   'assets/ECHARTS-LICENSE.txt',
+  ETF_CATALOG,
   BUNDLE,
 ]
 
@@ -69,6 +73,76 @@ export function validateBundle(text, { minIndices = MIN_INDICES } = {}) {
     }
   }
   return { data, errors }
+}
+
+const ETF_RELATIONS = new Set(['tracks', 'related_theme'])
+const CN_SUFFIX = new Set(['SH', 'SZ', 'CSI'])
+/** 同一指数：主体相同，且后缀相容（任一方无后缀、后缀相同、或同为境内 SH/SZ/CSI）。与 etf-view.js sameIndex 一致。 */
+export function sameIndex(a, b) {
+  const [ba, sa = ''] = String(a ?? '').trim().toUpperCase().split('.')
+  const [bb, sb = ''] = String(b ?? '').trim().toUpperCase().split('.')
+  if (!ba || ba !== bb) return false
+  return !sa || !sb || sa === sb || (CN_SUFFIX.has(sa) && CN_SUFFIX.has(sb))
+}
+/** 指数自身代码 + 条目声明的官方代码别名（如 DJI.US ↔ DJIA、000300.SH ↔ 深市登记的 399300）。 */
+const ownCodes = (code, entry) => [code, ...(Array.isArray(entry?.benchmarkAliases) ? entry.benchmarkAliases : [])].filter(c => typeof c === 'string' && c.trim())
+const tracksOwn = (code, entry, bench) => ownCodes(code, entry).some(c => sameIndex(c, bench))
+
+/**
+ * 解析并校验 etf-catalog.js（window.PANO_ETFS=...;）。公开目录只放已核实条目：
+ * 每条产品都要有代码/名称/交易所/关系/实际跟踪指数/https 官方来源/核验日期；
+ * relationship=tracks 的 benchmarkCode 必须就是该指数或其 benchmarkAliases（相关主题必须标 related_theme）。
+ * indexCodes 给出时，目录里出现数据包没有的指数代码也报错。
+ */
+export function validateEtfCatalog(text, { indexCodes = null } = {}) {
+  const errors = []
+  const prefix = 'window.PANO_ETFS='
+  const at = text.indexOf(prefix)
+  if (at < 0) return { catalog: null, errors: ['缺少 window.PANO_ETFS= 赋值'] }
+  let catalog
+  try {
+    catalog = JSON.parse(text.slice(at + prefix.length).trim().replace(/;\s*$/, ''))
+  } catch (error) {
+    return { catalog: null, errors: [`JSON 解析失败：${error.message}`] }
+  }
+  if (catalog?.schemaVersion !== 1) errors.push(`schemaVersion 应为 1：${catalog?.schemaVersion}`)
+  if (!ISO.test(String(catalog?.verifiedAt ?? '').slice(0, 10))) errors.push(`verifiedAt 不是 ISO 日期：${catalog?.verifiedAt}`)
+  const indices = catalog?.indices
+  if (!indices || typeof indices !== 'object' || Array.isArray(indices)) return { catalog, errors: [...errors, 'indices 不是对象'] }
+  const known = indexCodes ? new Set(indexCodes) : null
+  for (const [code, entry] of Object.entries(indices)) {
+    if (known && !known.has(code)) errors.push(`${code} 不在数据包中`)
+    if (!entry || typeof entry !== 'object' || !Array.isArray(entry.products)) { errors.push(`${code}.products 不是数组`); continue }
+    if (entry.benchmarkAliases !== undefined && (!Array.isArray(entry.benchmarkAliases) || entry.benchmarkAliases.some(a => typeof a !== 'string' || !a.trim()))) {
+      errors.push(`${code}.benchmarkAliases 应为非空字符串数组`)
+    }
+    const seen = new Set()
+    entry.products.forEach((p, i) => {
+      const at = `${code}.products[${i}]`
+      for (const k of ['code', 'name', 'exchange', 'benchmarkCode', 'benchmarkName', 'sourceTitle']) {
+        if (typeof p?.[k] !== 'string' || !p[k].trim()) errors.push(`${at}.${k} 为空`)
+      }
+      if (!ETF_RELATIONS.has(p?.relationship)) errors.push(`${at}.relationship 应为 tracks 或 related_theme：${p?.relationship}`)
+      if (!/^https:\/\/[^\s"'<>]+$/i.test(p?.sourceUrl ?? '')) errors.push(`${at}.sourceUrl 不是 https 官方链接：${p?.sourceUrl}`)
+      if (!ISO.test(String(p?.verifiedAt ?? '').slice(0, 10))) errors.push(`${at}.verifiedAt 不是 ISO 日期：${p?.verifiedAt}`)
+      if (p?.relationship === 'tracks' && !tracksOwn(code, entry, p.benchmarkCode)) {
+        errors.push(`${at} 标为 tracks，但跟踪 ${p.benchmarkCode}，不是 ${code}（主题相关应标 related_theme）`)
+      }
+      const key = `${p?.code}|${p?.exchange}`
+      if (seen.has(key)) errors.push(`${at} 重复产品 ${p?.code}`)
+      seen.add(key)
+    })
+  }
+  return { catalog, errors }
+}
+
+/** 直接跟踪（tracks）产品数，按指数统计；related_theme 不计入。 */
+export function directEtfCounts(catalog) {
+  const out = {}
+  for (const [code, entry] of Object.entries(catalog?.indices ?? {})) {
+    out[code] = (entry?.products ?? []).filter(p => p?.relationship === 'tracks' && tracksOwn(code, entry, p.benchmarkCode)).length
+  }
+  return out
 }
 
 /** 每只指数每个字段最后一个非 null 观测的日期，用于和上一版比较“末日不回退”。 */
@@ -125,6 +199,8 @@ function listFiles(dir, base = dir) {
 export function publish({ source = SOURCE_DIR, target = PUBLIC_DIR, allowRegression = false } = {}) {
   for (const f of PUBLIC_FILES) if (!existsSync(join(source, f))) throw new Error(`源目录缺少 ${f}`)
   const next = readBundle(join(source, BUNDLE))
+  const etf = validateEtfCatalog(readFileSync(join(source, ETF_CATALOG), 'utf8'), { indexCodes: next.indices.map(s => s.code) })
+  if (etf.errors.length) throw new Error(`ETF 目录无效（${ETF_CATALOG}），未发布：\n  ${etf.errors.slice(0, 20).join('\n  ')}`)
   const prevPath = join(target, BUNDLE)
   let unchanged = false
   if (existsSync(prevPath)) {
@@ -146,7 +222,9 @@ export function publish({ source = SOURCE_DIR, target = PUBLIC_DIR, allowRegress
   const keep = new Set(PUBLIC_FILES)
   const removed = listFiles(target).filter(f => !keep.has(f))
   for (const f of removed) rmSync(join(target, f))
-  return { asOf: next.asOf, generatedAt: next.generatedAt, indices: next.indices.length, removed, unchanged }
+  const counts = directEtfCounts(etf.catalog)
+  const etfSummary = { indices: Object.keys(counts).length, withDirect: Object.values(counts).filter(n => n > 0).length }
+  return { asOf: next.asOf, generatedAt: next.generatedAt, indices: next.indices.length, removed, unchanged, etf: etfSummary }
 }
 
 /** 刷新前：源目录没有数据包时从发布目录取回，让 fetch_data.py 能和上一版对比。 */
@@ -173,9 +251,15 @@ export function check({ source = SOURCE_DIR, target = PUBLIC_DIR } = {}) {
     if (!existsSync(src)) { problems.push(`源目录缺少 ${f}`); continue }
     if (!readFileSync(src).equals(readFileSync(pub))) problems.push(`${f} 与源目录不一致，请运行 npm run index-panorama:publish`)
   }
+  let codes = null
   if (existsSync(join(target, BUNDLE))) {
-    const { errors } = validateBundle(readFileSync(join(target, BUNDLE), 'utf8'))
+    const { data, errors } = validateBundle(readFileSync(join(target, BUNDLE), 'utf8'))
     problems.push(...errors.slice(0, 20).map(e => `数据包：${e}`))
+    if (Array.isArray(data?.indices)) codes = data.indices.map(s => s?.code)
+  }
+  if (existsSync(join(target, ETF_CATALOG))) {
+    const { errors } = validateEtfCatalog(readFileSync(join(target, ETF_CATALOG), 'utf8'), { indexCodes: codes })
+    problems.push(...errors.slice(0, 20).map(e => `ETF 目录：${e}`))
   }
   return problems
 }
@@ -184,7 +268,7 @@ function main(argv) {
   const [cmd, ...rest] = argv
   if (cmd === 'publish') {
     const r = publish({ allowRegression: rest.includes('--allow-regression') })
-    console.log(`已发布 public/index-panorama：${r.indices} 只指数，asOf ${r.asOf}，生成于 ${r.generatedAt}${r.removed.length ? `；删除多余文件 ${r.removed.join(', ')}` : ''}${r.unchanged ? '；实际观测与上一版相同（只有元数据变化）' : ''}`)
+    console.log(`已发布 public/index-panorama：${r.indices} 只指数，asOf ${r.asOf}，生成于 ${r.generatedAt}${r.removed.length ? `；删除多余文件 ${r.removed.join(', ')}` : ''}${r.unchanged ? '；实际观测与上一版相同（只有元数据变化）' : ''}；ETF 目录 ${r.etf.indices} 只指数，其中 ${r.etf.withDirect} 只有直接跟踪 ETF`)
     // 给 GitHub Actions 用：观测没有变化时不提交，避免休市日也产生一次提交和部署
     if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `unchanged=${r.unchanged}\n`)
   } else if (cmd === 'restore') {

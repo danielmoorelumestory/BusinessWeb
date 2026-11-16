@@ -239,6 +239,13 @@
     return '<span class="pct-bar"><span class="num">' + fmtPct(row.pct, 1, false) + '</span><span class="bar" aria-hidden="true"><i class="' + c + '" style="width:' + Math.max(2, Math.min(100, row.pct)).toFixed(0) + '%"></i></span></span>' +
       '<span class="date">n=' + row.pctN + freqTag(row.pctFreq) + (row.pctN < 60 ? ' 样本少' : '') + '</span>';
   }
+  // 直接跟踪本指数的已核实 ETF 数（etf-view.js 动态计算；相关主题不计入）。0 或目录未加载时不显示。
+  function etfTag(s) {
+    var E = root.PanoEtf;
+    var n = E && typeof E.directCount === 'function' ? E.directCount(s.code) : 0;
+    if (!n) return '';
+    return '<button type="button" class="etf-tag" data-action="open-etf" data-code="' + esc(s.code) + '" title="查看直接跟踪' + esc(s.name) + '的 ' + n + ' 只已核实 ETF">ETF ' + n + '</button>';
+  }
   function rankHTML() {
     var favs = favSet();
     var rows = buildRows();
@@ -269,7 +276,7 @@
       var s = r.s, on = !!favs[s.code];
       return '<tr data-action="open" data-code="' + esc(s.code) + '">' +
         '<td><button type="button" class="star-btn" data-action="fav" data-code="' + esc(s.code) + '" aria-pressed="' + on + '" aria-label="' + (on ? '取消收藏 ' : '收藏 ') + esc(s.name) + '">' + (on ? '★' : '☆') + '</button> ' +
-        '<button type="button" class="name-btn" data-action="open" data-code="' + esc(s.code) + '">' + esc(s.name || s.code) + '</button><span class="code">' + esc(s.code) + '</span></td>' +
+        '<button type="button" class="name-btn" data-action="open" data-code="' + esc(s.code) + '">' + esc(s.name || s.code) + '</button><span class="code">' + esc(s.code) + '</span>' + etfTag(s) + '</td>' +
         '<td><span class="num">' + fmtNum(r.q.price, 2) + '</span><span class="date">' + esc(r.q.date || '无数据') + '</span></td>' +
         '<td class="num ' + cls(r.q.chg) + '">' + fmtPct(r.q.chg) + '</td>' +
         '<td><span class="num">' + fmtNum(r.pe.value, 2) + '</span>' + (r.pe.date && r.pe.date !== r.q.date ? '<span class="date">' + esc(r.pe.date) + '</span>' : '') + '</td>' +
@@ -525,6 +532,9 @@
     var act = t.getAttribute('data-action'), key = t.getAttribute('data-key'), code = t.getAttribute('data-code');
     if (act === 'notes') {
       if (typeof st.opts.onOpenNotes === 'function') st.opts.onOpenNotes();
+    } else if (act === 'open-etf' && code) {
+      if (typeof st.opts.onSelectEtf === 'function') st.opts.onSelectEtf(code);
+      else if (typeof st.opts.onSelect === 'function') st.opts.onSelect(code);
     } else if (act === 'open' && code) {
       if (typeof st.opts.onSelect === 'function') st.opts.onSelect(code);
     } else if (act === 'fav' && code) {

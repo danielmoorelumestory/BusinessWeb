@@ -15499,6 +15499,2301 @@
     "status": "unavailable",
     "reason": "S&P DJI 官网 403（不绕过），未找到其他带日期的官方成分数披露"
    }
+  },
+  "H30184.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      34811.44
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30184",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 87,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30184",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "H30202.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      6881.06
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30202",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30202",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "931160.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      17366.64
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931160",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931160",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "931775.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      3681.43
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931775",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 69,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931775",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "930697.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      11131.85
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930697",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 69,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930697",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "H30199.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      11666.04
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30199",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 59,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30199",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "990001.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      29415.99
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/990001",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/990001",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "930651.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      13326.6
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930651",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930651",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "930713.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      28281.34
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930713",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930713",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "H30590.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      8570.63
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30590",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 64,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30590",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "931079.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      27393.76
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931079",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931079",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "931151.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      8410.03
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931151",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931151",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "399976.SZ": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      19291.35
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399976",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399976",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "931719.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      16191.96
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931719",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931719",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "399989.SZ": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      10891.32
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399989",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399989",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "931152.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      12985.7
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931152",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931152",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "930743.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      12339.11
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930743",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930743",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "399997.SZ": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      13033.45
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399997",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 17,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399997",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "930653.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      20151.61
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930653",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 99,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930653",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "399998.SZ": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      5271.09
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399998",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 31,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399998",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "000819.SH": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      18337.79
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000819",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000819",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "930606.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      3256.6
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930606",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 49,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/930606",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "000949.SH": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      6733.13
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000949",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 49,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/000949",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "399973.SZ": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      7195.54
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399973",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399973",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "931066.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      5165.16
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931066",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 30,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/931066",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "H30269.CSI": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      44061.2
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30269",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 50,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/H30269",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
+  },
+  "399809.SZ": {
+   "fields": {
+    "mcap": {
+     "d": [
+      "2026-11-16"
+     ],
+     "v": [
+      24615.86
+     ],
+     "source": {
+      "label": "中证指数官网·指数特征",
+      "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399809",
+      "unit": "亿元",
+      "method": "官网“指数特征”calMkvSum，前端标注为“指数自由流通市值（亿元）”，非总市值；接口仅给最新交易日，本 provider 逐次运行累积真实快照",
+      "marketCapBasis": "free_float"
+     },
+     "frequency": "snapshot",
+     "status": "ok",
+     "reason": ""
+    },
+    "turn": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）"
+    },
+    "eps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推"
+    },
+    "roe": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "%",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成"
+    },
+    "bps": {
+     "d": [],
+     "v": [],
+     "source": {
+      "label": "",
+      "url": "",
+      "unit": "来源原定义",
+      "method": ""
+     },
+     "frequency": "",
+     "status": "unavailable",
+     "reason": "中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推"
+    }
+   },
+   "componentNum": {
+    "value": 18,
+    "date": "2026-11-16",
+    "source": {
+     "label": "中证指数官网·指数特征",
+     "url": "https://www.csindex.com.cn/csindex-home/indexInfo/index-feature/399809",
+     "method": "index-feature consNum（官网“样本数量”）"
+    },
+    "status": "ok",
+    "reason": ""
+   }
   }
  },
  "errors": [

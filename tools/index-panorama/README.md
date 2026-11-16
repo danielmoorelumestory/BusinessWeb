@@ -104,7 +104,19 @@ code,name,category,date,price,chg,pe,pb,dy,mcap,amt,turn,eps,roe,bps,volume
 - **pe / pb 整列替换**：只要 CSV 为某个代码提供了任一非空 pe（或 pb），该指数的这一列就整列换成 CSV 的观测，原来源（如中证 peg）该列其余日期全部清空，来源改标“用户导入CSV，未经核验”。这是为了避免跨口径估值拼接。CSV 没给 pe/pb 时原列不受影响。
 - 其他字段（price/chg/dy/mcap/amt/turn/eps/roe/bps/volume）按日期合并：导入的非空值覆盖同日值，空单元格保留原值，新日期追加。
 
+## 2026-11-16 扩展：新增 27 只行业/主题指数（共 63 只）
+
+清单在 `fetch_data.INDICES`（代码/全称/基日均核对中证官网 `index-basic-info`），详见 `reports/new-index-expansion.md`。
+- **价格**：8 只有腾讯日K（`tsym`，自腾讯可得首日起）；19 只（93xxxx/H3xxxx/990001）腾讯无日K，点位/成交额/PE 取中证 `index-perf`，
+  以 `data/store/csi_*.csv` 初始化，runner 的“生产已有中证 store”名单因此自动包含它们；新指数都不依赖外部研究目录缓存。
+- **估值**：PE 中证官网滚动市盈率；股息率中证 indicator.xls D/P2（近约 20 日，逐次累积）；PB/ROE 仅蛋卷列表有同一指数代码的 5 只
+  （399997/399989/399998/931079/H30269），其余为 null 并写明原因；EPS/BPS/换手率不合成。市值/成分股数取中证 index-feature 快照。
+- **初始化不刷新旧指数**：`providers/domestic.py --missing-only`（已有 raw 的接口不联网）、`providers/supplemental.py --only <codes>`
+  （只为所列指数下载，不写 `_last_online.json`）；旧 36 只的 provider 条目原样保留。中证收盘 ≤0 的无效行整行丢弃。
+
 ## 当前覆盖（2026-11-15 第三轮：domestic 107 项 + supplemental 41 项）
+
+> 本节是 2026-11-15 扩容前的历史快照（当时 36 只）。现在的指数数量与字段覆盖以 `data-bundle.js` 和 `reports/refresh/last-refresh.md` 为准；页面侧栏、榜单按数据包动态统计。相关 ETF 目录见 `etf-catalog.js` 与 `docs/index-panorama.md`「ETF 目录」。
 
 最近一次生产重建：`.venv/bin/python fetch_data.py --enrich-only`（默认两个 provider，退出码 0，不联网），共 36 只（中证2000 的价格单独取自中证 index-perf，已清理伪行）。两个 provider 都没有字段被拒收，前后对比里没有任何字段丢数据；原有 price/chg/amt/volume 按日期逐值保留。
 

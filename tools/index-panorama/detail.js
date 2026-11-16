@@ -792,6 +792,13 @@
     state.charts = [];
   }
 
+  // 相关 ETF：etf-view.js（PanoEtf）未加载时整块不出现，不影响其他区块
+  function etfHtml(series) {
+    var E = root.PanoEtf;
+    if (!E || typeof E.sectionHtml !== 'function') return '';
+    try { return E.sectionHtml(series); } catch (e) { if (root.console) root.console.error(e); return ''; }
+  }
+
   function draw(focusSel) {
     var st = state, series = st.series;
     disposeCharts();
@@ -808,7 +815,7 @@
       '<div class="pd-grid pd-grid-12">' + thermoHtml(series, st) + drawdownHtml(series, st) + '</div>' +
       miniCardsHtml(series, st) +
       '<div class="pd-grid pd-grid-even">' + earningsHtml(series, st) + turnoverHtml(series, st) + '</div>' +
-      coverageHtml(series, st);
+      etfHtml(series) + coverageHtml(series, st);
     mountAll(series, st);
     if (focusSel) {
       var f = st.root.querySelector(focusSel);
@@ -819,6 +826,7 @@
   function onClick(ev) {
     if (!state) return;
     var t = ev.target;
+    if (root.PanoEtf && root.PanoEtf.handleClick && root.PanoEtf.handleClick(ev, state.root)) return;
     var wb = t && t.closest ? t.closest('[data-pd-warn]') : null;
     if (wb && state.root.contains(wb)) {
       var wl = state.root.querySelector('#pd-warn-list');

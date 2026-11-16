@@ -875,31 +875,42 @@ def build(indices: list[dict], as_of: str, raw: str = RAW_DIR, errors: list | No
 
 
 def collect(indices: list[dict], as_of: str, offline: bool = False, raw_dir: str = RAW_DIR,
-            out_path: str | None = OUT_PATH, get: Callable[..., bytes] = http_get) -> dict:
-    """在线：下载到 raw_dir 后解析；offline：只读 raw_dir，不联网。结果写 out_path（None 不写）。"""
+            out_path: str | None = OUT_PATH, get: Callable[..., bytes] = http_get,
+            only: set[str] | None = None) -> dict:
+    """在线：下载到 raw_dir 后解析；offline：只读 raw_dir，不联网。结果写 out_path（None 不写）。
+
+    only（完整代码集合，如 {"H30184.CSI"}）：只为这些指数联网下载（新增指数首次初始化用，不重复刷新其余指数、
+    不改 _last_online.json），解析仍覆盖全部 indices（其余只读已有 raw）。"""
     errors: list = []
     marker = os.path.join(raw_dir, "_last_online.json")
     if not offline:
         started = utc_now()
         dl = Downloader(raw_dir, get)
-        a_codes = [m["code"].split(".")[0] for m in indices if m.get("market") == "A"]
-        cni_codes = [c for c, m in zip(a_codes, [m for m in indices if m.get("market") == "A"])
-                     if c.startswith("399") and not m.get("csi")]
+        dl_indices = [m for m in indices if only is None or m["code"] in only]
+        a_meta = [m for m in dl_indices if m.get("market") == "A"]
+        a_codes = [m["code"].split(".")[0] for m in a_meta]
+        cni_codes = [c for c, m in zip(a_codes, a_meta) if c.startswith("399") and not m.get("csi")]
         csi_codes = [c for c in a_codes if c not in cni_codes]
         with ThreadPoolExecutor(max_workers=4) as ex:
             list(ex.map(dl.csi_feature, csi_codes))
         dl.cnindex(cni_codes, as_of)
-        dl.hsi([HSI_MAP[m["code"]][0] for m in indices if m["code"] in HSI_MAP])
-        if any(m["code"] in WSJ_MAP for m in indices):
+        dl.hsi([HSI_MAP[m["code"]][0] for m in dl_indices if m["code"] in HSI_MAP])
+        if any(m["code"] in WSJ_MAP for m in dl_indices):
             dl.wsj()
-        dl.nasdaq([NASDAQ_MAP[m["code"]] for m in indices if m["code"] in NASDAQ_MAP])
-        if any(m["code"] == "SPX.US" for m in indices):
+        dl.nasdaq([NASDAQ_MAP[m["code"]] for m in dl_indices if m["code"] in NASDAQ_MAP])
+        if any(m["code"] == "SPX.US" for m in dl_indices):
             dl.shiller()
-        if any(m["code"] in HSI_MAP for m in indices):
+        if any(m["code"] in HSI_MAP for m in dl_indices):
             dl.ecb()
         errors = dl.errors
-        last = {"retrievedAt": started, "finishedAt": utc_now(), "errorCount": len(errors)}
-        write_json(marker, last)
+        if only is None:
+            last = {"retrievedAt": started, "finishedAt": utc_now(), "errorCount": len(errors)}
+            write_json(marker, last)
+        else:  # 子集初始化不冒充全量在线采集
+            try:
+                last = read_json(marker)
+            except (OSError, ValueError):
+                last = {}
     else:
         try:
             last = read_json(marker)
@@ -933,10 +944,12 @@ def main(argv=None) -> int:
     ap.add_argument("--offline", action="store_true", help="只读 supplemental_raw 缓存，不联网")
     ap.add_argument("--as-of", default=dt.date.today().isoformat())
     ap.add_argument("--summary", action="store_true", help="打印逐指数字段覆盖")
+    ap.add_argument("--only", default="", help="逗号分隔代码：只为这些指数联网下载（新增指数初始化），其余只读 raw")
     a = ap.parse_args(argv)
     sys.path.insert(0, HERE)
     import fetch_data  # 只读取 INDICES 元数据
-    res = collect(fetch_data.INDICES, a.as_of, offline=a.offline)
+    only = {c.strip() for c in a.only.split(",") if c.strip()} or None
+    res = collect(fetch_data.INDICES, a.as_of, offline=a.offline, only=only)
     ok = sum(1 for e in res["series"].values() for f in e["fields"].values() if f["status"] == "ok")
     tot = sum(len(e["fields"]) for e in res["series"].values())
     comp = sum(1 for e in res["series"].values() if e["componentNum"]["status"] == "ok")

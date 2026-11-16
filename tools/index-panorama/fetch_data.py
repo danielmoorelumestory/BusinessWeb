@@ -105,6 +105,36 @@ INDICES = [
     dict(code="000993.SH", name="全指信息", category="行业指数", description="中证全指一级行业·信息技术", tsym="sh000993", csi="000993", cache="x_sh000993.csv", floor="2004-12-31", market="A"),
     dict(code="000994.SH", name="全指通信", category="行业指数", description="中证全指一级行业·通信服务", tsym="sh000994", csi="000994", cache="x_sh000994.csv", floor="2004-12-31", market="A"),
     dict(code="000995.SH", name="全指公用", category="行业指数", description="中证全指一级行业·公用事业", tsym="sh000995", csi="000995", cache="x_sh000995.csv", floor="2004-12-31", market="A"),
+    # ---- 2026-11-16 扩展：27 只行业/主题指数（代码/全称/基日均核对中证官网 index-basic-info，见
+    # reports/new-index-expansion.md）。tsym=None 的指数腾讯无日K，点位取中证 index-perf（同中证2000）。
+    # 「行业指数」= 中证全指样本空间、按中证行业分类的二/三级行业；其余产业/主题/细分行业归「行业与主题」。
+    dict(code="H30184.CSI", name="全指半导体", category="行业指数", description="中证全指半导体产品与设备指数", tsym=None, csi="H30184", cache=None, floor="2004-12-31", market="A"),
+    dict(code="H30202.CSI", name="全指软件", category="行业指数", description="中证全指软件指数", tsym=None, csi="H30202", cache=None, floor="2004-12-31", market="A"),
+    dict(code="931160.CSI", name="全指通信设备", category="行业指数", description="中证全指通信设备指数（不是000994全指通信服务）", tsym=None, csi="931160", cache=None, floor="2004-12-31", market="A"),
+    dict(code="931775.CSI", name="全指房地产", category="行业指数", description="中证全指房地产指数", tsym=None, csi="931775", cache=None, floor="2004-12-31", market="A"),
+    dict(code="930697.CSI", name="全指家电", category="行业指数", description="中证全指家用电器指数", tsym=None, csi="930697", cache=None, floor="2004-12-31", market="A"),
+    dict(code="H30199.CSI", name="全指电力", category="行业指数", description="中证全指电力公用事业指数", tsym=None, csi="H30199", cache=None, floor="2004-12-31", market="A"),
+    dict(code="990001.CSI", name="半导体芯片", category="行业与主题", description="中华交易服务半导体芯片行业指数（中证编制）", tsym=None, csi="990001", cache=None, floor="2011-12-30", market="A"),
+    dict(code="930651.CSI", name="中证计算机", category="行业与主题", description="中证计算机主题指数", tsym=None, csi="930651", cache=None, floor="2004-12-31", market="A"),
+    dict(code="930713.CSI", name="人工智能", category="行业与主题", description="中证人工智能主题指数", tsym=None, csi="930713", cache=None, floor="2012-06-29", market="A"),
+    dict(code="H30590.CSI", name="机器人", category="行业与主题", description="中证机器人指数", tsym=None, csi="H30590", cache=None, floor="2010-12-31", market="A"),
+    dict(code="931079.CSI", name="5G通信", category="行业与主题", description="中证5G通信主题指数", tsym=None, csi="931079", cache=None, floor="2015-12-31", market="A"),
+    dict(code="931151.CSI", name="光伏产业", category="行业与主题", description="中证光伏产业指数", tsym=None, csi="931151", cache=None, floor="2012-12-31", market="A"),
+    dict(code="399976.SZ", name="新能源车", category="行业与主题", description="中证新能源汽车指数（不是国证399417）", tsym="sz399976", csi="399976", cache=None, floor="2011-12-31", market="A"),
+    dict(code="931719.CSI", name="电池", category="行业与主题", description="中证电池主题指数", tsym=None, csi="931719", cache=None, floor="2014-12-31", market="A"),
+    dict(code="399989.SZ", name="中证医疗", category="行业与主题", description="中证医疗指数", tsym="sz399989", csi="399989", cache=None, floor="2004-12-31", market="A"),
+    dict(code="931152.CSI", name="创新药", category="行业与主题", description="中证创新药产业指数", tsym=None, csi="931152", cache=None, floor="2014-12-31", market="A"),
+    dict(code="930743.CSI", name="生物科技", category="行业与主题", description="中证生物科技主题指数", tsym=None, csi="930743", cache=None, floor="2011-12-31", market="A"),
+    dict(code="399997.SZ", name="中证白酒", category="行业与主题", description="中证白酒指数", tsym="sz399997", csi="399997", cache=None, floor="2008-12-31", market="A"),
+    dict(code="930653.CSI", name="食品饮料", category="行业与主题", description="中证食品饮料指数", tsym=None, csi="930653", cache=None, floor="2004-12-31", market="A"),
+    dict(code="399998.SZ", name="中证煤炭", category="行业与主题", description="中证煤炭指数", tsym="sz399998", csi="399998", cache=None, floor="2008-12-31", market="A"),
+    dict(code="000819.SH", name="有色金属", category="行业与主题", description="中证申万有色金属指数", tsym="sh000819", csi="000819", cache=None, floor="2004-12-31", market="A"),
+    dict(code="930606.CSI", name="中证钢铁", category="行业与主题", description="中证钢铁指数", tsym=None, csi="930606", cache=None, floor="2008-12-31", market="A"),
+    dict(code="000949.SH", name="中证农业", category="行业与主题", description="中证农业主题指数", tsym="sh000949", csi="000949", cache=None, floor="2004-12-31", market="A"),
+    dict(code="399973.SZ", name="中证国防", category="行业与主题", description="中证国防指数", tsym="sz399973", csi="399973", cache=None, floor="2011-06-30", market="A"),
+    dict(code="931066.CSI", name="军工龙头", category="行业与主题", description="中证军工龙头指数", tsym=None, csi="931066", cache=None, floor="2012-12-31", market="A"),
+    dict(code="H30269.CSI", name="红利低波", category="行业与主题", description="中证红利低波动指数", tsym=None, csi="H30269", cache=None, floor="2005-12-30", market="A"),
+    dict(code="399809.SZ", name="保险主题", category="行业与主题", description="中证方正富邦保险主题指数", tsym="sz399809", csi="399809", cache=None, floor="2011-12-31", market="A"),
     # 跨境对照
     dict(code="HSI.HK", name="恒生指数", category="跨境对照", description="港股大盘", tsym="hkHSI", csi=None, cache="x_hsi.csv", floor="1964-07-31", market="HK"),
     dict(code="HSTECH.HK", name="恒生科技", category="跨境对照", description="港股科技龙头", tsym="hkHSTECH", csi=None, cache="x_hstech.csv", floor="2014-12-31", market="HK"),
@@ -366,9 +396,13 @@ def parse_csi_perf(payload: bytes | str, code: str) -> list[dict]:
         d = norm_date(r.get("tradeDate"))
         if not d:
             continue
+        close = to_float(r.get("close"))
+        if close is not None and close <= 0:
+            # 官网偶见收盘 0.0 的无效行（2026-11-16 实测 H30184/H30199/H30202 的 2013-06-28），整行不可信，丢弃
+            continue
         rows.append({
             "date": d,
-            "close": to_float(r.get("close")),
+            "close": close,
             "amt": to_float(r.get("tradingValue")),       # 亿元
             "pe": to_float(r.get("peg")),                 # 官网滚动市盈率（倍）
             "cons": to_float(r.get("consNumber")),
@@ -784,7 +818,8 @@ def build_series(meta: dict, price_rows: list[dict], csi_rows: list[dict], ind_r
     """
     floor = max(meta["floor"], since)
     pmap = {r["date"]: r for r in price_rows if r["date"] >= floor}
-    cmap = {r["date"]: r for r in csi_rows if r["date"] >= floor}
+    # 收盘 ≤0 的中证行是无效记录（见 parse_csi_perf），连同其成交额/PE 一并忽略
+    cmap = {r["date"]: r for r in csi_rows if r["date"] >= floor and not (r.get("close") is not None and r["close"] <= 0)}
     imap = {r["date"]: r for r in ind_rows if r["date"] >= floor}
     code = meta["code"]
     warnings = list(extra_warn)

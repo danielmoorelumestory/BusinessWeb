@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-16T11:31:56Z",
+ "generatedAt": "2026-11-16T13:51:35Z",
  "mode": "enrich-only",
  "networkAllowed": false,
  "args": {
@@ -11,7 +11,7 @@
   "providers": "domestic,supplemental,original_eps",
   "no_csi": false,
   "workers": 4,
-  "coverage_report": "/home/runner/work/BusinessWeb/BusinessWeb/tools/index-panorama/data/refresh-work/20261116T112724Z/app/reports/round2-coverage.json"
+  "coverage_report": "/private/tmp/claude-501/idxexp/stage/reports/round2-coverage.json"
  },
  "indices": {
   "000001.SH": {
@@ -6065,6 +6065,5411 @@
     }
    }
   },
+  "H30184.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5307,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 3253,
+     "first": "2013-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 3253,
+     "first": "2013-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5307,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 87,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "H30202.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5307,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 3253,
+     "first": "2013-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 3253,
+     "first": "2013-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5307,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "931160.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 1877,
+     "first": "2018-12-28",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 1876,
+     "first": "2019-02-22",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 1876,
+     "first": "2019-02-21",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 1877,
+     "first": "2018-12-28",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 1876,
+     "first": "2019-02-21",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1877,
+     "first": "2018-12-28",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 1877,
+     "first": "2018-12-28",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 1876,
+     "first": "2019-02-22",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "931775.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 1263,
+     "first": "2021-08-25",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 1263,
+     "first": "2021-08-25",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 69,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "930697.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2771,
+     "first": "2015-06-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2771,
+     "first": "2015-06-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 69,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "H30199.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5307,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 3253,
+     "first": "2013-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 3253,
+     "first": "2013-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5308,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5307,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 59,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "990001.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 1630,
+     "first": "2020-02-27",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 1629,
+     "first": "2020-02-28",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 1630,
+     "first": "2020-02-26",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 1630,
+     "first": "2020-02-27",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 1630,
+     "first": "2020-02-26",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1630,
+     "first": "2020-02-27",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 1630,
+     "first": "2020-02-27",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 1629,
+     "first": "2020-02-28",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "930651.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2792,
+     "first": "2015-05-20",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2792,
+     "first": "2015-05-20",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "930713.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 3492,
+     "first": "2012-07-02",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 3491,
+     "first": "2012-07-03",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2752,
+     "first": "2015-07-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 3492,
+     "first": "2012-07-02",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2752,
+     "first": "2015-07-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 3492,
+     "first": "2012-07-02",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 3492,
+     "first": "2012-07-02",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 3491,
+     "first": "2012-07-03",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "H30590.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 3853,
+     "first": "2011-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 3852,
+     "first": "2011-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2870,
+     "first": "2015-01-21",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 3853,
+     "first": "2011-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2870,
+     "first": "2015-01-21",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 3853,
+     "first": "2011-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 3853,
+     "first": "2011-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 3852,
+     "first": "2011-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 64,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "931079.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 为周频数据，390 个观测（2019-04-30~2026-11-16），分位只按实际观测",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位",
+    "roe 为周频数据，390 个观测（2019-04-30~2026-11-16），分位只按实际观测"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2640,
+     "first": "2015-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2639,
+     "first": "2016-01-04",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 1837,
+     "first": "2019-04-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 390,
+     "first": "2019-04-30",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2640,
+     "first": "2015-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 390,
+     "first": "2019-04-30",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 1837,
+     "first": "2019-04-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "倍",
+     "reason": "",
+     "count": 390,
+     "first": "2019-04-30",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2640,
+     "first": "2015-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "%",
+     "reason": "",
+     "count": 390,
+     "first": "2019-04-30",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2640,
+     "first": "2015-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2639,
+     "first": "2016-01-04",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "931151.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 3366,
+     "first": "2013-01-04",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 1840,
+     "first": "2019-04-15",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 1840,
+     "first": "2019-04-15",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 3366,
+     "first": "2013-01-04",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "399976.SZ": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2739,
+     "first": "2015-08-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2794,
+     "first": "2015-05-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2794,
+     "first": "2015-05-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2739,
+     "first": "2015-08-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "931719.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2883,
+     "first": "2015-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 1349,
+     "first": "2021-04-21",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 1349,
+     "first": "2021-04-21",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2883,
+     "first": "2015-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "399989.SZ": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 为周频数据，516 个观测（2016-11-16~2026-11-16），分位只按实际观测",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位",
+    "roe 为周频数据，516 个观测（2016-11-16~2026-11-16），分位只按实际观测"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2739,
+     "first": "2015-08-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2794,
+     "first": "2015-05-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2794,
+     "first": "2015-05-18",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "倍",
+     "reason": "",
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "%",
+     "reason": "",
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2740,
+     "first": "2015-08-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2739,
+     "first": "2015-08-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "931152.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2883,
+     "first": "2015-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 1840,
+     "first": "2019-04-15",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 1840,
+     "first": "2019-04-15",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2884,
+     "first": "2014-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2883,
+     "first": "2015-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "930743.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 3609,
+     "first": "2012-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 3608,
+     "first": "2012-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2735,
+     "first": "2015-08-10",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 3609,
+     "first": "2012-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2735,
+     "first": "2015-08-10",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 3609,
+     "first": "2012-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 3609,
+     "first": "2012-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 3608,
+     "first": "2012-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "399997.SZ": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 为周频数据，516 个观测（2016-11-16~2026-11-16），分位只按实际观测",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位",
+    "roe 为周频数据，365 个观测（2019-10-29~2026-11-16），分位只按实际观测"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2773,
+     "first": "2015-06-17",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2773,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 365,
+     "first": "2019-10-29",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2773,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "倍",
+     "reason": "",
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "%",
+     "reason": "",
+     "count": 365,
+     "first": "2019-10-29",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2773,
+     "first": "2015-06-17",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 17,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "930653.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2792,
+     "first": "2015-05-20",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2792,
+     "first": "2015-05-20",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 99,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "399998.SZ": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 为周频数据，516 个观测（2016-11-16~2026-11-16），分位只按实际观测",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位",
+    "roe 为周频数据，365 个观测（2019-10-29~2026-11-16），分位只按实际观测"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2773,
+     "first": "2015-06-17",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2773,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 365,
+     "first": "2019-10-29",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2773,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "倍",
+     "reason": "",
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "%",
+     "reason": "",
+     "count": 365,
+     "first": "2019-10-29",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2774,
+     "first": "2015-06-16",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2773,
+     "first": "2015-06-17",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 31,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "000819.SH": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 3670,
+     "first": "2011-07-08",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 3670,
+     "first": "2011-07-08",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "930606.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 4339,
+     "first": "2009-01-05",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 4338,
+     "first": "2009-01-06",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2839,
+     "first": "2015-03-12",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 4339,
+     "first": "2009-01-05",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2839,
+     "first": "2015-03-12",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 4339,
+     "first": "2009-01-05",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 4339,
+     "first": "2009-01-05",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 4338,
+     "first": "2009-01-06",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 49,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "000949.SH": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 3670,
+     "first": "2011-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 3670,
+     "first": "2011-06-28",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5310,
+     "first": "2005-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5309,
+     "first": "2005-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 49,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "399973.SZ": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2735,
+     "first": "2015-08-11",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2734,
+     "first": "2015-08-12",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2922,
+     "first": "2014-11-06",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2735,
+     "first": "2015-08-11",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 2735,
+     "first": "2015-08-11",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2922,
+     "first": "2014-11-06",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2735,
+     "first": "2015-08-11",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 2735,
+     "first": "2015-08-11",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2735,
+     "first": "2015-08-11",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2734,
+     "first": "2015-08-12",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "931066.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 3366,
+     "first": "2013-01-04",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2140,
+     "first": "2018-01-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2140,
+     "first": "2018-01-16",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 3367,
+     "first": "2012-12-31",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 3366,
+     "first": "2013-01-04",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 30,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "H30269.CSI": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 为周频数据，516 个观测（2016-11-16~2026-11-16），分位只按实际观测",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位",
+    "roe 为周频数据，365 个观测（2019-10-30~2026-11-16），分位只按实际观测"
+   ],
+   "coverage": {
+    "price": {
+     "count": 5068,
+     "first": "2006-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 5067,
+     "first": "2006-01-05",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 3146,
+     "first": "2013-12-05",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 5068,
+     "first": "2006-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 365,
+     "first": "2019-10-30",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 3146,
+     "first": "2013-12-05",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "倍",
+     "reason": "",
+     "count": 516,
+     "first": "2016-11-16",
+     "last": "2026-11-16"
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 5068,
+     "first": "2006-01-04",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "weekly",
+     "unit": "%",
+     "reason": "",
+     "count": 365,
+     "first": "2019-10-30",
+     "last": "2026-11-16"
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "price": {
+     "status": "ok",
+     "provider": "csi",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 5068,
+     "first": "2006-01-04",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 5067,
+     "first": "2006-01-05",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "csi",
+     "date": "2026-11-16",
+     "value": 50,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
+  "399809.SZ": {
+   "included": true,
+   "csiDroppedRows": 0,
+   "warnings": [
+    "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+    "mcap 仅单期观测（2026-11-16，中证指数官网·指数特征），不能生成历史分位"
+   ],
+   "coverage": {
+    "price": {
+     "count": 2745,
+     "first": "2015-07-28",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "count": 2744,
+     "first": "2015-07-29",
+     "last": "2026-11-16"
+    },
+    "pe": {
+     "count": 2757,
+     "first": "2015-07-08",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "count": 2745,
+     "first": "2015-07-28",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "count": 2745,
+     "first": "2015-07-28",
+     "last": "2026-11-16"
+    }
+   },
+   "availability": {
+    "pe": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "倍",
+     "reason": "",
+     "count": 2757,
+     "first": "2015-07-08",
+     "last": "2026-11-16"
+    },
+    "pb": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "dy": {
+     "status": "ok",
+     "provider": "domestic",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 20,
+     "first": "2026-10-19",
+     "last": "2026-11-16"
+    },
+    "mcap": {
+     "status": "ok",
+     "provider": "supplemental",
+     "frequency": "single",
+     "unit": "亿元",
+     "reason": "",
+     "count": 1,
+     "first": "2026-11-16",
+     "last": "2026-11-16"
+    },
+    "amt": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "亿元",
+     "reason": "",
+     "count": 2745,
+     "first": "2015-07-28",
+     "last": "2026-11-16"
+    },
+    "turn": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 已查中证 index-perf/index-feature/indicator.xls、国证 indexList/日行情：均无指数换手率字段；腾讯/东财行情列无公开口径文档，按 ROUND2 不猜测；用成交额÷自由流通市值自行合成不是官方定义，未做（可由 manager 决定是否作为派生指标另列）",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "eps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件只披露 PE/PB/股息率，不披露指数每股收益；禁止由点位/PE反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "roe": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "bps": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "supplemental: 中证/国证公开接口与官方文件不披露指数每股净资产；禁止由点位/PB反推",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "volume": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "股",
+     "reason": "",
+     "count": 2745,
+     "first": "2015-07-28",
+     "last": "2026-11-16"
+    },
+    "price": {
+     "status": "ok",
+     "provider": "tencent",
+     "frequency": "daily",
+     "unit": "点",
+     "reason": "",
+     "count": 2745,
+     "first": "2015-07-28",
+     "last": "2026-11-16"
+    },
+    "chg": {
+     "status": "ok",
+     "provider": "derived",
+     "frequency": "daily",
+     "unit": "%",
+     "reason": "",
+     "count": 2744,
+     "first": "2015-07-29",
+     "last": "2026-11-16"
+    },
+    "componentNum": {
+     "status": "ok",
+     "provider": "supplemental",
+     "date": "2026-11-16",
+     "value": 18,
+     "reason": "",
+     "rejected": []
+    }
+   }
+  },
   "HSI.HK": {
    "included": true,
    "csiDroppedRows": 0,
@@ -7281,8 +12686,8 @@
    "status": "ok",
    "path": "data/providers/domestic.json",
    "retrievedAt": "2026-11-16T11:30:12Z",
-   "codes": 36,
-   "okFields": 107,
+   "codes": 63,
+   "okFields": 171,
    "errors": [],
    "rejected": [],
    "unknownCodes": []
@@ -7291,8 +12696,8 @@
    "status": "ok",
    "path": "data/providers/supplemental.json",
    "retrievedAt": "2026-11-16T11:30:13Z",
-   "codes": 36,
-   "okFields": 41,
+   "codes": 63,
+   "okFields": 68,
    "errors": [
     "{\"source\": \"hsi_monthly_xlsx\", \"url\": \"https://www.hsi.com.hk/content/dam/wpb/hsil/index_operation/historical_pe/en_hk/hstech/hstech.xlsx\", \"error\": \"FetchError: 重定向到错误页 https://www.hsi.com.hk/errors/404/\"}",
     "{\"source\": \"hsi_monthly_xlsx\", \"url\": \"https://www.hsi.com.hk/content/dam/wpb/hsil/index_operation/historical_dy/en_hk/hstech/hstech.xlsx\", \"error\": \"FetchError: 重定向到错误页 https://www.hsi.com.hk/errors/404/\"}"
@@ -7312,10 +12717,10 @@
   }
  },
  "asOf": "2026-11-16",
- "bundleBytes": 13709203,
+ "bundleBytes": 22222729,
  "globalWarnings": [
   "点位最新 2026-11-16（腾讯证券）；估值最新 PE 2026-11-16，PB 2026-11-16，DY 2026-11-16；各字段日期独立，不视为同日",
   "turn/bps 尚无任何指数有可靠数据，为 null，可用 CSV 导入补充",
-  "部分指数有数据的字段：pe 35/36、pb 24/36、dy 34/36、mcap 30/36、eps 15/36、roe 22/36、amt 33/36、volume 29/36；其余为 null（原因见各指数 availability）"
+  "部分指数有数据的字段：pe 62/63、pb 29/63、dy 61/63、mcap 57/63、eps 15/63、roe 27/63、amt 60/63、volume 37/63；其余为 null（原因见各指数 availability）"
  ]
 }

@@ -1,6 +1,6 @@
 # 指数全景（/index-panorama/）
 
-36 只 A 股、港股、美股指数的点位、PE/PB/股息率等历史分位与走势，有首页（`#/panorama`）和详情（`#/index/<代码>`，如 `#/index/000300.SH`），图表带十字参考线（鼠标移到绘图区左右轴边距时吸附当前可见区间的首/末真实观测），15 只指数有原站 EPS。页面是独立的静态应用（原生 JS + 本地 ECharts），打开时不联网取数，数据全部在 `data-bundle.js` 里。
+A 股、港股、美股的宽基与行业主题指数（数量以 `data-bundle.js` 为准，页面侧栏与榜单动态统计）的点位、PE/PB/股息率等历史分位与走势，有首页（`#/panorama`）和详情（`#/index/<代码>`，如 `#/index/000300.SH`），图表带十字参考线（鼠标移到绘图区左右轴边距时吸附当前可见区间的首/末真实观测），15 只指数有原站 EPS。详情页在「其他侧面」之后有「相关 ETF」区块：把直接跟踪本指数的产品和只是主题相关（跟踪其他指数）的产品分开列出，给出基金代码、名称、交易所、实际跟踪指数、官方来源链接（新窗口打开）与核验日期，可复制代码；没有核实到直接产品就明说没有。首页榜单只给有直接 ETF 的指数显示「ETF n」入口，n 由目录动态计算，主题相关产品不计入。页面是独立的静态应用（原生 JS + 本地 ECharts），打开时不联网取数，数据全部在 `data-bundle.js` 里。
 
 入口：投资首页「第五步 · 工具与参考」→「指数全景」，地址 `https://businessweb-c0u.pages.dev/index-panorama/`（`/index-panorama` 会 308 到带斜杠的地址）。
 
@@ -9,11 +9,22 @@
 | 路径 | 内容 | 是否公开 |
 |---|---|---|
 | `tools/index-panorama/` | 源目录：前端源码、数据管线（`fetch_data.py`、`providers/`、`refresh_runner.py`）、测试、刷新需要的缓存（`data/store`、`data/providers`）、数据口径报告（`reports/`） | 否 |
-| `public/index-panorama/` | 发布目录：只有页面运行需要的 11 个文件（`index.html`、css/js（含图表端点吸附 `chart-edge.js`）、`assets/echarts.min.js` 与许可、`data-bundle.js`） | 是，随站点构建 |
+| `public/index-panorama/` | 发布目录：只有页面运行需要的 13 个文件（`index.html`、css/js（含图表端点吸附 `chart-edge.js`、ETF 区块 `etf-view.js`）、`assets/echarts.min.js` 与许可、`etf-catalog.js`、`data-bundle.js`），白名单见 `PUBLIC_FILES` | 是，随站点构建 |
+| `tools/index-panorama/etf-catalog.js` | 已核实的相关 ETF 目录（`window.PANO_ETFS`，schemaVersion 1），由 ETF 目录维护者生成；研究底稿与原始抓取不公开 | 发布副本公开 |
 | `scripts/index-panorama-sync.mjs` | 源目录 → 发布目录：白名单复制、数据包校验、拒绝退化；`check` 核对两边一致 | — |
 | `.github/workflows/index-panorama.yml` | 工作日定时刷新 | — |
 
 `data-bundle.js` 只在 `public/index-panorama/` 提交一份；源目录里的副本被忽略，刷新前用 `npm run index-panorama:restore` 取回。前端代码改在源目录，再 `npm run index-panorama:publish`；`npm run test:scripts` 里的检查会发现两边不一致。
+
+## ETF 目录
+
+`etf-catalog.js` 的格式：`window.PANO_ETFS={schemaVersion:1,verifiedAt,indices:{<指数代码>:{name,notes,benchmarkAliases?,products:[{code,name,exchange,relationship,benchmarkCode,benchmarkName,sourceUrl,sourceTitle,verifiedAt,relationNote?}]}}}`。
+
+- `relationship` 只有 `tracks`（直接跟踪本指数）和 `related_theme`（主题相关，跟踪别的指数）。例如中证全指通信（000994）的通信设备 ETF 跟踪的是别的指数，只能标 `related_theme`。
+- 本地代码与官方跟踪指数代码不一致时（如 `DJI.US` 与上交所登记的 `DJIA`），在指数条目上写 `benchmarkAliases: ['DJIA']`，产品的 `benchmarkCode` 保留官方原码。
+- 发布脚本校验：每条都要有 https 官方来源和核验日期；`tracks` 的 `benchmarkCode`（去掉 `.SH/.CSI` 等后缀）必须等于该指数代码或其 `benchmarkAliases`；指数代码必须在数据包里；同代码不能重复。任何一条不合格整次发布失败。
+- 前端再兜底一次：缺字段或非 https 的条目不展示，只在区块底部说明“n 条未展示”；`tracks` 但基准不一致的按相关主题展示并注明实际跟踪指数。
+- 只列事实，不展示收益、不排序推荐、不接买卖。
 
 ## 数据刷新
 

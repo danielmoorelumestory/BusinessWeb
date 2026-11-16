@@ -470,7 +470,11 @@ class TestEndToEnd(unittest.TestCase):
         r = self.runner(mode="online")
         os.makedirs(r.work, exist_ok=True)
         r.prepare()
-        self.assertEqual(r.csi_codes_in_prod(), ["932000.CSI"])
+        # 腾讯无日K、以中证 store 初始化的指数：中证2000 + 2026-11-16 新增的 19 只（按 INDICES 顺序）
+        expect = [m["code"] for m in fd.INDICES if m.get("csi") and not m.get("tsym")]
+        self.assertIn("932000.CSI", expect)
+        self.assertEqual(len(expect), 20)
+        self.assertEqual(r.csi_codes_in_prod(), expect)
         calls = []
 
         def fake(args, name, timeout=None):
@@ -482,7 +486,7 @@ class TestEndToEnd(unittest.TestCase):
         with mock.patch.object(r, "run_cmd", side_effect=fake):
             self.assertTrue(r.s1_market())
         self.assertIn("--no-csi", calls[0])
-        self.assertEqual(calls[1][calls[1].index("--only") + 1], "932000.CSI")
+        self.assertEqual(calls[1][calls[1].index("--only") + 1], ",".join(expect))
         self.assertFalse(os.path.exists(r.stg("data/store/indicator_932000_CSI.csv")))
         self.assertIn("丢弃", r.steps[-1]["detail"])
         shutil.rmtree(r.work, ignore_errors=True)

@@ -74,6 +74,11 @@ OVERSEAS_MISSING = {
 DANJUAN_ACTIVE = {"000688.SH", "000016.SH", "000300.SH", "000905.SH", "000852.SH", "000903.SH",
                   "000922.CSI", "000932.SH", "399967.SZ", "399975.SZ", "399986.SZ", "399971.SZ",
                   "000827.SH", "000989.SH", "000991.SH", "000993.SH", "399001.SZ", "399006.SZ"}
+# 2026-11-16 扩展指数中蛋卷估值列表（/djapi/index_eva/dj，63 项）确有同一指数代码的 5 只；其余新增指数蛋卷未覆盖，
+# 不按名称近似代配（如蛋卷 SZ399417 是国证新能源车，不是中证新能源汽车 399976）。
+DANJUAN_ACTIVE |= {"399997.SZ", "399989.SZ", "399998.SZ", "931079.CSI", "H30269.CSI"}
+# 蛋卷对中证 93xxxx/H3xxxx 指数用 CSI 前缀（列表实测 CSI931079、CSIH30269），不能套 SH 前缀
+DJ_SYM_OVERRIDE = {"931079.CSI": "CSI931079", "H30269.CSI": "CSIH30269"}
 DANJUAN_STALE = {"000986.SH": "2018-07-16", "000987.SH": "2018-07-04", "000990.SH": "2019-04-26"}
 CNINDEX_CODES = {"399001.SZ", "399006.SZ", "399303.SZ"}
 CSI_VAL_NAMES = {"000001.SH": "上证指数"}  # 只用该接口补上证指数 pb
@@ -360,6 +365,8 @@ def v_csi_val(raw):
 def dj_sym(code: str) -> str:
     if code in OVERSEAS_DJ_SYM:
         return OVERSEAS_DJ_SYM[code]
+    if code in DJ_SYM_OVERRIDE:
+        return DJ_SYM_OVERRIDE[code]
     num, suf = code.split(".")
     pre = {"SH": "SH", "SZ": "SZ", "CSI": "SH"}.get(suf)
     return pre + num if pre else ""  # 无蛋卷映射（如 IXIC/DJI）
