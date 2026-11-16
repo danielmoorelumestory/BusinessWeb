@@ -286,7 +286,7 @@ const reviewUrl = href('lab/etf-review/');
     }
     const snap = liveSnapshot(index.days, live);
     if (!snap) {
-      liveNote = `已实时检查同花顺：来源截止日仍是 ${esc(live.asof ?? before ?? '未知')}，没有更新的数据（来源一般在交易日晚上 21:30 之后才更新当天名单）。`;
+      liveNote = `已实时检查同花顺：来源截止日仍是 ${esc(live.asof ?? before ?? '未知')}，没有更新的数据（来源通常在交易日深夜到次日凌晨才更新当天名单）。`;
       if (current === index.days.at(-1)?.d) renderHead();
       return;
     }
