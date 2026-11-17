@@ -81,10 +81,14 @@ describe('formatMessage', () => {
   it('既无信号也无持仓时不发', () => {
     expect(formatMessage([{ group, alerts: [], failed: [] }], '2026-11-16', 'close')).toBeUndefined();
   });
-  it('只有持仓：收盘确认照发，盘中预估不发', () => {
+  it('只有持仓、没有买卖信号时两个时段都不发', () => {
     const results: GroupResult[] = [{ group, alerts: [], failed: [], holdings: [holding] }, { group: PLAN_GROUPS[1], alerts: [], failed: [], holdings: [] }];
     expect(formatMessage(results, '2026-11-16', 'pre')).toBeUndefined();
-    expect(formatMessage(results, '2026-11-16', 'close')).toBe('🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
+    expect(formatMessage(results, '2026-11-16', 'close')).toBeUndefined();
+  });
+  it('有信号时空段写「无」', () => {
+    const results: GroupResult[] = [{ group, alerts: [{ code: '159819', name: '人工智能ETF易方达', action: 'buy-next-open', reason: '金叉', price: 1.2 }], failed: [], holdings: [] }];
+    expect(formatMessage(results, '2026-11-16', 'close')).toBe('🟢 买入\n明日开盘 159819 人工智能ETF易方达（金叉，收盘 1.200）\n\n🔴 卖出\n无\n\n📌 持有\n无');
   });
   it('不分择时分组，两组的信号与持仓合并到 买入 / 卖出 / 持有 三段', () => {
     const results: GroupResult[] = [

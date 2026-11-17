@@ -125,12 +125,12 @@ const pct = (ret: number) => `${ret >= 0 ? '+' : ''}${(ret * 100).toFixed(2)}%`;
 
 /**
  * 不分择时分组，只分「买入 / 卖出 / 持有」三段；盘中预估由「今日尾盘 / 现价」区分。
- * 14:45 只在有买卖信号时发；15:15 有信号或有持仓就发（每天收盘报一次持仓盈亏）。都没有时返回 undefined（不发）。
+ * 14:45 与 15:15 都只在有买卖信号时发（持有段随消息附带）；没有信号时返回 undefined（不发）。
  */
 export function formatMessage(results: GroupResult[], _today: string, phase: AlertPhase): string | undefined {
   const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
   const failed = [...new Set(results.flatMap(result => result.failed))];
-  if (!alerts.length && !(phase === 'close' && holdings.length)) return undefined;
+  if (!alerts.length) return undefined;
   const priceLabel = phase === 'pre' ? '现价' : '收盘';
   const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
   const section = (title: string, lines: string[]) => [title, ...(lines.length ? lines : ['无'])].join('\n');
