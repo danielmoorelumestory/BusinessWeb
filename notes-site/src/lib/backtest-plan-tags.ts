@@ -22,8 +22,8 @@ type BacktestItem = {
   positiveYears: number; countedYears: number; years: number; supplement?: boolean;
 };
 
-const CYB_PLAN = 'Y1 · 牛市金叉或站上10日线且 K−D≥5.3 次日开盘买，熊市不开新仓；死叉，或熊市跌破10日线当日收盘卖';
-const HS_PLAN = '只认金叉 · 牛市 MACD 金叉次日开盘买，熊市不开新仓；死叉当日收盘卖';
+export const CYB_PLAN = 'Y1 · 牛市金叉或站上10日线且 K−D≥5.3 次日开盘买，熊市不开新仓；死叉，或熊市跌破10日线当日收盘卖';
+export const HS_PLAN = '只认金叉 · 牛市 MACD 金叉次日开盘买，熊市不开新仓；死叉当日收盘卖';
 
 const pct = (value: number) => `${value.toFixed(2)}%`;
 const signed = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;

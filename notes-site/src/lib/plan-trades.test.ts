@@ -50,4 +50,15 @@ describe('plan-trades', () => {
     expect(yearly[0].result.total).toBe(0);
     expect(yearly[0].result.hold).toBeCloseTo((1 - PLAN_COST) / (1 + PLAN_COST) - 1, 12);
   });
+  it('纯MACD 不看择时：择时全为熊市也照常交易，结果与牛市沪深300方案相同', () => {
+    const wave = Array.from({ length: 500 }, (_, i) => {
+      const day = new Date(Date.UTC(2020, 0, 1) + i * 86_400_000).toISOString().slice(0, 10);
+      const close = 10 + 3 * Math.sin(i / 15);
+      return { date: day, open: close, high: close * 1.01, low: close * .99, close };
+    });
+    const macd = backtestPlan('macd', wave, () => false)!;
+    expect(macd.natural).toBeGreaterThan(0);
+    expect(macd.total).toBeCloseTo(backtestPlan('hs', wave, () => true)!.total, 12);
+    expect(backtestPlan('hs', wave, () => false)!.natural).toBe(0);
+  });
 });

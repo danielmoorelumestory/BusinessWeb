@@ -5,13 +5,13 @@
 import { bullLookup, kd10Signals } from './kd10-signals';
 import { macdCloseSignals, windowBounds } from './macd-signals';
 
-export type PlanKey = 'cyb' | 'hs';
+export type PlanKey = 'cyb' | 'hs' | 'macd';
 export type PlanBar = { date: string; open: number; high: number; low: number; close: number };
 export type PlanSignal = { date: string; side: 'buy' | 'sell'; price: number; signalDate: string; reason: string; ret?: number; forced?: boolean };
 export type PlanResult = { key: PlanKey; name: string; signals: PlanSignal[]; pendingBuy?: { signalDate: string; reason: string }; holding: boolean };
 type BullPoint = { date: string; bull: boolean | null };
 
-export const PLAN_NAMES: Record<PlanKey, string> = { cyb: '创业板择时', hs: '沪深300择时' };
+export const PLAN_NAMES: Record<PlanKey, string> = { cyb: '创业板择时', hs: '沪深300择时', macd: '纯MACD' };
 
 export function cybPlan(bars: PlanBar[], r2: BullPoint[]): PlanResult {
   const result = kd10Signals(bars, bullLookup(r2));
@@ -22,6 +22,16 @@ export function hsPlan(bars: PlanBar[], h1: BullPoint[]): PlanResult {
   const result = macdCloseSignals(bars, { bull: bullLookup(h1) });
   return {
     key: 'hs', name: PLAN_NAMES.hs, holding: result.holding,
+    signals: result.signals.map(signal => ({ ...signal, reason: signal.side === 'buy' ? '金叉' : '死叉' })),
+    ...(result.pendingBuy ? { pendingBuy: { signalDate: result.pendingBuy.signalDate, reason: '金叉' } } : {}),
+  };
+}
+
+/** 纯MACD（不择时）：金叉次日开盘买、死叉当日收盘卖，对应研究里的「纯MACD」对照。 */
+export function macdPlan(bars: PlanBar[]): PlanResult {
+  const result = macdCloseSignals(bars);
+  return {
+    key: 'macd', name: PLAN_NAMES.macd, holding: result.holding,
     signals: result.signals.map(signal => ({ ...signal, reason: signal.side === 'buy' ? '金叉' : '死叉' })),
     ...(result.pendingBuy ? { pendingBuy: { signalDate: result.pendingBuy.signalDate, reason: '金叉' } } : {}),
   };
@@ -92,7 +102,7 @@ export type PlanYearly = { year: number; result: PlanBacktest }[];
 
 function signalsIn(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined, window: PlanWindow): PlanSignal[] {
   if (key === 'cyb') return kd10Signals(bars, bull, { warmup: PLAN_WARMUP, window }).signals;
-  return macdCloseSignals(bars, { bull, warmup: PLAN_WARMUP, window }).signals.map(signal => ({ ...signal, reason: signal.forced ? '期末平仓' : signal.side === 'buy' ? '金叉' : '死叉' }));
+  return macdCloseSignals(bars, { bull: key === 'macd' ? undefined : bull, warmup: PLAN_WARMUP, window }).signals.map(signal => ({ ...signal, reason: signal.forced ? '期末平仓' : signal.side === 'buy' ? '金叉' : '死叉' }));
 }
 
 /** 按研究引擎回测一个窗口；窗口内（下标 ≥120）不足 120 根时返回 undefined。 */

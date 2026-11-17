@@ -1348,7 +1348,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 两套波段方案（创业板择时 = 择时+B+KD10；沪深300择时 = 择时+只认金叉）：▲ 买画在最低价下方、▼ 卖画在最高价上方，
   // 比 MACD收盘卖的标记更靠外、两套之间再错开；买到卖画连线（赚红亏绿），价格图底部画持仓色带；最后一根产生买入信号时画空心 ▲。
   const plans = [...(indicators.kd10Trades ? [cybPlan(candles, ratioPoints.r2 ?? [])] : []), ...(indicators.h1Trades ? [hsPlan(candles, ratioPoints.h1 ?? [])] : [])];
-  const PLAN_COLOR: Record<PlanKey, { buy: string; sell: string }> = { cyb: { buy: '#0d9488', sell: '#ea580c' }, hs: { buy: '#0284c7', sell: '#c026d3' } };
+  const PLAN_COLOR: Record<PlanKey, { buy: string; sell: string }> = { cyb: { buy: '#0d9488', sell: '#ea580c' }, hs: { buy: '#0284c7', sell: '#c026d3' }, macd: { buy: '#2563eb', sell: '#9333ea' } };
   const planSignalOf = new Map(plans.map(plan => [plan.key, new Map(plan.signals.map(signal => [signal.date, signal]))]));
   const planTip = (name: string, signal: PlanSignal) => signal.side === 'buy'
     ? `${name}：${signal.reason}（${signal.signalDate}）次日开盘买 ${signal.price.toFixed(3)}`
