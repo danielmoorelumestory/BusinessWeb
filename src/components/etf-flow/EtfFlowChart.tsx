@@ -23,6 +23,7 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
 
   const [win, setWin] = useState<[number, number]>([0, Math.max(0, n - 1)])
   const [hover, setHover] = useState<number | null>(null)
+  const [hoverY, setHoverY] = useState<number | null>(null)
   const mainRef = useRef<SVGSVGElement>(null)
   const ovRef = useRef<SVGSVGElement>(null)
   const drag = useRef<Drag | null>(null)
@@ -52,11 +53,15 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
     .filter(Boolean)
     .join(' ')
 
-  // —— 十字光标 ——
+  // —— 十字光标（竖线定位到最近柱，横线跟随指针 y）——
   const onMainMove = (ev: React.PointerEvent<SVGSVGElement>): void => {
     if (drag.current || !mainRef.current) return
-    setHover(pointerToIndex(ev.clientX, mainRef.current.getBoundingClientRect(), W, padL, plotW, m))
+    const rect = mainRef.current.getBoundingClientRect()
+    setHover(pointerToIndex(ev.clientX, rect, W, padL, plotW, m))
+    const vy = ((ev.clientY - rect.top) / rect.height) * H
+    setHoverY(Math.max(padT, Math.min(padT + plotH, vy)))   // 限制在绘图区内
   }
+  const clearHover = (): void => { setHover(null); setHoverY(null) }
   const hp = hover != null && hover >= 0 && hover < m ? view[hover] : null
   const hx = hover != null ? xAt(hover) : 0
   // tooltip 贴着十字星：光标在左半屏→弹窗在光标右侧，反之在左侧（不压在正上方）
@@ -119,23 +124,24 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
         aria-label="ETF 净流入柱状图，红为净流入、绿为净流出，叠加上证指数折线，可十字光标查看与拖动范围"
         className="etf-flow__chart"
         onPointerMove={onMainMove}
-        onPointerLeave={() => setHover(null)}
+        onPointerLeave={clearHover}
       >
-        {/* 水平虚线刻度网格（±峰值 + 半档） */}
-        {[padT, padT + plotH / 4, padT + 3 * plotH / 4, padT + plotH].map(y => (
-          <line key={y} className="etf-flow__grid" x1={padL} y1={y} x2={W - padR} y2={y}
-            strokeDasharray="3 4" />
-        ))}
-        {/* 零轴 + 左右刻度 */}
+        {/* 水平虚线刻度网格 + 每条线的数值（左=净流入亿元，右=上证指数） */}
+        {[0, 0.25, 0.75, 1].map(f => {
+          const y = padT + f * plotH
+          const dy = f === 0 ? 9 : f === 1 ? 0 : 4   // 顶/底行贴边、半档行居中
+          return (
+            <g key={f}>
+              <line className="etf-flow__grid" x1={padL} y1={y} x2={W - padR} y2={y} strokeDasharray="3 4" />
+              <text x={padL - 6} y={y + dy} textAnchor="end" className="etf-flow__ax">{fmt1(maxAbs * (1 - 2 * f))}</text>
+              {idxVals.length > 0 && (
+                <text x={W - padR + 6} y={y + dy} className="etf-flow__ax">{(iMax - f * (iMax - iMin)).toFixed(0)}</text>
+              )}
+            </g>
+          )
+        })}
+        {/* 零轴 */}
         <line x1={padL} y1={zeroY} x2={W - padR} y2={zeroY} stroke="var(--line, #dfe3ea)" />
-        <text x={padL - 6} y={padT + 9} textAnchor="end" className="etf-flow__ax">{fmt1(maxAbs)}</text>
-        <text x={padL - 6} y={padT + plotH} textAnchor="end" className="etf-flow__ax">{fmt1(-maxAbs)}</text>
-        {idxVals.length > 0 && (
-          <>
-            <text x={W - padR + 6} y={padT + 9} className="etf-flow__ax">{iMax.toFixed(0)}</text>
-            <text x={W - padR + 6} y={padT + plotH} className="etf-flow__ax">{iMin.toFixed(0)}</text>
-          </>
-        )}
         {/* 红绿柱 */}
         {view.map((p, i) => {
           const v = p[key] ?? 0
@@ -155,6 +161,7 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
         {hp && (
           <g pointerEvents="none">
             <line x1={hx} y1={padT} x2={hx} y2={padT + plotH} stroke="var(--muted, #8893a7)" strokeWidth={1} strokeDasharray="3 3" />
+            {hoverY != null && <line x1={padL} y1={hoverY} x2={W - padR} y2={hoverY} stroke="var(--muted, #8893a7)" strokeWidth={1} strokeDasharray="3 3" />}
             <rect x={hx - bw / 2} y={(hp[key] ?? 0) >= 0 ? zeroY - barH(hp[key] ?? 0) : zeroY}
               width={bw} height={Math.abs(barH(hp[key] ?? 0))} fill={(hp[key] ?? 0) >= 0 ? 'var(--up)' : 'var(--down)'} opacity={0.5} />
             {hp.index != null && <circle cx={hx} cy={iy(hp.index)} r={3} fill="var(--idx, #8893a7)" />}
