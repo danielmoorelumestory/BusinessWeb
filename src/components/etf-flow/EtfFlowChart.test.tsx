@@ -35,8 +35,28 @@ describe('EtfFlowChart 交互', () => {
   it('主图带水平虚线刻度网格（未悬浮也存在）', () => {
     const { container } = render(<EtfFlowChart series={series} scope="all" />)
     const grid = container.querySelectorAll('.etf-flow__grid')
-    expect(grid.length).toBeGreaterThanOrEqual(2)             // 上下两条刻度线
+    expect(grid.length).toBe(4)                               // ±峰值 + 上下半档共 4 条
     grid.forEach(l => expect(l.getAttribute('stroke-dasharray')).toBeTruthy())
+  })
+
+  it('每条虚线都标数值：左轴净流入峰值与半档都出现', () => {
+    const { container } = render(<EtfFlowChart series={series} scope="all" />)
+    // maxAbs=248.01 → 四条线：±峰值 ±248.01 与 ±半档（约 ±124）各一个数值
+    const left = Array.from(container.querySelectorAll<SVGTextElement>('text.etf-flow__ax'))
+      .filter(t => t.getAttribute('text-anchor') === 'end')
+      .map(t => t.textContent)
+    expect(left).toContain('+248.01')
+    expect(left).toContain('-248.01')
+    expect(left.filter(v => /^[+-]\d/.test(v ?? '')).length).toBe(4)  // 四条线各一个数值
+  })
+
+  it('悬浮时十字光标含竖线+横线两条', () => {
+    const { container } = render(<EtfFlowChart series={series} scope="all" />)
+    const cross = () => Array.from(container.querySelectorAll('line'))
+      .filter(l => l.getAttribute('stroke-dasharray') === '3 3')     // 光标用 3 3，网格用 3 4
+    expect(cross().length).toBe(0)                                   // 初始无
+    fireEvent.pointerMove(screen.getByRole('img'), { clientX: 120, clientY: 80 })
+    expect(cross().length).toBe(2)                                   // 竖线 + 横线
   })
 
   it('tooltip 贴着十字星：光标在左半屏→弹窗在光标右侧，带跟随定位', () => {
