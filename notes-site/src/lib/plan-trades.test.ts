@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { planCurveStats, planStats, planTrades, type PlanSignal } from './plan-trades';
+import { macdCloseSignals, windowBounds } from './macd-signals';
+import { backtestPlan, backtestPlanYearly, planStats, planTrades, PLAN_COST, PLAN_WARMUP, type PlanSignal } from './plan-trades';
 
 const bars = ['2024-01-02', '2024-01-03', '2024-01-04', '2024-01-05', '2024-01-08', '2024-01-09'].map((date, i) => ({ date, close: 10 + i }));
 const sig = (date: string, side: 'buy' | 'sell', price: number): PlanSignal => ({ date, side, price, signalDate: date, reason: side === 'buy' ? '金叉' : '死叉' });
@@ -22,21 +23,31 @@ describe('plan-trades', () => {
     const trades = planTrades(signals, bars, '2024-01-04', '2024-01-04');
     expect(trades).toEqual([{ buyDate: '2024-01-04', buyPrice: 12, sellPrice: 12, ret: 0, open: true }]);
   });
-  it('按每日盯市资金曲线算最大回撤、年化与逐年收益', () => {
-    const curve = planCurveStats(planTrades(signals, bars), bars);
-    // 资金曲线：1 → 1.2 → 1.2 → 0.9 → 1.26 → 1.35
-    expect(curve.maxDrawdown).toBeCloseTo(-.25);
-    expect(curve.yearly).toEqual([{ year: '2024', ret: expect.closeTo(.35) }]);
-    expect(curve.annual).toBeCloseTo(1.35 ** (365.25 / 7) - 1);
-    expect(curve.calmar).toBeCloseTo(curve.annual! / .25);
+  it('研究口径窗口回测：首日空仓、第 121 根起交易、末日强制平仓，逐笔扣单边 0.1%', () => {
+    const wave = Array.from({ length: 700 }, (_, i) => {
+      const day = new Date(Date.UTC(2020, 0, 1) + i * 86_400_000).toISOString().slice(0, 10);
+      const close = 10 + 3 * Math.sin(i / 15) + i * .01;
+      return { date: day, open: close * .998, high: close * 1.01, low: close * .99, close };
+    });
+    const bull = () => true;
+    const window = { from: '2020-06-01', to: '2021-03-31' };
+    const signals = macdCloseSignals(wave, { warmup: PLAN_WARMUP, bull, window }).signals;
+    expect(signals[0].side).toBe('buy');
+    expect(signals.every(signal => signal.date >= '2020-06-01' && signal.date <= '2021-03-31')).toBe(true);
+    expect(signals.at(-1)!.side).toBe('sell');
+    const result = backtestPlan('hs', wave, bull, window)!;
+    const net = signals.filter(signal => signal.side === 'sell').map((sell, k) => sell.price * (1 - PLAN_COST) / (signals.filter(x => x.side === 'buy')[k].price * (1 + PLAN_COST)));
+    expect(result.total).toBeCloseTo(net.reduce((a, b) => a * b, 1) - 1, 10);
+    expect(result.natural).toBe(signals.filter(signal => signal.side === 'sell' && !signal.forced).length);
+    expect(result.mdd).toBeLessThan(0);
   });
-  it('跨年拆分逐年收益，统计赚钱年数与最差一年', () => {
-    const yb = [{ date: '2023-12-29', close: 10 }, { date: '2024-01-02', close: 11 }];
-    const curve = planCurveStats(planTrades([sig('2023-12-29', 'buy', 10)], yb), yb);
-    expect(curve.yearly.map(item => [item.year, +item.ret.toFixed(4)])).toEqual([['2023', 0], ['2024', .1]]);
-    expect(curve.yearsUp).toBe(1);
-    expect(curve.worstYear).toBe(0);
-    expect(curve.maxDrawdown).toBe(0);
-    expect(curve.calmar).toBeUndefined();
+  it('窗口内可交易日不足 120 根不出结果；逐年回测跳过不足的年份', () => {
+    const flat = Array.from({ length: 400 }, (_, i) => ({ date: new Date(Date.UTC(2020, 6, 1) + i * 86_400_000).toISOString().slice(0, 10), open: 10, high: 10, low: 10, close: 10 }));
+    expect(windowBounds(flat, PLAN_WARMUP, { from: '2020-01-01', to: '2020-12-31' })).toEqual([120, 183]);
+    expect(backtestPlan('hs', flat, () => true, { from: '2020-01-01', to: '2020-12-31' })).toBeUndefined();
+    const yearly = backtestPlanYearly('hs', flat, () => true);
+    expect(yearly.map(item => item.year)).toEqual([2021]);
+    expect(yearly[0].result.total).toBe(0);
+    expect(yearly[0].result.hold).toBeCloseTo((1 - PLAN_COST) / (1 + PLAN_COST) - 1, 12);
   });
 });

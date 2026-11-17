@@ -8,10 +8,10 @@
 //   买入当天触发（T+1 不能卖）则下一交易日开盘卖出。
 // - 择时缺数据（2011 年前、均线未形成）按牛市处理；某日无比值时沿用之前最近一天。
 // - 前 warmup 根只用于预热指标，不产生买卖。
-import { MACD_WARMUP } from './macd-signals';
+import { MACD_WARMUP, windowBounds } from './macd-signals';
 
 export type Kd10Bar = { date: string; open: number; high: number; low: number; close: number };
-export type Kd10Reason = '金叉' | '站上10日线' | '死叉' | '熊市破10日线';
+export type Kd10Reason = '金叉' | '站上10日线' | '死叉' | '熊市破10日线' | '期末平仓';
 export type Kd10Signal = {
   date: string;
   side: 'buy' | 'sell';
@@ -21,6 +21,8 @@ export type Kd10Signal = {
   reason: Kd10Reason;
   /** 卖出时本笔价格涨跌（未扣费用）。 */
   ret?: number;
+  /** 回测窗口末强制平仓（不是策略信号）。 */
+  forced?: boolean;
 };
 export type Kd10Result = {
   signals: Kd10Signal[];
@@ -31,7 +33,11 @@ export type Kd10Result = {
 export const KD10_THRESHOLD = 5.3;
 
 /** bullOf：按日期给出择时是否为牛市；undefined 表示无数据（按牛市处理）。 */
-export function kd10Signals(bars: Kd10Bar[], bullOf: (date: string) => boolean | undefined, { warmup = MACD_WARMUP } = {}): Kd10Result {
+/**
+ * window：按研究回测引擎只在 [from, to] 内交易——窗口首日空仓起算（且不早于第 warmup 根），
+ * 窗口末日先执行开盘挂单，仍持有则当日收盘强制平仓（forced）；指标仍用全部历史计算。
+ */
+export function kd10Signals(bars: Kd10Bar[], bullOf: (date: string) => boolean | undefined, { warmup = MACD_WARMUP, window }: { warmup?: number; window?: { from: string; to: string } } = {}): Kd10Result {
   const signals: Kd10Signal[] = [];
   const n = bars.length;
   if (!n) return { signals, holding: false };
@@ -58,10 +64,11 @@ export function kd10Signals(bars: Kd10Bar[], bullOf: (date: string) => boolean |
     const rsv = hi > lo ? 100 * (bars[i].close - lo) / (hi - lo) : 50;
     k = (2 * k + rsv) / 3; d = (2 * d + k) / 3; kd.push(k - d);
   }
+  const [lo, hi] = windowBounds(bars, warmup, window);
   let holding = false, entry = 0, entryIndex = -1;
   let pending: { side: 'buy' | 'sell'; reason: Kd10Reason } | undefined;
   const exitReason = (i: number, bull: boolean | undefined): Kd10Reason | undefined => dead[i] ? '死叉' : bull === false && below[i] ? '熊市破10日线' : undefined;
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i <= hi; i++) {
     const bar = bars[i];
     if (pending) {
       if (pending.side === 'buy') { holding = true; entry = bar.open; entryIndex = i; }
@@ -69,7 +76,11 @@ export function kd10Signals(bars: Kd10Bar[], bullOf: (date: string) => boolean |
       signals.push({ date: bar.date, side: pending.side, price: bar.open, signalDate: bars[i - 1].date, reason: pending.reason, ...(pending.side === 'sell' && entry > 0 ? { ret: bar.open / entry - 1 } : {}) });
       pending = undefined;
     }
-    if (i < warmup) continue;
+    if (i < lo) continue;
+    if (window && i === hi) {
+      if (holding) { holding = false; signals.push({ date: bar.date, side: 'sell', price: bar.close, signalDate: bar.date, reason: '期末平仓', ret: entry > 0 ? bar.close / entry - 1 : undefined, forced: true }); }
+      break;
+    }
     const bull = bullOf(bar.date);
     if (holding) {
       const why = exitReason(i, bull);
@@ -82,7 +93,7 @@ export function kd10Signals(bars: Kd10Bar[], bullOf: (date: string) => boolean |
     if (gold[i]) pending = { side: 'buy', reason: '金叉' };
     else if (i > 0 && above[i] && !above[i - 1] && kd[i] >= KD10_THRESHOLD) pending = { side: 'buy', reason: '站上10日线' };
   }
-  return { signals, holding, pendingBuy: pending?.side === 'buy' ? { signalDate: bars.at(-1)!.date, reason: pending.reason } : undefined };
+  return { signals, holding, pendingBuy: !window && pending?.side === 'buy' ? { signalDate: bars.at(-1)!.date, reason: pending.reason } : undefined };
 }
 
 /** 把择时比值点做成按日期查询：某日无点时沿用之前最近一天；均线未形成或无数据返回 undefined。 */

@@ -13,6 +13,8 @@ export type MacdSignal = {
   signalDate: string;
   /** 卖出时本笔收益（已扣往返费用前的价格涨跌）。 */
   ret?: number;
+  /** 回测窗口末强制平仓（不是策略信号）。 */
+  forced?: boolean;
 };
 export type MacdCloseResult = {
   signals: MacdSignal[];
@@ -23,15 +25,19 @@ export type MacdCloseResult = {
 
 export const MACD_WARMUP = 120;
 
-/** bull：可选的择时判定（按日期返回牛/熊，undefined 视为牛）；给出时择时熊市不开新仓，已持有的照常等死叉卖。 */
-export function macdCloseSignals(bars: MacdBar[], { fast = 12, slow = 26, signal = 9, warmup = MACD_WARMUP, bull }: { fast?: number; slow?: number; signal?: number; warmup?: number; bull?: (date: string) => boolean | undefined } = {}): MacdCloseResult {
+/**
+ * bull：可选的择时判定（按日期返回牛/熊，undefined 视为牛）；给出时择时熊市不开新仓，已持有的照常等死叉卖。
+ * window：只在 [from, to] 内交易，规则同 kd10Signals 的 window（窗口首日空仓、末日收盘强制平仓）。
+ */
+export function macdCloseSignals(bars: MacdBar[], { fast = 12, slow = 26, signal = 9, warmup = MACD_WARMUP, bull, window }: { fast?: number; slow?: number; signal?: number; warmup?: number; bull?: (date: string) => boolean | undefined; window?: { from: string; to: string } } = {}): MacdCloseResult {
   const signals: MacdSignal[] = [];
   if (!bars.length) return { signals, holding: false };
   const kf = 2 / (fast + 1), ks = 2 / (slow + 1), kd = 2 / (signal + 1);
   let emaFast = bars[0].close, emaSlow = bars[0].close, dea = 0;
   let prior: [number, number] | undefined;
   let holding = false, pending = false, pendingSell = false, entry = 0;
-  for (let i = 0; i < bars.length; i++) {
+  const [lo, hi] = windowBounds(bars, warmup, window);
+  for (let i = 0; i <= hi; i++) {
     const bar = bars[i];
     if (i) { emaFast += kf * (bar.close - emaFast); emaSlow += ks * (bar.close - emaSlow); }
     const dif = emaFast - emaSlow;
@@ -48,7 +54,11 @@ export function macdCloseSignals(bars: MacdBar[], { fast = 12, slow = 26, signal
       holding = true; pending = false; entry = bar.open; boughtToday = true;
       signals.push({ date: bar.date, side: 'buy', price: bar.open, signalDate: bars[i - 1].date });
     }
-    if (i < warmup) continue;
+    if (i < lo) continue;
+    if (window && i === hi) {
+      if (holding) { holding = false; signals.push({ date: bar.date, side: 'sell', price: bar.close, signalDate: bar.date, ret: entry > 0 ? bar.close / entry - 1 : undefined, forced: true }); }
+      break;
+    }
     if (holding && dead && boughtToday) {
       pendingSell = true;
     } else if (holding && dead) {
@@ -58,5 +68,15 @@ export function macdCloseSignals(bars: MacdBar[], { fast = 12, slow = 26, signal
       pending = true;
     }
   }
-  return { signals, holding, pendingBuy: pending ? { signalDate: bars.at(-1)!.date } : undefined };
+  return { signals, holding, pendingBuy: !window && pending ? { signalDate: bars.at(-1)!.date } : undefined };
+}
+
+/** 交易区间的首尾下标：首个 ≥ warmup 且日期 ≥ from 的根，到最后一个日期 ≤ to 的根；没有窗口时为 [warmup, 末根]。 */
+export function windowBounds(bars: { date: string }[], warmup: number, window?: { from: string; to: string }): [number, number] {
+  if (!window) return [warmup, bars.length - 1];
+  let lo = bars.findIndex((bar, i) => i >= warmup && bar.date >= window.from);
+  if (lo < 0) lo = bars.length;
+  let hi = -1;
+  for (let i = bars.length - 1; i >= 0; i--) if (bars[i].date <= window.to) { hi = i; break; }
+  return [lo, hi];
 }

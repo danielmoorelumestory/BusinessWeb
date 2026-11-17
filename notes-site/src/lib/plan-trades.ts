@@ -3,11 +3,11 @@
 // - 沪深300择时买卖点（hs）：只认金叉 = 择时（沪深300÷红利）牛市 MACD 金叉次日开盘买、熊市不开新仓、死叉当日收盘卖。
 // 统计按价格涨跌计算，未扣交易费用。
 import { bullLookup, kd10Signals } from './kd10-signals';
-import { macdCloseSignals } from './macd-signals';
+import { macdCloseSignals, windowBounds } from './macd-signals';
 
 export type PlanKey = 'cyb' | 'hs';
 export type PlanBar = { date: string; open: number; high: number; low: number; close: number };
-export type PlanSignal = { date: string; side: 'buy' | 'sell'; price: number; signalDate: string; reason: string; ret?: number };
+export type PlanSignal = { date: string; side: 'buy' | 'sell'; price: number; signalDate: string; reason: string; ret?: number; forced?: boolean };
 export type PlanResult = { key: PlanKey; name: string; signals: PlanSignal[]; pendingBuy?: { signalDate: string; reason: string }; holding: boolean };
 type BullPoint = { date: string; bull: boolean | null };
 
@@ -71,58 +71,80 @@ export function planStats(trades: PlanTrade[]): PlanStats {
   };
 }
 
-export type PlanCurveStats = {
-  /** 年化收益：区间首日到末日按自然日折算 */
-  annual?: number;
-  /** 最大回撤（负数），按每日收盘盯市的资金曲线计算 */
-  maxDrawdown?: number;
-  /** 卡玛 = 年化 ÷ |最大回撤| */
-  calmar?: number;
-  /** 区间覆盖的各自然年收益（首尾年不足一年也算一年） */
-  yearly: { year: string; ret: number }[];
-  yearAvg?: number; yearsUp: number; worstYear?: number;
-};
+// ── 研究口径回测（与 数据训练优化ETF/engine.py + 全量逐年优秀AB筛选.py 一致）──
+// 满仓进出、单边 0.1% 成本；第 121 根日线（下标 120）起才交易；窗口首日空仓、末日收盘强制平仓；
+// 窗口内可交易日不足 120 根不出结果；年化要求 ≥244 根且 ≥365 自然日；最大回撤按每日收盘净值。
+export const PLAN_COST = 0.001;
+export const PLAN_WARMUP = 120;
+const MIN_ROWS = 120, ANNUAL_MIN_ROWS = 244, ANNUAL_MIN_DAYS = 365;
 
-/**
- * 把交易串成每日盯市的资金曲线（满仓进出、逐笔复利、未扣费用），再算年化、最大回撤、卡玛与逐年收益。
- * trades 来自 planTrades（同一区间）；持仓日按当日收盘 ÷ 买入价计浮动，卖出日按卖出价落袋。
- */
-export function planCurveStats(trades: PlanTrade[], bars: { date: string; close: number }[], from?: string, to?: string): PlanCurveStats {
-  const inRange = bars.filter(bar => (!from || bar.date >= from) && (!to || bar.date <= to));
-  if (inRange.length < 2) return { yearly: [], yearsUp: 0 };
-  const sorted = [...trades].sort((a, b) => a.buyDate.localeCompare(b.buyDate));
-  const equity: { date: string; value: number }[] = [];
-  let base = 1, k = 0;
-  for (const bar of inRange) {
-    let value = base;
-    while (k < sorted.length && sorted[k].buyDate <= bar.date) {
-      const trade = sorted[k];
-      if (!trade.open && trade.sellDate && trade.sellDate <= bar.date) { base *= 1 + trade.ret; value = base; k++; continue; }
-      value = base * bar.close / trade.buyPrice;
-      break;
+export type PlanWindow = { from: string; to: string };
+export type PlanBacktest = {
+  first: string; last: string; sessions: number; years: number;
+  total: number; cagr?: number; mdd: number; calmar?: number;
+  /** 已完成交易（不含窗口末强制平仓）笔数、赚钱笔数 */
+  natural: number; wins: number;
+  winRate?: number; avgWin?: number; avgLoss?: number; payoff?: number; best?: number; worst?: number;
+  /** 同窗口一直持有：首日信号、次日开盘买入，末日收盘卖出，同样扣成本 */
+  hold?: number;
+};
+export type PlanYearly = { year: number; result: PlanBacktest }[];
+
+function signalsIn(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined, window: PlanWindow): PlanSignal[] {
+  if (key === 'cyb') return kd10Signals(bars, bull, { warmup: PLAN_WARMUP, window }).signals;
+  return macdCloseSignals(bars, { bull, warmup: PLAN_WARMUP, window }).signals.map(signal => ({ ...signal, reason: signal.forced ? '期末平仓' : signal.side === 'buy' ? '金叉' : '死叉' }));
+}
+
+/** 按研究引擎回测一个窗口；窗口内（下标 ≥120）不足 120 根时返回 undefined。 */
+export function backtestPlan(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined, window: PlanWindow = { from: '1900-01-01', to: '9999-12-31' }): PlanBacktest | undefined {
+  const [start, end] = windowBounds(bars, PLAN_WARMUP, window);
+  if (end - start + 1 < MIN_ROWS) return undefined;
+  const signals = signalsIn(key, bars, bull, window);
+  const f = PLAN_COST;
+  let cash = 1, q = 0, entryCash = 0, peak = 1, mdd = 0, k = 0;
+  const rets: number[] = [];
+  for (let i = start; i <= end; i++) {
+    const bar = bars[i];
+    while (k < signals.length && signals[k].date < bar.date) k++;
+    for (; k < signals.length && signals[k].date === bar.date; k++) {
+      const signal = signals[k];
+      if (signal.side === 'buy' && !q) { q = cash / (signal.price * (1 + f)); entryCash = cash; cash = 0; }
+      else if (signal.side === 'sell' && q) { cash = q * signal.price * (1 - f); q = 0; if (!signal.forced) rets.push(cash / entryCash - 1); }
     }
-    equity.push({ date: bar.date, value });
+    const value = cash + q * bar.close;
+    peak = Math.max(peak, value); mdd = Math.min(mdd, value / peak - 1);
   }
-  let peak = 1, maxDrawdown = 0;
-  for (const point of equity) { peak = Math.max(peak, point.value); maxDrawdown = Math.min(maxDrawdown, point.value / peak - 1); }
-  const days = (Date.parse(inRange.at(-1)!.date) - Date.parse(inRange[0].date)) / 86_400_000;
-  const final = equity.at(-1)!.value;
-  const annual = days > 0 && final > 0 ? final ** (365.25 / days) - 1 : undefined;
-  const yearly: { year: string; ret: number }[] = [];
-  let start = 1;
-  for (let i = 0; i < equity.length; i++) {
-    const year = equity[i].date.slice(0, 4);
-    if (equity[i + 1]?.date.slice(0, 4) === year) continue;
-    yearly.push({ year, ret: equity[i].value / start - 1 });
-    start = equity[i].value;
-  }
-  const rets = yearly.map(item => item.ret);
+  const days = (Date.parse(bars[end].date) - Date.parse(bars[start].date)) / 86_400_000, years = days / 365.25;
+  const cagr = end - start + 1 >= ANNUAL_MIN_ROWS && days >= ANNUAL_MIN_DAYS && cash > 0 ? Math.expm1(Math.log(cash) / years) : undefined;
+  const wins = rets.filter(ret => ret > 0), losses = rets.filter(ret => ret <= 0);
+  const mean = (values: number[]) => values.length ? values.reduce((a, b) => a + b, 0) / values.length : undefined;
+  const avgWin = mean(wins), avgLoss = mean(losses);
+  const hold = start + 1 <= end ? bars[end].close * (1 - f) / (bars[start + 1].open * (1 + f)) - 1 : undefined;
   return {
-    annual, maxDrawdown,
-    calmar: annual !== undefined && maxDrawdown < 0 ? annual / -maxDrawdown : undefined,
-    yearly,
-    yearAvg: rets.length ? rets.reduce((a, b) => a + b, 0) / rets.length : undefined,
-    yearsUp: rets.filter(ret => ret > 0).length,
-    worstYear: rets.length ? Math.min(...rets) : undefined,
+    first: bars[start].date, last: bars[end].date, sessions: end - start + 1, years,
+    total: cash - 1, cagr, mdd, calmar: cagr !== undefined && mdd < 0 ? cagr / -mdd : undefined,
+    natural: rets.length, wins: wins.length, winRate: rets.length ? wins.length / rets.length : undefined,
+    avgWin, avgLoss, payoff: avgWin !== undefined && avgLoss !== undefined && avgLoss < 0 ? avgWin / -avgLoss : undefined,
+    best: rets.length ? Math.max(...rets) : undefined, worst: rets.length ? Math.min(...rets) : undefined, hold,
+  };
+}
+
+/** 每个自然年单独回测（年初空仓、年末平仓），不足 120 个可交易日的年份不计。 */
+export function backtestPlanYearly(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined): PlanYearly {
+  if (!bars.length) return [];
+  const out: PlanYearly = [];
+  for (let year = Number(bars[0].date.slice(0, 4)); year <= Number(bars.at(-1)!.date.slice(0, 4)); year++) {
+    const result = backtestPlan(key, bars, bull, { from: `${year}-01-01`, to: `${year}-12-31` });
+    if (result) out.push({ year, result });
+  }
+  return out;
+}
+
+export function yearlySummary(yearly: PlanYearly) {
+  const rets = yearly.map(item => item.result.total);
+  return {
+    years: rets.length, positive: rets.filter(ret => ret > 0).length,
+    avg: rets.length ? rets.reduce((a, b) => a + b, 0) / rets.length : undefined,
+    worst: rets.length ? Math.min(...rets) : undefined,
   };
 }
