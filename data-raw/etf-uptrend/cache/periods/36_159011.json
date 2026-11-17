@@ -1,0 +1,44 @@
+{
+ "ths_code": "36:159011",
+ "fetched_at": "2026-11-18T07:03:43+08:00",
+ "periods": [
+  {
+   "start_day": "2026-11-02",
+   "end_day": "2026-11-17",
+   "period_rise": 6.9,
+   "period_change": 0.071,
+   "main_amount_in": -1285049,
+   "duration": 12,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": [],
+   "up_down_flag": null
+  },
+  {
+   "start_day": "2026-08-25",
+   "end_day": "2026-09-09",
+   "period_rise": 7.9,
+   "period_change": 0.082,
+   "main_amount_in": 703129,
+   "duration": 12,
+   "has_step_signal": true,
+   "step_signal_count": 1,
+   "step_signal_dates": [
+    "2026-09-02"
+   ],
+   "up_down_flag": null
+  },
+  {
+   "start_day": "2026-06-29",
+   "end_day": "2026-07-20",
+   "period_rise": 11.77,
+   "period_change": 0.111,
+   "main_amount_in": 3004992,
+   "duration": 16,
+   "has_step_signal": false,
+   "step_signal_count": 0,
+   "step_signal_dates": [],
+   "up_down_flag": null
+  }
+ ]
+}
