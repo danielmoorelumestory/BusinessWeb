@@ -36,7 +36,7 @@ describe('EtfFlowView', () => {
       kpi: { all: { yesterday: 206.57, cum60: 57.13 }, broad: { yesterday: 0, cum60: 0 } },
       note: '同花顺原口径', updated: '2026-11-17T14:30:00Z', sample: false,
     })
-    expect(screen.getByText('+206.57')).toBeTruthy()               // 全A 昨日 KPI
+    expect(screen.getByText('+206.57', { selector: '.ui-stat__value' })).toBeTruthy() // 全A 昨日 KPI（限定 Stat，避开坐标轴刻度）
     fireEvent.click(screen.getByRole('tab', { name: '宽基' }))
     expect(screen.getByText(/待接入/)).toBeTruthy()                // 宽基占位
   })

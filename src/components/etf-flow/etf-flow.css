@@ -1,4 +1,36 @@
-.etf-flow__chart { width: 100%; height: auto; margin: 8px 0 4px; }
+.etf-flow__wrap { position: relative; margin: 8px 0 4px; }
+.etf-flow__chart { width: 100%; height: auto; display: block; touch-action: none; }
+.etf-flow__ov { width: 100%; height: auto; display: block; margin-top: 2px; touch-action: none; }
+
+.etf-flow__ax { fill: var(--muted, #8893a7); font-size: 11px; }
+
+/* 概览滑块 */
+.etf-flow__ov-mask { fill: var(--surface, #f4f6fa); opacity: .6; }
+.etf-flow__ov-sel { fill: var(--accent, #2f6bff); fill-opacity: .1; stroke: var(--accent, #2f6bff); stroke-opacity: .35; }
+.etf-flow__ov-handle { fill: var(--accent, #2f6bff); }
+
+/* 十字光标 tooltip */
+.etf-flow__tip {
+  position: absolute;
+  top: 10px;
+  transform: translateX(-50%);
+  min-width: 190px;
+  max-width: 70%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(28, 34, 46, .92);
+  color: #f2f4f8;
+  font-size: .78rem;
+  line-height: 1.5;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+  z-index: 2;
+}
+.etf-flow__tip-date { font-weight: 600; margin-bottom: 4px; opacity: .9; }
+.etf-flow__tip-row { display: flex; justify-content: space-between; gap: 14px; white-space: nowrap; }
+.etf-flow__tip-k { display: inline-flex; align-items: center; gap: 6px; opacity: .85; }
+.etf-flow__tip-k i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
 .etf-flow__note {
   color: var(--muted, #5f6a7d);
   font-size: .84rem;
