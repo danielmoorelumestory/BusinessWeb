@@ -70,3 +70,59 @@ export function planStats(trades: PlanTrade[]): PlanStats {
     open: trades.find(trade => trade.open),
   };
 }
+
+export type PlanCurveStats = {
+  /** 年化收益：区间首日到末日按自然日折算 */
+  annual?: number;
+  /** 最大回撤（负数），按每日收盘盯市的资金曲线计算 */
+  maxDrawdown?: number;
+  /** 卡玛 = 年化 ÷ |最大回撤| */
+  calmar?: number;
+  /** 区间覆盖的各自然年收益（首尾年不足一年也算一年） */
+  yearly: { year: string; ret: number }[];
+  yearAvg?: number; yearsUp: number; worstYear?: number;
+};
+
+/**
+ * 把交易串成每日盯市的资金曲线（满仓进出、逐笔复利、未扣费用），再算年化、最大回撤、卡玛与逐年收益。
+ * trades 来自 planTrades（同一区间）；持仓日按当日收盘 ÷ 买入价计浮动，卖出日按卖出价落袋。
+ */
+export function planCurveStats(trades: PlanTrade[], bars: { date: string; close: number }[], from?: string, to?: string): PlanCurveStats {
+  const inRange = bars.filter(bar => (!from || bar.date >= from) && (!to || bar.date <= to));
+  if (inRange.length < 2) return { yearly: [], yearsUp: 0 };
+  const sorted = [...trades].sort((a, b) => a.buyDate.localeCompare(b.buyDate));
+  const equity: { date: string; value: number }[] = [];
+  let base = 1, k = 0;
+  for (const bar of inRange) {
+    let value = base;
+    while (k < sorted.length && sorted[k].buyDate <= bar.date) {
+      const trade = sorted[k];
+      if (!trade.open && trade.sellDate && trade.sellDate <= bar.date) { base *= 1 + trade.ret; value = base; k++; continue; }
+      value = base * bar.close / trade.buyPrice;
+      break;
+    }
+    equity.push({ date: bar.date, value });
+  }
+  let peak = 1, maxDrawdown = 0;
+  for (const point of equity) { peak = Math.max(peak, point.value); maxDrawdown = Math.min(maxDrawdown, point.value / peak - 1); }
+  const days = (Date.parse(inRange.at(-1)!.date) - Date.parse(inRange[0].date)) / 86_400_000;
+  const final = equity.at(-1)!.value;
+  const annual = days > 0 && final > 0 ? final ** (365.25 / days) - 1 : undefined;
+  const yearly: { year: string; ret: number }[] = [];
+  let start = 1;
+  for (let i = 0; i < equity.length; i++) {
+    const year = equity[i].date.slice(0, 4);
+    if (equity[i + 1]?.date.slice(0, 4) === year) continue;
+    yearly.push({ year, ret: equity[i].value / start - 1 });
+    start = equity[i].value;
+  }
+  const rets = yearly.map(item => item.ret);
+  return {
+    annual, maxDrawdown,
+    calmar: annual !== undefined && maxDrawdown < 0 ? annual / -maxDrawdown : undefined,
+    yearly,
+    yearAvg: rets.length ? rets.reduce((a, b) => a + b, 0) / rets.length : undefined,
+    yearsUp: rets.filter(ret => ret > 0).length,
+    worstYear: rets.length ? Math.min(...rets) : undefined,
+  };
+}

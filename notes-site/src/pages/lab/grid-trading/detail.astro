@@ -143,7 +143,7 @@ const etfReviewUrl = href('lab/etf-review');
   import { H1_CODES, isLiveBar, macdEstimate, maEstimate, R2_CODES, ratioEstimate, styleRatio } from '../../../lib/chart-indicators';
   import { panViewport, zoomViewport, type Viewport } from '../../../lib/chart-viewport';
   import { planTagsOf } from '../../../lib/backtest-plan-tags';
-  import { planStats, planTrades, type PlanResult, type PlanStats } from '../../../lib/plan-trades';
+  import { planCurveStats, planStats, planTrades, type PlanCurveStats, type PlanResult, type PlanStats } from '../../../lib/plan-trades';
 
   blockCopy(); // 屏蔽页面内容复制
 
@@ -240,7 +240,7 @@ const etfReviewUrl = href('lab/etf-review');
     const tags = planTagsOf(code);
     planTagsBox.hidden = false;
     planTagsBox.innerHTML = tags.length
-      ? tags.map((tag, i) => `<div class="plan-tag ${tag.group}"><span class="plan-chip">${tag.name}</span><span><b>择时：</b>${tag.timing}；<b>买卖：</b>${tag.plan}。<span class="plan-tag-stats">${tag.stats}。</span></span>${tag.views?.length ? `<button type="button" class="plan-show" data-tag="${i}">显示对应开关</button>` : ''}</div>`).join('') + (tags.some(tag => tag.group === 'macd-good') && tags.some(tag => tag.group === 'hs300-timing') ? '<div class="plan-note">同时入选两个分组：两套方案的历史回测都比基准好，择时口径不同，按自己的习惯选一套即可。</div>' : '') + '<div class="plan-note">回测分组只是历史统计，不构成投资建议。</div>'
+      ? tags.map((tag, i) => `<div class="plan-tag ${tag.group}"><div class="plan-tag-head"><span class="plan-chip">${tag.name}</span>${tag.views?.length ? `<button type="button" class="plan-show" data-tag="${i}">显示对应开关</button>` : ''}</div><span class="plan-tag-text"><b>择时：</b>${tag.timing}；<b>买卖：</b>${tag.plan}。<span class="plan-tag-stats">${tag.stats}。</span></span></div>`).join('') + (tags.some(tag => tag.group === 'macd-good') && tags.some(tag => tag.group === 'hs300-timing') ? '<div class="plan-note">同时入选两个分组：两套方案的历史回测都比基准好，择时口径不同，按自己的习惯选一套即可。</div>' : '')
       : '<div class="plan-tag none"><span class="plan-chip">未入选回测优选</span><span>不在「创业板择时优选」「沪深300择时优选」「择时组合」分组里，页面上的创业板择时、沪深300择时与对应买卖点只作观察。</span></div>';
     planTagsBox.querySelectorAll<HTMLButtonElement>('.plan-show').forEach(button => button.addEventListener('click', () => {
       const tag = tags[Number(button.dataset.tag)];
@@ -300,14 +300,24 @@ const etfReviewUrl = href('lab/etf-review');
     if (!plans.length) { planStatsBox.innerHTML = ''; return; }
     const pctText = (value: number | undefined, signed = true) => value === undefined ? '—' : `${signed && value > 0 ? '+' : ''}${(value * 100).toFixed(1)}%`;
     const cls = (value: number | undefined) => value === undefined ? '' : value > 0 ? 'up' : value < 0 ? 'down' : '';
-    const row = (name: string, scope: string, stats: PlanStats) => `<tr><td>${name}</td><td>${scope}</td><td>${stats.trades}</td><td>${stats.trades ? `${stats.wins} / ${stats.losses}` : '—'}</td><td>${pctText(stats.winRate, false)}</td>`
-      + `<td class="up">${pctText(stats.avgWin)}</td><td class="down">${pctText(stats.avgLoss)}</td><td><b>${stats.payoff === undefined ? '—' : stats.payoff.toFixed(2)}</b></td>`
-      + `<td class="${cls(stats.total)}"><b>${stats.trades ? pctText(stats.total) : '—'}</b></td><td><span class="${cls(stats.best)}">${pctText(stats.best)}</span> / <span class="${cls(stats.worst)}">${pctText(stats.worst)}</span></td>`
+    const num = (value: number | undefined) => value === undefined ? '—' : value.toFixed(2);
+    const row = (name: string, scope: string, scopeTip: string, stats: PlanStats, curve: PlanCurveStats) => `<tr><td>${name}</td><td title="${scopeTip}">${scope}</td><td>${stats.trades}</td><td>${stats.trades ? `${stats.wins} / ${stats.losses}` : '—'}</td><td>${pctText(stats.winRate, false)}</td>`
+      + `<td class="up">${pctText(stats.avgWin)}</td><td class="down">${pctText(stats.avgLoss)}</td><td><b>${num(stats.payoff)}</b></td>`
+      + `<td class="${cls(stats.total)}"><b>${stats.trades ? pctText(stats.total) : '—'}</b></td>`
+      + `<td class="${cls(curve.annual)}"><b>${pctText(curve.annual)}</b></td><td class="${cls(curve.maxDrawdown)}">${pctText(curve.maxDrawdown)}</td><td><b>${num(curve.calmar)}</b></td>`
+      + `<td class="${cls(curve.yearAvg)}" title="${curve.yearly.map(item => `${item.year} ${pctText(item.ret)}`).join('，')}">${pctText(curve.yearAvg)}</td><td>${curve.yearly.length ? `${curve.yearsUp} / ${curve.yearly.length}` : '—'}</td><td class="${cls(curve.worstYear)}">${pctText(curve.worstYear)}</td>`
+      + `<td><span class="${cls(stats.best)}">${pctText(stats.best)}</span> / <span class="${cls(stats.worst)}">${pctText(stats.worst)}</span></td>`
       + `<td>${stats.open ? `<span class="${cls(stats.open.ret)}">${stats.open.buyDate} 起 ${pctText(stats.open.ret)}</span>` : '空仓'}</td></tr>`;
-    planStatsBox.innerHTML = `<div class="plan-stats-head">择时买卖点 · 波段交易统计 <span>按买卖价涨跌计算，未扣费用；「区间」只算买入日在当前显示区间内的交易</span></div>`
-      + `<div class="plan-stats-scroll"><table><thead><tr><th>方案</th><th>范围</th><th>已完成</th><th>赚 / 亏</th><th>胜率</th><th>平均盈利</th><th>平均亏损</th><th>盈亏比</th><th>累计（复利）</th><th>最好 / 最差</th><th>持仓中</th></tr></thead><tbody>`
-      + plans.map(plan => row(plan.name, `区间 ${from} ~ ${to}`, planStats(planTrades(plan.signals, candles, from, to))) + row(plan.name, '上市以来', planStats(planTrades(plan.signals, candles)))).join('')
-      + '</tbody></table></div><div class="plan-note">盈亏比 = 平均盈利 ÷ 平均亏损的绝对值。</div>';
+    const firstDate = candles[0]?.date ?? '', lastDate = candles.at(-1)?.date ?? '';
+    const rowsOf = (plan: PlanResult) => {
+      const rangeTrades = planTrades(plan.signals, candles, from, to), allTrades = planTrades(plan.signals, candles);
+      return row(plan.name, '区间', `${from} ~ ${to}`, planStats(rangeTrades), planCurveStats(rangeTrades, candles, from, to))
+        + row(plan.name, '上市以来', `${firstDate} ~ ${lastDate}`, planStats(allTrades), planCurveStats(allTrades, candles));
+    };
+    planStatsBox.innerHTML = `<div class="plan-stats-head">择时买卖点 · 波段交易统计 <span>区间 = 当前显示 ${from} ~ ${to}，只算买入日在区间内的交易；满仓进出、按买卖价计、未扣费用</span></div>`
+      + `<div class="plan-stats-scroll"><table><thead><tr><th>方案</th><th>范围</th><th>已完成</th><th>赚 / 亏</th><th>胜率</th><th>平均盈利</th><th>平均亏损</th><th>盈亏比</th><th>累计（复利）</th><th>年化</th><th>最大回撤</th><th>卡玛</th><th>逐年平均</th><th>赚钱年数</th><th>最差一年</th><th>单笔最好 / 最差</th><th>持仓中</th></tr></thead><tbody>`
+      + plans.map(rowsOf).join('')
+      + '</tbody></table></div><div class="plan-note">盈亏比 = 平均盈利 ÷ |平均亏损|；年化、最大回撤按每日收盘盯市的资金曲线算，卡玛 = 年化 ÷ |最大回撤|；逐年平均悬停看各年收益，首尾不足一年也算一年。</div>';
   }
 
   function bindRange() {
@@ -1394,6 +1404,8 @@ const etfReviewUrl = href('lab/etf-review');
   .plan-tag.none { color:#64748b; }
   .plan-tag-stats, .plan-note { color:#64748b; }
   .plan-note { font-size:12px; }
+  .plan-tag-head { display:flex; align-items:center; gap:8px; }
+  .plan-tag > .plan-tag-text { flex-basis:100%; }
   .plan-show { flex:none; padding:1px 8px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; font-size:12px; cursor:pointer; }
   .minute-panel { margin-top:28px; padding:18px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
   .minute-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
