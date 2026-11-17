@@ -3,9 +3,9 @@
 // - 创业板择时优选：Y1 = 创业板÷红利 择时 + B+KD10（金叉 / 站上10日线 次日开盘买；死叉 / 熊市破10日线 当日收盘卖）。
 // - 沪深300择时优选：只认金叉 = 沪深300÷红利 择时牛市金叉次日开盘买、熊市不开新仓、死叉当日收盘卖。
 // 每个交易日两次（由 index.ts 的盘中 15 分钟定时任务在对应时刻调用）：
-// - pre   北京 14:45：用实时价当作今日收盘估算，提醒「今日尾盘卖」与「若收盘维持则明日开盘买」；
-// - close 北京 15:15：收盘后确认，列出明日开盘要买 / 卖的标的及今日收盘已触发的卖出。
-// 没有任何信号时不发消息；同一交易日同一时段只发一次（plan_alert_log）。
+// - pre   北京 14:45：用实时价当作今日收盘估算，不论有没有信号都发（买入 / 卖出 / 持有三段），顺带确认服务正常；
+// - close 北京 15:15：按真实收盘重算，只有与 14:45 不同（或 14:45 没发出）时才发。
+// 同一交易日同一时段只发一次（plan_alert_log）。
 import macdGood from '../../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../../src/data/etfHs300Timing.json';
 import { cybPlan, hsPlan, type PlanBar, type PlanResult } from '../../../src/lib/plan-trades';
@@ -125,12 +125,11 @@ const pct = (ret: number) => `${ret >= 0 ? '+' : ''}${(ret * 100).toFixed(2)}%`;
 
 /**
  * 不分择时分组，只分「买入 / 卖出 / 持有」三段；盘中预估由「今日尾盘 / 现价」区分。
- * 14:45 与 15:15 都只在有买卖信号时发（持有段随消息附带）；没有信号时返回 undefined（不发）。
+ * 是否发送由 shouldSend 决定；header 为可选的首行（如收盘更正）。
  */
-export function formatMessage(results: GroupResult[], _today: string, phase: AlertPhase): string | undefined {
+export function formatMessage(results: GroupResult[], phase: AlertPhase, header?: string): string {
   const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
   const failed = [...new Set(results.flatMap(result => result.failed))];
-  if (!alerts.length) return undefined;
   const priceLabel = phase === 'pre' ? '现价' : '收盘';
   const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
   const section = (title: string, lines: string[]) => [title, ...(lines.length ? lines : ['无'])].join('\n');
@@ -140,7 +139,19 @@ export function formatMessage(results: GroupResult[], _today: string, phase: Ale
     section('📌 持有', holdings.map(h => `${h.code} ${h.name} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`)),
   ];
   if (failed.length) parts.push(`⚠️ 取数失败：${failed.join('、')}`);
-  return parts.join('\n\n');
+  return [...(header ? [header] : []), ...parts].join('\n\n');
+}
+
+/** 买卖信号的指纹（动作+代码），用来比较 14:45 预估与收盘结果是否一致。 */
+export const alertKeys = (results: GroupResult[]) => results.flatMap(result => result.alerts.map(alert => `${alert.action}:${alert.code}`)).sort().join(',');
+
+/**
+ * 14:45 不论有没有信号都发（顺带确认服务正常）；
+ * 15:15 只在收盘信号与 14:45 不同（或 14:45 没发出）时发，并在首行说明。返回 undefined 表示不发。
+ */
+export function closeHeader(keys: string, preKeys: string | undefined): string | undefined {
+  if (preKeys === undefined) return '收盘确认（14:45 未发出）';
+  return keys === preKeys ? undefined : '⚠️ 收盘结果与 14:45 不同，以此为准';
 }
 
 /** 腾讯实时报价（GBK），一次请求多只；指数用带前缀的代码请求。 */
@@ -200,5 +211,5 @@ export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQu
   // 报价失败时用日线最后一根判断是否交易日
   if (!anchor && barsOf.get(marketSymbol(R2_CODES.defensive))?.at(-1)?.date !== today) return { tradingDay: false as const };
   const results = evaluateGroups(barsOf, today);
-  return { tradingDay: true as const, results, text: formatMessage(results, today, phase) };
+  return { tradingDay: true as const, results, keys: alertKeys(results), text: formatMessage(results, phase) };
 }

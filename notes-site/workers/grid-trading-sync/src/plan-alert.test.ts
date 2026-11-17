@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { cybPlan, hsPlan, type PlanBar } from '../../../src/lib/plan-trades';
 import { styleRatio } from '../../../src/lib/chart-indicators';
-import { alertPhaseOf, buildPlanAlert, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
+import { alertKeys, alertPhaseOf, buildPlanAlert, closeHeader, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
 
 const day = (i: number) => { const d = new Date(Date.UTC(2024, 0, 1)); d.setUTCDate(d.getUTCDate() + i); return d.toISOString().slice(0, 10); };
 /** 带周期波动的价格序列，足以产生多次金叉死叉 */
@@ -78,17 +78,13 @@ describe('todayActions 与详情页规则引擎一致', () => {
 describe('formatMessage', () => {
   const group = PLAN_GROUPS[0];
   const holding = { code: '159819', name: '人工智能ETF易方达', buyDate: '2026-11-05', buyPrice: 1.2, ret: 0.05321 };
-  it('既无信号也无持仓时不发', () => {
-    expect(formatMessage([{ group, alerts: [], failed: [] }], '2026-11-16', 'close')).toBeUndefined();
-  });
-  it('只有持仓、没有买卖信号时两个时段都不发', () => {
+  it('没有信号也给出三段（14:45 每天都发，确认服务正常）', () => {
     const results: GroupResult[] = [{ group, alerts: [], failed: [], holdings: [holding] }, { group: PLAN_GROUPS[1], alerts: [], failed: [], holdings: [] }];
-    expect(formatMessage(results, '2026-11-16', 'pre')).toBeUndefined();
-    expect(formatMessage(results, '2026-11-16', 'close')).toBeUndefined();
+    expect(formatMessage(results, 'pre')).toBe('🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
+    expect(formatMessage([{ group, alerts: [], failed: [] }], 'pre')).toBe('🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n无');
   });
-  it('有信号时空段写「无」', () => {
-    const results: GroupResult[] = [{ group, alerts: [{ code: '159819', name: '人工智能ETF易方达', action: 'buy-next-open', reason: '金叉', price: 1.2 }], failed: [], holdings: [] }];
-    expect(formatMessage(results, '2026-11-16', 'close')).toBe('🟢 买入\n明日开盘 159819 人工智能ETF易方达（金叉，收盘 1.200）\n\n🔴 卖出\n无\n\n📌 持有\n无');
+  it('首行可加说明', () => {
+    expect(formatMessage([{ group, alerts: [], failed: [] }], 'close', '⚠️ 收盘结果与 14:45 不同，以此为准').split('\n')[0]).toBe('⚠️ 收盘结果与 14:45 不同，以此为准');
   });
   it('不分择时分组，两组的信号与持仓合并到 买入 / 卖出 / 持有 三段', () => {
     const results: GroupResult[] = [
@@ -98,14 +94,22 @@ describe('formatMessage', () => {
       ] },
       { group: PLAN_GROUPS[1], failed: [], holdings: [], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67 }] },
     ];
-    expect(formatMessage(results, '2026-11-16', 'pre')).toBe([
+    expect(formatMessage(results, 'pre')).toBe([
       '🟢 买入', '明日开盘 159819 人工智能ETF易方达（金叉，现价 1.235）', '',
       '🔴 卖出', '今日尾盘 512670 国防ETF鹏华（死叉，现价 0.670）', '明日开盘 512760 芯片ETF国泰（死叉，现价 2.000）', '',
       '📌 持有', '159819 人工智能ETF易方达 -3.12%（11-05买入 1.200）', '',
       '⚠️ 取数失败：159869',
     ].join('\n'));
-    expect(formatMessage(results, '2026-11-16', 'close')).toContain('今日收盘（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
+    expect(formatMessage(results, 'close')).toContain('今日收盘（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
+    expect(alertKeys(results)).toBe('buy-next-open:159819,sell-next-open:512760,sell-today-close:512670');
   });
+});
+
+describe('closeHeader', () => {
+  it('收盘信号与 14:45 一致时不发', () => expect(closeHeader('buy-next-open:1', 'buy-next-open:1')).toBeUndefined());
+  it('都没信号也算一致', () => expect(closeHeader('', '')).toBeUndefined());
+  it('不一致时发并说明', () => expect(closeHeader('', 'sell-today-close:512670')).toBe('⚠️ 收盘结果与 14:45 不同，以此为准'));
+  it('14:45 没发出时发收盘确认', () => expect(closeHeader('', undefined)).toBe('收盘确认（14:45 未发出）'));
 });
 
 describe('currentHolding 与规则引擎一致', () => {

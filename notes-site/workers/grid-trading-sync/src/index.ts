@@ -3,7 +3,7 @@ import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
 import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
-import { alertPhaseOf, buildPlanAlert, sendTelegram, type AlertPhase } from './plan-alert';
+import { alertPhaseOf, buildPlanAlert, closeHeader, formatMessage, sendTelegram, type AlertPhase } from './plan-alert';
 
 export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string; TELEGRAM_BOT_TOKEN?: string; TELEGRAM_CHAT_ID?: string }
 
@@ -280,7 +280,7 @@ const planBars = (budget: Budget) => async (symbol: string, fq: 'qfq' | 'hfq' = 
   return [...bars].map(([date, bar]) => ({ date, open: bar.open, high: bar.high, low: bar.low, close: bar.close })).sort((a, b) => a.date.localeCompare(b.date));
 };
 
-/** 两组择时优选的买卖提醒；未配置 Telegram 或无信号时不发，同一交易日同一时段只发一次。 */
+/** 择时买卖提醒：14:45 每个交易日都发；15:15 只在收盘信号与 14:45 不同或 14:45 没发出时发。同一交易日同一时段只发一次。 */
 export async function runPlanAlert(env: Env, phase: AlertPhase) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) { console.log('择时提醒：未配置 TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID，跳过'); return; }
   const today = beijingToday();
@@ -289,9 +289,18 @@ export async function runPlanAlert(env: Env, phase: AlertPhase) {
   const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)) }, phase);
   if (!alert.tradingDay) { console.log('择时提醒：非交易日，跳过', today); return; }
   console.log('择时提醒', phase, JSON.stringify(alert.results.map(result => ({ group: result.group.title, alerts: result.alerts, failed: result.failed }))));
-  if (!alert.text) return;
-  await sendTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, alert.text);
-  await env.DB.prepare('INSERT OR IGNORE INTO plan_alert_log (date, phase, sent_at, text) VALUES (?, ?, ?, ?)').bind(today, phase, Date.now(), alert.text).run();
+  let text = alert.text;
+  if (phase === 'close') {
+    // text 列存 {keys, text}；旧格式（纯文本）按「14:45 已发、信号未知」处理，视为不同
+    const pre = await env.DB.prepare("SELECT text FROM plan_alert_log WHERE date = ? AND phase = 'pre'").bind(today).first<{ text: string }>();
+    let preKeys: string | undefined;
+    if (pre) { try { preKeys = String(JSON.parse(pre.text).keys ?? ''); } catch { preKeys = '?'; } }
+    const header = closeHeader(alert.keys, preKeys);
+    if (!header) { console.log('择时提醒：收盘信号与 14:45 一致，不重复发送'); return; }
+    text = formatMessage(alert.results, phase, header);
+  }
+  await sendTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, text);
+  await env.DB.prepare('INSERT OR IGNORE INTO plan_alert_log (date, phase, sent_at, text) VALUES (?, ?, ?, ?)').bind(today, phase, Date.now(), JSON.stringify({ keys: alert.keys, text })).run();
 }
 
 async function syncReviewTechnical(env: Env) {
