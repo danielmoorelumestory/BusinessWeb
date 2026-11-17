@@ -115,30 +115,32 @@ export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string): G
   });
 }
 
-const ACTION_TEXT: Record<AlertPhase, Record<AlertAction, string>> = {
-  pre: { 'sell-today-close': '🔴 尾盘卖出', 'buy-next-open': '🟢 明日开盘买入', 'sell-next-open': '🔴 明日开盘卖出' },
-  close: { 'sell-today-close': '🔴 今日收盘卖出（已触发）', 'buy-next-open': '🟢 明日开盘买入', 'sell-next-open': '🔴 明日开盘卖出' },
+/** 动作时点：卖出分今日尾盘 / 今日收盘已触发 / 明日开盘（T+1 顺延），买入都是明日开盘。 */
+const WHEN_TEXT: Record<AlertPhase, Record<AlertAction, string>> = {
+  pre: { 'sell-today-close': '今日尾盘', 'buy-next-open': '明日开盘', 'sell-next-open': '明日开盘' },
+  close: { 'sell-today-close': '今日收盘（已触发）', 'buy-next-open': '明日开盘', 'sell-next-open': '明日开盘' },
 };
-const ACTION_ORDER: AlertAction[] = ['sell-today-close', 'sell-next-open', 'buy-next-open'];
 
 const pct = (ret: number) => `${ret >= 0 ? '+' : ''}${(ret * 100).toFixed(2)}%`;
 
 /**
- * 只写分组、动作与持仓，盘中预估由「尾盘卖出 / 现价」区分。
+ * 不分择时分组，只分「买入 / 卖出 / 持有」三段；盘中预估由「今日尾盘 / 现价」区分。
  * 14:45 只在有买卖信号时发；15:15 有信号或有持仓就发（每天收盘报一次持仓盈亏）。都没有时返回 undefined（不发）。
  */
 export function formatMessage(results: GroupResult[], _today: string, phase: AlertPhase): string | undefined {
-  const hasAlerts = results.some(result => result.alerts.length), hasHoldings = results.some(result => result.holdings?.length);
-  if (!hasAlerts && !(phase === 'close' && hasHoldings)) return undefined;
-  return results.map(({ group, alerts, failed, holdings = [] }) => {
-    const sorted = [...alerts].sort((a, b) => ACTION_ORDER.indexOf(a.action) - ACTION_ORDER.indexOf(b.action));
-    const lines = [group.title, ...(sorted.length
-      ? sorted.map(alert => `${ACTION_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${phase === 'pre' ? '现价' : '收盘'} ${alert.price.toFixed(3)}）`)
-      : ['无买卖信号'])];
-    lines.push(...(holdings.length ? holdings.map(h => `📌 持有 ${h.code} ${h.name} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`) : ['空仓']));
-    if (failed.length) lines.push(`⚠️ 取数失败：${failed.join('、')}`);
-    return lines.join('\n');
-  }).join('\n\n');
+  const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
+  const failed = [...new Set(results.flatMap(result => result.failed))];
+  if (!alerts.length && !(phase === 'close' && holdings.length)) return undefined;
+  const priceLabel = phase === 'pre' ? '现价' : '收盘';
+  const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
+  const section = (title: string, lines: string[]) => [title, ...(lines.length ? lines : ['无'])].join('\n');
+  const parts = [
+    section('🟢 买入', alerts.filter(alert => alert.action === 'buy-next-open').map(actionLine)),
+    section('🔴 卖出', alerts.filter(alert => alert.action !== 'buy-next-open').sort((x, y) => x.action === y.action ? 0 : x.action === 'sell-today-close' ? -1 : 1).map(actionLine)),
+    section('📌 持有', holdings.map(h => `${h.code} ${h.name} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`)),
+  ];
+  if (failed.length) parts.push(`⚠️ 取数失败：${failed.join('、')}`);
+  return parts.join('\n\n');
 }
 
 /** 腾讯实时报价（GBK），一次请求多只；指数用带前缀的代码请求。 */

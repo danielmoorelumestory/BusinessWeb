@@ -84,30 +84,23 @@ describe('formatMessage', () => {
   it('只有持仓：收盘确认照发，盘中预估不发', () => {
     const results: GroupResult[] = [{ group, alerts: [], failed: [], holdings: [holding] }, { group: PLAN_GROUPS[1], alerts: [], failed: [], holdings: [] }];
     expect(formatMessage(results, '2026-11-16', 'pre')).toBeUndefined();
-    expect(formatMessage(results, '2026-11-16', 'close')).toBe([
-      '创业板择时优选', '无买卖信号', '📌 持有 159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）',
-      '', '沪深300择时优选', '无买卖信号', '空仓',
-    ].join('\n'));
+    expect(formatMessage(results, '2026-11-16', 'close')).toBe('🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
   });
-  it('卖出在前、买入在后，之后列持仓（亏损带负号）与取数失败', () => {
+  it('不分择时分组，两组的信号与持仓合并到 买入 / 卖出 / 持有 三段', () => {
     const results: GroupResult[] = [
       { group, failed: ['159869'], holdings: [{ ...holding, ret: -0.0312 }], alerts: [
         { code: '159819', name: '人工智能ETF易方达', action: 'buy-next-open', reason: '金叉', price: 1.2346 },
-        { code: '512760', name: '芯片ETF国泰', action: 'sell-today-close', reason: '死叉', price: 2 },
+        { code: '512760', name: '芯片ETF国泰', action: 'sell-next-open', reason: '死叉', price: 2 },
       ] },
-      { group: PLAN_GROUPS[1], alerts: [], failed: [] },
+      { group: PLAN_GROUPS[1], failed: [], holdings: [], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67 }] },
     ];
     expect(formatMessage(results, '2026-11-16', 'pre')).toBe([
-      '创业板择时优选',
-      '🔴 尾盘卖出 512760 芯片ETF国泰（死叉，现价 2.000）',
-      '🟢 明日开盘买入 159819 人工智能ETF易方达（金叉，现价 1.235）',
-      '📌 持有 159819 人工智能ETF易方达 -3.12%（11-05买入 1.200）',
+      '🟢 买入', '明日开盘 159819 人工智能ETF易方达（金叉，现价 1.235）', '',
+      '🔴 卖出', '今日尾盘 512670 国防ETF鹏华（死叉，现价 0.670）', '明日开盘 512760 芯片ETF国泰（死叉，现价 2.000）', '',
+      '📌 持有', '159819 人工智能ETF易方达 -3.12%（11-05买入 1.200）', '',
       '⚠️ 取数失败：159869',
-      '',
-      '沪深300择时优选',
-      '无买卖信号',
-      '空仓',
     ].join('\n'));
+    expect(formatMessage(results, '2026-11-16', 'close')).toContain('今日收盘（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
   });
 });
 
