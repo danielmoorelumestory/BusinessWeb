@@ -1194,8 +1194,9 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // 10 / 20 日均线：用全部已取日线计算，区间开头也有值（调用方会多取一段预热日线）；不足 n 根时为空。
   const maOf = (n: number) => closesAll.map((_, i) => i >= n - 1 ? closesAll.slice(i - n + 1, i + 1).reduce((a, b) => a + b, 0) / n : null);
   const ma10 = indicators.ma10 ? maOf(10) : undefined, ma20 = indicators.ma20 ? maOf(20) : undefined;
-  const macdEst = indicators.macd && candles.length && bars.at(-1) === candles.at(-1) ? macdEstimate(candles, isLiveBar(candles.at(-1)!.date)) : undefined;
-  const ma10Est = indicators.ma10 && candles.length && bars.at(-1) === candles.at(-1) ? maEstimate(candles, 10, isLiveBar(candles.at(-1)!.date)) : undefined;
+  // 临界价线不随 MACD / 10 日线开关隐藏：详情页左上角浮层始终给出这两个价，图上也始终画线对应。
+  const macdEst = candles.length && bars.at(-1) === candles.at(-1) ? macdEstimate(candles, isLiveBar(candles.at(-1)!.date)) : undefined;
+  const ma10Est = candles.length && bars.at(-1) === candles.at(-1) ? maEstimate(candles, 10, isLiveBar(candles.at(-1)!.date)) : undefined;
   const macd = indicators.macd ? macdSeries(closesAll) : undefined, band = indicators.band ? etfBand(closesAll) : undefined;
   const panelHeight = compact ? 72 : 90, panelGap = 30;
   const priceTop = 30, priceHeight = compact ? 220 : 280;
@@ -1237,7 +1238,9 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const fibAll = fib ? fibLines(fib) : [];
   const fibIn = fibAll.filter(line => line.price >= windowLow && line.price <= windowHigh);
   const fibAbove = fibAll.filter(line => line.price > windowHigh), fibBelow = fibAll.filter(line => line.price < windowLow);
-  const priceMinRaw = Math.min(barMin, ...zonesIn.map(zone => Math.max(zone.low, windowLow)), ...fibIn.map(line => line.price)), priceMaxRaw = Math.max(barMax, ...zonesIn.map(zone => Math.min(zone.high, windowHigh)), ...fibIn.map(line => line.price));
+  // 纵轴范围纳入两条临界价线，缩放到短区间时也画得出来。
+  const estPrices = [macdEst?.price, ma10Est?.price].filter((price): price is number => price !== undefined && Number.isFinite(price) && price > 0);
+  const priceMinRaw = Math.min(barMin, ...zonesIn.map(zone => Math.max(zone.low, windowLow)), ...fibIn.map(line => line.price), ...estPrices), priceMaxRaw = Math.max(barMax, ...zonesIn.map(zone => Math.min(zone.high, windowHigh)), ...fibIn.map(line => line.price), ...estPrices);
   const priceSpan = priceMaxRaw - priceMinRaw || Math.max(priceMaxRaw * .02, .01), priceMin = priceMinRaw - priceSpan * .08, priceMax = priceMaxRaw + priceSpan * .08;
   const x = (index: number) => left + (index + .5) * slot; // K线居中于各自的槽位
   const y = (value: number) => moneyTop + (yMax - value) / (yMax - yMin) * moneyHeight;
@@ -1453,10 +1456,10 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   // MACD 预估价：在价格图上画灰色虚线，标「死叉价 / 金叉价」；超出价格图范围时不画
   const EST_COLOR = '#475569';
   const estSvg = macdEst && macdEst.price >= priceMin && macdEst.price <= priceMax
-    ? `<line x1="${left}" x2="${width - right}" y1="${priceY(macdEst.price).toFixed(1)}" y2="${priceY(macdEst.price).toFixed(1)}" stroke="${EST_COLOR}" stroke-width="1" stroke-dasharray="6 3" opacity=".8"/><text x="${left + 6}" y="${(priceY(macdEst.price) - 3).toFixed(1)}" fill="${EST_COLOR}" font-size="9" font-weight="600">MACD ${macdEst.forToday ? '今日' : '次日'}${macdEst.bull ? '死叉' : '金叉'}价 ${macdEst.price.toFixed(3)}</text>` : '';
-  // 10 日线预估价：橙色虚线，标签放右侧，避免和左侧的 MACD 标签重叠
+    ? `<line x1="${left}" x2="${width - right}" y1="${priceY(macdEst.price).toFixed(1)}" y2="${priceY(macdEst.price).toFixed(1)}" stroke="${EST_COLOR}" stroke-width="1" stroke-dasharray="6 3" opacity=".8"/>` : '';
+  // 10 日线预估价：橙色点线；两条线都不带文字，含义看详情页左上角浮层
   const ma10EstSvg = ma10Est && ma10Est.price >= priceMin && ma10Est.price <= priceMax
-    ? `<line x1="${left}" x2="${width - right}" y1="${priceY(ma10Est.price).toFixed(1)}" y2="${priceY(ma10Est.price).toFixed(1)}" stroke="${MA10_COLOR}" stroke-width="1" stroke-dasharray="2 3" opacity=".9"/><text x="${width - right - 6}" y="${(priceY(ma10Est.price) - 3).toFixed(1)}" text-anchor="end" fill="${MA10_COLOR}" font-size="9" font-weight="600">10日线 ${ma10Est.forToday ? '今日' : '次日'}${ma10Est.above ? '跌破' : '站上'}价 ${ma10Est.price.toFixed(3)}</text>` : '';
+    ? `<line x1="${left}" x2="${width - right}" y1="${priceY(ma10Est.price).toFixed(1)}" y2="${priceY(ma10Est.price).toFixed(1)}" stroke="${MA10_COLOR}" stroke-width="1" stroke-dasharray="2 3" opacity=".9"/>` : '';
   // 成交量：柱子与K线同色（红涨绿跌），纵轴从 0 到区间最大量；单位手，≥1 万显示“万手”，≥1 亿显示“亿手”。
   const volumeText = (volume: number) => volume >= 1e8 ? `${(volume / 1e8).toFixed(2)}亿手` : volume >= 1e4 ? `${(volume / 1e4).toFixed(1)}万手` : `${Math.round(volume)}手`;
   const maxVolume = showVolume ? Math.max(1, ...bars.map(bar => bar.volume ?? 0)) : 1;
