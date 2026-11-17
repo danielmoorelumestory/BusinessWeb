@@ -127,3 +127,9 @@ test('fetchIndexHistory: 命中 sina 日K，返回 date→close Map；失败兜�
   const bad = async () => { throw new Error('sina 限频') }
   assert.equal((await fetchIndexHistory({ fetchImpl: bad })).size, 0)
 })
+test('fetchIndexHistory: 默认取约 13 年日K（datalen=3200，覆盖 2014 起的资金序列）', async () => {
+  let seen = ''
+  const fetchImpl = async (url) => { seen = url; return ok([]) }
+  await fetchIndexHistory({ fetchImpl })
+  assert.match(seen, /datalen=3200/)
+})

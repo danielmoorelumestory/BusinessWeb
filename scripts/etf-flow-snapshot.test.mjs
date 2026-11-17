@@ -49,6 +49,14 @@ test('宽基接口失败不阻断全A：flow_broad 全 null、kpi.broad 0、全A
   near(out.series.at(-1).flow_all, 206.57) // 全A 不受影响
 })
 
+test('默认起始日为 2014-01-01（至少 10 年历史）', async () => {
+  const root = tmpRoot()
+  let seenStart = ''
+  const capFlow = async ({ startDate, index } = {}) => { if (index !== FLOW_INDEX_BROAD) seenStart = startDate; return ALL }
+  await runSnapshot({ today: '2026-11-17', root, flowFn: capFlow, indexFn })
+  assert.equal(seenStart, '2014-01-01')
+})
+
 test('资金接口失败：不写、不抛，返回原因', async () => {
   const root = tmpRoot()
   const r = await runSnapshot({ today: '2026-11-17', root, indexFn, flowFn: async () => { throw new Error('gateway 502') } })

@@ -117,7 +117,7 @@ export async function fetchFlowHistory({ startDate, endDate, index = FLOW_INDEX_
 }
 
 /** 取上证指数日 K（sina）→ Map(date → close)。失败兜底空 Map，不阻断资金柱。 */
-export async function fetchIndexHistory({ datalen = 1023, fetchImpl = fetch } = {}) {
+export async function fetchIndexHistory({ datalen = 3200, fetchImpl = fetch } = {}) {
   try {
     const rows = await request(SINA_KLINE(datalen), { fetchImpl })
     return parseSinaKline(rows)
