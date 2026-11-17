@@ -66,11 +66,21 @@ export function parseSinaKline(rows) {
   return m
 }
 
-/** 资金行 + 指数 Map → 展示序列。丢弃 yuan 为 null 的行（金额未准备，不画 0 柱）；flow_broad 暂为 null。 */
-export function mergeSeries(flowRows, indexMap = new Map()) {
-  return flowRows
+/**
+ * 全A 行 + 宽基 行 + 指数 Map → 展示序列。
+ * 以全A为主轴，丢弃 yuan 为 null 的行（金额未准备，不画 0 柱）；
+ * 宽基按日对齐，缺某日则该日 flow_broad=null。
+ */
+export function mergeSeries(allRows, broadRows = [], indexMap = new Map()) {
+  const broadByDate = new Map(broadRows.filter(r => r.yuan != null).map(r => [r.date, toYi(r.yuan)]))
+  return allRows
     .filter(r => r.yuan != null)
-    .map(r => ({ date: r.date, flow_all: toYi(r.yuan), flow_broad: null, index: indexMap.get(r.date) ?? null }))
+    .map(r => ({
+      date: r.date,
+      flow_all: toYi(r.yuan),
+      flow_broad: broadByDate.has(r.date) ? broadByDate.get(r.date) : null,
+      index: indexMap.get(r.date) ?? null,
+    }))
 }
 
 /** 近 n 个值之和（不足 n 则全取），忽略非有限值。 */
@@ -84,20 +94,25 @@ export function kpiOf(series, key) {
   return { yesterday: series.at(-1)?.[key] ?? 0, cum60: Number(cumulative(vals, 60).toFixed(2)) }
 }
 
+// 同花顺 ETF资金 全市场合成码；各口径是同码上的不同指标名（逆向 hqMarket + gateway 实测）。
 const FLOW_CODE = '48%3A883957'
-const FLOW_INDEX = 'a_etf_total_net_buy_flow_amount'
-const FLOW_URL = (start, end) =>
+export const FLOW_INDEX_ALL = 'a_etf_total_net_buy_flow_amount'        // 全A
+export const FLOW_INDEX_BROAD = 'broad_etf_total_net_buy_flow_amount'  // 宽基
+export const FLOW_INDEX_INDUSTRY = 'industry_etf_total_net_buy_flow_amount' // 行业
+export const FLOW_INDEX_GOLD = 'gold_etf_total_net_buy_flow_amount'    // 黄金
+export const FLOW_INDEX_HK = 'hk_etf_total_net_buy_flow_amount'        // 港股
+const FLOW_URL = (index, start, end) =>
   'https://fund.10jqka.com.cn/quotation/data/query/gateway/cache/v2/line'
-  + `/${FLOW_CODE}/${FLOW_INDEX}/DAY_1/${start}/${end}/-150`
+  + `/${FLOW_CODE}/${index}/DAY_1/${start}/${end}/-150`
 const SINA_KLINE = datalen =>
   'https://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData'
   + `?symbol=sh000001&scale=240&ma=no&datalen=${datalen}`
 
-/** 取全A ETF 申购净流入历史（同花顺 gateway）。endDate 当日含在内（上界取次日 0 点）。 */
-export async function fetchFlowHistory({ startDate, endDate, fetchImpl = fetch } = {}) {
+/** 取某口径 ETF 申购净流入历史（同花顺 gateway）。endDate 当日含在内（上界取次日 0 点）。 */
+export async function fetchFlowHistory({ startDate, endDate, index = FLOW_INDEX_ALL, fetchImpl = fetch } = {}) {
   const start = beijingDayUnix(startDate)
   const end = beijingDayUnix(endDate) + DAY
-  const json = await request(FLOW_URL(start, end), { headers: { Referer: 'https://fund.10jqka.com.cn/' }, fetchImpl })
+  const json = await request(FLOW_URL(index, start, end), { headers: { Referer: 'https://fund.10jqka.com.cn/' }, fetchImpl })
   return parseFlowGateway(json)
 }
 

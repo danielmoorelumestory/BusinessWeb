@@ -1,4182 +1,4182 @@
 {
-  "updated": "2026-11-17T11:32:47.525Z",
-  "note": "同花顺原口径（全市场 ETF 申购净流入，数据来源同花顺行情）+ 上证指数叠加；红=净流入、绿=净流出；T+1、无盘中。宽基口径待接入。",
+  "updated": "2026-11-17T12:14:54.382Z",
+  "note": "同花顺原口径（全市场 / 宽基 ETF 申购净流入，数据来源同花顺行情）+ 上证指数叠加；红=净流入、绿=净流出；T+1、无盘中。",
   "sample": false,
   "series": [
     {
       "date": "2024-01-02",
       "flow_all": -64.67,
-      "flow_broad": null,
+      "flow_broad": -57.63,
       "index": 2962.276
     },
     {
       "date": "2024-01-03",
       "flow_all": 1.78,
-      "flow_broad": null,
+      "flow_broad": -9.02,
       "index": 2967.247
     },
     {
       "date": "2024-01-04",
       "flow_all": -10.99,
-      "flow_broad": null,
+      "flow_broad": -15.16,
       "index": 2954.349
     },
     {
       "date": "2024-01-05",
       "flow_all": 21.27,
-      "flow_broad": null,
+      "flow_broad": -6.51,
       "index": 2929.183
     },
     {
       "date": "2024-01-08",
       "flow_all": 20.72,
-      "flow_broad": null,
+      "flow_broad": 16.01,
       "index": 2887.538
     },
     {
       "date": "2024-01-09",
       "flow_all": 38.56,
-      "flow_broad": null,
+      "flow_broad": 37.32,
       "index": 2893.251
     },
     {
       "date": "2024-01-10",
       "flow_all": 15.06,
-      "flow_broad": null,
+      "flow_broad": 11.52,
       "index": 2877.702
     },
     {
       "date": "2024-01-11",
       "flow_all": 27.04,
-      "flow_broad": null,
+      "flow_broad": 29.61,
       "index": 2886.65
     },
     {
       "date": "2024-01-12",
       "flow_all": -13.44,
-      "flow_broad": null,
+      "flow_broad": -17.71,
       "index": 2881.977
     },
     {
       "date": "2024-01-15",
       "flow_all": -7.45,
-      "flow_broad": null,
+      "flow_broad": -7.89,
       "index": 2886.291
     },
     {
       "date": "2024-01-16",
       "flow_all": 88.86,
-      "flow_broad": null,
+      "flow_broad": 81.44,
       "index": 2893.989
     },
     {
       "date": "2024-01-17",
       "flow_all": 93.66,
-      "flow_broad": null,
+      "flow_broad": 93.23,
       "index": 2833.615
     },
     {
       "date": "2024-01-18",
       "flow_all": 228.53,
-      "flow_broad": null,
+      "flow_broad": 233.42,
       "index": 2845.784
     },
     {
       "date": "2024-01-19",
       "flow_all": 166.26,
-      "flow_broad": null,
+      "flow_broad": 174.36,
       "index": 2832.279
     },
     {
       "date": "2024-01-22",
       "flow_all": 359.88,
-      "flow_broad": null,
+      "flow_broad": 360.41,
       "index": 2756.34
     },
     {
       "date": "2024-01-23",
       "flow_all": 17.51,
-      "flow_broad": null,
+      "flow_broad": 30.52,
       "index": 2770.976
     },
     {
       "date": "2024-01-24",
       "flow_all": 109.14,
-      "flow_broad": null,
+      "flow_broad": 109.5,
       "index": 2820.772
     },
     {
       "date": "2024-01-25",
       "flow_all": 70.01,
-      "flow_broad": null,
+      "flow_broad": 50.84,
       "index": 2906.109
     },
     {
       "date": "2024-01-26",
       "flow_all": 106.27,
-      "flow_broad": null,
+      "flow_broad": 104.09,
       "index": 2910.223
     },
     {
       "date": "2024-01-29",
       "flow_all": 17.06,
-      "flow_broad": null,
+      "flow_broad": 19.32,
       "index": 2883.356
     },
     {
       "date": "2024-01-30",
       "flow_all": 79.12,
-      "flow_broad": null,
+      "flow_broad": 81.15,
       "index": 2830.527
     },
     {
       "date": "2024-01-31",
       "flow_all": 149.62,
-      "flow_broad": null,
+      "flow_broad": 152.63,
       "index": 2788.548
     },
     {
       "date": "2024-02-01",
       "flow_all": 136.39,
-      "flow_broad": null,
+      "flow_broad": 145,
       "index": 2770.74
     },
     {
       "date": "2024-02-02",
       "flow_all": 209.65,
-      "flow_broad": null,
+      "flow_broad": 183.59,
       "index": 2730.152
     },
     {
       "date": "2024-02-05",
       "flow_all": 461.24,
-      "flow_broad": null,
+      "flow_broad": 475.43,
       "index": 2702.185
     },
     {
       "date": "2024-02-06",
       "flow_all": 203.18,
-      "flow_broad": null,
+      "flow_broad": 240.33,
       "index": 2789.486
     },
     {
       "date": "2024-02-07",
       "flow_all": 443.25,
-      "flow_broad": null,
+      "flow_broad": 484.53,
       "index": 2829.696
     },
     {
       "date": "2024-02-08",
       "flow_all": 334.48,
-      "flow_broad": null,
+      "flow_broad": 354.33,
       "index": 2865.903
     },
     {
       "date": "2024-02-19",
       "flow_all": 122.54,
-      "flow_broad": null,
+      "flow_broad": 128.45,
       "index": 2910.544
     },
     {
       "date": "2024-02-20",
       "flow_all": -23.57,
-      "flow_broad": null,
+      "flow_broad": -31.06,
       "index": 2922.73
     },
     {
       "date": "2024-02-21",
       "flow_all": 14.76,
-      "flow_broad": null,
+      "flow_broad": 21.78,
       "index": 2950.956
     },
     {
       "date": "2024-02-22",
       "flow_all": -30.93,
-      "flow_broad": null,
+      "flow_broad": -31.26,
       "index": 2988.358
     },
     {
       "date": "2024-02-23",
       "flow_all": -40.5,
-      "flow_broad": null,
+      "flow_broad": -36.46,
       "index": 3004.881
     },
     {
       "date": "2024-02-26",
       "flow_all": -94.65,
-      "flow_broad": null,
+      "flow_broad": -73.14,
       "index": 2977.022
     },
     {
       "date": "2024-02-27",
       "flow_all": -35.36,
-      "flow_broad": null,
+      "flow_broad": -19.71,
       "index": 3015.481
     },
     {
       "date": "2024-02-28",
       "flow_all": 42.47,
-      "flow_broad": null,
+      "flow_broad": 47.25,
       "index": 2957.852
     },
     {
       "date": "2024-02-29",
       "flow_all": -3.82,
-      "flow_broad": null,
+      "flow_broad": 22.4,
       "index": 3015.171
     },
     {
       "date": "2024-03-01",
       "flow_all": -20.63,
-      "flow_broad": null,
+      "flow_broad": -13.31,
       "index": 3027.02
     },
     {
       "date": "2024-03-04",
       "flow_all": -102.37,
-      "flow_broad": null,
+      "flow_broad": -100.18,
       "index": 3039.306
     },
     {
       "date": "2024-03-05",
       "flow_all": 306.2,
-      "flow_broad": null,
+      "flow_broad": 330.08,
       "index": 3047.793
     },
     {
       "date": "2024-03-06",
       "flow_all": 96.37,
-      "flow_broad": null,
+      "flow_broad": 100.92,
       "index": 3039.931
     },
     {
       "date": "2024-03-07",
       "flow_all": 18.68,
-      "flow_broad": null,
+      "flow_broad": 13.63,
       "index": 3027.401
     },
     {
       "date": "2024-03-08",
       "flow_all": 9.7,
-      "flow_broad": null,
+      "flow_broad": 15.97,
       "index": 3046.019
     },
     {
       "date": "2024-03-11",
       "flow_all": -75.9,
-      "flow_broad": null,
+      "flow_broad": -45.31,
       "index": 3068.455
     },
     {
       "date": "2024-03-12",
       "flow_all": 35.08,
-      "flow_broad": null,
+      "flow_broad": 48.28,
       "index": 3055.935
     },
     {
       "date": "2024-03-13",
       "flow_all": -29.48,
-      "flow_broad": null,
+      "flow_broad": -26.02,
       "index": 3043.835
     },
     {
       "date": "2024-03-14",
       "flow_all": -11.71,
-      "flow_broad": null,
+      "flow_broad": -26.79,
       "index": 3038.234
     },
     {
       "date": "2024-03-15",
       "flow_all": -23.58,
-      "flow_broad": null,
+      "flow_broad": -22.03,
       "index": 3054.636
     },
     {
       "date": "2024-03-18",
       "flow_all": -58.31,
-      "flow_broad": null,
+      "flow_broad": -36.74,
       "index": 3084.926
     },
     {
       "date": "2024-03-19",
       "flow_all": -63.35,
-      "flow_broad": null,
+      "flow_broad": -64.09,
       "index": 3062.756
     },
     {
       "date": "2024-03-20",
       "flow_all": -14.85,
-      "flow_broad": null,
+      "flow_broad": -15.07,
       "index": 3079.686
     },
     {
       "date": "2024-03-21",
       "flow_all": -45.9,
-      "flow_broad": null,
+      "flow_broad": -42.16,
       "index": 3077.113
     },
     {
       "date": "2024-03-22",
       "flow_all": -10.51,
-      "flow_broad": null,
+      "flow_broad": -2.51,
       "index": 3048.034
     },
     {
       "date": "2024-03-25",
       "flow_all": -18.78,
-      "flow_broad": null,
+      "flow_broad": -29.6,
       "index": 3026.306
     },
     {
       "date": "2024-03-26",
       "flow_all": 44.79,
-      "flow_broad": null,
+      "flow_broad": 34.83,
       "index": 3031.481
     },
     {
       "date": "2024-03-27",
       "flow_all": -9.38,
-      "flow_broad": null,
+      "flow_broad": -13.06,
       "index": 2993.139
     },
     {
       "date": "2024-03-28",
       "flow_all": -8.55,
-      "flow_broad": null,
+      "flow_broad": -5.45,
       "index": 3010.664
     },
     {
       "date": "2024-03-29",
       "flow_all": -21.06,
-      "flow_broad": null,
+      "flow_broad": -28.77,
       "index": 3041.167
     },
     {
       "date": "2024-03-31",
       "flow_all": 15.46,
-      "flow_broad": null,
+      "flow_broad": 15.44,
       "index": null
     },
     {
       "date": "2024-04-01",
       "flow_all": 15,
-      "flow_broad": null,
+      "flow_broad": 19.8,
       "index": 3077.379
     },
     {
       "date": "2024-04-02",
       "flow_all": -13.34,
-      "flow_broad": null,
+      "flow_broad": -23.47,
       "index": 3074.959
     },
     {
       "date": "2024-04-03",
       "flow_all": -38.9,
-      "flow_broad": null,
+      "flow_broad": -52.36,
       "index": 3069.296
     },
     {
       "date": "2024-04-08",
       "flow_all": -30.75,
-      "flow_broad": null,
+      "flow_broad": -46.89,
       "index": 3047.053
     },
     {
       "date": "2024-04-09",
       "flow_all": -7.4,
-      "flow_broad": null,
+      "flow_broad": -2.88,
       "index": 3048.537
     },
     {
       "date": "2024-04-10",
       "flow_all": 2.4,
-      "flow_broad": null,
+      "flow_broad": -4.65,
       "index": 3027.335
     },
     {
       "date": "2024-04-11",
       "flow_all": 23.26,
-      "flow_broad": null,
+      "flow_broad": 20.17,
       "index": 3034.246
     },
     {
       "date": "2024-04-12",
       "flow_all": -40.28,
-      "flow_broad": null,
+      "flow_broad": -44.89,
       "index": 3019.474
     },
     {
       "date": "2024-04-15",
       "flow_all": -13.91,
-      "flow_broad": null,
+      "flow_broad": -18.41,
       "index": 3057.378
     },
     {
       "date": "2024-04-16",
       "flow_all": 23.27,
-      "flow_broad": null,
+      "flow_broad": 12.05,
       "index": 3007.068
     },
     {
       "date": "2024-04-17",
       "flow_all": -0.12,
-      "flow_broad": null,
+      "flow_broad": 13.73,
       "index": 3071.381
     },
     {
       "date": "2024-04-18",
       "flow_all": -6.79,
-      "flow_broad": null,
+      "flow_broad": -1.62,
       "index": 3074.225
     },
     {
       "date": "2024-04-19",
       "flow_all": -3.55,
-      "flow_broad": null,
+      "flow_broad": -16.86,
       "index": 3065.261
     },
     {
       "date": "2024-04-22",
       "flow_all": -6.68,
-      "flow_broad": null,
+      "flow_broad": -3.64,
       "index": 3044.595
     },
     {
       "date": "2024-04-23",
       "flow_all": 25.28,
-      "flow_broad": null,
+      "flow_broad": 35.05,
       "index": 3021.978
     },
     {
       "date": "2024-04-24",
       "flow_all": 23.91,
-      "flow_broad": null,
+      "flow_broad": 22.97,
       "index": 3044.822
     },
     {
       "date": "2024-04-25",
       "flow_all": 9.22,
-      "flow_broad": null,
+      "flow_broad": 12.08,
       "index": 3052.9
     },
     {
       "date": "2024-04-26",
       "flow_all": 88.76,
-      "flow_broad": null,
+      "flow_broad": 99.75,
       "index": 3088.636
     },
     {
       "date": "2024-04-29",
       "flow_all": 110.22,
-      "flow_broad": null,
+      "flow_broad": 116.93,
       "index": 3113.043
     },
     {
       "date": "2024-04-30",
       "flow_all": 23.58,
-      "flow_broad": null,
+      "flow_broad": 14.36,
       "index": 3104.825
     },
     {
       "date": "2024-05-06",
       "flow_all": 12.91,
-      "flow_broad": null,
+      "flow_broad": 8.1,
       "index": 3140.72
     },
     {
       "date": "2024-05-07",
       "flow_all": -46.58,
-      "flow_broad": null,
+      "flow_broad": -40.24,
       "index": 3147.738
     },
     {
       "date": "2024-05-08",
       "flow_all": -66.29,
-      "flow_broad": null,
+      "flow_broad": -62.93,
       "index": 3128.48
     },
     {
       "date": "2024-05-09",
       "flow_all": -19.08,
-      "flow_broad": null,
+      "flow_broad": -7.14,
       "index": 3154.32
     },
     {
       "date": "2024-05-10",
       "flow_all": -84.99,
-      "flow_broad": null,
+      "flow_broad": -86.38,
       "index": 3154.547
     },
     {
       "date": "2024-05-13",
       "flow_all": -42.35,
-      "flow_broad": null,
+      "flow_broad": -43.69,
       "index": 3148.021
     },
     {
       "date": "2024-05-14",
       "flow_all": -34.01,
-      "flow_broad": null,
+      "flow_broad": -28.26,
       "index": 3145.774
     },
     {
       "date": "2024-05-15",
       "flow_all": -37.23,
-      "flow_broad": null,
+      "flow_broad": -35.02,
       "index": 3119.902
     },
     {
       "date": "2024-05-16",
       "flow_all": -34.45,
-      "flow_broad": null,
+      "flow_broad": -26.42,
       "index": 3122.401
     },
     {
       "date": "2024-05-17",
       "flow_all": 91.67,
-      "flow_broad": null,
+      "flow_broad": 82.85,
       "index": 3154.026
     },
     {
       "date": "2024-05-20",
       "flow_all": -14.29,
-      "flow_broad": null,
+      "flow_broad": -19.04,
       "index": 3171.145
     },
     {
       "date": "2024-05-21",
       "flow_all": -26.28,
-      "flow_broad": null,
+      "flow_broad": -31.98,
       "index": 3157.966
     },
     {
       "date": "2024-05-22",
       "flow_all": -9.8,
-      "flow_broad": null,
+      "flow_broad": -14.26,
       "index": 3158.54
     },
     {
       "date": "2024-05-23",
       "flow_all": 11.75,
-      "flow_broad": null,
+      "flow_broad": 4.56,
       "index": 3116.387
     },
     {
       "date": "2024-05-24",
       "flow_all": 64.86,
-      "flow_broad": null,
+      "flow_broad": 58.19,
       "index": 3088.871
     },
     {
       "date": "2024-05-27",
       "flow_all": -18.87,
-      "flow_broad": null,
+      "flow_broad": -22.92,
       "index": 3124.043
     },
     {
       "date": "2024-05-28",
       "flow_all": -16.49,
-      "flow_broad": null,
+      "flow_broad": -22.56,
       "index": 3109.572
     },
     {
       "date": "2024-05-29",
       "flow_all": 23.83,
-      "flow_broad": null,
+      "flow_broad": 18.05,
       "index": 3111.018
     },
     {
       "date": "2024-05-30",
       "flow_all": 25.39,
-      "flow_broad": null,
+      "flow_broad": 18.88,
       "index": 3091.678
     },
     {
       "date": "2024-05-31",
       "flow_all": 32.15,
-      "flow_broad": null,
+      "flow_broad": 22.42,
       "index": 3086.813
     },
     {
       "date": "2024-06-03",
       "flow_all": -4.07,
-      "flow_broad": null,
+      "flow_broad": -15.76,
       "index": 3078.489
     },
     {
       "date": "2024-06-04",
       "flow_all": 11.58,
-      "flow_broad": null,
+      "flow_broad": -2.29,
       "index": 3091.199
     },
     {
       "date": "2024-06-05",
       "flow_all": -8.73,
-      "flow_broad": null,
+      "flow_broad": -7.34,
       "index": 3065.403
     },
     {
       "date": "2024-06-06",
       "flow_all": 55.11,
-      "flow_broad": null,
+      "flow_broad": 40.18,
       "index": 3048.794
     },
     {
       "date": "2024-06-07",
       "flow_all": 32.15,
-      "flow_broad": null,
+      "flow_broad": 20.7,
       "index": 3051.279
     },
     {
       "date": "2024-06-11",
       "flow_all": 60.26,
-      "flow_broad": null,
+      "flow_broad": 60.94,
       "index": 3028.045
     },
     {
       "date": "2024-06-12",
       "flow_all": 8.83,
-      "flow_broad": null,
+      "flow_broad": 9.39,
       "index": 3037.468
     },
     {
       "date": "2024-06-13",
       "flow_all": 15.14,
-      "flow_broad": null,
+      "flow_broad": 6.39,
       "index": 3028.919
     },
     {
       "date": "2024-06-14",
       "flow_all": 46.27,
-      "flow_broad": null,
+      "flow_broad": 41.65,
       "index": 3032.633
     },
     {
       "date": "2024-06-17",
       "flow_all": 14.71,
-      "flow_broad": null,
+      "flow_broad": 24.68,
       "index": 3015.891
     },
     {
       "date": "2024-06-18",
       "flow_all": 32.5,
-      "flow_broad": null,
+      "flow_broad": 34.71,
       "index": 3030.246
     },
     {
       "date": "2024-06-19",
       "flow_all": -8.8,
-      "flow_broad": null,
+      "flow_broad": -7.96,
       "index": 3018.049
     },
     {
       "date": "2024-06-20",
       "flow_all": -14.71,
-      "flow_broad": null,
+      "flow_broad": -13.29,
       "index": 3005.437
     },
     {
       "date": "2024-06-21",
       "flow_all": 98.62,
-      "flow_broad": null,
+      "flow_broad": 90.75,
       "index": 2998.138
     },
     {
       "date": "2024-06-24",
       "flow_all": 168.79,
-      "flow_broad": null,
+      "flow_broad": 157.11,
       "index": 2963.099
     },
     {
       "date": "2024-06-25",
       "flow_all": 101.14,
-      "flow_broad": null,
+      "flow_broad": 84.67,
       "index": 2949.996
     },
     {
       "date": "2024-06-26",
       "flow_all": 23.56,
-      "flow_broad": null,
+      "flow_broad": 24.98,
       "index": 2972.525
     },
     {
       "date": "2024-06-27",
       "flow_all": 61.65,
-      "flow_broad": null,
+      "flow_broad": 59.39,
       "index": 2945.852
     },
     {
       "date": "2024-06-28",
       "flow_all": 76.33,
-      "flow_broad": null,
+      "flow_broad": 62.81,
       "index": 2967.403
     },
     {
       "date": "2024-06-30",
       "flow_all": 15.26,
-      "flow_broad": null,
+      "flow_broad": 15.23,
       "index": null
     },
     {
       "date": "2024-07-01",
       "flow_all": -38.54,
-      "flow_broad": null,
+      "flow_broad": -38.23,
       "index": 2994.73
     },
     {
       "date": "2024-07-02",
       "flow_all": -21.4,
-      "flow_broad": null,
+      "flow_broad": -28.04,
       "index": 2997.011
     },
     {
       "date": "2024-07-03",
       "flow_all": 23.22,
-      "flow_broad": null,
+      "flow_broad": 20.29,
       "index": 2982.376
     },
     {
       "date": "2024-07-04",
       "flow_all": 100.4,
-      "flow_broad": null,
+      "flow_broad": 90.34,
       "index": 2957.567
     },
     {
       "date": "2024-07-05",
       "flow_all": 82.48,
-      "flow_broad": null,
+      "flow_broad": 84.95,
       "index": 2949.933
     },
     {
       "date": "2024-07-08",
       "flow_all": 59.82,
-      "flow_broad": null,
+      "flow_broad": 53.7,
       "index": 2922.45
     },
     {
       "date": "2024-07-09",
       "flow_all": 71.71,
-      "flow_broad": null,
+      "flow_broad": 69.85,
       "index": 2959.372
     },
     {
       "date": "2024-07-10",
       "flow_all": 6.05,
-      "flow_broad": null,
+      "flow_broad": 1.01,
       "index": 2939.364
     },
     {
       "date": "2024-07-11",
       "flow_all": -18.28,
-      "flow_broad": null,
+      "flow_broad": -11,
       "index": 2970.387
     },
     {
       "date": "2024-07-12",
       "flow_all": -27.4,
-      "flow_broad": null,
+      "flow_broad": -18.96,
       "index": 2971.295
     },
     {
       "date": "2024-07-15",
       "flow_all": 32.61,
-      "flow_broad": null,
+      "flow_broad": 44.66,
       "index": 2974.011
     },
     {
       "date": "2024-07-16",
       "flow_all": 65.71,
-      "flow_broad": null,
+      "flow_broad": 91.1,
       "index": 2976.304
     },
     {
       "date": "2024-07-17",
       "flow_all": 243.85,
-      "flow_broad": null,
+      "flow_broad": 257.18,
       "index": 2962.855
     },
     {
       "date": "2024-07-18",
       "flow_all": 162.56,
-      "flow_broad": null,
+      "flow_broad": 181.99,
       "index": 2977.133
     },
     {
       "date": "2024-07-19",
       "flow_all": 297.37,
-      "flow_broad": null,
+      "flow_broad": 327.07,
       "index": 2982.309
     },
     {
       "date": "2024-07-22",
       "flow_all": 55.66,
-      "flow_broad": null,
+      "flow_broad": 67.77,
       "index": 2964.216
     },
     {
       "date": "2024-07-23",
       "flow_all": 76.29,
-      "flow_broad": null,
+      "flow_broad": 69.41,
       "index": 2915.369
     },
     {
       "date": "2024-07-24",
       "flow_all": 80.89,
-      "flow_broad": null,
+      "flow_broad": 79.81,
       "index": 2901.952
     },
     {
       "date": "2024-07-25",
       "flow_all": 121.89,
-      "flow_broad": null,
+      "flow_broad": 122.99,
       "index": 2886.742
     },
     {
       "date": "2024-07-26",
       "flow_all": 87.32,
-      "flow_broad": null,
+      "flow_broad": 82.84,
       "index": 2890.897
     },
     {
       "date": "2024-07-29",
       "flow_all": 41.95,
-      "flow_broad": null,
+      "flow_broad": 35.26,
       "index": 2891.845
     },
     {
       "date": "2024-07-30",
       "flow_all": 118.58,
-      "flow_broad": null,
+      "flow_broad": 118.18,
       "index": 2879.3
     },
     {
       "date": "2024-07-31",
       "flow_all": 94.67,
-      "flow_broad": null,
+      "flow_broad": 110.17,
       "index": 2938.749
     },
     {
       "date": "2024-08-01",
       "flow_all": 20.01,
-      "flow_broad": null,
+      "flow_broad": 22.54,
       "index": 2932.387
     },
     {
       "date": "2024-08-02",
       "flow_all": 59.86,
-      "flow_broad": null,
+      "flow_broad": 45.54,
       "index": 2905.338
     },
     {
       "date": "2024-08-05",
       "flow_all": 133.84,
-      "flow_broad": null,
+      "flow_broad": 117.63,
       "index": 2860.698
     },
     {
       "date": "2024-08-06",
       "flow_all": 52.65,
-      "flow_broad": null,
+      "flow_broad": 46.71,
       "index": 2867.284
     },
     {
       "date": "2024-08-07",
       "flow_all": -4.25,
-      "flow_broad": null,
+      "flow_broad": -11.43,
       "index": 2869.834
     },
     {
       "date": "2024-08-08",
       "flow_all": 40.89,
-      "flow_broad": null,
+      "flow_broad": 36.94,
       "index": 2869.901
     },
     {
       "date": "2024-08-09",
       "flow_all": -15.25,
-      "flow_broad": null,
+      "flow_broad": -18.85,
       "index": 2862.194
     },
     {
       "date": "2024-08-12",
       "flow_all": 15.53,
-      "flow_broad": null,
+      "flow_broad": 14.63,
       "index": 2858.205
     },
     {
       "date": "2024-08-13",
       "flow_all": 12.09,
-      "flow_broad": null,
+      "flow_broad": 10.07,
       "index": 2867.946
     },
     {
       "date": "2024-08-14",
       "flow_all": -3.86,
-      "flow_broad": null,
+      "flow_broad": -5.15,
       "index": 2850.654
     },
     {
       "date": "2024-08-15",
       "flow_all": 115.57,
-      "flow_broad": null,
+      "flow_broad": 113.73,
       "index": 2877.358
     },
     {
       "date": "2024-08-16",
       "flow_all": 85.94,
-      "flow_broad": null,
+      "flow_broad": 83.19,
       "index": 2879.43
     },
     {
       "date": "2024-08-19",
       "flow_all": 30.84,
-      "flow_broad": null,
+      "flow_broad": 25.3,
       "index": 2893.674
     },
     {
       "date": "2024-08-20",
       "flow_all": 60.4,
-      "flow_broad": null,
+      "flow_broad": 51.67,
       "index": 2866.661
     },
     {
       "date": "2024-08-21",
       "flow_all": 96.12,
-      "flow_broad": null,
+      "flow_broad": 94.96,
       "index": 2856.584
     },
     {
       "date": "2024-08-22",
       "flow_all": 101.34,
-      "flow_broad": null,
+      "flow_broad": 93.91,
       "index": 2848.772
     },
     {
       "date": "2024-08-23",
       "flow_all": 69.53,
-      "flow_broad": null,
+      "flow_broad": 69.48,
       "index": 2854.368
     },
     {
       "date": "2024-08-26",
       "flow_all": 81.17,
-      "flow_broad": null,
+      "flow_broad": 77.06,
       "index": 2855.52
     },
     {
       "date": "2024-08-27",
       "flow_all": 90.57,
-      "flow_broad": null,
+      "flow_broad": 92.25,
       "index": 2848.731
     },
     {
       "date": "2024-08-28",
       "flow_all": 120.64,
-      "flow_broad": null,
+      "flow_broad": 122.7,
       "index": 2837.429
     },
     {
       "date": "2024-08-29",
       "flow_all": 98.76,
-      "flow_broad": null,
+      "flow_broad": 103.39,
       "index": 2823.106
     },
     {
       "date": "2024-08-30",
       "flow_all": 47.79,
-      "flow_broad": null,
+      "flow_broad": 64.43,
       "index": 2842.214
     },
     {
       "date": "2024-09-02",
       "flow_all": -25.79,
-      "flow_broad": null,
+      "flow_broad": -28.2,
       "index": 2811.035
     },
     {
       "date": "2024-09-03",
       "flow_all": 7.65,
-      "flow_broad": null,
+      "flow_broad": 15.5,
       "index": 2802.979
     },
     {
       "date": "2024-09-04",
       "flow_all": 10.4,
-      "flow_broad": null,
+      "flow_broad": 12.27,
       "index": 2784.278
     },
     {
       "date": "2024-09-05",
       "flow_all": 65.47,
-      "flow_broad": null,
+      "flow_broad": 71.45,
       "index": 2788.314
     },
     {
       "date": "2024-09-06",
       "flow_all": -8.54,
-      "flow_broad": null,
+      "flow_broad": -4.04,
       "index": 2765.807
     },
     {
       "date": "2024-09-09",
       "flow_all": 59.62,
-      "flow_broad": null,
+      "flow_broad": 63.19,
       "index": 2736.488
     },
     {
       "date": "2024-09-10",
       "flow_all": 8.83,
-      "flow_broad": null,
+      "flow_broad": 9.54,
       "index": 2744.192
     },
     {
       "date": "2024-09-11",
       "flow_all": 18.9,
-      "flow_broad": null,
+      "flow_broad": 25.93,
       "index": 2721.795
     },
     {
       "date": "2024-09-12",
       "flow_all": 20.11,
-      "flow_broad": null,
+      "flow_broad": 18.84,
       "index": 2717.123
     },
     {
       "date": "2024-09-13",
       "flow_all": 26.57,
-      "flow_broad": null,
+      "flow_broad": 24.17,
       "index": 2704.09
     },
     {
       "date": "2024-09-18",
       "flow_all": 52.9,
-      "flow_broad": null,
+      "flow_broad": 46.87,
       "index": 2717.281
     },
     {
       "date": "2024-09-19",
       "flow_all": 78.58,
-      "flow_broad": null,
+      "flow_broad": 76.88,
       "index": 2736.022
     },
     {
       "date": "2024-09-20",
       "flow_all": 157.93,
-      "flow_broad": null,
+      "flow_broad": 156.75,
       "index": 2736.814
     },
     {
       "date": "2024-09-23",
       "flow_all": 19.76,
-      "flow_broad": null,
+      "flow_broad": 13.22,
       "index": 2748.918
     },
     {
       "date": "2024-09-24",
       "flow_all": 185.69,
-      "flow_broad": null,
+      "flow_broad": 180.95,
       "index": 2863.126
     },
     {
       "date": "2024-09-25",
       "flow_all": 67.84,
-      "flow_broad": null,
+      "flow_broad": 61.5,
       "index": 2896.306
     },
     {
       "date": "2024-09-26",
       "flow_all": 255.35,
-      "flow_broad": null,
+      "flow_broad": 264.63,
       "index": 3000.953
     },
     {
       "date": "2024-09-27",
       "flow_all": 143.93,
-      "flow_broad": null,
+      "flow_broad": 136.53,
       "index": 3087.529
     },
     {
       "date": "2024-09-30",
       "flow_all": 686.25,
-      "flow_broad": null,
+      "flow_broad": 664.21,
       "index": 3336.497
     },
     {
       "date": "2024-10-08",
       "flow_all": 1013.52,
-      "flow_broad": null,
+      "flow_broad": 910.98,
       "index": 3489.775
     },
     {
       "date": "2024-10-09",
       "flow_all": 481.16,
-      "flow_broad": null,
+      "flow_broad": 378.17,
       "index": 3258.858
     },
     {
       "date": "2024-10-10",
       "flow_all": 40.51,
-      "flow_broad": null,
+      "flow_broad": 38.21,
       "index": 3301.926
     },
     {
       "date": "2024-10-11",
       "flow_all": -60.12,
-      "flow_broad": null,
+      "flow_broad": 5.29,
       "index": 3217.738
     },
     {
       "date": "2024-10-14",
       "flow_all": -152.96,
-      "flow_broad": null,
+      "flow_broad": -127.76,
       "index": 3284.323
     },
     {
       "date": "2024-10-15",
       "flow_all": -133.97,
-      "flow_broad": null,
+      "flow_broad": -133.1,
       "index": 3201.292
     },
     {
       "date": "2024-10-16",
       "flow_all": -17.44,
-      "flow_broad": null,
+      "flow_broad": 4.29,
       "index": 3202.948
     },
     {
       "date": "2024-10-17",
       "flow_all": -213.9,
-      "flow_broad": null,
+      "flow_broad": -183.81,
       "index": 3169.384
     },
     {
       "date": "2024-10-18",
       "flow_all": 176.97,
-      "flow_broad": null,
+      "flow_broad": 172.67,
       "index": 3261.563
     },
     {
       "date": "2024-10-21",
       "flow_all": -175.4,
-      "flow_broad": null,
+      "flow_broad": -219.43,
       "index": 3268.11
     },
     {
       "date": "2024-10-22",
       "flow_all": -194.43,
-      "flow_broad": null,
+      "flow_broad": -136.26,
       "index": 3285.867
     },
     {
       "date": "2024-10-23",
       "flow_all": -92.25,
-      "flow_broad": null,
+      "flow_broad": -81.05,
       "index": 3302.803
     },
     {
       "date": "2024-10-24",
       "flow_all": -84.45,
-      "flow_broad": null,
+      "flow_broad": -77.95,
       "index": 3280.263
     },
     {
       "date": "2024-10-25",
       "flow_all": -11.42,
-      "flow_broad": null,
+      "flow_broad": -19.98,
       "index": 3299.7
     },
     {
       "date": "2024-10-28",
       "flow_all": -33.16,
-      "flow_broad": null,
+      "flow_broad": -20,
       "index": 3322.198
     },
     {
       "date": "2024-10-29",
       "flow_all": -93.51,
-      "flow_broad": null,
+      "flow_broad": -70.71,
       "index": 3286.407
     },
     {
       "date": "2024-10-30",
       "flow_all": 23.23,
-      "flow_broad": null,
+      "flow_broad": 47.74,
       "index": 3266.238
     },
     {
       "date": "2024-10-31",
       "flow_all": -102.95,
-      "flow_broad": null,
+      "flow_broad": -42.15,
       "index": 3279.824
     },
     {
       "date": "2024-11-01",
       "flow_all": 56.37,
-      "flow_broad": null,
+      "flow_broad": 43.37,
       "index": 3272.014
     },
     {
       "date": "2024-11-04",
       "flow_all": -28.78,
-      "flow_broad": null,
+      "flow_broad": -6.87,
       "index": 3310.207
     },
     {
       "date": "2024-11-05",
       "flow_all": 84.68,
-      "flow_broad": null,
+      "flow_broad": 113.35,
       "index": 3386.987
     },
     {
       "date": "2024-11-06",
       "flow_all": -55.2,
-      "flow_broad": null,
+      "flow_broad": -31.61,
       "index": 3383.806
     },
     {
       "date": "2024-11-07",
       "flow_all": 71.96,
-      "flow_broad": null,
+      "flow_broad": 80.03,
       "index": 3470.661
     },
     {
       "date": "2024-11-08",
       "flow_all": -58.5,
-      "flow_broad": null,
+      "flow_broad": -83.83,
       "index": 3452.297
     },
     {
       "date": "2024-11-11",
       "flow_all": -263.07,
-      "flow_broad": null,
+      "flow_broad": -232.76,
       "index": 3470.066
     },
     {
       "date": "2024-11-12",
       "flow_all": -6.7,
-      "flow_broad": null,
+      "flow_broad": -53.52,
       "index": 3421.97
     },
     {
       "date": "2024-11-13",
       "flow_all": -29.48,
-      "flow_broad": null,
+      "flow_broad": -18.55,
       "index": 3439.278
     },
     {
       "date": "2024-11-14",
       "flow_all": 61.38,
-      "flow_broad": null,
+      "flow_broad": 46.52,
       "index": 3379.839
     },
     {
       "date": "2024-11-15",
       "flow_all": 189.04,
-      "flow_broad": null,
+      "flow_broad": 165.54,
       "index": 3330.726
     },
     {
       "date": "2024-11-18",
       "flow_all": 95.93,
-      "flow_broad": null,
+      "flow_broad": 90.57,
       "index": 3323.849
     },
     {
       "date": "2024-11-19",
       "flow_all": 86.74,
-      "flow_broad": null,
+      "flow_broad": 57.42,
       "index": 3346.01
     },
     {
       "date": "2024-11-20",
       "flow_all": -106.43,
-      "flow_broad": null,
+      "flow_broad": -113.64,
       "index": 3367.989
     },
     {
       "date": "2024-11-21",
       "flow_all": -35.66,
-      "flow_broad": null,
+      "flow_broad": -33.38,
       "index": 3370.404
     },
     {
       "date": "2024-11-22",
       "flow_all": 52.38,
-      "flow_broad": null,
+      "flow_broad": 44.47,
       "index": 3267.192
     },
     {
       "date": "2024-11-25",
       "flow_all": 89.3,
-      "flow_broad": null,
+      "flow_broad": 84.33,
       "index": 3263.76
     },
     {
       "date": "2024-11-26",
       "flow_all": 16.83,
-      "flow_broad": null,
+      "flow_broad": 34.17,
       "index": 3259.757
     },
     {
       "date": "2024-11-27",
       "flow_all": 109.2,
-      "flow_broad": null,
+      "flow_broad": 101.73,
       "index": 3309.779
     },
     {
       "date": "2024-11-28",
       "flow_all": -37.66,
-      "flow_broad": null,
+      "flow_broad": -36.41,
       "index": 3295.698
     },
     {
       "date": "2024-11-29",
       "flow_all": 71.16,
-      "flow_broad": null,
+      "flow_broad": 63.64,
       "index": 3326.456
     },
     {
       "date": "2024-12-02",
       "flow_all": 9.43,
-      "flow_broad": null,
+      "flow_broad": 4.23,
       "index": 3363.982
     },
     {
       "date": "2024-12-03",
       "flow_all": 6.82,
-      "flow_broad": null,
+      "flow_broad": -12.66,
       "index": 3378.806
     },
     {
       "date": "2024-12-04",
       "flow_all": -45.94,
-      "flow_broad": null,
+      "flow_broad": -54.4,
       "index": 3364.65
     },
     {
       "date": "2024-12-05",
       "flow_all": 26.9,
-      "flow_broad": null,
+      "flow_broad": 30.34,
       "index": 3368.855
     },
     {
       "date": "2024-12-06",
       "flow_all": 117.77,
-      "flow_broad": null,
+      "flow_broad": 84.72,
       "index": 3404.076
     },
     {
       "date": "2024-12-09",
       "flow_all": -11.5,
-      "flow_broad": null,
+      "flow_broad": -43.99,
       "index": 3402.534
     },
     {
       "date": "2024-12-10",
       "flow_all": 286.63,
-      "flow_broad": null,
+      "flow_broad": 245.05,
       "index": 3422.661
     },
     {
       "date": "2024-12-11",
       "flow_all": 98.89,
-      "flow_broad": null,
+      "flow_broad": 101.72,
       "index": 3432.49
     },
     {
       "date": "2024-12-12",
       "flow_all": 23.52,
-      "flow_broad": null,
+      "flow_broad": 43.91,
       "index": 3461.5
     },
     {
       "date": "2024-12-13",
       "flow_all": -115.27,
-      "flow_broad": null,
+      "flow_broad": -136.32,
       "index": 3391.878
     },
     {
       "date": "2024-12-16",
       "flow_all": 24.33,
-      "flow_broad": null,
+      "flow_broad": 16.03,
       "index": 3386.331
     },
     {
       "date": "2024-12-17",
       "flow_all": 92.88,
-      "flow_broad": null,
+      "flow_broad": 69.17,
       "index": 3361.485
     },
     {
       "date": "2024-12-18",
       "flow_all": -64.57,
-      "flow_broad": null,
+      "flow_broad": -45.58,
       "index": 3382.208
     },
     {
       "date": "2024-12-19",
       "flow_all": -30.19,
-      "flow_broad": null,
+      "flow_broad": -11.39,
       "index": 3370.033
     },
     {
       "date": "2024-12-20",
       "flow_all": -61.55,
-      "flow_broad": null,
+      "flow_broad": -19.04,
       "index": 3368.069
     },
     {
       "date": "2024-12-23",
       "flow_all": 4.25,
-      "flow_broad": null,
+      "flow_broad": 10.07,
       "index": 3351.257
     },
     {
       "date": "2024-12-24",
       "flow_all": 37.21,
-      "flow_broad": null,
+      "flow_broad": 33.42,
       "index": 3393.528
     },
     {
       "date": "2024-12-25",
       "flow_all": -35.84,
-      "flow_broad": null,
+      "flow_broad": -60.68,
       "index": 3393.35
     },
     {
       "date": "2024-12-26",
       "flow_all": -15.11,
-      "flow_broad": null,
+      "flow_broad": 2.52,
       "index": 3398.077
     },
     {
       "date": "2024-12-27",
       "flow_all": 41.21,
-      "flow_broad": null,
+      "flow_broad": 34.18,
       "index": 3400.142
     },
     {
       "date": "2024-12-30",
       "flow_all": -26.29,
-      "flow_broad": null,
+      "flow_broad": -24.08,
       "index": 3407.326
     },
     {
       "date": "2024-12-31",
       "flow_all": 52.29,
-      "flow_broad": null,
+      "flow_broad": -1.38,
       "index": 3351.763
     },
     {
       "date": "2025-01-02",
       "flow_all": 160.13,
-      "flow_broad": null,
+      "flow_broad": 104.6,
       "index": 3262.561
     },
     {
       "date": "2025-01-03",
       "flow_all": 181.98,
-      "flow_broad": null,
+      "flow_broad": 149.3,
       "index": 3211.43
     },
     {
       "date": "2025-01-06",
       "flow_all": 100.42,
-      "flow_broad": null,
+      "flow_broad": 86.64,
       "index": 3206.923
     },
     {
       "date": "2025-01-07",
       "flow_all": -68.22,
-      "flow_broad": null,
+      "flow_broad": -60.83,
       "index": 3229.644
     },
     {
       "date": "2025-01-08",
       "flow_all": 16.55,
-      "flow_broad": null,
+      "flow_broad": 6.5,
       "index": 3230.168
     },
     {
       "date": "2025-01-09",
       "flow_all": -86.12,
-      "flow_broad": null,
+      "flow_broad": -65.78,
       "index": 3211.393
     },
     {
       "date": "2025-01-10",
       "flow_all": -21.17,
-      "flow_broad": null,
+      "flow_broad": 1.48,
       "index": 3168.524
     },
     {
       "date": "2025-01-13",
       "flow_all": 109.44,
-      "flow_broad": null,
+      "flow_broad": 103.98,
       "index": 3160.755
     },
     {
       "date": "2025-01-14",
       "flow_all": 36.14,
-      "flow_broad": null,
+      "flow_broad": 48.68,
       "index": 3240.94
     },
     {
       "date": "2025-01-15",
       "flow_all": -43.4,
-      "flow_broad": null,
+      "flow_broad": -40.98,
       "index": 3227.117
     },
     {
       "date": "2025-01-16",
       "flow_all": 3.92,
-      "flow_broad": null,
+      "flow_broad": -17.56,
       "index": 3236.032
     },
     {
       "date": "2025-01-17",
       "flow_all": -27.27,
-      "flow_broad": null,
+      "flow_broad": -14.04,
       "index": 3241.821
     },
     {
       "date": "2025-01-20",
       "flow_all": -11.72,
-      "flow_broad": null,
+      "flow_broad": -16.56,
       "index": 3244.378
     },
     {
       "date": "2025-01-21",
       "flow_all": -69.05,
-      "flow_broad": null,
+      "flow_broad": -61.06,
       "index": 3242.623
     },
     {
       "date": "2025-01-22",
       "flow_all": -30.18,
-      "flow_broad": null,
+      "flow_broad": -28.76,
       "index": 3213.624
     },
     {
       "date": "2025-01-23",
       "flow_all": 84.35,
-      "flow_broad": null,
+      "flow_broad": 69.94,
       "index": 3230.164
     },
     {
       "date": "2025-01-24",
       "flow_all": 86.7,
-      "flow_broad": null,
+      "flow_broad": 102.37,
       "index": 3252.626
     },
     {
       "date": "2025-01-27",
       "flow_all": -53.01,
-      "flow_broad": null,
+      "flow_broad": -76.28,
       "index": 3250.601
     },
     {
       "date": "2025-02-05",
       "flow_all": -52.49,
-      "flow_broad": null,
+      "flow_broad": -40.2,
       "index": 3229.488
     },
     {
       "date": "2025-02-06",
       "flow_all": -30.03,
-      "flow_broad": null,
+      "flow_broad": -2.99,
       "index": 3270.659
     },
     {
       "date": "2025-02-07",
       "flow_all": -3.68,
-      "flow_broad": null,
+      "flow_broad": -19.99,
       "index": 3303.667
     },
     {
       "date": "2025-02-10",
       "flow_all": -202.54,
-      "flow_broad": null,
+      "flow_broad": -167.68,
       "index": 3322.17
     },
     {
       "date": "2025-02-11",
       "flow_all": -84.76,
-      "flow_broad": null,
+      "flow_broad": -82.49,
       "index": 3318.057
     },
     {
       "date": "2025-02-12",
       "flow_all": -84.29,
-      "flow_broad": null,
+      "flow_broad": -55.85,
       "index": 3346.385
     },
     {
       "date": "2025-02-13",
       "flow_all": -49.02,
-      "flow_broad": null,
+      "flow_broad": -73.39,
       "index": 3332.483
     },
     {
       "date": "2025-02-14",
       "flow_all": -47.79,
-      "flow_broad": null,
+      "flow_broad": -47.55,
       "index": 3346.724
     },
     {
       "date": "2025-02-17",
       "flow_all": -138.13,
-      "flow_broad": null,
+      "flow_broad": -158.44,
       "index": 3355.83
     },
     {
       "date": "2025-02-18",
       "flow_all": 12.7,
-      "flow_broad": null,
+      "flow_broad": -15.63,
       "index": 3324.491
     },
     {
       "date": "2025-02-19",
       "flow_all": -108.73,
-      "flow_broad": null,
+      "flow_broad": -73.63,
       "index": 3351.539
     },
     {
       "date": "2025-02-20",
       "flow_all": -110.38,
-      "flow_broad": null,
+      "flow_broad": -127.26,
       "index": 3350.783
     },
     {
       "date": "2025-02-21",
       "flow_all": -49.9,
-      "flow_broad": null,
+      "flow_broad": -93.4,
       "index": 3379.113
     },
     {
       "date": "2025-02-24",
       "flow_all": -109.63,
-      "flow_broad": null,
+      "flow_broad": -165.89,
       "index": 3373.028
     },
     {
       "date": "2025-02-25",
       "flow_all": -38.45,
-      "flow_broad": null,
+      "flow_broad": -82.41,
       "index": 3346.04
     },
     {
       "date": "2025-02-26",
       "flow_all": -84.24,
-      "flow_broad": null,
+      "flow_broad": -108.02,
       "index": 3380.214
     },
     {
       "date": "2025-02-27",
       "flow_all": -21.13,
-      "flow_broad": null,
+      "flow_broad": -50.72,
       "index": 3388.062
     },
     {
       "date": "2025-02-28",
       "flow_all": 105.02,
-      "flow_broad": null,
+      "flow_broad": 35.62,
       "index": 3320.897
     },
     {
       "date": "2025-03-03",
       "flow_all": -14.65,
-      "flow_broad": null,
+      "flow_broad": -35.28,
       "index": 3316.925
     },
     {
       "date": "2025-03-04",
       "flow_all": -49.1,
-      "flow_broad": null,
+      "flow_broad": -41.22,
       "index": 3324.21
     },
     {
       "date": "2025-03-05",
       "flow_all": -125.17,
-      "flow_broad": null,
+      "flow_broad": -135.88,
       "index": 3341.965
     },
     {
       "date": "2025-03-06",
       "flow_all": -59.05,
-      "flow_broad": null,
+      "flow_broad": -48.39,
       "index": 3381.098
     },
     {
       "date": "2025-03-07",
       "flow_all": -75.29,
-      "flow_broad": null,
+      "flow_broad": -91.12,
       "index": 3372.546
     },
     {
       "date": "2025-03-10",
       "flow_all": -158.63,
-      "flow_broad": null,
+      "flow_broad": -176.58,
       "index": 3366.163
     },
     {
       "date": "2025-03-11",
       "flow_all": 48.55,
-      "flow_broad": null,
+      "flow_broad": 29.66,
       "index": 3379.828
     },
     {
       "date": "2025-03-12",
       "flow_all": -14,
-      "flow_broad": null,
+      "flow_broad": -28.89,
       "index": 3371.924
     },
     {
       "date": "2025-03-13",
       "flow_all": 42.82,
-      "flow_broad": null,
+      "flow_broad": 12.39,
       "index": 3358.729
     },
     {
       "date": "2025-03-14",
       "flow_all": 31.78,
-      "flow_broad": null,
+      "flow_broad": 42.42,
       "index": 3419.562
     },
     {
       "date": "2025-03-17",
       "flow_all": -58.13,
-      "flow_broad": null,
+      "flow_broad": -87.59,
       "index": 3426.129
     },
     {
       "date": "2025-03-18",
       "flow_all": -53.92,
-      "flow_broad": null,
+      "flow_broad": -62.33,
       "index": 3429.759
     },
     {
       "date": "2025-03-19",
       "flow_all": -18.86,
-      "flow_broad": null,
+      "flow_broad": -25.81,
       "index": 3426.429
     },
     {
       "date": "2025-03-20",
       "flow_all": -38.14,
-      "flow_broad": null,
+      "flow_broad": -41.27,
       "index": 3408.948
     },
     {
       "date": "2025-03-21",
       "flow_all": 46.93,
-      "flow_broad": null,
+      "flow_broad": 1.28,
       "index": 3364.831
     },
     {
       "date": "2025-03-24",
       "flow_all": 30.28,
-      "flow_broad": null,
+      "flow_broad": 8.63,
       "index": 3370.028
     },
     {
       "date": "2025-03-25",
       "flow_all": -4.38,
-      "flow_broad": null,
+      "flow_broad": -23.18,
       "index": 3369.976
     },
     {
       "date": "2025-03-26",
       "flow_all": 25.1,
-      "flow_broad": null,
+      "flow_broad": 21.35,
       "index": 3368.697
     },
     {
       "date": "2025-03-27",
       "flow_all": -19.19,
-      "flow_broad": null,
+      "flow_broad": -8.67,
       "index": 3373.749
     },
     {
       "date": "2025-03-28",
       "flow_all": -12.11,
-      "flow_broad": null,
+      "flow_broad": -27.61,
       "index": 3351.307
     },
     {
       "date": "2025-03-31",
       "flow_all": 95.88,
-      "flow_broad": null,
+      "flow_broad": 64.22,
       "index": 3335.746
     },
     {
       "date": "2025-04-01",
       "flow_all": -21.88,
-      "flow_broad": null,
+      "flow_broad": -34.52,
       "index": 3348.435
     },
     {
       "date": "2025-04-02",
       "flow_all": 36.95,
-      "flow_broad": null,
+      "flow_broad": 24.15,
       "index": 3350.127
     },
     {
       "date": "2025-04-03",
       "flow_all": 54.13,
-      "flow_broad": null,
+      "flow_broad": 29.61,
       "index": 3342.008
     },
     {
       "date": "2025-04-07",
       "flow_all": 650.86,
-      "flow_broad": null,
+      "flow_broad": 565.71,
       "index": 3096.576
     },
     {
       "date": "2025-04-08",
       "flow_all": 1018.01,
-      "flow_broad": null,
+      "flow_broad": 1039.38,
       "index": 3145.549
     },
     {
       "date": "2025-04-09",
       "flow_all": 99.57,
-      "flow_broad": null,
+      "flow_broad": 81.67,
       "index": 3186.81
     },
     {
       "date": "2025-04-10",
       "flow_all": -31.57,
-      "flow_broad": null,
+      "flow_broad": -45.59,
       "index": 3223.638
     },
     {
       "date": "2025-04-11",
       "flow_all": -63.69,
-      "flow_broad": null,
+      "flow_broad": -49.3,
       "index": 3238.227
     },
     {
       "date": "2025-04-14",
       "flow_all": -105.7,
-      "flow_broad": null,
+      "flow_broad": -103.84,
       "index": 3262.808
     },
     {
       "date": "2025-04-15",
       "flow_all": 63.8,
-      "flow_broad": null,
+      "flow_broad": 61.31,
       "index": 3267.662
     },
     {
       "date": "2025-04-16",
       "flow_all": 266.6,
-      "flow_broad": null,
+      "flow_broad": 281.97,
       "index": 3276.004
     },
     {
       "date": "2025-04-17",
       "flow_all": 20.3,
-      "flow_broad": null,
+      "flow_broad": 40.45,
       "index": 3280.341
     },
     {
       "date": "2025-04-18",
       "flow_all": 96.89,
-      "flow_broad": null,
+      "flow_broad": 98.29,
       "index": 3276.73
     },
     {
       "date": "2025-04-21",
       "flow_all": -33.05,
-      "flow_broad": null,
+      "flow_broad": -13.63,
       "index": 3291.434
     },
     {
       "date": "2025-04-22",
       "flow_all": -70.05,
-      "flow_broad": null,
+      "flow_broad": -63.03,
       "index": 3299.757
     },
     {
       "date": "2025-04-23",
       "flow_all": -9.69,
-      "flow_broad": null,
+      "flow_broad": -4.52,
       "index": 3296.355
     },
     {
       "date": "2025-04-24",
       "flow_all": -1.57,
-      "flow_broad": null,
+      "flow_broad": 3.34,
       "index": 3297.288
     },
     {
       "date": "2025-04-25",
       "flow_all": -14.41,
-      "flow_broad": null,
+      "flow_broad": -24.99,
       "index": 3295.06
     },
     {
       "date": "2025-04-28",
       "flow_all": -66.4,
-      "flow_broad": null,
+      "flow_broad": -50.68,
       "index": 3288.415
     },
     {
       "date": "2025-04-29",
       "flow_all": -20.9,
-      "flow_broad": null,
+      "flow_broad": -16.66,
       "index": 3286.655
     },
     {
       "date": "2025-04-30",
       "flow_all": -55.47,
-      "flow_broad": null,
+      "flow_broad": -50.99,
       "index": 3279.031
     },
     {
       "date": "2025-05-06",
       "flow_all": 1.04,
-      "flow_broad": null,
+      "flow_broad": -5.61,
       "index": 3316.114
     },
     {
       "date": "2025-05-07",
       "flow_all": -60.9,
-      "flow_broad": null,
+      "flow_broad": -58.1,
       "index": 3342.665
     },
     {
       "date": "2025-05-08",
       "flow_all": -14.93,
-      "flow_broad": null,
+      "flow_broad": 3.35,
       "index": 3351.996
     },
     {
       "date": "2025-05-09",
       "flow_all": -38.72,
-      "flow_broad": null,
+      "flow_broad": -23.12,
       "index": 3341.999
     },
     {
       "date": "2025-05-12",
       "flow_all": -35.37,
-      "flow_broad": null,
+      "flow_broad": -22.17,
       "index": 3369.245
     },
     {
       "date": "2025-05-13",
       "flow_all": -137.17,
-      "flow_broad": null,
+      "flow_broad": -92.08,
       "index": 3374.871
     },
     {
       "date": "2025-05-14",
       "flow_all": -6.06,
-      "flow_broad": null,
+      "flow_broad": 15.16,
       "index": 3403.948
     },
     {
       "date": "2025-05-15",
       "flow_all": -59.42,
-      "flow_broad": null,
+      "flow_broad": -53.24,
       "index": 3380.821
     },
     {
       "date": "2025-05-16",
       "flow_all": -66.58,
-      "flow_broad": null,
+      "flow_broad": -55.83,
       "index": 3367.462
     },
     {
       "date": "2025-05-19",
       "flow_all": -38.16,
-      "flow_broad": null,
+      "flow_broad": -25.66,
       "index": 3367.583
     },
     {
       "date": "2025-05-20",
       "flow_all": -21.63,
-      "flow_broad": null,
+      "flow_broad": -17.52,
       "index": 3380.478
     },
     {
       "date": "2025-05-21",
       "flow_all": -45.47,
-      "flow_broad": null,
+      "flow_broad": -51.1,
       "index": 3387.574
     },
     {
       "date": "2025-05-22",
       "flow_all": -19.76,
-      "flow_broad": null,
+      "flow_broad": -17.9,
       "index": 3380.189
     },
     {
       "date": "2025-05-23",
       "flow_all": -4.37,
-      "flow_broad": null,
+      "flow_broad": -10.7,
       "index": 3348.372
     },
     {
       "date": "2025-05-26",
       "flow_all": 49.12,
-      "flow_broad": null,
+      "flow_broad": 46.73,
       "index": 3346.839
     },
     {
       "date": "2025-05-27",
       "flow_all": 31.14,
-      "flow_broad": null,
+      "flow_broad": 22.43,
       "index": 3340.687
     },
     {
       "date": "2025-05-28",
       "flow_all": -17.69,
-      "flow_broad": null,
+      "flow_broad": -20.12,
       "index": 3339.932
     },
     {
       "date": "2025-05-29",
       "flow_all": 65.43,
-      "flow_broad": null,
+      "flow_broad": 68.91,
       "index": 3363.446
     },
     {
       "date": "2025-05-30",
       "flow_all": -68.06,
-      "flow_broad": null,
+      "flow_broad": -69.48,
       "index": 3347.487
     },
     {
       "date": "2025-06-03",
       "flow_all": 3.55,
-      "flow_broad": null,
+      "flow_broad": 14.47,
       "index": 3361.976
     },
     {
       "date": "2025-06-04",
       "flow_all": -7.23,
-      "flow_broad": null,
+      "flow_broad": -18.76,
       "index": 3376.203
     },
     {
       "date": "2025-06-05",
       "flow_all": -30.78,
-      "flow_broad": null,
+      "flow_broad": -62.52,
       "index": 3384.099
     },
     {
       "date": "2025-06-06",
       "flow_all": -1.95,
-      "flow_broad": null,
+      "flow_broad": -33.11,
       "index": 3385.358
     },
     {
       "date": "2025-06-09",
       "flow_all": 31.15,
-      "flow_broad": null,
+      "flow_broad": 22.94,
       "index": 3399.772
     },
     {
       "date": "2025-06-10",
       "flow_all": -88.12,
-      "flow_broad": null,
+      "flow_broad": -63.9,
       "index": 3384.816
     },
     {
       "date": "2025-06-11",
       "flow_all": -34.87,
-      "flow_broad": null,
+      "flow_broad": -10.84,
       "index": 3402.316
     },
     {
       "date": "2025-06-12",
       "flow_all": -55.63,
-      "flow_broad": null,
+      "flow_broad": -51.06,
       "index": 3402.658
     },
     {
       "date": "2025-06-13",
       "flow_all": -28.91,
-      "flow_broad": null,
+      "flow_broad": -25.24,
       "index": 3376.996
     },
     {
       "date": "2025-06-16",
       "flow_all": 58.89,
-      "flow_broad": null,
+      "flow_broad": 54.18,
       "index": 3388.729
     },
     {
       "date": "2025-06-17",
       "flow_all": 22.93,
-      "flow_broad": null,
+      "flow_broad": 5.6,
       "index": 3387.405
     },
     {
       "date": "2025-06-18",
       "flow_all": -3.9,
-      "flow_broad": null,
+      "flow_broad": -16.79,
       "index": 3388.809
     },
     {
       "date": "2025-06-19",
       "flow_all": 19.59,
-      "flow_broad": null,
+      "flow_broad": -10.78,
       "index": 3362.108
     },
     {
       "date": "2025-06-20",
       "flow_all": 41.65,
-      "flow_broad": null,
+      "flow_broad": 25.24,
       "index": 3359.895
     },
     {
       "date": "2025-06-23",
       "flow_all": 37.21,
-      "flow_broad": null,
+      "flow_broad": 29.59,
       "index": 3381.582
     },
     {
       "date": "2025-06-24",
       "flow_all": -9.7,
-      "flow_broad": null,
+      "flow_broad": 1.35,
       "index": 3420.566
     },
     {
       "date": "2025-06-25",
       "flow_all": -62.24,
-      "flow_broad": null,
+      "flow_broad": -33.5,
       "index": 3455.974
     },
     {
       "date": "2025-06-26",
       "flow_all": -74.6,
-      "flow_broad": null,
+      "flow_broad": -55.14,
       "index": 3448.453
     },
     {
       "date": "2025-06-27",
       "flow_all": -90.01,
-      "flow_broad": null,
+      "flow_broad": -67.28,
       "index": 3424.227
     },
     {
       "date": "2025-06-30",
       "flow_all": -35.19,
-      "flow_broad": null,
+      "flow_broad": -45.54,
       "index": 3444.426
     },
     {
       "date": "2025-07-01",
       "flow_all": -132.66,
-      "flow_broad": null,
+      "flow_broad": -145.5,
       "index": 3457.747
     },
     {
       "date": "2025-07-02",
       "flow_all": 9.43,
-      "flow_broad": null,
+      "flow_broad": -28.67,
       "index": 3454.792
     },
     {
       "date": "2025-07-03",
       "flow_all": -41.74,
-      "flow_broad": null,
+      "flow_broad": -57.65,
       "index": 3461.151
     },
     {
       "date": "2025-07-04",
       "flow_all": -55.32,
-      "flow_broad": null,
+      "flow_broad": -54.75,
       "index": 3472.319
     },
     {
       "date": "2025-07-07",
       "flow_all": -23.88,
-      "flow_broad": null,
+      "flow_broad": -23.04,
       "index": 3473.127
     },
     {
       "date": "2025-07-08",
       "flow_all": 3,
-      "flow_broad": null,
+      "flow_broad": 2.35,
       "index": 3497.475
     },
     {
       "date": "2025-07-09",
       "flow_all": -26.09,
-      "flow_broad": null,
+      "flow_broad": -41.19,
       "index": 3493.05
     },
     {
       "date": "2025-07-10",
       "flow_all": 0.99,
-      "flow_broad": null,
+      "flow_broad": -25.4,
       "index": 3509.682
     },
     {
       "date": "2025-07-11",
       "flow_all": 48.04,
-      "flow_broad": null,
+      "flow_broad": 32.73,
       "index": 3510.177
     },
     {
       "date": "2025-07-14",
       "flow_all": -34.67,
-      "flow_broad": null,
+      "flow_broad": -72.87,
       "index": 3519.65
     },
     {
       "date": "2025-07-15",
       "flow_all": -56.62,
-      "flow_broad": null,
+      "flow_broad": -93.24,
       "index": 3504.999
     },
     {
       "date": "2025-07-16",
       "flow_all": -21.19,
-      "flow_broad": null,
+      "flow_broad": -38.49,
       "index": 3503.777
     },
     {
       "date": "2025-07-17",
       "flow_all": -11.93,
-      "flow_broad": null,
+      "flow_broad": -40.72,
       "index": 3516.826
     },
     {
       "date": "2025-07-18",
       "flow_all": -47.02,
-      "flow_broad": null,
+      "flow_broad": -38.83,
       "index": 3534.483
     },
     {
       "date": "2025-07-21",
       "flow_all": 11.42,
-      "flow_broad": null,
+      "flow_broad": -24.04,
       "index": 3559.791
     },
     {
       "date": "2025-07-22",
       "flow_all": 5.25,
-      "flow_broad": null,
+      "flow_broad": -58.53,
       "index": 3581.861
     },
     {
       "date": "2025-07-23",
       "flow_all": 0.23,
-      "flow_broad": null,
+      "flow_broad": -1.88,
       "index": 3582.298
     },
     {
       "date": "2025-07-24",
       "flow_all": -1.96,
-      "flow_broad": null,
+      "flow_broad": 5.44,
       "index": 3605.727
     },
     {
       "date": "2025-07-25",
       "flow_all": -71.59,
-      "flow_broad": null,
+      "flow_broad": -81.38,
       "index": 3593.655
     },
     {
       "date": "2025-07-28",
       "flow_all": -77.72,
-      "flow_broad": null,
+      "flow_broad": -85.08,
       "index": 3597.937
     },
     {
       "date": "2025-07-29",
       "flow_all": -110.26,
-      "flow_broad": null,
+      "flow_broad": -107.01,
       "index": 3609.711
     },
     {
       "date": "2025-07-30",
       "flow_all": 3.85,
-      "flow_broad": null,
+      "flow_broad": -11.61,
       "index": 3615.717
     },
     {
       "date": "2025-07-31",
       "flow_all": -159.16,
-      "flow_broad": null,
+      "flow_broad": -111.07,
       "index": 3573.208
     },
     {
       "date": "2025-08-01",
       "flow_all": -39.59,
-      "flow_broad": null,
+      "flow_broad": -27.16,
       "index": 3559.952
     },
     {
       "date": "2025-08-04",
       "flow_all": -9.36,
-      "flow_broad": null,
+      "flow_broad": -8.78,
       "index": 3583.309
     },
     {
       "date": "2025-08-05",
       "flow_all": -18.14,
-      "flow_broad": null,
+      "flow_broad": -36.4,
       "index": 3617.598
     },
     {
       "date": "2025-08-06",
       "flow_all": 51.26,
-      "flow_broad": null,
+      "flow_broad": 39.58,
       "index": 3633.995
     },
     {
       "date": "2025-08-07",
       "flow_all": -59.81,
-      "flow_broad": null,
+      "flow_broad": -58.62,
       "index": 3639.667
     },
     {
       "date": "2025-08-08",
       "flow_all": -13.23,
-      "flow_broad": null,
+      "flow_broad": -42.75,
       "index": 3635.128
     },
     {
       "date": "2025-08-11",
       "flow_all": 10.58,
-      "flow_broad": null,
+      "flow_broad": 35.58,
       "index": 3647.547
     },
     {
       "date": "2025-08-12",
       "flow_all": -84.57,
-      "flow_broad": null,
+      "flow_broad": -53.49,
       "index": 3665.918
     },
     {
       "date": "2025-08-13",
       "flow_all": -36.68,
-      "flow_broad": null,
+      "flow_broad": -8.4,
       "index": 3683.465
     },
     {
       "date": "2025-08-14",
       "flow_all": -170.49,
-      "flow_broad": null,
+      "flow_broad": -111.4,
       "index": 3666.443
     },
     {
       "date": "2025-08-15",
       "flow_all": 39.33,
-      "flow_broad": null,
+      "flow_broad": 58.14,
       "index": 3696.771
     },
     {
       "date": "2025-08-18",
       "flow_all": 9.67,
-      "flow_broad": null,
+      "flow_broad": -38.42,
       "index": 3728.027
     },
     {
       "date": "2025-08-19",
       "flow_all": 8.74,
-      "flow_broad": null,
+      "flow_broad": -35.01,
       "index": 3727.288
     },
     {
       "date": "2025-08-20",
       "flow_all": -70.51,
-      "flow_broad": null,
+      "flow_broad": -74.8,
       "index": 3766.21
     },
     {
       "date": "2025-08-21",
       "flow_all": 18.9,
-      "flow_broad": null,
+      "flow_broad": -29.16,
       "index": 3771.099
     },
     {
       "date": "2025-08-22",
       "flow_all": 31.35,
-      "flow_broad": null,
+      "flow_broad": 27.88,
       "index": 3825.759
     },
     {
       "date": "2025-08-25",
       "flow_all": 119.38,
-      "flow_broad": null,
+      "flow_broad": -59.17,
       "index": 3883.562
     },
     {
       "date": "2025-08-26",
       "flow_all": 61.95,
-      "flow_broad": null,
+      "flow_broad": -28.37,
       "index": 3868.382
     },
     {
       "date": "2025-08-27",
       "flow_all": -66.48,
-      "flow_broad": null,
+      "flow_broad": -125.77,
       "index": 3800.35
     },
     {
       "date": "2025-08-28",
       "flow_all": -84.63,
-      "flow_broad": null,
+      "flow_broad": -104.43,
       "index": 3843.597
     },
     {
       "date": "2025-08-29",
       "flow_all": 94.57,
-      "flow_broad": null,
+      "flow_broad": -65.81,
       "index": 3857.927
     },
     {
       "date": "2025-09-01",
       "flow_all": -11.32,
-      "flow_broad": null,
+      "flow_broad": -111.01,
       "index": 3875.53
     },
     {
       "date": "2025-09-02",
       "flow_all": 106.98,
-      "flow_broad": null,
+      "flow_broad": -29.15,
       "index": 3858.133
     },
     {
       "date": "2025-09-03",
       "flow_all": -111.25,
-      "flow_broad": null,
+      "flow_broad": -113.63,
       "index": 3813.557
     },
     {
       "date": "2025-09-04",
       "flow_all": 44.08,
-      "flow_broad": null,
+      "flow_broad": 39.14,
       "index": 3765.876
     },
     {
       "date": "2025-09-05",
       "flow_all": -51.23,
-      "flow_broad": null,
+      "flow_broad": -38.34,
       "index": 3812.514
     },
     {
       "date": "2025-09-08",
       "flow_all": -31.24,
-      "flow_broad": null,
+      "flow_broad": -100.84,
       "index": 3826.841
     },
     {
       "date": "2025-09-09",
       "flow_all": -43.46,
-      "flow_broad": null,
+      "flow_broad": -95.09,
       "index": 3807.292
     },
     {
       "date": "2025-09-10",
       "flow_all": -43.51,
-      "flow_broad": null,
+      "flow_broad": -53.83,
       "index": 3812.221
     },
     {
       "date": "2025-09-11",
       "flow_all": 72.89,
-      "flow_broad": null,
+      "flow_broad": 54.09,
       "index": 3875.309
     },
     {
       "date": "2025-09-12",
       "flow_all": -2.62,
-      "flow_broad": null,
+      "flow_broad": -23.74,
       "index": 3870.598
     },
     {
       "date": "2025-09-15",
       "flow_all": -89.07,
-      "flow_broad": null,
+      "flow_broad": -88.72,
       "index": 3860.504
     },
     {
       "date": "2025-09-16",
       "flow_all": 14.64,
-      "flow_broad": null,
+      "flow_broad": -26.01,
       "index": 3861.865
     },
     {
       "date": "2025-09-17",
       "flow_all": 68.39,
-      "flow_broad": null,
+      "flow_broad": 7.98,
       "index": 3876.341
     },
     {
       "date": "2025-09-18",
       "flow_all": 43.55,
-      "flow_broad": null,
+      "flow_broad": -56.55,
       "index": 3831.656
     },
     {
       "date": "2025-09-19",
       "flow_all": 38.71,
-      "flow_broad": null,
+      "flow_broad": 3.23,
       "index": 3820.089
     },
     {
       "date": "2025-09-22",
       "flow_all": -104.75,
-      "flow_broad": null,
+      "flow_broad": -72.36,
       "index": 3828.576
     },
     {
       "date": "2025-09-23",
       "flow_all": 58.72,
-      "flow_broad": null,
+      "flow_broad": -28.65,
       "index": 3821.833
     },
     {
       "date": "2025-09-24",
       "flow_all": 30.5,
-      "flow_broad": null,
+      "flow_broad": 4.49,
       "index": 3853.642
     },
     {
       "date": "2025-09-25",
       "flow_all": 50.22,
-      "flow_broad": null,
+      "flow_broad": 9.77,
       "index": 3853.302
     },
     {
       "date": "2025-09-26",
       "flow_all": 191.6,
-      "flow_broad": null,
+      "flow_broad": 88.96,
       "index": 3828.106
     },
     {
       "date": "2025-09-29",
       "flow_all": 122.96,
-      "flow_broad": null,
+      "flow_broad": 120.47,
       "index": 3862.532
     },
     {
       "date": "2025-09-30",
       "flow_all": 109.81,
-      "flow_broad": null,
+      "flow_broad": 35.63,
       "index": 3882.777
     },
     {
       "date": "2025-10-09",
       "flow_all": 94.51,
-      "flow_broad": null,
+      "flow_broad": -21.75,
       "index": 3933.972
     },
     {
       "date": "2025-10-10",
       "flow_all": 270.58,
-      "flow_broad": null,
+      "flow_broad": 52.18,
       "index": 3897.028
     },
     {
       "date": "2025-10-13",
       "flow_all": 166.12,
-      "flow_broad": null,
+      "flow_broad": -28.16,
       "index": 3889.502
     },
     {
       "date": "2025-10-14",
       "flow_all": 47.43,
-      "flow_broad": null,
+      "flow_broad": -66.33,
       "index": 3865.229
     },
     {
       "date": "2025-10-15",
       "flow_all": 77.1,
-      "flow_broad": null,
+      "flow_broad": 14.32,
       "index": 3912.21
     },
     {
       "date": "2025-10-16",
       "flow_all": -88.12,
-      "flow_broad": null,
+      "flow_broad": -97.94,
       "index": 3916.228
     },
     {
       "date": "2025-10-17",
       "flow_all": 43.9,
-      "flow_broad": null,
+      "flow_broad": 7.19,
       "index": 3839.755
     },
     {
       "date": "2025-10-20",
       "flow_all": 9.67,
-      "flow_broad": null,
+      "flow_broad": 16.21,
       "index": 3863.893
     },
     {
       "date": "2025-10-21",
       "flow_all": -124.09,
-      "flow_broad": null,
+      "flow_broad": -63.75,
       "index": 3916.332
     },
     {
       "date": "2025-10-22",
       "flow_all": -81.17,
-      "flow_broad": null,
+      "flow_broad": -80.8,
       "index": 3913.758
     },
     {
       "date": "2025-10-23",
       "flow_all": -4.26,
-      "flow_broad": null,
+      "flow_broad": -14.65,
       "index": 3922.41
     },
     {
       "date": "2025-10-24",
       "flow_all": -109.67,
-      "flow_broad": null,
+      "flow_broad": -70.79,
       "index": 3950.312
     },
     {
       "date": "2025-10-27",
       "flow_all": -32.9,
-      "flow_broad": null,
+      "flow_broad": 3.53,
       "index": 3996.945
     },
     {
       "date": "2025-10-28",
       "flow_all": -3.96,
-      "flow_broad": null,
+      "flow_broad": 38.79,
       "index": 3988.224
     },
     {
       "date": "2025-10-29",
       "flow_all": -13.34,
-      "flow_broad": null,
+      "flow_broad": 18.97,
       "index": 4016.331
     },
     {
       "date": "2025-10-30",
       "flow_all": 3.29,
-      "flow_broad": null,
+      "flow_broad": -40.05,
       "index": 3986.901
     },
     {
       "date": "2025-10-31",
       "flow_all": 226.9,
-      "flow_broad": null,
+      "flow_broad": 158.05,
       "index": 3954.79
     },
     {
       "date": "2025-11-03",
       "flow_all": 20.67,
-      "flow_broad": null,
+      "flow_broad": -13.15,
       "index": 3976.521
     },
     {
       "date": "2025-11-04",
       "flow_all": -23.71,
-      "flow_broad": null,
+      "flow_broad": -91.76,
       "index": 3960.186
     },
     {
       "date": "2025-11-05",
       "flow_all": 75.54,
-      "flow_broad": null,
+      "flow_broad": 25.38,
       "index": 3969.248
     },
     {
       "date": "2025-11-06",
       "flow_all": -145.14,
-      "flow_broad": null,
+      "flow_broad": -80.43,
       "index": 4007.76
     },
     {
       "date": "2025-11-07",
       "flow_all": -21.63,
-      "flow_broad": null,
+      "flow_broad": -35.47,
       "index": 3997.556
     },
     {
       "date": "2025-11-10",
       "flow_all": 19.28,
-      "flow_broad": null,
+      "flow_broad": 19.88,
       "index": 4018.597
     },
     {
       "date": "2025-11-11",
       "flow_all": 30.8,
-      "flow_broad": null,
+      "flow_broad": -19.84,
       "index": 4002.758
     },
     {
       "date": "2025-11-12",
       "flow_all": 58.14,
-      "flow_broad": null,
+      "flow_broad": 11.49,
       "index": 4000.14
     },
     {
       "date": "2025-11-13",
       "flow_all": -62.05,
-      "flow_broad": null,
+      "flow_broad": -39.23,
       "index": 4029.501
     },
     {
       "date": "2025-11-14",
       "flow_all": 72.3,
-      "flow_broad": null,
+      "flow_broad": -4.01,
       "index": 3990.492
     },
     {
       "date": "2025-11-17",
       "flow_all": 77.29,
-      "flow_broad": null,
+      "flow_broad": 29.54,
       "index": 3972.035
     },
     {
       "date": "2025-11-18",
       "flow_all": 16.31,
-      "flow_broad": null,
+      "flow_broad": 26.6,
       "index": 3939.813
     },
     {
       "date": "2025-11-19",
       "flow_all": 16.04,
-      "flow_broad": null,
+      "flow_broad": 3.49,
       "index": 3946.742
     },
     {
       "date": "2025-11-20",
       "flow_all": 26.56,
-      "flow_broad": null,
+      "flow_broad": 26.61,
       "index": 3931.051
     },
     {
       "date": "2025-11-21",
       "flow_all": 353.14,
-      "flow_broad": null,
+      "flow_broad": 269.84,
       "index": 3834.891
     },
     {
       "date": "2025-11-24",
       "flow_all": 97.4,
-      "flow_broad": null,
+      "flow_broad": 110.5,
       "index": 3836.766
     },
     {
       "date": "2025-11-25",
       "flow_all": -187.85,
-      "flow_broad": null,
+      "flow_broad": -131.25,
       "index": 3870.023
     },
     {
       "date": "2025-11-26",
       "flow_all": -211.58,
-      "flow_broad": null,
+      "flow_broad": -151.27,
       "index": 3864.184
     },
     {
       "date": "2025-11-27",
       "flow_all": -60.75,
-      "flow_broad": null,
+      "flow_broad": -28.04,
       "index": 3875.259
     },
     {
       "date": "2025-11-28",
       "flow_all": -46.81,
-      "flow_broad": null,
+      "flow_broad": -11.65,
       "index": 3888.596
     },
     {
       "date": "2025-12-01",
       "flow_all": -95.7,
-      "flow_broad": null,
+      "flow_broad": -74.48,
       "index": 3914.006
     },
     {
       "date": "2025-12-02",
       "flow_all": -3.91,
-      "flow_broad": null,
+      "flow_broad": -25.2,
       "index": 3897.712
     },
     {
       "date": "2025-12-03",
       "flow_all": 26.51,
-      "flow_broad": null,
+      "flow_broad": 18.13,
       "index": 3878
     },
     {
       "date": "2025-12-04",
       "flow_all": 24.93,
-      "flow_broad": null,
+      "flow_broad": 33.62,
       "index": 3875.793
     },
     {
       "date": "2025-12-05",
       "flow_all": 79.23,
-      "flow_broad": null,
+      "flow_broad": 99.25,
       "index": 3902.808
     },
     {
       "date": "2025-12-08",
       "flow_all": -63.42,
-      "flow_broad": null,
+      "flow_broad": 9.31,
       "index": 3924.078
     },
     {
       "date": "2025-12-09",
       "flow_all": -92.36,
-      "flow_broad": null,
+      "flow_broad": -63.36,
       "index": 3909.522
     },
     {
       "date": "2025-12-10",
       "flow_all": -54.36,
-      "flow_broad": null,
+      "flow_broad": -60.42,
       "index": 3900.496
     },
     {
       "date": "2025-12-11",
       "flow_all": 26.18,
-      "flow_broad": null,
+      "flow_broad": 23.94,
       "index": 3873.318
     },
     {
       "date": "2025-12-12",
       "flow_all": 157.1,
-      "flow_broad": null,
+      "flow_broad": 158.38,
       "index": 3889.346
     },
     {
       "date": "2025-12-15",
       "flow_all": 47.94,
-      "flow_broad": null,
+      "flow_broad": 42.88,
       "index": 3867.921
     },
     {
       "date": "2025-12-16",
       "flow_all": 111.53,
-      "flow_broad": null,
+      "flow_broad": 61.57,
       "index": 3824.812
     },
     {
       "date": "2025-12-17",
       "flow_all": 163.72,
-      "flow_broad": null,
+      "flow_broad": 165.26,
       "index": 3870.278
     },
     {
       "date": "2025-12-18",
       "flow_all": 108.57,
-      "flow_broad": null,
+      "flow_broad": 93.5,
       "index": 3876.371
     },
     {
       "date": "2025-12-19",
       "flow_all": 123.65,
-      "flow_broad": null,
+      "flow_broad": 111.24,
       "index": 3890.448
     },
     {
       "date": "2025-12-22",
       "flow_all": 12.29,
-      "flow_broad": null,
+      "flow_broad": 52.36,
       "index": 3917.364
     },
     {
       "date": "2025-12-23",
       "flow_all": 26.51,
-      "flow_broad": null,
+      "flow_broad": 50.38,
       "index": 3919.979
     },
     {
       "date": "2025-12-24",
       "flow_all": 141.99,
-      "flow_broad": null,
+      "flow_broad": 172.3,
       "index": 3940.947
     },
     {
       "date": "2025-12-25",
       "flow_all": 74.06,
-      "flow_broad": null,
+      "flow_broad": 92.03,
       "index": 3959.621
     },
     {
       "date": "2025-12-26",
       "flow_all": 101.99,
-      "flow_broad": null,
+      "flow_broad": 122.95,
       "index": 3963.679
     },
     {
       "date": "2025-12-29",
       "flow_all": -142.66,
-      "flow_broad": null,
+      "flow_broad": -104.54,
       "index": 3965.28
     },
     {
       "date": "2025-12-30",
       "flow_all": 69.75,
-      "flow_broad": null,
+      "flow_broad": 28.7,
       "index": 3965.116
     },
     {
       "date": "2025-12-31",
       "flow_all": 42.85,
-      "flow_broad": null,
+      "flow_broad": 4.43,
       "index": 3968.84
     },
     {
       "date": "2026-01-05",
       "flow_all": -32.75,
-      "flow_broad": null,
+      "flow_broad": -17.15,
       "index": 4023.417
     },
     {
       "date": "2026-01-06",
       "flow_all": 31.81,
-      "flow_broad": null,
+      "flow_broad": 38.83,
       "index": 4083.667
     },
     {
       "date": "2026-01-07",
       "flow_all": -168.9,
-      "flow_broad": null,
+      "flow_broad": -158.76,
       "index": 4085.772
     },
     {
       "date": "2026-01-08",
       "flow_all": -8.4,
-      "flow_broad": null,
+      "flow_broad": -49.94,
       "index": 4082.979
     },
     {
       "date": "2026-01-09",
       "flow_all": 151.22,
-      "flow_broad": null,
+      "flow_broad": 51.5,
       "index": 4120.426
     },
     {
       "date": "2026-01-12",
       "flow_all": 84.01,
-      "flow_broad": null,
+      "flow_broad": -84.34,
       "index": 4165.287
     },
     {
       "date": "2026-01-13",
       "flow_all": 101.34,
-      "flow_broad": null,
+      "flow_broad": -57.28,
       "index": 4138.759
     },
     {
       "date": "2026-01-14",
       "flow_all": -83.41,
-      "flow_broad": null,
+      "flow_broad": -170.38,
       "index": 4126.093
     },
     {
       "date": "2026-01-15",
       "flow_all": -686.27,
-      "flow_broad": null,
+      "flow_broad": -747.63,
       "index": 4112.601
     },
     {
       "date": "2026-01-16",
       "flow_all": -861.34,
-      "flow_broad": null,
+      "flow_broad": -1069,
       "index": 4101.913
     },
     {
       "date": "2026-01-19",
       "flow_all": -429.91,
-      "flow_broad": null,
+      "flow_broad": -587.04,
       "index": 4114
     },
     {
       "date": "2026-01-20",
       "flow_all": -536.26,
-      "flow_broad": null,
+      "flow_broad": -657.96,
       "index": 4113.649
     },
     {
       "date": "2026-01-21",
       "flow_all": -1018.88,
-      "flow_broad": null,
+      "flow_broad": -1078.55,
       "index": 4116.94
     },
     {
       "date": "2026-01-22",
       "flow_all": -640.85,
-      "flow_broad": null,
+      "flow_broad": -771.68,
       "index": 4122.576
     },
     {
       "date": "2026-01-23",
       "flow_all": -718.81,
-      "flow_broad": null,
+      "flow_broad": -873.02,
       "index": 4136.164
     },
     {
       "date": "2026-01-26",
       "flow_all": -1044.45,
-      "flow_broad": null,
+      "flow_broad": -1164.87,
       "index": 4132.605
     },
     {
       "date": "2026-01-27",
       "flow_all": -483.06,
-      "flow_broad": null,
+      "flow_broad": -570.78,
       "index": 4139.904
     },
     {
       "date": "2026-01-28",
       "flow_all": -1305.64,
-      "flow_broad": null,
+      "flow_broad": -1475.21,
       "index": 4151.238
     },
     {
       "date": "2026-01-29",
       "flow_all": -312.77,
-      "flow_broad": null,
+      "flow_broad": -522.16,
       "index": 4157.985
     },
     {
       "date": "2026-01-30",
       "flow_all": -40.03,
-      "flow_broad": null,
+      "flow_broad": -165.03,
       "index": 4117.948
     },
     {
       "date": "2026-02-02",
       "flow_all": -179.38,
-      "flow_broad": null,
+      "flow_broad": -236.05,
       "index": 4015.746
     },
     {
       "date": "2026-02-03",
       "flow_all": 66.64,
-      "flow_broad": null,
+      "flow_broad": 113.5,
       "index": 4067.738
     },
     {
       "date": "2026-02-04",
       "flow_all": -71.07,
-      "flow_broad": null,
+      "flow_broad": -93.38,
       "index": 4102.202
     },
     {
       "date": "2026-02-05",
       "flow_all": 34.32,
-      "flow_broad": null,
+      "flow_broad": 9.57,
       "index": 4075.917
     },
     {
       "date": "2026-02-06",
       "flow_all": 88.01,
-      "flow_broad": null,
+      "flow_broad": 70.98,
       "index": 4065.583
     },
     {
       "date": "2026-02-09",
       "flow_all": -39.43,
-      "flow_broad": null,
+      "flow_broad": 3.97,
       "index": 4123.09
     },
     {
       "date": "2026-02-10",
       "flow_all": -104.04,
-      "flow_broad": null,
+      "flow_broad": -106.74,
       "index": 4128.373
     },
     {
       "date": "2026-02-11",
       "flow_all": -9.66,
-      "flow_broad": null,
+      "flow_broad": -7.57,
       "index": 4131.985
     },
     {
       "date": "2026-02-12",
       "flow_all": -99.99,
-      "flow_broad": null,
+      "flow_broad": -60.29,
       "index": 4134.018
     },
     {
       "date": "2026-02-13",
       "flow_all": -234.07,
-      "flow_broad": null,
+      "flow_broad": -256.8,
       "index": 4082.073
     },
     {
       "date": "2026-02-24",
       "flow_all": -29.6,
-      "flow_broad": null,
+      "flow_broad": -49.92,
       "index": 4117.409
     },
     {
       "date": "2026-02-25",
       "flow_all": -37.86,
-      "flow_broad": null,
+      "flow_broad": -2.39,
       "index": 4147.231
     },
     {
       "date": "2026-02-26",
       "flow_all": -259.27,
-      "flow_broad": null,
+      "flow_broad": -214.78,
       "index": 4146.631
     },
     {
       "date": "2026-02-27",
       "flow_all": -37.92,
-      "flow_broad": null,
+      "flow_broad": -47.68,
       "index": 4162.882
     },
     {
       "date": "2026-03-02",
       "flow_all": -135.57,
-      "flow_broad": null,
+      "flow_broad": -258.53,
       "index": 4182.591
     },
     {
       "date": "2026-03-03",
       "flow_all": 200.23,
-      "flow_broad": null,
+      "flow_broad": -47.33,
       "index": 4122.676
     },
     {
       "date": "2026-03-04",
       "flow_all": 137.4,
-      "flow_broad": null,
+      "flow_broad": 65.01,
       "index": 4082.474
     },
     {
       "date": "2026-03-05",
       "flow_all": -219.37,
-      "flow_broad": null,
+      "flow_broad": -190.99,
       "index": 4108.567
     },
     {
       "date": "2026-03-06",
       "flow_all": 50.75,
-      "flow_broad": null,
+      "flow_broad": 37.12,
       "index": 4124.194
     },
     {
       "date": "2026-03-09",
       "flow_all": 85.93,
-      "flow_broad": null,
+      "flow_broad": -22.92,
       "index": 4096.602
     },
     {
       "date": "2026-03-10",
       "flow_all": -85.33,
-      "flow_broad": null,
+      "flow_broad": -56.71,
       "index": 4123.138
     },
     {
       "date": "2026-03-11",
       "flow_all": -118,
-      "flow_broad": null,
+      "flow_broad": -138.15,
       "index": 4133.433
     },
     {
       "date": "2026-03-12",
       "flow_all": -46.9,
-      "flow_broad": null,
+      "flow_broad": -73.02,
       "index": 4129.103
     },
     {
       "date": "2026-03-13",
       "flow_all": 77.3,
-      "flow_broad": null,
+      "flow_broad": 32.76,
       "index": 4095.449
     },
     {
       "date": "2026-03-16",
       "flow_all": 3.25,
-      "flow_broad": null,
+      "flow_broad": 25.31,
       "index": 4084.786
     },
     {
       "date": "2026-03-17",
       "flow_all": -4.58,
-      "flow_broad": null,
+      "flow_broad": 26.19,
       "index": 4049.907
     },
     {
       "date": "2026-03-18",
       "flow_all": -101.34,
-      "flow_broad": null,
+      "flow_broad": -29.34,
       "index": 4062.984
     },
     {
       "date": "2026-03-19",
       "flow_all": 21.35,
-      "flow_broad": null,
+      "flow_broad": 26.11,
       "index": 4006.552
     },
     {
       "date": "2026-03-20",
       "flow_all": -8.21,
-      "flow_broad": null,
+      "flow_broad": 41.21,
       "index": 3957.053
     },
     {
       "date": "2026-03-23",
       "flow_all": 164.41,
-      "flow_broad": null,
+      "flow_broad": 154.48,
       "index": 3813.283
     },
     {
       "date": "2026-03-24",
       "flow_all": -47.84,
-      "flow_broad": null,
+      "flow_broad": 10.3,
       "index": 3881.28
     },
     {
       "date": "2026-03-25",
       "flow_all": -202.66,
-      "flow_broad": null,
+      "flow_broad": -153.33,
       "index": 3931.838
     },
     {
       "date": "2026-03-26",
       "flow_all": -34.19,
-      "flow_broad": null,
+      "flow_broad": -24.41,
       "index": 3889.084
     },
     {
       "date": "2026-03-27",
       "flow_all": -1.58,
-      "flow_broad": null,
+      "flow_broad": -0.54,
       "index": 3913.724
     },
     {
       "date": "2026-03-30",
       "flow_all": -114.79,
-      "flow_broad": null,
+      "flow_broad": -86.36,
       "index": 3923.287
     },
     {
       "date": "2026-03-31",
       "flow_all": 33.85,
-      "flow_broad": null,
+      "flow_broad": 22.93,
       "index": 3891.861
     },
     {
       "date": "2026-04-01",
       "flow_all": -87.75,
-      "flow_broad": null,
+      "flow_broad": -42.56,
       "index": 3948.552
     },
     {
       "date": "2026-04-02",
       "flow_all": -81.28,
-      "flow_broad": null,
+      "flow_broad": -86.11,
       "index": 3919.285
     },
     {
       "date": "2026-04-03",
       "flow_all": 9.46,
-      "flow_broad": null,
+      "flow_broad": 16.37,
       "index": 3880.097
     },
     {
       "date": "2026-04-07",
       "flow_all": 9.12,
-      "flow_broad": null,
+      "flow_broad": 21.82,
       "index": 3890.165
     },
     {
       "date": "2026-04-08",
       "flow_all": 71.4,
-      "flow_broad": null,
+      "flow_broad": 106.4,
       "index": 3994.998
     },
     {
       "date": "2026-04-09",
       "flow_all": -195.39,
-      "flow_broad": null,
+      "flow_broad": -168.95,
       "index": 3966.171
     },
     {
       "date": "2026-04-10",
       "flow_all": -223.84,
-      "flow_broad": null,
+      "flow_broad": -112.88,
       "index": 3986.225
     },
     {
       "date": "2026-04-13",
       "flow_all": -184.05,
-      "flow_broad": null,
+      "flow_broad": -137.62,
       "index": 3988.558
     },
     {
       "date": "2026-04-14",
       "flow_all": -104.3,
-      "flow_broad": null,
+      "flow_broad": -68.83,
       "index": 4026.626
     },
     {
       "date": "2026-04-15",
       "flow_all": -44.32,
-      "flow_broad": null,
+      "flow_broad": -22.25,
       "index": 4027.21
     },
     {
       "date": "2026-04-16",
       "flow_all": -50.3,
-      "flow_broad": null,
+      "flow_broad": -37.38,
       "index": 4055.547
     },
     {
       "date": "2026-04-17",
       "flow_all": -132.98,
-      "flow_broad": null,
+      "flow_broad": -127.47,
       "index": 4051.425
     },
     {
       "date": "2026-04-20",
       "flow_all": -134.77,
-      "flow_broad": null,
+      "flow_broad": -144,
       "index": 4082.127
     },
     {
       "date": "2026-04-21",
       "flow_all": -125.66,
-      "flow_broad": null,
+      "flow_broad": -140.14,
       "index": 4085.077
     },
     {
       "date": "2026-04-22",
       "flow_all": -190.08,
-      "flow_broad": null,
+      "flow_broad": -159.63,
       "index": 4106.258
     },
     {
       "date": "2026-04-23",
       "flow_all": -216.15,
-      "flow_broad": null,
+      "flow_broad": -179.5,
       "index": 4093.25
     },
     {
       "date": "2026-04-24",
       "flow_all": -78.71,
-      "flow_broad": null,
+      "flow_broad": -67.84,
       "index": 4079.9
     },
     {
       "date": "2026-04-27",
       "flow_all": -216.05,
-      "flow_broad": null,
+      "flow_broad": -185.4,
       "index": 4086.344
     },
     {
       "date": "2026-04-28",
       "flow_all": -201.31,
-      "flow_broad": null,
+      "flow_broad": -170.43,
       "index": 4078.637
     },
     {
       "date": "2026-04-29",
       "flow_all": -42.05,
-      "flow_broad": null,
+      "flow_broad": -51.16,
       "index": 4107.514
     },
     {
       "date": "2026-04-30",
       "flow_all": -423.8,
-      "flow_broad": null,
+      "flow_broad": -388.34,
       "index": 4112.159
     },
     {
       "date": "2026-05-06",
       "flow_all": -151.15,
-      "flow_broad": null,
+      "flow_broad": -140.79,
       "index": 4160.174
     },
     {
       "date": "2026-05-07",
       "flow_all": -343.4,
-      "flow_broad": null,
+      "flow_broad": -334.25,
       "index": 4180.092
     },
     {
       "date": "2026-05-08",
       "flow_all": -265.44,
-      "flow_broad": null,
+      "flow_broad": -264.25,
       "index": 4179.952
     },
     {
       "date": "2026-05-11",
       "flow_all": -467.78,
-      "flow_broad": null,
+      "flow_broad": -376.19,
       "index": 4225.021
     },
     {
       "date": "2026-05-12",
       "flow_all": -273.41,
-      "flow_broad": null,
+      "flow_broad": -237.95,
       "index": 4214.489
     },
     {
       "date": "2026-05-13",
       "flow_all": -168.03,
-      "flow_broad": null,
+      "flow_broad": -146.75,
       "index": 4242.572
     },
     {
       "date": "2026-05-14",
       "flow_all": -210.31,
-      "flow_broad": null,
+      "flow_broad": -168.94,
       "index": 4177.918
     },
     {
       "date": "2026-05-15",
       "flow_all": -77.42,
-      "flow_broad": null,
+      "flow_broad": -21.84,
       "index": 4135.389
     },
     {
       "date": "2026-05-18",
       "flow_all": -134.04,
-      "flow_broad": null,
+      "flow_broad": -69.39,
       "index": 4131.528
     },
     {
       "date": "2026-05-19",
       "flow_all": -181.61,
-      "flow_broad": null,
+      "flow_broad": -171.52,
       "index": 4169.538
     },
     {
       "date": "2026-05-20",
       "flow_all": -222.29,
-      "flow_broad": null,
+      "flow_broad": -223.07,
       "index": 4162.185
     },
     {
       "date": "2026-05-21",
       "flow_all": -32.23,
-      "flow_broad": null,
+      "flow_broad": -43.12,
       "index": 4077.277
     },
     {
       "date": "2026-05-22",
       "flow_all": -86.92,
-      "flow_broad": null,
+      "flow_broad": -90.99,
       "index": 4112.9
     },
     {
       "date": "2026-05-25",
       "flow_all": -475.27,
-      "flow_broad": null,
+      "flow_broad": -442.19,
       "index": 4152.569
     },
     {
       "date": "2026-05-26",
       "flow_all": -16.62,
-      "flow_broad": null,
+      "flow_broad": -107.29,
       "index": 4145.373
     },
     {
       "date": "2026-05-27",
       "flow_all": -61.1,
-      "flow_broad": null,
+      "flow_broad": -87.58,
       "index": 4093.727
     },
     {
       "date": "2026-05-28",
       "flow_all": -148.53,
-      "flow_broad": null,
+      "flow_broad": -55.48,
       "index": 4098.636
     },
     {
       "date": "2026-05-29",
       "flow_all": 62.58,
-      "flow_broad": null,
+      "flow_broad": 96.09,
       "index": 4068.569
     },
     {
       "date": "2026-06-01",
       "flow_all": 158.67,
-      "flow_broad": null,
+      "flow_broad": 161.42,
       "index": 4057.74
     },
     {
       "date": "2026-06-02",
       "flow_all": -87.49,
-      "flow_broad": null,
+      "flow_broad": -13.92,
       "index": 4075.102
     },
     {
       "date": "2026-06-03",
       "flow_all": -204.01,
-      "flow_broad": null,
+      "flow_broad": -158.59,
       "index": 4083.974
     },
     {
       "date": "2026-06-04",
       "flow_all": -76.44,
-      "flow_broad": null,
+      "flow_broad": -68.59,
       "index": 4057.781
     },
     {
       "date": "2026-06-05",
       "flow_all": 45.21,
-      "flow_broad": null,
+      "flow_broad": 12.03,
       "index": 4027.736
     },
     {
       "date": "2026-06-08",
       "flow_all": 286.9,
-      "flow_broad": null,
+      "flow_broad": 201.05,
       "index": 3959.338
     },
     {
       "date": "2026-06-09",
       "flow_all": -249.7,
-      "flow_broad": null,
+      "flow_broad": -196.87,
       "index": 4010.031
     },
     {
       "date": "2026-06-10",
       "flow_all": -30.06,
-      "flow_broad": null,
+      "flow_broad": 4.6,
       "index": 3993.226
     },
     {
       "date": "2026-06-11",
       "flow_all": 63.56,
-      "flow_broad": null,
+      "flow_broad": 56.75,
       "index": 3987.015
     },
     {
       "date": "2026-06-12",
       "flow_all": 30.79,
-      "flow_broad": null,
+      "flow_broad": 24.53,
       "index": 4031.513
     },
     {
       "date": "2026-06-15",
       "flow_all": -56.74,
-      "flow_broad": null,
+      "flow_broad": -101.16,
       "index": 4096.472
     },
     {
       "date": "2026-06-16",
       "flow_all": -144.08,
-      "flow_broad": null,
+      "flow_broad": -136.84,
       "index": 4091.892
     },
     {
       "date": "2026-06-17",
       "flow_all": -263.49,
-      "flow_broad": null,
+      "flow_broad": -195.24,
       "index": 4108.076
     },
     {
       "date": "2026-06-18",
       "flow_all": -159.67,
-      "flow_broad": null,
+      "flow_broad": -132,
       "index": 4090.481
     },
     {
       "date": "2026-06-22",
       "flow_all": -49.14,
-      "flow_broad": null,
+      "flow_broad": -61.02,
       "index": 4163.097
     },
     {
       "date": "2026-06-23",
       "flow_all": -228.44,
-      "flow_broad": null,
+      "flow_broad": -231.05,
       "index": 4106.252
     },
     {
       "date": "2026-06-24",
       "flow_all": -274.32,
-      "flow_broad": null,
+      "flow_broad": -317.07,
       "index": 4110.813
     },
     {
       "date": "2026-06-25",
       "flow_all": -321.75,
-      "flow_broad": null,
+      "flow_broad": -387.86,
       "index": 4120.281
     },
     {
       "date": "2026-06-26",
       "flow_all": 203.59,
-      "flow_broad": null,
+      "flow_broad": 17.85,
       "index": 4027.265
     },
     {
       "date": "2026-06-29",
       "flow_all": 14.66,
-      "flow_broad": null,
+      "flow_broad": -101.76,
       "index": 4073.902
     },
     {
       "date": "2026-06-30",
       "flow_all": -71.17,
-      "flow_broad": null,
+      "flow_broad": -206.39,
       "index": 4094.397
     },
     {
       "date": "2026-07-01",
       "flow_all": -1.55,
-      "flow_broad": null,
+      "flow_broad": -115.55,
       "index": 4112.445
     },
     {
       "date": "2026-07-02",
       "flow_all": 344.95,
-      "flow_broad": null,
+      "flow_broad": 141.38,
       "index": 4028.904
     },
     {
       "date": "2026-07-03",
       "flow_all": -73.05,
-      "flow_broad": null,
+      "flow_broad": -195.18,
       "index": 4043.643
     },
     {
       "date": "2026-07-06",
       "flow_all": 112.24,
-      "flow_broad": null,
+      "flow_broad": 15.01,
       "index": 4041.238
     },
     {
       "date": "2026-07-07",
       "flow_all": 236.78,
-      "flow_broad": null,
+      "flow_broad": 143.91,
       "index": 3990.235
     },
     {
       "date": "2026-07-08",
       "flow_all": 202.64,
-      "flow_broad": null,
+      "flow_broad": 128.51,
       "index": 3970.88
     },
     {
       "date": "2026-07-09",
       "flow_all": 141.15,
-      "flow_broad": null,
+      "flow_broad": 57.03,
       "index": 4036.588
     },
     {
       "date": "2026-07-10",
       "flow_all": 184.52,
-      "flow_broad": null,
+      "flow_broad": -39.37,
       "index": 3996.162
     },
     {
       "date": "2026-07-13",
       "flow_all": 585.05,
-      "flow_broad": null,
+      "flow_broad": 434.9,
       "index": 3913.794
     },
     {
       "date": "2026-07-14",
       "flow_all": 193.86,
-      "flow_broad": null,
+      "flow_broad": 117.14,
       "index": 3967.126
     },
     {
       "date": "2026-07-15",
       "flow_all": 104.08,
-      "flow_broad": null,
+      "flow_broad": 16.02,
       "index": 3955.578
     },
     {
       "date": "2026-07-16",
       "flow_all": 379.7,
-      "flow_broad": null,
+      "flow_broad": 340.12,
       "index": 3882.413
     },
     {
       "date": "2026-07-17",
       "flow_all": 743.27,
-      "flow_broad": null,
+      "flow_broad": 634.91,
       "index": 3764.155
     },
     {
       "date": "2026-07-20",
       "flow_all": 619.09,
-      "flow_broad": null,
+      "flow_broad": 591.98,
       "index": 3796.281
     },
     {
       "date": "2026-07-21",
       "flow_all": -147.62,
-      "flow_broad": null,
+      "flow_broad": -7.06,
       "index": 3864.367
     },
     {
       "date": "2026-07-22",
       "flow_all": -239.72,
-      "flow_broad": null,
+      "flow_broad": -208.08,
       "index": 3867.034
     },
     {
       "date": "2026-07-23",
       "flow_all": 177.15,
-      "flow_broad": null,
+      "flow_broad": 93.28,
       "index": 3876.777
     },
     {
       "date": "2026-07-24",
       "flow_all": 133.17,
-      "flow_broad": null,
+      "flow_broad": 65.53,
       "index": 3814.198
     },
     {
       "date": "2026-07-27",
       "flow_all": 145.98,
-      "flow_broad": null,
+      "flow_broad": 162.09,
       "index": 3858.245
     },
     {
       "date": "2026-07-28",
       "flow_all": 269.96,
-      "flow_broad": null,
+      "flow_broad": 179.08,
       "index": 3813.315
     },
     {
       "date": "2026-07-29",
       "flow_all": 416.44,
-      "flow_broad": null,
+      "flow_broad": 368.3,
       "index": 3828.469
     },
     {
       "date": "2026-07-30",
       "flow_all": 400.93,
-      "flow_broad": null,
+      "flow_broad": 321.12,
       "index": 3804.693
     },
     {
       "date": "2026-07-31",
       "flow_all": -236.69,
-      "flow_broad": null,
+      "flow_broad": -108.31,
       "index": 3832.262
     },
     {
       "date": "2026-08-03",
       "flow_all": 287.89,
-      "flow_broad": null,
+      "flow_broad": 197.3,
       "index": 3809.663
     },
     {
       "date": "2026-08-04",
       "flow_all": -243.23,
-      "flow_broad": null,
+      "flow_broad": -97.73,
       "index": 3822.285
     },
     {
       "date": "2026-08-05",
       "flow_all": -307.4,
-      "flow_broad": null,
+      "flow_broad": -182.19,
       "index": 3878.43
     },
     {
       "date": "2026-08-06",
       "flow_all": -230.02,
-      "flow_broad": null,
+      "flow_broad": -165.13,
       "index": 3900.352
     },
     {
       "date": "2026-08-07",
       "flow_all": -280,
-      "flow_broad": null,
+      "flow_broad": -229.92,
       "index": 3940.037
     },
     {
       "date": "2026-08-10",
       "flow_all": -115.87,
-      "flow_broad": null,
+      "flow_broad": -90.96,
       "index": 3966.594
     },
     {
       "date": "2026-08-11",
       "flow_all": -64.68,
-      "flow_broad": null,
+      "flow_broad": -47.49,
       "index": 3934.093
     },
     {
       "date": "2026-08-12",
       "flow_all": -138.14,
-      "flow_broad": null,
+      "flow_broad": -124.56,
       "index": 3946.675
     },
     {
       "date": "2026-08-13",
       "flow_all": -155.01,
-      "flow_broad": null,
+      "flow_broad": -127.25,
       "index": 3926.965
     },
     {
       "date": "2026-08-14",
       "flow_all": -48.93,
-      "flow_broad": null,
+      "flow_broad": -33.37,
       "index": 3927.176
     },
     {
       "date": "2026-08-17",
       "flow_all": -185.6,
-      "flow_broad": null,
+      "flow_broad": -129.06,
       "index": 3982.654
     },
     {
       "date": "2026-08-18",
       "flow_all": -130.18,
-      "flow_broad": null,
+      "flow_broad": -133.42,
       "index": 3990.304
     },
     {
       "date": "2026-08-19",
       "flow_all": 517.78,
-      "flow_broad": null,
+      "flow_broad": 389.79,
       "index": 3894.422
     },
     {
       "date": "2026-08-20",
       "flow_all": -33.42,
-      "flow_broad": null,
+      "flow_broad": -43.76,
       "index": 3903.721
     },
     {
       "date": "2026-08-21",
       "flow_all": -100.09,
-      "flow_broad": null,
+      "flow_broad": -95.64,
       "index": 3905.203
     },
     {
       "date": "2026-08-24",
       "flow_all": 106.38,
-      "flow_broad": null,
+      "flow_broad": 93.89,
       "index": 3882.008
     },
     {
       "date": "2026-08-25",
       "flow_all": 160.66,
-      "flow_broad": null,
+      "flow_broad": 133.42,
       "index": 3889.445
     },
     {
       "date": "2026-08-26",
       "flow_all": -129.31,
-      "flow_broad": null,
+      "flow_broad": -51.14,
       "index": 3912.524
     },
     {
       "date": "2026-08-27",
       "flow_all": -88.76,
-      "flow_broad": null,
+      "flow_broad": -37.49,
       "index": 3956.571
     },
     {
       "date": "2026-08-28",
       "flow_all": -39.87,
-      "flow_broad": null,
+      "flow_broad": -39.68,
       "index": 3952.179
     },
     {
       "date": "2026-08-31",
       "flow_all": -3.53,
-      "flow_broad": null,
+      "flow_broad": 22.86,
       "index": 3986.298
     },
     {
       "date": "2026-09-01",
       "flow_all": -77.66,
-      "flow_broad": null,
+      "flow_broad": -80.43,
       "index": 3979.888
     },
     {
       "date": "2026-09-02",
       "flow_all": -26.83,
-      "flow_broad": null,
+      "flow_broad": -13.88,
       "index": 3941.386
     },
     {
       "date": "2026-09-03",
       "flow_all": 56.79,
-      "flow_broad": null,
+      "flow_broad": 58.13,
       "index": 3942.088
     },
     {
       "date": "2026-09-04",
       "flow_all": 159.79,
-      "flow_broad": null,
+      "flow_broad": 150.21,
       "index": 3930.116
     },
     {
       "date": "2026-09-07",
       "flow_all": -31.4,
-      "flow_broad": null,
+      "flow_broad": 2.55,
       "index": 3932.699
     },
     {
       "date": "2026-09-08",
       "flow_all": -25.17,
-      "flow_broad": null,
+      "flow_broad": -40.95,
       "index": 3940.551
     },
     {
       "date": "2026-09-09",
       "flow_all": -21.43,
-      "flow_broad": null,
+      "flow_broad": -32.45,
       "index": 3951.507
     },
     {
       "date": "2026-09-10",
       "flow_all": 25.48,
-      "flow_broad": null,
+      "flow_broad": 24.42,
       "index": 3934.404
     },
     {
       "date": "2026-09-11",
       "flow_all": 97.24,
-      "flow_broad": null,
+      "flow_broad": 43.48,
       "index": 3888.111
     },
     {
       "date": "2026-09-14",
       "flow_all": 18.3,
-      "flow_broad": null,
+      "flow_broad": 22.29,
       "index": 3885.333
     },
     {
       "date": "2026-09-15",
       "flow_all": -25.68,
-      "flow_broad": null,
+      "flow_broad": 31.91,
       "index": 3864.279
     },
     {
       "date": "2026-09-16",
       "flow_all": 49.65,
-      "flow_broad": null,
+      "flow_broad": 63.97,
       "index": 3891.601
     },
     {
       "date": "2026-09-17",
       "flow_all": -50.3,
-      "flow_broad": null,
+      "flow_broad": -24.18,
       "index": 3875.604
     },
     {
       "date": "2026-09-18",
       "flow_all": -57.09,
-      "flow_broad": null,
+      "flow_broad": -34.45,
       "index": 3911.871
     },
     {
       "date": "2026-09-21",
       "flow_all": -63.27,
-      "flow_broad": null,
+      "flow_broad": -49.95,
       "index": 3949.907
     },
     {
       "date": "2026-09-22",
       "flow_all": 27.59,
-      "flow_broad": null,
+      "flow_broad": 25.58,
       "index": 3952.128
     },
     {
       "date": "2026-09-23",
       "flow_all": 35.72,
-      "flow_broad": null,
+      "flow_broad": 63.28,
       "index": 3936.52
     },
     {
       "date": "2026-09-24",
       "flow_all": -9.7,
-      "flow_broad": null,
+      "flow_broad": -19.84,
       "index": 3888.374
     },
     {
       "date": "2026-09-28",
       "flow_all": 242.86,
-      "flow_broad": null,
+      "flow_broad": 189.87,
       "index": 3823.621
     },
     {
       "date": "2026-09-29",
       "flow_all": 44.42,
-      "flow_broad": null,
+      "flow_broad": 25.73,
       "index": 3830.451
     },
     {
       "date": "2026-09-30",
       "flow_all": 81.16,
-      "flow_broad": null,
+      "flow_broad": 66.59,
       "index": 3842.195
     },
     {
       "date": "2026-10-08",
       "flow_all": 171.54,
-      "flow_broad": null,
+      "flow_broad": 103.91,
       "index": 3811.904
     },
     {
       "date": "2026-10-09",
       "flow_all": 231.41,
-      "flow_broad": null,
+      "flow_broad": 179.64,
       "index": 3813.791
     },
     {
       "date": "2026-10-12",
       "flow_all": 41.96,
-      "flow_broad": null,
+      "flow_broad": 38.17,
       "index": 3797.242
     },
     {
       "date": "2026-10-13",
       "flow_all": 129.44,
-      "flow_broad": null,
+      "flow_broad": 103.92,
       "index": 3800.864
     },
     {
       "date": "2026-10-14",
       "flow_all": 3.61,
-      "flow_broad": null,
+      "flow_broad": 13.71,
       "index": 3767.227
     },
     {
       "date": "2026-10-15",
       "flow_all": 461.65,
-      "flow_broad": null,
+      "flow_broad": 446.82,
       "index": 3707.476
     },
     {
       "date": "2026-10-16",
       "flow_all": 249.33,
-      "flow_broad": null,
+      "flow_broad": 234.73,
       "index": 3716.284
     },
     {
       "date": "2026-10-19",
       "flow_all": 238.1,
-      "flow_broad": null,
+      "flow_broad": 212.27,
       "index": 3730.92
     },
     {
       "date": "2026-10-20",
       "flow_all": 108.3,
-      "flow_broad": null,
+      "flow_broad": 115.15,
       "index": 3735.37
     },
     {
       "date": "2026-10-21",
       "flow_all": 141.47,
-      "flow_broad": null,
+      "flow_broad": 153.11,
       "index": 3713.028
     },
     {
       "date": "2026-10-22",
       "flow_all": 461.47,
-      "flow_broad": null,
+      "flow_broad": 512.11,
       "index": 3658.026
     },
     {
       "date": "2026-10-23",
       "flow_all": 601.76,
-      "flow_broad": null,
+      "flow_broad": 569.36,
       "index": 3690.475
     },
     {
       "date": "2026-10-26",
       "flow_all": 312.6,
-      "flow_broad": null,
+      "flow_broad": 332.04,
       "index": 3697.52
     },
     {
       "date": "2026-10-27",
       "flow_all": 234.62,
-      "flow_broad": null,
+      "flow_broad": 207.44,
       "index": 3648.301
     },
     {
       "date": "2026-10-28",
       "flow_all": 72.27,
-      "flow_broad": null,
+      "flow_broad": 100.82,
       "index": 3681.469
     },
     {
       "date": "2026-10-29",
       "flow_all": 184.61,
-      "flow_broad": null,
+      "flow_broad": 170.47,
       "index": 3651.434
     },
     {
       "date": "2026-10-30",
       "flow_all": 266.11,
-      "flow_broad": null,
+      "flow_broad": 249.43,
       "index": 3599.017
     },
     {
       "date": "2026-11-02",
       "flow_all": 450.54,
-      "flow_broad": null,
+      "flow_broad": 511.49,
       "index": 3638.031
     },
     {
       "date": "2026-11-03",
       "flow_all": 835.72,
-      "flow_broad": null,
+      "flow_broad": 856.31,
       "index": 3608.098
     },
     {
       "date": "2026-11-04",
       "flow_all": 441.23,
-      "flow_broad": null,
+      "flow_broad": 514.21,
       "index": 3686.173
     },
     {
       "date": "2026-11-05",
       "flow_all": 121.68,
-      "flow_broad": null,
+      "flow_broad": 104.02,
       "index": 3689.911
     },
     {
       "date": "2026-11-06",
       "flow_all": 108.65,
-      "flow_broad": null,
+      "flow_broad": 60.46,
       "index": 3649.177
     },
     {
       "date": "2026-11-09",
       "flow_all": 54.18,
-      "flow_broad": null,
+      "flow_broad": 5.03,
       "index": 3660.792
     },
     {
       "date": "2026-11-10",
       "flow_all": -8.73,
-      "flow_broad": null,
+      "flow_broad": -41.08,
       "index": 3663.724
     },
     {
       "date": "2026-11-11",
       "flow_all": -49.19,
-      "flow_broad": null,
+      "flow_broad": -35.45,
       "index": 3680.643
     },
     {
       "date": "2026-11-12",
       "flow_all": -248.01,
-      "flow_broad": null,
+      "flow_broad": -226.22,
       "index": 3655.83
     },
     {
       "date": "2026-11-13",
       "flow_all": -149.44,
-      "flow_broad": null,
+      "flow_broad": -131.79,
       "index": 3634.353
     },
     {
       "date": "2026-11-16",
       "flow_all": 206.57,
-      "flow_broad": null,
+      "flow_broad": 176.2,
       "index": 3602.57
     }
   ],
@@ -4186,8 +4186,8 @@
       "cum60": 6197.98
     },
     "broad": {
-      "yesterday": 0,
-      "cum60": 0
+      "yesterday": 176.2,
+      "cum60": 6117.93
     }
   }
 }

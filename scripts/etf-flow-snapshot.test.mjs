@@ -4,6 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { runSnapshot } from './etf-flow-snapshot.mjs'
+import { FLOW_INDEX_BROAD } from './lib/etf-flow.mjs'
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) < tol, `${a} 不接近 ${b}`)
 
@@ -14,14 +15,13 @@ function tmpRoot() {
 }
 const readOut = root => JSON.parse(readFileSync(join(root, 'public/data/etf-flow.json'), 'utf8'))
 
-// 注入：资金历史（元）+ 指数 Map
-const flowFn = async () => ([
-  { date: '2026-11-13', yuan: -14943813840 },
-  { date: '2026-11-16', yuan: 20657277210 },
-])
+// 注入：资金历史（元）按口径分支 + 指数 Map
+const ALL = [{ date: '2026-11-13', yuan: -14943813840 }, { date: '2026-11-16', yuan: 20657277210 }]
+const BROAD = [{ date: '2026-11-13', yuan: -13179000000 }, { date: '2026-11-16', yuan: 17620000000 }]
+const flowFn = async ({ index } = {}) => (index === FLOW_INDEX_BROAD ? BROAD : ALL)
 const indexFn = async () => new Map([['2026-11-16', 3602.57]])
 
-test('正常：产出序列（转亿）、叠加指数、KPI 正确、sample=false', async () => {
+test('正常：全A + 宽基 + 指数，KPI 正确、sample=false', async () => {
   const root = tmpRoot()
   const r = await runSnapshot({ today: '2026-11-17', root, flowFn, indexFn })
   assert.equal(r.written, true)
@@ -29,18 +29,24 @@ test('正常：产出序列（转亿）、叠加指数、KPI 正确、sample=fal
   assert.equal(out.sample, false)
   assert.equal(out.series.length, 2)
   const last = out.series.at(-1)
-  assert.deepEqual(last, { date: '2026-11-16', flow_all: 206.57, flow_broad: null, index: 3602.57 })
+  assert.deepEqual(last, { date: '2026-11-16', flow_all: 206.57, flow_broad: 176.2, index: 3602.57 })
   near(out.kpi.all.yesterday, 206.57)
-  near(out.kpi.all.cum60, 206.57 - 149.44)
+  near(out.kpi.broad.yesterday, 176.2)
+  near(out.kpi.broad.cum60, 176.2 - 131.79)
 })
 
-test('宽基未接入：flow_broad 全 null、kpi.broad 为 0', async () => {
+test('宽基接口失败不阻断全A：flow_broad 全 null、kpi.broad 0、全A 照写', async () => {
   const root = tmpRoot()
-  await runSnapshot({ today: '2026-11-17', root, flowFn, indexFn })
+  const flowFnBroadFail = async ({ index } = {}) => {
+    if (index === FLOW_INDEX_BROAD) throw new Error('宽基 502')
+    return ALL
+  }
+  const r = await runSnapshot({ today: '2026-11-17', root, flowFn: flowFnBroadFail, indexFn })
+  assert.equal(r.written, true)
   const out = readOut(root)
   assert.ok(out.series.every(s => s.flow_broad === null))
   assert.equal(out.kpi.broad.yesterday, 0)
-  assert.equal(out.kpi.broad.cum60, 0)
+  near(out.series.at(-1).flow_all, 206.57) // 全A 不受影响
 })
 
 test('资金接口失败：不写、不抛，返回原因', async () => {

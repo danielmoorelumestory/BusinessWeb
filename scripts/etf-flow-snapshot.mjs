@@ -4,12 +4,12 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { writeJsonIfChanged } from './lib/json-io.mjs'
-import { fetchFlowHistory, fetchIndexHistory, mergeSeries, kpiOf } from './lib/etf-flow.mjs'
+import { fetchFlowHistory, fetchIndexHistory, mergeSeries, kpiOf, FLOW_INDEX_ALL, FLOW_INDEX_BROAD } from './lib/etf-flow.mjs'
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..')
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a)
 const START = '2024-01-01'
-const NOTE = '同花顺原口径（全市场 ETF 申购净流入，数据来源同花顺行情）+ 上证指数叠加；红=净流入、绿=净流出；T+1、无盘中。宽基口径待接入。'
+const NOTE = '同花顺原口径（全市场 / 宽基 ETF 申购净流入，数据来源同花顺行情）+ 上证指数叠加；红=净流入、绿=净流出；T+1、无盘中。'
 
 /**
  * 跑一次快照。所有外部依赖可注入以便测试。
@@ -25,24 +25,28 @@ export async function runSnapshot({
 } = {}) {
   const outFile = join(root, 'public/data/etf-flow.json')
 
-  let flowRows = []
+  let allRows = []
   try {
-    flowRows = await flowFn({ startDate, endDate: today, fetchImpl })
+    allRows = await flowFn({ startDate, endDate: today, index: FLOW_INDEX_ALL, fetchImpl })
   } catch (error) {
-    // 资金接口暂时不可用：像非交易日一样优雅跳过，不写、不让定时任务报错。
+    // 全A 资金接口暂时不可用：像非交易日一样优雅跳过，不写、不让定时任务报错。
     log(`${today} 资金接口不可用（${error.message}），跳过`)
     return { written: false, reason: '资金接口不可用' }
   }
-  if (flowRows.length === 0) {
+  if (allRows.length === 0) {
     log(`${today} 资金序列为空，跳过`)
     return { written: false, reason: '资金序列为空' }
   }
+
+  // 宽基为次口径，失败不阻断全A（该日 flow_broad 留 null）。
+  let broadRows = []
+  try { broadRows = await flowFn({ startDate, endDate: today, index: FLOW_INDEX_BROAD, fetchImpl }) } catch { broadRows = [] }
 
   // 指数为叠加层，失败不阻断资金柱。
   let indexMap = new Map()
   try { indexMap = await indexFn({ fetchImpl }) } catch { indexMap = new Map() }
 
-  const series = mergeSeries(flowRows, indexMap)
+  const series = mergeSeries(allRows, broadRows, indexMap)
   const data = {
     updated: new Date().toISOString(), // 该字段在 writeJsonIfChanged 里按 VOLATILE 忽略，内容不变不触发重写
     note: NOTE,
