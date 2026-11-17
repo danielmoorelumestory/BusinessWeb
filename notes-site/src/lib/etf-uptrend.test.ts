@@ -1,6 +1,7 @@
 // notes-site/src/lib/etf-uptrend.test.ts
 import { describe, expect, it } from 'vitest';
 import {
+  reconDays, reconMembers, type Reconstructed,
   DEFAULT_FILTERS, TAG_KEYS, bit, filterRows, gridDetailHref, liveSnapshot, missingCats, needsLiveCheck, nextSort, shanghaiDate, sortRows, tabCount,
   type Day, type DayMeta, type Detail, type Filters, type LiveResult,
 } from './etf-uptrend';
@@ -86,5 +87,27 @@ describe('实时补拉', () => {
     expect(liveSnapshot(days, { ...live, asof: '2026-11-13' })).toBeNull();
     expect(liveSnapshot(days, { ...live, asof: null })).toBeNull();
     expect(liveSnapshot(days, { ...live, rows: [] })).toBeNull();
+  });
+});
+
+describe('倒推历史', () => {
+  const r: Reconstructed = {
+    built_at: '', source_as_of: '2026-11-16', earliest: '2026-09-01', universe: 3, missing: [],
+    names: { '20:A': 'A', '36:B': 'B' },
+    periods: {
+      '20:A': [['2026-11-10', '2026-11-16', 5, ['2026-11-12']], ['2026-09-01', '2026-09-05', 3, []]],
+      '36:B': [['2026-11-12', '2026-11-13', 1, []]],
+    },
+  };
+  it('日期取区间起止与回踩日，新到旧', () => {
+    expect(reconDays(r)).toEqual(['2026-11-16', '2026-11-13', '2026-11-12', '2026-11-10', '2026-09-05', '2026-09-01']);
+  });
+  it('起止两端都算在池，回踩按当天判断', () => {
+    expect(reconMembers(r, '2026-11-12')).toEqual([
+      { code: '36:B', name: 'B', start: '2026-11-12', end: '2026-11-13', retr: false },
+      { code: '20:A', name: 'A', start: '2026-11-10', end: '2026-11-16', retr: true },
+    ]);
+    expect(reconMembers(r, '2026-11-14').map(x => x.code)).toEqual(['20:A']);
+    expect(reconMembers(r, '2026-09-06')).toEqual([]);
   });
 });

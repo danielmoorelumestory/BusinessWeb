@@ -49,6 +49,13 @@ const reviewUrl = href('lab/etf-review/');
       <p class="up-gone" id="gone"></p>
     </section>
 
+    <section class="up-card up-recon" aria-labelledby="recon-title">
+      <details id="recon">
+        <summary><h2 id="recon-title">倒推历史</h2><span>开始采集之前的日子：用同花顺现在的区间数据倒推，不是当天的真实名单</span></summary>
+        <div id="recon-body"><p class="up-muted">加载中…</p></div>
+      </details>
+    </section>
+
     <section class="up-notes">
       <h2>口径与限制</h2>
       <ul>
@@ -56,6 +63,7 @@ const reviewUrl = href('lab/etf-review/');
         <li>今日涨幅、盘中累计涨幅、连续上涨天数、涨停指标需要登录才能取得，这里没有，也没有用别的数据冒充；因此只能按区间字段排序或保持来源原序。</li>
         <li>分类（T+0、行业板块、宽基指数）和「同类ETF仅展示一只」取自同一榜单的子池与去重开关，保留哪一只由来源决定；勾选项同时生效时取交集，与来源一致。</li>
         <li>区间列来自历史上涨区间接口，截至各自的截止日；<code>period_rise</code> 等字段按来源原值显示、单位未经核实，不等于 App 上的盘中累计涨幅。上涨原因是同花顺生成的 AI 文本，未独立核实。</li>
+        <li>「倒推历史」用全部 ETF 现在的历史上涨区间推算过去某天谁在池里、是否回踩。同花顺会事后改写区间，日子越早越不准；新入池、分类、同类去重推不出来。它和真实快照分开存放，不会混进上面的行情日列表。</li>
         <li>「自选」只保存在本机浏览器；「较上次新进」与上一份快照比较，是本地计算。历史快照从 2026-11-13 起积累，分类数据从当晚起才有。</li>
         <li>来源一般晚上才更新当天数据，所以每天北京时间 <span id="sched">23:30、07:00</span> 各检查一次：来源截止日前进了才重新采集。来源：<a id="src" target="_blank" rel="noopener">同花顺 ETF 主升浪</a>。</li>
       </ul>
@@ -65,7 +73,7 @@ const reviewUrl = href('lab/etf-review/');
 
 <script>
   import {
-    DEFAULT_FILTERS, TABS, bit, filterRows, gridDetailHref, latestPeriod, liveSnapshot, missingCats, needsLiveCheck, nextSort, securityCode, sortRows, tabCount,
+    DEFAULT_FILTERS, TABS, reconDays, reconMembers, type Reconstructed, bit, filterRows, gridDetailHref, latestPeriod, liveSnapshot, missingCats, needsLiveCheck, nextSort, securityCode, sortRows, tabCount,
     type Day, type Detail, type Filters, type LiveResult, type SortKey, type SortState, type UptrendIndex,
   } from '../../lib/etf-uptrend';
   import { addWatch, readMeta, setMemberships } from '../../lib/etf-review';
@@ -316,6 +324,50 @@ const reviewUrl = href('lab/etf-review/');
     if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(tr); }
   });
 
+  // 倒推历史：展开时才加载（约几百 KB），与真实快照完全分开
+  let recon: Reconstructed | null = null;
+  let reconDay = '';
+  let reconRetr = false;
+  let reconQ = '';
+  function renderRecon() {
+    const r = recon!, body = $('#recon-body');
+    const ds = reconDays(r);
+    if (!reconDay || !ds.includes(reconDay)) reconDay = ds[0] ?? '';
+    const all = reconMembers(r, reconDay);
+    const q = reconQ.trim().toLowerCase();
+    const rows = all.filter(x => (!reconRetr || x.retr) && (!q || x.code.includes(q) || x.name.toLowerCase().includes(q)));
+    const real = new Set((index?.days ?? []).map(x => x.asof ?? x.d));
+    const checks = (r.checks ?? []).map(c => `<tr><td>${esc(c.d)}</td><td>${c.real}</td><td>${c.recon}</td><td>${c.both}（${c.real ? Math.round(c.both / c.real * 100) : 0}%）</td><td>${c.retr_real} / ${c.retr_recon} / ${c.retr_both}</td></tr>`).join('');
+    let h = `<div class="up-banner live"><b>倒推数据，不是当天真实快照</b>：用同花顺 ${esc(fmtT(r.built_at))} 时的全部 ETF 历史上涨区间（${Object.keys(r.periods).length} 只有区间，范围 ${esc(r.earliest ?? '—')} 至 ${esc(r.source_as_of ?? '—')}）推算：区间起止含当天即在池，当天在回踩日期里即趋势回踩。同花顺会事后改写区间，日子越早越不准；新入池、分类、同类去重推不出来。${r.missing.length ? `有 ${r.missing.length} 只 ETF 的区间没取到。` : ''}</div>`;
+    if (checks) h += `<p class="up-src">与真实快照逐只核对（在池 / 回踩）：</p><div class="up-subtable"><table><thead><tr><th>行情日</th><th>真实</th><th>倒推</th><th>两边都有</th><th>回踩 真实/倒推/一致</th></tr></thead><tbody>${checks}</tbody></table></div>`;
+    h += `<div class="up-toolbar"><label class="up-field">行情日 <select id="recon-day" aria-label="倒推行情日">${ds.map(d => `<option value="${d}"${d === reconDay ? ' selected' : ''}>${d}${real.has(d) ? '（有真实快照）' : ''}</option>`).join('')}</select></label>`
+      + `<label><input type="checkbox" id="recon-retr"${reconRetr ? ' checked' : ''}> 只看趋势回踩</label>`
+      + `<input type="search" id="recon-q" placeholder="搜索代码或名称" aria-label="在倒推名单中搜索" value="${esc(reconQ)}">`
+      + `<span class="up-count">${rows.length} / ${all.length} 只</span></div>`;
+    if (real.has(reconDay)) h += `<p class="up-src">这一天有真实快照，以上方名单为准。</p>`;
+    h += `<div class="up-subtable"><table><thead><tr><th class="l">ETF</th><th>进池日</th><th>区间止（截至取数时）</th><th class="l">标签</th></tr></thead><tbody>`;
+    h += rows.map(x => `<tr><td class="l"><b>${esc(x.name)}</b> <span class="num">${esc(securityCode(x.code))}</span> <a class="up-grid" href="${esc(gridDetailHref(detailUrl, securityCode(x.code), x.name))}">网格详情</a></td><td>${esc(x.start)}</td><td>${esc(x.end)}</td><td class="l">${x.retr ? '<span class="up-tag retr">回踩</span>' : ''}</td></tr>`).join('')
+      || `<tr><td colspan="4" class="up-empty">没有符合条件的 ETF。</td></tr>`;
+    body.innerHTML = `${h}</tbody></table></div>`;
+  }
+  $('#recon').addEventListener('toggle', async () => {
+    if (!$<HTMLDetailsElement>('#recon').open || recon) return;
+    try { recon = await getJson<Reconstructed>('reconstructed.json'); }
+    catch { $('#recon-body').innerHTML = `<p class="up-empty">还没有倒推数据，或加载失败，请稍后刷新。</p>`; return; }
+    renderRecon();
+  });
+  $('#recon-body').addEventListener('change', e => {
+    const t = e.target as HTMLInputElement;
+    if (t.id === 'recon-day') { reconDay = t.value; renderRecon(); }
+    if (t.id === 'recon-retr') { reconRetr = t.checked; renderRecon(); }
+  });
+  $('#recon-body').addEventListener('input', e => {
+    const t = e.target as HTMLInputElement;
+    if (t.id !== 'recon-q') return;
+    reconQ = t.value; renderRecon();
+    const q = $<HTMLInputElement>('#recon-q'); q.focus(); q.setSelectionRange(reconQ.length, reconQ.length);
+  });
+
   (async () => {
     try {
       index = await getJson<UptrendIndex>('index.json');
@@ -432,6 +484,10 @@ const reviewUrl = href('lab/etf-review/');
   .up-src { margin: 0 0 8px; font-size: 12px; color: #64748b; }
   .up-grid-btn { display: inline-block; border: 1px solid #0369a1; border-radius: 7px; padding: 5px 12px; background: #0369a1; color: #fff; font-size: 12px; font-weight: 500; text-decoration: none; }
   .up-grid-btn:hover { background: #075985; }
+  .up-recon summary { cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .up-recon summary h2 { display: inline; margin: 0; font-size: 18px; }
+  .up-recon summary span { color: #64748b; font-size: 13px; }
+  .up-recon #recon-body { display: grid; gap: 10px; margin-top: 12px; }
   .up-subtable { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; }
   .up-subtable th, .up-subtable td { padding: 7px 10px; }
   .up-subtable th:first-child, .up-subtable td:first-child { text-align: left; }
