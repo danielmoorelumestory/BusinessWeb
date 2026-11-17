@@ -27,6 +27,20 @@ describe('EtfFlowView', () => {
     expect(screen.getByText('+5.10')).toBeTruthy()               // 宽基 昨日 KPI
   })
 
+  it('宽基未接入（flow_broad 全 null）：切到宽基显示待接入占位，全A 正常', () => {
+    renderView({
+      series: [
+        { date: '2026-11-13', flow_all: -149.44, flow_broad: null, index: null },
+        { date: '2026-11-16', flow_all: 206.57, flow_broad: null, index: 3602.57 },
+      ],
+      kpi: { all: { yesterday: 206.57, cum60: 57.13 }, broad: { yesterday: 0, cum60: 0 } },
+      note: '同花顺原口径', updated: '2026-11-17T14:30:00Z', sample: false,
+    })
+    expect(screen.getByText('+206.57')).toBeTruthy()               // 全A 昨日 KPI
+    fireEvent.click(screen.getByRole('tab', { name: '宽基' }))
+    expect(screen.getByText(/待接入/)).toBeTruthy()                // 宽基占位
+  })
+
   it('空数据不崩，显示占位', () => {
     render(<MemoryRouter><EtfFlowView data={{
       series: [], kpi: { all: { yesterday: 0, cum60: 0 }, broad: { yesterday: 0, cum60: 0 } }, note: '', updated: '',

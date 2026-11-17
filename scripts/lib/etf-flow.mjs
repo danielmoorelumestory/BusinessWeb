@@ -1,9 +1,12 @@
-// ETF 资金净流入：份额抓取（沪深）与净流入计算的纯函数 + 可注入 fetch 的采集。
-// 口径承接已评审版：净流入 = (份额_t − 份额_前一交易日) × 市价_t（元）。
-const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36'
+// ETF 资金净流入：直接取同花顺行情 gateway 的「全市场 ETF 申购净流入」历史序列（原口径），
+// 叠加上证指数日 K。纯函数 + 可注入 fetch 的采集，便于测试。
+// 来源逆向：ths APK → hqMarket H5（sjdp_etf_capital / etfCapitalFlow）。
+// 全A 合成码 48:883957 + 指标 a_etf_total_net_buy_flow_amount，日频 DAY_1，单位元、带负值。
+const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
+const DAY = 86400
 
 // 带重试的请求；fetchImpl 可注入以便测试。
-async function request(url, { headers = {}, retries = 3, timeoutMs = 25000, fetchImpl = fetch, decode = 'json' } = {}) {
+async function request(url, { headers = {}, retries = 3, timeoutMs = 25000, fetchImpl = fetch } = {}) {
   let lastError
   for (let attempt = 1; attempt <= retries; attempt += 1) {
     try {
@@ -13,7 +16,7 @@ async function request(url, { headers = {}, retries = 3, timeoutMs = 25000, fetc
         redirect: 'follow',
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      return decode === 'json' ? await res.json() : await res.text()
+      return await res.json()
     } catch (error) {
       lastError = error
       if (attempt === retries) throw error
@@ -22,99 +25,88 @@ async function request(url, { headers = {}, retries = 3, timeoutMs = 25000, fetc
   throw lastError
 }
 
-const WAN = 10000 // 万份 → 份
+/** 'YYYY-MM-DD' → 该日北京 00:00 的 unix 秒。北京固定 UTC+8（无夏令时）：00:00 = 前一日 16:00 UTC。 */
+export function beijingDayUnix(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number)
+  return Date.UTC(y, m - 1, d, 0, 0, 0) / 1000 - 8 * 3600
+}
 
-/** 上交所 commonQuery 响应 → { code: 份 }。TOT_VOL 单位万份。 */
-export function parseSseShares(raw) {
-  const out = {}
-  for (const row of raw?.result ?? []) {
-    const code = String(row?.SEC_CODE ?? '').trim()
-    const vol = Number(String(row?.TOT_VOL ?? '').replace(/,/g, ''))
-    // 必须为正：字段改名/空值会使 Number('')===0，若收下就得到一个非空全零 map，
-    // 绕过「沪市份额为空」守卫并毒化次日基准。丢弃非正值 → 字段漂移时返回空 map、守卫正常触发。
-    if (code && vol > 0) out[code] = vol * WAN
+/** unix 秒 → 北京日期 'YYYY-MM-DD'。加 8h 后按 UTC 读即北京墙钟。 */
+export function secToBeijingDate(sec) {
+  return new Date((Number(sec) + 8 * 3600) * 1000).toISOString().slice(0, 10)
+}
+
+/** 元 → 亿元（两位小数）。 */
+export const toYi = yuan => Number((yuan / 1e8).toFixed(2))
+
+/** gateway 资金流响应 → [{ date, yuan|null }]。status 非 0 或结构缺失返回空数组。 */
+export function parseFlowGateway(json) {
+  if (json?.status_code !== 0) return []
+  const tr = json?.data?.time_range
+  const vals = json?.data?.data?.[0]?.values?.[0]?.values
+  if (!Array.isArray(tr) || !Array.isArray(vals)) return []
+  const out = []
+  for (let i = 0; i < tr.length; i += 1) {
+    const sec = Number(tr[i])
+    if (!Number.isFinite(sec)) continue
+    const v = vals[i]
+    out.push({ date: secToBeijingDate(sec), yuan: v == null ? null : Number(v) })
   }
   return out
 }
 
-const CODE_RE = /<u>(\d{6})<\/u>/
-
-/** 深交所 ShowReport(CATALOGID=1105) 响应 → { code: 份 }。dqgm 单位万份、带逗号、含 HTML。仅 ETF。 */
-export function parseSzseShares(raw) {
-  const out = {}
-  const data = Array.isArray(raw) ? raw[0]?.data ?? [] : []
-  for (const row of data) {
-    if (row?.jjlb && row.jjlb !== 'ETF') continue
-    const code = CODE_RE.exec(row?.sys_key ?? '')?.[1]
-    const gm = Number(String(row?.dqgm ?? '').replace(/,/g, ''))
-    if (code && gm > 0) out[code] = gm * WAN // 同沪市：非正值（含字段改名/空）丢弃，不产生全零 map
+/** sina 日 K 数组 → Map(date → close)。去非正收盘。 */
+export function parseSinaKline(rows) {
+  const m = new Map()
+  for (const r of Array.isArray(rows) ? rows : []) {
+    const day = String(r?.day ?? '').slice(0, 10)
+    const close = Number(r?.close)
+    if (day && close > 0) m.set(day, close)
   }
-  return out
+  return m
 }
 
-/** 单只日净流入（元）。不合格返回 null（不计入合计）。 */
-export function computeDailyFlow(sharesT, sharesPrev, price, { splitThreshold = 0.5 } = {}) {
-  if (sharesPrev == null || sharesPrev === 0) return null
-  if (price == null || !(price > 0)) return null
-  if (sharesT == null || !Number.isFinite(sharesT)) return null
-  if (Math.abs(sharesT - sharesPrev) / sharesPrev > splitThreshold) return null // 疑似折算/拆分
-  return (sharesT - sharesPrev) * price
+/** 资金行 + 指数 Map → 展示序列。丢弃 yuan 为 null 的行（金额未准备，不画 0 柱）；flow_broad 暂为 null。 */
+export function mergeSeries(flowRows, indexMap = new Map()) {
+  return flowRows
+    .filter(r => r.yuan != null)
+    .map(r => ({ date: r.date, flow_all: toYi(r.yuan), flow_broad: null, index: indexMap.get(r.date) ?? null }))
 }
 
-/** 聚合为 { all, broad }（元）。flows 值为 null 的跳过。 */
-export function aggregateFlow(flows, isBroad) {
-  let all = 0, broad = 0
-  for (const [code, flow] of Object.entries(flows)) {
-    if (flow == null || !Number.isFinite(flow)) continue
-    all += flow
-    if (isBroad(code)) broad += flow
-  }
-  return { all, broad }
-}
-
-/** 近 n 个值之和（不足 n 则全取）。 */
+/** 近 n 个值之和（不足 n 则全取），忽略非有限值。 */
 export function cumulative(values, n) {
   return values.slice(-n).reduce((s, v) => s + (Number.isFinite(v) ? v : 0), 0)
 }
 
-/** 由宽基代码表生成判定函数。 */
-export function makeIsBroad(codes) {
-  const set = new Set(codes)
-  return code => set.has(code)
+/** KPI：昨日=末值、cum60=近 60 之和。 */
+export function kpiOf(series, key) {
+  const vals = series.map(s => s[key]).filter(v => v != null)
+  return { yesterday: series.at(-1)?.[key] ?? 0, cum60: Number(cumulative(vals, 60).toFixed(2)) }
 }
 
-const SSE_URL = date =>
-  'https://query.sse.com.cn/commonQuery.do?isPagination=true&pageHelp.pageSize=10000'
-  + '&pageHelp.pageNo=1&pageHelp.beginPage=1&pageHelp.cacheSize=1&pageHelp.endPage=1'
-  + `&sqlId=COMMON_SSE_ZQPZ_ETFZL_XXPL_ETFGM_SEARCH_L&STAT_DATE=${date}`
-const SZSE_HOME = 'https://www.szse.cn/market/product/list/etfList/index.html'
-const SZSE_DATA = page =>
-  `https://www.szse.cn/api/report/ShowReport/data?SHOWTYPE=JSON&CATALOGID=1105&TABKEY=tab1&PAGENO=${page}&random=0.1`
+const FLOW_CODE = '48%3A883957'
+const FLOW_INDEX = 'a_etf_total_net_buy_flow_amount'
+const FLOW_URL = (start, end) =>
+  'https://fund.10jqka.com.cn/quotation/data/query/gateway/cache/v2/line'
+  + `/${FLOW_CODE}/${FLOW_INDEX}/DAY_1/${start}/${end}/-150`
+const SINA_KLINE = datalen =>
+  'https://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData'
+  + `?symbol=sh000001&scale=240&ma=no&datalen=${datalen}`
 
-async function fetchSse(date, fetchImpl) {
-  const json = await request(SSE_URL(date), { headers: { Referer: 'https://www.sse.com.cn/' }, fetchImpl, retries: 3 })
-  return parseSseShares(json)
+/** 取全A ETF 申购净流入历史（同花顺 gateway）。endDate 当日含在内（上界取次日 0 点）。 */
+export async function fetchFlowHistory({ startDate, endDate, fetchImpl = fetch } = {}) {
+  const start = beijingDayUnix(startDate)
+  const end = beijingDayUnix(endDate) + DAY
+  const json = await request(FLOW_URL(start, end), { headers: { Referer: 'https://fund.10jqka.com.cn/' }, fetchImpl })
+  return parseFlowGateway(json)
 }
 
-async function fetchSzse(fetchImpl) {
-  // 深交所需先拿 cookie，否则返回空体
-  const home = await fetchImpl(SZSE_HOME, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(25000) })
-  const cookie = (home.headers.getSetCookie?.() ?? []).map(c => c.split(';')[0]).join('; ')
-  const headers = { Referer: SZSE_HOME, Accept: 'application/json, text/javascript, */*; q=0.01', ...(cookie ? { Cookie: cookie } : {}) }
-  const out = {}
-  let pages = 1
-  for (let page = 1; page <= pages; page += 1) {
-    const blocks = await request(SZSE_DATA(page), { headers, fetchImpl, retries: 3 })
-    pages = Number(blocks?.[0]?.metadata?.pagecount) || pages
-    Object.assign(out, parseSzseShares(blocks))
+/** 取上证指数日 K（sina）→ Map(date → close)。失败兜底空 Map，不阻断资金柱。 */
+export async function fetchIndexHistory({ datalen = 1023, fetchImpl = fetch } = {}) {
+  try {
+    const rows = await request(SINA_KLINE(datalen), { fetchImpl })
+    return parseSinaKline(rows)
+  } catch {
+    return new Map()
   }
-  return out
-}
-
-/** 抓当日沪深份额。沪深各自 try/catch，一边失败返回空对象、不影响另一边。 */
-export async function fetchShares({ date, fetchImpl = fetch } = {}) {
-  let sse = {}, szse = {}
-  try { sse = await fetchSse(date, fetchImpl) } catch { sse = {} }
-  try { szse = await fetchSzse(fetchImpl) } catch { szse = {} }
-  return { sse, szse }
 }

@@ -3,7 +3,7 @@ import React from 'react'
 export interface FlowPoint {
   date: string
   flow_all: number
-  flow_broad: number
+  flow_broad: number | null
   index: number | null
 }
 
@@ -15,7 +15,7 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
   const plotW = W - padL - padR, plotH = H - padT - padB
   const n = series.length
 
-  const flows = series.map(s => s[key])
+  const flows = series.map(s => s[key] ?? 0)
   const maxAbs = Math.max(1, ...flows.map(v => Math.abs(v)))
   const zeroY = padT + plotH / 2
   const barH = (v: number): number => (v / maxAbs) * (plotH / 2)
@@ -37,7 +37,7 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
       className="etf-flow__chart">
       <line x1={padL} y1={zeroY} x2={W - padR} y2={zeroY} stroke="var(--line, #dfe3ea)" />
       {series.map((s, i) => {
-        const v = s[key]
+        const v = s[key] ?? 0
         const h = barH(v)
         return (
           <rect key={s.date} x={x(i) - bw / 2} y={v >= 0 ? zeroY - h : zeroY}
