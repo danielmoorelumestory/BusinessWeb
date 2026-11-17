@@ -77,7 +77,18 @@ export function todayActions(bars: PlanBar[], today: string, run: (bars: PlanBar
   });
 }
 
-export type GroupResult = { group: GroupDef; bull?: boolean; alerts: PlanAlert[]; failed: string[] };
+/** 按规则当前持有的一笔：买入日、买入价（开盘）、按最新价（盘中为实时价）计的涨跌。 */
+export type Holding = { code: string; name: string; buyDate: string; buyPrice: number; ret: number };
+export type GroupResult = { group: GroupDef; bull?: boolean; alerts: PlanAlert[]; failed: string[]; holdings?: Holding[] };
+
+/** 规则引擎在最后一根K线结束时仍持有的一笔；今日收盘已卖出的不算持有。 */
+export function currentHolding(bars: PlanBar[], run: (bars: PlanBar[]) => PlanResult): Omit<Holding, 'code' | 'name'> | undefined {
+  const last = bars.at(-1);
+  if (!last) return undefined;
+  const result = run(bars), buy = result.signals.at(-1);
+  if (!result.holding || buy?.side !== 'buy' || !(buy.price > 0)) return undefined;
+  return { buyDate: buy.date, buyPrice: buy.price, ret: last.close / buy.price - 1 };
+}
 
 /** bars：按行情代码给出前复权日线（已并入实时价）；缺失的代码记为取数失败。 */
 export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string): GroupResult[] {
@@ -92,13 +103,15 @@ export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string): G
     const lastPoint = points.at(-1)!;
     const bull = lastPoint.date === today && lastPoint.bull !== null ? lastPoint.bull : undefined;
     const run = (bars: PlanBar[]) => group.key === 'cyb' ? cybPlan(bars, points) : hsPlan(bars, points);
-    const alerts: PlanAlert[] = [], failed: string[] = [];
+    const alerts: PlanAlert[] = [], failed: string[] = [], holdings: Holding[] = [];
     for (const item of group.items) {
       const bars = barsOf.get(marketSymbol(item.code));
       if (!bars?.length) { failed.push(item.code); continue; }
       for (const action of todayActions(bars, today, run)) alerts.push({ code: item.code, name: item.name, ...action });
+      const holding = currentHolding(bars, run);
+      if (holding) holdings.push({ code: item.code, name: item.name, ...holding });
     }
-    return { group, bull, alerts, failed };
+    return { group, bull, alerts, failed, holdings };
   });
 }
 
@@ -108,14 +121,21 @@ const ACTION_TEXT: Record<AlertPhase, Record<AlertAction, string>> = {
 };
 const ACTION_ORDER: AlertAction[] = ['sell-today-close', 'sell-next-open', 'buy-next-open'];
 
-/** 没有任何买卖信号时返回 undefined（不发消息）。只写分组与动作，盘中预估由「尾盘卖出 / 现价」区分。 */
+const pct = (ret: number) => `${ret >= 0 ? '+' : ''}${(ret * 100).toFixed(2)}%`;
+
+/**
+ * 只写分组、动作与持仓，盘中预估由「尾盘卖出 / 现价」区分。
+ * 14:45 只在有买卖信号时发；15:15 有信号或有持仓就发（每天收盘报一次持仓盈亏）。都没有时返回 undefined（不发）。
+ */
 export function formatMessage(results: GroupResult[], _today: string, phase: AlertPhase): string | undefined {
-  if (!results.some(result => result.alerts.length)) return undefined;
-  return results.map(({ group, alerts, failed }) => {
+  const hasAlerts = results.some(result => result.alerts.length), hasHoldings = results.some(result => result.holdings?.length);
+  if (!hasAlerts && !(phase === 'close' && hasHoldings)) return undefined;
+  return results.map(({ group, alerts, failed, holdings = [] }) => {
     const sorted = [...alerts].sort((a, b) => ACTION_ORDER.indexOf(a.action) - ACTION_ORDER.indexOf(b.action));
-    const lines = sorted.length
-      ? [group.title, ...sorted.map(alert => `${ACTION_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${phase === 'pre' ? '现价' : '收盘'} ${alert.price.toFixed(3)}）`)]
-      : [group.title, '无买卖信号'];
+    const lines = [group.title, ...(sorted.length
+      ? sorted.map(alert => `${ACTION_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${phase === 'pre' ? '现价' : '收盘'} ${alert.price.toFixed(3)}）`)
+      : ['无买卖信号'])];
+    lines.push(...(holdings.length ? holdings.map(h => `📌 持有 ${h.code} ${h.name} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`) : ['空仓']));
     if (failed.length) lines.push(`⚠️ 取数失败：${failed.join('、')}`);
     return lines.join('\n');
   }).join('\n\n');
