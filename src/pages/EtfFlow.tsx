@@ -23,11 +23,12 @@ export function EtfFlowView({ data }: { data: EtfFlowData }): JSX.Element {
   const [scope, setScope] = useState<Scope>('all')
   const k = data.kpi?.[scope] ?? { yesterday: 0, cum60: 0 }
   const empty = !data.series?.length
+  const broadReady = (data.series ?? []).some(s => s.flow_broad != null)
 
   return (
     <Page
       title="ETF 资金净流入"
-      description="全A / 宽基 ETF 日度净申赎（份额差×市价估算）+ 上证指数叠加，看资金进出的大周期趋势">
+      description="全市场 ETF 日度申购净流入（同花顺原口径）+ 上证指数叠加，看资金进出的大周期趋势">
       <PageTabs<Scope>
         label="口径"
         items={[{ id: 'all', label: '全A' }, { id: 'broad', label: '宽基' }]}
@@ -36,6 +37,8 @@ export function EtfFlowView({ data }: { data: EtfFlowData }): JSX.Element {
       />
       {empty ? (
         <EmptyState title="暂无数据">首次快照尚未产出，收盘后自动更新。</EmptyState>
+      ) : scope === 'broad' && !broadReady ? (
+        <EmptyState title="宽基口径待接入">宽基/行业等分口径的合成码仍在接入，先看全A。</EmptyState>
       ) : (
         <>
           <StatGrid>
