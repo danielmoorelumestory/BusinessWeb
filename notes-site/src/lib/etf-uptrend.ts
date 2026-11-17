@@ -173,3 +173,46 @@ export function sortRows(rows: Row[], sort: SortState | null, detail: Record<str
 export function gridDetailHref(detailUrl: string, code: string, name: string): string {
   return `${detailUrl}?code=${encodeURIComponent(code)}&name=${encodeURIComponent(name || code)}`;
 }
+
+// ---------------------------------------------------------------- 倒推历史
+// reconstructed.json：用同花顺「现在」的全部 ETF 历史上涨区间倒推过去每天的名单。来源会事后改写区间，
+// 越早越不准，不是当天页面真实显示过的名单；只能推出在池与趋势回踩。由 etf_uptrend.py reconstruct 生成。
+
+/** [起, 止, period_rise, 回踩日期[]]，起止含两端 */
+export type ReconPeriod = [string, string, number | null, string[]];
+
+export interface ReconCheck {
+  d: string; real: number; recon: number; both: number;
+  retr_real: number; retr_recon: number; retr_both: number;
+}
+
+export interface Reconstructed {
+  built_at: string;
+  source_as_of: string | null;
+  earliest: string | null;
+  universe: number;
+  missing: string[];
+  names: Record<string, string>;
+  periods: Record<string, ReconPeriod[]>;
+  checks?: ReconCheck[];
+}
+
+export interface ReconRow { code: string; name: string; start: string; end: string; retr: boolean }
+
+/** 可选的行情日：区间起止与回踩日期里出现过的日子（近似交易日），新到旧。 */
+export function reconDays(r: Reconstructed): string[] {
+  const set = new Set<string>();
+  for (const ps of Object.values(r.periods)) for (const [s, e, , steps] of ps) { set.add(s); set.add(e); steps.forEach(x => set.add(x)); }
+  const last = r.source_as_of ?? '9999';
+  return [...set].filter(d => d <= last).sort().reverse();
+}
+
+/** 倒推某天在池的 ETF，进池日新的在前。 */
+export function reconMembers(r: Reconstructed, day: string): ReconRow[] {
+  const rows: ReconRow[] = [];
+  for (const [code, ps] of Object.entries(r.periods)) {
+    const p = ps.find(([s, e]) => s <= day && day <= e);
+    if (p) rows.push({ code, name: r.names[code] ?? '', start: p[0], end: p[1], retr: p[3].includes(day) });
+  }
+  return rows.sort((a, b) => (a.start === b.start ? a.code.localeCompare(b.code) : a.start < b.start ? 1 : -1));
+}

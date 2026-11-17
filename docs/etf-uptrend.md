@@ -35,10 +35,19 @@
 - 接口成功响应在边缘缓存 10 分钟，失败不缓存。结果不写回仓库，正式快照仍以定时采集为准。
 - 测试：`node --test server/etf-uptrend-live.test.mjs`。
 
+## 倒推历史
+
+同花顺没有按日期查历史名单的接口。`reconstruct` 取全部 ETF（全量池 `347c9f28-…`，约 1800 只）的历史上涨区间，存成紧凑格式 `reconstructed.json`；页面「倒推历史」区块按「区间起止含当天即在池、当天在回踩日期里即回踩」推算任意一天的名单，最早约一年前。
+
+- 不是当天真实名单：来源会事后改写区间（删掉已结束的区间、调整起始日），日子越早越不准。2026-11-17 实测：11-16 与真实快照 18/18 一致，11-13 为 119/119（多推出 1 只），11-12 只对上 232/268。导出时会自动与全部真实快照逐只核对，结果显示在页面上。
+- 推不出来：新入池（规则不是「起始日=当天」）、T+0/行业/宽基分类、同类去重。
+- 与真实快照分开存放，不进 `snapshots/`，不出现在行情日列表里。
+- 每周六北京时间 10:00 由工作流重建一次，也可手动运行时勾选「同时重建倒推历史」。缺失超过 2% 的 ETF 就不覆盖旧文件。
+
 存储：
 
 - `data-raw/etf-uptrend/`：`snapshots/日期.json`（规范化名单）、`raw/日期/运行号.json.gz`（本次全部原始响应）、`runs.jsonl`、`status.json`、`cache/periods`、`cache/reasons`。
-- `public/data/etf-uptrend/`：页面读取的 `index.json`、`detail.json`、`days/日期.json`，由 `export` 生成，内容不变时不改写。
+- `public/data/etf-uptrend/`：页面读取的 `index.json`、`detail.json`、`days/日期.json`、`reconstructed.json`（倒推历史，附核对结果），由 `export` 生成，内容不变时不改写。
 
 ## 手动操作
 
@@ -50,6 +59,7 @@
 ```sh
 python3 scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend run --no-page
 python3 scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend show
+python3 scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend reconstruct   # 约 12 分钟
 python3 scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend export --out public/data/etf-uptrend
 python3 -m unittest discover -s scripts -p 'etf_uptrend_test.py'
 ```

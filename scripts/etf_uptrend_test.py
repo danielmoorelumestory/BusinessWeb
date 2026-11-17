@@ -6,6 +6,7 @@ import io
 import json
 import tempfile
 import unittest
+import unittest.mock
 from datetime import datetime
 from pathlib import Path
 from urllib.error import HTTPError
@@ -297,6 +298,38 @@ class TestFetcher(unittest.TestCase):
         f = self.make([{"status_code": 1, "status_msg": "bad"}] * 3)
         with self.assertRaises(RuntimeError):
             f.json("http://x")
+
+
+class TestReconstruct(Base):
+    def test_recon_members(self):
+        periods = {"20:A": [["2026-11-10", "2026-11-13", 5.0, ["2026-11-12"]], ["2026-09-01", "2026-09-05", 3, []]],
+                   "20:B": [["2026-11-13", "2026-11-16", 1.0, []]]}
+        self.assertEqual(U.recon_members(periods, "2026-11-12"), {"20:A": ("2026-11-10", True)})
+        self.assertEqual(U.recon_members(periods, "2026-11-13"),
+                         {"20:A": ("2026-11-10", False), "20:B": ("2026-11-13", False)})   # 两端都算在池
+        self.assertEqual(U.recon_members(periods, "2026-09-06"), {})
+
+    def test_reconstruct_writes_compact_and_checks(self):
+        self.collect("2026-11-13T20:30:00")
+        with io.StringIO() as buf, unittest.mock.patch("sys.stdout", buf):
+            rc = U.reconstruct(self.root, cfg=dict(U.DEFAULT_CONFIG), fetcher=FakeFetcher())
+        self.assertEqual(rc, 0)
+        r = U.read_json(self.root / U.RECON_FILE)
+        self.assertEqual((r["universe"], r["source_as_of"], r["earliest"], r["missing"]), (4, "2026-11-13", "2026-09-16", []))
+        self.assertEqual(r["periods"]["20:589200"][0], ["2026-11-04", "2026-11-13", 11.89, ["2026-11-10"]])
+        self.assertEqual(r["names"]["20:589200"], "科创200ETF工银")
+        out = self.root / "site"
+        U.export_site(self.root, out)
+        ck = U.read_json(out / U.RECON_FILE)["checks"]
+        self.assertEqual(ck, [{"d": "2026-11-13", "real": 4, "recon": 4, "both": 4,
+                               "retr_real": 1, "retr_recon": 0, "retr_both": 0}])
+
+    def test_too_many_missing_keeps_old(self):
+        U.write_json_atomic(self.root / U.RECON_FILE, {"old": True})
+        with io.StringIO() as buf, unittest.mock.patch("sys.stderr", buf):
+            rc = U.reconstruct(self.root, cfg=dict(U.DEFAULT_CONFIG), fetcher=FakeFetcher(fail_details=True))
+        self.assertEqual(rc, 1)
+        self.assertEqual(U.read_json(self.root / U.RECON_FILE), {"old": True})
 
 
 class TestScheduleAndPage(Base):

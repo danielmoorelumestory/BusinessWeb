@@ -6,10 +6,16 @@ on:
     # 每次先探测来源截止日，已有该行情日的完整快照就跳过；快照按来源截止日（行情日）命名，周末不会多出一份。
     - cron: '30 15 * * *'
     - cron: '0 23 * * *'
+    # 每周六北京时间 10:00 重建一次「倒推历史」（取全部约 1800 只 ETF 的历史区间，约 12 分钟）
+    - cron: '0 2 * * 6'
   workflow_dispatch:
     inputs:
       force:
         description: '强制重采（不探测，覆盖更新该行情日快照）'
+        type: boolean
+        default: false
+      reconstruct:
+        description: '同时重建倒推历史（约 12 分钟）'
         type: boolean
         default: false
 
@@ -23,7 +29,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,6 +37,12 @@ jobs:
           python-version: '3.12'
       - name: Test collector
         run: python -m unittest discover -s scripts -p 'etf_uptrend_test.py'
+      - name: Reconstruct history
+        if: github.event.schedule == '0 2 * * 6' || inputs.reconstruct
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        # 失败不影响每日采集；reconstruct 自己保证取不全时不覆盖旧文件
+        run: python scripts/etf_uptrend.py --data-dir data-raw/etf-uptrend reconstruct || echo "::warning::倒推历史重建失败，保留旧数据"
       - name: Collect THS ETF uptrend
         id: fetch
         shell: bash

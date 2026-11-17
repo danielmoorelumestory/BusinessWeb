@@ -8,6 +8,7 @@
   python -m bruce_replica uptrend run --scheduled     # 定时入口：当天已成功则跳过
   python -m bruce_replica uptrend show [--date D]     # 终端查看最近成功快照或某日快照
   python -m bruce_replica uptrend page                # 重新生成页面
+  python -m bruce_replica uptrend reconstruct         # 用全部 ETF 的历史区间倒推过去每天的名单（约 12 分钟）
   python -m bruce_replica uptrend schedule install [--time 23:30 --time 07:00]
   python -m bruce_replica uptrend schedule status | uninstall
 
@@ -18,7 +19,9 @@
 - 名单接口不带日期。「来源截止日」取本次新取到的在池 ETF 最近上涨区间的 end_day 最大值；
   快照按来源截止日（行情日）命名，采集时间另记；来源晚上才更新，所以默认北京时间 23:30 和次日 07:00 各采一次，
   定时运行先探测来源截止日，没有前进就跳过。
-- 历史快照只能从开始采集之日起积累，不回填。
+- 历史快照只能从开始采集之日起积累，不回填。倒推历史（reconstruct）单独存放在 reconstructed.json，
+  是用来源「现在」的区间数据往回推，来源会事后改写区间，越早越不准，不等于当天页面真实显示过的名单；
+  只能推出在池与趋势回踩，新入池、分类、同类去重推不出来。
 """
 from __future__ import annotations
 
@@ -52,6 +55,8 @@ POOL_API = "https://fund.10jqka.com.cn/quotation/fund_pool/v2/query"
 PERIOD_API = "https://eq.10jqka.com.cn/open/api/etf_rank/etf/uptrend/v1/period/etf"
 REASONS_API = "https://eq.10jqka.com.cn/open/api/etf_rank/etf/uptrend/v1/ai/insights"
 ALL_POOL = "1f3b943f-c5f4-312f-95b9-64de02642115"
+UNIVERSE_POOL = "347c9f28-8a67-48a7-8c05-380ff8e595c7"   # 全部 ETF（约 1800 只），倒推历史用
+RECON_FILE = "reconstructed.json"
 FILTERS = {"trend_retracement": "last_day_step_signal", "new_pool": "new_up_trend"}
 # 来源页面的分类标签（同一 businessKey 下的子池），以及「同类ETF仅展示一只」（custom.uniqueTracking）。
 # 这些是附加标签：取不到时快照记为 partial，名单照常保存，对应标签记为未知（None）。
@@ -92,12 +97,13 @@ def iso(t: datetime) -> str:
     return t.isoformat(timespec="seconds")
 
 
-def write_json_atomic(path: Path, obj: Any, gz: bool = False) -> None:
+def write_json_atomic(path: Path, obj: Any, gz: bool = False, compact: bool = False) -> None:
     """先写临时文件再改名，进程中途被杀也不会留下半个文件。"""
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp")
     try:
-        data = json.dumps(obj, ensure_ascii=False, indent=None if gz else 1).encode("utf-8")
+        data = json.dumps(obj, ensure_ascii=False, indent=None if gz or compact else 1,
+                          separators=(",", ":") if compact else None).encode("utf-8")
         with os.fdopen(fd, "wb") as f:
             f.write(gzip.compress(data, mtime=0) if gz else data + b"\n")
         os.chmod(tmp, 0o644)
@@ -531,6 +537,88 @@ def run(root: Path = DATA_ROOT, scheduled: bool = False, allow_empty: bool = Fal
 
 # ---------------------------------------------------------------- 页面
 
+# ---------------------------------------------------------------- 倒推历史
+
+def recon_members(periods: dict[str, list[list]], day: str) -> dict[str, tuple[str, bool]]:
+    """倒推某个行情日在池的 ETF：区间 [起, 止] 含两端覆盖该日即在池；该日在回踩日期里即趋势回踩。
+    periods 为紧凑格式 {代码: [[起, 止, period_rise, [回踩日...]], ...]}；返回 {代码: (起始日, 是否回踩)}。"""
+    out = {}
+    for code, ps in periods.items():
+        for start, end, _rise, steps in ps:
+            if start <= day <= end:
+                out[code] = (start, day in steps)
+                break
+    return out
+
+
+def recon_checks(recon: dict, root: Path) -> list[dict]:
+    """拿倒推结果和真实快照逐只对比，页面据此说明倒推的可信度。"""
+    checks = []
+    for d in list_snapshots(root):
+        s = read_json(snapshot_path(root, d)) or {}
+        if s.get("status") not in ("success", "partial") or not s.get("source_as_of"):
+            continue
+        day = s["source_as_of"]
+        real = {e["ths_code"] for e in s.get("etfs") or []}
+        retr = {e["ths_code"] for e in s.get("etfs") or [] if e.get("trend_retracement")}
+        got = recon_members(recon["periods"], day)
+        gr = {c for c, (_, r) in got.items() if r}
+        checks.append({"d": day, "real": len(real), "recon": len(got), "both": len(real & got.keys()),
+                       "retr_real": len(retr), "retr_recon": len(gr), "retr_both": len(retr & gr)})
+    return checks
+
+
+def reconstruct(root: Path = DATA_ROOT, cfg: dict | None = None, fetcher: Fetcher | None = None,
+                max_missing: float = 0.02) -> int:
+    """取全部 ETF 的历史上涨区间，存成紧凑格式供倒推。缺失超过 max_missing 比例就不覆盖旧文件。"""
+    cfg = cfg or load_config(root)
+    f = fetcher or Fetcher(cfg["timeout"], cfg["retries"], cfg["min_interval"])
+    started = iso(now())
+    rows = parse_pool(f.json(POOL_API, pool_payload(None, UNIVERSE_POOL)))
+    if not rows:
+        print("全部 ETF 名单为空，不更新倒推数据", file=sys.stderr)
+        return 1
+    names = {r["code"]: r.get("simpleName") or r.get("name") or "" for r in rows}
+    raw: dict[str, list] = {}
+    missing = [r["code"] for r in rows]
+    for _round in range(2):                       # 断连多是偶发，失败的再整轮补一次
+        left = []
+        for i, c in enumerate(missing):
+            market, code = c.split(":", 1)
+            try:
+                ps = f.json(f"{PERIOD_API}/{market}/{code}")
+                raw[c] = ps if isinstance(ps, list) else []
+            except RuntimeError:
+                left.append(c)
+            if (i + 1) % 300 == 0:
+                print(f"  {i + 1}/{len(missing)}", flush=True)
+            f.raw.clear()                         # 不留原始响应，免得 1800 份都堆在内存里
+        missing = left
+        if not missing:
+            break
+    if len(missing) > max_missing * len(rows):
+        print(f"{len(missing)}/{len(rows)} 只 ETF 的区间没取到，超过上限，保留旧的倒推数据", file=sys.stderr)
+        return 1
+    periods = {}
+    for c, ps in raw.items():
+        keep = [[p["start_day"], p["end_day"], p.get("period_rise"), sorted(p.get("step_signal_dates") or [])]
+                for p in ps if p.get("start_day") and p.get("end_day")]
+        if keep:
+            periods[c] = sorted(keep, reverse=True)
+    ends = [p[1] for ps in periods.values() for p in ps]
+    starts = [p[0] for ps in periods.values() for p in ps]
+    obj = {"built_at": iso(now()), "started_at": started, "source_as_of": max(ends) if ends else None,
+           "earliest": min(starts) if starts else None, "universe": len(rows), "missing": missing,
+           "names": {c: names.get(c, "") for c in periods}, "periods": periods}
+    write_json_atomic(root / RECON_FILE, obj, compact=True)
+    print(f"倒推数据已更新：{len(periods)} 只 ETF 有上涨区间，{obj['earliest']} 至 {obj['source_as_of']}，"
+          f"缺 {len(missing)} 只")
+    for ck in recon_checks(obj, root):
+        print(f"  核对 {ck['d']}：真实 {ck['real']}，倒推 {ck['recon']}，一致 {ck['both']}；"
+              f"回踩 真实 {ck['retr_real']} 倒推 {ck['retr_recon']} 一致 {ck['retr_both']}")
+    return 0
+
+
 def page_data(root: Path = DATA_ROOT) -> dict:
     days = list_snapshots(root)
     snaps = {d: read_json(snapshot_path(root, d)) for d in days}
@@ -584,6 +672,9 @@ def export_site(root: Path, out_dir: Path) -> list[Path]:
         put(out_dir / "days" / f"{h['d']}.json", {"d": h["d"], "cats": h["cats"], "rows": h["rows"]})
         days.append({k: h[k] for k in ("d", "asof", "at", "st", "n", "notes")})
     put(out_dir / "detail.json", data["detail"])
+    recon = read_json(root / RECON_FILE)
+    if recon:
+        put(out_dir / RECON_FILE, {**recon, "checks": recon_checks(recon, root)})
     put(out_dir / "index.json", {"days": days, "status": data["status"], "schedule": data["schedule"],
                                  "source_page": data["source_page"], "tag_keys": list(TAG_KEYS)})
     return written
@@ -759,6 +850,7 @@ def cli(argv: list[str] | None = None) -> int:
     pg.add_argument("--out", type=Path, default=PAGE_PATH)
     ex = sub.add_parser("export", help="导出站点静态数据（BusinessWeb 实验页用）")
     ex.add_argument("--out", type=Path, required=True)
+    sub.add_parser("reconstruct", help="取全部 ETF 的历史区间，倒推过去每天的名单（约 12 分钟，单独存放）")
     sc = sub.add_parser("schedule", help="launchd 定时任务")
     sc.add_argument("action", choices=["install", "uninstall", "status"])
     sc.add_argument("--time", action="append", help="北京时间 HH:MM，可重复；默认读配置（23:30、07:00）")
@@ -766,6 +858,12 @@ def cli(argv: list[str] | None = None) -> int:
     root = a.data_dir
     if a.cmd == "run":
         return run(root, scheduled=a.scheduled, allow_empty=a.allow_empty, make_page=not a.no_page)
+    if a.cmd == "reconstruct":
+        with run_lock(root) as locked:
+            if not locked:
+                print("另一个采集任务正在运行，稍后再试", file=sys.stderr)
+                return 1
+            return reconstruct(root)
     if a.cmd in ("show", "export", "page"):
         rekey_snapshots(root)            # 旧版按采集日命名的快照改为按行情日命名
     if a.cmd == "show":
