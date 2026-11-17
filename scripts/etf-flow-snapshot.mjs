@@ -1,6 +1,6 @@
 // ETF 资金净流入日度快照：直接取同花顺行情 gateway 的「全市场 ETF 申购净流入」历史序列（原口径），
 // 叠加上证指数日 K，写 public/data/etf-flow.json。gateway 返回全量历史，天然幂等、无需本地前值基准。
-// 用法：node scripts/etf-flow-snapshot.mjs [startDate=2024-01-01]
+// 用法：node scripts/etf-flow-snapshot.mjs [startDate=2014-01-01]
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { writeJsonIfChanged } from './lib/json-io.mjs'
@@ -8,7 +8,7 @@ import { fetchFlowHistory, fetchIndexHistory, mergeSeries, kpiOf, FLOW_INDEX_ALL
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..')
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a)
-const START = '2024-01-01'
+const START = '2014-01-01' // 同花顺 gateway 自 2014-01-02 起有全量非空数据，取满约 13 年历史
 const NOTE = '同花顺原口径（全市场 / 宽基 ETF 申购净流入，数据来源同花顺行情）+ 上证指数叠加；红=净流入、绿=净流出；T+1、无盘中。'
 
 /**
