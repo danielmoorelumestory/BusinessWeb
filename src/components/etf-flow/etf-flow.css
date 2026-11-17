@@ -3,6 +3,7 @@
 .etf-flow__ov { width: 100%; height: auto; display: block; margin-top: 2px; touch-action: none; }
 
 .etf-flow__ax { fill: var(--muted, #8893a7); font-size: 11px; }
+.etf-flow__grid { stroke: var(--grid, #d3d9e2); opacity: .75; }
 
 /* 概览滑块 */
 .etf-flow__ov-mask { fill: var(--surface, #f4f6fa); opacity: .6; }
@@ -25,8 +26,8 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
   z-index: 2;
 }
-.etf-flow__tip--left { left: 10px; }
-.etf-flow__tip--right { right: 10px; }
+/* 跟随十字星：left 与 transform 由内联样式给（见组件 tipStyle），左右侧只影响避让方向 */
+.etf-flow__tip { max-width: 46%; }
 
 /* 图例 */
 .etf-flow__legend {

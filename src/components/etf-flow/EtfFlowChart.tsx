@@ -59,8 +59,13 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
   }
   const hp = hover != null && hover >= 0 && hover < m ? view[hover] : null
   const hx = hover != null ? xAt(hover) : 0
-  // tooltip 钉在角落、躲开光标所在半屏（光标在左→弹窗靠右），不压在十字线正上方
+  // tooltip 贴着十字星：光标在左半屏→弹窗在光标右侧，反之在左侧（不压在正上方）
   const tipSide = hover != null && hover < m / 2 ? 'right' : 'left'
+  const GAP = 12
+  const tipStyle: React.CSSProperties = {
+    left: `${(hx / W) * 100}%`,
+    transform: tipSide === 'right' ? `translateX(${GAP}px)` : `translateX(calc(-100% - ${GAP}px))`,
+  }
 
   // —— 底部概览 + 范围滑块（全序列） ——
   const oFlows = series.map(p => p[key] ?? 0)
@@ -116,6 +121,11 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
         onPointerMove={onMainMove}
         onPointerLeave={() => setHover(null)}
       >
+        {/* 水平虚线刻度网格（±峰值 + 半档） */}
+        {[padT, padT + plotH / 4, padT + 3 * plotH / 4, padT + plotH].map(y => (
+          <line key={y} className="etf-flow__grid" x1={padL} y1={y} x2={W - padR} y2={y}
+            strokeDasharray="3 4" />
+        ))}
         {/* 零轴 + 左右刻度 */}
         <line x1={padL} y1={zeroY} x2={W - padR} y2={zeroY} stroke="var(--line, #dfe3ea)" />
         <text x={padL - 6} y={padT + 9} textAnchor="end" className="etf-flow__ax">{fmt1(maxAbs)}</text>
@@ -154,7 +164,7 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
 
       {/* tooltip */}
       {hp && (
-        <div className={`etf-flow__tip etf-flow__tip--${tipSide}`} aria-hidden>
+        <div className={`etf-flow__tip etf-flow__tip--${tipSide}`} style={tipStyle} aria-hidden>
           <div className="etf-flow__tip-date">{hp.date}</div>
           <div className="etf-flow__tip-row">
             <span className="etf-flow__tip-k"><i style={{ background: (hp[key] ?? 0) >= 0 ? 'var(--up)' : 'var(--down)' }} />{label} ETF申购净流入</span>
