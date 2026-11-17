@@ -42,8 +42,8 @@ export function EtfFlowView({ data }: { data: EtfFlowData }): JSX.Element {
       ) : (
         <>
           <StatGrid>
-            <Stat label="昨日净流入（亿元）" value={fmt(k.yesterday)} />
-            <Stat label="近 60 日累计（亿元）" value={fmt(k.cum60)} />
+            <Stat className={`etf-kpi etf-kpi--${k.yesterday >= 0 ? 'up' : 'down'}`} label="昨日净流入（亿元）" value={fmt(k.yesterday)} />
+            <Stat className={`etf-kpi etf-kpi--${k.cum60 >= 0 ? 'up' : 'down'}`} label="近 60 日累计（亿元）" value={fmt(k.cum60)} />
           </StatGrid>
           <EtfFlowChart series={data.series} scope={scope} />
           {data.note && <p className="etf-flow__note">{data.note}</p>}

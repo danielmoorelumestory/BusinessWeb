@@ -12,10 +12,9 @@
 /* 十字光标 tooltip */
 .etf-flow__tip {
   position: absolute;
-  top: 10px;
-  transform: translateX(-50%);
+  top: 8px;
   min-width: 190px;
-  max-width: 70%;
+  max-width: 72%;
   padding: 8px 10px;
   border-radius: 8px;
   background: rgba(28, 34, 46, .92);
@@ -26,6 +25,28 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
   z-index: 2;
 }
+.etf-flow__tip--left { left: 10px; }
+.etf-flow__tip--right { right: 10px; }
+
+/* 图例 */
+.etf-flow__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 2px 2px 6px;
+  font-size: .82rem;
+  color: var(--muted, #5f6a7d);
+}
+.etf-flow__lg { display: inline-flex; align-items: center; gap: 6px; }
+.etf-flow__lg-bar {
+  width: 11px; height: 11px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--up) 0 50%, var(--down) 50% 100%);
+}
+.etf-flow__lg-line { width: 14px; height: 0; border-top: 2px solid var(--idx, #8893a7); }
+
+/* KPI 按涨跌着色（A股习惯：红涨绿跌） */
+.etf-kpi--up .ui-stat__value { color: var(--up); }
+.etf-kpi--down .ui-stat__value { color: var(--down); }
 .etf-flow__tip-date { font-weight: 600; margin-bottom: 4px; opacity: .9; }
 .etf-flow__tip-row { display: flex; justify-content: space-between; gap: 14px; white-space: nowrap; }
 .etf-flow__tip-k { display: inline-flex; align-items: center; gap: 6px; opacity: .85; }

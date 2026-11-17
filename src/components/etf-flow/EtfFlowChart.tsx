@@ -59,6 +59,8 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
   }
   const hp = hover != null && hover >= 0 && hover < m ? view[hover] : null
   const hx = hover != null ? xAt(hover) : 0
+  // tooltip 钉在角落、躲开光标所在半屏（光标在左→弹窗靠右），不压在十字线正上方
+  const tipSide = hover != null && hover < m / 2 ? 'right' : 'left'
 
   // —— 底部概览 + 范围滑块（全序列） ——
   const oFlows = series.map(p => p[key] ?? 0)
@@ -101,6 +103,10 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
 
   return (
     <div className="etf-flow__wrap">
+      <div className="etf-flow__legend">
+        <span className="etf-flow__lg"><i className="etf-flow__lg-bar" />{label} ETF申购净流入</span>
+        <span className="etf-flow__lg"><i className="etf-flow__lg-line" />上证指数</span>
+      </div>
       <svg
         ref={mainRef}
         viewBox={`0 0 ${W} ${H}`}
@@ -133,6 +139,7 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
         {idxLine && <polyline points={idxLine} fill="none" stroke="var(--idx, #8893a7)" strokeWidth={1.3} />}
         {/* 日期轴 */}
         <text x={padL} y={H - 6} className="etf-flow__ax">{view[0]?.date}</text>
+        {m > 2 && <text x={padL + plotW / 2} y={H - 6} textAnchor="middle" className="etf-flow__ax">{view[Math.floor(m / 2)]?.date}</text>}
         <text x={W - padR} y={H - 6} textAnchor="end" className="etf-flow__ax">{view.at(-1)?.date}</text>
         {/* 十字光标 */}
         {hp && (
@@ -147,10 +154,10 @@ export function EtfFlowChart({ series, scope }: { series: FlowPoint[]; scope: 'a
 
       {/* tooltip */}
       {hp && (
-        <div className="etf-flow__tip" style={{ left: `${Math.max(14, Math.min(86, (hx / W) * 100))}%` }} aria-hidden>
+        <div className={`etf-flow__tip etf-flow__tip--${tipSide}`} aria-hidden>
           <div className="etf-flow__tip-date">{hp.date}</div>
           <div className="etf-flow__tip-row">
-            <span className="etf-flow__tip-k"><i style={{ background: (hp[key] ?? 0) >= 0 ? 'var(--up)' : 'var(--down)' }} />{label}ETF申购净流入</span>
+            <span className="etf-flow__tip-k"><i style={{ background: (hp[key] ?? 0) >= 0 ? 'var(--up)' : 'var(--down)' }} />{label} ETF申购净流入</span>
             <span style={{ color: (hp[key] ?? 0) >= 0 ? 'var(--up)' : 'var(--down)' }}>
               {hp[key] == null ? '—' : `${fmt1(hp[key] as number)}亿`}
             </span>

@@ -26,7 +26,7 @@ describe('EtfFlowChart 交互', () => {
     fireEvent.pointerMove(screen.getByRole('img'), { clientX: 10 })
     const tip = container.querySelector('.etf-flow__tip')
     expect(tip).not.toBeNull()
-    expect(tip?.textContent).toContain('宽基ETF申购净流入')
+    expect(tip?.textContent).toContain('宽基 ETF申购净流入')
     expect(tip?.textContent).toContain('上证指数')
     fireEvent.pointerLeave(screen.getByRole('img'))
     expect(container.querySelector('.etf-flow__tip')).toBeNull()          // 移出消失
