@@ -32,6 +32,21 @@ describe('EtfFlowChart 交互', () => {
     expect(container.querySelector('.etf-flow__tip')).toBeNull()          // 移出消失
   })
 
+  it('主图带水平虚线刻度网格（未悬浮也存在）', () => {
+    const { container } = render(<EtfFlowChart series={series} scope="all" />)
+    const grid = container.querySelectorAll('.etf-flow__grid')
+    expect(grid.length).toBeGreaterThanOrEqual(2)             // 上下两条刻度线
+    grid.forEach(l => expect(l.getAttribute('stroke-dasharray')).toBeTruthy())
+  })
+
+  it('tooltip 贴着十字星：光标在左半屏→弹窗在光标右侧，带跟随定位', () => {
+    const { container } = render(<EtfFlowChart series={series} scope="all" />)
+    fireEvent.pointerMove(screen.getByRole('img'), { clientX: 10 })      // 左半屏
+    const tip = container.querySelector('.etf-flow__tip') as HTMLElement
+    expect(tip.className).toContain('etf-flow__tip--right')              // 在光标右侧
+    expect(tip.style.left).not.toBe('')                                  // 跟随光标 x
+  })
+
   it('空序列渲染为空', () => {
     const { container } = render(<EtfFlowChart series={[]} scope="all" />)
     expect(container.querySelector('svg')).toBeNull()
