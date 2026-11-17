@@ -115,7 +115,7 @@ export function formatMessage(results: GroupResult[], _today: string, phase: Ale
     const sorted = [...alerts].sort((a, b) => ACTION_ORDER.indexOf(a.action) - ACTION_ORDER.indexOf(b.action));
     const lines = sorted.length
       ? [group.title, ...sorted.map(alert => `${ACTION_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${phase === 'pre' ? '现价' : '收盘'} ${alert.price.toFixed(3)}）`)]
-      : [`${group.title} 无买卖信号`];
+      : [group.title, '无买卖信号'];
     if (failed.length) lines.push(`⚠️ 取数失败：${failed.join('、')}`);
     return lines.join('\n');
   }).join('\n\n');

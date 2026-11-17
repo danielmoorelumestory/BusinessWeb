@@ -80,7 +80,7 @@ describe('formatMessage', () => {
   it('没有信号时不发', () => {
     expect(formatMessage([{ group, alerts: [], failed: [] }], '2026-11-16', 'close')).toBeUndefined();
   });
-  it('只列分组与动作：卖出在前、买入在后，无信号的分组一行带过', () => {
+  it('只列分组与动作：卖出在前、买入在后，无信号的分组写「无买卖信号」', () => {
     const results: GroupResult[] = [
       { group, bull: true, failed: ['159869'], alerts: [
         { code: '159819', name: '人工智能ETF易方达', action: 'buy-next-open', reason: '金叉', price: 1.2346 },
@@ -94,7 +94,8 @@ describe('formatMessage', () => {
       '🟢 明日开盘买入 159819 人工智能ETF易方达（金叉，现价 1.235）',
       '⚠️ 取数失败：159869',
       '',
-      '沪深300择时优选 无买卖信号',
+      '沪深300择时优选',
+      '无买卖信号',
     ].join('\n'));
   });
   it('收盘确认的格式', () => {
@@ -102,7 +103,7 @@ describe('formatMessage', () => {
       { group, alerts: [], failed: [] },
       { group: PLAN_GROUPS[1], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67 }], failed: [] },
     ];
-    expect(formatMessage(results, '2026-11-16', 'close')).toBe('创业板择时优选 无买卖信号\n\n沪深300择时优选\n🔴 今日收盘卖出（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
+    expect(formatMessage(results, '2026-11-16', 'close')).toBe('创业板择时优选\n无买卖信号\n\n沪深300择时优选\n🔴 今日收盘卖出（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
   });
 });
 
