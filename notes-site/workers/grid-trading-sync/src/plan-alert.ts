@@ -108,21 +108,17 @@ const ACTION_TEXT: Record<AlertPhase, Record<AlertAction, string>> = {
 };
 const ACTION_ORDER: AlertAction[] = ['sell-today-close', 'sell-next-open', 'buy-next-open'];
 
-/** 没有任何买卖信号时返回 undefined（不发消息）。 */
-export function formatMessage(results: GroupResult[], today: string, phase: AlertPhase): string | undefined {
+/** 没有任何买卖信号时返回 undefined（不发消息）。只写分组与动作，盘中预估由「尾盘卖出 / 现价」区分。 */
+export function formatMessage(results: GroupResult[], _today: string, phase: AlertPhase): string | undefined {
   if (!results.some(result => result.alerts.length)) return undefined;
-  const head = phase === 'pre'
-    ? [`【择时买卖提醒】${today} 14:45 盘中预估`, '按实时价当作收盘估算，收盘前可能变化；15:15 收盘后再确认一次。']
-    : [`【择时买卖提醒】${today} 收盘确认`];
-  const body = results.map(({ group, bull, alerts, failed }) => {
-    const state = bull === undefined ? '' : bull ? '：偏进攻' : '：偏防守（不开新仓）';
-    const lines = [`${group.title}（${group.timing}${state}）`];
+  return results.map(({ group, alerts, failed }) => {
     const sorted = [...alerts].sort((a, b) => ACTION_ORDER.indexOf(a.action) - ACTION_ORDER.indexOf(b.action));
-    lines.push(...(sorted.length ? sorted.map(alert => `${ACTION_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${phase === 'pre' ? '现价' : '收盘'} ${alert.price.toFixed(3)}）`) : ['无买卖信号']));
+    const lines = sorted.length
+      ? [group.title, ...sorted.map(alert => `${ACTION_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${phase === 'pre' ? '现价' : '收盘'} ${alert.price.toFixed(3)}）`)]
+      : [`${group.title} 无买卖信号`];
     if (failed.length) lines.push(`⚠️ 取数失败：${failed.join('、')}`);
     return lines.join('\n');
-  });
-  return [...head, '', body.join('\n\n'), '', '规则同复盘页「创业板择时买卖点 / 沪深300择时买卖点」，仅供参考。'].join('\n');
+  }).join('\n\n');
 }
 
 /** 腾讯实时报价（GBK），一次请求多只；指数用带前缀的代码请求。 */

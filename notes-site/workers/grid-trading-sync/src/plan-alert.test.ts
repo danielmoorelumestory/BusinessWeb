@@ -80,7 +80,7 @@ describe('formatMessage', () => {
   it('没有信号时不发', () => {
     expect(formatMessage([{ group, alerts: [], failed: [] }], '2026-11-16', 'close')).toBeUndefined();
   });
-  it('列出卖出在前、买入在后，并标注择时状态与失败', () => {
+  it('只列分组与动作：卖出在前、买入在后，无信号的分组一行带过', () => {
     const results: GroupResult[] = [
       { group, bull: true, failed: ['159869'], alerts: [
         { code: '159819', name: '人工智能ETF易方达', action: 'buy-next-open', reason: '金叉', price: 1.2346 },
@@ -88,15 +88,21 @@ describe('formatMessage', () => {
       ] },
       { group: PLAN_GROUPS[1], bull: false, alerts: [], failed: [] },
     ];
-    const text = formatMessage(results, '2026-11-16', 'pre')!;
-    expect(text).toContain('14:45 盘中预估');
-    expect(text).toContain('创业板择时优选（创业板÷红利：偏进攻）');
-    expect(text).toContain('沪深300择时优选（沪深300÷红利：偏防守（不开新仓））');
-    expect(text.indexOf('512760')).toBeLessThan(text.indexOf('159819'));
-    expect(text).toContain('🔴 尾盘卖出 512760 芯片ETF国泰（死叉，现价 2.000）');
-    expect(text).toContain('🟢 明日开盘买入 159819 人工智能ETF易方达（金叉，现价 1.235）');
-    expect(text).toContain('⚠️ 取数失败：159869');
-    expect(text).toContain('无买卖信号');
+    expect(formatMessage(results, '2026-11-16', 'pre')).toBe([
+      '创业板择时优选',
+      '🔴 尾盘卖出 512760 芯片ETF国泰（死叉，现价 2.000）',
+      '🟢 明日开盘买入 159819 人工智能ETF易方达（金叉，现价 1.235）',
+      '⚠️ 取数失败：159869',
+      '',
+      '沪深300择时优选 无买卖信号',
+    ].join('\n'));
+  });
+  it('收盘确认的格式', () => {
+    const results: GroupResult[] = [
+      { group, alerts: [], failed: [] },
+      { group: PLAN_GROUPS[1], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67 }], failed: [] },
+    ];
+    expect(formatMessage(results, '2026-11-16', 'close')).toBe('创业板择时优选 无买卖信号\n\n沪深300择时优选\n🔴 今日收盘卖出（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
   });
 });
 
