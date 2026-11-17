@@ -28,7 +28,7 @@ export function EtfFlowView({ data }: { data: EtfFlowData }): JSX.Element {
   return (
     <Page
       title="ETF 资金净流入"
-      description="全市场 ETF 日度申购净流入（同花顺原口径）+ 上证指数叠加，看资金进出的大周期趋势">
+      description="全A / 宽基 ETF 日度申购净流入（同花顺原口径）+ 上证指数叠加，看资金进出的大周期趋势">
       <PageTabs<Scope>
         label="口径"
         items={[{ id: 'all', label: '全A' }, { id: 'broad', label: '宽基' }]}

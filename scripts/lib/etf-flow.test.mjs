@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import {
   beijingDayUnix, secToBeijingDate, parseFlowGateway, parseSinaKline,
   toYi, mergeSeries, cumulative, kpiOf, fetchFlowHistory, fetchIndexHistory,
+  FLOW_INDEX_ALL, FLOW_INDEX_BROAD,
 } from './etf-flow.mjs'
 
 // —— 北京时区 unix 互转（固定 UTC+8，无夏令时） ——
@@ -65,17 +66,25 @@ test('toYi: 元 → 亿元（两位小数）', () => {
 })
 
 // —— 合并为序列 ——
-test('mergeSeries: 资金行 + 指数 Map → 序列，flow_all 转亿、补 index', () => {
-  const flow = [{ date: '2026-11-13', yuan: -14943813840 }, { date: '2026-11-16', yuan: 20657277210 }]
+test('mergeSeries: 全A行 + 宽基行 + 指数 → 序列，各转亿、按日对齐、补 index', () => {
+  const all = [{ date: '2026-11-13', yuan: -14943813840 }, { date: '2026-11-16', yuan: 20657277210 }]
+  const broad = [{ date: '2026-11-13', yuan: -13179000000 }, { date: '2026-11-16', yuan: 17620000000 }]
   const idx = new Map([['2026-11-16', 3602.57]])
-  const s = mergeSeries(flow, idx)
-  assert.deepEqual(s[0], { date: '2026-11-13', flow_all: -149.44, flow_broad: null, index: null })
-  assert.deepEqual(s[1], { date: '2026-11-16', flow_all: 206.57, flow_broad: null, index: 3602.57 })
+  const s = mergeSeries(all, broad, idx)
+  assert.deepEqual(s[0], { date: '2026-11-13', flow_all: -149.44, flow_broad: -131.79, index: null })
+  assert.deepEqual(s[1], { date: '2026-11-16', flow_all: 206.57, flow_broad: 176.2, index: 3602.57 })
 })
-test('mergeSeries: 丢弃 yuan 为 null 的行（金额未准备不画 0 柱）', () => {
-  const s = mergeSeries([{ date: '2026-11-17', yuan: null }, { date: '2026-11-16', yuan: 100000000 }], new Map())
-  assert.equal(s.length, 1)
+test('mergeSeries: 全A 为主轴丢弃 yuan 为 null 的行；宽基缺某日则该日 flow_broad=null', () => {
+  const all = [{ date: '2026-11-17', yuan: null }, { date: '2026-11-16', yuan: 100000000 }]
+  const broad = [{ date: '2026-11-13', yuan: 5e8 }] // 与全A不重叠
+  const s = mergeSeries(all, broad, new Map())
+  assert.equal(s.length, 1)            // 全A null 行被丢
   assert.equal(s[0].date, '2026-11-16')
+  assert.equal(s[0].flow_broad, null)  // 宽基无此日
+})
+test('mergeSeries: 宽基行缺省（空数组）→ flow_broad 全 null', () => {
+  const s = mergeSeries([{ date: '2026-11-16', yuan: 1e8 }], [], new Map())
+  assert.equal(s[0].flow_broad, null)
 })
 
 // —— 累计与 KPI ——
@@ -98,13 +107,19 @@ test('kpiOf: 全 null（宽基未接入）→ 昨日 0、cum60 0', () => {
 
 // —— fetch 层注入 fetchImpl ——
 const ok = data => ({ ok: true, status: 200, json: async () => data, text: async () => JSON.stringify(data) })
-test('fetchFlowHistory: 命中 10jqka gateway，解析出序列', async () => {
+test('fetchFlowHistory: 默认取全A，命中 10jqka gateway', async () => {
   let seen = ''
   const fetchImpl = async (url) => { seen = url; return ok(gw(['1777996800'], [12167617980.43])) }
   const r = await fetchFlowHistory({ startDate: '2024-01-01', endDate: '2026-11-17', fetchImpl })
   assert.match(seen, /fund\.10jqka\.com\.cn.+48%3A883957.+a_etf_total_net_buy_flow_amount.+DAY_1/)
   assert.equal(r.length, 1)
   assert.equal(r[0].yuan, 12167617980.43)
+})
+test('fetchFlowHistory: 传 FLOW_INDEX_BROAD 时 URL 用宽基指标名', async () => {
+  let seen = ''
+  const fetchImpl = async (url) => { seen = url; return ok(gw(['1777996800'], [1e8])) }
+  await fetchFlowHistory({ startDate: '2024-01-01', endDate: '2026-11-17', index: FLOW_INDEX_BROAD, fetchImpl })
+  assert.match(seen, /48%3A883957\/broad_etf_total_net_buy_flow_amount\/DAY_1/)
 })
 test('fetchIndexHistory: 命中 sina 日K，返回 date→close Map；失败兜底空 Map', async () => {
   const good = async () => ok([{ day: '2026-11-16', close: '3602.57' }])
