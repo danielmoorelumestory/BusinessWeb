@@ -1454,9 +1454,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   };
   const ma10Svg = maPath(ma10, MA10_COLOR) + maPath(ma20, MA20_COLOR);
   // MACD 预估价：在价格图上画灰色虚线，标「死叉价 / 金叉价」；超出价格图范围时不画
-  const EST_COLOR = '#475569';
   const estSvg = macdEst && macdEst.price >= priceMin && macdEst.price <= priceMax
-    ? `<line x1="${left}" x2="${width - right}" y1="${priceY(macdEst.price).toFixed(1)}" y2="${priceY(macdEst.price).toFixed(1)}" stroke="${EST_COLOR}" stroke-width="1" stroke-dasharray="6 3" opacity=".8"/>` : '';
+    ? `<line x1="${left}" x2="${width - right}" y1="${priceY(macdEst.price).toFixed(1)}" y2="${priceY(macdEst.price).toFixed(1)}" stroke="${macdEst.bull ? DOWN_COLOR : UP_COLOR}" stroke-width="1.2" stroke-dasharray="6 3" opacity=".9"/>` : '';
   // 10 日线预估价：橙色点线；两条线都不带文字，含义看详情页左上角浮层
   const ma10EstSvg = ma10Est && ma10Est.price >= priceMin && ma10Est.price <= priceMax
     ? `<line x1="${left}" x2="${width - right}" y1="${priceY(ma10Est.price).toFixed(1)}" y2="${priceY(ma10Est.price).toFixed(1)}" stroke="${MA10_COLOR}" stroke-width="1" stroke-dasharray="2 3" opacity=".9"/>` : '';

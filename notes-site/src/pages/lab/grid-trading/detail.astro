@@ -191,7 +191,7 @@ const etfReviewUrl = href('lab/etf-review');
     // MACD 交叉与 10 日线穿越的临界价，浮在价格图左上角，不再占文字行。
     const overlay: string[] = [];
     const est = macdEstimate(candles, live);
-    if (est) overlay.push(`<div class="${est.bull ? 'bear' : 'bull'}"><i class="pe-sw macd"></i><span>${est.bull ? '死叉' : '金叉'}</span><b>${est.bull ? '<' : '>'} ${est.price.toFixed(3)}</b><em>${gapOf(est.price, est.lastClose)}</em></div>`);
+    if (est) overlay.push(`<div class="${est.bull ? 'bear' : 'bull'}"><i class="pe-sw macd"></i><span>${est.bull ? 'MACD死叉' : 'MACD金叉'}</span><b>${est.bull ? '<' : '>'} ${est.price.toFixed(3)}</b><em>${gapOf(est.price, est.lastClose)}</em></div>`);
     const ma = maEstimate(candles, 10, live);
     if (ma) overlay.push(`<div class="${ma.above ? 'bear' : 'bull'}"><i class="pe-sw ma10"></i><span>${ma.above ? '跌破10日线' : '站上10日线'}</span><b>${ma.above ? '<' : '>'} ${ma.price.toFixed(3)}</b><em>${gapOf(ma.price, ma.lastClose)}</em></div>`);
     priceEstimate.hidden = !overlay.length;
@@ -1447,11 +1447,13 @@ const etfReviewUrl = href('lab/etf-review');
   .chart-stage { position:relative; }
   .price-estimate { position:absolute; left:70px; top:38px; z-index:2; padding:5px 8px; border:1px solid #e2e8f0; border-radius:6px; background:rgba(255,255,255,.88); font-size:12px; line-height:1.6; pointer-events:none; font-variant-numeric:tabular-nums; }
   .price-estimate .pe-sw { display:inline-block; width:16px; height:0; align-self:center; }
-  .price-estimate .pe-sw.macd { border-top:1.5px dashed #475569; }
+  .price-estimate .pe-sw.macd { border-top:1.5px dashed currentColor; }
+  .price-estimate .bear .pe-sw.macd { color:#16a34a; }
+  .price-estimate .bull .pe-sw.macd { color:#ef4444; }
   .price-estimate .pe-sw.ma10 { border-top:1.5px dotted #d97706; }
   .price-estimate .pe-head { color:#94a3b8; font-size:11px; }
   .price-estimate div:not(.pe-head) { display:flex; gap:6px; align-items:baseline; }
-  .price-estimate span { min-width:60px; color:#475569; }
+  .price-estimate span { min-width:72px; color:#475569; }
   .price-estimate b { color:#0f172a; }
   .price-estimate em { font-style:normal; color:#94a3b8; }
   .price-estimate .bull span { color:#b91c1c; }
