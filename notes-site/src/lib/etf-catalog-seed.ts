@@ -5,6 +5,7 @@ import reviewResearch from '../../../src/data/etfReviewResearch.json';
 import macdGood from '../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../src/data/etfHs300Timing.json';
 import timingPortfolio from '../../../src/data/etfTimingPortfolio.json';
+import watchPool from '../../../src/data/etfWatchPool.json';
 import type { EtfReviewMeta } from './etf-review-meta';
 
 // broadRaw / 货币债基 sourceUrl 仅用于基金档案；宽基、货币、债基不作为复盘分组
@@ -38,8 +39,10 @@ export const MACD_GOOD_CATALOG_GROUP_ID = 'g-catalog-macd-good';
 export const HS300_TIMING_CATALOG_GROUP_ID = 'g-catalog-hs300-timing';
 /** 从两组优选及放宽候选中挑出的 10 只等权「择时组合」；排在 沪深300择时优选 之后、TMT 科技之前 */
 export const TIMING_PORTFOLIO_CATALOG_GROUP_ID = 'g-catalog-timing-portfolio';
+/** 不在两组优选、只观察信号的高波动 A 股行业 ETF；排在 择时组合 之后、TMT 科技之前 */
+export const WATCH_POOL_CATALOG_GROUP_ID = 'g-catalog-watch-pool';
 /** 回测筛选出的分组：条目没有行业分布等资料，组内默认按数据文件顺序，并展示筛选规则 */
-export const BACKTEST_CATALOG_GROUP_IDS = new Set([MACD_GOOD_CATALOG_GROUP_ID, HS300_TIMING_CATALOG_GROUP_ID, TIMING_PORTFOLIO_CATALOG_GROUP_ID]);
+export const BACKTEST_CATALOG_GROUP_IDS = new Set([MACD_GOOD_CATALOG_GROUP_ID, HS300_TIMING_CATALOG_GROUP_ID, TIMING_PORTFOLIO_CATALOG_GROUP_ID, WATCH_POOL_CATALOG_GROUP_ID]);
 export const OTHER_CATALOG_GROUP_ID = 'g-catalog-other';
 export const MONEY_CATALOG_GROUP_ID = 'g-catalog-money-etf';
 export const BOND_CATALOG_GROUP_ID = 'g-catalog-bond-funds';
@@ -120,7 +123,14 @@ export function buildCatalogGroups(): CatalogGroupDef[] {
     description: timingPortfolio.rule,
     items: timingPortfolio.items.map(item => ({ code: item.code, name: item.name })),
   };
-  return [macd, hs300, portfolio, ...industry, ...assets];
+  const watch: CatalogGroupDef = {
+    id: WATCH_POOL_CATALOG_GROUP_ID,
+    name: '行业观察池',
+    order: 9.9375,
+    description: watchPool.rule,
+    items: watchPool.items.map(item => ({ code: item.code, name: item.name })),
+  };
+  return [macd, hs300, portfolio, watch, ...industry, ...assets];
 }
 
 /** industry-etf 货币/债基源数据：只读展示，不进分组 */
@@ -312,7 +322,7 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
     if (!existing) {
       // MACD优秀、沪深300择时优选 依次插在用户当前的 TMT 科技之前（用户调整过顺序时 order 已被重排，不能直接用默认值）
       const tmt = BACKTEST_CATALOG_GROUP_IDS.has(def.id) ? groups.find(group => group.id === defs.find(entry => !BACKTEST_CATALOG_GROUP_IDS.has(entry.id))?.id) : undefined;
-      const offset = def.id === MACD_GOOD_CATALOG_GROUP_ID ? 0.5 : def.id === HS300_TIMING_CATALOG_GROUP_ID ? 0.25 : 0.125;
+      const offset = def.id === MACD_GOOD_CATALOG_GROUP_ID ? 0.5 : def.id === HS300_TIMING_CATALOG_GROUP_ID ? 0.25 : def.id === TIMING_PORTFOLIO_CATALOG_GROUP_ID ? 0.125 : 0.0625;
       groups = [...groups, { id: def.id, name: def.name, order: tmt ? tmt.order - offset : def.order }];
       if (deletedGroups[def.id]) {
         deletedGroups = { ...deletedGroups };

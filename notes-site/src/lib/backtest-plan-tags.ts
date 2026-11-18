@@ -3,9 +3,10 @@
 import cybTiming from '../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../src/data/etfHs300Timing.json';
 import timingPortfolio from '../../../src/data/etfTimingPortfolio.json';
+import watchPool from '../../../src/data/etfWatchPool.json';
 
 export type PlanTag = {
-  group: 'macd-good' | 'hs300-timing' | 'timing-portfolio';
+  group: 'macd-good' | 'hs300-timing' | 'timing-portfolio' | 'watch-pool';
   name: string;
   /** 择时口径 */
   timing: string;
@@ -57,9 +58,18 @@ export function planTagsOf(code: string): PlanTag[] {
       group: 'timing-portfolio', name: '择时组合',
       timing: cybSide ? '创业板 ÷ 红利，高于 20 日均线为牛' : '沪深300 ÷ 红利，高于 20 日均线为牛',
       plan: cybSide ? CYB_PLAN : HS_PLAN,
-      stats: '10 只等权组合（每日再平衡）：2020 年起年化 27.4%，最大回撤 −12.4%，卡玛 2.21；用跟踪指数延长到 2013 年起年化 16.4%，最大回撤 −11.4%，14 年中 12 年赚钱',
+      stats: '9 只等权组合（每日再平衡）：2020 年起年化 27.8%，最大回撤 −12.4%，卡玛 2.24；用跟踪指数延长到 2013 年起年化 16.5%，最大回撤 −11.4%，14 年中 12 年赚钱',
       views: cybSide ? ['r2', 'kd10Trades'] : ['h1', 'h1Trades'],
     });
   }
+  const watch = (watchPool.items as { code: string; industry: string; start: string; years: number; annual: number; drawdown: number; calmar: number; yearly: Record<string, number> }[])
+    .find(item => item.code === code);
+  if (watch) tags.push({
+    group: 'watch-pool', name: '行业观察池', timing: '创业板 ÷ 红利，高于 20 日均线为牛',
+    plan: CYB_PLAN,
+    stats: `观察中（${watch.industry}），只看信号、不并入组合；全历史年化 ${pct(watch.annual)}，最大回撤 ${pct(watch.drawdown)}，卡玛 ${watch.calmar.toFixed(2)}（${watch.years} 年）；`
+      + `逐年 ${Object.entries(watch.yearly).map(([year, value]) => `${year.slice(2)}:${signed(value)}`).join(' ')}` + (watch.years < 3 ? '；上市不足 3 年，参考意义有限' : ''),
+    views: ['r2', 'kd10Trades'],
+  });
   return tags;
 }

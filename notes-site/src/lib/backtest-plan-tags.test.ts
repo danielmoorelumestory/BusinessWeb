@@ -24,5 +24,12 @@ describe('planTagsOf', () => {
     expect(planTagsOf('562500').map(tag => tag.group)).toEqual(['macd-good', 'timing-portfolio']);
     expect(planTagsOf('562500')[1].views).toEqual(['r2', 'kd10Trades']);
   });
+  it('行业观察池给出创业板择时方案，上市不足 3 年的注明', () => {
+    expect(planTagsOf('512400').map(tag => tag.group)).toEqual(['watch-pool']);
+    expect(planTagsOf('512400')[0].views).toEqual(['r2', 'kd10Trades']);
+    expect(planTagsOf('512400')[0].stats).not.toContain('不足 3 年');
+    expect(planTagsOf('588170')[0].stats).toContain('不足 3 年');
+  });
+  it('择时组合标签是 9 只的数字', () => { expect(planTagsOf('562500')[1].stats).toContain('9 只'); });
   it('未入选任何分组返回空', () => { expect(planTagsOf('000000')).toEqual([]); });
 });
