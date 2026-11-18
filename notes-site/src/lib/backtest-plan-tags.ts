@@ -19,7 +19,7 @@ export type PlanTag = {
 
 type BacktestItem = {
   code: string; annual: number; drawdown: number; calmar: number; yearAvg: number; worstYear: number;
-  positiveYears: number; countedYears: number; years: number; supplement?: boolean;
+  positiveYears: number; countedYears: number; years: number; supplement?: boolean; moved?: string;
 };
 
 export const CYB_PLAN = 'Y1 · 牛市金叉或站上10日线且 K−D≥5.3 次日开盘买，熊市不开新仓；死叉，或熊市跌破10日线当日收盘卖';
@@ -31,7 +31,8 @@ const signed = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`
 function statsOf(item: BacktestItem): string {
   return `全历史年化 ${pct(item.annual)}，最大回撤 ${pct(item.drawdown)}，卡玛 ${item.calmar.toFixed(2)}（${item.years} 年）；`
     + `逐年平均 ${signed(item.yearAvg)}，${item.countedYears} 年中 ${item.positiveYears} 年赚钱，最差一年 ${signed(item.worstYear)}`
-    + (item.supplement ? '；差一项条件补入（正收益年份不足 75%）' : '');
+    + (item.supplement ? '；差一项条件补入（正收益年份不足 75%）' : '')
+    + (item.moved ? `；${item.moved}` : '');
 }
 
 export function planTagsOf(code: string): PlanTag[] {

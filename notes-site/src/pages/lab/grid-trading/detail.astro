@@ -142,6 +142,7 @@ const etfReviewUrl = href('lab/etf-review');
   import { H1_CODES, isLiveBar, macdEstimate, maEstimate, R2_CODES, ratioEstimate, styleRatio } from '../../../lib/chart-indicators';
   import { panViewport, zoomViewport, type Viewport } from '../../../lib/chart-viewport';
   import { planTagsOf } from '../../../lib/backtest-plan-tags';
+  import { catalogItemOf } from '../../../lib/etf-catalog-seed';
   import { backtestPlan, backtestPlanYearly, cybPlan, hsPlan, macdPlan, planStats, planTrades, yearlySummary, type PlanBacktest, type PlanKey, type PlanResult } from '../../../lib/plan-trades';
   import { bullLookup } from '../../../lib/kd10-signals';
   import { SYNC_ENDPOINT } from '../../../lib/endpoints';
@@ -879,8 +880,10 @@ const etfReviewUrl = href('lab/etf-review');
   const price = (v?: number) => typeof v === 'number' && Number.isFinite(v) ? `¥${v.toFixed(3)}` : '—';
   // 行业 ETF 清单进来用 ?code=：本机有该代码的记录就用它（有网格的优先），没有就先用内存里的关注记录（改动时才落盘），再去云端找。
   const codeParam = new URLSearchParams(location.search).get('code')?.trim();
-  const nameParam = new URLSearchParams(location.search).get('name')?.trim() ?? '';
+  // 链接没带 name 时按 ETF 清单补名字，免得标题只显示代码
+  const nameParam = new URLSearchParams(location.search).get('name')?.trim() || (codeParam ? catalogItemOf(codeParam)?.name ?? '' : '');
   let record = codeParam && !id ? (recordByCode(codeParam) ?? newWatchRecord(codeParam, nameParam, marketToday())) : readRecords().find(item => item.id === id);
+  if (record && nameParam && (!record.row.name || record.row.name === record.row.code)) record = { ...record, row: { ...record.row, name: nameParam } };
   if (codeParam && !id) { const back = document.querySelector('#back-link') as HTMLAnchorElement; back.href = '/industry-etf'; back.textContent = '← 返回行业 ETF 清单'; }
   const urlOf = (item: SavedRecord) => { const next = new URL(location.href); next.searchParams.delete('code'); next.searchParams.delete('name'); next.searchParams.set('id', item.id); return next.toString(); };
   if (codeParam && !id && record && !record.watch) history.replaceState(null, '', urlOf(record));
@@ -1561,8 +1564,6 @@ const etfReviewUrl = href('lab/etf-review');
   .plan-card:not(:has(> :not([hidden]))) { display:none; }
   .plan-tags { display:grid; gap:18px; font-size:13px; line-height:1.65; }
   .plan-tag { min-width:0; overflow:hidden; border:1px solid #e2e8f0; border-radius:16px; background:#fff; box-shadow:0 2px 6px rgb(15 23 42 / .025); }
-  .plan-tag.is-best { border-color:#818cf8; background:#f5f7ff; box-shadow:0 0 0 1px #818cf8,0 4px 16px rgb(79 70 229 / .08); }
-  .plan-tag.is-best .plan-tag-head { border-bottom-color:#d7ddfc; background:#e8edff; }
   .plan-tag-head { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:18px 22px; border-bottom:1px solid #eef2f6; }
   .plan-chip { margin:0 4px 0 0; color:#1e293b; font-size:16px; font-weight:700; letter-spacing:-.3px; }
   .plan-best { display:none; padding:2px 8px; border-radius:5px; background:#eef2ff; color:#4f46e5; font-size:11px; font-weight:600; }
@@ -1604,7 +1605,6 @@ const etfReviewUrl = href('lab/etf-review');
   .plan-metric { position:relative; text-align:center; }
   .plan-metric:not(:last-child)::after { content:''; position:absolute; right:-7px; top:4px; bottom:4px; width:1px; background:#e2e8f0; }
   .plan-secondary .plan-metric::after { right:-5px; }
-  .is-best .plan-metric::after { background:#dce1f5; }
   .plan-metric dt { margin:0 0 3px; color:#64748b; font-size:11px; font-weight:400; }
   .plan-metric dd { margin:0; font-size:25px; font-weight:650; letter-spacing:-.6px; line-height:1.4; }
   .plan-metric:first-child dd { font-weight:750; }

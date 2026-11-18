@@ -49,11 +49,11 @@ export function groupLabelOf(code: string, names: GroupNames = {}): string {
 }
 
 /**
- * 人工改定的默认提醒方案（优先于所在分组的方案）。2026-11-18 用户决定：
- * 159967 创业板成长、512720 计算机ETF国泰 留在 A 组，但提醒改用沪深300择时——研究里沪深300择时卡玛更高（0.75 对 0.55、0.65 对 0.51），
- * 只因正收益年份 71%（亏损年 −4.3%/−8.2%、−1.0%/−0.4%）未过 75% 门槛才没归 B 组。
+ * 人工改定的默认提醒方案（优先于所在分组的方案），目前为空。
+ * 2026-11-18 曾把 159967、512720 设为沪深300择时；同日分组规则改为「累计年化和逐年平均都更高的方案决定分组」，
+ * 两只已移入沪深300择时优选，按所在分组提醒即可。
  */
-export const DEFAULT_PLAN_OVERRIDES: Record<string, AlertPlan> = { '159967': 'hs', '512720': 'hs' };
+export const DEFAULT_PLAN_OVERRIDES: Record<string, AlertPlan> = {};
 
 export function defaultAlertPlan(code: string): AlertPlan | 'none' {
   return DEFAULT_PLAN_OVERRIDES[code] ?? PLAN_GROUPS.find(group => group.items.some(item => item.code === code))?.key ?? 'none';
