@@ -3,7 +3,8 @@ import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
 import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
-import { alertPhaseOf, buildPlanAlert, closeHeader, defaultAlertPlan, formatMessage, planStatuses, sendTelegram, type AlertChoice, type AlertPhase, type GroupNames } from './plan-alert';
+import { alertPhaseOf, allSymbols, buildPlanAlert, closeHeader, defaultAlertPlan, effectiveGroups, formatMessage, isPlanWarmTime, planStatuses, RATIO_HFQ_SYMBOLS, sendTelegram, type AlertChoice, type AlertPhase, type GroupNames } from './plan-alert';
+import type { PlanBar } from '../../../src/lib/plan-trades';
 
 export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string; TELEGRAM_BOT_TOKEN?: string; TELEGRAM_CHAT_ID?: string }
 
@@ -284,6 +285,48 @@ const planBars = (budget: Budget) => async (symbol: string, fq: 'qfq' | 'hfq' = 
   return [...bars].map(([date, bar]) => ({ date, open: bar.open, high: bar.high, low: bar.low, close: bar.close })).sort((a, b) => a.date.localeCompare(b.date));
 };
 
+/**
+ * 择时提醒的历史日线缓存：每个行情代码 + 复权方式一行，只存今天以前的K线（今天这根由实时报价补）。
+ * 35 只左右的标的每只取一次日线就贴着单次调用的子请求上限，接口偶尔被拒、重试几次后面的就全取不到；
+ * 改成 14:00–14:30 分三轮预取进缓存，14:45 / 15:15 与「重新获取」直接读缓存，只取缺的。
+ */
+const PLAN_BARS_TABLE = 'CREATE TABLE IF NOT EXISTS plan_bars (symbol TEXT NOT NULL, fq TEXT NOT NULL, fetched TEXT NOT NULL, bars TEXT NOT NULL, PRIMARY KEY (symbol, fq))';
+async function readPlanBarsCache(env: Env, today: string): Promise<Map<string, PlanBar[]>> {
+  await env.DB.prepare(PLAN_BARS_TABLE).run();
+  const { results } = await env.DB.prepare('SELECT symbol, fq, bars FROM plan_bars WHERE fetched = ?').bind(today).all<{ symbol: string; fq: string; bars: string }>();
+  return new Map(results.map(row => [`${row.symbol}:${row.fq}`, JSON.parse(row.bars) as PlanBar[]]));
+}
+async function writePlanBars(env: Env, symbol: string, fq: string, today: string, bars: PlanBar[]) {
+  await env.DB.prepare(`INSERT INTO plan_bars (symbol, fq, fetched, bars) VALUES (?, ?, ?, ?)
+    ON CONFLICT (symbol, fq) DO UPDATE SET fetched = excluded.fetched, bars = excluded.bars`).bind(symbol, fq, today, JSON.stringify(bars.filter(bar => bar.date < today))).run();
+}
+/** 先读今天取过的缓存（只到昨天），缺的现取并写回；fresh 时现取（要今天的K线）。 */
+async function cachedPlanBars(env: Env, budget: Budget) {
+  const today = beijingToday(), cache = await readPlanBarsCache(env, today), load = planBars(budget);
+  return async (symbol: string, fq: 'qfq' | 'hfq' = 'qfq', options: { fresh?: boolean } = {}) => {
+    const hit = cache.get(`${symbol}:${fq}`);
+    if (hit?.length && !options.fresh) return hit;
+    const bars = await load(symbol, fq);
+    try { await writePlanBars(env, symbol, fq, today, bars); } catch (error) { console.error('择时日线缓存写入失败', symbol, error); }
+    return bars;
+  };
+}
+/** 预取：按当前提醒方案涉及的行情代码，把今天还没缓存的取进来；预算用完就停，下一轮接着取。 */
+export async function warmPlanBars(env: Env) {
+  const today = beijingToday(), cache = await readPlanBarsCache(env, today), budget = new Budget(FETCH_LIMIT - 4);
+  const symbols = allSymbols(effectiveGroups(await readAlertChoices(env)));
+  let fetched = 0, failed = 0;
+  for (const symbol of symbols) {
+    const fq = RATIO_HFQ_SYMBOLS.has(symbol) ? 'hfq' : 'qfq';
+    if (cache.get(`${symbol}:${fq}`)?.length) continue;
+    try { await writePlanBars(env, symbol, fq, today, await planBars(budget)(symbol, fq)); fetched++; } catch (error) {
+      failed++; console.error('择时日线预取失败', symbol, error);
+      if (error instanceof Error && error.message === 'BUDGET') break;
+    }
+  }
+  console.log('择时日线预取', { total: symbols.length, cached: symbols.length - fetched - failed, fetched, failed });
+}
+
 /** 详情页手动选的 Telegram 提醒方案（全局一份，每个标的一行）。 */
 async function readAlertChoices(env: Env): Promise<AlertChoice[]> {
   await env.DB.prepare('CREATE TABLE IF NOT EXISTS plan_alert_choice (code TEXT PRIMARY KEY, name TEXT NOT NULL, plan TEXT NOT NULL, updated_at INTEGER NOT NULL)').run();
@@ -320,7 +363,7 @@ export async function runPlanAlert(env: Env, phase: AlertPhase) {
   const today = beijingToday();
   await env.DB.prepare('CREATE TABLE IF NOT EXISTS plan_alert_log (date TEXT NOT NULL, phase TEXT NOT NULL, sent_at INTEGER NOT NULL, text TEXT NOT NULL, PRIMARY KEY (date, phase))').run();
   if (await env.DB.prepare('SELECT 1 AS hit FROM plan_alert_log WHERE date = ? AND phase = ?').bind(today, phase).first()) return;
-  const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
+  const alert = await buildPlanAlert({ today, loadBars: await cachedPlanBars(env, new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
   if (!alert.tradingDay) { console.log('择时提醒：非交易日，跳过', today); return; }
   await savePlanStatus(env, today, phase, alert.results);
   console.log('择时提醒', phase, JSON.stringify(alert.results.map(result => ({ group: result.group.title, alerts: result.alerts, failed: result.failed }))));
@@ -838,6 +881,10 @@ export default {
         try { await runPlanAlert(env, phase); } catch (error) { console.error('择时提醒失败', phase, error); }
         return;
       }
+      if (isPlanWarmTime(controller.scheduledTime)) {
+        try { await warmPlanBars(env); } catch (error) { console.error('择时日线预取失败', error); }
+        return;
+      }
       await syncReviewTechnical(env);
       return;
     }
@@ -903,7 +950,7 @@ export default {
     // 预览择时提醒（不发送）：?phase=pre|close
     if (request.method === 'GET' && url.pathname === '/plan-alert/preview') {
       const phase: AlertPhase = url.searchParams.get('phase') === 'pre' ? 'pre' : 'close';
-      const alert = await buildPlanAlert({ today: beijingToday(), loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
+      const alert = await buildPlanAlert({ today: beijingToday(), loadBars: await cachedPlanBars(env, new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
       if (alert.tradingDay) await savePlanStatus(env, beijingToday(), phase, alert.results);
       return json(alert);
     }

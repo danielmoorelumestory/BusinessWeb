@@ -88,6 +88,11 @@ export const alertPhaseOf = (scheduledTime: number): AlertPhase | undefined => {
   const time = new Date(scheduledTime), hm = time.getUTCHours() * 60 + time.getUTCMinutes();
   return hm === 6 * 60 + 45 ? 'pre' : hm === 7 * 60 + 15 ? 'close' : undefined;
 };
+/** 北京 14:00 / 14:15 / 14:30 三轮预取择时提醒要用的历史日线存进缓存（单次调用子请求有限，这三轮不更新复盘指标）。 */
+export const isPlanWarmTime = (scheduledTime: number) => {
+  const time = new Date(scheduledTime), hm = time.getUTCHours() * 60 + time.getUTCMinutes();
+  return hm === 6 * 60 || hm === 6 * 60 + 15 || hm === 6 * 60 + 30;
+};
 
 /** 行情代码：ETF 按首位判断沪深，已带前缀的（指数 sh000300）原样使用。 */
 export const marketSymbol = (code: string) => /^(sh|sz)\d{6}$/.test(code) ? code : `${/^[569]/.test(code) ? 'sh' : 'sz'}${code}`;
@@ -276,7 +281,7 @@ export const allSymbols = (groups: GroupDef[] = PLAN_GROUPS) => [...new Set([
 export type AlertDeps = {
   today: string;
   /** 取某行情代码近两年多的日线（升序）；默认前复权，择时比值里的 ETF 传 'hfq' 取后复权。 */
-  loadBars: (symbol: string, fq?: 'qfq' | 'hfq') => Promise<PlanBar[]>;
+  loadBars: (symbol: string, fq?: 'qfq' | 'hfq', options?: { fresh?: boolean }) => Promise<PlanBar[]>;
   loadQuotes?: (symbols: string[]) => Promise<Map<string, Quote>>;
   /** 详情页的手动选择；不传按默认分组。 */
   choices?: AlertChoice[];
@@ -294,9 +299,11 @@ export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQu
   const barsOf = new Map<string, PlanBar[]>();
   for (const symbol of symbols) {
     try {
+      // 有实时报价时可以用缓存的历史日线（今天这根由报价补上）；没有报价时要现取，才有今天的K线
+      const fresh = { fresh: quotes.get(symbol)?.date !== today };
       barsOf.set(symbol, RATIO_HFQ_SYMBOLS.has(symbol)
-        ? mergeLiveByChange(await loadBars(symbol, 'hfq'), quotes.get(symbol), today)
-        : mergeLive(await loadBars(symbol), quotes.get(symbol), today));
+        ? mergeLiveByChange(await loadBars(symbol, 'hfq', fresh), quotes.get(symbol), today)
+        : mergeLive(await loadBars(symbol, 'qfq', fresh), quotes.get(symbol), today));
     } catch (error) {
       console.error('择时提醒：日线失败', symbol, error);
       if (error instanceof Error && error.message === 'BUDGET') break;

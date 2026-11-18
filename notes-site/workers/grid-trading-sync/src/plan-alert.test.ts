@@ -277,3 +277,22 @@ describe('按分组重排后的默认方案', async () => {
     expect(effectiveGroups([{ code: '512720', name: 'x', plan: 'none' }]).some(group => group.items.some(item => item.code === '512720'))).toBe(false);
   });
 });
+
+describe('择时日线缓存', () => {
+  it('14:00 / 14:15 / 14:30 预取，其他时刻不预取', async () => {
+    const { isPlanWarmTime } = await import('./plan-alert');
+    const at = (hm: string) => Date.parse(`2026-11-18T${hm}:00+08:00`);
+    expect(['14:00', '14:15', '14:30'].map(hm => isPlanWarmTime(at(hm)))).toEqual([true, true, true]);
+    expect(['13:45', '14:45', '15:15'].map(hm => isPlanWarmTime(at(hm)))).toEqual([false, false, false]);
+  });
+  it('有今天的实时报价时可用缓存（fresh=false），没有报价的才要求现取', async () => {
+    const today = '2026-11-18', asked: string[] = [];
+    await buildPlanAlert({
+      today, loadBars: async (symbol, _fq, options) => { asked.push(`${symbol}:${options?.fresh ? 'fresh' : 'cache'}`); return []; },
+      loadQuotes: async symbols => new Map(symbols.filter(symbol => symbol !== 'sh512480').map(symbol => [symbol, { date: today, price: 1, open: 1, high: 1, low: 1 }])),
+    }, 'close');
+    expect(asked).toContain('sh512480:fresh');
+    expect(asked).toContain('sh510880:cache');
+    expect(asked.filter(entry => entry.endsWith(':fresh'))).toEqual(['sh512480:fresh']);
+  });
+});

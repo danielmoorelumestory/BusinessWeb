@@ -133,3 +133,6 @@ CREATE TABLE IF NOT EXISTS plan_status (
   payload TEXT NOT NULL,
   updated_at INTEGER NOT NULL
 );
+
+-- 择时提醒的历史日线缓存：每个行情代码 + 复权方式一行，只存当天以前的K线；14:00–14:30 预取，14:45 / 15:15 与复盘页「重新获取」直接读，缺的再现取。
+CREATE TABLE IF NOT EXISTS plan_bars (symbol TEXT NOT NULL, fq TEXT NOT NULL, fetched TEXT NOT NULL, bars TEXT NOT NULL, PRIMARY KEY (symbol, fq));
