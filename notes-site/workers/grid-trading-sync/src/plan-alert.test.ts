@@ -80,11 +80,11 @@ describe('formatMessage', () => {
   const holding = { code: '159819', name: '人工智能ETF易方达', buyDate: '2026-11-05', buyPrice: 1.2, ret: 0.05321 };
   it('没有信号也给出三段（14:45 每天都发，确认服务正常）', () => {
     const results: GroupResult[] = [{ group, alerts: [], failed: [], holdings: [holding] }, { group: PLAN_GROUPS[1], alerts: [], failed: [], holdings: [] }];
-    expect(formatMessage(results, 'pre')).toBe('🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
-    expect(formatMessage([{ group, alerts: [], failed: [] }], 'pre')).toBe('🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n无');
+    expect(formatMessage(results, 'pre', '2026-11-18')).toBe('📅 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
+    expect(formatMessage([{ group, alerts: [], failed: [] }], 'pre', '2026-11-18')).toBe('📅 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n无');
   });
   it('首行可加说明', () => {
-    expect(formatMessage([{ group, alerts: [], failed: [] }], 'close', '⚠️ 收盘结果与 14:45 不同，以此为准').split('\n')[0]).toBe('⚠️ 收盘结果与 14:45 不同，以此为准');
+    expect(formatMessage([{ group, alerts: [], failed: [] }], 'close', '2026-11-18', '⚠️ 收盘结果与 14:45 不同，以此为准').split('\n')[0]).toBe('📅 11-18 收盘 ⚠️ 收盘结果与 14:45 不同，以此为准');
   });
   it('不分择时分组，两组的信号与持仓合并到 买入 / 卖出 / 持有 三段', () => {
     const results: GroupResult[] = [
@@ -94,13 +94,13 @@ describe('formatMessage', () => {
       ] },
       { group: PLAN_GROUPS[1], failed: [], holdings: [], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67 }] },
     ];
-    expect(formatMessage(results, 'pre')).toBe([
-      '🟢 买入', '明日开盘 159819 人工智能ETF易方达（金叉，现价 1.235）', '',
+    expect(formatMessage(results, 'pre', '2026-11-18')).toBe([
+      '📅 11-18 14:45', '', '🟢 买入', '明日开盘 159819 人工智能ETF易方达（金叉，现价 1.235）', '',
       '🔴 卖出', '今日尾盘 512670 国防ETF鹏华（死叉，现价 0.670）', '明日开盘 512760 芯片ETF国泰（死叉，现价 2.000）', '',
       '📌 持有', '159819 人工智能ETF易方达 -3.12%（11-05买入 1.200）', '',
       '⚠️ 取数失败：159869',
     ].join('\n'));
-    expect(formatMessage(results, 'close')).toContain('今日收盘（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
+    expect(formatMessage(results, 'close', '2026-11-18')).toContain('今日收盘（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
     expect(alertKeys(results)).toBe('buy-next-open:159819,sell-next-open:512760,sell-today-close:512670');
   });
 });

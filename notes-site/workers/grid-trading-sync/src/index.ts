@@ -297,7 +297,7 @@ export async function runPlanAlert(env: Env, phase: AlertPhase) {
     if (pre) { try { preKeys = String(JSON.parse(pre.text).keys ?? ''); } catch { preKeys = '?'; } }
     const header = closeHeader(alert.keys, preKeys);
     if (!header) { console.log('择时提醒：收盘信号与 14:45 一致，不重复发送'); return; }
-    text = formatMessage(alert.results, phase, header);
+    text = formatMessage(alert.results, phase, today, header);
   }
   await sendTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, text);
   await env.DB.prepare('INSERT OR IGNORE INTO plan_alert_log (date, phase, sent_at, text) VALUES (?, ?, ?, ?)').bind(today, phase, Date.now(), JSON.stringify({ keys: alert.keys, text })).run();

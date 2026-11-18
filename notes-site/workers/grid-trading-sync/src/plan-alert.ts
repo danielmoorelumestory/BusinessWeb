@@ -127,7 +127,7 @@ const pct = (ret: number) => `${ret >= 0 ? '+' : ''}${(ret * 100).toFixed(2)}%`;
  * 不分择时分组，只分「买入 / 卖出 / 持有」三段；盘中预估由「今日尾盘 / 现价」区分。
  * 是否发送由 shouldSend 决定；header 为可选的首行（如收盘更正）。
  */
-export function formatMessage(results: GroupResult[], phase: AlertPhase, header?: string): string {
+export function formatMessage(results: GroupResult[], phase: AlertPhase, today: string, header?: string): string {
   const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
   const failed = [...new Set(results.flatMap(result => result.failed))];
   const priceLabel = phase === 'pre' ? '现价' : '收盘';
@@ -139,7 +139,9 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, header?
     section('📌 持有', holdings.map(h => `${h.code} ${h.name} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`)),
   ];
   if (failed.length) parts.push(`⚠️ 取数失败：${failed.join('、')}`);
-  return [...(header ? [header] : []), ...parts].join('\n\n');
+  // 首行写日期与时段，避免内容相近的几天消息混在一起
+  const title = `📅 ${today.slice(5)} ${phase === 'pre' ? '14:45' : '收盘'}${header ? ` ${header}` : ''}`;
+  return [title, ...parts].join('\n\n');
 }
 
 /** 买卖信号的指纹（动作+代码），用来比较 14:45 预估与收盘结果是否一致。 */
@@ -211,5 +213,5 @@ export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQu
   // 报价失败时用日线最后一根判断是否交易日
   if (!anchor && barsOf.get(marketSymbol(R2_CODES.defensive))?.at(-1)?.date !== today) return { tradingDay: false as const };
   const results = evaluateGroups(barsOf, today);
-  return { tradingDay: true as const, results, keys: alertKeys(results), text: formatMessage(results, phase) };
+  return { tradingDay: true as const, results, keys: alertKeys(results), text: formatMessage(results, phase, today) };
 }
