@@ -262,6 +262,8 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
         <span class="filter-label">择时持仓</span>
         <div class="industry-etf-nav__pills">
           <button class="industry-etf-nav__pill${planHoldOnly ? ' is-active' : ''}" data-plan-hold type="button" title="只看按择时提醒方案当前持有的（含明日开盘才卖出的）"><span>持有中</span></button>
+          <button class="industry-etf-nav__pill" data-plan-refresh type="button" title="按各标的当前的 Telegram 提醒方案立即重算（不发送提醒）"${planRefreshing ? ' disabled' : ''}><span>${planRefreshing ? '获取中…' : '重新获取'}</span></button>
+          <span class="filter-label" style="font-weight:400">${planSnapshot.date ? `${escapeHtml(planSnapshot.date.slice(5))} ${planSnapshot.phase === 'pre' ? '14:45' : '收盘'}结果` : ''}</span>
         </div>
       </div>
     `;
@@ -295,6 +297,20 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
       try { localStorage.setItem(PLAN_STATUS_CACHE, JSON.stringify(value)); } catch { /* 缓存不可写时仍显示本次结果 */ }
       render();
     } catch (error) { console.error('读取择时持仓失败', error); }
+  }
+  // 重新获取：调用预览接口按当前提醒方案重算并保存（不发 Telegram），再读回。15:00 前按盘中（14:45 口径），之后按收盘。
+  let planRefreshing = false;
+  async function refreshPlanStatus() {
+    const token = readSyncKey();
+    if (token.length < 16) { syncStatus.textContent = '先设置同步密钥才能重新获取择时持仓。'; return; }
+    planRefreshing = true; render();
+    try {
+      const hm = new Date().toLocaleTimeString('sv-SE', { timeZone: 'Asia/Shanghai', hour12: false }).slice(0, 5);
+      const response = await fetch(`${SYNC_ENDPOINT}/plan-alert/preview?phase=${hm < '15:00' ? 'pre' : 'close'}`, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(60000) });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    } catch (error) { console.error('重新获取择时持仓失败', error); }
+    planRefreshing = false;
+    await loadPlanStatus(); render();
   }
   const isPlanHolding = (code: string) => { const status = planByCode.get(code); return status?.state === 'hold' || (status?.state === 'sell' && status.action === 'sell-next-open'); };
   function planCell(code: string) {
@@ -560,6 +576,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
 
   filterBar.addEventListener('click', event => {
     if ((event.target as HTMLElement).closest('[data-plan-hold]')) { planHoldOnly = !planHoldOnly; render(); return; }
+    if ((event.target as HTMLElement).closest('[data-plan-refresh]')) { if (!planRefreshing) void refreshPlanStatus(); return; }
     const maButton = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-ma]');
     if (maButton) {
       const key = maButton.dataset.ma!;
