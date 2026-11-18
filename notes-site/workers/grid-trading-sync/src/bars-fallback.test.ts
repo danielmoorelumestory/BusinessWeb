@@ -35,6 +35,18 @@ describe('日 K 备用源：腾讯失败时改用东方财富', () => {
     expect(calls).toHaveLength(1);
     expect(calls[0]).toContain('fqt=1');
   });
+  it('腾讯首个入口被拒、备用入口可用时，后续标的直接用备用入口（每只只花一个子请求）', async () => {
+    mockFetch(() => json(tencentBody));
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => { calls.push(url); return url.startsWith('https://ifzq.gtimg.cn') ? json({}, 501) : json(tencentBody); }));
+    calls = [];
+    await dailyBars('sh510300', '2026-10-01', 'qfq', new Budget(48));
+    expect(calls).toHaveLength(2);
+    calls.length = 0;
+    const budget = new Budget(1);
+    expect((await dailyBars('sh510300', '2026-10-01', 'qfq', budget)).size).toBe(1);
+    expect(calls).toHaveLength(1);
+    expect(calls[0]).toContain('proxy.finance.qq.com');
+  });
   it('东方财富也失败时报出两边的具体原因', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => json({}, 501)));
     await expect(dailyBars('sh510300', '2026-10-01', '', new Budget(48))).rejects.toThrow(/gtimg\.cn HTTP 501.*eastmoney\.com HTTP 501/);

@@ -95,7 +95,11 @@ const OFFSET_TOLERANCE = 5e-4;
 // 腾讯行情在 Cloudflare 出口可能被限流（HTTP 501）；整段失败后冷却一段时间，期间直接走东方财富，避免白白消耗子请求预算。
 let tencentDownUntil = 0;
 /** 仅测试用：清除腾讯冷却状态。 */
-export const resetTencentCooldown = () => { tencentDownUntil = 0; };
+export const resetTencentCooldown = () => { tencentDownUntil = 0; tencentEndpoints = [...TENCENT_ENDPOINTS]; };
+// 腾讯三个入口：某个入口取到数据后排到最前，后面的标的先试它。否则首个入口被拒时每只都要多花一个子请求，
+// 择时提醒 35 只左右就会把预算用完，后面的标的全记成取数失败。
+const TENCENT_ENDPOINTS = ['https://ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get', 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get'];
+let tencentEndpoints = [...TENCENT_ENDPOINTS];
 const TENCENT_COOLDOWN_MS = 5 * 60_000;
 /** 东方财富日 K：secid 市场前缀 1=沪、0=深，fqt 1=前复权、0=未复权，beg/end 为 YYYYMMDD，一次返回整段。 */
 export const eastmoneyUrl = (symbol: string, begin: string, end: string, fq: 'qfq' | 'hfq' | '') =>
@@ -117,13 +121,13 @@ export async function dailyBars(symbol: string, begin: string, fq: 'qfq' | 'hfq'
     let full = false; // 备用源按起止日一次返回整段，不需要继续分页。
     const reasons: string[] = [];
     if (Date.now() < tencentDownUntil) reasons.push('腾讯入口近期被拒，暂跳过');
-    else for (const endpoint of ['https://ifzq.gtimg.cn/appstock/app/fqkline/get', 'https://proxy.finance.qq.com/ifzqgtimg/appstock/app/fqkline/get', 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get']) {
+    else for (const endpoint of [...tencentEndpoints]) {
       budget.take();
       try {
         const response = await fetch(`${endpoint}?param=${symbol},day,${begin},${end},640,${fq}`, { signal: AbortSignal.timeout(15000) });
         if (!response.ok) { reasons.push(`${new URL(endpoint).hostname} HTTP ${response.status}`); continue; }
         data = (await response.json<{ data?: Record<string, { qfqday?: string[][]; hfqday?: string[][]; day?: string[][] }> }>()).data?.[symbol];
-        if (data) break;
+        if (data) { if (tencentEndpoints[0] !== endpoint) tencentEndpoints = [endpoint, ...tencentEndpoints.filter(item => item !== endpoint)]; break; }
         reasons.push(`${new URL(endpoint).hostname} 无 ${symbol} 数据`);
       } catch (error) { reasons.push(`${new URL(endpoint).hostname} ${error instanceof Error ? error.message : String(error)}`); /* 拦截页、超时或无效 JSON 时切换备用入口。 */ }
     }
