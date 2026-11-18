@@ -253,8 +253,9 @@ const etfReviewUrl = href('lab/etf-review');
       + `<span class="plan-chip">${def.name}</span><span class="plan-best">最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
       + `<span class="plan-hold" data-plan="${def.key}"></span>`
       + `<label class="plan-check"><input type="checkbox" data-plan-view="${def.key}"> 图上显示买卖点</label>`
-      + `<span class="plan-quick" data-plan-quick="${def.key}"></span></div>`
-      + `<div class="plan-tag-text"><div><b>择时：</b>${def.timing}</div><div><b>买卖：</b>${def.rule}</div></div></div>`).join('')
+      + `</div>`
+      + `<div class="plan-tag-text"><div><b>择时：</b>${def.timing}</div><div><b>买卖：</b>${def.rule}</div></div>`
+      + `<div class="plan-bt plan-stats-scroll" data-plan-stats="${def.key}"></div></div>`).join('')
       + '<div class="plan-note">图上 ▲ 买 ▼ 卖，持仓期间连线：红赚绿亏。</div>';
     planTagsBox.querySelectorAll<HTMLInputElement>('[data-plan-view]').forEach(box => {
       const def = PLAN_DEFS.find(item => item.key === box.dataset.planView)!;
@@ -325,7 +326,7 @@ const etfReviewUrl = href('lab/etf-review');
   const expandedYears = new Set<string>();
   const backtestCache = new Map<string, { full?: PlanBacktest; yearly: ReturnType<typeof backtestPlanYearly> }>();
   let lastPlanStats: [PlanResult[], Candle[]] | undefined;
-  planStatsBox.addEventListener('click', event => {
+  planTagsBox.addEventListener('click', event => {
     const toggle = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-years]');
     if (!toggle || !lastPlanStats) return;
     const key = toggle.dataset.years!;
@@ -379,35 +380,29 @@ const etfReviewUrl = href('lab/etf-review');
     const rowsOf = (plan: PlanResult) => {
       const { full, yearly } = planBacktests(plan, candles);
       const fullRow = full
-        ? `<tr><td>${plan.name}</td><td title="${full.first} ~ ${full.last}">全历史 <span class="muted">${full.first} 起（${full.years.toFixed(1)} 年）</span></td>${cells(full, true)}</tr>`
-        : `<tr><td>${plan.name}</td><td>全历史</td><td colspan="9" class="muted">上市不足 240 个交易日，暂无回测</td></tr>`;
+        ? `<tr><td title="${full.first} ~ ${full.last}">全历史 <span class="muted">${full.first} 起（${full.years.toFixed(1)} 年）</span></td>${cells(full, true)}</tr>`
+        : `<tr><td>全历史</td><td colspan="9" class="muted">上市不足 240 个交易日，暂无回测</td></tr>`;
       const sum = yearlySummary(yearly), open_ = expandedYears.has(plan.key);
       const summaryRow = yearly.length
-        ? `<tr class="year-summary"><td></td><td><button type="button" class="year-toggle" data-years="${plan.key}" aria-expanded="${open_}">${open_ ? '▾' : '▸'} 逐年</button></td>`
+        ? `<tr class="year-summary"><td><button type="button" class="year-toggle" data-years="${plan.key}" aria-expanded="${open_}">${open_ ? '▾' : '▸'} 逐年</button></td>`
           + `<td colspan="9">${sum.years} 年中 <b>${sum.positive}</b> 年赚钱，平均 <b class="${cls(sum.avg)}">${pctText(sum.avg)}</b>，最差一年 <b class="${cls(sum.worst)}">${pctText(sum.worst)}</b></td></tr>`
         : '';
-      const yearRows = open_ ? yearly.map(({ year, result }) => `<tr class="year-row"><td></td><td title="${result.first} ~ ${result.last}">${year}${result.sessions < 200 ? ` <span class="muted">（${result.sessions} 日）</span>` : ''}</td>${cells(result, false)}</tr>`).join('') : '';
+      const yearRows = open_ ? yearly.map(({ year, result }) => `<tr class="year-row"><td title="${result.first} ~ ${result.last}">${year}${result.sessions < 200 ? ` <span class="muted">（${result.sessions} 日）</span>` : ''}</td>${cells(result, false)}</tr>`).join('') : '';
       return fullRow + summaryRow + yearRows;
     };
     // 标签上的收益摘要、最优高亮、勾选框状态
     const calmarOf = new Map(plans.map(plan => [plan.key, planBacktests(plan, candles).full?.calmar ?? -Infinity]));
     const bestKey = [...calmarOf.entries()].sort((a, b) => b[1] - a[1])[0];
     for (const plan of plans) {
-      const { full, yearly } = planBacktests(plan, candles), sum = yearlySummary(yearly);
       const block = planTagsBox.querySelector<HTMLElement>(`[data-plan-block="${plan.key}"]`);
       block?.classList.toggle('is-best', !!bestKey && bestKey[1] > -Infinity && bestKey[0] === plan.key);
-      const quick = planTagsBox.querySelector<HTMLElement>(`[data-plan-quick="${plan.key}"]`);
-      if (quick) quick.innerHTML = full
-        ? `年化 <b class="${cls(full.cagr)}">${pctText(full.cagr)}</b> · 回撤 <b class="${cls(full.mdd)}">${pctText(full.mdd)}</b> · 卡玛 <b>${num(full.calmar)}</b>${sum.years ? ` · 逐年 ${sum.positive}/${sum.years} 年赚钱，平均 <b class="${cls(sum.avg)}">${pctText(sum.avg)}</b>` : ''}`
-        : '';
+      const table = planTagsBox.querySelector<HTMLElement>(`[data-plan-stats="${plan.key}"]`);
+      if (table) table.innerHTML = `<table><thead><tr><th>回测</th><th>收益</th><th>年化</th><th>最大回撤</th><th>卡玛</th><th>一直持有</th><th>完成交易（赚 / 亏）</th><th>胜率</th><th>盈亏比</th><th>单笔最好 / 最差</th></tr></thead><tbody>${rowsOf(plan)}</tbody></table>`;
       const def = PLAN_DEFS.find(item => item.key === plan.key)!;
       const view = planTagsBox.querySelector<HTMLInputElement>(`[data-plan-view="${plan.key}"]`);
       if (view) view.checked = (document.querySelector(def.trades) as HTMLInputElement).checked;
     }
-    planStatsBox.innerHTML = `<div class="plan-stats-head">三个方案 · 回测统计 <span>与研究口径一致：满仓进出、单边 0.1% 成本、上市第 121 根日线起交易</span></div>`
-      + `<div class="plan-stats-scroll"><table><thead><tr><th>方案</th><th>范围</th><th>收益</th><th>年化</th><th>最大回撤</th><th>卡玛</th><th>一直持有</th><th>完成交易（赚 / 亏）</th><th>胜率</th><th>盈亏比</th><th>单笔最好 / 最差</th></tr></thead><tbody>`
-      + plans.map(rowsOf).join('')
-      + '</tbody></table></div><div class="plan-note">逐年 = 每个自然年单独回测：年初空仓起算、年末收盘平仓，当年可交易日不足 120 天不计。年化需满一年；卡玛 = 年化 ÷ |最大回撤|；盈亏比 = 平均盈利 ÷ |平均亏损|；一直持有 = 同一时段首日次日开盘买入、末日收盘卖出。</div>';
+    planStatsBox.innerHTML = '<div class="plan-note">回测与研究口径一致：满仓进出、单边 0.1% 成本、上市第 121 根日线起交易。逐年 = 每个自然年单独回测：年初空仓起算、年末收盘平仓，当年可交易日不足 120 天不计。年化需满一年；卡玛 = 年化 ÷ |最大回撤|；盈亏比 = 平均盈利 ÷ |平均亏损|；一直持有 = 同一时段首日次日开盘买入、末日收盘卖出。</div>';
   }
 
   function bindRange() {
@@ -1482,14 +1477,15 @@ const etfReviewUrl = href('lab/etf-review');
   .plan-stats { margin-top:10px; padding-top:10px; border-top:1px dashed #cbd5e1; font-size:12.5px; color:#334155; }
   .plan-stats-head { font-weight:700; margin-bottom:6px; } .plan-stats-head span { font-weight:400; color:#94a3b8; font-size:12px; margin-left:6px; }
   .plan-stats-scroll { overflow-x:auto; }
-  .plan-stats table { border-collapse:collapse; width:100%; white-space:nowrap; }
-  .plan-stats th, .plan-stats td { padding:4px 8px; border-bottom:1px solid #e2e8f0; text-align:right; }
-  .plan-stats th:nth-child(-n+2), .plan-stats td:nth-child(-n+2) { text-align:left; }
-  .plan-stats th { color:#64748b; font-weight:600; background:#f1f5f9; }
-  .plan-stats .up { color:#dc2626; } .plan-stats .down { color:#16a34a; } .plan-stats .muted { color:#94a3b8; font-weight:400; }
-  .plan-stats .year-toggle { padding:0; border:0; background:none; color:#2563eb; font-size:12.5px; cursor:pointer; }
-  .plan-stats .year-summary td:nth-child(3) { text-align:left; color:#475569; }
-  .plan-stats .year-row td { background:#fff; }
+  .plan-bt { flex-basis:100%; margin-top:6px; font-size:12.5px; color:#334155; }
+  .plan-bt table { border-collapse:collapse; width:100%; white-space:nowrap; }
+  .plan-bt th, .plan-bt td { padding:4px 8px; border-bottom:1px solid #e2e8f0; text-align:right; }
+  .plan-bt th:first-child, .plan-bt td:first-child { text-align:left; }
+  .plan-bt th { color:#64748b; font-weight:600; background:#f1f5f9; }
+  .plan-bt .up { color:#dc2626; } .plan-bt .down { color:#16a34a; } .plan-bt .muted { color:#94a3b8; font-weight:400; }
+  .plan-bt .year-toggle { padding:0; border:0; background:none; color:#2563eb; font-size:12.5px; cursor:pointer; }
+  .plan-bt .year-summary td:nth-child(2) { text-align:left; color:#475569; }
+  .plan-bt .year-row td { background:#fff; }
   .plan-chip { flex:none; padding:0 8px; border-radius:999px; font-size:12px; font-weight:700; background:#e2e8f0; color:#334155; }
   .plan-tag-stats, .plan-note { color:#64748b; }
   .plan-note { font-size:12px; }
@@ -1501,7 +1497,6 @@ const etfReviewUrl = href('lab/etf-review');
   .plan-tag.is-best .plan-chip { background:#2563eb; color:#fff; }
   .plan-mark { padding:0 7px; border-radius:999px; border:1px solid #fcd34d; background:#fef3c7; color:#92400e; font-size:12px; font-weight:600; }
   .plan-check { display:inline-flex; align-items:center; gap:4px; color:#334155; font-size:12.5px; cursor:pointer; }
-  .plan-quick { flex-basis:100%; color:#64748b; font-size:12.5px; } .plan-quick .up { color:#dc2626; } .plan-quick .down { color:#16a34a; }
   .plan-hold { padding:1px 10px; border-radius:6px; font-size:13px; font-weight:700; line-height:1.6; }
   .plan-hold:empty { display:none; }
   .plan-hold.holding { background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; }
