@@ -16,6 +16,7 @@ on:
       - 'notes-site/src/lib/chart-indicators.ts'
       - 'src/data/etfMacdGood.json'
       - 'src/data/etfHs300Timing.json'
+      - 'src/data/etfWatchPool.json'
       - 'scripts/etf-technical.mjs'
       - '.github/workflows/worker-deploy.yml'
   workflow_dispatch:

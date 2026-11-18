@@ -105,6 +105,24 @@ describe('formatMessage', () => {
   });
 });
 
+describe('行业观察池', () => {
+  it('观察池按各自方案分进两个组，代码不与优选组重复', () => {
+    const watch = PLAN_GROUPS.filter(group => group.watch);
+    expect(watch.map(group => group.key)).toEqual(['cyb', 'hs']);
+    expect(watch.flatMap(group => group.items).length).toBe(12);
+    expect(watch.find(group => group.key === 'hs')!.items.map(item => item.code)).toContain('512880');
+    const main = new Set(PLAN_GROUPS.filter(group => !group.watch).flatMap(group => group.items.map(item => item.code)));
+    for (const item of watch.flatMap(group => group.items)) expect(main.has(item.code)).toBe(false);
+  });
+  it('观察池的信号与持仓标［观察］', () => {
+    const group = PLAN_GROUPS.find(item => item.watch)!;
+    const text = formatMessage([{ group, failed: [], alerts: [{ code: '516520', name: '智能驾驶ETF', action: 'buy-next-open', reason: '金叉', price: 1, watch: true }],
+      holdings: [{ code: '512400', name: '有色金属ETF', buyDate: '2026-11-05', buyPrice: 1, ret: 0.01, watch: true }] }], 'pre', '2026-11-18');
+    expect(text).toContain('明日开盘 516520 智能驾驶ETF［观察］（金叉，现价 1.000）');
+    expect(text).toContain('512400 有色金属ETF［观察］ +1.00%');
+  });
+});
+
 describe('closeHeader', () => {
   it('收盘信号与 14:45 一致时不加说明', () => expect(closeHeader('buy-next-open:1', 'buy-next-open:1')).toBeUndefined());
   it('都没信号也算一致', () => expect(closeHeader('', '')).toBeUndefined());

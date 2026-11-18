@@ -6,20 +6,26 @@
 // - pre   北京 14:45：用实时价当作今日收盘估算，不论有没有信号都发（买入 / 卖出 / 持有三段），顺带确认服务正常；
 // - close 北京 15:15：按真实收盘重算，每天都发（持仓盈亏按收盘价）；与 14:45 信号不同时第二行注明。
 // 同一交易日同一时段只发一次（plan_alert_log）。
+// 行业观察池（只看信号的行业 ETF）也一起提醒，按各自方案，消息里标［观察］；取数排在最后，请求预算不够时只影响观察池。
 import macdGood from '../../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../../src/data/etfHs300Timing.json';
+import watchPool from '../../../../src/data/etfWatchPool.json';
 import { cybPlan, hsPlan, type PlanBar, type PlanResult } from '../../../src/lib/plan-trades';
 import { H1_CODES, R2_CODES, styleRatio } from '../../../src/lib/chart-indicators';
 
 export type AlertPhase = 'pre' | 'close';
 export type AlertAction = 'sell-today-close' | 'buy-next-open' | 'sell-next-open';
-export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number };
+export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean };
 export type Quote = { price: number; open: number; high: number; low: number; date: string; changePercent?: number };
-export type GroupDef = { key: 'cyb' | 'hs'; title: string; timing: string; items: { code: string; name: string }[] };
+export type GroupDef = { key: 'cyb' | 'hs'; title: string; timing: string; items: { code: string; name: string }[]; watch?: boolean };
 
 export const PLAN_GROUPS: GroupDef[] = [
   { key: 'cyb', title: '创业板择时优选', timing: '创业板÷红利', items: macdGood.items.map(({ code, name }) => ({ code, name })) },
   { key: 'hs', title: '沪深300择时优选', timing: '沪深300÷红利', items: hs300Timing.items.map(({ code, name }) => ({ code, name })) },
+  ...(['cyb', 'hs'] as const).map(key => ({
+    key, title: '行业观察池', timing: key === 'cyb' ? '创业板÷红利' : '沪深300÷红利', watch: true,
+    items: watchPool.items.filter(item => item.plan === key).map(({ code, name }) => ({ code, name })),
+  })),
 ];
 
 /** 盘中 15 分钟任务里只有这两个时刻发提醒：UTC 06:45 = 北京 14:45，UTC 07:15 = 北京 15:15。 */
@@ -78,7 +84,7 @@ export function todayActions(bars: PlanBar[], today: string, run: (bars: PlanBar
 }
 
 /** 按规则当前持有的一笔：买入日、买入价（开盘）、按最新价（盘中为实时价）计的涨跌。 */
-export type Holding = { code: string; name: string; buyDate: string; buyPrice: number; ret: number };
+export type Holding = { code: string; name: string; buyDate: string; buyPrice: number; ret: number; watch?: boolean };
 export type GroupResult = { group: GroupDef; bull?: boolean; alerts: PlanAlert[]; failed: string[]; holdings?: Holding[] };
 
 /** 规则引擎在最后一根K线结束时仍持有的一笔；今日收盘已卖出的不算持有。 */
@@ -107,9 +113,10 @@ export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string): G
     for (const item of group.items) {
       const bars = barsOf.get(marketSymbol(item.code));
       if (!bars?.length) { failed.push(item.code); continue; }
-      for (const action of todayActions(bars, today, run)) alerts.push({ code: item.code, name: item.name, ...action });
+      const watch = group.watch ? { watch: true } : {};
+      for (const action of todayActions(bars, today, run)) alerts.push({ code: item.code, name: item.name, ...action, ...watch });
       const holding = currentHolding(bars, run);
-      if (holding) holdings.push({ code: item.code, name: item.name, ...holding });
+      if (holding) holdings.push({ code: item.code, name: item.name, ...holding, ...watch });
     }
     return { group, bull, alerts, failed, holdings };
   });
@@ -131,12 +138,13 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, today: 
   const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
   const failed = [...new Set(results.flatMap(result => result.failed))];
   const priceLabel = phase === 'pre' ? '现价' : '收盘';
-  const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
+  const mark = (item: { watch?: boolean }) => item.watch ? '［观察］' : '';
+  const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}${mark(alert)}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
   const section = (title: string, lines: string[]) => [title, ...(lines.length ? lines : ['无'])].join('\n');
   const parts = [
     section('🟢 买入', alerts.filter(alert => alert.action === 'buy-next-open').map(actionLine)),
     section('🔴 卖出', alerts.filter(alert => alert.action !== 'buy-next-open').sort((x, y) => x.action === y.action ? 0 : x.action === 'sell-today-close' ? -1 : 1).map(actionLine)),
-    section('📌 持有', holdings.map(h => `${h.code} ${h.name} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`)),
+    section('📌 持有', holdings.map(h => `${h.code} ${h.name}${mark(h)} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`)),
   ];
   if (failed.length) parts.push(`⚠️ 取数失败：${failed.join('、')}`);
   // 首行写日期与时段，避免内容相近的几天消息混在一起
