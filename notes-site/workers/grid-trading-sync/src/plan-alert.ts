@@ -6,7 +6,8 @@
 // - pre   北京 14:45：用实时价当作今日收盘估算，不论有没有信号都发（买入 / 卖出 / 持有三段），顺带确认服务正常；
 // - close 北京 15:15：按真实收盘重算，每天都发（持仓盈亏按收盘价）；与 14:45 信号不同时第二行注明。
 // 同一交易日同一时段只发一次（plan_alert_log）。
-// 每条信号与持仓后标所属分组（［创业板择时优选］/［沪深300择时优选］/［行业观察池］，都不在的标［自选］）。
+// 每条信号与持仓后标所属分组（［创业板择时优选］/［沪深300择时优选］/［行业观察池］，都不在的标［自选］）；
+// 复盘页给这三个清单分组改过名（已上传云端）时用改后的名字。
 // 行业观察池（只看信号的行业 ETF）也一起提醒，按各自方案；取数排在最后，请求预算不够时只影响观察池。
 import macdGood from '../../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../../src/data/etfHs300Timing.json';
@@ -19,13 +20,16 @@ export type AlertAction = 'sell-today-close' | 'buy-next-open' | 'sell-next-open
 export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean; tag?: string; group?: string };
 export type Quote = { price: number; open: number; high: number; low: number; date: string; changePercent?: number };
 export type AlertPlan = 'cyb' | 'hs' | 'macd';
-export type GroupDef = { key: AlertPlan; title: string; timing: string; items: { code: string; name: string }[]; watch?: boolean; tag?: string };
+/** catalogId：复盘页对应清单分组的 id，用来取用户改过的分组名 */
+export type GroupDef = { key: AlertPlan; title: string; timing: string; items: { code: string; name: string }[]; watch?: boolean; tag?: string; catalogId?: string };
+/** 复盘页清单分组 id → 用户当前的分组名 */
+export type GroupNames = Record<string, string>;
 
 export const PLAN_GROUPS: GroupDef[] = [
-  { key: 'cyb', title: '创业板择时优选', timing: '创业板÷红利', items: macdGood.items.map(({ code, name }) => ({ code, name })) },
-  { key: 'hs', title: '沪深300择时优选', timing: '沪深300÷红利', items: hs300Timing.items.map(({ code, name }) => ({ code, name })) },
+  { key: 'cyb', title: '创业板择时优选', catalogId: 'g-catalog-macd-good', timing: '创业板÷红利', items: macdGood.items.map(({ code, name }) => ({ code, name })) },
+  { key: 'hs', title: '沪深300择时优选', catalogId: 'g-catalog-hs300-timing', timing: '沪深300÷红利', items: hs300Timing.items.map(({ code, name }) => ({ code, name })) },
   ...(['cyb', 'hs'] as const).map(key => ({
-    key, title: '行业观察池', timing: key === 'cyb' ? '创业板÷红利' : '沪深300÷红利', watch: true,
+    key, title: '行业观察池', catalogId: 'g-catalog-watch-pool', timing: key === 'cyb' ? '创业板÷红利' : '沪深300÷红利', watch: true,
     items: watchPool.items.filter(item => item.plan === key).map(({ code, name }) => ({ code, name })),
   })),
 ];
@@ -37,20 +41,32 @@ const PLAN_TAG: Record<AlertPlan, string> = { cyb: '创业板择时', hs: '沪�
 
 /** 没手动改过时的提醒方案：A / B / 行业观察池按所在分组的回测最优方案（排在前面的分组优先），其他标的不提醒。 */
 /** 标的所属的分组名（可能同时在多个分组），都不在时为「自选」。 */
-export function groupLabelOf(code: string): string {
-  const titles = [...new Set(PLAN_GROUPS.filter(group => group.items.some(item => item.code === code)).map(group => group.title))];
+export const groupTitle = (group: GroupDef, names: GroupNames = {}) => (group.catalogId && names[group.catalogId]?.trim()) || group.title;
+
+export function groupLabelOf(code: string, names: GroupNames = {}): string {
+  const titles = [...new Set(PLAN_GROUPS.filter(group => group.items.some(item => item.code === code)).map(group => groupTitle(group, names)))];
   return titles.length ? titles.join('/') : '自选';
 }
 
+/**
+ * 人工改定的默认提醒方案（优先于所在分组的方案）。2026-11-18 用户决定：
+ * 159967 创业板成长、512720 计算机ETF国泰 留在 A 组，但提醒改用沪深300择时——研究里沪深300择时卡玛更高（0.75 对 0.55、0.65 对 0.51），
+ * 只因正收益年份 71%（亏损年 −4.3%/−8.2%、−1.0%/−0.4%）未过 75% 门槛才没归 B 组。
+ */
+export const DEFAULT_PLAN_OVERRIDES: Record<string, AlertPlan> = { '159967': 'hs', '512720': 'hs' };
+
 export function defaultAlertPlan(code: string): AlertPlan | 'none' {
-  return PLAN_GROUPS.find(group => group.items.some(item => item.code === code))?.key ?? 'none';
+  return DEFAULT_PLAN_OVERRIDES[code] ?? PLAN_GROUPS.find(group => group.items.some(item => item.code === code))?.key ?? 'none';
 }
 
 /**
  * 实际提醒的分组：默认分组里去掉手动改过方案或关掉的标的（同一标的只留排在前面的分组），
  * 手动选了非默认方案的标的放进「手动选择」分组，消息里标［方案名］。每个标的最多一个方案。
  */
-export function effectiveGroups(choices: AlertChoice[] = []): GroupDef[] {
+export function effectiveGroups(manual: AlertChoice[] = []): GroupDef[] {
+  // 人工改定的默认方案当作一条选择，详情页手动选过的以手动为准
+  const nameOf = (code: string) => PLAN_GROUPS.flatMap(group => group.items).find(item => item.code === code)?.name ?? code;
+  const choices = [...Object.entries(DEFAULT_PLAN_OVERRIDES).filter(([code]) => !manual.some(choice => choice.code === code)).map(([code, plan]) => ({ code, name: nameOf(code), plan })), ...manual];
   const chosen = new Map(choices.map(choice => [choice.code, choice]));
   const seen = new Set<string>();
   const groups: GroupDef[] = PLAN_GROUPS.map(group => ({ ...group, items: group.items.filter(item => {
@@ -136,7 +152,7 @@ export function currentHolding(bars: PlanBar[], run: (bars: PlanBar[]) => PlanRe
 }
 
 /** bars：按行情代码给出前复权日线（已并入实时价）；缺失的代码记为取数失败。 */
-export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string, groups: GroupDef[] = PLAN_GROUPS): GroupResult[] {
+export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string, groups: GroupDef[] = PLAN_GROUPS, names: GroupNames = {}): GroupResult[] {
   const ratio = (codes: { growth: string; defensive: string }) => {
     const growth = barsOf.get(marketSymbol(codes.growth)), defensive = barsOf.get(marketSymbol(codes.defensive));
     return growth && defensive ? styleRatio(growth, defensive) : undefined;
@@ -153,7 +169,7 @@ export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string, gr
       const bars = barsOf.get(marketSymbol(item.code));
       if (!bars?.length) { failed.push(item.code); continue; }
       // 手动选择的分组按标的本来所在的分组标注，默认分组直接用组名
-      const watch = { ...(group.watch ? { watch: true } : {}), ...(group.tag ? { tag: group.tag } : {}), group: group.tag ? groupLabelOf(item.code) : group.title };
+      const watch = { ...(group.watch ? { watch: true } : {}), ...(group.tag ? { tag: group.tag } : {}), group: group.tag ? groupLabelOf(item.code, names) : groupTitle(group, names) };
       for (const action of todayActions(bars, today, run)) alerts.push({ code: item.code, name: item.name, ...action, ...watch });
       const holding = currentHolding(bars, run);
       if (holding) holdings.push({ code: item.code, name: item.name, ...holding, ...watch });
@@ -241,10 +257,12 @@ export type AlertDeps = {
   loadQuotes?: (symbols: string[]) => Promise<Map<string, Quote>>;
   /** 详情页的手动选择；不传按默认分组。 */
   choices?: AlertChoice[];
+  /** 复盘页清单分组的当前名称；不传用默认名。 */
+  groupNames?: GroupNames;
 };
 
 /** 取数并算出两组的信号与消息正文；今天不是交易日（红利 ETF 报价日期不是今天）时 tradingDay 为 false。 */
-export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQuotes, choices }: AlertDeps, phase: AlertPhase) {
+export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQuotes, choices, groupNames }: AlertDeps, phase: AlertPhase) {
   const groups = effectiveGroups(choices);
   const symbols = allSymbols(groups);
   const quotes = await loadQuotes(symbols).catch(error => { console.error('择时提醒：实时报价失败', error); return new Map<string, Quote>(); });
@@ -263,6 +281,6 @@ export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQu
   }
   // 报价失败时用日线最后一根判断是否交易日
   if (!anchor && barsOf.get(marketSymbol(R2_CODES.defensive))?.at(-1)?.date !== today) return { tradingDay: false as const };
-  const results = evaluateGroups(barsOf, today, groups);
+  const results = evaluateGroups(barsOf, today, groups, groupNames);
   return { tradingDay: true as const, results, keys: alertKeys(results), text: formatMessage(results, phase, today) };
 }

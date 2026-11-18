@@ -16,7 +16,8 @@ export type DailyNote = {
   updatedAt: string;
 };
 
-export type ReviewGroup = { id: string; name: string; order: number; updatedAt?: string };
+/** customName：清单分组被用户改过名，seed 不再改回清单默认名 */
+export type ReviewGroup = { id: string; name: string; order: number; updatedAt?: string; customName?: boolean };
 export type DailyPremium = { rate: number; referenceNav?: number; quoteDate: string; updatedAt: string };
 
 export type EtfReviewMeta = {

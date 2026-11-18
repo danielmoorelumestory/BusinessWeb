@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { cybPlan, hsPlan, type PlanBar } from '../../../src/lib/plan-trades';
 import { styleRatio } from '../../../src/lib/chart-indicators';
-import { alertKeys, alertPhaseOf, groupLabelOf, buildPlanAlert, closeHeader, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
+import { alertKeys, alertPhaseOf, groupLabelOf, groupTitle, buildPlanAlert, closeHeader, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
 
 const day = (i: number) => { const d = new Date(Date.UTC(2024, 0, 1)); d.setUTCDate(d.getUTCDate() + i); return d.toISOString().slice(0, 10); };
 /** 带周期波动的价格序列，足以产生多次金叉死叉 */
@@ -125,6 +125,14 @@ describe('行业观察池', () => {
     for (const group of PLAN_GROUPS) expect(groupLabelOf(group.items[0].code)).toContain(group.title);
     expect(groupLabelOf('000000')).toBe('自选');
   });
+  it('复盘页改过名的清单分组用新名字，其他保持默认', () => {
+    const watch = PLAN_GROUPS.find(group => group.watch)!;
+    expect(groupLabelOf(watch.items[0].code, { 'g-catalog-watch-pool': '我的观察池' })).toBe('我的观察池');
+    const cyb = PLAN_GROUPS[0];
+    expect(groupLabelOf(cyb.items[0].code, { 'g-catalog-watch-pool': '我的观察池' })).toContain('创业板择时优选');
+    expect(groupTitle(cyb, { 'g-catalog-macd-good': 'A组' })).toBe('A组');
+    expect(groupTitle(cyb, { 'g-catalog-macd-good': '  ' })).toBe('创业板择时优选');
+  });
 });
 
 describe('closeHeader', () => {
@@ -229,5 +237,26 @@ describe('手动选择提醒方案', async () => {
     const [result] = evaluateGroups(new Map([[marketSymbol(a), bars]]), today, [{ key: 'macd', title: '手动选择', timing: '不择时', items: [{ code: a, name: 'A' }], tag: '纯MACD' }]);
     expect(result.failed).toEqual([]);
     expect(result.bull).toBeUndefined();
+  });
+});
+
+describe('人工改定的默认方案', async () => {
+  const { DEFAULT_PLAN_OVERRIDES, defaultAlertPlan, effectiveGroups } = await import('./plan-alert');
+  it('159967、512720 默认按沪深300择时提醒，只出现一次；515980 仍按 B 组', () => {
+    expect(DEFAULT_PLAN_OVERRIDES).toEqual({ '159967': 'hs', '512720': 'hs' });
+    expect(defaultAlertPlan('159967')).toBe('hs');
+    expect(defaultAlertPlan('512720')).toBe('hs');
+    expect(defaultAlertPlan('515980')).toBe('hs');
+    const groups = effectiveGroups();
+    for (const code of ['159967', '512720']) {
+      const hits = groups.filter(group => group.items.some(item => item.code === code));
+      expect(hits).toHaveLength(1);
+      expect(hits[0].key).toBe('hs');
+    }
+  });
+  it('详情页手动选择优先于人工默认', () => {
+    const groups = effectiveGroups([{ code: '159967', name: '创业板成长', plan: 'cyb' }]);
+    expect(groups.find(group => group.items.some(item => item.code === '159967'))!.key).toBe('cyb');
+    expect(effectiveGroups([{ code: '512720', name: 'x', plan: 'none' }]).some(group => group.items.some(item => item.code === '512720'))).toBe(false);
   });
 });

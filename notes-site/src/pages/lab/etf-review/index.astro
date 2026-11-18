@@ -785,7 +785,13 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
         deletedGroups[group.id] = now;
       }
       for (const group of catalogGroups) delete deletedGroups[group.id];
-      writeMeta({ ...meta, groups: editingGroups.map((group, order) => ({ ...group, name: group.name.trim(), order, updatedAt: now })), memberships, deletedGroups, workspaceUpdatedAt: now, updatedAt: now });
+      // 清单分组改名后打上 customName，避免下次加载被 seed 改回清单默认名；改回默认名则去掉标记
+      const named = (group: ReviewGroup) => {
+        const name = group.name.trim(), def = isCatalogGroupId(group.id) ? catalogGroupDef(group.id) : undefined;
+        const { customName: _drop, ...rest } = group;
+        return def && name !== def.name ? { ...rest, name, customName: true } : { ...rest, name };
+      };
+      writeMeta({ ...meta, groups: editingGroups.map((group, order) => ({ ...named(group), order, updatedAt: now })), memberships, deletedGroups, workspaceUpdatedAt: now, updatedAt: now });
       render();
       await saveLocalChanges('分组设置');
       closeDialog(groupsDialog);

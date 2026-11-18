@@ -324,7 +324,7 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
       changed = true;
       continue;
     }
-    if (existing.name !== def.name) {
+    if (!existing.customName && existing.name !== def.name) {
       groups = groups.map(group => (group.id === def.id ? { ...group, name: def.name } : group));
       changed = true;
     }

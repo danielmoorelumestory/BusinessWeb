@@ -3,7 +3,7 @@ import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
 import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
-import { alertPhaseOf, buildPlanAlert, closeHeader, defaultAlertPlan, formatMessage, sendTelegram, type AlertChoice, type AlertPhase } from './plan-alert';
+import { alertPhaseOf, buildPlanAlert, closeHeader, defaultAlertPlan, formatMessage, sendTelegram, type AlertChoice, type AlertPhase, type GroupNames } from './plan-alert';
 
 export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string; TELEGRAM_BOT_TOKEN?: string; TELEGRAM_CHAT_ID?: string }
 
@@ -287,13 +287,25 @@ async function readAlertChoices(env: Env): Promise<AlertChoice[]> {
   return results.filter(choice => ['cyb', 'hs', 'macd', 'none'].includes(choice.plan));
 }
 
+/** 复盘页（已上传云端）清单分组的当前名称：取最近更新的一份复盘数据；读不到时用默认名。 */
+async function readGroupNames(env: Env): Promise<GroupNames> {
+  try {
+    const row = await env.DB.prepare(`SELECT payload FROM records WHERE json_extract(payload, '$.kind') = 'etf-review-meta' ORDER BY updated_at DESC LIMIT 1`).first<{ payload: string }>();
+    const meta = row ? JSON.parse(row.payload) as Partial<EtfReviewMeta> : undefined;
+    return Object.fromEntries((meta?.groups ?? []).filter(group => group?.id?.startsWith('g-catalog-') && group.name?.trim()).map(group => [group.id, group.name.trim()]));
+  } catch (error) {
+    console.error('择时提醒：读取分组名失败', error);
+    return {};
+  }
+}
+
 /** 择时买卖提醒：14:45、15:15 每个交易日都发；15:15 信号与 14:45 不同时注明。同一交易日同一时段只发一次。 */
 export async function runPlanAlert(env: Env, phase: AlertPhase) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) { console.log('择时提醒：未配置 TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID，跳过'); return; }
   const today = beijingToday();
   await env.DB.prepare('CREATE TABLE IF NOT EXISTS plan_alert_log (date TEXT NOT NULL, phase TEXT NOT NULL, sent_at INTEGER NOT NULL, text TEXT NOT NULL, PRIMARY KEY (date, phase))').run();
   if (await env.DB.prepare('SELECT 1 AS hit FROM plan_alert_log WHERE date = ? AND phase = ?').bind(today, phase).first()) return;
-  const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env) }, phase);
+  const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
   if (!alert.tradingDay) { console.log('择时提醒：非交易日，跳过', today); return; }
   console.log('择时提醒', phase, JSON.stringify(alert.results.map(result => ({ group: result.group.title, alerts: result.alerts, failed: result.failed }))));
   let text = alert.text;
@@ -875,7 +887,7 @@ export default {
     // 预览择时提醒（不发送）：?phase=pre|close
     if (request.method === 'GET' && url.pathname === '/plan-alert/preview') {
       const phase: AlertPhase = url.searchParams.get('phase') === 'pre' ? 'pre' : 'close';
-      const alert = await buildPlanAlert({ today: beijingToday(), loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env) }, phase);
+      const alert = await buildPlanAlert({ today: beijingToday(), loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
       return json(alert);
     }
     // 某标的的 Telegram 提醒方案：GET ?code= 返回当前生效方案与默认方案；PUT {code,name,plan} 改选（plan=none 关闭）。

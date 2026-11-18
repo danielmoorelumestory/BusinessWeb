@@ -163,6 +163,16 @@ describe('etf-catalog-seed', () => {
     expect(second.changed).toBe(false);
   });
 
+  it('清单分组被用户改名（customName）后不改回默认名；没标记的仍按清单名纠正', () => {
+    const { meta } = ensureCatalogSeed(defaultMeta('2026-10-20T00:00:00.000Z'));
+    const renamed = { ...meta, groups: meta.groups.map(group => group.id === WATCH_POOL_CATALOG_GROUP_ID ? { ...group, name: '我的观察池', customName: true } : group) };
+    const kept = ensureCatalogSeed(renamed);
+    expect(kept.changed).toBe(false);
+    expect(kept.meta.groups.find(group => group.id === WATCH_POOL_CATALOG_GROUP_ID)!.name).toBe('我的观察池');
+    const unmarked = { ...meta, groups: meta.groups.map(group => group.id === WATCH_POOL_CATALOG_GROUP_ID ? { ...group, name: '我的观察池' } : group) };
+    expect(ensureCatalogSeed(unmarked).meta.groups.find(group => group.id === WATCH_POOL_CATALOG_GROUP_ID)!.name).toBe('行业观察池');
+  });
+
   it('MACD优秀 分组排在用户当前的 TMT 科技之前', () => {
     const tmt = 'g-catalog-ETF-01_TMT科技';
     const base = { ...defaultMeta('2026-11-11T00:00:00.000Z') };
