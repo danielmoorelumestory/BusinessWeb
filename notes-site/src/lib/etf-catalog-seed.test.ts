@@ -61,8 +61,8 @@ describe('etf-catalog-seed', () => {
     const empty = defaultMeta('2026-10-20T00:00:00.000Z');
     const { meta: filled, changed } = ensureCatalogSeed(empty);
     expect(changed).toBe(true);
-    // 9 个行业/策略/商品组 + 创业板择时优选 + 沪深300择时优选 + 择时组合
-    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(13);
+    // 9 个行业/策略/商品组 + 创业板择时优选 + 沪深300择时优选 + 行业观察池
+    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(12);
     expect(filled.groups.some(group => group.id === MONEY_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.groups.some(group => group.id === BOND_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.watchlist.some(watch => watch.code === '511880')).toBe(false);
@@ -101,8 +101,8 @@ describe('etf-catalog-seed', () => {
       catalogMembershipOptOut: { '588200': ['g-catalog-ETF-01_TMT科技'] },
     };
     const again = ensureCatalogSeed(opted);
-    // 588200 同时在 创业板择时优选、择时组合 清单中，只退出了 TMT 组
-    expect(again.meta.memberships['588200']).toEqual(['g-focus', MACD_GOOD_CATALOG_GROUP_ID, TIMING_PORTFOLIO_CATALOG_GROUP_ID]);
+    // 588200 同时在 创业板择时优选 清单中，只退出了 TMT 组
+    expect(again.meta.memberships['588200']).toEqual(['g-focus', MACD_GOOD_CATALOG_GROUP_ID]);
     expect(again.meta.memberships['588200']).not.toContain('g-catalog-ETF-01_TMT科技');
 
     const removed = {
@@ -199,25 +199,29 @@ describe('etf-catalog-seed', () => {
     expect(again.memberships['159755']).toContain(HS300_TIMING_CATALOG_GROUP_ID);
   });
 
-  it('择时组合 排在 沪深300择时优选 之后、TMT 科技之前，成员可同时属于优选分组', () => {
-    const tmt = 'g-catalog-ETF-01_TMT科技';
-    const first = ensureCatalogSeed(defaultMeta('2026-11-16T00:00:00.000Z')).meta;
-    const order = (meta: typeof first, id: string) => meta.groups.find(group => group.id === id)!.order;
-    expect(order(first, HS300_TIMING_CATALOG_GROUP_ID)).toBeLessThan(order(first, TIMING_PORTFOLIO_CATALOG_GROUP_ID));
-    expect(order(first, TIMING_PORTFOLIO_CATALOG_GROUP_ID)).toBeLessThan(order(first, tmt));
-    expect(first.groups.find(group => group.id === TIMING_PORTFOLIO_CATALOG_GROUP_ID)!.name).toBe('择时组合');
-    expect(first.memberships['562500']).toEqual(expect.arrayContaining([MACD_GOOD_CATALOG_GROUP_ID, TIMING_PORTFOLIO_CATALOG_GROUP_ID]));
-    expect(first.memberships['513630']).toContain(TIMING_PORTFOLIO_CATALOG_GROUP_ID);
-    // 老用户（TMT 已重排到第 2 位）新增本组，落在 TMT 前
-    const renumbered = { ...first, groups: first.groups.filter(group => group.id !== TIMING_PORTFOLIO_CATALOG_GROUP_ID).map((group, index) => ({ ...group, order: group.id === tmt ? 2 : index + 10 })) };
-    expect(order(ensureCatalogSeed(renumbered).meta, TIMING_PORTFOLIO_CATALOG_GROUP_ID)).toBe(1.875);
+  it('择时组合已删除：新用户没有该组，老用户的组与组关系被移除，成员仍留在关注列表', () => {
+    const first = ensureCatalogSeed(defaultMeta('2026-11-18T00:00:00.000Z')).meta;
+    expect(first.groups.some(group => group.id === TIMING_PORTFOLIO_CATALOG_GROUP_ID)).toBe(false);
+    const old = {
+      ...first,
+      groups: [...first.groups, { id: TIMING_PORTFOLIO_CATALOG_GROUP_ID, name: '择时组合', order: 1.875 }],
+      watchlist: [...first.watchlist, { code: '513630', name: '港股低波红利ETF摩根', addedAt: '1970-01-01T00:00:00.000Z' }],
+      memberships: { ...first.memberships, '513630': [TIMING_PORTFOLIO_CATALOG_GROUP_ID], '562500': [...first.memberships['562500'], TIMING_PORTFOLIO_CATALOG_GROUP_ID] },
+    };
+    const { meta: again, changed } = ensureCatalogSeed(old);
+    expect(changed).toBe(true);
+    expect(again.groups.some(group => group.id === TIMING_PORTFOLIO_CATALOG_GROUP_ID)).toBe(false);
+    expect(again.memberships['513630'] ?? []).not.toContain(TIMING_PORTFOLIO_CATALOG_GROUP_ID);
+    expect(again.memberships['562500']).toContain(MACD_GOOD_CATALOG_GROUP_ID);
+    expect(again.memberships['562500']).not.toContain(TIMING_PORTFOLIO_CATALOG_GROUP_ID);
+    expect(again.watchlist.some(watch => watch.code === '513630')).toBe(true);
   });
 
-  it('行业观察池 排在 择时组合 之后、TMT 科技之前，老用户新增也落在 TMT 前', () => {
+  it('行业观察池 排在 沪深300择时优选 之后、TMT 科技之前，老用户新增也落在 TMT 前', () => {
     const tmt = 'g-catalog-ETF-01_TMT科技';
     const first = ensureCatalogSeed(defaultMeta('2026-11-18T00:00:00.000Z')).meta;
     const order = (meta: typeof first, id: string) => meta.groups.find(group => group.id === id)!.order;
-    expect(order(first, TIMING_PORTFOLIO_CATALOG_GROUP_ID)).toBeLessThan(order(first, WATCH_POOL_CATALOG_GROUP_ID));
+    expect(order(first, HS300_TIMING_CATALOG_GROUP_ID)).toBeLessThan(order(first, WATCH_POOL_CATALOG_GROUP_ID));
     expect(order(first, WATCH_POOL_CATALOG_GROUP_ID)).toBeLessThan(order(first, tmt));
     expect(first.groups.find(group => group.id === WATCH_POOL_CATALOG_GROUP_ID)!.name).toBe('行业观察池');
     expect(first.memberships['512400']).toContain(WATCH_POOL_CATALOG_GROUP_ID);
