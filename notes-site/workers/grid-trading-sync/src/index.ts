@@ -280,7 +280,7 @@ const planBars = (budget: Budget) => async (symbol: string, fq: 'qfq' | 'hfq' = 
   return [...bars].map(([date, bar]) => ({ date, open: bar.open, high: bar.high, low: bar.low, close: bar.close })).sort((a, b) => a.date.localeCompare(b.date));
 };
 
-/** 择时买卖提醒：14:45 每个交易日都发；15:15 只在收盘信号与 14:45 不同或 14:45 没发出时发。同一交易日同一时段只发一次。 */
+/** 择时买卖提醒：14:45、15:15 每个交易日都发；15:15 信号与 14:45 不同时注明。同一交易日同一时段只发一次。 */
 export async function runPlanAlert(env: Env, phase: AlertPhase) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) { console.log('择时提醒：未配置 TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID，跳过'); return; }
   const today = beijingToday();
@@ -296,7 +296,6 @@ export async function runPlanAlert(env: Env, phase: AlertPhase) {
     let preKeys: string | undefined;
     if (pre) { try { preKeys = String(JSON.parse(pre.text).keys ?? ''); } catch { preKeys = '?'; } }
     const header = closeHeader(alert.keys, preKeys);
-    if (!header) { console.log('择时提醒：收盘信号与 14:45 一致，不重复发送'); return; }
     text = formatMessage(alert.results, phase, today, header);
   }
   await sendTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, text);

@@ -80,11 +80,11 @@ describe('formatMessage', () => {
   const holding = { code: '159819', name: '人工智能ETF易方达', buyDate: '2026-11-05', buyPrice: 1.2, ret: 0.05321 };
   it('没有信号也给出三段（14:45 每天都发，确认服务正常）', () => {
     const results: GroupResult[] = [{ group, alerts: [], failed: [], holdings: [holding] }, { group: PLAN_GROUPS[1], alerts: [], failed: [], holdings: [] }];
-    expect(formatMessage(results, 'pre', '2026-11-18')).toBe('📅 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
-    expect(formatMessage([{ group, alerts: [], failed: [] }], 'pre', '2026-11-18')).toBe('📅 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n无');
+    expect(formatMessage(results, 'pre', '2026-11-18')).toBe('择时提醒 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
+    expect(formatMessage([{ group, alerts: [], failed: [] }], 'pre', '2026-11-18')).toBe('择时提醒 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n无');
   });
   it('首行可加说明', () => {
-    expect(formatMessage([{ group, alerts: [], failed: [] }], 'close', '2026-11-18', '⚠️ 收盘结果与 14:45 不同，以此为准').split('\n')[0]).toBe('📅 11-18 收盘 ⚠️ 收盘结果与 14:45 不同，以此为准');
+    expect(formatMessage([{ group, alerts: [], failed: [] }], 'close', '2026-11-18', '⚠️ 信号与 14:45 不同，以此为准').split('\n').slice(0, 2).join('|')).toBe('择时提醒 11-18 15:15|⚠️ 信号与 14:45 不同，以此为准');
   });
   it('不分择时分组，两组的信号与持仓合并到 买入 / 卖出 / 持有 三段', () => {
     const results: GroupResult[] = [
@@ -95,7 +95,7 @@ describe('formatMessage', () => {
       { group: PLAN_GROUPS[1], failed: [], holdings: [], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67 }] },
     ];
     expect(formatMessage(results, 'pre', '2026-11-18')).toBe([
-      '📅 11-18 14:45', '', '🟢 买入', '明日开盘 159819 人工智能ETF易方达（金叉，现价 1.235）', '',
+      '择时提醒 11-18 14:45', '', '🟢 买入', '明日开盘 159819 人工智能ETF易方达（金叉，现价 1.235）', '',
       '🔴 卖出', '今日尾盘 512670 国防ETF鹏华（死叉，现价 0.670）', '明日开盘 512760 芯片ETF国泰（死叉，现价 2.000）', '',
       '📌 持有', '159819 人工智能ETF易方达 -3.12%（11-05买入 1.200）', '',
       '⚠️ 取数失败：159869',
@@ -106,10 +106,10 @@ describe('formatMessage', () => {
 });
 
 describe('closeHeader', () => {
-  it('收盘信号与 14:45 一致时不发', () => expect(closeHeader('buy-next-open:1', 'buy-next-open:1')).toBeUndefined());
+  it('收盘信号与 14:45 一致时不加说明', () => expect(closeHeader('buy-next-open:1', 'buy-next-open:1')).toBeUndefined());
   it('都没信号也算一致', () => expect(closeHeader('', '')).toBeUndefined());
-  it('不一致时发并说明', () => expect(closeHeader('', 'sell-today-close:512670')).toBe('⚠️ 收盘结果与 14:45 不同，以此为准'));
-  it('14:45 没发出时发收盘确认', () => expect(closeHeader('', undefined)).toBe('收盘确认（14:45 未发出）'));
+  it('不一致时发并说明', () => expect(closeHeader('', 'sell-today-close:512670')).toBe('⚠️ 信号与 14:45 不同，以此为准'));
+  it('14:45 没发出时发收盘确认', () => expect(closeHeader('', undefined)).toBe('（14:45 未发出）'));
 });
 
 describe('currentHolding 与规则引擎一致', () => {

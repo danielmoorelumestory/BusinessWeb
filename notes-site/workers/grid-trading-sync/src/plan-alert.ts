@@ -4,7 +4,7 @@
 // - 沪深300择时优选：只认金叉 = 沪深300÷红利 择时牛市金叉次日开盘买、熊市不开新仓、死叉当日收盘卖。
 // 每个交易日两次（由 index.ts 的盘中 15 分钟定时任务在对应时刻调用）：
 // - pre   北京 14:45：用实时价当作今日收盘估算，不论有没有信号都发（买入 / 卖出 / 持有三段），顺带确认服务正常；
-// - close 北京 15:15：按真实收盘重算，只有与 14:45 不同（或 14:45 没发出）时才发。
+// - close 北京 15:15：按真实收盘重算，每天都发（持仓盈亏按收盘价）；与 14:45 信号不同时第二行注明。
 // 同一交易日同一时段只发一次（plan_alert_log）。
 import macdGood from '../../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../../src/data/etfHs300Timing.json';
@@ -140,7 +140,7 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, today: 
   ];
   if (failed.length) parts.push(`⚠️ 取数失败：${failed.join('、')}`);
   // 首行写日期与时段，避免内容相近的几天消息混在一起
-  const title = `📅 ${today.slice(5)} ${phase === 'pre' ? '14:45' : '收盘'}${header ? ` ${header}` : ''}`;
+  const title = `择时提醒 ${today.slice(5)} ${phase === 'pre' ? '14:45' : '15:15'}${header ? `\n${header}` : ''}`;
   return [title, ...parts].join('\n\n');
 }
 
@@ -148,12 +148,12 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, today: 
 export const alertKeys = (results: GroupResult[]) => results.flatMap(result => result.alerts.map(alert => `${alert.action}:${alert.code}`)).sort().join(',');
 
 /**
- * 14:45 不论有没有信号都发（顺带确认服务正常）；
- * 15:15 只在收盘信号与 14:45 不同（或 14:45 没发出）时发，并在首行说明。返回 undefined 表示不发。
+ * 14:45 与 15:15 每个交易日都发（15:15 按收盘价更新持仓盈亏）；
+ * 15:15 的信号与 14:45 不同、或 14:45 没发出时，返回第二行说明，否则 undefined。
  */
 export function closeHeader(keys: string, preKeys: string | undefined): string | undefined {
-  if (preKeys === undefined) return '收盘确认（14:45 未发出）';
-  return keys === preKeys ? undefined : '⚠️ 收盘结果与 14:45 不同，以此为准';
+  if (preKeys === undefined) return '（14:45 未发出）';
+  return keys === preKeys ? undefined : '⚠️ 信号与 14:45 不同，以此为准';
 }
 
 /** 腾讯实时报价（GBK），一次请求多只；指数用带前缀的代码请求。 */
