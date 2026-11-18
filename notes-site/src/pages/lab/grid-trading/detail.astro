@@ -144,6 +144,7 @@ const etfReviewUrl = href('lab/etf-review');
   import { planTagsOf } from '../../../lib/backtest-plan-tags';
   import { backtestPlan, backtestPlanYearly, cybPlan, hsPlan, macdPlan, planStats, planTrades, yearlySummary, type PlanBacktest, type PlanKey, type PlanResult } from '../../../lib/plan-trades';
   import { bullLookup } from '../../../lib/kd10-signals';
+  import { SYNC_ENDPOINT } from '../../../lib/endpoints';
 
   blockCopy(); // 屏蔽页面内容复制
 
@@ -286,10 +287,11 @@ const etfReviewUrl = href('lab/etf-review');
     planTagsBox.hidden = false;
     planTagsBox.innerHTML = PLAN_DEFS.map(def => `<div class="plan-tag" data-plan-block="${def.key}"><div class="plan-tag-head">`
       + `<h2 class="plan-chip">${def.name}</h2><span class="plan-best">卡玛最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
+      + `<label class="plan-check plan-alert-check"><input type="checkbox" data-plan-alert="${def.key}" disabled> Telegram 提醒</label>`
       + `<label class="plan-check"><input type="checkbox" data-plan-view="${def.key}"> 图上显示买卖点</label>`
       + `</div>`
       + `<div class="plan-tag-text"><div class="plan-status"><div class="plan-position"><span class="signal-label">当前持仓</span><span class="plan-hold" data-plan="${def.key}"></span></div>${def.key === 'macd' ? '' : `<div class="plan-timing" data-plan-timing="${def.key}"></div>`}<div class="plan-action" data-plan-action="${def.key}"></div></div>`
-      + `<details class="plan-rules"><summary>交易规则<span>${def.timing}</span></summary><div class="plan-rule-grid"><div><span class="rule-label buy">买入条件</span><p>${def.rules[0]}</p></div><div><span class="rule-label sell">卖出条件</span><p>${def.rules[1]}</p></div></div></details></div>`
+      + `<details class="plan-rules"><summary>择时规则<span>${def.timing}</span></summary><div class="plan-rule-grid"><div><span class="rule-label buy">买入条件</span><p>${def.rules[0]}</p></div><div><span class="rule-label sell">卖出条件</span><p>${def.rules[1]}</p></div></div></details></div>`
       + `<div class="plan-bt" data-plan-stats="${def.key}"></div></div>`).join('')
       + '<div class="plan-note">图上 ▲ 买 ▼ 卖，持仓期间连线：红赚绿亏。</div>';
     planTagsBox.querySelectorAll<HTMLInputElement>('[data-plan-view]').forEach(box => {
@@ -303,6 +305,44 @@ const etfReviewUrl = href('lab/etf-review');
         trades.dispatchEvent(new Event('change'));
       });
     });
+    void loadAlertChoice(code);
+  }
+  // Telegram 择时提醒：每个标的最多选一个方案（三个勾选框互斥），存在同步服务里，14:45 / 15:15 的提醒按它发。
+  // 没手动改过时 A / B / 行业观察池按所在分组的回测最优方案提醒，其他标的不提醒。
+  const alertBoxes = () => [...planTagsBox.querySelectorAll<HTMLInputElement>('[data-plan-alert]')];
+  function showAlertChoice(plan: string) {
+    for (const box of alertBoxes()) box.checked = box.dataset.planAlert === plan;
+  }
+  async function loadAlertChoice(code: string) {
+    const token = readSyncKey();
+    if (!token) { for (const box of alertBoxes()) box.closest('label')!.title = '先在网格交易页设置同步密钥才能改提醒'; return; }
+    try {
+      const response = await fetch(`${SYNC_ENDPOINT}/plan-alert/choice?code=${encodeURIComponent(code)}`, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(10000) });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const choice = await response.json() as { plan: string };
+      if (planTagsCode !== code) return;
+      showAlertChoice(choice.plan);
+    } catch (error) { console.error('读取提醒方案失败', error); return; }
+    for (const box of alertBoxes()) {
+      box.disabled = false;
+      box.addEventListener('change', async () => {
+        const previous = alertBoxes().find(item => item !== box && item.checked)?.dataset.planAlert ?? (box.checked ? 'none' : box.dataset.planAlert!);
+        const plan = box.checked ? box.dataset.planAlert! : 'none';
+        showAlertChoice(plan);
+        alertBoxes().forEach(item => { item.disabled = true; });
+        try {
+          const response = await fetch(`${SYNC_ENDPOINT}/plan-alert/choice`, {
+            method: 'PUT', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+            body: JSON.stringify({ code, name: nameParam || record?.name || code, plan }), signal: AbortSignal.timeout(10000),
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        } catch (error) {
+          console.error('保存提醒方案失败', error);
+          showAlertChoice(previous);
+          showNote('保存 Telegram 提醒失败，请稍后重试。');
+        } finally { alertBoxes().forEach(item => { item.disabled = false; }); }
+      });
+    }
   }
   async function drawEquity() {
     const input = chartInput;
@@ -713,6 +753,12 @@ const etfReviewUrl = href('lab/etf-review');
     if (!chartInput) return;
     const now = shown(chartInput);
     viewLevelsBox.checked = now.levels; viewFibBox.checked = now.fib; viewGridBox.checked = now.grid;
+    syncPanels();
+  }
+  // 编辑面板只在勾选对应显示开关时出现；备份视图只读，始终隐藏。
+  function syncPanels() {
+    levelsPanel.hidden = !!viewBackup || !viewLevelsBox.checked;
+    fibPanel.hidden = !!viewBackup || !viewFibBox.checked;
   }
   // 保存本记录的修改（本机 + 云端）；备份视图只读，不保存。
   async function persistRecord(patch: Partial<SavedRecord>, what: string, note: (text: string, tone?: 'error' | 'hint' | 'ok') => void) {
@@ -797,7 +843,7 @@ const etfReviewUrl = href('lab/etf-review');
       if (!chartInput) return;
       const view: View = { ...chartInput.view, levels: viewLevelsBox.checked, fib: viewFibBox.checked, grid: viewGridBox.checked };
       chartInput = { ...chartInput, view };
-      void drawEquity();
+      syncPanels(); void drawEquity();
       if (!viewBackup) void persistRecord({ view }, '显示设置', showFibNote);
     };
     viewLevelsBox.addEventListener('change', onView);
@@ -1523,6 +1569,8 @@ const etfReviewUrl = href('lab/etf-review');
   .plan-check { display:inline-flex; align-items:center; gap:7px; margin-left:auto; padding:5px 9px; border:1px solid #e2e8f0; border-radius:7px; background:#fff; color:#64748b; font-size:12px; cursor:pointer; transition:background .15s,border-color .15s; }
   .plan-check:hover { border-color:#a5b4fc; background:#f8faff; }
   .plan-check:has(input:checked) { border-color:#c7d2fe; background:#eef2ff; color:#4338ca; }
+  .plan-check + .plan-check { margin-left:0; }
+  .plan-check:has(input:disabled) { opacity:.55; cursor:not-allowed; }
   .plan-check input { width:14px; height:14px; margin:0; accent-color:#4f46e5; }
   .plan-tag-text { padding:16px 22px 0; }
   .plan-status { display:grid; grid-template-columns:minmax(120px,.8fr) minmax(180px,1.1fr) minmax(0,2fr); gap:18px; padding:14px 16px; border:1px solid #eef2f6; border-radius:9px; background:#f8fafc; color:#475569; font-size:12px; }
@@ -1568,8 +1616,8 @@ const etfReviewUrl = href('lab/etf-review');
   .plan-stats-scroll { overflow-x:auto; margin:0 -22px; border-top:1px solid #eef2f6; scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
   .plan-stats-scroll[hidden] { display:none; }
   .plan-bt table { border-collapse:collapse; width:100%; white-space:nowrap; font-size:12px; }
-  .plan-bt th, .plan-bt td { padding:11px 10px; border-bottom:1px solid #eef2f6; text-align:right; }
-  .plan-bt th:first-child, .plan-bt td:first-child { padding-left:22px; text-align:left; }
+  .plan-bt th, .plan-bt td { padding:11px 10px; border-bottom:1px solid #eef2f6; text-align:center; }
+  .plan-bt th:first-child, .plan-bt td:first-child { text-align:center; }
   .plan-bt th:last-child, .plan-bt td:last-child { padding-right:22px; }
   .plan-bt thead th { background:#f8fafc; color:#64748b; font-size:11px; font-weight:500; }
   .plan-bt tbody th { color:#475569; font-weight:500; }.plan-bt tbody tr:nth-child(even) { background:#fcfdff; }.plan-bt tbody tr:hover { background:#f4f7fc; }.plan-bt tbody tr:last-child > * { border-bottom:0; }

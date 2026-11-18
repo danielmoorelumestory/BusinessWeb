@@ -188,3 +188,42 @@ describe('择时比值用后复权', () => {
     expect(mergeLiveByChange(bars, { ...quote, changePercent: undefined }, '2026-11-13')).toBe(bars);
   });
 });
+
+describe('手动选择提醒方案', async () => {
+  const { defaultAlertPlan, effectiveGroups, evaluateGroups } = await import('./plan-alert');
+  const codesOf = (groups: ReturnType<typeof effectiveGroups>, key?: string) => groups.filter(group => !key || group.key === key).flatMap(group => group.items.map(item => item.code));
+  const a = PLAN_GROUPS[0].items[0].code, b = PLAN_GROUPS[1].items.find(item => !PLAN_GROUPS[0].items.some(x => x.code === item.code))!.code;
+  const watch = PLAN_GROUPS.find(group => group.watch)!;
+  it('默认：A 组创业板、B 组沪深300、观察池按各自方案，其他不提醒', () => {
+    expect(defaultAlertPlan(a)).toBe('cyb');
+    expect(defaultAlertPlan(b)).toBe('hs');
+    expect(defaultAlertPlan(watch.items[0].code)).toBe(watch.key);
+    expect(defaultAlertPlan('999999')).toBe('none');
+  });
+  it('不传选择时与默认分组一致，同一标的只出现一次', () => {
+    const codes = codesOf(effectiveGroups());
+    expect(new Set(codes).size).toBe(codes.length);
+    expect(new Set(codes)).toEqual(new Set(PLAN_GROUPS.flatMap(group => group.items.map(item => item.code))));
+  });
+  it('改方案后从原分组移到手动分组，关掉的不再提醒，新增的标的加入', () => {
+    const groups = effectiveGroups([
+      { code: a, name: 'A', plan: 'macd' },
+      { code: b, name: 'B', plan: 'none' },
+      { code: '159999', name: '新标的', plan: 'hs' },
+    ]);
+    const codes = codesOf(groups);
+    expect(codes.filter(code => code === a)).toHaveLength(1);
+    expect(codesOf(groups, 'macd')).toEqual([a]);
+    expect(codes).not.toContain(b);
+    expect(groups.find(group => group.items.some(item => item.code === '159999'))).toMatchObject({ key: 'hs', title: '手动选择', tag: '沪深300择时' });
+  });
+  it('选回默认方案等于没改', () => {
+    expect(codesOf(effectiveGroups([{ code: a, name: 'A', plan: 'cyb' }]), 'cyb')).toContain(a);
+  });
+  it('纯MACD 分组不需要择时数据', () => {
+    const bars = series(400), today = bars.at(-1)!.date;
+    const [result] = evaluateGroups(new Map([[marketSymbol(a), bars]]), today, [{ key: 'macd', title: '手动选择', timing: '不择时', items: [{ code: a, name: 'A' }], tag: '纯MACD' }]);
+    expect(result.failed).toEqual([]);
+    expect(result.bull).toBeUndefined();
+  });
+});

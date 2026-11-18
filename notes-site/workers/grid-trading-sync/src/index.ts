@@ -3,7 +3,7 @@ import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
 import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
-import { alertPhaseOf, buildPlanAlert, closeHeader, formatMessage, sendTelegram, type AlertPhase } from './plan-alert';
+import { alertPhaseOf, buildPlanAlert, closeHeader, defaultAlertPlan, formatMessage, sendTelegram, type AlertChoice, type AlertPhase } from './plan-alert';
 
 export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string; TELEGRAM_BOT_TOKEN?: string; TELEGRAM_CHAT_ID?: string }
 
@@ -280,13 +280,20 @@ const planBars = (budget: Budget) => async (symbol: string, fq: 'qfq' | 'hfq' = 
   return [...bars].map(([date, bar]) => ({ date, open: bar.open, high: bar.high, low: bar.low, close: bar.close })).sort((a, b) => a.date.localeCompare(b.date));
 };
 
+/** 详情页手动选的 Telegram 提醒方案（全局一份，每个标的一行）。 */
+async function readAlertChoices(env: Env): Promise<AlertChoice[]> {
+  await env.DB.prepare('CREATE TABLE IF NOT EXISTS plan_alert_choice (code TEXT PRIMARY KEY, name TEXT NOT NULL, plan TEXT NOT NULL, updated_at INTEGER NOT NULL)').run();
+  const { results } = await env.DB.prepare('SELECT code, name, plan FROM plan_alert_choice').all<AlertChoice>();
+  return results.filter(choice => ['cyb', 'hs', 'macd', 'none'].includes(choice.plan));
+}
+
 /** 择时买卖提醒：14:45、15:15 每个交易日都发；15:15 信号与 14:45 不同时注明。同一交易日同一时段只发一次。 */
 export async function runPlanAlert(env: Env, phase: AlertPhase) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) { console.log('择时提醒：未配置 TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID，跳过'); return; }
   const today = beijingToday();
   await env.DB.prepare('CREATE TABLE IF NOT EXISTS plan_alert_log (date TEXT NOT NULL, phase TEXT NOT NULL, sent_at INTEGER NOT NULL, text TEXT NOT NULL, PRIMARY KEY (date, phase))').run();
   if (await env.DB.prepare('SELECT 1 AS hit FROM plan_alert_log WHERE date = ? AND phase = ?').bind(today, phase).first()) return;
-  const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)) }, phase);
+  const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env) }, phase);
   if (!alert.tradingDay) { console.log('择时提醒：非交易日，跳过', today); return; }
   console.log('择时提醒', phase, JSON.stringify(alert.results.map(result => ({ group: result.group.title, alerts: result.alerts, failed: result.failed }))));
   let text = alert.text;
@@ -868,8 +875,26 @@ export default {
     // 预览择时提醒（不发送）：?phase=pre|close
     if (request.method === 'GET' && url.pathname === '/plan-alert/preview') {
       const phase: AlertPhase = url.searchParams.get('phase') === 'pre' ? 'pre' : 'close';
-      const alert = await buildPlanAlert({ today: beijingToday(), loadBars: planBars(new Budget(FETCH_LIMIT - 4)) }, phase);
+      const alert = await buildPlanAlert({ today: beijingToday(), loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env) }, phase);
       return json(alert);
+    }
+    // 某标的的 Telegram 提醒方案：GET ?code= 返回当前生效方案与默认方案；PUT {code,name,plan} 改选（plan=none 关闭）。
+    if (url.pathname === '/plan-alert/choice' && (request.method === 'GET' || request.method === 'PUT')) {
+      if (request.method === 'GET') {
+        const code = (url.searchParams.get('code') ?? '').trim();
+        if (!/^\d{6}$/.test(code)) return json({ error: '请提供有效代码。' }, 400);
+        const choice = (await readAlertChoices(env)).find(item => item.code === code);
+        const fallback = defaultAlertPlan(code);
+        return json({ code, plan: choice?.plan ?? fallback, default: fallback, manual: !!choice });
+      }
+      const body = await request.json().catch(() => null) as Partial<AlertChoice> | null;
+      const code = String(body?.code ?? '').trim(), plan = String(body?.plan ?? ''), name = String(body?.name ?? '').trim().slice(0, 40) || code;
+      if (!/^\d{6}$/.test(code) || !['cyb', 'hs', 'macd', 'none'].includes(plan)) return json({ error: '参数无效。' }, 400);
+      await readAlertChoices(env);
+      if (plan === defaultAlertPlan(code)) await env.DB.prepare('DELETE FROM plan_alert_choice WHERE code = ?').bind(code).run();
+      else await env.DB.prepare(`INSERT INTO plan_alert_choice (code, name, plan, updated_at) VALUES (?, ?, ?, ?)
+        ON CONFLICT (code) DO UPDATE SET name = excluded.name, plan = excluded.plan, updated_at = excluded.updated_at`).bind(code, name, plan, Date.now()).run();
+      return json({ code, plan, default: defaultAlertPlan(code), manual: plan !== defaultAlertPlan(code) });
     }
     if (request.method === 'GET' && url.pathname === '/minute') return readMinuteBars(env, url);
     if (request.method === 'GET' && url.pathname === '/daily/extremes') return readExtremes(env, owner, url);

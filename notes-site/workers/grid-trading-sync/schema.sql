@@ -117,3 +117,12 @@ CREATE TABLE IF NOT EXISTS plan_alert_log (
   text TEXT NOT NULL,
   PRIMARY KEY (date, phase)
 );
+
+-- 详情页手动选的 Telegram 择时提醒方案：每个标的一行，plan = cyb / hs / macd / none（不提醒）。
+-- 没有记录的标的按默认：A / B / 行业观察池按所在分组的方案，其他不提醒；改回默认时删除记录。
+CREATE TABLE IF NOT EXISTS plan_alert_choice (
+  code TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  plan TEXT NOT NULL,
+  updated_at INTEGER NOT NULL
+);

@@ -10,14 +10,15 @@
 import macdGood from '../../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../../src/data/etfHs300Timing.json';
 import watchPool from '../../../../src/data/etfWatchPool.json';
-import { cybPlan, hsPlan, type PlanBar, type PlanResult } from '../../../src/lib/plan-trades';
+import { cybPlan, hsPlan, macdPlan, type PlanBar, type PlanResult } from '../../../src/lib/plan-trades';
 import { H1_CODES, R2_CODES, styleRatio } from '../../../src/lib/chart-indicators';
 
 export type AlertPhase = 'pre' | 'close';
 export type AlertAction = 'sell-today-close' | 'buy-next-open' | 'sell-next-open';
-export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean };
+export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean; tag?: string };
 export type Quote = { price: number; open: number; high: number; low: number; date: string; changePercent?: number };
-export type GroupDef = { key: 'cyb' | 'hs'; title: string; timing: string; items: { code: string; name: string }[]; watch?: boolean };
+export type AlertPlan = 'cyb' | 'hs' | 'macd';
+export type GroupDef = { key: AlertPlan; title: string; timing: string; items: { code: string; name: string }[]; watch?: boolean; tag?: string };
 
 export const PLAN_GROUPS: GroupDef[] = [
   { key: 'cyb', title: '创业板择时优选', timing: '创业板÷红利', items: macdGood.items.map(({ code, name }) => ({ code, name })) },
@@ -27,6 +28,37 @@ export const PLAN_GROUPS: GroupDef[] = [
     items: watchPool.items.filter(item => item.plan === key).map(({ code, name }) => ({ code, name })),
   })),
 ];
+
+/** 详情页手动选的提醒方案：每个标的一条，none = 不提醒。没有记录的标的按 defaultAlertPlan。 */
+export type AlertChoice = { code: string; name: string; plan: AlertPlan | 'none' };
+const PLAN_TIMING: Record<AlertPlan, string> = { cyb: '创业板÷红利', hs: '沪深300÷红利', macd: '不择时' };
+const PLAN_TAG: Record<AlertPlan, string> = { cyb: '创业板择时', hs: '沪深300择时', macd: '纯MACD' };
+
+/** 没手动改过时的提醒方案：A / B / 行业观察池按所在分组的回测最优方案（排在前面的分组优先），其他标的不提醒。 */
+export function defaultAlertPlan(code: string): AlertPlan | 'none' {
+  return PLAN_GROUPS.find(group => group.items.some(item => item.code === code))?.key ?? 'none';
+}
+
+/**
+ * 实际提醒的分组：默认分组里去掉手动改过方案或关掉的标的（同一标的只留排在前面的分组），
+ * 手动选了非默认方案的标的放进「手动选择」分组，消息里标［方案名］。每个标的最多一个方案。
+ */
+export function effectiveGroups(choices: AlertChoice[] = []): GroupDef[] {
+  const chosen = new Map(choices.map(choice => [choice.code, choice]));
+  const seen = new Set<string>();
+  const groups: GroupDef[] = PLAN_GROUPS.map(group => ({ ...group, items: group.items.filter(item => {
+    if (seen.has(item.code)) return false;
+    seen.add(item.code);
+    const choice = chosen.get(item.code);
+    return !choice || choice.plan === group.key;
+  }) }));
+  const kept = new Set(groups.flatMap(group => group.items.map(item => item.code)));
+  for (const key of ['cyb', 'hs', 'macd'] as const) {
+    const items = choices.filter(choice => choice.plan === key && !kept.has(choice.code)).map(({ code, name }) => ({ code, name }));
+    if (items.length) groups.push({ key, title: '手动选择', timing: PLAN_TIMING[key], items, tag: PLAN_TAG[key] });
+  }
+  return groups.filter(group => group.items.length);
+}
 
 /** 盘中 15 分钟任务里只有这两个时刻发提醒：UTC 06:45 = 北京 14:45，UTC 07:15 = 北京 15:15。 */
 export const alertPhaseOf = (scheduledTime: number): AlertPhase | undefined => {
@@ -84,7 +116,7 @@ export function todayActions(bars: PlanBar[], today: string, run: (bars: PlanBar
 }
 
 /** 按规则当前持有的一笔：买入日、买入价（开盘）、按最新价（盘中为实时价）计的涨跌。 */
-export type Holding = { code: string; name: string; buyDate: string; buyPrice: number; ret: number; watch?: boolean };
+export type Holding = { code: string; name: string; buyDate: string; buyPrice: number; ret: number; watch?: boolean; tag?: string };
 export type GroupResult = { group: GroupDef; bull?: boolean; alerts: PlanAlert[]; failed: string[]; holdings?: Holding[] };
 
 /** 规则引擎在最后一根K线结束时仍持有的一笔；今日收盘已卖出的不算持有。 */
@@ -97,23 +129,23 @@ export function currentHolding(bars: PlanBar[], run: (bars: PlanBar[]) => PlanRe
 }
 
 /** bars：按行情代码给出前复权日线（已并入实时价）；缺失的代码记为取数失败。 */
-export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string): GroupResult[] {
+export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string, groups: GroupDef[] = PLAN_GROUPS): GroupResult[] {
   const ratio = (codes: { growth: string; defensive: string }) => {
     const growth = barsOf.get(marketSymbol(codes.growth)), defensive = barsOf.get(marketSymbol(codes.defensive));
     return growth && defensive ? styleRatio(growth, defensive) : undefined;
   };
   const ratios = { cyb: ratio(R2_CODES), hs: ratio(H1_CODES) };
-  return PLAN_GROUPS.map(group => {
-    const points = ratios[group.key];
-    if (!points?.length) return { group, alerts: [], failed: [`${group.timing} 择时数据`] };
-    const lastPoint = points.at(-1)!;
-    const bull = lastPoint.date === today && lastPoint.bull !== null ? lastPoint.bull : undefined;
-    const run = (bars: PlanBar[]) => group.key === 'cyb' ? cybPlan(bars, points) : hsPlan(bars, points);
+  return groups.map(group => {
+    const points = group.key === 'macd' ? undefined : ratios[group.key];
+    if (group.key !== 'macd' && !points?.length) return { group, alerts: [], failed: [`${group.timing} 择时数据`] };
+    const lastPoint = points?.at(-1);
+    const bull = lastPoint && lastPoint.date === today && lastPoint.bull !== null ? lastPoint.bull : undefined;
+    const run = (bars: PlanBar[]) => group.key === 'cyb' ? cybPlan(bars, points!) : group.key === 'hs' ? hsPlan(bars, points!) : macdPlan(bars);
     const alerts: PlanAlert[] = [], failed: string[] = [], holdings: Holding[] = [];
     for (const item of group.items) {
       const bars = barsOf.get(marketSymbol(item.code));
       if (!bars?.length) { failed.push(item.code); continue; }
-      const watch = group.watch ? { watch: true } : {};
+      const watch = { ...(group.watch ? { watch: true } : {}), ...(group.tag ? { tag: group.tag } : {}) };
       for (const action of todayActions(bars, today, run)) alerts.push({ code: item.code, name: item.name, ...action, ...watch });
       const holding = currentHolding(bars, run);
       if (holding) holdings.push({ code: item.code, name: item.name, ...holding, ...watch });
@@ -138,7 +170,7 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, today: 
   const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
   const failed = [...new Set(results.flatMap(result => result.failed))];
   const priceLabel = phase === 'pre' ? '现价' : '收盘';
-  const mark = (item: { watch?: boolean }) => item.watch ? '［观察］' : '';
+  const mark = (item: { watch?: boolean; tag?: string }) => `${item.watch ? '［观察］' : ''}${item.tag ? `［${item.tag}］` : ''}`;
   const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}${mark(alert)}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
   const section = (title: string, lines: string[]) => [title, ...(lines.length ? lines : ['无'])].join('\n');
   const parts = [
@@ -189,9 +221,9 @@ export async function sendTelegram(token: string, chatId: string, text: string) 
   if (!response.ok) throw new Error(`Telegram HTTP ${response.status}: ${await response.text()}`);
 }
 
-export const allSymbols = () => [...new Set([
+export const allSymbols = (groups: GroupDef[] = PLAN_GROUPS) => [...new Set([
   ...[R2_CODES, H1_CODES].flatMap(codes => [codes.growth, codes.defensive]),
-  ...PLAN_GROUPS.flatMap(group => group.items.map(item => item.code)),
+  ...groups.flatMap(group => group.items.map(item => item.code)),
 ].map(marketSymbol))];
 
 export type AlertDeps = {
@@ -199,11 +231,14 @@ export type AlertDeps = {
   /** 取某行情代码近两年多的日线（升序）；默认前复权，择时比值里的 ETF 传 'hfq' 取后复权。 */
   loadBars: (symbol: string, fq?: 'qfq' | 'hfq') => Promise<PlanBar[]>;
   loadQuotes?: (symbols: string[]) => Promise<Map<string, Quote>>;
+  /** 详情页的手动选择；不传按默认分组。 */
+  choices?: AlertChoice[];
 };
 
 /** 取数并算出两组的信号与消息正文；今天不是交易日（红利 ETF 报价日期不是今天）时 tradingDay 为 false。 */
-export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQuotes }: AlertDeps, phase: AlertPhase) {
-  const symbols = allSymbols();
+export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQuotes, choices }: AlertDeps, phase: AlertPhase) {
+  const groups = effectiveGroups(choices);
+  const symbols = allSymbols(groups);
   const quotes = await loadQuotes(symbols).catch(error => { console.error('择时提醒：实时报价失败', error); return new Map<string, Quote>(); });
   const anchor = quotes.get(marketSymbol(R2_CODES.defensive));
   if (anchor && anchor.date !== today) return { tradingDay: false as const };
@@ -220,6 +255,6 @@ export async function buildPlanAlert({ today, loadBars, loadQuotes = fetchLiveQu
   }
   // 报价失败时用日线最后一根判断是否交易日
   if (!anchor && barsOf.get(marketSymbol(R2_CODES.defensive))?.at(-1)?.date !== today) return { tradingDay: false as const };
-  const results = evaluateGroups(barsOf, today);
+  const results = evaluateGroups(barsOf, today, groups);
   return { tradingDay: true as const, results, keys: alertKeys(results), text: formatMessage(results, phase, today) };
 }
