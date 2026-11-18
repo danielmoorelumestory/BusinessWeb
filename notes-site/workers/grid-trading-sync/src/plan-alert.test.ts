@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { cybPlan, hsPlan, type PlanBar } from '../../../src/lib/plan-trades';
 import { styleRatio } from '../../../src/lib/chart-indicators';
-import { alertKeys, alertPhaseOf, buildPlanAlert, closeHeader, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
+import { alertKeys, alertPhaseOf, groupLabelOf, buildPlanAlert, closeHeader, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
 
 const day = (i: number) => { const d = new Date(Date.UTC(2024, 0, 1)); d.setUTCDate(d.getUTCDate() + i); return d.toISOString().slice(0, 10); };
 /** 带周期波动的价格序列，足以产生多次金叉死叉 */
@@ -114,12 +114,16 @@ describe('行业观察池', () => {
     const main = new Set(PLAN_GROUPS.filter(group => !group.watch).flatMap(group => group.items.map(item => item.code)));
     for (const item of watch.flatMap(group => group.items)) expect(main.has(item.code)).toBe(false);
   });
-  it('观察池的信号与持仓标［观察］', () => {
+  it('信号与持仓标所属分组，手动选的方案再标方案名', () => {
     const group = PLAN_GROUPS.find(item => item.watch)!;
-    const text = formatMessage([{ group, failed: [], alerts: [{ code: '516520', name: '智能驾驶ETF', action: 'buy-next-open', reason: '金叉', price: 1, watch: true }],
-      holdings: [{ code: '512400', name: '有色金属ETF', buyDate: '2026-11-05', buyPrice: 1, ret: 0.01, watch: true }] }], 'pre', '2026-11-18');
-    expect(text).toContain('明日开盘 516520 智能驾驶ETF［观察］（金叉，现价 1.000）');
-    expect(text).toContain('512400 有色金属ETF［观察］ +1.00%');
+    const text = formatMessage([{ group, failed: [], alerts: [{ code: '516520', name: '智能驾驶ETF', action: 'buy-next-open', reason: '金叉', price: 1, watch: true, group: '行业观察池' }],
+      holdings: [{ code: '512400', name: '有色金属ETF', buyDate: '2026-11-05', buyPrice: 1, ret: 0.01, group: '自选', tag: '纯MACD' }] }], 'pre', '2026-11-18');
+    expect(text).toContain('明日开盘 516520 智能驾驶ETF［行业观察池］（金叉，现价 1.000）');
+    expect(text).toContain('512400 有色金属ETF［自选］［纯MACD］ +1.00%');
+  });
+  it('groupLabelOf：按数据文件查所属分组，都不在为自选', () => {
+    for (const group of PLAN_GROUPS) expect(groupLabelOf(group.items[0].code)).toContain(group.title);
+    expect(groupLabelOf('000000')).toBe('自选');
   });
 });
 

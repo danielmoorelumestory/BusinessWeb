@@ -6,7 +6,8 @@
 // - pre   北京 14:45：用实时价当作今日收盘估算，不论有没有信号都发（买入 / 卖出 / 持有三段），顺带确认服务正常；
 // - close 北京 15:15：按真实收盘重算，每天都发（持仓盈亏按收盘价）；与 14:45 信号不同时第二行注明。
 // 同一交易日同一时段只发一次（plan_alert_log）。
-// 行业观察池（只看信号的行业 ETF）也一起提醒，按各自方案，消息里标［观察］；取数排在最后，请求预算不够时只影响观察池。
+// 每条信号与持仓后标所属分组（［创业板择时优选］/［沪深300择时优选］/［行业观察池］，都不在的标［自选］）。
+// 行业观察池（只看信号的行业 ETF）也一起提醒，按各自方案；取数排在最后，请求预算不够时只影响观察池。
 import macdGood from '../../../../src/data/etfMacdGood.json';
 import hs300Timing from '../../../../src/data/etfHs300Timing.json';
 import watchPool from '../../../../src/data/etfWatchPool.json';
@@ -15,7 +16,7 @@ import { H1_CODES, R2_CODES, styleRatio } from '../../../src/lib/chart-indicator
 
 export type AlertPhase = 'pre' | 'close';
 export type AlertAction = 'sell-today-close' | 'buy-next-open' | 'sell-next-open';
-export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean; tag?: string };
+export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean; tag?: string; group?: string };
 export type Quote = { price: number; open: number; high: number; low: number; date: string; changePercent?: number };
 export type AlertPlan = 'cyb' | 'hs' | 'macd';
 export type GroupDef = { key: AlertPlan; title: string; timing: string; items: { code: string; name: string }[]; watch?: boolean; tag?: string };
@@ -35,6 +36,12 @@ const PLAN_TIMING: Record<AlertPlan, string> = { cyb: '创业板÷红利', hs: '
 const PLAN_TAG: Record<AlertPlan, string> = { cyb: '创业板择时', hs: '沪深300择时', macd: '纯MACD' };
 
 /** 没手动改过时的提醒方案：A / B / 行业观察池按所在分组的回测最优方案（排在前面的分组优先），其他标的不提醒。 */
+/** 标的所属的分组名（可能同时在多个分组），都不在时为「自选」。 */
+export function groupLabelOf(code: string): string {
+  const titles = [...new Set(PLAN_GROUPS.filter(group => group.items.some(item => item.code === code)).map(group => group.title))];
+  return titles.length ? titles.join('/') : '自选';
+}
+
 export function defaultAlertPlan(code: string): AlertPlan | 'none' {
   return PLAN_GROUPS.find(group => group.items.some(item => item.code === code))?.key ?? 'none';
 }
@@ -116,7 +123,7 @@ export function todayActions(bars: PlanBar[], today: string, run: (bars: PlanBar
 }
 
 /** 按规则当前持有的一笔：买入日、买入价（开盘）、按最新价（盘中为实时价）计的涨跌。 */
-export type Holding = { code: string; name: string; buyDate: string; buyPrice: number; ret: number; watch?: boolean; tag?: string };
+export type Holding = { code: string; name: string; buyDate: string; buyPrice: number; ret: number; watch?: boolean; tag?: string; group?: string };
 export type GroupResult = { group: GroupDef; bull?: boolean; alerts: PlanAlert[]; failed: string[]; holdings?: Holding[] };
 
 /** 规则引擎在最后一根K线结束时仍持有的一笔；今日收盘已卖出的不算持有。 */
@@ -145,7 +152,8 @@ export function evaluateGroups(barsOf: Map<string, PlanBar[]>, today: string, gr
     for (const item of group.items) {
       const bars = barsOf.get(marketSymbol(item.code));
       if (!bars?.length) { failed.push(item.code); continue; }
-      const watch = { ...(group.watch ? { watch: true } : {}), ...(group.tag ? { tag: group.tag } : {}) };
+      // 手动选择的分组按标的本来所在的分组标注，默认分组直接用组名
+      const watch = { ...(group.watch ? { watch: true } : {}), ...(group.tag ? { tag: group.tag } : {}), group: group.tag ? groupLabelOf(item.code) : group.title };
       for (const action of todayActions(bars, today, run)) alerts.push({ code: item.code, name: item.name, ...action, ...watch });
       const holding = currentHolding(bars, run);
       if (holding) holdings.push({ code: item.code, name: item.name, ...holding, ...watch });
@@ -170,7 +178,7 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, today: 
   const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
   const failed = [...new Set(results.flatMap(result => result.failed))];
   const priceLabel = phase === 'pre' ? '现价' : '收盘';
-  const mark = (item: { watch?: boolean; tag?: string }) => `${item.watch ? '［观察］' : ''}${item.tag ? `［${item.tag}］` : ''}`;
+  const mark = (item: { group?: string; tag?: string }) => `${item.group ? `［${item.group}］` : ''}${item.tag ? `［${item.tag}］` : ''}`;
   const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}${mark(alert)}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
   const section = (title: string, lines: string[]) => [title, ...(lines.length ? lines : ['无'])].join('\n');
   const parts = [
