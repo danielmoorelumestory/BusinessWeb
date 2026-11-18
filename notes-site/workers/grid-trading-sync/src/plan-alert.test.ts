@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { cybPlan, hsPlan, type PlanBar } from '../../../src/lib/plan-trades';
 import { styleRatio } from '../../../src/lib/chart-indicators';
-import { alertKeys, alertPhaseOf, groupLabelOf, groupTitle, buildPlanAlert, closeHeader, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
+import { alertKeys, alertPhaseOf, groupLabelOf, groupTitle, planStatuses, buildPlanAlert, closeHeader, currentHolding, formatMessage, marketSymbol, mergeLive, PLAN_GROUPS, todayActions, type GroupResult } from './plan-alert';
 
 const day = (i: number) => { const d = new Date(Date.UTC(2024, 0, 1)); d.setUTCDate(d.getUTCDate() + i); return d.toISOString().slice(0, 10); };
 /** 带周期波动的价格序列，足以产生多次金叉死叉 */
@@ -134,6 +134,18 @@ describe('行业观察池（创业板择时待选 / 沪深300择时待选）', (
     expect(groupLabelOf(cyb.items[0].code, { 'g-catalog-watch-cyb': '我的观察池' })).toContain('创业板择时优选');
     expect(groupTitle(cyb, { 'g-catalog-macd-good': 'A组' })).toBe('A组');
     expect(groupTitle(cyb, { 'g-catalog-macd-good': '  ' })).toBe('创业板择时优选');
+  });
+});
+
+describe('planStatuses', () => {
+  it('卖出 > 买入 > 持有 > 空仓，取数失败单独标', () => {
+    const group = { ...PLAN_GROUPS[0], items: [{ code: '000001', name: 'A' }, { code: '000002', name: 'B' }, { code: '000003', name: 'C' }, { code: '000004', name: 'D' }, { code: '000005', name: 'E' }] };
+    const statuses = planStatuses([{ group, bull: true, failed: ['000005'], alerts: [
+      { code: '000001', name: 'A', action: 'sell-today-close', reason: '死叉', price: 1 },
+      { code: '000002', name: 'B', action: 'buy-next-open', reason: '金叉', price: 2 },
+    ], holdings: [{ code: '000001', name: 'A', buyDate: '2026-11-01', buyPrice: 1, ret: 0.1 }, { code: '000003', name: 'C', buyDate: '2026-11-02', buyPrice: 3, ret: -0.02 }] }]);
+    expect(statuses.map(status => status.state)).toEqual(['sell', 'buy', 'hold', 'empty', 'failed']);
+    expect(statuses[2]).toMatchObject({ plan: 'cyb', bull: true, buyDate: '2026-11-02', ret: -0.02 });
   });
 });
 

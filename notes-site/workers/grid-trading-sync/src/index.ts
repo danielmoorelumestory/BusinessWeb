@@ -3,7 +3,7 @@ import { parseTencentQuoteBody, symbolOf } from './tencent-quote';
 import { isTechnicalFresh, type ReviewCandle } from '../../../src/lib/review-technical';
 import { readTechnicalSnapshots, refreshTechnicalSnapshot, saveTechnicalSnapshot } from './review-store';
 import { isEtfReviewMeta, mergeMeta, type EtfReviewMeta } from '../../../src/lib/etf-review-meta';
-import { alertPhaseOf, buildPlanAlert, closeHeader, defaultAlertPlan, formatMessage, sendTelegram, type AlertChoice, type AlertPhase, type GroupNames } from './plan-alert';
+import { alertPhaseOf, buildPlanAlert, closeHeader, defaultAlertPlan, formatMessage, planStatuses, sendTelegram, type AlertChoice, type AlertPhase, type GroupNames } from './plan-alert';
 
 export interface Env { DB: D1Database; GITHUB_DISPATCH_TOKEN?: string; TELEGRAM_BOT_TOKEN?: string; TELEGRAM_CHAT_ID?: string }
 
@@ -299,6 +299,17 @@ async function readGroupNames(env: Env): Promise<GroupNames> {
   }
 }
 
+/** 复盘页「择时持仓」列：保存最近一次择时提醒算出的各标的状态（只留一份）。 */
+const PLAN_STATUS_TABLE = 'CREATE TABLE IF NOT EXISTS plan_status (id TEXT PRIMARY KEY, payload TEXT NOT NULL, updated_at INTEGER NOT NULL)';
+async function savePlanStatus(env: Env, date: string, phase: AlertPhase, results: Parameters<typeof planStatuses>[0]) {
+  try {
+    await env.DB.prepare(PLAN_STATUS_TABLE).run();
+    const payload = JSON.stringify({ date, phase, updatedAt: Date.now(), statuses: planStatuses(results) });
+    await env.DB.prepare(`INSERT INTO plan_status (id, payload, updated_at) VALUES ('latest', ?, ?)
+      ON CONFLICT (id) DO UPDATE SET payload = excluded.payload, updated_at = excluded.updated_at`).bind(payload, Date.now()).run();
+  } catch (error) { console.error('择时持仓：保存失败', error); }
+}
+
 /** 择时买卖提醒：14:45、15:15 每个交易日都发；15:15 信号与 14:45 不同时注明。同一交易日同一时段只发一次。 */
 export async function runPlanAlert(env: Env, phase: AlertPhase) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) { console.log('择时提醒：未配置 TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID，跳过'); return; }
@@ -307,6 +318,7 @@ export async function runPlanAlert(env: Env, phase: AlertPhase) {
   if (await env.DB.prepare('SELECT 1 AS hit FROM plan_alert_log WHERE date = ? AND phase = ?').bind(today, phase).first()) return;
   const alert = await buildPlanAlert({ today, loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
   if (!alert.tradingDay) { console.log('择时提醒：非交易日，跳过', today); return; }
+  await savePlanStatus(env, today, phase, alert.results);
   console.log('择时提醒', phase, JSON.stringify(alert.results.map(result => ({ group: result.group.title, alerts: result.alerts, failed: result.failed }))));
   let text = alert.text;
   if (phase === 'close') {
@@ -888,7 +900,14 @@ export default {
     if (request.method === 'GET' && url.pathname === '/plan-alert/preview') {
       const phase: AlertPhase = url.searchParams.get('phase') === 'pre' ? 'pre' : 'close';
       const alert = await buildPlanAlert({ today: beijingToday(), loadBars: planBars(new Budget(FETCH_LIMIT - 4)), choices: await readAlertChoices(env), groupNames: await readGroupNames(env) }, phase);
+      if (alert.tradingDay) await savePlanStatus(env, beijingToday(), phase, alert.results);
       return json(alert);
+    }
+    // 复盘页「择时持仓」列：最近一次择时提醒（或预览）算出的各标的状态
+    if (request.method === 'GET' && url.pathname === '/plan-alert/status') {
+      await env.DB.prepare(PLAN_STATUS_TABLE).run();
+      const row = await env.DB.prepare(`SELECT payload FROM plan_status WHERE id = 'latest'`).first<{ payload: string }>();
+      return json(row ? JSON.parse(row.payload) : { statuses: [] });
     }
     // 某标的的 Telegram 提醒方案：GET ?code= 返回当前生效方案与默认方案；PUT {code,name,plan} 改选（plan=none 关闭）。
     if (url.pathname === '/plan-alert/choice' && (request.method === 'GET' || request.method === 'PUT')) {

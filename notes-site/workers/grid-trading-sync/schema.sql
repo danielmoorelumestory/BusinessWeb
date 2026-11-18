@@ -126,3 +126,10 @@ CREATE TABLE IF NOT EXISTS plan_alert_choice (
   plan TEXT NOT NULL,
   updated_at INTEGER NOT NULL
 );
+
+-- 复盘页「择时持仓」列：最近一次择时提醒（14:45 / 15:15，或预览）算出的各标的状态，只存一行 id = 'latest'。
+CREATE TABLE IF NOT EXISTS plan_status (
+  id TEXT PRIMARY KEY,
+  payload TEXT NOT NULL,
+  updated_at INTEGER NOT NULL
+);

@@ -208,6 +208,29 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, today: 
   return [title, ...parts].join('\n\n');
 }
 
+/** 复盘页「择时持仓」列：每个有提醒方案的标的在当前择时条件下的状态。 */
+export type PlanState = 'hold' | 'buy' | 'sell' | 'empty' | 'failed';
+export type PlanStatus = { code: string; name: string; plan: AlertPlan; state: PlanState; group?: string; bull?: boolean; action?: AlertAction; reason?: string; price?: number; buyDate?: string; buyPrice?: number; ret?: number };
+
+/** 按标的汇总：有卖出信号 > 有买入信号 > 持有 > 空仓；取数失败的标 failed。 */
+export function planStatuses(results: GroupResult[]): PlanStatus[] {
+  const statuses: PlanStatus[] = [];
+  for (const { group, bull, alerts, failed, holdings = [] } of results) {
+    for (const item of group.items) {
+      const base = { code: item.code, name: item.name, plan: group.key, ...(bull === undefined ? {} : { bull }) };
+      if (failed.includes(item.code)) { statuses.push({ ...base, state: 'failed' }); continue; }
+      const mine = alerts.filter(alert => alert.code === item.code), sell = mine.find(alert => alert.action !== 'buy-next-open'), buy = mine.find(alert => alert.action === 'buy-next-open');
+      const holding = holdings.find(h => h.code === item.code), signal = sell ?? buy, label = signal?.group ?? holding?.group;
+      statuses.push({
+        ...base, state: sell ? 'sell' : buy ? 'buy' : holding ? 'hold' : 'empty', ...(label ? { group: label } : {}),
+        ...(signal ? { action: signal.action, reason: signal.reason, price: signal.price } : {}),
+        ...(holding ? { buyDate: holding.buyDate, buyPrice: holding.buyPrice, ret: holding.ret } : {}),
+      });
+    }
+  }
+  return statuses;
+}
+
 /** 买卖信号的指纹（动作+代码），用来比较 14:45 预估与收盘结果是否一致。 */
 export const alertKeys = (results: GroupResult[]) => results.flatMap(result => result.alerts.map(alert => `${alert.action}:${alert.code}`)).sort().join(',');
 
