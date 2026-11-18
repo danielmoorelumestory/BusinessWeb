@@ -95,6 +95,8 @@ export type PlanBacktest = {
   /** 已完成交易（不含窗口末强制平仓）笔数、赚钱笔数 */
   natural: number; wins: number;
   winRate?: number; avgWin?: number; avgLoss?: number; payoff?: number; best?: number; worst?: number;
+  /** 单笔平均盈亏：已完成交易收益的算术平均 */
+  avgRet?: number;
   /** 同窗口一直持有：首日信号、次日开盘买入，末日收盘卖出，同样扣成本 */
   hold?: number;
 };
@@ -135,7 +137,7 @@ export function backtestPlan(key: PlanKey, bars: PlanBar[], bull: (date: string)
     total: cash - 1, cagr, mdd, calmar: cagr !== undefined && mdd < 0 ? cagr / -mdd : undefined,
     natural: rets.length, wins: wins.length, winRate: rets.length ? wins.length / rets.length : undefined,
     avgWin, avgLoss, payoff: avgWin !== undefined && avgLoss !== undefined && avgLoss < 0 ? avgWin / -avgLoss : undefined,
-    best: rets.length ? Math.max(...rets) : undefined, worst: rets.length ? Math.min(...rets) : undefined, hold,
+    best: rets.length ? Math.max(...rets) : undefined, worst: rets.length ? Math.min(...rets) : undefined, avgRet: mean(rets), hold,
   };
 }
 

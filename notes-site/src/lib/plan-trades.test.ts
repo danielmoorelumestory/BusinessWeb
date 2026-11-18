@@ -39,6 +39,8 @@ describe('plan-trades', () => {
     const net = signals.filter(signal => signal.side === 'sell').map((sell, k) => sell.price * (1 - PLAN_COST) / (signals.filter(x => x.side === 'buy')[k].price * (1 + PLAN_COST)));
     expect(result.total).toBeCloseTo(net.reduce((a, b) => a * b, 1) - 1, 10);
     expect(result.natural).toBe(signals.filter(signal => signal.side === 'sell' && !signal.forced).length);
+    const done = net.slice(0, result.natural).map(x => x - 1);
+    expect(result.avgRet).toBeCloseTo(done.reduce((a, b) => a + b, 0) / done.length, 10);
     expect(result.mdd).toBeLessThan(0);
   });
   it('窗口内可交易日不足 120 根不出结果；逐年回测跳过不足的年份', () => {
