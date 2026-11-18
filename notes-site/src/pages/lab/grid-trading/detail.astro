@@ -287,7 +287,7 @@ const etfReviewUrl = href('lab/etf-review');
     }
     planTagsBox.hidden = false;
     planTagsBox.innerHTML = PLAN_DEFS.map(def => `<div class="plan-tag" data-plan-block="${def.key}"><div class="plan-tag-head">`
-      + `<h2 class="plan-chip">${def.name}</h2><span class="plan-best" title="按已平仓交易的全历史卡玛比较（未卖出的最后一笔不计入）">卡玛最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
+      + `<h2 class="plan-chip">${def.name}</h2><span class="plan-best" title="按全历史卡玛比较（只算已平仓的交易）">卡玛最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
       + `<label class="plan-check plan-alert-check"><input type="checkbox" data-plan-alert="${def.key}" disabled> Telegram 提醒</label>`
       + `<label class="plan-check"><input type="checkbox" data-plan-view="${def.key}"> 图上显示买卖点</label>`
       + `</div>`
@@ -400,7 +400,7 @@ const etfReviewUrl = href('lab/etf-review');
   // 顶部方案卡片里：三个方案按研究口径回测——全历史一行 + 逐年汇总一行（点开看每年明细）。不随图表区间变化。
   const planStatsBox = document.querySelector('#plan-stats') as HTMLElement;
   const expandedYears = new Set<string>();
-  const backtestCache = new Map<string, { full?: PlanBacktest; closed?: PlanBacktest; yearly: ReturnType<typeof backtestPlanYearly> }>();
+  const backtestCache = new Map<string, { full?: PlanBacktest; yearly: ReturnType<typeof backtestPlanYearly> }>();
   let lastPlanStats: [PlanResult[], Candle[]] | undefined;
   planTagsBox.addEventListener('click', event => {
     const toggle = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-years]');
@@ -417,7 +417,8 @@ const etfReviewUrl = href('lab/etf-review');
     let hit = backtestCache.get(cacheKey);
     if (!hit) {
       const bull = bullLookup(points);
-      hit = { full: backtestPlan(plan.key, candles, bull), closed: backtestPlan(plan.key, candles, bull, undefined, { closedOnly: true }), yearly: backtestPlanYearly(plan.key, candles, bull) };
+      // 只算已平仓的交易：未卖出的一笔先当作没买、按空仓算到最新一天，卖出后再计入（与分组统计同一口径）
+      hit = { full: backtestPlan(plan.key, candles, bull, undefined, { closedOnly: true }), yearly: backtestPlanYearly(plan.key, candles, bull, { closedOnly: true }) };
       backtestCache.clear(); // 只留当前这一组，避免拖动时无限增长
       backtestCache.set(cacheKey, hit);
     }
@@ -459,7 +460,7 @@ const etfReviewUrl = href('lab/etf-review');
       const { full, yearly } = planBacktests(plan, candles);
       const metric = (label: string, value: string, tone = '', tip = '') => `<div class="plan-metric"${tip ? ` title="${tip}"` : ''}><dt>${label}</dt><dd class="${tone}">${value}</dd></div>`;
       const overview = full
-        ? `<div class="plan-period"><span>全历史回测</span><span>${full.first} — ${full.last}<i>·</i>${full.years.toFixed(1)} 年</span></div>`
+        ? `<div class="plan-period"><span>全历史回测</span><span>${full.first} — ${full.last}<i>·</i>${full.years.toFixed(1)} 年${plan.holding ? '<i>·</i>未卖出的一笔暂不计入' : ''}</span></div>`
           + `<dl class="plan-metrics">${metric('累计收益', pctText(full.total), cls(full.total))}${metric('年化收益', pctText(full.cagr), cls(full.cagr))}${metric('最大回撤', pctText(full.mdd), cls(full.mdd))}${metric('卡玛比率', num(full.calmar), '', '年化收益 ÷ 最大回撤的绝对值')}</dl>`
           + `<dl class="plan-secondary">${metric('一直持有', pctText(full.hold), cls(full.hold))}${metric('完成交易', `${full.natural}<small>（${full.wins}赚 / ${full.natural - full.wins}亏）</small>`)}${metric('胜率', pctText(full.winRate, false))}${metric('盈亏比', num(full.payoff))}${metric('单笔最好', pctText(full.best), cls(full.best))}${metric('单笔最差', pctText(full.worst), cls(full.worst))}</dl>`
         : '<p class="plan-empty">上市不足 240 个交易日，暂无全历史回测</p>';
@@ -472,19 +473,24 @@ const etfReviewUrl = href('lab/etf-review');
       return overview + summary + `<div id="plan-years-${plan.key}" class="plan-stats-scroll"${open_ ? '' : ' hidden'} tabindex="0" role="region" aria-label="${PLAN_DEFS.find(def => def.key === plan.key)!.name}年度回测明细"><table><thead><tr><th scope="col">年份</th><th scope="col">收益</th><th scope="col">最大回撤</th><th scope="col">一直持有</th><th scope="col">完成交易（赚 / 亏）</th><th scope="col">胜率</th><th scope="col">盈亏比</th><th scope="col">单笔平均</th><th scope="col">单笔最好 / 最差</th></tr></thead><tbody>${yearRows}</tbody></table></div>`;
     };
     // 标签上的收益摘要、最优高亮、勾选框状态
-    // 「卡玛最优」只按已平仓的交易比较：未卖出的最后一笔不计入，免得一笔持仓的浮盈浮亏让高亮来回换边。
-    const calmarOf = new Map(plans.map(plan => [plan.key, planBacktests(plan, candles).closed?.calmar ?? -Infinity]));
+    // 「卡玛最优」按已平仓的交易比较（全历史回测已截到未平仓那笔开仓前）。
+    const calmarOf = new Map(plans.map(plan => [plan.key, planBacktests(plan, candles).full?.calmar ?? -Infinity]));
     const bestKey = [...calmarOf.entries()].sort((a, b) => b[1] - a[1])[0];
     for (const plan of plans) {
       const block = planTagsBox.querySelector<HTMLElement>(`[data-plan-block="${plan.key}"]`);
       block?.classList.toggle('is-best', !!bestKey && bestKey[1] > -Infinity && bestKey[0] === plan.key);
       const table = planTagsBox.querySelector<HTMLElement>(`[data-plan-stats="${plan.key}"]`);
-      if (table) table.innerHTML = statsOf(plan);
+      if (table) {
+        table.innerHTML = statsOf(plan);
+        // 未取整的指标，供核对与分组统计读取
+        const { full, yearly } = planBacktests(plan, candles), sum = yearlySummary(yearly);
+        table.dataset.metrics = JSON.stringify({ first: full?.first, last: full?.last, cagr: full?.cagr, mdd: full?.mdd, calmar: full?.calmar, total: full?.total, years: sum.years, positive: sum.positive, avg: sum.avg, worst: sum.worst, yearly: yearly.map(({ year, result }) => [year, result.total]) });
+      }
       const def = PLAN_DEFS.find(item => item.key === plan.key)!;
       const view = planTagsBox.querySelector<HTMLInputElement>(`[data-plan-view="${plan.key}"]`);
       if (view) view.checked = (document.querySelector(def.trades) as HTMLInputElement).checked;
     }
-    planStatsBox.innerHTML = '<details class="plan-method"><summary>回测口径与指标说明</summary><div class="plan-note">回测与研究口径一致：满仓进出、单边 0.1% 成本、上市第 121 根日线起交易。逐年 = 每个自然年单独回测：年初空仓起算、年末收盘平仓，当年可交易日不足 120 天不计。年化需满一年；卡玛 = 年化 ÷ |最大回撤|；盈亏比 = 平均盈利 ÷ |平均亏损|；单笔平均 = 已完成交易收益的算术平均（不含期末强制平仓）；一直持有 = 同一时段首日次日开盘买入、末日收盘卖出。</div></details>';
+    planStatsBox.innerHTML = '<details class="plan-method"><summary>回测口径与指标说明</summary><div class="plan-note">回测与研究口径一致：满仓进出、单边 0.1% 成本、上市第 121 根日线起交易。逐年 = 每个自然年单独回测：年初空仓起算、年末收盘平仓，当年可交易日不足 120 天不计。只算已平仓的交易：最后一笔还没卖出时先不计入（当作空仓，照样算到最新一天），卖出后再计入。年化需满一年；卡玛 = 年化 ÷ |最大回撤|；盈亏比 = 平均盈利 ÷ |平均亏损|；单笔平均 = 已完成交易收益的算术平均（不含期末强制平仓）；一直持有 = 同一时段首日次日开盘买入、末日收盘卖出。</div></details>';
   }
 
   function bindRange() {

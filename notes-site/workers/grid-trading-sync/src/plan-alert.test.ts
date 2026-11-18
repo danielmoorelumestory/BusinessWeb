@@ -256,16 +256,17 @@ describe('手动选择提醒方案', async () => {
 
 describe('按分组重排后的默认方案', async () => {
   const { DEFAULT_PLAN_OVERRIDES, defaultAlertPlan, effectiveGroups } = await import('./plan-alert');
-  it('159967、512720 移入 B 组后按沪深300择时提醒，只出现一次；不再需要人工默认', () => {
+  it('默认按所在分组提醒，不再需要人工默认', () => {
     expect(DEFAULT_PLAN_OVERRIDES).toEqual({});
-    expect(defaultAlertPlan('512760')).toBe('hs');
+    expect(defaultAlertPlan('512760')).toBe('cyb');
     expect(defaultAlertPlan('159819')).toBe('hs');
+    expect(defaultAlertPlan('159967')).toBe('hs');
     expect(defaultAlertPlan('588200')).toBe('cyb');
     expect(defaultAlertPlan('159967')).toBe('hs');
-    expect(defaultAlertPlan('512720')).toBe('hs');
+    expect(defaultAlertPlan('512720')).toBe('cyb');
     expect(defaultAlertPlan('515980')).toBe('hs');
     const groups = effectiveGroups();
-    for (const code of ['159967', '512720']) {
+    for (const code of ['159967', '159819']) {
       const hits = groups.filter(group => group.items.some(item => item.code === code));
       expect(hits).toHaveLength(1);
       expect(hits[0].key).toBe('hs');

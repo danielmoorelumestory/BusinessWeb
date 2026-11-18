@@ -109,7 +109,8 @@ function signalsIn(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolea
 
 /**
  * 按研究引擎回测一个窗口；窗口内（下标 ≥120）不足 120 根时返回 undefined。
- * closedOnly：窗口末仍未卖出的最后一笔不计入（当作空仓），用于比较方案优劣，避免一笔未平仓的浮盈浮亏左右排序。
+ * closedOnly：窗口末仍未卖出的最后一笔不计入——当作没买、按空仓算到窗口末，等它卖出后再计入；
+ * 免得一笔未平仓的浮盈浮亏左右收益、排序与分组。所有方案都算到同一天（窗口末）。
  */
 export function backtestPlan(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined, window: PlanWindow = { from: '1900-01-01', to: '9999-12-31' }, { closedOnly = false } = {}): PlanBacktest | undefined {
   const [start, end] = windowBounds(bars, PLAN_WARMUP, window);
@@ -120,7 +121,7 @@ export function backtestPlan(key: PlanKey, bars: PlanBar[], bull: (date: string)
     const upto = bars.slice(0, end + 1);
     const holding = key === 'cyb' ? kd10Signals(upto, bull, { warmup: PLAN_WARMUP }).holding
       : macdCloseSignals(upto, { bull: key === 'macd' ? undefined : bull, warmup: PLAN_WARMUP }).holding;
-    if (holding) signals = signals.slice(0, -2);
+    if (holding && signals.at(-2)?.side === 'buy') signals = signals.slice(0, -2);
   }
   const f = PLAN_COST;
   let cash = 1, q = 0, entryCash = 0, peak = 1, mdd = 0, k = 0;
@@ -152,11 +153,13 @@ export function backtestPlan(key: PlanKey, bars: PlanBar[], bull: (date: string)
 }
 
 /** 每个自然年单独回测（年初空仓、年末平仓），不足 120 个可交易日的年份不计。 */
-export function backtestPlanYearly(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined): PlanYearly {
+export function backtestPlanYearly(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined, { closedOnly = false } = {}): PlanYearly {
   if (!bars.length) return [];
   const out: PlanYearly = [];
-  for (let year = Number(bars[0].date.slice(0, 4)); year <= Number(bars.at(-1)!.date.slice(0, 4)); year++) {
-    const result = backtestPlan(key, bars, bull, { from: `${year}-01-01`, to: `${year}-12-31` });
+  const lastYear = Number(bars.at(-1)!.date.slice(0, 4));
+  for (let year = Number(bars[0].date.slice(0, 4)); year <= lastYear; year++) {
+    // 只有今年的窗口末可能还有未平仓的一笔；往年年末平仓是逐年口径本身
+    const result = backtestPlan(key, bars, bull, { from: `${year}-01-01`, to: `${year}-12-31` }, { closedOnly: closedOnly && year === lastYear });
     if (result) out.push({ year, result });
   }
   return out;

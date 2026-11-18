@@ -65,8 +65,8 @@ describe('plan-trades', () => {
   });
 });
 
-describe('closedOnly：未平仓的最后一笔不计入', () => {
-  it('持仓中时去掉最后一笔，空仓时与默认一致', async () => {
+describe('closedOnly：未平仓的最后一笔不计入，按空仓算到最新', () => {
+  it('持仓中时这一笔当作没买，空仓时与默认一致', async () => {
     const { backtestPlan, macdPlan } = await import('./plan-trades');
     const bars = Array.from({ length: 400 }, (_, i) => {
       const d = new Date(Date.UTC(2020, 0, 1)); d.setUTCDate(d.getUTCDate() + i);
@@ -81,9 +81,11 @@ describe('closedOnly：未平仓的最后一笔不计入', () => {
         checkedOpen++;
         const sig = macdPlan(window).signals, buy = sig.at(-1)!;
         expect(buy.side).toBe('buy');
-        // 去掉最后一笔后，收益停在买入前
+        // 这一笔当作没买：收益停在买入前，但回测仍算到最新一天
         const before = backtestPlan('macd', window.filter(bar => bar.date < buy.date), all)!;
         expect(closed.total).toBeCloseTo(before.total, 10);
+        expect(closed.last).toBe(window.at(-1)!.date);
+        expect(closed.natural).toBe(full.natural);
         expect(closed.natural).toBe(full.natural);
       } else {
         // 死叉已出、但要到下一交易日开盘才卖（T+1 顺延）时窗口末仍持有，这笔也算未平仓，不比较
@@ -93,5 +95,20 @@ describe('closedOnly：未平仓的最后一笔不计入', () => {
       }
     }
     expect(checkedOpen).toBeGreaterThan(10); expect(checkedFlat).toBeGreaterThan(10);
+  });
+  it('逐年：只有最后一年去掉未平仓那笔，往年不变', async () => {
+    const { backtestPlanYearly, macdPlan } = await import('./plan-trades');
+    const bars = Array.from({ length: 1100 }, (_, i) => {
+      const d = new Date(Date.UTC(2020, 0, 1)); d.setUTCDate(d.getUTCDate() + i);
+      const close = 1 + 0.2 * Math.sin(i / 9) + 0.08 * Math.sin(i / 2.3) + i * 0.001;
+      return { date: d.toISOString().slice(0, 10), open: close * 0.995, high: close * 1.01, low: close * 0.99, close };
+    });
+    let t = bars.length - 1;
+    while (!macdPlan(bars.slice(0, t + 1)).holding) t--;
+    const window = bars.slice(0, t + 1), all = () => true;
+    const full = backtestPlanYearly('macd', window, all), closed = backtestPlanYearly('macd', window, all, { closedOnly: true });
+    expect(closed.slice(0, -1)).toEqual(full.slice(0, -1));
+    expect(closed.at(-1)!.result.last).toBe(window.at(-1)!.date);
+    expect(closed.at(-1)!.result.total).not.toBe(full.at(-1)!.result.total);
   });
 });
