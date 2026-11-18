@@ -38,10 +38,14 @@ export const MACD_GOOD_CATALOG_GROUP_ID = 'g-catalog-macd-good';
 export const HS300_TIMING_CATALOG_GROUP_ID = 'g-catalog-hs300-timing';
 /** 原「择时组合」（9 只等权），2026-11-18 用户决定删除；保留 id 以便从老用户的分组里移除 */
 export const TIMING_PORTFOLIO_CATALOG_GROUP_ID = 'g-catalog-timing-portfolio';
-/** 不在两组优选、只观察信号的 A 股行业 ETF；排在 沪深300择时优选 之后、TMT 科技之前 */
+/** 原「行业观察池」，2026-11-18 用户决定按方案拆成下面两组；保留 id 以便从老用户的分组里移除 */
 export const WATCH_POOL_CATALOG_GROUP_ID = 'g-catalog-watch-pool';
+/** 行业观察池里按创业板择时的标的（只观察信号）；排在 沪深300择时优选 之后、TMT 科技之前 */
+export const WATCH_CYB_CATALOG_GROUP_ID = 'g-catalog-watch-cyb';
+/** 行业观察池里按沪深300择时的标的；排在 创业板择时待选 之后、TMT 科技之前 */
+export const WATCH_HS_CATALOG_GROUP_ID = 'g-catalog-watch-hs';
 /** 回测筛选出的分组：条目没有行业分布等资料，组内默认按数据文件顺序，并展示筛选规则 */
-export const BACKTEST_CATALOG_GROUP_IDS = new Set([MACD_GOOD_CATALOG_GROUP_ID, HS300_TIMING_CATALOG_GROUP_ID, WATCH_POOL_CATALOG_GROUP_ID]);
+export const BACKTEST_CATALOG_GROUP_IDS = new Set([MACD_GOOD_CATALOG_GROUP_ID, HS300_TIMING_CATALOG_GROUP_ID, WATCH_CYB_CATALOG_GROUP_ID, WATCH_HS_CATALOG_GROUP_ID]);
 export const OTHER_CATALOG_GROUP_ID = 'g-catalog-other';
 export const MONEY_CATALOG_GROUP_ID = 'g-catalog-money-etf';
 export const BOND_CATALOG_GROUP_ID = 'g-catalog-bond-funds';
@@ -57,6 +61,7 @@ const RETIRED_CATALOG_IDS = new Set([
   MONEY_CATALOG_GROUP_ID,
   BOND_CATALOG_GROUP_ID,
   TIMING_PORTFOLIO_CATALOG_GROUP_ID,
+  WATCH_POOL_CATALOG_GROUP_ID,
 ]);
 
 export function isCatalogGroupId(id: string): boolean {
@@ -116,14 +121,14 @@ export function buildCatalogGroups(): CatalogGroupDef[] {
     description: hs300Timing.rule,
     items: hs300Timing.items.map(item => ({ code: item.code, name: item.name })),
   };
-  const watch: CatalogGroupDef = {
-    id: WATCH_POOL_CATALOG_GROUP_ID,
-    name: '行业观察池',
-    order: 9.9375,
+  const watchOf = (plan: 'cyb' | 'hs'): CatalogGroupDef => ({
+    id: plan === 'cyb' ? WATCH_CYB_CATALOG_GROUP_ID : WATCH_HS_CATALOG_GROUP_ID,
+    name: plan === 'cyb' ? '创业板择时待选' : '沪深300择时待选',
+    order: plan === 'cyb' ? 9.875 : 9.9375,
     description: watchPool.rule,
-    items: watchPool.items.map(item => ({ code: item.code, name: item.name })),
-  };
-  return [macd, hs300, watch, ...industry, ...assets];
+    items: watchPool.items.filter(item => item.plan === plan).map(item => ({ code: item.code, name: item.name })),
+  });
+  return [macd, hs300, watchOf('cyb'), watchOf('hs'), ...industry, ...assets];
 }
 
 /** industry-etf 货币/债基源数据：只读展示，不进分组 */
@@ -315,7 +320,7 @@ export function ensureCatalogSeed(meta: EtfReviewMeta): { meta: EtfReviewMeta; c
     if (!existing) {
       // MACD优秀、沪深300择时优选 依次插在用户当前的 TMT 科技之前（用户调整过顺序时 order 已被重排，不能直接用默认值）
       const tmt = BACKTEST_CATALOG_GROUP_IDS.has(def.id) ? groups.find(group => group.id === defs.find(entry => !BACKTEST_CATALOG_GROUP_IDS.has(entry.id))?.id) : undefined;
-      const offset = def.id === MACD_GOOD_CATALOG_GROUP_ID ? 0.5 : def.id === HS300_TIMING_CATALOG_GROUP_ID ? 0.25 : 0.0625;
+      const offset = def.id === MACD_GOOD_CATALOG_GROUP_ID ? 0.5 : def.id === HS300_TIMING_CATALOG_GROUP_ID ? 0.25 : def.id === WATCH_CYB_CATALOG_GROUP_ID ? 0.125 : 0.0625;
       groups = [...groups, { id: def.id, name: def.name, order: tmt ? tmt.order - offset : def.order }];
       if (deletedGroups[def.id]) {
         deletedGroups = { ...deletedGroups };

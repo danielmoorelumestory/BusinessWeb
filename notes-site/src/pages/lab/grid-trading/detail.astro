@@ -286,7 +286,7 @@ const etfReviewUrl = href('lab/etf-review');
     }
     planTagsBox.hidden = false;
     planTagsBox.innerHTML = PLAN_DEFS.map(def => `<div class="plan-tag" data-plan-block="${def.key}"><div class="plan-tag-head">`
-      + `<h2 class="plan-chip">${def.name}</h2><span class="plan-best">卡玛最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
+      + `<h2 class="plan-chip">${def.name}</h2><span class="plan-best" title="按已平仓交易的全历史卡玛比较（未卖出的最后一笔不计入）">卡玛最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
       + `<label class="plan-check plan-alert-check"><input type="checkbox" data-plan-alert="${def.key}" disabled> Telegram 提醒</label>`
       + `<label class="plan-check"><input type="checkbox" data-plan-view="${def.key}"> 图上显示买卖点</label>`
       + `</div>`
@@ -399,7 +399,7 @@ const etfReviewUrl = href('lab/etf-review');
   // 顶部方案卡片里：三个方案按研究口径回测——全历史一行 + 逐年汇总一行（点开看每年明细）。不随图表区间变化。
   const planStatsBox = document.querySelector('#plan-stats') as HTMLElement;
   const expandedYears = new Set<string>();
-  const backtestCache = new Map<string, { full?: PlanBacktest; yearly: ReturnType<typeof backtestPlanYearly> }>();
+  const backtestCache = new Map<string, { full?: PlanBacktest; closed?: PlanBacktest; yearly: ReturnType<typeof backtestPlanYearly> }>();
   let lastPlanStats: [PlanResult[], Candle[]] | undefined;
   planTagsBox.addEventListener('click', event => {
     const toggle = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-years]');
@@ -416,7 +416,7 @@ const etfReviewUrl = href('lab/etf-review');
     let hit = backtestCache.get(cacheKey);
     if (!hit) {
       const bull = bullLookup(points);
-      hit = { full: backtestPlan(plan.key, candles, bull), yearly: backtestPlanYearly(plan.key, candles, bull) };
+      hit = { full: backtestPlan(plan.key, candles, bull), closed: backtestPlan(plan.key, candles, bull, undefined, { closedOnly: true }), yearly: backtestPlanYearly(plan.key, candles, bull) };
       backtestCache.clear(); // 只留当前这一组，避免拖动时无限增长
       backtestCache.set(cacheKey, hit);
     }
@@ -471,7 +471,8 @@ const etfReviewUrl = href('lab/etf-review');
       return overview + summary + `<div id="plan-years-${plan.key}" class="plan-stats-scroll"${open_ ? '' : ' hidden'} tabindex="0" role="region" aria-label="${PLAN_DEFS.find(def => def.key === plan.key)!.name}年度回测明细"><table><thead><tr><th scope="col">年份</th><th scope="col">收益</th><th scope="col">最大回撤</th><th scope="col">一直持有</th><th scope="col">完成交易（赚 / 亏）</th><th scope="col">胜率</th><th scope="col">盈亏比</th><th scope="col">单笔平均</th><th scope="col">单笔最好 / 最差</th></tr></thead><tbody>${yearRows}</tbody></table></div>`;
     };
     // 标签上的收益摘要、最优高亮、勾选框状态
-    const calmarOf = new Map(plans.map(plan => [plan.key, planBacktests(plan, candles).full?.calmar ?? -Infinity]));
+    // 「卡玛最优」只按已平仓的交易比较：未卖出的最后一笔不计入，免得一笔持仓的浮盈浮亏让高亮来回换边。
+    const calmarOf = new Map(plans.map(plan => [plan.key, planBacktests(plan, candles).closed?.calmar ?? -Infinity]));
     const bestKey = [...calmarOf.entries()].sort((a, b) => b[1] - a[1])[0];
     for (const plan of plans) {
       const block = planTagsBox.querySelector<HTMLElement>(`[data-plan-block="${plan.key}"]`);

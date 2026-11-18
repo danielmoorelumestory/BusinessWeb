@@ -12,6 +12,8 @@ import {
   HS300_TIMING_CATALOG_GROUP_ID,
   TIMING_PORTFOLIO_CATALOG_GROUP_ID,
   WATCH_POOL_CATALOG_GROUP_ID,
+  WATCH_CYB_CATALOG_GROUP_ID,
+  WATCH_HS_CATALOG_GROUP_ID,
   fundProfileUrl,
   isCatalogGroupId,
   positioningOf,
@@ -61,8 +63,8 @@ describe('etf-catalog-seed', () => {
     const empty = defaultMeta('2026-10-20T00:00:00.000Z');
     const { meta: filled, changed } = ensureCatalogSeed(empty);
     expect(changed).toBe(true);
-    // 9 个行业/策略/商品组 + 创业板择时优选 + 沪深300择时优选 + 行业观察池
-    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(12);
+    // 9 个行业/策略/商品组 + 创业板择时优选 + 沪深300择时优选 + 创业板择时待选 + 沪深300择时待选
+    expect(filled.groups.filter(group => isCatalogGroupId(group.id))).toHaveLength(13);
     expect(filled.groups.some(group => group.id === MONEY_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.groups.some(group => group.id === BOND_CATALOG_GROUP_ID)).toBe(false);
     expect(filled.watchlist.some(watch => watch.code === '511880')).toBe(false);
@@ -165,12 +167,12 @@ describe('etf-catalog-seed', () => {
 
   it('清单分组被用户改名（customName）后不改回默认名；没标记的仍按清单名纠正', () => {
     const { meta } = ensureCatalogSeed(defaultMeta('2026-10-20T00:00:00.000Z'));
-    const renamed = { ...meta, groups: meta.groups.map(group => group.id === WATCH_POOL_CATALOG_GROUP_ID ? { ...group, name: '我的观察池', customName: true } : group) };
+    const renamed = { ...meta, groups: meta.groups.map(group => group.id === WATCH_CYB_CATALOG_GROUP_ID ? { ...group, name: '我的待选', customName: true } : group) };
     const kept = ensureCatalogSeed(renamed);
     expect(kept.changed).toBe(false);
-    expect(kept.meta.groups.find(group => group.id === WATCH_POOL_CATALOG_GROUP_ID)!.name).toBe('我的观察池');
-    const unmarked = { ...meta, groups: meta.groups.map(group => group.id === WATCH_POOL_CATALOG_GROUP_ID ? { ...group, name: '我的观察池' } : group) };
-    expect(ensureCatalogSeed(unmarked).meta.groups.find(group => group.id === WATCH_POOL_CATALOG_GROUP_ID)!.name).toBe('行业观察池');
+    expect(kept.meta.groups.find(group => group.id === WATCH_CYB_CATALOG_GROUP_ID)!.name).toBe('我的待选');
+    const unmarked = { ...meta, groups: meta.groups.map(group => group.id === WATCH_CYB_CATALOG_GROUP_ID ? { ...group, name: '我的待选' } : group) };
+    expect(ensureCatalogSeed(unmarked).meta.groups.find(group => group.id === WATCH_CYB_CATALOG_GROUP_ID)!.name).toBe('创业板择时待选');
   });
 
   it('MACD优秀 分组排在用户当前的 TMT 科技之前', () => {
@@ -227,15 +229,30 @@ describe('etf-catalog-seed', () => {
     expect(again.watchlist.some(watch => watch.code === '513630')).toBe(true);
   });
 
-  it('行业观察池 排在 沪深300择时优选 之后、TMT 科技之前，老用户新增也落在 TMT 前', () => {
+  it('创业板择时待选、沪深300择时待选 依次排在 沪深300择时优选 之后、TMT 科技之前，老用户新增也落在 TMT 前', () => {
     const tmt = 'g-catalog-ETF-01_TMT科技';
     const first = ensureCatalogSeed(defaultMeta('2026-11-18T00:00:00.000Z')).meta;
     const order = (meta: typeof first, id: string) => meta.groups.find(group => group.id === id)!.order;
-    expect(order(first, HS300_TIMING_CATALOG_GROUP_ID)).toBeLessThan(order(first, WATCH_POOL_CATALOG_GROUP_ID));
-    expect(order(first, WATCH_POOL_CATALOG_GROUP_ID)).toBeLessThan(order(first, tmt));
-    expect(first.groups.find(group => group.id === WATCH_POOL_CATALOG_GROUP_ID)!.name).toBe('行业观察池');
-    expect(first.memberships['512400']).toContain(WATCH_POOL_CATALOG_GROUP_ID);
-    const renumbered = { ...first, groups: first.groups.filter(group => group.id !== WATCH_POOL_CATALOG_GROUP_ID).map((group, index) => ({ ...group, order: group.id === tmt ? 2 : index + 10 })) };
-    expect(order(ensureCatalogSeed(renumbered).meta, WATCH_POOL_CATALOG_GROUP_ID)).toBe(1.9375);
+    expect(order(first, HS300_TIMING_CATALOG_GROUP_ID)).toBeLessThan(order(first, WATCH_CYB_CATALOG_GROUP_ID));
+    expect(order(first, WATCH_CYB_CATALOG_GROUP_ID)).toBeLessThan(order(first, WATCH_HS_CATALOG_GROUP_ID));
+    expect(order(first, WATCH_HS_CATALOG_GROUP_ID)).toBeLessThan(order(first, tmt));
+    expect(first.groups.find(group => group.id === WATCH_CYB_CATALOG_GROUP_ID)!.name).toBe('创业板择时待选');
+    expect(first.groups.find(group => group.id === WATCH_HS_CATALOG_GROUP_ID)!.name).toBe('沪深300择时待选');
+    expect(first.memberships['512400']).toContain(WATCH_CYB_CATALOG_GROUP_ID);
+    expect(first.memberships['512880']).toContain(WATCH_HS_CATALOG_GROUP_ID);
+    expect(first.memberships['512400']).not.toContain(WATCH_HS_CATALOG_GROUP_ID);
+    const renumbered = { ...first, groups: first.groups.filter(group => group.id !== WATCH_CYB_CATALOG_GROUP_ID && group.id !== WATCH_HS_CATALOG_GROUP_ID).map((group, index) => ({ ...group, order: group.id === tmt ? 2 : index + 10 })) };
+    const again = ensureCatalogSeed(renumbered).meta;
+    expect(order(again, WATCH_CYB_CATALOG_GROUP_ID)).toBe(1.875);
+    expect(order(again, WATCH_HS_CATALOG_GROUP_ID)).toBe(1.9375);
+  });
+
+  it('老用户的「行业观察池」分组被移除，成员按方案进两个待选组', () => {
+    const first = ensureCatalogSeed(defaultMeta('2026-11-18T00:00:00.000Z')).meta;
+    const old = { ...first, groups: [...first.groups, { id: WATCH_POOL_CATALOG_GROUP_ID, name: '行业观察池', order: 9.9 }], memberships: { ...first.memberships, '512400': [...first.memberships['512400'], WATCH_POOL_CATALOG_GROUP_ID] } };
+    const next = ensureCatalogSeed(old).meta;
+    expect(next.groups.some(group => group.id === WATCH_POOL_CATALOG_GROUP_ID)).toBe(false);
+    expect(next.memberships['512400']).not.toContain(WATCH_POOL_CATALOG_GROUP_ID);
+    expect(next.memberships['512400']).toContain(WATCH_CYB_CATALOG_GROUP_ID);
   });
 });

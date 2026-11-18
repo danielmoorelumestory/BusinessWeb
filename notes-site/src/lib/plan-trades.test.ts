@@ -64,3 +64,34 @@ describe('plan-trades', () => {
     expect(backtestPlan('hs', wave, () => false)!.natural).toBe(0);
   });
 });
+
+describe('closedOnly：未平仓的最后一笔不计入', () => {
+  it('持仓中时去掉最后一笔，空仓时与默认一致', async () => {
+    const { backtestPlan, macdPlan } = await import('./plan-trades');
+    const bars = Array.from({ length: 400 }, (_, i) => {
+      const d = new Date(Date.UTC(2020, 0, 1)); d.setUTCDate(d.getUTCDate() + i);
+      const close = 1 + 0.2 * Math.sin(i / 9) + 0.08 * Math.sin(i / 2.3) + i * 0.001;
+      return { date: d.toISOString().slice(0, 10), open: close * 0.995, high: close * 1.01, low: close * 0.99, close };
+    });
+    let checkedOpen = 0, checkedFlat = 0;
+    for (let t = 300; t < bars.length; t++) {
+      const window = bars.slice(0, t + 1), all = () => true;
+      const full = backtestPlan('macd', window, all)!, closed = backtestPlan('macd', window, all, undefined, { closedOnly: true })!;
+      if (macdPlan(window).holding) {
+        checkedOpen++;
+        const sig = macdPlan(window).signals, buy = sig.at(-1)!;
+        expect(buy.side).toBe('buy');
+        // 去掉最后一笔后，收益停在买入前
+        const before = backtestPlan('macd', window.filter(bar => bar.date < buy.date), all)!;
+        expect(closed.total).toBeCloseTo(before.total, 10);
+        expect(closed.natural).toBe(full.natural);
+      } else {
+        // 死叉已出、但要到下一交易日开盘才卖（T+1 顺延）时窗口末仍持有，这笔也算未平仓，不比较
+        const last = macdPlan(window).signals.at(-1);
+        if (last?.side !== 'sell' || last.date > window.at(-1)!.date) continue;
+        checkedFlat++; expect(closed).toEqual(full);
+      }
+    }
+    expect(checkedOpen).toBeGreaterThan(10); expect(checkedFlat).toBeGreaterThan(10);
+  });
+});

@@ -107,11 +107,21 @@ function signalsIn(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolea
   return macdCloseSignals(bars, { bull: key === 'macd' ? undefined : bull, warmup: PLAN_WARMUP, window }).signals.map(signal => ({ ...signal, reason: signal.forced ? '期末平仓' : signal.side === 'buy' ? '金叉' : '死叉' }));
 }
 
-/** 按研究引擎回测一个窗口；窗口内（下标 ≥120）不足 120 根时返回 undefined。 */
-export function backtestPlan(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined, window: PlanWindow = { from: '1900-01-01', to: '9999-12-31' }): PlanBacktest | undefined {
+/**
+ * 按研究引擎回测一个窗口；窗口内（下标 ≥120）不足 120 根时返回 undefined。
+ * closedOnly：窗口末仍未卖出的最后一笔不计入（当作空仓），用于比较方案优劣，避免一笔未平仓的浮盈浮亏左右排序。
+ */
+export function backtestPlan(key: PlanKey, bars: PlanBar[], bull: (date: string) => boolean | undefined, window: PlanWindow = { from: '1900-01-01', to: '9999-12-31' }, { closedOnly = false } = {}): PlanBacktest | undefined {
   const [start, end] = windowBounds(bars, PLAN_WARMUP, window);
   if (end - start + 1 < MIN_ROWS) return undefined;
-  const signals = signalsIn(key, bars, bull, window);
+  let signals = signalsIn(key, bars, bull, window);
+  if (closedOnly && signals.at(-1)?.forced) {
+    // 窗口末的期末平仓里，当天本来就出卖出信号（如死叉当日收盘卖）的算已平仓；按不设窗口的规则引擎在末日仍持有才算未平仓
+    const upto = bars.slice(0, end + 1);
+    const holding = key === 'cyb' ? kd10Signals(upto, bull, { warmup: PLAN_WARMUP }).holding
+      : macdCloseSignals(upto, { bull: key === 'macd' ? undefined : bull, warmup: PLAN_WARMUP }).holding;
+    if (holding) signals = signals.slice(0, -2);
+  }
   const f = PLAN_COST;
   let cash = 1, q = 0, entryCash = 0, peak = 1, mdd = 0, k = 0;
   const rets: number[] = [];

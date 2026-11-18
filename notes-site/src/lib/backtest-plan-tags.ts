@@ -53,7 +53,7 @@ export function planTagsOf(code: string): PlanTag[] {
   const watch = (watchPool.items as { code: string; plan: string; industry: string; start: string; years: number; annual: number; drawdown: number; calmar: number; yearly: Record<string, number> }[])
     .find(item => item.code === code);
   if (watch) tags.push({
-    group: 'watch-pool', name: '行业观察池',
+    group: 'watch-pool', name: watch.plan === 'cyb' ? '创业板择时待选' : '沪深300择时待选',
     timing: watch.plan === 'cyb' ? '创业板 ÷ 红利，高于 20 日均线为牛' : '沪深300 ÷ 红利，高于 20 日均线为牛',
     plan: watch.plan === 'cyb' ? CYB_PLAN : HS_PLAN,
     stats: `观察中（${watch.industry}），只看信号；全历史年化 ${pct(watch.annual)}，最大回撤 ${pct(watch.drawdown)}，卡玛 ${watch.calmar.toFixed(2)}（${watch.years} 年）；`

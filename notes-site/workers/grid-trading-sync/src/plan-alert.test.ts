@@ -105,10 +105,12 @@ describe('formatMessage', () => {
   });
 });
 
-describe('行业观察池', () => {
+describe('行业观察池（创业板择时待选 / 沪深300择时待选）', () => {
   it('观察池按各自方案分进两个组，代码不与优选组重复', () => {
     const watch = PLAN_GROUPS.filter(group => group.watch);
     expect(watch.map(group => group.key)).toEqual(['cyb', 'hs']);
+    expect(watch.map(group => group.title)).toEqual(['创业板择时待选', '沪深300择时待选']);
+    expect(watch.map(group => group.catalogId)).toEqual(['g-catalog-watch-cyb', 'g-catalog-watch-hs']);
     expect(watch.flatMap(group => group.items).length).toBe(12);
     expect(watch.find(group => group.key === 'hs')!.items.map(item => item.code)).toContain('512880');
     const main = new Set(PLAN_GROUPS.filter(group => !group.watch).flatMap(group => group.items.map(item => item.code)));
@@ -116,9 +118,9 @@ describe('行业观察池', () => {
   });
   it('信号与持仓标所属分组，手动选的方案再标方案名', () => {
     const group = PLAN_GROUPS.find(item => item.watch)!;
-    const text = formatMessage([{ group, failed: [], alerts: [{ code: '516520', name: '智能驾驶ETF', action: 'buy-next-open', reason: '金叉', price: 1, watch: true, group: '行业观察池' }],
+    const text = formatMessage([{ group, failed: [], alerts: [{ code: '516520', name: '智能驾驶ETF', action: 'buy-next-open', reason: '金叉', price: 1, watch: true, group: '创业板择时待选' }],
       holdings: [{ code: '512400', name: '有色金属ETF', buyDate: '2026-11-05', buyPrice: 1, ret: 0.01, group: '自选', tag: '纯MACD' }] }], 'pre', '2026-11-18');
-    expect(text).toContain('明日开盘 516520 智能驾驶ETF［行业观察池］（金叉，现价 1.000）');
+    expect(text).toContain('明日开盘 516520 智能驾驶ETF［创业板择时待选］（金叉，现价 1.000）');
     expect(text).toContain('512400 有色金属ETF［自选］［纯MACD］ +1.00%');
   });
   it('groupLabelOf：按数据文件查所属分组，都不在为自选', () => {
@@ -127,9 +129,9 @@ describe('行业观察池', () => {
   });
   it('复盘页改过名的清单分组用新名字，其他保持默认', () => {
     const watch = PLAN_GROUPS.find(group => group.watch)!;
-    expect(groupLabelOf(watch.items[0].code, { 'g-catalog-watch-pool': '我的观察池' })).toBe('我的观察池');
+    expect(groupLabelOf(watch.items[0].code, { 'g-catalog-watch-cyb': '我的观察池' })).toBe('我的观察池');
     const cyb = PLAN_GROUPS[0];
-    expect(groupLabelOf(cyb.items[0].code, { 'g-catalog-watch-pool': '我的观察池' })).toContain('创业板择时优选');
+    expect(groupLabelOf(cyb.items[0].code, { 'g-catalog-watch-cyb': '我的观察池' })).toContain('创业板择时优选');
     expect(groupTitle(cyb, { 'g-catalog-macd-good': 'A组' })).toBe('A组');
     expect(groupTitle(cyb, { 'g-catalog-macd-good': '  ' })).toBe('创业板择时优选');
   });

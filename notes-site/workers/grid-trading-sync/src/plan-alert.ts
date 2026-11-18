@@ -6,7 +6,7 @@
 // - pre   北京 14:45：用实时价当作今日收盘估算，不论有没有信号都发（买入 / 卖出 / 持有三段），顺带确认服务正常；
 // - close 北京 15:15：按真实收盘重算，每天都发（持仓盈亏按收盘价）；与 14:45 信号不同时第二行注明。
 // 同一交易日同一时段只发一次（plan_alert_log）。
-// 每条信号与持仓后标所属分组（［创业板择时优选］/［沪深300择时优选］/［行业观察池］，都不在的标［自选］）；
+// 每条信号与持仓后标所属分组（［创业板择时优选］/［沪深300择时优选］/［创业板择时待选］/［沪深300择时待选］，都不在的标［自选］）；
 // 复盘页给这三个清单分组改过名（已上传云端）时用改后的名字。
 // 行业观察池（只看信号的行业 ETF）也一起提醒，按各自方案；取数排在最后，请求预算不够时只影响观察池。
 import macdGood from '../../../../src/data/etfMacdGood.json';
@@ -29,7 +29,7 @@ export const PLAN_GROUPS: GroupDef[] = [
   { key: 'cyb', title: '创业板择时优选', catalogId: 'g-catalog-macd-good', timing: '创业板÷红利', items: macdGood.items.map(({ code, name }) => ({ code, name })) },
   { key: 'hs', title: '沪深300择时优选', catalogId: 'g-catalog-hs300-timing', timing: '沪深300÷红利', items: hs300Timing.items.map(({ code, name }) => ({ code, name })) },
   ...(['cyb', 'hs'] as const).map(key => ({
-    key, title: '行业观察池', catalogId: 'g-catalog-watch-pool', timing: key === 'cyb' ? '创业板÷红利' : '沪深300÷红利', watch: true,
+    key, title: key === 'cyb' ? '创业板择时待选' : '沪深300择时待选', catalogId: key === 'cyb' ? 'g-catalog-watch-cyb' : 'g-catalog-watch-hs', timing: key === 'cyb' ? '创业板÷红利' : '沪深300÷红利', watch: true,
     items: watchPool.items.filter(item => item.plan === key).map(({ code, name }) => ({ code, name })),
   })),
 ];

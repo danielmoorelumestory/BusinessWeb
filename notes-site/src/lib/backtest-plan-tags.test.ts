@@ -29,6 +29,8 @@ describe('planTagsOf', () => {
     expect(planTagsOf('588170')[0].stats).toContain('不足 3 年');
     expect(planTagsOf('512880')[0].views).toEqual(['h1', 'h1Trades']);
     expect(planTagsOf('512880')[0].timing).toContain('沪深300');
+    expect(planTagsOf('512400')[0].name).toBe('创业板择时待选');
+    expect(planTagsOf('512880')[0].name).toBe('沪深300择时待选');
   });
   it('未入选任何分组返回空', () => { expect(planTagsOf('000000')).toEqual([]); });
 });
