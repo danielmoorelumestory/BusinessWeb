@@ -160,6 +160,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
   const MACD_FILTERS = (['golden', 'dead'] as const).flatMap(cross => (['day', 'week', 'month'] as const).map(period =>
     [`macd:${period}:${cross}`, `${{ day: '日线', week: '周线', month: '月线' }[period]}${cross === 'golden' ? '金叉' : '死叉'}`, cross === 'golden' ? 'DIF 在 DEA 之上（金叉后尚未死叉）' : 'DIF 在 DEA 之下（死叉后尚未金叉）'] as const));
   const selectedMaFilters = new Set<string>();
+  let planHoldOnly = false; // 只看「择时持仓」持有中（含明日开盘才卖的）
   let quotes = new Map<string, Quote>();
   const cloudPremiums = new Map<string, CloudPremium>();
   const cloudPremiumRanges = new Map<string, { from: string; to: string }>();
@@ -257,6 +258,12 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
           ${MACD_FILTERS.map(([key, label, tip]) => `<button class="industry-etf-nav__pill${selectedMaFilters.has(key) ? ' is-active' : ''}" data-ma="${key}" type="button" title="${tip}"><span>${label}</span></button>`).join('')}
         </div>
       </div>
+      <div class="industry-etf-nav__row" aria-label="择时持仓筛选">
+        <span class="filter-label">择时持仓</span>
+        <div class="industry-etf-nav__pills">
+          <button class="industry-etf-nav__pill${planHoldOnly ? ' is-active' : ''}" data-plan-hold type="button" title="只看按择时提醒方案当前持有的（含明日开盘才卖出的）"><span>持有中</span></button>
+        </div>
+      </div>
     `;
   }
 
@@ -289,6 +296,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
       render();
     } catch (error) { console.error('读取择时持仓失败', error); }
   }
+  const isPlanHolding = (code: string) => { const status = planByCode.get(code); return status?.state === 'hold' || (status?.state === 'sell' && status.action === 'sell-next-open'); };
   function planCell(code: string) {
     const status = planByCode.get(code);
     if (!status) return '<td class="status-cell muted" title="没有择时提醒方案">—</td>';
@@ -455,7 +463,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
     const cached = readTechnicalCache();
     for (const code of allCodes) if (cached[code]) setReviewRecord(code, cached[code].record);
     const groupCodes = filterByGroups(allCodes, meta.memberships, [...selectedGroupIds]);
-    const codes = groupCodes.filter(code => matchesReviewFilters(code, [...selectedMaFilters]));
+    const codes = groupCodes.filter(code => matchesReviewFilters(code, [...selectedMaFilters]) && (!planHoldOnly || isPlanHolding(code)));
     const groups = groupsOf();
     const watchByCode = new Map(meta.watchlist.map(item => [item.code, item]));
     renderFilters();
@@ -551,6 +559,7 @@ const notesBase = (process.env.MAIN_SITE || '/').replace(/\/?$/, '/') + 'notes/'
   pullButton.addEventListener('click', () => { void runCloudAction('pull'); });
 
   filterBar.addEventListener('click', event => {
+    if ((event.target as HTMLElement).closest('[data-plan-hold]')) { planHoldOnly = !planHoldOnly; render(); return; }
     const maButton = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-ma]');
     if (maButton) {
       const key = maButton.dataset.ma!;
