@@ -1252,7 +1252,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const capitalPath = points.map((point, index) => point ? (index === firstIndex ? `M${x(index).toFixed(1)},${y(point.capitalUsed).toFixed(1)}` : `H${x(index).toFixed(1)}V${y(point.capitalUsed).toFixed(1)}`) : '').join('');
   // 简约风格：不画方框，只留很淡的横向网格线和每张图的底线；标题与刻度统一用中性灰。
   const frame = (top: number, h: number) => `<line x1="${left}" x2="${width - right}" y1="${top + h}" y2="${top + h}" stroke="#e2e8f0"/>`;
-  const title = (top: number, text: string, color: string) => `<text x="${left}" y="${top - 10}" fill="${color}" font-size="11" font-weight="600">${text}</text>`;
+  // key：带 key 的标题悬停时换成该日对应数据（成交量、MACD 等显示在各自图的左上角），移开后恢复说明文字。
+  const title = (top: number, text: string, color: string, key?: string) => `<text${key ? ` class="ptitle-${key}"` : ''} x="${left}" y="${top - 10}" fill="${color}" font-size="11" font-weight="600">${text}</text>`;
   // skipY：与 0 轴太近的刻度标签不画，避免和“0”标签重叠。
   const ticks = (lo: number, hi: number, top: number, h: number, format: (value: number) => string, color: string, skipY?: number) => Array.from({ length: 4 }, (_, index) => {
     const value = lo + (hi - lo) * index / 3, yy = top + (hi - value) / (hi - lo) * h;
@@ -1409,7 +1410,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     }).join('');
     // 只有区间末端就是最新一根时，才给出预估：盘中估今天收盘，收盘后估下一交易日
     const crossText = macdEst ? ` · ${macdEst.forToday ? '今日收盘' : '下一交易日'}${macdEst.bull ? '死叉' : '金叉'}价 ≈ ${macdEst.price.toFixed(3)}（较现价 ${((macdEst.price / macdEst.lastClose - 1) * 100).toFixed(2)}%）` : '';
-    macdSvg = title(macdTop, `MACD(12,26,9) · DIF 蓝 / DEA 橙 / 柱 2×(DIF−DEA)${crossText}`, '#475569') + frame(macdTop, panelHeight)
+    macdSvg = title(macdTop, `MACD(12,26,9) · DIF 蓝 / DEA 橙 / 柱 2×(DIF−DEA)${crossText}`, '#475569', 'macd') + frame(macdTop, panelHeight)
       + `<line x1="${left}" x2="${width - right}" y1="${macdY(0).toFixed(1)}" y2="${macdY(0).toFixed(1)}" stroke="#cbd5e1"/>` + histSvg + line(macd.dif, MACD_COLORS.dif) + line(macd.dea, MACD_COLORS.dea) + crosses
       + ticks(macdLo, macdHi, macdTop, panelHeight, value => value.toFixed(3), '#94a3b8');
   }
@@ -1426,11 +1427,11 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       return `<rect x="${(x(index) - Math.max(.5, slot * .3)).toFixed(1)}" y="${Math.min(y0, y1).toFixed(1)}" width="${Math.max(1, slot * .6).toFixed(1)}" height="${Math.max(.5, Math.abs(y1 - y0)).toFixed(1)}" fill="${value < BAND_LOW ? UP_COLOR : DOWN_COLOR}" opacity=".7"/>`;
     }).join('');
     const guide = (value: number, color: string) => `<line x1="${left}" x2="${width - right}" y1="${bandY(value)}" y2="${bandY(value)}" stroke="${color}" stroke-width="1" stroke-dasharray="4 3"/><text x="${left - 8}" y="${bandY(value) + 4}" text-anchor="end" fill="${color}" font-size="10">${value}</text>`;
-    bandSvg = title(bandTop, '波段顶底（同花顺复现，13 日）· 低于 30 红柱 / 高于 70 绿柱', '#475569') + frame(bandTop, panelHeight)
+    bandSvg = title(bandTop, '波段顶底（同花顺复现，13 日）· 低于 30 红柱 / 高于 70 绿柱', '#475569', 'band') + frame(bandTop, panelHeight)
       + guide(BAND_HIGH, DOWN_COLOR) + guide(BAND_LOW, UP_COLOR) + sticks + `<path d="${d}" fill="none" stroke="#334155" stroke-width="1.1"/>`;
   }
   // 偏防守（比值在 20 日均线下方）的日子：K 线图和比值副图都铺浅灰底；连续日期合并成一个矩形。
-  const ratioSvg = ratios.map(({ name, label, top, points, shadeColor, shadeName }) => {
+  const ratioSvg = ratios.map(({ key, name, label, top, points, shadeColor, shadeName }) => {
     const runs: [number, number][] = [];
     points.forEach((point, index) => { if (point && point.bull === false) { const last = runs.at(-1); if (last && last[1] === index - 1) last[1] = index; else runs.push([index, index]); } });
     const shade = (y0: number, h: number, opacity: number) => runs.map(([from, to]) => `<rect x="${(x(from) - slot / 2).toFixed(1)}" y="${y0}" width="${((to - from + 1) * slot).toFixed(2)}" height="${h}" fill="${shadeColor}" opacity="${opacity}"/>`).join('');
@@ -1442,7 +1443,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       points.forEach((point, index) => { const value = point ? valueOf(point) : null; if (value === null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${x(index).toFixed(1)},${yOf(value).toFixed(1)}`; pen = true; });
       return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${widthPx}" stroke-linejoin="round"/>`;
     };
-    return shade(priceTop, priceHeight, .12) + title(top, `${name} · ${label}（深灰）/ 20 日均线（橙）· ${shadeName} = 偏防守，金叉不买`, '#475569') + frame(top, panelHeight)
+    return shade(priceTop, priceHeight, .12) + title(top, `${name} · ${label}（深灰）/ 20 日均线（橙）· ${shadeName} = 偏防守，金叉不买`, '#475569', `ratio-${key}`) + frame(top, panelHeight)
       + shade(top, panelHeight, .14) + ticks(yLo, yHi, top, panelHeight, value => value.toFixed(3), '#94a3b8') + line(point => point.ma, '#d97706', 1.1) + line(point => point.ratio, '#334155', 1.2);
   }).join('');
   const MA10_COLOR = '#d97706', MA20_COLOR = '#0891b2';
@@ -1463,16 +1464,17 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const volumeText = (volume: number) => volume >= 1e8 ? `${(volume / 1e8).toFixed(2)}亿手` : volume >= 1e4 ? `${(volume / 1e4).toFixed(1)}万手` : `${Math.round(volume)}手`;
   const maxVolume = showVolume ? Math.max(1, ...bars.map(bar => bar.volume ?? 0)) : 1;
   const volumeY = (value: number) => volumeTop + volumeHeight - value / maxVolume * volumeHeight;
-  const volumeSvg = showVolume ? title(volumeTop, `成交量（手）· 区间最大 ${volumeText(maxVolume)}`, '#475569') + frame(volumeTop, volumeHeight)
+  const volumeSvg = showVolume ? title(volumeTop, `成交量（手）· 区间最大 ${volumeText(maxVolume)}`, '#475569', 'volume') + frame(volumeTop, volumeHeight)
     + `<line x1="${left}" x2="${width - right}" y1="${volumeTop}" y2="${volumeTop}" stroke="#f1f5f9"/><text x="${left - 8}" y="${volumeTop + 4}" text-anchor="end" fill="#94a3b8" font-size="10">${volumeText(maxVolume)}</text>`
     + bars.map((bar, index) => {
       if (!Number.isFinite(bar.volume)) return '';
       const top = volumeY(bar.volume!), barWidth = Math.max(1, Math.min(14, slot * .62));
       return `<rect x="${(x(index) - barWidth / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${Math.max(.5, volumeTop + volumeHeight - top).toFixed(1)}" fill="${bar.close >= bar.open ? UP_COLOR : DOWN_COLOR}" opacity=".75"/>`;
     }).join('') : '';
-  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(showVolume ? ['volume'] : []), ...(ma10 ? ['macross'] : []), ...(macd ? ['macd', 'cross'] : []), ...(band ? ['band'] : []), ...ratios.map(panel => panel.key), ...(macdTrades ? ['mtrade'] : []), ...plans.map(plan => `plan-${plan.key}`), ...(noGrid ? [] : ['position', 'capital', 'profit'])];
-  svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}${ratios.map(panel => ` / ${panel.shadeName} = ${panel.name}偏防守`).join('')}`, '#475569')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
-    + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
+  // 浮窗只放当日行情、成交与方案信号；成交量、MACD、波段、择时比值、均线、资金写在各自图的左上角标题里。
+  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(macdTrades ? ['mtrade'] : []), ...plans.map(plan => `plan-${plan.key}`)];
+  svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}${ratios.map(panel => ` / ${panel.shadeName} = ${panel.name}偏防守`).join('')}`, '#475569', 'price')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
+    + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569', 'money')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
     + volumeSvg + macdSvg + bandSvg + ratioSvg + candleSvg + ma10Svg + tradeMarkSvg + planMarkSvg + estSvg + ma10EstSvg + zoneLabels + zoneEdges + fibSvg + fibEdge(fibAbove, true) + fibEdge(fibBelow, false) + fibAnchors
     + (visible.length ? `<path d="${path(point => point.positionValue)}" fill="none" stroke="#3b82f6" stroke-width="1.2" stroke-linejoin="round"/><path d="${capitalPath}" fill="none" stroke="#f59e0b" stroke-width="1.2"/><path d="${path(point => point.pnl)}" fill="none" stroke="#f43f5e" stroke-width="1.2" stroke-linejoin="round"/>` : '') + labels
@@ -1483,6 +1485,9 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const crosshair = svg.querySelector('.chart-crosshair') as SVGGElement, tooltip = svg.querySelector('.chart-tooltip') as SVGGElement;
   const set = (selector: string, attrs: Record<string, number | string>) => { const el = svg.querySelector(selector)!; for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, String(value)); };
   const setText = (name: string, text: string) => { const el = tooltip.querySelector(`.tip-${name}`); if (el) el.textContent = text; };
+  const titleDefaults = new Map([...svg.querySelectorAll<SVGTextElement>('[class^="ptitle-"]')].map(el => [el, el.textContent ?? '']));
+  const setTitle = (key: string, text: string) => { const el = svg.querySelector(`.ptitle-${key}`); if (el) el.textContent = text; };
+  const resetTitles = () => { for (const [el, text] of titleDefaults) el.textContent = text; };
   const tradeByDate = new Map(trades.map(trade => [trade.date, trade]));
   const showPoint = (event: PointerEvent) => {
     const bounds = svg.getBoundingClientRect();
@@ -1504,21 +1509,23 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
     setText('open', `开 ${bar.open.toFixed(3)} ${pctOf(bar.open)}   收 ${bar.close.toFixed(3)} ${pctOf(bar.close)}`);
     setText('low', `高 ${bar.high.toFixed(3)} ${pctOf(bar.high)}   低 ${bar.low.toFixed(3)} ${pctOf(bar.low)}`);
     const maText = (ma: (number | null)[] | undefined, n: number) => { if (!ma) return ''; const v = ma[offset + index]; return `   ${n}日线 ${v == null ? '—' : `${v.toFixed(3)}${bar.close >= v ? '↑' : '↓'}`}`; };
-    setText('change', `涨幅 ${pctOf(bar.close)}   振幅 ${base > 0 ? ((bar.high - bar.low) / base * 100).toFixed(2) + '%' : '—'}${maText(ma10, 10)}${maText(ma20, 20)}`);
-    if (ma10) { const i = offset + index, p = maCrossPriceAt(closesAll, 10, i), v = ma10[i]; setText('macross', p !== undefined && v != null ? `收盘后预估：下一交易日收盘${bar.close >= v ? `低于 ${p.toFixed(3)} 跌破10日线` : `高于 ${p.toFixed(3)} 站上10日线`}` : '10日线预估  —'); }
-    if (macd) { const i = offset + index, p = macdCrossPriceAt(macd, i), bull = macd.dif[i] > macd.dea[i]; setText('cross', p !== undefined && p > 0 ? `收盘后预估：下一交易日收盘${bull ? `低于 ${p.toFixed(3)} 死叉` : `高于 ${p.toFixed(3)} 金叉`}` : '收盘后预估  —'); }
-    if (macd) { const i = offset + index; setText('macd', `MACD  DIF ${macd.dif[i].toFixed(3)}  DEA ${macd.dea[i].toFixed(3)}  柱 ${macd.hist[i].toFixed(3)}  ${macd.dif[i] > macd.dea[i] ? '多头' : '空头'}`); }
+    setText('change', `涨幅 ${pctOf(bar.close)}   振幅 ${base > 0 ? ((bar.high - bar.low) / base * 100).toFixed(2) + '%' : '—'}`);
+    let maCross = '';
+    if (ma10) { const i = offset + index, p = maCrossPriceAt(closesAll, 10, i), v = ma10[i]; if (p !== undefined && v != null) maCross = ` · 收盘后预估：下一交易日收盘${bar.close >= v ? `低于 ${p.toFixed(3)} 跌破10日线` : `高于 ${p.toFixed(3)} 站上10日线`}`; }
+    setTitle('price', `价格 ${bar.close.toFixed(3)}${maText(ma10, 10)}${maText(ma20, 20)}${maCross}`);
+    if (macd) {
+      const i = offset + index, p = macdCrossPriceAt(macd, i), bull = macd.dif[i] > macd.dea[i];
+      setTitle('macd', `MACD  DIF ${macd.dif[i].toFixed(3)}  DEA ${macd.dea[i].toFixed(3)}  柱 ${macd.hist[i].toFixed(3)}  ${bull ? '多头' : '空头'}${p !== undefined && p > 0 ? ` · 收盘后预估：下一交易日收盘${bull ? `低于 ${p.toFixed(3)} 死叉` : `高于 ${p.toFixed(3)} 金叉`}` : ''}`);
+    }
     if (showVolume) {
       // 量比：当日量 ÷ 前 5 日平均量（前面不足 5 根时不显示）
       const i = offset + index, previous = candles.slice(Math.max(0, i - 5), i).map(candle => candle.volume).filter((value): value is number => Number.isFinite(value));
       const ratio = bar.volume !== undefined && previous.length === 5 ? bar.volume / (previous.reduce((a, b) => a + b, 0) / 5) : undefined;
-      setText('volume', bar.volume === undefined ? '成交量  —' : `成交量  ${volumeText(bar.volume)}${ratio !== undefined && Number.isFinite(ratio) ? `   量比(5日) ${ratio.toFixed(2)}` : ''}`);
+      setTitle('volume', bar.volume === undefined ? '成交量  —' : `成交量  ${volumeText(bar.volume)}${ratio !== undefined && Number.isFinite(ratio) ? `   量比(5日) ${ratio.toFixed(2)}` : ''}`);
     }
-    for (const panel of ratios) { const point = panel.points[index]; setText(panel.key, point && point.ma !== null ? `${panel.name} 比值 ${point.ratio.toFixed(4)}  20日 ${point.ma.toFixed(4)}  ${point.bull ? '偏进攻' : '偏防守'}` : `${panel.name} 比值  —`); }
-    if (band) { const value = band[offset + index]; setText('band', `波段顶底  ${value === null ? '—' : value.toFixed(3)}${value !== null && value < BAND_LOW ? '（低于 30）' : value !== null && value > BAND_HIGH ? '（高于 70）' : ''}`); }
-    setText('position', point ? `持仓市值  ¥${formatAmount(point.positionValue)}` : '持仓市值  —（未建仓）');
-    setText('capital', point ? `占用本金  ¥${formatAmount(point.capitalUsed)}` : '占用本金  —');
-    setText('profit', point ? `总盈亏  ${formatMoney(point.pnl)}` : '总盈亏  —');
+    for (const panel of ratios) { const point = panel.points[index]; setTitle(`ratio-${panel.key}`, point && point.ma !== null ? `${panel.name} 比值 ${point.ratio.toFixed(4)}  20日 ${point.ma.toFixed(4)}  ${point.bull ? '偏进攻' : '偏防守'}` : `${panel.name} 比值  —`); }
+    if (band) { const value = band[offset + index]; setTitle('band', `波段顶底  ${value === null ? '—' : value.toFixed(3)}${value !== null && value < BAND_LOW ? '（低于 30）' : value !== null && value > BAND_HIGH ? '（高于 70）' : ''}`); }
+    setTitle('money', point ? `资金 · 持仓市值 ¥${formatAmount(point.positionValue)}   占用本金 ¥${formatAmount(point.capitalUsed)}   总盈亏 ${formatMoney(point.pnl)}` : '资金 · 未建仓');
     const tradeSignal = tradeSignalOf.get(bar.date);
     setText('mtrade', tradeSignal ? (tradeSignal.side === 'buy' ? `${tradeName}  次日开盘买 ${tradeSignal.price.toFixed(3)}` : `${tradeName}  ${tradeSignal.signalDate !== tradeSignal.date ? 'T+1 开盘卖' : '收盘卖'} ${tradeSignal.price.toFixed(3)}${tradeSignal.ret !== undefined ? ` 本笔 ${formatPercent(tradeSignal.ret)}` : ''}`)
       : macdTrades?.pendingBuy?.signalDate === bar.date ? `${tradeName}  金叉，次日开盘待买` : `${tradeName}  —`);
@@ -1527,7 +1534,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       setText(`plan-${plan.key}`, signal ? `${plan.name}  ${signal.reason}·${signal.side === 'buy' ? '次日开盘买' : signal.signalDate !== signal.date ? 'T+1 开盘卖' : '收盘卖'} ${signal.price.toFixed(3)}${signal.ret !== undefined ? ` 本笔 ${formatPercent(signal.ret)}` : ''}`
         : plan.pendingBuy?.signalDate === bar.date ? `${plan.name}  ${plan.pendingBuy.reason}，次日开盘待买` : `${plan.name}  —`);
     }
-    const tooltipWidth = macd || macdTrades || plans.length || (ma10 && ma20) ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
+    const tooltipWidth = macdTrades || plans.length ? 300 : 236, tooltipHeight = 18 * tipLines.length + 8;
     const tooltipX = Math.max(4, Math.min(width - tooltipWidth - 4, xx > width - right - tooltipWidth - 12 ? xx - tooltipWidth - 12 : xx + 12));
     const tooltipY = Math.max(priceTop, Math.min(plotBottom - tooltipHeight, pointerY - tooltipHeight / 2));
     tooltip.setAttribute('transform', `translate(${tooltipX},${tooltipY})`);
@@ -1538,7 +1545,7 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   hitArea.addEventListener('pointermove', event => showPoint(event as PointerEvent));
   hitArea.addEventListener('pointerdown', event => showPoint(event as PointerEvent)); // 触摸：按下即显示
   // 横向十字线单独设置过可见状态，父级隐藏时它不会跟着隐藏，需要一并收起。
-  const hideCrosshair = () => { crosshair.setAttribute('visibility', 'hidden'); set('.crosshair-h', { visibility: 'hidden' }); };
+  const hideCrosshair = () => { crosshair.setAttribute('visibility', 'hidden'); set('.crosshair-h', { visibility: 'hidden' }); resetTitles(); };
   hitArea.addEventListener('pointerleave', hideCrosshair);
   hitArea.addEventListener('pointercancel', hideCrosshair); // 触摸后转为页面滚动时收起
   return plans;
