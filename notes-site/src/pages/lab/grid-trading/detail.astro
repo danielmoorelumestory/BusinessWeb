@@ -36,8 +36,8 @@ const etfReviewUrl = href('lab/etf-review');
       <label><input id="view-volume" type="checkbox" checked> 成交量</label>
       <label><input id="view-macd" type="checkbox"> MACD</label>
       <label><input id="view-band" type="checkbox"> 波段顶底</label>
-      <label title="创业板 ETF（159915）÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；2011 年起"><input id="view-r2" type="checkbox"> 创业板择时</label>
-      <label title="沪深300 指数 ÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；K 线图上偏防守日期铺蓝底"><input id="view-h1" type="checkbox"> 沪深300择时</label>
+      <label hidden title="创业板 ETF（159915）÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；2011 年起"><input id="view-r2" type="checkbox"> 创业板择时</label>
+      <label hidden title="沪深300 指数 ÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；K 线图上偏防守日期铺蓝底"><input id="view-h1" type="checkbox"> 沪深300择时</label>
       <label hidden title="MACD(12,26,9)：空仓金叉→次日开盘买，持仓死叉→当日收盘卖；指标用上市以来前复权日线计算，前 120 根只预热"><input id="view-macd-trades" type="checkbox"> MACD收盘卖买卖点 <span class="macd-sw buy">▲</span>买 <span class="macd-sw sell">▼</span>卖</label>
       <label hidden title="择时为牛市（创业板÷红利 在 20 日均线上方）时：MACD 金叉，或收盘站上 10 日线且 KDJ 的 K−D ≥ 5.3 → 次日开盘买；熊市不开新仓。持仓时 MACD 死叉，或择时为熊市时收盘跌破 10 日线（牛市跌破不卖） → 当日收盘卖（买入当天不能卖则次日开盘卖）。用上市以来前复权日线，前 120 根只预热"><input id="view-kd10-trades" type="checkbox"> 创业板择时买卖点 <span class="macd-sw kbuy">▲</span>买 <span class="macd-sw ksell">▼</span>卖</label>
       <label hidden title="沪深300择时为牛市（沪深300÷红利 在 20 日均线上方）时 MACD(12,26,9) 金叉 → 次日开盘买；熊市不开新仓；持仓死叉 → 当日收盘卖（买入当天不能卖则次日开盘卖）。用上市以来前复权日线，前 120 根只预热"><input id="view-h1-trades" type="checkbox"> 沪深300择时买卖点 <span class="macd-sw hbuy">▲</span>买 <span class="macd-sw hsell">▼</span>卖</label>
@@ -301,7 +301,7 @@ const etfReviewUrl = href('lab/etf-review');
       box.addEventListener('change', () => {
         trades.checked = box.checked;
         const shade = def.shade ? document.querySelector(def.shade) as HTMLInputElement | null : null;
-        if (box.checked && shade) shade.checked = true;
+        if (shade) shade.checked = box.checked; // 择时底色开关已隐藏，跟随方案卡片开关
         trades.dispatchEvent(new Event('change'));
       });
     });
