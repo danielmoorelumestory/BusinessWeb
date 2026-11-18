@@ -43,7 +43,6 @@ const etfReviewUrl = href('lab/etf-review');
       <label hidden title="沪深300择时为牛市（沪深300÷红利 在 20 日均线上方）时 MACD(12,26,9) 金叉 → 次日开盘买；熊市不开新仓；持仓死叉 → 当日收盘卖（买入当天不能卖则次日开盘卖）。用上市以来前复权日线，前 120 根只预热"><input id="view-h1-trades" type="checkbox"> 沪深300择时买卖点 <span class="macd-sw hbuy">▲</span>买 <span class="macd-sw hsell">▼</span>卖</label>
       
     </div>
-    <div id="macd-estimate" class="macd-estimate" hidden></div>
     <div class="chart-stage"><div id="price-estimate" class="price-estimate" hidden></div><div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div></div>
     <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
       <div class="levels-head"><h3>支撑 / 压力区间</h3><span>数量自己增减（每侧最多 10 个），可设强度（弱 / 中 / 强，越强色带越深、边线越粗），只用于在价格图上显示，不参与回测；全空的行保存时忽略；只有一个价位时，下沿和上沿填同一个价格</span></div>
@@ -142,7 +141,7 @@ const etfReviewUrl = href('lab/etf-review');
   import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
   import { H1_CODES, isLiveBar, macdEstimate, maEstimate, R2_CODES, ratioEstimate, styleRatio } from '../../../lib/chart-indicators';
   import { panViewport, zoomViewport, type Viewport } from '../../../lib/chart-viewport';
-  import { CYB_PLAN, HS_PLAN, planTagsOf } from '../../../lib/backtest-plan-tags';
+  import { planTagsOf } from '../../../lib/backtest-plan-tags';
   import { backtestPlan, backtestPlanYearly, cybPlan, hsPlan, macdPlan, planStats, planTrades, yearlySummary, type PlanBacktest, type PlanKey, type PlanResult } from '../../../lib/plan-trades';
   import { bullLookup } from '../../../lib/kd10-signals';
 
@@ -180,17 +179,12 @@ const etfReviewUrl = href('lab/etf-review');
   let indicators: ChartIndicators = { ma10: true, ma20: true, volume: true, ...readIndicators() };
   const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: !input.watch && input.view?.grid !== false });
   // MACD 金叉 / 死叉、10 日线跌破 / 站上预估：不依赖图上开关，始终显示在图上方。盘中按昨收后的状态估今天收盘，收盘后估下一交易日。
-  const macdEstimateNote = document.querySelector('#macd-estimate') as HTMLElement;
   const priceEstimate = document.querySelector('#price-estimate') as HTMLElement;
   function showMacdEstimate(candles: Candle[]) {
     const live = isLiveBar(candles.at(-1)?.date);
-    // 择时文案只留「条件 → 结果（距离）」；状态、截至日期、口径说明放进悬停提示。
     const pct = (gap: number) => `${gap >= 0 ? '+' : ''}${gap.toFixed(2)}%`;
     const gapOf = (price: number, last: number) => pct((price / last - 1) * 100);
-    const line = (tone: 'bull' | 'bear', tag: string, body: string, tip: string) =>
-      `<div title="${tip.replace(/"/g, '&quot;')}"><span class="est-tag ${tone}">${tag}</span>${body}</div>`;
-    const when = live ? '今收' : '次日收盘';
-    const lines: string[] = [];
+    const when = marketPhase(candles.at(-1)?.date) === 'post' ? '下一交易日收盘' : '今日收盘';
     // MACD 交叉与 10 日线穿越的临界价，浮在价格图左上角，不再占文字行。
     const overlay: string[] = [];
     const est = macdEstimate(candles, live);
@@ -199,17 +193,57 @@ const etfReviewUrl = href('lab/etf-review');
     if (ma) overlay.push(`<div class="${ma.above ? 'bear' : 'bull'}"><i class="pe-sw ma10"></i><span>${ma.above ? '跌破10日线' : '站上10日线'}</span><b>${ma.above ? '<' : '>'} ${ma.price.toFixed(3)}</b><em>${gapOf(ma.price, ma.lastClose)}</em></div>`);
     priceEstimate.hidden = !overlay.length;
     priceEstimate.innerHTML = overlay.length ? `<div class="pe-head">${when}临界价</div>${overlay.join('')}` : '';
-    for (const [name, label, points] of [['创业板择时', '创业板 ÷ 红利', ratioPoints.r2 ?? []], ['沪深300择时', '沪深300 ÷ 红利', ratioPoints.h1 ?? []]] as const) {
-      const est = ratioEstimate(points, isLiveBar(points.at(-1)?.date));
-      if (!est) continue;
-      const whenR = est.live ? '今收' : '次日收盘';
-      const rule = est.bull ? '金叉可买' : '金叉不买，持有等死叉卖';
-      const flip = est.bull ? `比值低于 <b>${est.critical.toFixed(4)}</b> 转防守` : `比值高于 <b>${est.critical.toFixed(4)}</b> 转进攻`;
-      const tip = `${label} = ${est.ratio.toFixed(4)}，20 日均线 ${est.ma.toFixed(4)}（${est.live ? '盘中' : `截至 ${est.date} 收盘`}）。全市场共用的风格信号，回测覆盖 2011 年以来。`;
-      lines.push(line(est.bull ? 'bull' : 'bear', `${name} ${est.bull ? '偏进攻' : '偏防守'}`, `${rule}；${whenR}${flip}（距 ${pct((est.critical / est.ratio - 1) * 100)}）`, tip));
+    renderPlanActions(candles, est, ma);
+  }
+  // 交易时段（北京时间）：盘中 = 今天的日线未收盘；盘前 = 工作日 15:00 前但还没有今天的日线（9:30 前，或实时行情没取到）；
+  // 其余（收盘后、周末）算盘后。节假日按工作日判断，节假日白天会被当成盘前。
+  function marketPhase(lastDate: string | undefined, now = new Date()): 'pre' | 'live' | 'post' {
+    if (isLiveBar(lastDate, now)) return 'live';
+    const bj = new Date(now.getTime() + 8 * 3600e3), today = bj.toISOString().slice(0, 10), day = bj.getUTCDay();
+    return day >= 1 && day <= 5 && bj.getUTCHours() < 15 && (!lastDate || lastDate < today) ? 'pre' : 'post';
+  }
+  // 方案卡片状态行：① 择时——当前牛/熊，比值再涨/跌多少翻转；② 买卖——不看择时，只按 MACD（创业板方案再加 10 日线）算离下一个买点或卖点还差多少。
+  function renderPlanActions(candles: Candle[], est: ReturnType<typeof macdEstimate>, ma: ReturnType<typeof maEstimate>) {
+    const abs = (gap: number) => `${Math.abs(gap * 100).toFixed(2)}%`;
+    const phase = marketPhase(candles.at(-1)?.date);
+    const when = phase === 'post' ? '下一交易日收盘' : '今日收盘';
+    const todayBar = candles.at(-1)?.date === new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
+    const base = phase === 'live' ? '现价' : phase === 'pre' ? '昨收' : todayBar ? '今日收盘价' : '最新收盘价';
+    const move = (price: number, last: number, label: string, sign: '<' | '>') => {
+      const gap = price / last - 1;
+      return `${gap >= 0 ? '涨' : '跌'} <b>${abs(gap)}</b>（${sign === '<' ? '&lt;' : '&gt;'} ${price.toFixed(3)}）${label}`;
+    };
+    const plans = allPlans(candles);
+    for (const def of PLAN_DEFS) {
+      const plan = plans.find(item => item.key === def.key);
+      const points = def.key === 'cyb' ? ratioPoints.r2 : def.key === 'hs' ? ratioPoints.h1 : undefined;
+      const ratio = points ? ratioEstimate(points, isLiveBar(points.at(-1)?.date)) : undefined;
+      const timingSlot = planTagsBox.querySelector<HTMLElement>(`[data-plan-timing="${def.key}"]`);
+      if (timingSlot) {
+        if (ratio) {
+          const gap = ratio.critical / ratio.ratio - 1;
+          timingSlot.title = `${def.key === 'cyb' ? '创业板' : '沪深300'} ÷ 红利 = ${ratio.ratio.toFixed(4)}，20 日均线 ${ratio.ma.toFixed(4)}（${ratio.live ? '盘中' : `截至 ${ratio.date} 收盘`}）；收盘比值${ratio.bull ? '低于' : '高于'} ${ratio.critical.toFixed(4)} 翻转。`;
+          timingSlot.innerHTML = `<span class="signal-label">市场择时</span><span class="est-tag ${ratio.bull ? 'bull' : 'bear'}">${ratio.bull ? '牛市' : '熊市'}</span>比值再${gap >= 0 ? '涨' : '跌'} <b>${abs(gap)}</b> 转${ratio.bull ? '熊' : '牛'}`;
+        } else timingSlot.innerHTML = '';
+      }
+      const actionSlot = planTagsBox.querySelector<HTMLElement>(`[data-plan-action="${def.key}"]`);
+      if (!actionSlot || !plan) continue;
+      let text: string;
+      if (plan.holding) {
+        text = est?.bull ? `${when}${move(est.price, est.lastClose, 'MACD 死叉', '<')}，当日收盘卖` : 'MACD 已在空头，暂无死叉卖点';
+      } else if (plan.pendingBuy) {
+        const why = plan.pendingBuy.reason === '金叉' ? 'MACD 金叉' : '站上 10 日线';
+        text = phase === 'live' ? `按现价今日收盘将${why}，收盘确认后次日开盘买`
+          : phase === 'pre' ? `昨日已${why}，今日开盘买` : `${todayBar ? '今日' : '上一交易日'}已${why}，下一交易日开盘买`;
+      } else {
+        const parts: string[] = [];
+        if (est && !est.bull) parts.push(move(est.price, est.lastClose, 'MACD 金叉', '>'));
+        if (def.key === 'cyb' && ma && !ma.above) parts.push(move(ma.price, ma.lastClose, '站上 10 日线（且 K−D≥5.3）', '>'));
+        text = parts.length ? `${when}${parts.join('，或')}，次日开盘买` : `MACD 已在多头，等下一次金叉${def.key === 'cyb' ? '或重新站上 10 日线' : ''}`;
+      }
+      actionSlot.title = `涨跌幅相对${base}计算`;
+      actionSlot.innerHTML = `<span class="signal-label">买卖信号</span><span>${text}</span>`;
     }
-    macdEstimateNote.hidden = !lines.length;
-    macdEstimateNote.innerHTML = lines.length ? lines.join('') + '<div class="est-note">均为收盘临界值，不是预测；悬停看口径。</div>' : '';
   }
   // R2 风格比值：两只 ETF 的前复权日线 + 实时报价；失败时只是不显示，不影响主图。
   let ratioPoints: RatioPanels = {};
@@ -235,10 +269,11 @@ const etfReviewUrl = href('lab/etf-review');
   // 每个方案的勾选框控制图上买卖点（原工具栏的三个买卖点开关已隐藏，这里代为勾选），勾选时顺带打开对应择时底色。
   const planTagsBox = document.querySelector('#plan-tags') as HTMLElement;
   let planTagsCode = '';
-  const PLAN_DEFS: { key: PlanKey; name: string; timing: string; rule: string; trades: string; shade?: string }[] = [
-    { key: 'cyb', name: '创业板择时', timing: '创业板 ÷ 红利，高于 20 日均线为牛', rule: CYB_PLAN, trades: '#view-kd10-trades', shade: '#view-r2' },
-    { key: 'hs', name: '沪深300择时', timing: '沪深300 ÷ 红利，高于 20 日均线为牛', rule: HS_PLAN, trades: '#view-h1-trades', shade: '#view-h1' },
-    { key: 'macd', name: '纯MACD', timing: '不择时', rule: 'MACD(12,26,9) 金叉次日开盘买，死叉当日收盘卖', trades: '#view-macd-trades' },
+  // rules：① 买入条件 ② 卖出条件（与 kd10Signals / macdCloseSignals 实现一致）
+  const PLAN_DEFS: { key: PlanKey; name: string; timing: string; rules: [string, string]; trades: string; shade?: string }[] = [
+    { key: 'cyb', name: '创业板择时', timing: '创业板 ÷ 红利，高于 20 日均线为牛', rules: ['牛市 MACD 金叉，或站上 10 日线且 K−D≥5.3，次日开盘买', 'MACD 死叉，或熊市跌破 10 日线，当日收盘卖'], trades: '#view-kd10-trades', shade: '#view-r2' },
+    { key: 'hs', name: '沪深300择时', timing: '沪深300 ÷ 红利，高于 20 日均线为牛', rules: ['牛市 MACD 金叉，次日开盘买', 'MACD 死叉，当日收盘卖'], trades: '#view-h1-trades', shade: '#view-h1' },
+    { key: 'macd', name: '纯MACD', timing: '不择时', rules: ['MACD(12,26,9) 金叉，次日开盘买', 'MACD 死叉，当日收盘卖'], trades: '#view-macd-trades' },
   ];
   function renderPlanTags(code: string) {
     if (planTagsCode === code) return;
@@ -250,12 +285,12 @@ const etfReviewUrl = href('lab/etf-review');
     }
     planTagsBox.hidden = false;
     planTagsBox.innerHTML = PLAN_DEFS.map(def => `<div class="plan-tag" data-plan-block="${def.key}"><div class="plan-tag-head">`
-      + `<span class="plan-chip">${def.name}</span><span class="plan-best">最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
-      + `<span class="plan-hold" data-plan="${def.key}"></span>`
+      + `<h2 class="plan-chip">${def.name}</h2><span class="plan-best">卡玛最优</span>${(marks.get(def.key) ?? []).map(name => `<span class="plan-mark">${name}</span>`).join('')}`
       + `<label class="plan-check"><input type="checkbox" data-plan-view="${def.key}"> 图上显示买卖点</label>`
       + `</div>`
-      + `<div class="plan-tag-text"><div><b>择时：</b>${def.timing}</div><div><b>买卖：</b>${def.rule}</div></div>`
-      + `<div class="plan-bt plan-stats-scroll" data-plan-stats="${def.key}"></div></div>`).join('')
+      + `<div class="plan-tag-text"><div class="plan-status"><div class="plan-position"><span class="signal-label">当前持仓</span><span class="plan-hold" data-plan="${def.key}"></span></div>${def.key === 'macd' ? '' : `<div class="plan-timing" data-plan-timing="${def.key}"></div>`}<div class="plan-action" data-plan-action="${def.key}"></div></div>`
+      + `<details class="plan-rules"><summary>交易规则<span>${def.timing}</span></summary><div class="plan-rule-grid"><div><span class="rule-label buy">买入条件</span><p>${def.rules[0]}</p></div><div><span class="rule-label sell">卖出条件</span><p>${def.rules[1]}</p></div></div></details></div>`
+      + `<div class="plan-bt" data-plan-stats="${def.key}"></div></div>`).join('')
       + '<div class="plan-note">图上 ▲ 买 ▼ 卖，持仓期间连线：红赚绿亏。</div>';
     planTagsBox.querySelectorAll<HTMLInputElement>('[data-plan-view]').forEach(box => {
       const def = PLAN_DEFS.find(item => item.key === box.dataset.planView)!;
@@ -332,6 +367,7 @@ const etfReviewUrl = href('lab/etf-review');
     const key = toggle.dataset.years!;
     if (expandedYears.has(key)) expandedYears.delete(key); else expandedYears.add(key);
     renderPlanStats(...lastPlanStats);
+    planTagsBox.querySelector<HTMLButtonElement>(`[data-years="${key}"]`)?.focus({ preventScroll: true });
   });
   function planBacktests(plan: PlanResult, candles: Candle[]) {
     const points = plan.key === 'cyb' ? ratioPoints.r2 ?? [] : ratioPoints.h1 ?? [];
@@ -355,9 +391,9 @@ const etfReviewUrl = href('lab/etf-review');
       if (open) {
         const ret = `${open.ret > 0 ? '+' : ''}${(open.ret * 100).toFixed(1)}%`;
         badge.className = 'plan-hold holding';
-        badge.innerHTML = `持仓中 · ${open.buyDate.slice(5)} 买入 <b class="${open.ret > 0 ? 'up' : open.ret < 0 ? 'down' : ''}">${ret}</b>`;
+        badge.innerHTML = `持仓中<em>${open.buyDate.slice(5)} 买入</em><b class="${open.ret > 0 ? 'up' : open.ret < 0 ? 'down' : ''}">${ret}</b>`;
       } else if (plan.pendingBuy) {
-        badge.className = 'plan-hold pending'; badge.textContent = `空仓 · ${plan.pendingBuy.reason}，下一交易日开盘买入`;
+        badge.className = 'plan-hold pending'; badge.innerHTML = `待买入<em>${plan.pendingBuy.reason}，下一交易日开盘</em>`;
       } else {
         badge.className = 'plan-hold flat'; badge.textContent = '空仓';
       }
@@ -377,18 +413,21 @@ const etfReviewUrl = href('lab/etf-review');
       + `<td class="${cls(r.hold)}">${pctText(r.hold)}</td>`
       + `<td>${r.natural ? `${r.natural}（${r.wins} / ${r.natural - r.wins}）` : '0'}</td><td>${pctText(r.winRate, false)}</td><td>${num(r.payoff)}</td>`
       + `<td><span class="${cls(r.best)}">${pctText(r.best)}</span> / <span class="${cls(r.worst)}">${pctText(r.worst)}</span></td>`;
-    const rowsOf = (plan: PlanResult) => {
+    const statsOf = (plan: PlanResult) => {
       const { full, yearly } = planBacktests(plan, candles);
-      const fullRow = full
-        ? `<tr><td title="${full.first} ~ ${full.last}">全历史 <span class="muted">${full.first} 起（${full.years.toFixed(1)} 年）</span></td>${cells(full, true)}</tr>`
-        : `<tr><td>全历史</td><td colspan="9" class="muted">上市不足 240 个交易日，暂无回测</td></tr>`;
+      const metric = (label: string, value: string, tone = '', tip = '') => `<div class="plan-metric"${tip ? ` title="${tip}"` : ''}><dt>${label}</dt><dd class="${tone}">${value}</dd></div>`;
+      const overview = full
+        ? `<div class="plan-period"><span>全历史回测</span><span>${full.first} — ${full.last}<i>·</i>${full.years.toFixed(1)} 年</span></div>`
+          + `<dl class="plan-metrics">${metric('累计收益', pctText(full.total), cls(full.total))}${metric('年化收益', pctText(full.cagr), cls(full.cagr))}${metric('最大回撤', pctText(full.mdd), cls(full.mdd))}${metric('卡玛比率', num(full.calmar), '', '年化收益 ÷ 最大回撤的绝对值')}</dl>`
+          + `<dl class="plan-secondary">${metric('一直持有', pctText(full.hold), cls(full.hold))}${metric('完成交易', `${full.natural}<small>（${full.wins}赚 / ${full.natural - full.wins}亏）</small>`)}${metric('胜率', pctText(full.winRate, false))}${metric('盈亏比', num(full.payoff))}${metric('单笔最好', pctText(full.best), cls(full.best))}${metric('单笔最差', pctText(full.worst), cls(full.worst))}</dl>`
+        : '<p class="plan-empty">上市不足 240 个交易日，暂无全历史回测</p>';
       const sum = yearlySummary(yearly), open_ = expandedYears.has(plan.key);
-      const summaryRow = yearly.length
-        ? `<tr class="year-summary"><td><button type="button" class="year-toggle" data-years="${plan.key}" aria-expanded="${open_}">${open_ ? '▾' : '▸'} 逐年</button></td>`
-          + `<td colspan="9">${sum.years} 年中 <b>${sum.positive}</b> 年赚钱，平均 <b class="${cls(sum.avg)}">${pctText(sum.avg)}</b>，最差一年 <b class="${cls(sum.worst)}">${pctText(sum.worst)}</b></td></tr>`
+      const summary = yearly.length
+        ? `<div class="plan-year-head"><button type="button" class="year-toggle" data-years="${plan.key}" aria-expanded="${open_}" aria-controls="plan-years-${plan.key}"><span class="year-chevron" aria-hidden="true">›</span>年度表现<span class="year-toggle-hint">${open_ ? '收起' : '展开'}</span></button>`
+          + `<div class="year-summary"><span><b>${sum.positive} / ${sum.years}</b> 年盈利</span><span>平均 <b class="${cls(sum.avg)}">${pctText(sum.avg)}</b></span><span>最差 <b class="${cls(sum.worst)}">${pctText(sum.worst)}</b></span></div></div>`
         : '';
-      const yearRows = open_ ? yearly.map(({ year, result }) => `<tr class="year-row"><td title="${result.first} ~ ${result.last}">${year}${result.sessions < 200 ? ` <span class="muted">（${result.sessions} 日）</span>` : ''}</td>${cells(result, false)}</tr>`).join('') : '';
-      return fullRow + summaryRow + yearRows;
+      const yearRows = open_ ? yearly.map(({ year, result }) => `<tr class="year-row"><th scope="row" title="${result.first} ~ ${result.last}">${year}${result.sessions < 200 ? ` <span class="muted">（${result.sessions} 日）</span>` : ''}</th>${cells(result, false)}</tr>`).join('') : '';
+      return overview + summary + `<div id="plan-years-${plan.key}" class="plan-stats-scroll"${open_ ? '' : ' hidden'} tabindex="0" role="region" aria-label="${PLAN_DEFS.find(def => def.key === plan.key)!.name}年度回测明细"><table><thead><tr><th scope="col">年份</th><th scope="col">收益</th><th scope="col">年化</th><th scope="col">最大回撤</th><th scope="col">卡玛</th><th scope="col">一直持有</th><th scope="col">完成交易（赚 / 亏）</th><th scope="col">胜率</th><th scope="col">盈亏比</th><th scope="col">单笔最好 / 最差</th></tr></thead><tbody>${yearRows}</tbody></table></div>`;
     };
     // 标签上的收益摘要、最优高亮、勾选框状态
     const calmarOf = new Map(plans.map(plan => [plan.key, planBacktests(plan, candles).full?.calmar ?? -Infinity]));
@@ -397,12 +436,12 @@ const etfReviewUrl = href('lab/etf-review');
       const block = planTagsBox.querySelector<HTMLElement>(`[data-plan-block="${plan.key}"]`);
       block?.classList.toggle('is-best', !!bestKey && bestKey[1] > -Infinity && bestKey[0] === plan.key);
       const table = planTagsBox.querySelector<HTMLElement>(`[data-plan-stats="${plan.key}"]`);
-      if (table) table.innerHTML = `<table><thead><tr><th>回测</th><th>收益</th><th>年化</th><th>最大回撤</th><th>卡玛</th><th>一直持有</th><th>完成交易（赚 / 亏）</th><th>胜率</th><th>盈亏比</th><th>单笔最好 / 最差</th></tr></thead><tbody>${rowsOf(plan)}</tbody></table>`;
+      if (table) table.innerHTML = statsOf(plan);
       const def = PLAN_DEFS.find(item => item.key === plan.key)!;
       const view = planTagsBox.querySelector<HTMLInputElement>(`[data-plan-view="${plan.key}"]`);
       if (view) view.checked = (document.querySelector(def.trades) as HTMLInputElement).checked;
     }
-    planStatsBox.innerHTML = '<div class="plan-note">回测与研究口径一致：满仓进出、单边 0.1% 成本、上市第 121 根日线起交易。逐年 = 每个自然年单独回测：年初空仓起算、年末收盘平仓，当年可交易日不足 120 天不计。年化需满一年；卡玛 = 年化 ÷ |最大回撤|；盈亏比 = 平均盈利 ÷ |平均亏损|；一直持有 = 同一时段首日次日开盘买入、末日收盘卖出。</div>';
+    planStatsBox.innerHTML = '<details class="plan-method"><summary>回测口径与指标说明</summary><div class="plan-note">回测与研究口径一致：满仓进出、单边 0.1% 成本、上市第 121 根日线起交易。逐年 = 每个自然年单独回测：年初空仓起算、年末收盘平仓，当年可交易日不足 120 天不计。年化需满一年；卡玛 = 年化 ÷ |最大回撤|；盈亏比 = 平均盈利 ÷ |平均亏损|；一直持有 = 同一时段首日次日开盘买入、末日收盘卖出。</div></details>';
   }
 
   function bindRange() {
@@ -1466,45 +1505,93 @@ const etfReviewUrl = href('lab/etf-review');
   .chart-panel { margin-top:28px; padding:18px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }.chart-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:8px; }.chart-head h2 { margin:0 0 3px; color:#1e293b; font-size:16px; }.chart-head p { margin:0; color:#94a3b8; font-size:12px; }.legend { display:flex; flex-wrap:wrap; gap:7px; align-items:center; color:#64748b; font-size:12px; }.line { display:inline-block; width:14px; height:2px; margin-left:5px; }.line.position { background:#3b82f6; }.line.capital { background:#f59e0b; }.line.profit { background:#f43f5e; }.line.close { background:#6366f1; }.kline-swatch { display:inline-block; width:8px; height:12px; margin-left:5px; border-radius:1px; vertical-align:-2px; }.kline-swatch.up { background:#ef4444; }.kline-swatch.down { background:#16a34a; }.zone-swatch { display:inline-block; width:14px; height:10px; margin-left:5px; border-radius:2px; vertical-align:-1px; }.zone-swatch.support { background:rgba(13,148,136,.35); border:1px solid #0d9488; }.zone-swatch.resistance { background:rgba(234,88,12,.35); border:1px solid #ea580c; }.line.buy-level { border-top:1.5px dashed #2563eb; background:none; height:0; }.line.step-level { border-top:1.5px dotted #94a3b8; background:none; height:0; }.line.sell-level { border-top:1.5px dashed #9333ea; background:none; height:0; }.chart-scroll { overflow-x:auto; }.chart-scroll svg { display:block; width:100%; height:auto; }
   @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
   /* 手机：图表适配屏幕宽度；标题与图例上下排列，图例可换行 */
-  @media (max-width: 720px) { .chart-head { flex-direction: column; gap: 10px; }.axis-legend { align-items: flex-start; }.legend-row { flex-wrap: wrap; justify-content: flex-start; white-space: normal; } }
+  @media (max-width: 1024px) { .chart-head { flex-direction: column; gap: 10px; }.axis-legend { align-items: flex-start; }.legend-row { flex-wrap: wrap; justify-content: flex-start; white-space: normal; } }
 </style>
 
 <style is:global>
-  .plan-card { margin-bottom:16px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; }
+  .plan-card { margin-bottom:24px; }
   .plan-card:not(:has(> :not([hidden]))) { display:none; }
-  .plan-tags { display:grid; gap:6px; font-size:13px; line-height:1.6; }
-  .plan-tag { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 8px; }
-  .plan-stats { margin-top:10px; padding-top:10px; border-top:1px dashed #cbd5e1; font-size:12.5px; color:#334155; }
-  .plan-stats-head { font-weight:700; margin-bottom:6px; } .plan-stats-head span { font-weight:400; color:#94a3b8; font-size:12px; margin-left:6px; }
-  .plan-stats-scroll { overflow-x:auto; }
-  .plan-bt { flex-basis:100%; margin-top:6px; font-size:12.5px; color:#334155; }
-  .plan-bt table { border-collapse:collapse; width:100%; white-space:nowrap; }
-  .plan-bt th, .plan-bt td { padding:4px 8px; border-bottom:1px solid #e2e8f0; text-align:right; }
-  .plan-bt th:first-child, .plan-bt td:first-child { text-align:left; }
-  .plan-bt th { color:#64748b; font-weight:600; background:#f1f5f9; }
-  .plan-bt .up { color:#dc2626; } .plan-bt .down { color:#16a34a; } .plan-bt .muted { color:#94a3b8; font-weight:400; }
-  .plan-bt .year-toggle { padding:0; border:0; background:none; color:#2563eb; font-size:12.5px; cursor:pointer; }
-  .plan-bt .year-summary td:nth-child(2) { text-align:left; color:#475569; }
-  .plan-bt .year-row td { background:#fff; }
-  .plan-chip { flex:none; padding:0 8px; border-radius:999px; font-size:12px; font-weight:700; background:#e2e8f0; color:#334155; }
-  .plan-tag-stats, .plan-note { color:#64748b; }
-  .plan-note { font-size:12px; }
-  .plan-tag-head { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
-  .plan-tag { padding:6px 8px; border:1px solid transparent; border-radius:8px; }
-  .plan-tag.is-best { border-color:#93c5fd; background:#eff6ff; }
-  .plan-tag .plan-best { display:none; padding:0 7px; border-radius:999px; background:#2563eb; color:#fff; font-size:12px; font-weight:700; }
-  .plan-tag.is-best .plan-best { display:inline-block; }
-  .plan-tag.is-best .plan-chip { background:#2563eb; color:#fff; }
-  .plan-mark { padding:0 7px; border-radius:999px; border:1px solid #fcd34d; background:#fef3c7; color:#92400e; font-size:12px; font-weight:600; }
-  .plan-check { display:inline-flex; align-items:center; gap:4px; color:#334155; font-size:12.5px; cursor:pointer; }
-  .plan-hold { padding:1px 10px; border-radius:6px; font-size:13px; font-weight:700; line-height:1.6; }
+  .plan-tags { display:grid; gap:18px; font-size:13px; line-height:1.65; }
+  .plan-tag { min-width:0; overflow:hidden; border:1px solid #e2e8f0; border-radius:16px; background:#fff; box-shadow:0 2px 6px rgb(15 23 42 / .025); }
+  .plan-tag.is-best { border-color:#818cf8; background:#f5f7ff; box-shadow:0 0 0 1px #818cf8,0 4px 16px rgb(79 70 229 / .08); }
+  .plan-tag.is-best .plan-tag-head { border-bottom-color:#d7ddfc; background:#e8edff; }
+  .plan-tag-head { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:18px 22px; border-bottom:1px solid #eef2f6; }
+  .plan-chip { margin:0 4px 0 0; color:#1e293b; font-size:16px; font-weight:700; letter-spacing:-.3px; }
+  .plan-best { display:none; padding:2px 8px; border-radius:5px; background:#eef2ff; color:#4f46e5; font-size:11px; font-weight:600; }
+  .is-best .plan-best { display:inline-flex; background:#4f46e5; color:#fff; }
+  .plan-mark { padding:2px 8px; border:1px solid #f4e4c4; border-radius:5px; background:#fffbf2; color:#926323; font-size:11px; }
+  .plan-check { display:inline-flex; align-items:center; gap:7px; margin-left:auto; padding:5px 9px; border:1px solid #e2e8f0; border-radius:7px; background:#fff; color:#64748b; font-size:12px; cursor:pointer; transition:background .15s,border-color .15s; }
+  .plan-check:hover { border-color:#a5b4fc; background:#f8faff; }
+  .plan-check:has(input:checked) { border-color:#c7d2fe; background:#eef2ff; color:#4338ca; }
+  .plan-check input { width:14px; height:14px; margin:0; accent-color:#4f46e5; }
+  .plan-tag-text { padding:16px 22px 0; }
+  .plan-status { display:grid; grid-template-columns:minmax(120px,.8fr) minmax(180px,1.1fr) minmax(0,2fr); gap:18px; padding:14px 16px; border:1px solid #eef2f6; border-radius:9px; background:#f8fafc; color:#475569; font-size:12px; }
+  .plan-status > :not(:last-child) { border-right:1px solid #e2e8f0; }
+  .plan-status:not(:has(.plan-timing)) { grid-template-columns:minmax(120px,.8fr) minmax(0,3.1fr); }
+  .signal-label { display:block; margin-bottom:6px; color:#64748b; font-size:11px; font-weight:500; letter-spacing:.4px; }
+  .plan-hold { display:inline-flex; flex-wrap:wrap; align-items:center; gap:5px; color:#334155; font-size:12px; font-weight:600; }
   .plan-hold:empty { display:none; }
-  .plan-hold.holding { background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; }
-  .plan-hold.holding b.up { color:#dc2626; } .plan-hold.holding b.down { color:#16a34a; }
-  .plan-hold.pending { background:#fef3c7; color:#92400e; border:1px solid #fcd34d; }
-  .plan-hold.flat { background:#e2e8f0; color:#334155; border:1px solid #cbd5e1; }
-  .plan-hold.idle { padding:0; font-size:12px; font-weight:400; color:#94a3b8; }
-  .plan-tag > .plan-tag-text { flex-basis:100%; }
+  .plan-hold::before { content:''; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .plan-hold.holding { color:#0369a1; }
+  .plan-hold.pending { color:#a16207; }
+  .plan-hold.flat { color:#64748b; }
+  .plan-hold em { font-style:normal; font-weight:400; font-size:11px; }
+  .plan-hold b { font-variant-numeric:tabular-nums; }
+  .plan-hold.holding b.up { color:#d84a4a; } .plan-hold.holding b.down { color:#168575; }
+  .plan-rules { margin-top:10px; color:#64748b; font-size:12px; }
+  .plan-rules summary { display:flex; align-items:center; gap:8px; width:fit-content; padding:5px 0; cursor:pointer; list-style:none; }
+  .plan-rules summary::-webkit-details-marker, .plan-method summary::-webkit-details-marker { display:none; }
+  .plan-rules summary::before, .plan-method summary::before { content:'›'; display:inline-block; font-size:17px; line-height:1; transition:transform .15s; }
+  .plan-rules[open] summary::before, .plan-method[open] summary::before { transform:rotate(90deg); }
+  .plan-rules summary > span { margin-left:5px; color:#94a3b8; font-size:11px; }
+  .plan-rule-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:12px 14px; margin:5px 0 0; border-radius:8px; background:#f8fafc; }
+  .plan-rule-grid p { margin:3px 0 0; color:#475569; }
+  .rule-label { font-size:11px; font-weight:600; }.rule-label.buy { color:#b45353; }.rule-label.sell { color:#168575; }
+  .plan-bt { padding:16px 22px 0; color:#334155; font-size:12px; font-variant-numeric:tabular-nums; }
+  .plan-period { display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; color:#94a3b8; font-size:11px; }
+  .plan-period > span:first-child { color:#64748b; font-weight:500; }.plan-period i { margin:0 8px; font-style:normal; }
+  .plan-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin:10px 0 16px; }
+  .plan-metric { position:relative; text-align:center; }
+  .plan-metric:not(:last-child)::after { content:''; position:absolute; right:-7px; top:4px; bottom:4px; width:1px; background:#e2e8f0; }
+  .plan-secondary .plan-metric::after { right:-5px; }
+  .is-best .plan-metric::after { background:#dce1f5; }
+  .plan-metric dt { margin:0 0 3px; color:#64748b; font-size:11px; font-weight:400; }
+  .plan-metric dd { margin:0; font-size:25px; font-weight:650; letter-spacing:-.6px; line-height:1.4; }
+  .plan-metric:first-child dd { font-weight:750; }
+  .plan-secondary { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; margin:0; padding:14px 0 16px; border-top:1px solid #eef2f6; }
+  .plan-secondary dd { font-size:13px; font-weight:600; letter-spacing:0; }.plan-secondary small { color:#94a3b8; font-size:10px; font-weight:400; }
+  .plan-bt .up { color:#d84a4a; }.plan-bt .down { color:#168575; }.plan-bt .muted { color:#94a3b8; font-size:11px; font-weight:400; }
+  .plan-year-head { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px; min-height:49px; border-top:1px solid #eef2f6; }
+  .year-toggle { display:inline-flex; align-items:center; gap:7px; padding:10px 0; border:0; background:transparent; color:#475569; font:inherit; font-weight:600; cursor:pointer; }
+  .year-toggle:hover { color:#4f46e5; }.year-chevron { font-size:19px; line-height:1; }.year-toggle[aria-expanded=true] .year-chevron { transform:rotate(90deg); }.year-toggle-hint { color:#94a3b8; font-size:11px; font-weight:400; }
+  .year-summary { display:flex; flex-wrap:wrap; gap:5px 18px; color:#64748b; font-size:11px; }.year-summary b { font-weight:600; }
+  .plan-stats-scroll { overflow-x:auto; margin:0 -22px; border-top:1px solid #eef2f6; scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent; }
+  .plan-stats-scroll[hidden] { display:none; }
+  .plan-bt table { border-collapse:collapse; width:100%; white-space:nowrap; font-size:12px; }
+  .plan-bt th, .plan-bt td { padding:11px 10px; border-bottom:1px solid #eef2f6; text-align:right; }
+  .plan-bt th:first-child, .plan-bt td:first-child { padding-left:22px; text-align:left; }
+  .plan-bt th:last-child, .plan-bt td:last-child { padding-right:22px; }
+  .plan-bt thead th { background:#f8fafc; color:#64748b; font-size:11px; font-weight:500; }
+  .plan-bt tbody th { color:#475569; font-weight:500; }.plan-bt tbody tr:nth-child(even) { background:#fcfdff; }.plan-bt tbody tr:hover { background:#f4f7fc; }.plan-bt tbody tr:last-child > * { border-bottom:0; }
+  .plan-note { color:#94a3b8; font-size:11px; line-height:1.8; }
+  .plan-tags > .plan-note { padding:0 4px; margin-top:-8px; }
+  .plan-stats { margin-top:8px; padding:0 4px; }.plan-method { color:#64748b; font-size:11px; }.plan-method summary { display:flex; gap:7px; align-items:center; width:fit-content; cursor:pointer; list-style:none; }.plan-method .plan-note { margin-top:8px; max-width:860px; }
+  .plan-empty { margin:8px 0 16px; color:#94a3b8; }
+  .plan-card :is(button,input,summary,[tabindex]):focus-visible { outline:2px solid #6366f1; outline-offset:4px; border-radius:4px; }
+  @media(max-width:720px) {
+    .plan-tag-head { padding:15px 16px; }.plan-tag-text { padding:14px 16px 0; }.plan-bt { padding:14px 16px 0; }
+    .plan-status { grid-template-columns:1fr 1.6fr; gap:14px; padding:12px; }.plan-action { grid-column:1 / -1; padding-top:12px; border-top:1px solid #e2e8f0; }.plan-status:not(:has(.plan-timing)) { grid-template-columns:1fr; }.plan-status > :not(:last-child) { border-right:0; }
+    .plan-secondary .plan-metric:nth-child(3n)::after { display:none; }
+    .plan-metric dd { font-size:22px; }.plan-secondary { grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px 10px; }
+    .plan-stats-scroll { margin:0 -16px; }.plan-bt th:first-child { padding-left:16px; }.plan-bt td:last-child { padding-right:16px; }
+    .plan-year-head { padding:6px 0 12px; gap:0; }.year-summary { width:100%; padding-left:14px; gap:6px 14px; }
+    .plan-rules summary { align-items:baseline; }.plan-rules summary > span { margin-left:0; }.plan-rule-grid { grid-template-columns:1fr; gap:12px; }
+  }
+  @media(max-width:420px) {
+    .plan-tag-head { gap:6px; }.plan-chip { font-size:15px; }.plan-check { margin-top:5px; margin-left:0; flex-basis:100%; justify-content:center; }
+    .plan-metrics .plan-metric:nth-child(2n)::after { display:none; }
+    .plan-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }.plan-metric dd { font-size:25px; }.plan-secondary dd { font-size:12px; }.plan-secondary small { display:block; }
+  }
   .minute-panel { margin-top:28px; padding:18px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
   .minute-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
   .minute-head h2 { margin:0 0 3px; color:#1e293b; font-size:16px; }
@@ -1533,7 +1620,7 @@ const etfReviewUrl = href('lab/etf-review');
   .levels-note { font-size:12px; color:#dc2626; }
   .levels-note.hint { color:#b45309; }
   .levels-note.ok { color:#15803d; }
-  @media (max-width: 720px) { .levels-grid { grid-template-columns:1fr; } .level-row { flex-wrap:wrap; } .level-row input[type=number] { width:70px; } .level-row input.level-note { flex:1 1 100%; order:9; } }
+  @media (max-width: 1024px) { .levels-grid { grid-template-columns:1fr; } .level-row { flex-wrap:wrap; } .level-row input[type=number] { width:70px; } .level-row input.level-note { flex:1 1 100%; order:9; } }
   .view-bar { display:flex; flex-wrap:wrap; align-items:center; gap:6px 16px; margin:2px 0 6px; color:#475569; font-size:13px; }
   .view-bar label { display:flex; align-items:center; gap:5px; cursor:pointer; }
   .macd-sw.hbuy { color:#0284c7; } .macd-sw.hsell { color:#c026d3; }
@@ -1572,12 +1659,15 @@ const etfReviewUrl = href('lab/etf-review');
   .price-estimate em { font-style:normal; color:#94a3b8; }
   .price-estimate .bull span { color:#b91c1c; }
   .price-estimate .bear span { color:#15803d; }
-  .macd-estimate { margin:2px 0 6px; color:#334155; font-size:13px; line-height:1.6; }
-  .macd-estimate b { font-variant-numeric:tabular-nums; }
-  .macd-estimate .est-tag { display:inline-block; margin-right:6px; padding:0 7px; border-radius:999px; font-size:12px; font-weight:600; }
-  .macd-estimate .est-tag.bull { background:#dcfce7; color:#166534; }
-  .macd-estimate .est-tag.bear { background:#fee2e2; color:#991b1b; }
-  .macd-estimate .est-note { color:#94a3b8; font-size:12px; margin-left:4px; }
+  .plan-timing, .plan-action { min-width:0; color:#475569; }
+  .plan-action:empty { display:none; }
+  .plan-action b { font-variant-numeric:tabular-nums; }
+  .plan-timing .est-tag { vertical-align:1px; }
+  .plan-timing:empty { display:none; }
+  .plan-timing b { font-variant-numeric:tabular-nums; }
+  .plan-timing .est-tag { display:inline-block; margin-right:6px; padding:0 6px; border-radius:4px; font-size:12px; font-weight:600; }
+  .plan-timing .est-tag.bull { background:#fdf0ef; color:#b45353; }
+  .plan-timing .est-tag.bear { background:#e8f5ef; color:#168575; }
   .minute-controls { display:flex; align-items:center; gap:14px; color:#475569; font-size:13px; }
   .minute-controls label { display:flex; align-items:center; gap:6px; }
   .minute-controls select { border:1px solid #cbd5e1; border-radius:6px; padding:5px 8px; background:#fff; color:#334155; font-size:13px; }
