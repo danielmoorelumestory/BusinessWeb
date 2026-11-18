@@ -29,6 +29,8 @@ describe('planTagsOf', () => {
     expect(planTagsOf('512400')[0].views).toEqual(['r2', 'kd10Trades']);
     expect(planTagsOf('512400')[0].stats).not.toContain('不足 3 年');
     expect(planTagsOf('588170')[0].stats).toContain('不足 3 年');
+    expect(planTagsOf('512880')[0].views).toEqual(['h1', 'h1Trades']);
+    expect(planTagsOf('512880')[0].timing).toContain('沪深300');
   });
   it('择时组合标签是 9 只的数字', () => { expect(planTagsOf('562500')[1].stats).toContain('9 只'); });
   it('未入选任何分组返回空', () => { expect(planTagsOf('000000')).toEqual([]); });

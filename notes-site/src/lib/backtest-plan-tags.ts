@@ -62,14 +62,15 @@ export function planTagsOf(code: string): PlanTag[] {
       views: cybSide ? ['r2', 'kd10Trades'] : ['h1', 'h1Trades'],
     });
   }
-  const watch = (watchPool.items as { code: string; industry: string; start: string; years: number; annual: number; drawdown: number; calmar: number; yearly: Record<string, number> }[])
+  const watch = (watchPool.items as { code: string; plan: string; industry: string; start: string; years: number; annual: number; drawdown: number; calmar: number; yearly: Record<string, number> }[])
     .find(item => item.code === code);
   if (watch) tags.push({
-    group: 'watch-pool', name: '行业观察池', timing: '创业板 ÷ 红利，高于 20 日均线为牛',
-    plan: CYB_PLAN,
+    group: 'watch-pool', name: '行业观察池',
+    timing: watch.plan === 'cyb' ? '创业板 ÷ 红利，高于 20 日均线为牛' : '沪深300 ÷ 红利，高于 20 日均线为牛',
+    plan: watch.plan === 'cyb' ? CYB_PLAN : HS_PLAN,
     stats: `观察中（${watch.industry}），只看信号、不并入组合；全历史年化 ${pct(watch.annual)}，最大回撤 ${pct(watch.drawdown)}，卡玛 ${watch.calmar.toFixed(2)}（${watch.years} 年）；`
       + `逐年 ${Object.entries(watch.yearly).map(([year, value]) => `${year.slice(2)}:${signed(value)}`).join(' ')}` + (watch.years < 3 ? '；上市不足 3 年，参考意义有限' : ''),
-    views: ['r2', 'kd10Trades'],
+    views: watch.plan === 'cyb' ? ['r2', 'kd10Trades'] : ['h1', 'h1Trades'],
   });
   return tags;
 }
