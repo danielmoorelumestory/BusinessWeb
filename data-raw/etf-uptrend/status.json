@@ -1,40 +1,40 @@
 {
  "last_run": {
-  "run_id": "20261119T063914",
-  "started_at": "2026-11-19T06:39:14+08:00",
+  "run_id": "20261120T064334",
+  "started_at": "2026-11-20T06:43:34+08:00",
   "trigger": "scheduled",
   "status": "success",
-  "finished_at": "2026-11-19T06:40:10+08:00",
-  "collected_on": "2026-11-19",
-  "source_as_of": "2026-11-18",
+  "finished_at": "2026-11-20T06:44:37+08:00",
+  "collected_on": "2026-11-20",
+  "source_as_of": "2026-11-19",
   "counts": {
-   "all": 77,
-   "trend_retracement": 14,
-   "new_pool": 16,
-   "t0": 14,
-   "industry": 47,
+   "all": 66,
+   "trend_retracement": 15,
+   "new_pool": 7,
+   "t0": 12,
+   "industry": 38,
    "broad_index": 0,
-   "unique_rep": 29
+   "unique_rep": 26
   },
   "errors": 0,
   "message": null
  },
  "last_success": {
-  "run_id": "20261119T063914",
-  "started_at": "2026-11-19T06:39:14+08:00",
+  "run_id": "20261120T064334",
+  "started_at": "2026-11-20T06:43:34+08:00",
   "trigger": "scheduled",
   "status": "success",
-  "finished_at": "2026-11-19T06:40:10+08:00",
-  "collected_on": "2026-11-19",
-  "source_as_of": "2026-11-18",
+  "finished_at": "2026-11-20T06:44:37+08:00",
+  "collected_on": "2026-11-20",
+  "source_as_of": "2026-11-19",
   "counts": {
-   "all": 77,
-   "trend_retracement": 14,
-   "new_pool": 16,
-   "t0": 14,
-   "industry": 47,
+   "all": 66,
+   "trend_retracement": 15,
+   "new_pool": 7,
+   "t0": 12,
+   "industry": 38,
    "broad_index": 0,
-   "unique_rep": 29
+   "unique_rep": 26
   },
   "errors": 0,
   "message": null
