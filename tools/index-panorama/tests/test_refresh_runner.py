@@ -165,6 +165,18 @@ class TestDanjuanRollingTail(unittest.TestCase):
         old = {"2026-11-09": 1.0, "2026-11-13": 2.0}
         self.assertTrue(rr.judge_diff(rr._series_diff(old, {"2026-11-09": 1.0, "2026-12-01": 3.0}, rolling_tail=True)))
 
+    def test_rolling_head_window(self):
+        """2026-11-17 实测：蛋卷 10 年窗口首点每天前移，第二点也浮动，2016-11-21 落在新首点之后却消失。"""
+        old = {"2016-11-16": 1.0, "2016-11-21": 1.1, "2016-11-28": 1.2, "2016-12-05": 1.3, "2026-11-16": 2.0}
+        new = {"2016-11-17": 1.0, "2016-11-28": 1.2, "2016-12-05": 1.3, "2026-11-16": 2.0, "2026-11-17": 2.1}
+        self.assertTrue(rr.judge_diff(rr._series_diff(old, new)))  # 非蛋卷来源仍拒收
+        d = rr._series_diff(old, new, rolling_tail=True)
+        self.assertEqual(rr.judge_diff(d), [])
+        self.assertEqual(d["headTrim"], ["2016-11-16", "2016-11-21"])
+        # 距新首点超过 14 天的旧点消失 → 仍是区间内丢失
+        far = dict(new); far.pop("2016-12-05")
+        self.assertTrue(any("区间内丢失" in w for w in rr.judge_diff(rr._series_diff(old, far, rolling_tail=True))))
+
     @staticmethod
     def _advance(fld_):
         """把一列蛋卷历史按上游规则前移一个交易日，与生产包当前末日无关：
@@ -326,6 +338,21 @@ class TestBundleGate(unittest.TestCase):
         gone = copy.deepcopy(old)
         gone["indices"] = []
         self.assertFalse(rr.bundle_gate(old, gone, fd, None)["ok"])
+
+    def test_switch_to_previous_ok_candidate_allowed(self):
+        """中证行业指数 PE 同时有 domestic 与 csi 两份；上一版 csi 已是合格候选时允许切换（逐日比较须通过）。"""
+        old = mini_bundle()
+        old["indices"][0]["availability"]["pe"]["candidates"].append(
+            {"provider": "csi", "status": "ok", "count": 2, "selected": False})
+        g = rr.bundle_gate(old, mini_bundle(pe_provider="csi", pe=(13.0, 13.1)), fd, None)
+        self.assertTrue(g["ok"], g["problems"])
+        self.assertEqual(g["switched"], ["000300.SH.pe: domestic → csi"])
+        # 切换后丢了旧观测 → 拒收
+        g = rr.bundle_gate(old, mini_bundle(pe_provider="csi", pe=(None, 13.1)), fd, None)
+        self.assertFalse(g["ok"])
+        # 上一版没有该候选 → 仍拒收
+        g = rr.bundle_gate(mini_bundle(), mini_bundle(pe_provider="csi"), fd, None)
+        self.assertTrue(any("来源切换" in p for p in g["problems"]))
 
     def test_revision_recorded_not_rejected(self):
         g = rr.bundle_gate(mini_bundle(), mini_bundle(pe=(12.9, 13.1)), fd, None)

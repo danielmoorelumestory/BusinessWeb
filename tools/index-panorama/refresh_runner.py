@@ -169,6 +169,11 @@ def commit_paths(app: str = APP) -> list[str]:
 # 另限新末日比旧末日晚不超过 ROLLING_TAIL_MAX_DAYS 天（尾点按交易日前移，长假也不超过两周）。
 DANJUAN_HISTORY_MARK = "danjuanfunds.com/djapi/index_eva/"
 ROLLING_TAIL_MAX_DAYS = 14
+# 蛋卷历史是“最近 10 年”滚动窗口：首点是 10 年前的同一天（每天前移），第二点也随之浮动
+# （2026-11-17 实测：旧 [2016-11-16, 2016-11-21, 2016-11-28…] → 新 [2016-11-17, …, 2016-11-28…]，
+# 2016-11-21 落在新首点之后却消失，按通用规则判为区间内丢失、整份 domestic 回退旧缓存）。
+# 所以滚动来源里，距新首点 ≤ ROLLING_HEAD_MAX_DAYS 天的旧观测消失按最早端裁剪处理（仍受 90% 样本数门槛约束）。
+ROLLING_HEAD_MAX_DAYS = 14
 
 
 def is_replaceable_tail(old_last: str, new_last: str) -> bool:
@@ -198,11 +203,15 @@ def _series_diff(old: dict, new: dict, rolling_tail: bool = False) -> dict:
         res["lostInside"] = sorted(old)
         return res
     nf, nl = min(new), max(new)
+    kept_first = min((d for d in old if d in new), default=None)  # 新旧共有的最早日期：之前才算“窗口头部”
     for d in sorted(old):
         if d in new:
             if new[d] != old[d]:
                 res["revised"].append((d, old[d], new[d]))
         elif d < nf:
+            res["headTrim"].append(d)
+        elif (rolling_tail and kept_first and d < kept_first
+              and (dt.date.fromisoformat(d) - dt.date.fromisoformat(nf)).days <= ROLLING_HEAD_MAX_DAYS):
             res["headTrim"].append(d)
         elif rolling_tail and d == res["oldLast"] and is_replaceable_tail(d, nl):
             res["tailReplaced"].append((d, old[d]))
@@ -361,7 +370,15 @@ def bundle_gate(old: dict | None, new: dict | None, fd, eps_raw: dict | None) ->
             op = ((o.get("availability") or {}).get(f) or {}).get("provider")
             np_ = ((n.get("availability") or {}).get(f) or {}).get("provider")
             if om and op != np_:
-                problems.append(f"{code}.{f}: 来源切换 {op} → {np_}")
+                # 新来源在上一版里已是合格候选（同一指数的另一份完整序列，只是样本数/末日差一点而落选），
+                # 且上面的逐日比较已通过（无区间内丢失、末日不回退）→ 允许切换，只记入报告。
+                # 典型：中证行业指数的 PE 同时有中证官网与 domestic 两份，domestic 某天沿用旧缓存时中证更新而胜出。
+                old_cands = ((o.get("availability") or {}).get(f) or {}).get("candidates") or []
+                was_ok = any(c.get("provider") == np_ and c.get("status") == "ok" and c.get("count") for c in old_cands)
+                if was_ok and not judge_diff(diff):
+                    switched_ok.append(f"{code}.{f}: {op} → {np_}")
+                else:
+                    problems.append(f"{code}.{f}: 来源切换 {op} → {np_}")
         if o.get("componentNum") is not None and n.get("componentNum") is None:
             problems.append(f"{code}.componentNum: 原有披露消失")
     # EPS 与 raw 一一对应（只按 since/floor 裁剪）
@@ -381,7 +398,7 @@ def bundle_gate(old: dict | None, new: dict | None, fd, eps_raw: dict | None) ->
             if got and (n.get("sources", {}).get("eps") or {}).get("provider") != "original_eps":
                 problems.append(f"{code}.eps: 来源不是 original_eps")
     return {"ok": not problems, "problems": problems, "revisions": revisions, "headTrim": head,
-            "tailReplaced": tails}
+            "tailReplaced": tails, "switched": switched_ok}
 
 
 def field_summary(bundle: dict | None) -> list[dict]:
@@ -676,6 +693,7 @@ class Runner:
         self.report["revisions"] = gate["revisions"][:200]
         self.report["headTrim"] = gate["headTrim"][:200]
         self.report["tailReplaced"] = gate.get("tailReplaced", [])[:200]
+        self.report["switched"] = gate.get("switched", [])[:200]
         self.report["fields"] = field_summary(new)
         self.report["dataAsOf"] = (new or {}).get("asOf")
         self.report["previousAsOf"] = (old or {}).get("asOf")
@@ -848,6 +866,8 @@ def render_md(r: dict) -> str:
                   for x in r["tailReplaced"][:60]]
     if r.get("headTrim"):
         lines += ["", "## 最早端裁剪（上游滚动窗口，新样本≥原 90%）", ""] + [f"- {x}" for x in r["headTrim"][:60]]
+    if r.get("switched"):
+        lines += ["", "## 来源切换（新来源上一版已是合格候选，逐日比较通过）", ""] + [f"- {x}" for x in r["switched"][:60]]
     lines += ["", "口径：EPS 唯一来源为李神奇数据网（计算口径未核实，元/每股，每 5 个交易日取 1 点）；与 PE 来源不同、不可互相换算。"]
     return "\n".join(lines) + "\n"
 
