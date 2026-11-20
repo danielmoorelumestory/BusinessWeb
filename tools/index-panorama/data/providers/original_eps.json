@@ -1,13 +1,13 @@
 {
  "provider": "original_eps",
- "retrievedAt": "2026-11-20T09:23:21.410Z",
- "builtAt": "2026-11-20T09:24:42Z",
+ "retrievedAt": "2026-11-20T20:45:51.342Z",
+ "builtAt": "2026-11-20T20:47:10Z",
  "asOf": "2026-11-20",
  "mode": "cache",
  "sourceLabel": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
  "sourceUrl": "https://lishenqi.vip/#/panorama",
  "capture": {
-  "capturedAt": "2026-11-20T09:23:21.410Z",
+  "capturedAt": "2026-11-20T20:45:51.342Z",
   "page": "https://lishenqi.vip/",
   "range": "all",
   "via": "PANO_IX.series(code,'all',PANO_IX.FIELDS) → Cloud.call('lsqSiteAdmin',{action:'ixSeries'})",
@@ -2443,7 +2443,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000001.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1207 个（2002-01-09~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000001.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1207 个（2002-01-09~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000001.SH",
       "origName": "上证指数",
       "range": "all",
@@ -2455,7 +2455,7 @@
       "rawSampleCount": 1207,
       "rawFirstDate": "2002-01-09",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -4889,7 +4889,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399001.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1207 个（2002-01-09~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('399001.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1207 个（2002-01-09~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "399001.SZ",
       "origName": "深证成指",
       "range": "all",
@@ -4901,7 +4901,7 @@
       "rawSampleCount": 1207,
       "rawFirstDate": "2002-01-09",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -6521,7 +6521,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399006.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 800 个（2010-06-04~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('399006.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 800 个（2010-06-04~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "399006.SZ",
       "origName": "创业板指",
       "range": "all",
@@ -6533,7 +6533,7 @@
       "rawSampleCount": 800,
       "rawFirstDate": "2010-06-04",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -7167,7 +7167,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000688.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 307 个（2020-07-28~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000688.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 307 个（2020-07-28~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000688.SH",
       "origName": "科创50",
       "range": "all",
@@ -7179,7 +7179,7 @@
       "rawSampleCount": 307,
       "rawFirstDate": "2020-07-28",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -9423,7 +9423,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000016.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1112 个（2004-01-02~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000016.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1112 个（2004-01-02~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000016.SH",
       "origName": "上证50",
       "range": "all",
@@ -9435,7 +9435,7 @@
       "rawSampleCount": 1112,
       "rawFirstDate": "2004-01-02",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -11557,7 +11557,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000300.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1051 个（2005-04-11~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000300.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 1051 个（2005-04-11~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000300.SH",
       "origName": "沪深300",
       "range": "all",
@@ -11569,7 +11569,7 @@
       "rawSampleCount": 1051,
       "rawFirstDate": "2005-04-11",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -13519,7 +13519,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000905.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 965 个（2007-01-17~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000905.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 965 个（2007-01-17~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000905.SH",
       "origName": "中证500",
       "range": "all",
@@ -13531,7 +13531,7 @@
       "rawSampleCount": 965,
       "rawFirstDate": "2007-01-17",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -14727,7 +14727,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000852.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 588 个（2014-10-23~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000852.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 588 个（2014-10-23~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000852.SH",
       "origName": "中证1000",
       "range": "all",
@@ -14739,7 +14739,7 @@
       "rawSampleCount": 588,
       "rawFirstDate": "2014-10-23",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -16751,7 +16751,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000903.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 996 个（2006-06-02~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000903.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 996 个（2006-06-02~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000903.SH",
       "origName": "中证100",
       "range": "all",
@@ -16763,7 +16763,7 @@
       "rawSampleCount": 996,
       "rawFirstDate": "2006-06-02",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -18713,7 +18713,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000906.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 965 个（2007-01-17~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000906.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 965 个（2007-01-17~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000906.SH",
       "origName": "中证800",
       "range": "all",
@@ -18725,7 +18725,7 @@
       "rawSampleCount": 965,
       "rawFirstDate": "2007-01-17",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -20594,7 +20594,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000922.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 899 个（2008-05-28~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000922.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 899 个（2008-05-28~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000922.SH",
       "origName": "中证红利",
       "range": "all",
@@ -20606,7 +20606,7 @@
       "rawSampleCount": 899,
       "rawFirstDate": "2008-05-28",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -21897,7 +21897,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399967.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 627 个（2014-01-02~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('399967.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 627 个（2014-01-02~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "399967.SZ",
       "origName": "中证军工",
       "range": "all",
@@ -21909,7 +21909,7 @@
       "rawSampleCount": 627,
       "rawFirstDate": "2014-01-02",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -23229,7 +23229,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399975.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 650 个（2013-07-15~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('399975.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 650 个（2013-07-15~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "399975.SZ",
       "origName": "证券公司",
       "range": "all",
@@ -23241,7 +23241,7 @@
       "rawSampleCount": 650,
       "rawFirstDate": "2013-07-15",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -24561,7 +24561,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('399986.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 650 个（2013-07-15~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('399986.SZ','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 650 个（2013-07-15~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "399986.SZ",
       "origName": "中证银行",
       "range": "all",
@@ -24573,7 +24573,7 @@
       "rawSampleCount": 650,
       "rawFirstDate": "2013-07-15",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }
@@ -25984,7 +25984,7 @@
       "label": "李神奇数据网（lishenqi.vip 指数全景，计算口径未核实）",
       "url": "https://lishenqi.vip/#/panorama",
       "unit": "元",
-      "method": "原站页面只读调用 PANO_IX.series('000827.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 687 个（2012-09-28~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T09:23:21.410Z",
+      "method": "原站页面只读调用 PANO_IX.series('000827.SH','all')（云函数 ixSeries，=详情页「全部」区间）返回的 eps 原值；单位取原站单位表 u.eps=yuan（元/每股），未换算。服务端从 6034 个日点中每 5 个交易日取 1 点（step=5，freq=week），不是完整日频；原站 raw 非空观测 687 个（2012-09-28~2026-11-20），数据包按 --since 起始日裁剪，实际样本数/范围以 availability.eps 为准。计算口径（盈利期、股本、加权方式）与上游原站未披露，未核实；不是每指数点盈利，与点位/PE 不存在恒等关系；每只指数只用这一份历史，不与其他来源拼接。采集 2026-11-20T20:45:51.342Z",
       "origCode": "000827.SH",
       "origName": "中证环保",
       "range": "all",
@@ -25996,7 +25996,7 @@
       "rawSampleCount": 687,
       "rawFirstDate": "2012-09-28",
       "rawLastDate": "2026-11-20",
-      "capturedAt": "2026-11-20T09:23:21.410Z",
+      "capturedAt": "2026-11-20T20:45:51.342Z",
       "calcVerified": false
      }
     }

@@ -1,7 +1,7 @@
 {
  "note": "WSJ peyields 页面内嵌 mdc_peAndYields 数据块（原样）",
  "url": "https://www.wsj.com/market-data/stocks/peyields",
- "retrievedAt": "2026-11-20T09:23:06Z",
+ "retrievedAt": "2026-11-20T20:45:35Z",
  "footnote": "P/E data based on as-reported earnings; estimate data based on operating earnings.",
  "block": {
   "timestamp": "Thursday, November 19, 2026",
