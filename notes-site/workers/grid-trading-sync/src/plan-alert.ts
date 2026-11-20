@@ -17,7 +17,8 @@ import { H1_CODES, R2_CODES, styleRatio } from '../../../src/lib/chart-indicator
 
 export type AlertPhase = 'pre' | 'close';
 export type AlertAction = 'sell-today-close' | 'buy-next-open' | 'sell-next-open';
-export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean; tag?: string; group?: string };
+/** 卖出信号带本笔买入日、买入价与按发消息时价格（盘中为实时价）计的盈亏。 */
+export type PlanAlert = { code: string; name: string; action: AlertAction; reason: string; price: number; watch?: boolean; tag?: string; group?: string; buyDate?: string; buyPrice?: number; ret?: number };
 export type Quote = { price: number; open: number; high: number; low: number; date: string; changePercent?: number };
 export type AlertPlan = 'cyb' | 'hs' | 'macd';
 /** catalogId：复盘页对应清单分组的 id，用来取用户改过的分组名 */
@@ -135,10 +136,13 @@ export function todayActions(bars: PlanBar[], today: string, run: (bars: PlanBar
   const last = bars.at(-1);
   if (!last || last.date !== today) return [];
   const result = run([...bars, { date: NEXT, open: last.close, high: last.close, low: last.close, close: last.close }]);
-  return result.signals.flatMap((signal): Omit<PlanAlert, 'code' | 'name'>[] => {
+  return result.signals.flatMap((signal, index): Omit<PlanAlert, 'code' | 'name'>[] => {
     if (signal.signalDate !== today) return [];
-    if (signal.date === today && signal.side === 'sell') return [{ action: 'sell-today-close' as const, reason: signal.reason, price: last.close }];
-    if (signal.date === NEXT) return [{ action: signal.side === 'buy' ? 'buy-next-open' as const : 'sell-next-open' as const, reason: signal.reason, price: last.close }];
+    // 卖出：本笔买入是前一个信号；盈亏按今日收盘（盘中为实时价）计，明日开盘卖出的也先按这个价估
+    const buy = result.signals[index - 1];
+    const trade = signal.side === 'sell' && buy?.side === 'buy' && buy.price > 0 ? { buyDate: buy.date, buyPrice: buy.price, ret: last.close / buy.price - 1 } : {};
+    if (signal.date === today && signal.side === 'sell') return [{ action: 'sell-today-close' as const, reason: signal.reason, price: last.close, ...trade }];
+    if (signal.date === NEXT) return [{ action: signal.side === 'buy' ? 'buy-next-open' as const : 'sell-next-open' as const, reason: signal.reason, price: last.close, ...trade }];
     return [];
   });
 }
@@ -199,13 +203,26 @@ export function formatMessage(results: GroupResult[], phase: AlertPhase, today: 
   const alerts = results.flatMap(result => result.alerts), holdings = results.flatMap(result => result.holdings ?? []);
   const failed = [...new Set(results.flatMap(result => result.failed))];
   const priceLabel = phase === 'pre' ? '现价' : '收盘';
-  const mark = (item: { group?: string; tag?: string }) => `${item.group ? `［${item.group}］` : ''}${item.tag ? `［${item.tag}］` : ''}`;
-  const actionLine = (alert: PlanAlert) => `${WHEN_TEXT[phase][alert.action]} ${alert.code} ${alert.name}${mark(alert)}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}）`;
-  const section = (title: string, lines: string[]) => [title, ...(lines.length ? lines : ['无'])].join('\n');
+  const groupOf = (item: { group?: string; tag?: string }) => `「${item.group ?? '自选'}」${item.tag ? `［${item.tag}］` : ''}`;
+  const tradeText = (alert: PlanAlert) => alert.ret === undefined || alert.buyPrice === undefined || !alert.buyDate ? '' : `，盈亏 ${pct(alert.ret)}（${alert.buyDate.slice(5)}买入 ${alert.buyPrice.toFixed(3)}）`;
+  const actionLine = (alert: PlanAlert) => `${alert.code} ${alert.name}（${alert.reason}，${priceLabel} ${alert.price.toFixed(3)}${tradeText(alert)}）`;
+  const holdingLine = (h: Holding) => `${h.code} ${h.name} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`;
+  /** 按分组归类（分组按首次出现的顺序，即 PLAN_GROUPS 顺序），组内编号；组与组之间空一行。 */
+  const byGroup = <T extends { group?: string; tag?: string }>(items: T[], line: (item: T) => string) => {
+    const groups = new Map<string, T[]>();
+    for (const item of items) groups.set(groupOf(item), [...(groups.get(groupOf(item)) ?? []), item]);
+    return [...groups].map(([name, list]) => [name, ...list.map((item, i) => `${i + 1}.${line(item)}`)].join('\n')).join('\n\n');
+  };
+  /** 一段：标题下按时点（今日收盘 / 今日尾盘 / 明日开盘）分块，块内再按分组；没有内容写「无」。 */
+  const section = (title: string, blocks: { when?: string; body: string }[]) => {
+    const shown = blocks.filter(block => block.body);
+    return shown.length ? `${title}\n${shown.map(block => block.when ? `${block.when}\n${block.body}` : block.body).join('\n\n')}` : `${title}\n无`;
+  };
+  const sells = alerts.filter(alert => alert.action !== 'buy-next-open');
   const parts = [
-    section('🟢 买入', alerts.filter(alert => alert.action === 'buy-next-open').map(actionLine)),
-    section('🔴 卖出', alerts.filter(alert => alert.action !== 'buy-next-open').sort((x, y) => x.action === y.action ? 0 : x.action === 'sell-today-close' ? -1 : 1).map(actionLine)),
-    section('📌 持有', holdings.map(h => `${h.code} ${h.name}${mark(h)} ${pct(h.ret)}（${h.buyDate.slice(5)}买入 ${h.buyPrice.toFixed(3)}）`)),
+    section('🟢 买入', [{ when: WHEN_TEXT[phase]['buy-next-open'], body: byGroup(alerts.filter(alert => alert.action === 'buy-next-open'), actionLine) }]),
+    section('🔴 卖出', (['sell-today-close', 'sell-next-open'] as const).map(action => ({ when: WHEN_TEXT[phase][action], body: byGroup(sells.filter(alert => alert.action === action), actionLine) }))),
+    section('📌 持有', [{ body: byGroup(holdings, holdingLine) }]),
   ];
   if (failed.length) parts.push(`⚠️ 取数失败：${failed.join('、')}`);
   // 首行写日期与时段，避免内容相近的几天消息混在一起

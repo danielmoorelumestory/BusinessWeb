@@ -69,6 +69,21 @@ describe('todayActions 与详情页规则引擎一致', () => {
       expect(sells).toBeGreaterThan(3);
     });
   }
+  it('卖出信号带本笔买入日、买入价和按今日收盘计的盈亏，买入信号不带', () => {
+    const bars = series(400);
+    let checked = 0;
+    for (let t = 150; t < bars.length; t++) {
+      const window = bars.slice(0, t + 1), today = bars[t].date, run = (b: PlanBar[]) => hsPlan(b, allBull(b));
+      for (const action of todayActions(window, today, run)) {
+        if (action.action === 'buy-next-open') { expect(action.ret).toBeUndefined(); continue; }
+        const signals = run(window).signals, buy = [...signals].reverse().find(s => s.side === 'buy' && s.date <= today)!;
+        expect(action).toMatchObject({ buyDate: buy.date, buyPrice: buy.price });
+        expect(action.ret).toBeCloseTo(window.at(-1)!.close / buy.price - 1, 12);
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThan(3);
+  });
   it('最后一根不是今天时不给信号', () => {
     const bars = series(300);
     expect(todayActions(bars, day(400), b => hsPlan(b, allBull(b)))).toEqual([]);
@@ -79,29 +94,35 @@ describe('formatMessage', () => {
   const group = PLAN_GROUPS[0];
   const holding = { code: '159819', name: '人工智能ETF易方达', buyDate: '2026-11-05', buyPrice: 1.2, ret: 0.05321 };
   it('没有信号也给出三段（14:45 每天都发，确认服务正常）', () => {
-    const results: GroupResult[] = [{ group, alerts: [], failed: [], holdings: [holding] }, { group: PLAN_GROUPS[1], alerts: [], failed: [], holdings: [] }];
-    expect(formatMessage(results, 'pre', '2026-11-18')).toBe('择时提醒 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
+    const results: GroupResult[] = [{ group, alerts: [], failed: [], holdings: [{ ...holding, group: '创业板择时优选' }] }, { group: PLAN_GROUPS[1], alerts: [], failed: [], holdings: [] }];
+    expect(formatMessage(results, 'pre', '2026-11-18')).toBe('择时提醒 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n「创业板择时优选」\n1.159819 人工智能ETF易方达 +5.32%（11-05买入 1.200）');
     expect(formatMessage([{ group, alerts: [], failed: [] }], 'pre', '2026-11-18')).toBe('择时提醒 11-18 14:45\n\n🟢 买入\n无\n\n🔴 卖出\n无\n\n📌 持有\n无');
   });
   it('首行可加说明', () => {
     expect(formatMessage([{ group, alerts: [], failed: [] }], 'close', '2026-11-18', '⚠️ 信号与 14:45 不同，以此为准').split('\n').slice(0, 2).join('|')).toBe('择时提醒 11-18 15:15|⚠️ 信号与 14:45 不同，以此为准');
   });
-  it('不分择时分组，两组的信号与持仓合并到 买入 / 卖出 / 持有 三段', () => {
+  it('每段按时点分块、块内按分组编号，卖出带盈亏', () => {
+    const A = '创业板择时优选', B = '沪深300择时优选';
     const results: GroupResult[] = [
-      { group, failed: ['159869'], holdings: [{ ...holding, ret: -0.0312 }], alerts: [
-        { code: '159819', name: '人工智能ETF易方达', action: 'buy-next-open', reason: '金叉', price: 1.2346 },
-        { code: '512760', name: '芯片ETF国泰', action: 'sell-next-open', reason: '死叉', price: 2 },
+      { group, failed: ['159869'], holdings: [{ ...holding, ret: -0.0312, group: A }], alerts: [
+        { code: '159819', name: '人工智能ETF易方达', action: 'buy-next-open', reason: '金叉', price: 1.2346, group: A },
+        { code: '512760', name: '芯片ETF国泰', action: 'sell-next-open', reason: '死叉', price: 2, group: A, buyDate: '2026-11-17', buyPrice: 2, ret: 0 },
+        { code: '159998', name: '计算机ETF天弘', action: 'sell-today-close', reason: '熊市破10日线', price: 1.1, group: A, buyDate: '2026-11-10', buyPrice: 1, ret: 0.1 },
       ] },
-      { group: PLAN_GROUPS[1], failed: [], holdings: [], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67 }] },
+      { group: PLAN_GROUPS[1], failed: [], holdings: [], alerts: [{ code: '512670', name: '国防ETF鹏华', action: 'sell-today-close', reason: '死叉', price: 0.67, group: B, buyDate: '2026-11-06', buyPrice: 0.7, ret: 0.67 / 0.7 - 1 }] },
     ];
-    expect(formatMessage(results, 'pre', '2026-11-18')).toBe([
-      '择时提醒 11-18 14:45', '', '🟢 买入', '明日开盘 159819 人工智能ETF易方达（金叉，现价 1.235）', '',
-      '🔴 卖出', '今日尾盘 512670 国防ETF鹏华（死叉，现价 0.670）', '明日开盘 512760 芯片ETF国泰（死叉，现价 2.000）', '',
-      '📌 持有', '159819 人工智能ETF易方达 -3.12%（11-05买入 1.200）', '',
+    expect(formatMessage(results, 'close', '2026-11-18')).toBe([
+      '择时提醒 11-18 15:15', '',
+      '🟢 买入', '明日开盘', `「${A}」`, '1.159819 人工智能ETF易方达（金叉，收盘 1.235）', '',
+      '🔴 卖出', '今日收盘（已触发）',
+      `「${A}」`, '1.159998 计算机ETF天弘（熊市破10日线，收盘 1.100，盈亏 +10.00%（11-10买入 1.000））', '',
+      `「${B}」`, '1.512670 国防ETF鹏华（死叉，收盘 0.670，盈亏 -4.29%（11-06买入 0.700））', '',
+      '明日开盘', `「${A}」`, '1.512760 芯片ETF国泰（死叉，收盘 2.000，盈亏 +0.00%（11-17买入 2.000））', '',
+      '📌 持有', `「${A}」`, '1.159819 人工智能ETF易方达 -3.12%（11-05买入 1.200）', '',
       '⚠️ 取数失败：159869',
     ].join('\n'));
-    expect(formatMessage(results, 'close', '2026-11-18')).toContain('今日收盘（已触发） 512670 国防ETF鹏华（死叉，收盘 0.670）');
-    expect(alertKeys(results)).toBe('buy-next-open:159819,sell-next-open:512760,sell-today-close:512670');
+    expect(formatMessage(results, 'pre', '2026-11-18')).toContain('今日尾盘\n「创业板择时优选」\n1.159998');
+    expect(alertKeys(results)).toBe('buy-next-open:159819,sell-next-open:512760,sell-today-close:159998,sell-today-close:512670');
   });
 });
 
@@ -120,8 +141,8 @@ describe('行业观察池（创业板择时待选 / 沪深300择时待选）', (
     const group = PLAN_GROUPS.find(item => item.watch)!;
     const text = formatMessage([{ group, failed: [], alerts: [{ code: '516520', name: '智能驾驶ETF', action: 'buy-next-open', reason: '金叉', price: 1, watch: true, group: '创业板择时待选' }],
       holdings: [{ code: '512400', name: '有色金属ETF', buyDate: '2026-11-05', buyPrice: 1, ret: 0.01, group: '自选', tag: '纯MACD' }] }], 'pre', '2026-11-18');
-    expect(text).toContain('明日开盘 516520 智能驾驶ETF［创业板择时待选］（金叉，现价 1.000）');
-    expect(text).toContain('512400 有色金属ETF［自选］［纯MACD］ +1.00%');
+    expect(text).toContain('明日开盘\n「创业板择时待选」\n1.516520 智能驾驶ETF（金叉，现价 1.000）');
+    expect(text).toContain('「自选」［纯MACD］\n1.512400 有色金属ETF +1.00%');
   });
   it('groupLabelOf：按数据文件查所属分组，都不在为自选', () => {
     for (const group of PLAN_GROUPS) expect(groupLabelOf(group.items[0].code)).toContain(group.title);
