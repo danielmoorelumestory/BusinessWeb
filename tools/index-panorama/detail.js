@@ -18,9 +18,10 @@
   var FIELD_INFO = {
     price: ['收盘点位', '点'], chg: ['涨跌幅', '%'], pe: ['市盈率', '倍'], pb: ['市净率', '倍'],
     dy: ['股息率', '%'], mcap: ['市值（口径未注明）', '亿元'], amt: ['成交额', '亿元'], turn: ['换手率', '%'],
-    eps: ['每股收益', '按来源'], roe: ['ROE', '%'], bps: ['每股净资产', '按来源'], volume: ['成交量', '股']
+    eps: ['每股收益', '按来源'], roe: ['ROE', '%'], bps: ['每股净资产', '按来源'], volume: ['成交量', '股'],
+    np: ['净利润合计（TTM）', '亿元']
   };
-  var FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume'];
+  var FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume', 'np'];
   var COLORS = {
     primary: '#1d5c9e', gold: '#a8741a', band: 'rgba(168,116,26,0.10)', grid: '#eef1f5',
     text: '#94a3b8', up: '#c0392b', down: '#0f6e56', dd: '#0f6e56', ddFill: 'rgba(15,110,86,0.14)',
@@ -71,7 +72,7 @@
   }
   function fmtVal(v, metric) {
     if (!isNum(v)) return '—';
-    if (metric === 'mcap' || metric === 'amt') {
+    if (metric === 'mcap' || metric === 'amt' || metric === 'np') {
       return Math.abs(v) >= 10000 ? fmtNum(v / 10000, 2) + ' 万亿元' : fmtNum(v, 2) + ' 亿元';
     }
     if (metric === 'dy' || metric === 'roe' || metric === 'turn' || metric === 'chg') return fmtNum(v, 2) + '%';
@@ -607,9 +608,12 @@
   function earningsHtml(series, st) {
     var sl = M().sliceSeries(series, st.range, st.anchor);
     var pe = validPairs(sl, 'pe'), eps = validPairs(sl, 'eps'), roe = validPairs(sl, 'roe');
-    var head = '<div class="pd-card-head"><h3>估值与盈利</h3><span class="pd-muted">同一时间轴对照市盈率与来源披露的每股盈利，分辨谁在推动行情</span></div>';
     var peOk = pe.length >= MIN_HIST && histOk(series, 'pe', pe.length);
     var epsOk = eps.length >= MIN_HIST;
+    // 没有来源披露的 EPS、但有成分股自算的净利润合计时，盈利侧改用净利润合计（TTM）
+    var npAll = validPairs(series, 'np'), npSl = validPairs(sl, 'np');
+    if (!epsOk && npAll.length) return earningsNpHtml(series, pe, peOk, roe, npAll, npSl);
+    var head = '<div class="pd-card-head"><h3>估值与盈利</h3><span class="pd-muted">同一时间轴对照市盈率与来源披露的每股盈利，分辨谁在推动行情</span></div>';
     var sub = [];
     ['eps', 'roe'].forEach(function (f) {
       var p = f === 'eps' ? eps : roe;
@@ -625,6 +629,32 @@
     return '<section class="pd-card pd-earn">' + head + stats +
       '<div class="pd-chart pd-chart-mini" data-pd-chart="earn" data-pd-pe="' + (peOk ? 1 : 0) + '" data-pd-eps="' + (epsOk ? 1 : 0) + '" role="img" aria-label="市盈率与每股盈利对照"></div>' +
       '<div class="pd-plot-legend">' + (peOk ? '<span><i style="background:' + COLORS.primary + '"></i>市盈率</span>' : '') + (epsOk ? '<span><i style="background:' + COLORS.gold + '"></i>每股盈利</span>' : '') + '</div>' + note + '</section>';
+  }
+
+  function earningsNpHtml(series, pe, peOk, roe, npAll, npSl) {
+    var head = '<div class="pd-card-head"><h3>估值与盈利</h3><span class="pd-muted">同一时间轴对照市盈率与成分股净利润合计，分辨谁在推动行情</span></div>';
+    var last = npAll[npAll.length - 1];
+    var src = sourceOf(series, 'np') || {};
+    var per = (src.periods || []).filter(function (x) { return x && x.date === last[0]; })[0];
+    // 同比取来源给出的同口径值（只用两期都有数据的成分股），不用合计额直接相除：各期纳入只数不同
+    var yoy = per && isNum(per.yoy) ? per.yoy : null;
+    var perTxt = per ? '报告期 ' + per.period : last[0];
+    var sub = [
+      statItem('净利润合计（TTM）', esc(fmtVal(last[1], 'np')), esc(perTxt) + ' · ' + shortSourceHtml(series, 'np')),
+      statItem('同比', isNum(yoy) ? '<span class="' + (yoy >= 0 ? 'pd-up' : 'pd-down') + '">' + esc(fmtPct(yoy, true)) + '</span>' : '<span class="pd-muted">—</span>',
+        isNum(yoy) ? '同口径成分股对比上年同期' : '缺同口径上年同期数据')
+    ];
+    if (roe.length) sub.push(statItem('ROE 最新', esc(fmtVal(roe[roe.length - 1][1], 'roe')), esc(roe[roe.length - 1][0]) + ' · ' + shortSourceHtml(series, 'roe')));
+    var stats = '<div class="pd-stats pd-stats-' + sub.length + '">' + sub.join('') + '</div>';
+    var npOk = npSl.length >= MIN_HIST;
+    var note = '<p class="pd-foot pd-eps-note">' + esc('净利润合计：' + (src.label || '未注明来源') + '，季频，本区间 ' + npSl.length + ' 个报告期' +
+      (npSl.length ? '（' + npSl[0][0] + '~' + npSl[npSl.length - 1][0] + '）' : '') +
+      '。按当前成分股回看历史，存在幸存者偏差；次新股上市前缺季报，各期纳入只数不同，合计额跨期不完全可比；日期为报告期末，财报在期末后 1~4 个月才披露。指数没有“每股”，此处不展示 EPS，也不从点位或 PE 反推盈利。' +
+      (peOk ? '两条线来源不同，只在同一时间轴并列。' : '')) + '</p>';
+    if (!peOk && !npOk) return '<section class="pd-card pd-earn">' + head + stats + empty('所选区间市盈率与净利润合计都不足以成线。') + note + '</section>';
+    return '<section class="pd-card pd-earn">' + head + stats +
+      '<div class="pd-chart pd-chart-mini" data-pd-chart="earn" data-pd-pe="' + (peOk ? 1 : 0) + '" data-pd-eps="0" data-pd-np="' + (npOk ? 1 : 0) + '" role="img" aria-label="市盈率与净利润合计对照"></div>' +
+      '<div class="pd-plot-legend">' + (peOk ? '<span><i style="background:' + COLORS.primary + '"></i>市盈率</span>' : '') + (npOk ? '<span><i style="background:' + COLORS.gold + '"></i>净利润合计（TTM，亿元）</span>' : '') + '</div>' + note + '</section>';
   }
 
   // EPS 单位：取来源声明（如原站 u.eps=yuan → 元），未声明时显示“按来源”
@@ -751,7 +781,7 @@
     }
     el = q('earn');
     if (el) {
-      var hasPe = el.getAttribute('data-pd-pe') === '1', hasEps = el.getAttribute('data-pd-eps') === '1';
+      var hasPe = el.getAttribute('data-pd-pe') === '1', hasEps = el.getAttribute('data-pd-eps') === '1', hasNp = el.getAttribute('data-pd-np') === '1';
       var eo = baseOption();
       eo.yAxis = [];
       eo.series = [];
@@ -765,6 +795,12 @@
         if (hasPe) ax.splitLine = { show: false };
         eo.yAxis.push(ax);
         eo.series.push({ id: 'eps', name: labelFor('eps'), type: 'line', yAxisIndex: eo.yAxis.length - 1, data: validPairs(sl, 'eps'), showSymbol: true, symbolSize: 3, lineStyle: { width: 1.4, color: COLORS.gold }, itemStyle: { color: COLORS.gold } });
+      }
+      if (hasNp) {
+        var nax = valueAxis('亿元', function (v) { return fmtNum(v, 0); }, hasPe ? 'right' : 'left');
+        if (hasPe) nax.splitLine = { show: false };
+        eo.yAxis.push(nax);
+        eo.series.push({ id: 'np', name: '净利润合计', type: 'line', yAxisIndex: eo.yAxis.length - 1, data: validPairs(sl, 'np'), showSymbol: true, symbolSize: 4, lineStyle: { width: 1.4, color: COLORS.gold }, itemStyle: { color: COLORS.gold } });
       }
       if (eo.yAxis.length < 2) eo.grid.right = 18;
       mountChart(el, eo);

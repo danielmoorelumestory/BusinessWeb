@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-20T20:47:10Z",
+ "generatedAt": "2026-11-21T13:16:27Z",
  "mode": "enrich-only",
  "networkAllowed": false,
  "args": {
@@ -8,10 +8,10 @@
   "offline": false,
   "enrich_only": true,
   "collect_providers": false,
-  "providers": "domestic,supplemental,original_eps",
+  "providers": "domestic,supplemental,original_eps,constituent_fin",
   "no_csi": false,
   "workers": 4,
-  "coverage_report": "/home/runner/work/BusinessWeb/BusinessWeb/tools/index-panorama/data/refresh-work/20261120T204046Z/app/reports/round2-coverage.json"
+  "coverage_report": "/Users/train/work/gupiaoWS/BusinessWeb/.worktrees/panorama-roe/tools/index-panorama/reports/round2-coverage.json"
  },
  "indices": {
   "000001.SH": {
@@ -82,6 +82,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -185,6 +190,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -286,6 +301,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -388,6 +408,16 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -490,6 +520,11 @@
      "count": 4000,
      "first": "2010-06-01",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -593,6 +628,16 @@
      "first": "2010-06-01",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -692,6 +737,11 @@
      "count": 1668,
      "first": "2020-01-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -794,6 +844,16 @@
      "count": 1668,
      "first": "2020-01-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -894,6 +954,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -997,6 +1062,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -1096,6 +1171,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -1198,6 +1278,16 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -1298,6 +1388,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -1400,6 +1495,16 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -1500,6 +1605,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -1603,6 +1713,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -1702,6 +1822,11 @@
      "count": 5071,
      "first": "2006-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -1805,6 +1930,16 @@
      "first": "2006-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -1903,6 +2038,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -2006,6 +2146,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -2104,6 +2254,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -2207,6 +2362,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -2307,6 +2472,11 @@
      "count": 3075,
      "first": "2014-03-31",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -2410,6 +2580,16 @@
      "first": "2014-03-31",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -2507,6 +2687,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -2601,6 +2786,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -2709,6 +2904,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -2812,6 +3012,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -2910,6 +3120,11 @@
      "count": 4223,
      "first": "2009-07-03",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -3012,6 +3227,16 @@
      "count": 4223,
      "first": "2009-07-03",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -3112,6 +3337,11 @@
      "count": 2739,
      "first": "2015-08-11",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -3215,6 +3445,16 @@
      "first": "2015-08-11",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -3314,6 +3554,11 @@
      "count": 2739,
      "first": "2015-08-11",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -3416,6 +3661,16 @@
      "count": 2739,
      "first": "2015-08-11",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -3516,6 +3771,11 @@
      "count": 2739,
      "first": "2015-08-11",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -3619,6 +3879,16 @@
      "first": "2015-08-11",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -3717,6 +3987,11 @@
      "count": 2739,
      "first": "2015-08-11",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -3820,6 +4095,16 @@
      "first": "2015-08-11",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -3919,6 +4204,11 @@
      "count": 3613,
      "first": "2012-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -4022,6 +4312,16 @@
      "first": "2012-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -4120,6 +4420,11 @@
      "count": 3716,
      "first": "2011-08-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -4223,6 +4528,16 @@
      "first": "2011-08-02",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -4321,6 +4636,11 @@
      "count": 3716,
      "first": "2011-08-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -4424,6 +4744,16 @@
      "first": "2011-08-02",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -4522,6 +4852,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -4625,6 +4960,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -4724,6 +5069,11 @@
      "count": 3716,
      "first": "2011-08-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -4827,6 +5177,16 @@
      "first": "2011-08-02",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -4925,6 +5285,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -5028,6 +5393,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -5127,6 +5502,11 @@
      "count": 3716,
      "first": "2011-08-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -5230,6 +5610,16 @@
      "first": "2011-08-02",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -5328,6 +5718,11 @@
      "count": 3716,
      "first": "2011-08-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -5430,6 +5825,16 @@
      "count": 3716,
      "first": "2011-08-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -5530,6 +5935,11 @@
      "count": 3716,
      "first": "2011-08-02",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -5633,6 +6043,16 @@
      "first": "2011-08-02",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -5731,6 +6151,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -5833,6 +6258,16 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -5932,6 +6367,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -6035,6 +6475,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -6132,6 +6582,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -6226,6 +6681,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -6332,6 +6797,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -6426,6 +6896,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -6532,6 +7012,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -6626,6 +7111,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -6732,6 +7227,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -6826,6 +7326,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -6932,6 +7442,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -7026,6 +7541,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -7132,6 +7657,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -7226,6 +7756,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -7332,6 +7872,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -7426,6 +7971,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -7532,6 +8087,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -7626,6 +8186,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -7732,6 +8302,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -7826,6 +8401,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -7932,6 +8517,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -8026,6 +8616,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -8133,6 +8733,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -8227,6 +8832,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -8333,6 +8948,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -8427,6 +9047,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -8533,6 +9163,11 @@
      "count": 2744,
      "first": "2015-08-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -8636,6 +9271,16 @@
      "first": "2015-08-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -8671,7 +9316,9 @@
    "csiDroppedRows": 0,
    "warnings": [
     "pb 暂无数据：domestic: 无同口径公开PB来源。已查：中证 indexCsiDsPe 仅 PE；中证 indicator.xls 无 PB；中证 data-service/indexValuation 仅 8 只主要指数最新单期；国证 indexList 仅国证指数；蛋卷估值表未覆盖该指数；乐咕乐股 API 需页面 token（上一轮 403/401，不绕过）；中证 dataServer 行业市盈率为行业分类而非本指数，不作代理。",
-    "mcap 仅单期观测（2026-11-20，中证指数官网·指数特征），不能生成历史分位"
+    "mcap 仅单期观测（2026-11-20，中证指数官网·指数特征），不能生成历史分位",
+    "roe 为季频数据，24 个观测（2018-12-28~2026-09-30），分位只按实际观测",
+    "np 为季频数据，24 个观测（2018-12-28~2026-09-30），分位只按实际观测"
    ],
    "coverage": {
     "price": {
@@ -8720,9 +9367,9 @@
      "last": null
     },
     "roe": {
-     "count": 0,
-     "first": null,
-     "last": null
+     "count": 24,
+     "first": "2018-12-28",
+     "last": "2026-09-30"
     },
     "bps": {
      "count": 0,
@@ -8733,6 +9380,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 24,
+     "first": "2018-12-28",
+     "last": "2026-09-30"
     }
    },
    "availability": {
@@ -8807,14 +9459,14 @@
      "last": null
     },
     "roe": {
-     "status": "unavailable",
-     "provider": null,
-     "frequency": null,
-     "unit": null,
-     "reason": "domestic: 无公开 ROE 来源：蛋卷估值表未覆盖该指数（列表 63 项，见报告）；中证/国证官网接口不披露指数 ROE；不用 PE/PB 推算。；supplemental: 中证/国证公开接口未披露指数 ROE；禁止用 PB/PE 合成",
-     "count": 0,
-     "first": null,
-     "last": null
+     "status": "ok",
+     "provider": "constituent_fin",
+     "frequency": "quarterly",
+     "unit": "%",
+     "reason": "",
+     "count": 24,
+     "first": "2018-12-28",
+     "last": "2026-09-30"
     },
     "bps": {
      "status": "unavailable",
@@ -8835,6 +9487,16 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "status": "ok",
+     "provider": "constituent_fin",
+     "frequency": "quarterly",
+     "unit": "亿元",
+     "reason": "",
+     "count": 24,
+     "first": "2018-12-28",
+     "last": "2026-09-30"
     },
     "price": {
      "status": "ok",
@@ -8934,6 +9596,11 @@
      "count": 2744,
      "first": "2015-08-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -9037,6 +9704,16 @@
      "first": "2015-08-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -9134,6 +9811,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -9228,6 +9910,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -9334,6 +10026,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -9428,6 +10125,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -9535,6 +10242,11 @@
      "count": 2778,
      "first": "2015-06-16",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -9638,6 +10350,16 @@
      "first": "2015-06-16",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -9735,6 +10457,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -9829,6 +10556,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -9936,6 +10673,11 @@
      "count": 2778,
      "first": "2015-06-16",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -10039,6 +10781,16 @@
      "first": "2015-06-16",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -10136,6 +10888,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -10239,6 +10996,16 @@
      "first": "2005-01-04",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -10333,6 +11100,11 @@
      "last": null
     },
     "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "count": 0,
      "first": null,
      "last": null
@@ -10439,6 +11211,16 @@
      "first": null,
      "last": null
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "csi",
@@ -10536,6 +11318,11 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -10638,6 +11425,16 @@
      "count": 5314,
      "first": "2005-01-04",
      "last": "2026-11-20"
+    },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
     },
     "price": {
      "status": "ok",
@@ -10736,6 +11533,11 @@
      "count": 2739,
      "first": "2015-08-11",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -10839,6 +11641,16 @@
      "first": "2015-08-11",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -10936,6 +11748,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -11030,6 +11847,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -11137,6 +11964,11 @@
      "count": 0,
      "first": null,
      "last": null
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -11231,6 +12063,16 @@
      "last": null
     },
     "volume": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "status": "unavailable",
      "provider": null,
      "frequency": null,
@@ -11337,6 +12179,11 @@
      "count": 2749,
      "first": "2015-07-28",
      "last": "2026-11-20"
+    },
+    "np": {
+     "count": 0,
+     "first": null,
+     "last": null
     }
    },
    "availability": {
@@ -11440,6 +12287,16 @@
      "first": "2015-07-28",
      "last": "2026-11-20"
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "tencent",
@@ -11534,6 +12391,11 @@
      "last": null
     },
     "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "count": 0,
      "first": null,
      "last": null
@@ -11640,6 +12502,16 @@
      "first": null,
      "last": null
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -11736,6 +12608,11 @@
      "last": null
     },
     "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "count": 0,
      "first": null,
      "last": null
@@ -11842,6 +12719,16 @@
      "first": null,
      "last": null
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -11936,6 +12823,11 @@
      "last": null
     },
     "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "count": 0,
      "first": null,
      "last": null
@@ -12042,6 +12934,16 @@
      "first": null,
      "last": null
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -12139,6 +13041,11 @@
      "last": null
     },
     "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "count": 0,
      "first": null,
      "last": null
@@ -12245,6 +13152,16 @@
      "first": null,
      "last": null
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -12342,6 +13259,11 @@
      "last": null
     },
     "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "count": 0,
      "first": null,
      "last": null
@@ -12448,6 +13370,16 @@
      "first": null,
      "last": null
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -12544,6 +13476,11 @@
      "last": null
     },
     "volume": {
+     "count": 0,
+     "first": null,
+     "last": null
+    },
+    "np": {
      "count": 0,
      "first": null,
      "last": null
@@ -12650,6 +13587,16 @@
      "first": null,
      "last": null
     },
+    "np": {
+     "status": "unavailable",
+     "provider": null,
+     "frequency": null,
+     "unit": null,
+     "reason": "无任何已接入来源",
+     "count": 0,
+     "first": null,
+     "last": null
+    },
     "price": {
      "status": "ok",
      "provider": "cache+tencent",
@@ -12716,13 +13663,23 @@
    "errors": [],
    "rejected": [],
    "unknownCodes": []
+  },
+  "constituent_fin": {
+   "status": "ok",
+   "path": "data/providers/constituent_fin.json",
+   "retrievedAt": "2026-11-21T13:16:20Z",
+   "codes": 1,
+   "okFields": 2,
+   "errors": [],
+   "rejected": [],
+   "unknownCodes": []
   }
  },
  "asOf": "2026-11-20",
- "bundleBytes": 22256262,
+ "bundleBytes": 23593759,
  "globalWarnings": [
   "点位最新 2026-11-20（腾讯证券）；估值最新 PE 2026-11-20，PB 2026-11-20，DY 2026-11-20；各字段日期独立，不视为同日",
   "turn/bps 尚无任何指数有可靠数据，为 null，可用 CSV 导入补充",
-  "部分指数有数据的字段：pe 62/63、pb 29/63、dy 61/63、mcap 57/63、eps 15/63、roe 27/63、amt 60/63、volume 37/63；其余为 null（原因见各指数 availability）"
+  "部分指数有数据的字段：pe 62/63、pb 29/63、dy 61/63、mcap 57/63、eps 15/63、roe 28/63、amt 60/63、volume 37/63、np 1/63；其余为 null（原因见各指数 availability）"
  ]
 }

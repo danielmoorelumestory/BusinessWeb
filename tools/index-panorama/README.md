@@ -33,6 +33,12 @@ node --test tests/*.cjs                                          # 前端/数学
 得到脱敏 raw `data/providers/original_eps_raw/capture.json`，再 `.venv/bin/python providers/original_eps.py`（不联网）生成
 `data/providers/original_eps.json`。只提供 eps，不替换本地 PE/PB/价格/ROE/股息率；详见 `reports/original-eps-integration.md`。
 
+**成分股自算（constituent_fin，2026-11-21 新增）**：只覆盖 `providers/constituent_fin.py` 中 `TARGETS` 列出的、已核对没有任何公开指数级 ROE 的指数（目前 931719 中证电池）。
+成分与权重取中证官网 `closeweight.xls`，归母净利润取东方财富业绩报表，归母净资产取东方财富 F10 资产负债表；按整体法输出
+`roe`（Σ TTM 归母净利润 / Σ 平均归母净资产，%）和新字段 `np`（成分股 TTM 归母净利润合计，亿元），季频，日期为报告期末对齐交易日。
+**按当前成分股回看历史，存在幸存者偏差**；数据齐全成分股的当前权重合计 < 90% 的报告期不出数。raw 在 `data/providers/constituent_fin_raw/`
+（入库；在线运行时净利润整份重取、净资产只补缺失期）。详情页没有 EPS 时，“估值与盈利”卡改为展示净利润合计、同比与 ROE。
+
 **无人值守刷新（远端/本机通用，不需要 Claude/Orca/MCP）**：`python refresh_runner.py --mode online [--bundle-out <前端 bundle 路径>]`。
 它在 `data/refresh-work/<UTC>/app` 隔离 staging 里依次刷新行情/中证、domestic、supplemental，用 Playwright Chromium
 抓原站 EPS，再 `--enrich-only` 统一生成，经门禁验证后才备份到 `data/refresh-backups/` 并逐文件原子替换生产数据。

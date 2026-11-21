@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { PUBLIC_FILES, PUBLIC_DIR, check, compareBundles, directEtfCounts, publish, sameIndex, restore, sameObservations, validateBundle, validateEtfCatalog } from './index-panorama-sync.mjs'
 
-const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume']
+const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume', 'np']
 
 function series(code, d, fill = 1) {
   const s = { code, d }

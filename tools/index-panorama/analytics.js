@@ -15,7 +15,7 @@
 })(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : this), function () {
   'use strict';
 
-  var FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume'];
+  var FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume', 'np'];
   var RANGES = { '1': 1, '3': 3, '5': 5, '10': 10, 'all': null };
   var DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 

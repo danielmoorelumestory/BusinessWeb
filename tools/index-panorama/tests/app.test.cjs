@@ -59,7 +59,7 @@ test('必填列/必填值/未知分类/列数过多/引号未闭合', () => {
   assert.match(A.validateImport(H + '\n,甲,,2026-01-05,1,,,,,,,,,,,\n', []).errors[0], /code 为空/);
   assert.match(A.validateImport(H + '\nX,,,2026-01-05,1,,,,,,,,,,,\n', []).errors[0], /name 为空/);
   assert.match(A.validateImport(H + '\nX,甲,外星,2026-01-05,1,,,,,,,,,,,\n', []).errors[0], /category/);
-  assert.match(A.validateImport(H + '\nX,甲,,2026-01-05,1,,,,,,,,,,,,9\n', []).errors[0], /列数/);
+  assert.match(A.validateImport(H + '\nX,甲,,2026-01-05,1,,,,,,,,,,,,,9\n', []).errors[0], /列数/);
   assert.match(A.validateImport(H + '\n"X,甲,,2026-01-05,1\n', []).errors[0], /引号/);
   assert.equal(A.validateImport('', []).ok, false);
   assert.equal(A.validateImport(H + '\n', []).ok, false);

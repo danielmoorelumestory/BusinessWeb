@@ -6,7 +6,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const M = require(path.join(__dirname, '..', 'analytics.js'));
 
-const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume'];
+const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume', 'np'];
 
 function mk(code, d, cols) {
   const s = { code, name: code + '名', category: '核心宽基', sources: {}, warnings: [], d: d.slice() };

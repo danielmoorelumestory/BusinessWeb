@@ -10,7 +10,9 @@
   S4 原站 EPS：    Playwright Chromium 正常打开 https://lishenqi.vip/#/panorama，page.evaluate 现有
                    providers/original_eps_capture.js（页面自身匿名只读 PANO_IX.series，顺序、1.5s 间隔、遇错即停）
                    → 门禁 → providers/original_eps.py 离线解析；失败 → 保留旧 raw/缓存
-  S5 最终包：      fetch_data.py --enrich-only                （默认 domestic,supplemental,original_eps 三个 provider）
+  S4b 成分股自算：providers/constituent_fin.py --as-of <同上>  （中证成分权重 + 东财财报，整体法 ROE/净利润合计；
+                   只覆盖 TARGETS；结果不合格 → staging 恢复旧缓存）
+  S5 最终包：      fetch_data.py --enrich-only                （默认 domestic,supplemental,original_eps,constituent_fin 四个 provider）
   S6 门禁：        结构/指数不减少（清单见 fetch_data.INDICES，2026-11-16 起 63 只）/逐字段不丢观测、末日不回退、选源不切换、EPS 与 raw 一一对应、manager_audit（有 node 时）
   S7 发布：        备份将被覆盖的生产文件 → 逐文件原子替换（data-bundle.js 最后）→ 任一失败全部回滚
 
@@ -44,7 +46,7 @@ import traceback
 APP = os.path.dirname(os.path.abspath(__file__))
 EPS_URL = "https://lishenqi.vip/#/panorama"
 SINCE = "2005-01-01"
-FIELDS = ["price", "chg", "pe", "pb", "dy", "mcap", "amt", "turn", "eps", "roe", "bps", "volume"]
+FIELDS = ["price", "chg", "pe", "pb", "dy", "mcap", "amt", "turn", "eps", "roe", "bps", "volume", "np"]
 HEAD_TRIM_MIN_RATIO = 0.9  # 上游滚动窗口：只允许裁掉最早端，且保留 ≥90% 观测
 EXIT_OK, EXIT_PARTIAL, EXIT_FAILED, EXIT_LOCKED = 0, 10, 20, 3
 
@@ -60,6 +62,7 @@ COMMIT_PATTERNS = [
     "data-bundle.js", "data/manifest.json", "data/store/*.csv",
     "data/providers/domestic.json", "data/providers/supplemental.json", "data/providers/original_eps.json",
     "data/providers/original_eps_raw/capture.json",
+    "data/providers/constituent_fin.json", "data/providers/constituent_fin_raw/*",
     "data/providers/domestic_raw/accum_*.json",
     "data/providers/supplemental_raw/_last_online.json",
     "data/providers/supplemental_raw/cnindex/*", "data/providers/supplemental_raw/csi_feature/*",
@@ -679,7 +682,7 @@ class Runner:
         if rc != 0:
             self.step("最终数据包 enrich-only", "failed", f"退出码 {rc}：{tail[-300:]}", t0)
             return False
-        self.step("最终数据包 enrich-only", "ok", "三 provider 缓存统一生成", t0)
+        self.step("最终数据包 enrich-only", "ok", "四个 provider 缓存统一生成", t0)
         return True
 
     def s6_verify(self) -> bool:
@@ -814,6 +817,7 @@ class Runner:
             self.provider_step("domestic", as_of)
             self.provider_step("supplemental", as_of)
             self.s4_eps(as_of)
+            self.provider_step("constituent_fin", as_of)
             if not self.s5_final() or not self.s6_verify():
                 return self.finalize(EXIT_FAILED)
             if not self.publish():

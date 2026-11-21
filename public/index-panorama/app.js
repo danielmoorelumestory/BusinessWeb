@@ -13,7 +13,7 @@
     if (o) Object.keys(o).forEach(function (k) { d[k] = o[k]; });
     return d;
   }
-  var FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume'];
+  var FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume', 'np'];
   var CSV_COLUMNS = ['code', 'name', 'category', 'date'].concat(FIELDS);
   var CATEGORIES = ['全局坐标', '核心宽基', '宽基谱系', '行业与主题', '行业指数', '跨境对照'];
   var IMPORT_CATEGORY = '导入（本次会话）';

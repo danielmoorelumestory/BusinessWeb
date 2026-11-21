@@ -34,7 +34,7 @@ export const PUBLIC_FILES = [
   BUNDLE,
 ]
 
-const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume']
+const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume', 'np']
 const ISO = /^\d{4}-\d{2}-\d{2}$/
 export const MIN_INDICES = 36
 
@@ -151,7 +151,7 @@ export function lastDates(data) {
   for (const s of data.indices) {
     out[s.code] = {}
     for (const f of FIELDS) {
-      const v = s[f]
+      const v = s[f] || []
       let i = v.length - 1
       while (i >= 0 && v[i] === null) i--
       out[s.code][f] = i >= 0 ? s.d[i] : null
@@ -175,7 +175,7 @@ export function compareBundles(prev, next) {
   return problems
 }
 
-/** 只比较实际观测（asOf、每只指数的日期轴与 12 个字段）；生成时间、报告文字等元数据变化不算新数据。 */
+/** 只比较实际观测（asOf、每只指数的日期轴与 13 个字段）；生成时间、报告文字等元数据变化不算新数据。 */
 export function sameObservations(prev, next) {
   const pick = data => JSON.stringify([data.asOf, data.indices.map(s => [s.code, s.d, ...FIELDS.map(f => s[f])])])
   return pick(prev) === pick(next)

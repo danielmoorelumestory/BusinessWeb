@@ -62,7 +62,7 @@ CSI_PERF_URL = ("https://www.csindex.com.cn/csindex-home/perf/index-perf?indexCo
 CSI_IND_URL = ("https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/file/autofile/"
                "indicator/{code}indicator.xls")
 
-FIELDS = ["price", "chg", "pe", "pb", "dy", "mcap", "amt", "turn", "eps", "roe", "bps", "volume"]
+FIELDS = ["price", "chg", "pe", "pb", "dy", "mcap", "amt", "turn", "eps", "roe", "bps", "volume", "np"]
 
 # ---------------------------------------------------------------------------
 # 指数清单
@@ -545,14 +545,15 @@ def load_cache_prices(fname: str | None, market: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 # original_eps：原站李神奇数据网 eps（只提供 eps 一个字段，页面只读抓取后离线解析，见 providers/original_eps.py）
-PROVIDER_NAMES = ("domestic", "supplemental", "original_eps")
+# constituent_fin：成分股财报自算整体法 ROE 与归母净利润合计（只给无公开指数级 ROE 的指数，见 providers/constituent_fin.py）
+PROVIDER_NAMES = ("domestic", "supplemental", "original_eps", "constituent_fin")
 # provider 可提供的字段；price/chg 只来自行情源
-PROVIDER_FIELDS = ("pe", "pb", "dy", "mcap", "amt", "turn", "eps", "roe", "bps", "volume")
+PROVIDER_FIELDS = ("pe", "pb", "dy", "mcap", "amt", "turn", "eps", "roe", "bps", "volume", "np")
 # 合法单位（CONTRACT 固定口径）；eps/bps 保留来源原定义，只要求注明且不能是“点”
 FIELD_UNITS = {
     "pe": ("倍",), "pb": ("倍",),
     "dy": ("%", "百分数", "百分比"), "turn": ("%", "百分数", "百分比"), "roe": ("%", "百分数", "百分比"),
-    "mcap": ("亿元",), "amt": ("亿元",), "volume": ("股",),
+    "mcap": ("亿元",), "amt": ("亿元",), "volume": ("股",), "np": ("亿元",),
 }
 # 价格类字段：已有行情源可用时整列保留，provider 只在该列完全为空时补
 KEEP_BASE_FIELDS = ("amt", "volume")
@@ -1320,8 +1321,8 @@ def main(argv=None, get: Callable = http_get) -> int:
     global_warn.insert(0, f"点位最新 {as_of}（腾讯证券）；估值最新 "
                           + ("，".join(f"{f.upper()} {val_last[f]}" for f in ("pe", "pb", "dy") if f in val_last) or "无")
                           + "；各字段日期独立，不视为同日")
-    empty_fields = [f for f in ("pe", "pb", "dy", "mcap", "turn", "eps", "roe", "bps", "amt", "volume") if filled[f] == 0]
-    partial = [f"{f} {filled[f]}/{len(series)}" for f in ("pe", "pb", "dy", "mcap", "turn", "eps", "roe", "bps", "amt", "volume")
+    empty_fields = [f for f in ("pe", "pb", "dy", "mcap", "turn", "eps", "roe", "bps", "amt", "volume", "np") if filled[f] == 0]
+    partial = [f"{f} {filled[f]}/{len(series)}" for f in ("pe", "pb", "dy", "mcap", "turn", "eps", "roe", "bps", "amt", "volume", "np")
                if 0 < filled[f] < len(series)]
     if empty_fields:
         global_warn.append(f"{'/'.join(empty_fields)} 尚无任何指数有可靠数据，为 null，可用 CSV 导入补充")

@@ -32,7 +32,7 @@ function loadEnv() {
 }
 const W = loadEnv();
 
-const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume'];
+const FIELDS = ['price', 'chg', 'pe', 'pb', 'dy', 'mcap', 'amt', 'turn', 'eps', 'roe', 'bps', 'volume', 'np'];
 // 构造 fixture：dates 为日期轴，cols 为 {field:{date:value}}
 function fixture(code, name, category, dates, cols, extra) {
   const s = Object.assign({ code, name, category, description: '', sources: {}, warnings: [], d: dates.slice() }, extra || {});
