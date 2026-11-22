@@ -301,7 +301,7 @@
     };
   }
 
-  function mainChartOption(metric, pairs, st) {
+  function mainChartOption(metric, pairs, st, pricePairs) {
     var info = metricInfo(metric);
     var opt = baseOption();
     opt.yAxis = valueAxis(info.unit, function (v) { return fmtNum(v, metric === 'price' || metric === 'mcap' || metric === 'amt' ? 0 : 2); });
@@ -321,6 +321,16 @@
       ] } : undefined,
       markLine: marks.length ? { silent: true, symbol: 'none', data: marks, label: { position: 'insideEndTop', fontSize: 11 } } : undefined
     }];
+    // 估值指标（PE/PB/股息率）叠加收盘点位：右轴、淡色细线，分位带只属于左轴估值
+    if (info.valuation && pricePairs && pricePairs.length) {
+      opt.yAxis = [opt.yAxis, valueAxis('点', function (v) { return fmtNum(v, 0); }, 'right')];
+      opt.yAxis[1].splitLine = { show: false };
+      opt.grid.right = 52;
+      opt.grid.top = 34;
+      opt.legend = { top: 0, left: 'center', itemWidth: 16, itemHeight: 8, textStyle: { color: COLORS.text, fontSize: 11 }, data: [info.label, '收盘点位'] };
+      opt.series.push({ id: 'price', name: '收盘点位', type: 'line', yAxisIndex: 1, data: pricePairs, showSymbol: false, sampling: 'lttb', z: 1,
+        lineStyle: { width: 1.2, color: '#9fb4d0' }, itemStyle: { color: '#9fb4d0' } });
+    }
     return opt;
   }
 
@@ -763,7 +773,7 @@
     var el = q('main');
     if (el) {
       var s = M().stats(series, st.metric, st.range, st.anchor);
-      mountChart(el, mainChartOption(st.metric, validPairs(sl, st.metric), s));
+      mountChart(el, mainChartOption(st.metric, validPairs(sl, st.metric), s, validPairs(sl, 'price')));
     }
     el = q('dd');
     if (el) {
