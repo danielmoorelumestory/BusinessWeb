@@ -1,19 +1,20 @@
 {
  "ths_code": "20:561450",
- "fetched_at": "2026-11-21T06:17:41+08:00",
+ "fetched_at": "2026-11-24T10:29:46+08:00",
  "periods": [
   {
    "start_day": "2026-09-24",
-   "end_day": "2026-11-20",
-   "period_rise": 10.7,
-   "period_change": 0.103,
-   "main_amount_in": -5973960,
-   "duration": 36,
+   "end_day": "2026-11-23",
+   "period_rise": 9.66,
+   "period_change": 0.093,
+   "main_amount_in": -6312633,
+   "duration": 37,
    "has_step_signal": true,
-   "step_signal_count": 2,
+   "step_signal_count": 3,
    "step_signal_dates": [
     "2026-10-20",
-    "2026-11-04"
+    "2026-11-04",
+    "2026-11-23"
    ],
    "up_down_flag": null
   }

@@ -1,18 +1,19 @@
 {
  "ths_code": "36:159798",
- "fetched_at": "2026-11-21T06:17:37+08:00",
+ "fetched_at": "2026-11-24T10:29:45+08:00",
  "periods": [
   {
    "start_day": "2026-09-30",
-   "end_day": "2026-11-20",
-   "period_rise": 12.57,
-   "period_change": 0.105,
-   "main_amount_in": 1629925,
-   "duration": 33,
+   "end_day": "2026-11-23",
+   "period_rise": 11.38,
+   "period_change": 0.095,
+   "main_amount_in": 1646941,
+   "duration": 34,
    "has_step_signal": true,
-   "step_signal_count": 1,
+   "step_signal_count": 2,
    "step_signal_dates": [
-    "2026-10-20"
+    "2026-10-20",
+    "2026-11-23"
    ],
    "up_down_flag": null
   },
