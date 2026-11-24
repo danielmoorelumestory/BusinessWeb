@@ -1,0 +1,58 @@
+{
+ "note": "WSJ peyields 页面内嵌 mdc_peAndYields 数据块（原样）",
+ "url": "https://www.wsj.com/market-data/stocks/peyields",
+ "retrievedAt": "2026-11-24T22:47:30Z",
+ "footnote": "P/E data based on as-reported earnings; estimate data based on operating earnings.",
+ "block": {
+  "timestamp": "Tuesday, November 24, 2026",
+  "tradeDate": "2026-11-24T16:00:00",
+  "instruments": [
+   {
+    "instrumentId": "343338",
+    "name": "Dow Jones Industrial Average",
+    "priceEarningsRatio": "19.31",
+    "priceEarningsRatioEstimate": "18.0648603283513",
+    "priceEarningsRatio52WeekAgo": "24.54",
+    "ticker": "DJI",
+    "yield": "1.58",
+    "yield52WeekAgo": "1.75",
+    "formattedPriceEarningsRatio": "19.31",
+    "formattedPriceEarningsRatio52WeekAgo": "24.54",
+    "formattedPriceEarningsRatioEstimate": "18.06",
+    "formattedYield": "1.58",
+    "formattedYield52WeekAgo": "1.75"
+   },
+   {
+    "instrumentId": "343339",
+    "name": "Dow Jones Transportation Average",
+    "priceEarningsRatio": "27.06",
+    "priceEarningsRatioEstimate": "24.5391222119369",
+    "priceEarningsRatio52WeekAgo": "34.16",
+    "ticker": "DJT",
+    "yield": "1.3",
+    "yield52WeekAgo": "1.59",
+    "formattedPriceEarningsRatio": "27.06",
+    "formattedPriceEarningsRatio52WeekAgo": "34.16",
+    "formattedPriceEarningsRatioEstimate": "24.54",
+    "formattedYield": "1.30",
+    "formattedYield52WeekAgo": "1.59"
+   },
+   {
+    "instrumentId": "343340",
+    "name": "Dow Jones Utility Average",
+    "priceEarningsRatio": "18.13",
+    "priceEarningsRatioEstimate": "23.916916343552",
+    "priceEarningsRatio52WeekAgo": "21.32",
+    "ticker": "DJU",
+    "yield": "2.95",
+    "yield52WeekAgo": "2.87",
+    "formattedPriceEarningsRatio": "18.13",
+    "formattedPriceEarningsRatio52WeekAgo": "21.32",
+    "formattedPriceEarningsRatioEstimate": "23.92",
+    "formattedYield": "2.95",
+    "formattedYield52WeekAgo": "2.87"
+   }
+  ],
+  "formattedTradeDate": "11/24/26"
+ }
+}
