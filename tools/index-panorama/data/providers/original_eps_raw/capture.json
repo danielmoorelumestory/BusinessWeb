@@ -1,5 +1,5 @@
 {
- "capturedAt": "2026-11-20T20:45:51.342Z",
+ "capturedAt": "2026-11-24T00:23:15.091Z",
  "page": "https://lishenqi.vip/",
  "range": "all",
  "via": "PANO_IX.series(code,'all',PANO_IX.FIELDS) → Cloud.call('lsqSiteAdmin',{action:'ixSeries'})",

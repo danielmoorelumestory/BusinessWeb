@@ -1,10 +1,10 @@
 {
- "asOf": "2026-11-21",
- "builtAt": "2026-11-21T13:16:20Z",
+ "asOf": "2026-11-23",
+ "builtAt": "2026-11-24T00:24:52Z",
  "errors": [],
- "mode": "cache",
+ "mode": "online",
  "provider": "constituent_fin",
- "retrievedAt": "2026-11-21T13:16:20Z",
+ "retrievedAt": "2026-11-24T00:24:52Z",
  "series": {
   "931719.CSI": {
    "fields": {
