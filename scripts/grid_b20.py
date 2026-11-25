@@ -107,7 +107,7 @@ class Source:
                 err = repr(e)
             except Exception as e:  # noqa: BLE001 网络抖动退避重试
                 err = repr(e)
-            time.sleep(BACKOFF * (k + 1))
+            if k < retries: time.sleep(BACKOFF * (k + 1))  # 最后一次失败后不再空等
         raise OSError(err)
 
 
@@ -382,7 +382,11 @@ def commit_outputs(page_path: Path, prov_path: Path, page: dict, prov_out: dict,
     页面数据（除生成时间外）没有变化也不写：个股响应里含实时报价，溯源 sha256 每次都变，不值得为此产生提交。"""
     old = read_json(page_path)
     if failures:
-        log(f"不写盘：{len(failures)} 项失败（保留现有两份文件）"); [log(f"  - {f}") for f in failures[:20]]
+        tally: dict = {}
+        for failure in failures:
+            source = re.split(r"[ ：]", failure, maxsplit=1)[0]
+            tally[source] = tally.get(source, 0) + 1
+        log(f"不写盘：{len(failures)} 项失败（保留现有两份文件）；按来源 {tally}"); [log(f"  - {f}") for f in failures[:20]]
         return {"written": False, "status": "failed", "failures": failures, "regressions": [], "changes": []}
     reg = regressions(old, page)
     changes = value_changes(old, page)
@@ -487,6 +491,9 @@ def update(code: str, offline: bool, log=print, allow_regress: bool = False) -> 
     stocks: dict = {}; stock_meta: dict = {}
     cn_org = None
     for n, c in enumerate(union):
+        if failures and not offline:
+            # 已有失败，本次注定不写盘：不再请求后续成员，避免对已拒绝的来源继续重试（CI 上腾讯曾在约 80 次请求后连续回 501）
+            log(f"已有 {len(failures)} 项失败，停止后续取数（剩 {len(union) - n} 只成员未取）"); break
         sym = prefix(c) + c
         try:
             raw_rows, raw_meta = cached_tx(f"stocks/{c}_raw", sym, "", "day")

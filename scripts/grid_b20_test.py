@@ -238,6 +238,7 @@ class FakeNet:
         self.fail = {}        # 键：'pcf:YYYYMMDD' / 'tx:sym' / 'em:code' → 403 或 'oserror'
         self.drop = {}        # 'sym' → 该股行情里缺掉的日期集合（模拟数据源静默缺行）
         self.calls = 0
+        self.urls = []
 
     def price(self, sym, i):
         k = sum(map(ord, sym))
@@ -258,9 +259,10 @@ class FakeNet:
     def __call__(self, req, timeout=None):
         self.calls += 1
         url = req.full_url
+        self.urls.append(url)
         def boom(key):
             how = self.fail.get(key)
-            if how in (403, 429): raise urllib.error.HTTPError(url, how, "denied", {}, None)
+            if how in (403, 429, 501): raise urllib.error.HTTPError(url, how, "denied", {}, None)
             if how == "oserror": raise urllib.error.URLError("connection reset")
         if "reportdocs" in url:
             ymd = url[-12:-4]; boom(f"pcf:{ymd}")
@@ -340,6 +342,17 @@ class UpdateFlow(unittest.TestCase):
                 res = self.run_update()
                 self.assertEqual(res["status"], "failed")
                 self.assertEqual(self.snapshot(), before)
+
+    def test_stops_fetching_after_first_failure(self):
+        before = self.good_first()
+        self.net.urls = []
+        self.net.fail = {"tx:sz000001": 501}             # 来源拒绝（非 403/429）：重试后仍失败
+        res = self.run_update()
+        self.assertEqual(res["status"], "failed")
+        self.assertEqual(self.snapshot(), before)
+        later = [u for u in self.net.urls if "sz300001" in u or "sh600000" in u or "eastmoney" in u]
+        self.assertEqual(later, [])                       # 之后的成员一个都不再请求
+        self.assertEqual(sum("sz000001" in u for u in self.net.urls), 4)  # 只有该请求自身的 1 + 3 次重试
 
     def test_silently_incomplete_source_cannot_erase_history(self):
         before = self.good_first()
