@@ -210,6 +210,123 @@ class Rows(unittest.TestCase):
         self.assertEqual(rows[0][1:6], [None, 10, 20, 20, "lm_late"])
 
 
+# ---------------------------------------------------------------- 三个周期：边界、等于均线、缺值、预热、旧快照兼容
+CAL2 = [(__import__("datetime").date(2025, 1, 1) + __import__("datetime").timedelta(days=i)).isoformat() for i in range(130)]  # 130 个合成交易日
+
+
+def stock2(closes: dict, events=None, divs=None):
+    raw = []
+    for d in sorted(closes):
+        row = [d, "0", str(closes[d]), "0", "0", "1"]
+        if events and d in events: row.append({"FHcontent": events[d]})
+        raw.append(row)
+    return G.build_stock(raw, divs if divs is not None else {"success": False, "code": 9201}, None if divs is not None else [], None)
+
+
+class Windows(unittest.TestCase):
+    T = len(CAL2) - 1
+
+    def flat2(self, **over):
+        c = {d: 10.0 for d in CAL2}
+        for k, v in over.items(): c[CAL2[int(k[1:])]] = v
+        return c
+
+    def test_window_bounds_each_period(self):
+        for n in G.WINDOWS:
+            with self.subTest(n=n):
+                spike = 10 + 0.5 * n + 30                      # 单日足以把 n 日均值抬过 10.5
+                c = {d: 10.0 for d in CAL2}; c[CAL2[-1]] = 10.5
+                c[CAL2[self.T - n - 1]] = spike                 # t−n−1：在窗口外
+                self.assertEqual(G.member_state(stock2(c), CAL2, self.T, n), (True, None))
+                c[CAL2[self.T - n]] = spike                     # t−n：窗口最左一天（窗口 = t−n..t−1，不含 t）
+                self.assertEqual(G.member_state(stock2(c), CAL2, self.T, n), (False, None))
+
+    def test_equal_to_mean_is_not_above_each_period(self):
+        for n in G.WINDOWS:
+            with self.subTest(n=n):
+                self.assertEqual(G.member_state(stock2({d: 10.0 for d in CAL2}), CAL2, self.T, n), (False, None))
+                # 十进制价格均值恰等于当日价：一半 15.62、一半 15.64，当日 15.63
+                c = {d: (15.62 if i % 2 else 15.64) for i, d in enumerate(CAL2)}; c[CAL2[-1]] = 15.63
+                if n % 2: c[CAL2[self.T - n]] = 15.63               # 奇数长度窗口补一个等值日
+                self.assertFalse(G.member_state(stock2(c), CAL2, self.T, n)[0])
+
+    def test_missing_and_short_history_each_period(self):
+        for n in G.WINDOWS:
+            with self.subTest(n=n):
+                c = {d: 10.0 for d in CAL2}; del c[CAL2[self.T - n]]
+                self.assertEqual(G.member_state(stock2(c), CAL2, self.T, n), (None, "kline"))
+                c = {d: 10.0 for d in CAL2}; del c[CAL2[self.T - n - 1]]
+                self.assertEqual(G.member_state(stock2(c), CAL2, self.T, n)[1], None)
+                self.assertEqual(G.member_state(stock2({d: 10.0 for d in CAL2}), CAL2, n - 1, n), (None, "kline"))
+                self.assertEqual(G.member_state(stock2({d: 10.0 for d in CAL2}), CAL2, n, n)[1], None)
+        # 同一缺日只影响覆盖到它的周期：t−30 缺数 → B20 仍有效，B55/B120 未知
+        c = {d: 10.0 for d in CAL2}; del c[CAL2[self.T - 30]]
+        self.assertEqual([G.member_state(stock2(c), CAL2, self.T, n)[1] for n in G.WINDOWS], [None, "kline", "kline"])
+
+    def test_bad_event_only_blanks_windows_that_span_it(self):
+        ev = CAL2[self.T - 40]
+        S = stock2({d: 10.0 for d in CAL2}, events={ev: "10派1元"}, divs=G_em_empty())
+        self.assertEqual(S["bad_ev"], [ev])
+        self.assertEqual([G.member_state(S, CAL2, self.T, n)[1] for n in G.WINDOWS], [None, "adj", "adj"])
+        # 事件恰在 t−n（窗口左端，不在 (t−n, t]）不影响该周期
+        S = stock2({d: 10.0 for d in CAL2}, events={CAL2[self.T - 55]: "10派1元"}, divs=G_em_empty())
+        self.assertEqual(G.member_state(S, CAL2, self.T, 55)[1], None)
+        self.assertEqual(G.member_state(S, CAL2, self.T, 120)[1], "adj")
+
+    def test_rows_warmup_priority(self):
+        stocks = {f"S{i:02d}": stock2({d: 10.0 for d in CAL2}) for i in range(20)}
+        codes = sorted(stocks)
+        days = [CAL2[54], CAL2[55], CAL2[119], CAL2[120]]
+        lm = {d: f"{d} 08:00:00" for d in CAL2}
+        for n, first_ok in ((55, CAL2[55]), (120, CAL2[120])):
+            rows, counts = G.compute_rows(days, {d: codes for d in days}, {}, lm, stocks, CAL2, n)
+            by = {r[0]: r for r in rows}
+            for d in days:
+                if d < first_ok: self.assertEqual(by[d][1:6], [None, None, None, 20, "warmup"]); self.assertIn(f"需此前 {n} 个交易日", by[d][6])
+                else: self.assertEqual(by[d][1:6], [0.0, 0, 20, 20, None])
+            self.assertEqual(counts["warmup"], sum(d < first_ok for d in days))
+        # 优先级：缺篮子 > 预热；预热 > Last-Modified 门槛
+        rows, _ = G.compute_rows([CAL2[10]], {}, {CAL2[10]: "PCF 404"}, lm, stocks, CAL2, 55)
+        self.assertEqual(rows[0][5], "pcf")
+        rows, _ = G.compute_rows([CAL2[10]], {CAL2[10]: codes}, {}, {CAL2[10]: f"{CAL2[10]} 09:30:00"}, stocks, CAL2, 55)
+        self.assertEqual(rows[0][5], "warmup")
+        # B20 的结果与只传默认周期完全一致（旧调用方式）
+        self.assertEqual(G.compute_rows(days, {d: codes for d in days}, {}, lm, stocks, CAL2), G.compute_rows(days, {d: codes for d in days}, {}, lm, stocks, CAL2, 20))
+
+
+def G_em_empty():
+    return {"success": True, "result": {"pages": 1, "data": []}}
+
+
+class Compat(unittest.TestCase):
+    V1 = {"version": 1, "through": "2026-11-25", "rows": [["2026-11-24", 0.5, 25, 50, 50, None, None], ["2026-11-25", 0.3, 15, 50, 50, None, None]]}
+
+    def v2(self, b20, b55=None, b120=None, through="2026-11-25"):
+        series = {"20": {"rows": b20}}
+        if b55 is not None: series["55"] = {"rows": b55}
+        if b120 is not None: series["120"] = {"rows": b120}
+        return {"version": 2, "through": through, "series": series}
+
+    def test_v1_snapshot_reads_as_b20(self):
+        self.assertEqual(G.page_series(self.V1), {"20": self.V1["rows"]})
+        new = self.v2(self.V1["rows"], b55=[["2026-11-25", None, None, None, 50, "warmup", "x"]], b120=[])
+        self.assertEqual(G.regressions(self.V1, new), [])          # 迁移：新增周期不算回退
+        self.assertEqual(G.value_changes(self.V1, new), [])
+
+    def test_v1_values_cannot_be_blanked_by_v2(self):
+        bad = self.v2([["2026-11-24", None, 20, 44, 50, "coverage", "未知 6"], self.V1["rows"][1]])
+        self.assertEqual(G.regressions(self.V1, bad), ["B20 2026-11-24 由 0.5 变为缺失（coverage：未知 6）"])
+
+    def test_each_period_guarded(self):
+        old = self.v2(self.V1["rows"], b55=[["2026-11-25", 0.46, 23, 50, 50, None, None]], b120=[["2026-11-25", 0.44, 22, 50, 50, None, None]])
+        new = self.v2(self.V1["rows"], b55=[["2026-11-25", 0.46, 23, 50, 50, None, None]], b120=[["2026-11-25", None, None, None, 50, "warmup", "x"]])
+        self.assertEqual(G.regressions(old, new), ["B120 2026-11-25 由 0.44 变为缺失（warmup：x）"])
+        gone = self.v2(self.V1["rows"], b55=[["2026-11-25", 0.46, 23, 50, 50, None, None]])
+        self.assertEqual(G.regressions(old, gone), ["B120 2026-11-25 行消失（原值 0.44）"])
+        moved = self.v2(self.V1["rows"], b55=[["2026-11-25", 0.48, 24, 50, 50, None, None]], b120=old["series"]["120"]["rows"])
+        self.assertEqual(G.value_changes(old, moved), [("55", "2026-11-25", 0.46, 0.48, [23, 50, 50], [24, 50, 50])])
+
+
 # ---------------------------------------------------------------- 更新流程：假网络上的封锁 / 瞬时失败 / 回退 / 无变化
 import datetime as _dt  # noqa: E402
 import email.utils as _eu  # noqa: E402
@@ -310,7 +427,7 @@ class UpdateFlow(unittest.TestCase):
 
     def test_first_run_writes_and_rerun_is_unchanged(self):
         before = self.good_first()
-        rows = json.loads(before[0])["rows"]
+        rows = json.loads(before[0])["series"]["20"]["rows"]
         self.assertEqual(rows[0][0], "2024-03-12")
         qfq = json.loads(before[1])["stocks"]["600000"]["tencent_qfq"]["pages"][0]
         self.assertEqual((qfq["field"], qfq["rows"] > 0), ("day", True))  # 只回 day 键时照用并记下
@@ -319,6 +436,33 @@ class UpdateFlow(unittest.TestCase):
         self.assertEqual(res["status"], "unchanged")      # 无变化：两份文件都不重写，不会产生新提交
         self.assertEqual(self.snapshot(), before)
         self.assertEqual(G.EXIT[res["status"]], 0)
+
+    def test_three_periods_share_one_fetch_and_warm_up_honestly(self):
+        before = self.good_first()
+        page = json.loads(before[0])
+        self.assertEqual((page["version"], page["windows"], sorted(page["series"])), (2, [20, 55, 120], ["120", "20", "55"]))
+        # 合成日历自 2024-01-02 起，上市首日 2024-03-12 前只有 50 个交易日：B55 前 5 日、B120 全部预热不足
+        b55 = page["series"]["55"]; b120 = page["series"]["120"]
+        self.assertEqual([r[5] for r in b55["rows"][:6]], ["warmup"] * 5 + [None])
+        self.assertEqual((b55["summary"]["warmupFrom"], b55["summary"]["warmupTo"]), ("2024-03-12", "2024-03-18"))
+        self.assertTrue(all(r[5] == "warmup" for r in b120["rows"]))
+        self.assertEqual(b120["summary"]["firstValid"], None)
+        # 三个周期共用一次取数：每只成员的腾讯日线各 1 次（不复权 + 前复权），没有按周期重复请求
+        tx = [u for u in self.net.urls if "fqkline" in u and "sz000001" in u]
+        self.assertEqual(len(tx), 2)
+
+    def test_v1_snapshot_migrates_without_changing_b20(self):
+        before = self.good_first()
+        page = json.loads(before[0])
+        v1 = {"version": 1, "code": "159593", "through": page["through"], "generatedAt": "old", "fields": page["fields"], "rows": page["series"]["20"]["rows"]}
+        self.page.write_text(json.dumps(v1))
+        res = self.run_update()
+        self.assertEqual((res["status"], res["regressions"], res["changes"]), ("written", [], []))
+        self.assertEqual(json.loads(self.page.read_text())["series"]["20"]["rows"], v1["rows"])
+        # v1 快照下数据源静默少一天：B20 过去有值的日期不能被抹掉
+        self.page.write_text(json.dumps(v1)); self.net.drop = {"sz000001": {"2024-03-20"}}
+        self.assertEqual(self.run_update()["status"], "regressed")
+        self.assertEqual(json.loads(self.page.read_text()), v1)
 
     def test_blocked_source_keeps_existing_files(self):
         before = self.good_first()
@@ -371,7 +515,7 @@ class UpdateFlow(unittest.TestCase):
         self.net.drop = {"sz000001": {"2024-04-11"}}     # 新交易日一只成员缺 K 线：如实标覆盖不足
         res = self.run_update()
         self.assertEqual(res["status"], "written")
-        rows = {r[0]: r for r in json.loads(self.page.read_text())["rows"]}
+        rows = {r[0]: r for r in json.loads(self.page.read_text())["series"]["20"]["rows"]}
         self.assertEqual(rows["2024-04-11"][1:6], [None, rows["2024-04-11"][2], 2, 3, "coverage"])
         self.assertIsNotNone(rows["2024-04-10"][1])
         prov = json.loads(self.prov.read_text())

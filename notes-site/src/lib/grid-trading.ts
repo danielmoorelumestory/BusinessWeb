@@ -13,7 +13,7 @@ import { noteKey, readMeta, writeMeta } from './etf-review';
 import { macdCloseSignals } from './macd-signals';
 import { cybPlan, hsPlan, type PlanKey, type PlanResult, type PlanSignal } from './plan-trades';
 import type { TurnoverTrendPoint } from './grid-turnover-trend';
-import { b20TipLines, type B20Series } from './grid-b20';
+import { B_STYLE, B_WINDOWS, bNoteLine, bWindowLine, type B20Series, type BWindow } from './grid-b20';
 
 // volume：成交量（手），旧缓存或个别数据源缺失时为 undefined。
 export type Candle = { date: string; open: number; close: number; high: number; low: number; volume?: number };
@@ -1174,7 +1174,7 @@ function hardenTouch(svg: SVGSVGElement) {
 // r2：创业板择时（研究中的 R2：创业板 ÷ 红利，与其 20 日均线比较）；h1：沪深300择时（研究中的 H1：沪深300 指数 ÷ 红利）。
 // 各自在 MACD 上方单独一张副图，熊市（偏防守）日期同时在 K 线图铺底色（创业板灰、沪深300蓝）；数据由调用方经 ratioPoints 传入。
 // h1Trades：沪深300择时买卖点（择时牛市金叉次日开盘买、熊市不开新仓、死叉当日收盘卖），见 plan-trades.ts。
-export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean; kd10Trades?: boolean; volume?: boolean; turnoverTrend?: boolean; b20?: boolean; r2?: boolean; h1?: boolean; h1Trades?: boolean };
+export type ChartIndicators = { macd?: boolean; band?: boolean; ma10?: boolean; ma20?: boolean; macdTrades?: boolean; kd10Trades?: boolean; volume?: boolean; turnoverTrend?: boolean; b20?: boolean; b55?: boolean; b120?: boolean; r2?: boolean; h1?: boolean; h1Trades?: boolean };
 export type RatioPanels = { r2?: RatioPoint[]; h1?: RatioPoint[] };
 const RATIO_PANELS = [
   { key: 'r2', name: '创业板择时', label: '创业板 ÷ 红利', shadeColor: '#94a3b8', shadeName: '灰底' },
@@ -1209,9 +1209,12 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   const turnoverValues = turnoverPoints.flatMap(point => point ? [point.weighted] : []);
   const showTurnover = turnoverValues.length > 0;
   const turnoverTop = (showVolume ? volumeTop + volumeHeight : priceTop + priceHeight) + panelGap;
-  // B20 申赎篮子宽度：只有调用方传入已核验快照（目前仅 159593）时才画，排在成交额加权趋势之后；按日期对齐，缺失断线。
-  const b20Points = indicators.b20 && b20 ? bars.map(bar => b20.points.get(bar.date)) : [];
-  const showB20 = b20Points.some(Boolean);
+  // 申赎篮子宽度 B20 / B55 / B120：只有调用方传入已核验快照（目前仅 159593）时才画，排在成交额加权趋势之后；
+  // 三个周期同一副图、同一 0–100% 刻度，各自开关；按日期对齐 K 线，缺失断线。
+  const bShown = b20 ? B_WINDOWS.filter(n => indicators[`b${n}`] && b20.periods.has(n)) : [];
+  const bPoints = new Map(bShown.map(n => [n, bars.map(bar => b20!.periods.get(n)!.points.get(bar.date))]));
+  const bWindows = bShown.filter(n => bPoints.get(n)!.some(Boolean));
+  const showB20 = bWindows.length > 0;
   const b20Top = turnoverTop + (showTurnover ? panelHeight + panelGap : 0);
   // 风格比值按日期对齐到显示中的日线，排在成交量、成交额加权趋势和 B20 下方。
   let ratioTop = b20Top + (showB20 ? panelHeight + panelGap : 0);
@@ -1503,19 +1506,34 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
   if (showB20) {
     const yOf = (value: number) => b20Top + (1 - value) * panelHeight;
     const grid = [0, .5, 1].map(value => `<line x1="${left}" x2="${width - right}" y1="${yOf(value)}" y2="${yOf(value)}" stroke="${value === .5 ? '#e2e8f0' : '#f1f5f9'}"${value === .5 ? ' stroke-dasharray="3 3"' : ''}/><text x="${left - 8}" y="${yOf(value) + 4}" text-anchor="end" fill="#94a3b8" font-size="10">${value * 100}%</text>`).join('');
-    let line = '', dots = '';
-    b20Points.forEach((point, index) => {
-      if (point?.value == null) return;
-      const xx = x(index).toFixed(1), yy = yOf(point.value).toFixed(1);
-      const before = b20Points[index - 1]?.value != null, after = b20Points[index + 1]?.value != null;
-      line += `${before ? 'L' : 'M'}${xx},${yy}`;
-      if (!before && !after) dots += `<circle cx="${xx}" cy="${yy}" r="2" fill="#0d9488"/>`;
-    });
-    b20Svg = title(b20Top, compact ? 'B20 申赎篮子宽度 · 收盘 · 0–100%' : `B20 申赎篮子宽度（收盘观察）· 0–100% · 快照截至 ${b20!.through}`, '#0f766e', 'b20')
-      + frame(b20Top, panelHeight) + grid
-      + `<path class="b20-line" d="${line}" fill="none" stroke="#0d9488" stroke-width="1.5" stroke-linejoin="round"/>` + dots;
+    let lines = '';
+    for (const n of bWindows) {
+      const points = bPoints.get(n)!, style = B_STYLE[n];
+      let line = '', dots = '';
+      points.forEach((point, index) => {
+        if (point?.value == null) return;
+        const xx = x(index).toFixed(1), yy = yOf(point.value).toFixed(1);
+        const before = points[index - 1]?.value != null, after = points[index + 1]?.value != null;
+        line += `${before ? 'L' : 'M'}${xx},${yy}`;
+        if (!before && !after) dots += `<circle class="b${n}-dot" cx="${xx}" cy="${yy}" r="2" fill="${style.color}"/>`;
+      });
+      lines += `<path class="b${n}-line" d="${line}" fill="none" stroke="${style.color}" stroke-width="${style.width}"${style.dash ? ` stroke-dasharray="${style.dash}"` : ''} stroke-linejoin="round"/>` + dots;
+    }
+    // 图例靠右：线型样本 + 周期名，只列出勾选且区间内有记录的周期
+    const sample = compact ? 14 : 22, spacing = compact ? 7 : 10;
+    let legendX = width - right, legend = '';
+    for (const n of [...bWindows].reverse()) {
+      const style = B_STYLE[n], label = `B${n}`, textWidth = label.length * 6.2;
+      legendX -= textWidth;
+      legend = `<text x="${legendX.toFixed(1)}" y="${b20Top - 10}" fill="${style.color}" font-size="10" font-weight="600">${label}</text>`
+        + `<line x1="${(legendX - sample).toFixed(1)}" x2="${(legendX - 4).toFixed(1)}" y1="${b20Top - 13.5}" y2="${b20Top - 13.5}" stroke="${style.color}" stroke-width="2"${style.dash ? ` stroke-dasharray="${style.dash}"` : ''}/>` + legend;
+      legendX -= sample + spacing;
+    }
+    const spans = bWindows.join("/");
+    b20Svg = title(b20Top, compact ? '篮子宽度' : `申赎篮子宽度（收盘，前 ${spans} 日）· 0–100% · 截至 ${b20!.through}`, '#0f766e', 'b20')
+      + `<g class="b-legend">${legend}</g>` + frame(b20Top, panelHeight) + grid + lines;
   }
-  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(showTurnover ? ['turnover', 'turnover-ema'] : []), ...(showB20 ? ['b20', 'b20-count', 'b20-detail'] : []), ...(macdTrades ? ['mtrade'] : []), ...plans.map(plan => `plan-${plan.key}`)];
+  const tipLines = [...(noGrid ? ['date', 'open', 'low', 'change'] : ['date', 'trade', 'open', 'low', 'change']), ...(showTurnover ? ['turnover', 'turnover-ema'] : []), ...(showB20 ? [...bWindows.map(n => `b${n}`), 'b-note'] : []), ...(macdTrades ? ['mtrade'] : []), ...plans.map(plan => `plan-${plan.key}`)];
   svg.innerHTML = `<g>${title(priceTop, `价格（元）· 日K / 预计买卖价${ma10 ? ' / 10 日线（橙）' : ''}${ma20 ? ' / 20 日线（青）' : ''}${ratios.map(panel => ` / ${panel.shadeName} = ${panel.name}偏防守`).join('')}`, '#475569', 'price')}${frame(priceTop, priceHeight)}${ticks(priceMin, priceMax, priceTop, priceHeight, value => value.toFixed(3), '#94a3b8')}`
     + (noGrid ? '' : `${title(moneyTop, '资金（万元）· 持仓市值 / 占用本金 / 总盈亏', '#475569', 'money')}${frame(moneyTop, moneyHeight)}${ticks(yMin, yMax, moneyTop, moneyHeight, value => `${(value / 10000).toFixed(1)}万`, '#94a3b8', y(0))}${zero}${noMoney}`)
     + `${zoneBands}${showGrid ? `${stepSvg}${level(buyLevel, BUY_COLOR, '买')}${level(sellLevel, SELL_COLOR, '卖')}` : ''}${markerSvg}</g>`
@@ -1550,8 +1568,8 @@ export function renderEquityChart(svg: SVGSVGElement, series: EquityPoint[], nex
       setText('turnover-ema', turnoverPoint ? `日均 ${(turnoverPoint.weighted / 11).toFixed(2)} · 原始 ${turnoverPoint.amount.toFixed(2)} 亿元` : '');
     }
     if (showB20) {
-      const [head, counts, detail] = b20TipLines(b20!, bar.date);
-      setText('b20', head); setText('b20-count', counts); setText('b20-detail', detail);
+      for (const n of bWindows) setText(`b${n}`, bWindowLine(b20!, n as BWindow, bar.date));
+      setText('b-note', bNoteLine(b20!, bWindows, bar.date));
     }
     setText('trade', trade ? `成交  ${trade.side} ${trade.price.toFixed(3)} · ¥${formatAmount(trade.amount)}` : '成交  —');
     // 涨跌幅以前一交易日收盘价为基准（区间内第一根也取区间外的前一根）；没有前收时退回当日开盘价。

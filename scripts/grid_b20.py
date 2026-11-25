@@ -1,4 +1,4 @@
-"""网格详情页 B20 申赎篮子宽度快照（只用 Python 标准库）。
+"""网格详情页申赎篮子宽度 B20 / B55 / B120 快照（只用 Python 标准库）。
 
 口径沿用 gupiaoWS 研究「ETF 历史申赎篮子成分宽度」（industry_breadth_audit/protocol_IB.md §1–4、
 protocol_amendments_IB.md A3/A3b、b20_top_expansion/protocol_B20TX.md §4，lib_ib.stock/tri 的逻辑在此逐段移植）：
@@ -11,9 +11,13 @@ protocol_amendments_IB.md A3/A3b、b20_top_expansion/protocol_B20TX.md §4，lib
   与东财分红送配明细“实施分配”两源一致的事件；只在一方出现或金额不符 → bad_ev，窗口跨越它即未知。东财空表须巨潮
   “权益分派”类公告中无实施公告才判无事件（A3b）。另加一道本页新增的第三源旁证（qfq_check）：腾讯前复权大体是加法口径，
   非事件日相邻两天的涨跌须与不复权一致，出现明显跳变的日子记为 bad_ev（可能是两源都没记的配股等）；除权日只报告量级偏差、不改判。
-- 个股 B20 判定：adj_t 严格大于此前 20 个 A 股交易日（不含 t）adj 的均值；t 与这 20 日任一缺 K 线、或窗口 (t−20, t]
+- 周期 N = 20 / 55 / 120（WINDOWS）。三个周期共用同一次取到的篮子、日历与个股行情，只是窗口长度不同。
+- 个股 B{N} 判定：adj_t 严格大于此前 N 个 A 股交易日（不含 t）adj 的均值；t 与这 N 日任一缺 K 线、或窗口 (t−N, t]
   跨未核实事件 → 未知。不填充停牌，不沿用最后价格。
-- 当日 B20 = 真 / (真 + 假)，覆盖率 (真 + 假) / N < 95% 时为空（仍保留计数与原因）。
+- 当日 B{N} = 真 / (真 + 假)，覆盖率 (真 + 假) / 篮子数 < 95% 时为空（仍保留计数与原因）。
+- 预热：个股行情与日历自 STOCK_FROM 起取；t 之前不足 N 个交易日时该周期留空，原因 warmup（与覆盖不足、PCF 缺失分开）。
+  STOCK_FROM = 2023-06-01 时首个 PCF 日（2024-03-12）之前已有约 186 个交易日，三个周期都不需要预热。
+- 页面数据 v2：series.{20,55,120}.rows；旧 v1（只有 B20 的 rows）读入时视为 B20，回退保护对每个周期分别检查。
 - 个股 B20 的“严格高于”用 math.fsum 求均值并留 1e-9 相对容差（above_mean），避免十进制价格在浮点下求和产生假站上。
 - 原研究严格版：PCF 的 Last-Modified 晚于当日 09:00（北京）的日子，篮子派生值置空。本页沿用并比较到秒（09:00:01 即晚，
   原研究按分钟）；缺 Last-Modified 也留空。Last-Modified 只是服务器元数据，不等于实际发布时间，不能证明历史披露时间。
@@ -49,11 +53,13 @@ ROOT = Path(__file__).resolve().parent.parent
 CACHE = Path(os.environ.get("GRID_B20_CACHE", ROOT / ".local" / "grid-b20"))
 BJ = dt.timezone(dt.timedelta(hours=8))
 UA = {"User-Agent": "Mozilla/5.0"}
-STOCK_FROM = "2023-12-01"  # 首个 PCF 日之前至少 20 个交易日
+STOCK_FROM = "2023-06-01"  # 首个 PCF 日（2024-03-12）之前约 186 个交易日，够 B120 预热
 ETFS = {
     "159593": {"name": "中证A50指数ETF", "index": "930050", "listing": "2024-03-12", "symbol": "sz159593"},
 }
-WINDOW = 20
+WINDOWS = (20, 55, 120)  # 三个周期共用同一份篮子与行情
+WINDOW = WINDOWS[0]
+FIELDS = ["date", "value", "above", "valid", "total", "reason", "detail"]
 MIN_COV = 0.95
 LM_GATE = "09:00:00"  # 比较到秒：09:00:00 有效，09:00:01 起算晚
 REL_EPS = 1e-9      # 严格大于的相对容差：吸收十进制价格在二进制浮点下的求和误差，远小于真实最小价差（约 1e-7）
@@ -259,14 +265,14 @@ def qfq_check(rw: dict, rd: list, good: dict, bad: list, qfq_rows: list, tol: fl
 
 
 # ---------------------------------------------------------------- 宽度（三态）
-def member_state(S: dict | None, cal: list, t_idx: int) -> tuple[bool | None, str | None]:
-    """返回 (真/假, None) 或 (None, 未知原因)。"""
+def member_state(S: dict | None, cal: list, t_idx: int, n: int = WINDOW) -> tuple[bool | None, str | None]:
+    """返回 (真/假, None) 或 (None, 未知原因)。n = 周期：t 与此前 n 个交易日都要有已核实复权收盘，窗口 (t−n, t] 不能跨未核实事件。"""
     if S is None: return None, "kline"
-    if t_idx - WINDOW < 0: return None, "kline"
+    if t_idx - n < 0: return None, "kline"
     if not S["adj"]: return None, "adj"
-    v = [S["adj"].get(cal[j]) for j in range(t_idx - WINDOW, t_idx + 1)]
+    v = [S["adj"].get(cal[j]) for j in range(t_idx - n, t_idx + 1)]
     if any(x is None for x in v): return None, "kline"
-    a, b = cal[t_idx - WINDOW], cal[t_idx]
+    a, b = cal[t_idx - n], cal[t_idx]
     if any(a < d <= b for d in S["bad_ev"]): return None, "adj"
     return above_mean(v[-1], v[:-1]), None
 
@@ -279,10 +285,10 @@ def above_mean(today: float, prev: list) -> bool:
     return today - mean > REL_EPS * max(abs(today), abs(mean))
 
 
-def breadth_day(codes: list, stocks: dict, cal: list, t_idx: int) -> dict:
+def breadth_day(codes: list, stocks: dict, cal: list, t_idx: int, n: int = WINDOW) -> dict:
     T = F = 0; unk = {"kline": 0, "adj": 0}
     for c in codes:
-        st, why = member_state(stocks.get(c), cal, t_idx)
+        st, why = member_state(stocks.get(c), cal, t_idx, n)
         if st is None: unk[why] += 1
         elif st: T += 1
         else: F += 1
@@ -291,16 +297,19 @@ def breadth_day(codes: list, stocks: dict, cal: list, t_idx: int) -> dict:
             "value": T / K if N and K and K / N >= MIN_COV else None}
 
 
-def compute_rows(etf_dates: list, baskets: dict, issues: dict, lm_bj: dict, stocks: dict, cal: list) -> tuple[list, dict]:
-    """逐日行 [date, value, above, valid, total, reason, detail]。t 日只取 baskets[t]，缺篮子当日为空，不前填、不用其他日的篮子。"""
+def compute_rows(etf_dates: list, baskets: dict, issues: dict, lm_bj: dict, stocks: dict, cal: list, n: int = WINDOW) -> tuple[list, dict]:
+    """周期 n 的逐日行 [date, value, above, valid, total, reason, detail]。t 日只取 baskets[t]，缺篮子当日为空，不前填、不用其他日的篮子。
+    原因优先级：pcf（当日无清单）> warmup（日历在 t 之前不足 n 个交易日，取数起点之前的历史没拉）> lm_late / lm_missing > coverage。"""
     ci = {d: k for k, d in enumerate(cal)}
-    rows = []; counts = {"days": len(etf_dates), "basket": 0, "value": 0, "coverage": 0, "lm_late": 0, "lm_missing": 0, "pcf": 0}
+    rows = []; counts = {"days": len(etf_dates), "basket": 0, "value": 0, "coverage": 0, "lm_late": 0, "lm_missing": 0, "pcf": 0, "warmup": 0}
     for d in etf_dates:
         codes = baskets.get(d)
         if codes is None or d not in ci:
             rows.append([d, None, None, None, None, "pcf", issues.get(d, "无交易日历")]); counts["pcf"] += 1; continue
         counts["basket"] += 1
-        x = breadth_day(codes, stocks, cal, ci[d])
+        if ci[d] < n:
+            rows.append([d, None, None, None, len(codes), "warmup", f"需此前 {n} 个交易日，日历自 {cal[0]} 起只有 {ci[d]} 日"]); counts["warmup"] += 1; continue
+        x = breadth_day(codes, stocks, cal, ci[d], n)
         reason = lm_gate(lm_bj.get(d), d) or ("coverage" if x["value"] is None else None)
         counts[reason or "value"] += 1
         detail = f"未知 {x['N'] - x['K']}（缺K线 {x['unk']['kline']}，复权未核实 {x['unk']['adj']}）" if x["N"] != x["K"] else None
@@ -355,26 +364,39 @@ class UpdateFailed(Exception):
     """来源封锁或明确的拉取 / 解析失败：本次不写盘。"""
 
 
+def page_series(page: dict | None) -> dict:
+    """{周期字符串: rows}。兼容 v1 旧快照（只有 B20 的 rows）与 v2（series.{20,55,120}.rows）。"""
+    if not page: return {}
+    if page.get("version") == 1: return {str(WINDOW): page.get("rows", [])}
+    return {k: v.get("rows", []) for k, v in (page.get("series") or {}).items()}
+
+
 def regressions(old: dict | None, new: dict) -> list:
-    """过去有数的日期被重算成缺失（或整行消失、截止日后退）→ 视为不完整重算，返回问题列表。新增日期如实标记覆盖不足不算回退。"""
+    """任一周期过去有数的日期被重算成缺失（或整行消失、周期消失、截止日后退）→ 视为不完整重算，返回问题列表。
+    新增日期如实标记覆盖不足、新增周期都不算回退。"""
     if not old: return []
     out = []
     if old.get("through", "") > new["through"]: out.append(f"截止日后退：{old['through']} → {new['through']}")
-    new_rows = {r[0]: r for r in new["rows"]}
-    for r in old.get("rows", []):
-        if r[1] is None: continue
-        n = new_rows.get(r[0])
-        if n is None: out.append(f"{r[0]} 行消失（原值 {r[1]}）")
-        elif n[1] is None: out.append(f"{r[0]} 由 {r[1]} 变为缺失（{n[5]}：{n[6] or ''}）")
+    news = page_series(new)
+    for w, rows in page_series(old).items():
+        new_rows = {r[0]: r for r in news.get(w, [])}
+        for r in rows:
+            if r[1] is None: continue
+            n = new_rows.get(r[0])
+            if n is None: out.append(f"B{w} {r[0]} 行消失（原值 {r[1]}）")
+            elif n[1] is None: out.append(f"B{w} {r[0]} 由 {r[1]} 变为缺失（{n[5]}：{n[6] or ''}）")
     return out
 
 
 def value_changes(old: dict | None, new: dict) -> list:
-    """过去有数、重算后仍有数但取值不同的日期（只报告，不阻止）。"""
+    """任一周期过去有数、重算后仍有数但取值不同的日期（只报告，不阻止）：(周期, 日期, 旧值, 新值, 旧计数, 新计数)。"""
     if not old: return []
-    new_rows = {r[0]: r for r in new["rows"]}
-    return [(r[0], r[1], new_rows[r[0]][1], r[2:5], new_rows[r[0]][2:5]) for r in old.get("rows", [])
-            if r[1] is not None and r[0] in new_rows and new_rows[r[0]][1] is not None and new_rows[r[0]][1] != r[1]]
+    news = page_series(new); out = []
+    for w, rows in page_series(old).items():
+        new_rows = {r[0]: r for r in news.get(w, [])}
+        out += [(w, r[0], r[1], new_rows[r[0]][1], r[2:5], new_rows[r[0]][2:5]) for r in rows
+                if r[1] is not None and r[0] in new_rows and new_rows[r[0]][1] is not None and new_rows[r[0]][1] != r[1]]
+    return out
 
 
 def commit_outputs(page_path: Path, prov_path: Path, page: dict, prov_out: dict, failures: list, allow_regress: bool, log=print) -> dict:
@@ -390,7 +412,7 @@ def commit_outputs(page_path: Path, prov_path: Path, page: dict, prov_out: dict,
         return {"written": False, "status": "failed", "failures": failures, "regressions": [], "changes": []}
     reg = regressions(old, page)
     changes = value_changes(old, page)
-    for c in changes[:20]: log(f"  取值变化 {c[0]}：{c[1]} → {c[2]}（站上/有效/篮子 {c[3]} → {c[4]}）")
+    for c in changes[:20]: log(f"  取值变化 B{c[0]} {c[1]}：{c[2]} → {c[3]}（站上/有效/篮子 {c[4]} → {c[5]}）")
     if reg and not allow_regress:
         log(f"不写盘：{len(reg)} 个过去有数的日期会被改成缺失（疑似不完整重算；确认无误可加 --allow-regress）"); [log(f"  - {r}") for r in reg[:20]]
         return {"written": False, "status": "regressed", "failures": [], "regressions": reg, "changes": changes}
@@ -553,29 +575,38 @@ def update(code: str, offline: bool, log=print, allow_regress: bool = False) -> 
                          "events": {d: [round(v[0], 6), round(v[1], 6)] for d, v in S["good_ev"].items()}, "bad_events": S["bad_ev"], "qfq_check": S["qfq_check"]}
         if n % 20 == 0: log(f"个股 {n + 1}/{len(union)} {c} {S['adj_source']}")
 
-    # 4) 逐日 B20：每天只用当天篮子
-    rows, counts = compute_rows(etf_dates, baskets, issues, {d: (r or {}).get("last_modified_bj") for d, r in pcf_man.items()}, stocks, cal)
-    last_valid = next((r for r in reversed(rows) if r[1] is not None), None)
+    # 4) 逐日 B20 / B55 / B120：每天只用当天篮子；三个周期共用上面同一份篮子与行情
+    lm_bj = {d: (r or {}).get("last_modified_bj") for d, r in pcf_man.items()}
+    series: dict = {}; all_counts: dict = {}
+    for n in WINDOWS:
+        rows, counts = compute_rows(etf_dates, baskets, issues, lm_bj, stocks, cal, n)
+        last = next((r for r in reversed(rows) if r[1] is not None), None)
+        warm = [r[0] for r in rows if r[5] == "warmup"]
+        series[str(n)] = {"summary": {**counts, "firstValid": next((r[0] for r in rows if r[1] is not None), None), "lastValid": last[0] if last else None,
+                                      "warmupFrom": warm[0] if warm else None, "warmupTo": warm[-1] if warm else None},
+                          "rows": rows}
+        all_counts[n] = (counts, last)
     page = {
-        "version": 1, "code": code, "name": cfg["name"], "index": cfg["index"], "through": through, "generatedAt": now_iso(),
-        "fields": ["date", "value", "above", "valid", "total", "reason", "detail"],
+        "version": 2, "code": code, "name": cfg["name"], "index": cfg["index"], "through": through, "generatedAt": now_iso(),
+        "windows": list(WINDOWS), "calendarFrom": cal[0], "fields": FIELDS,
         "reasons": {"pcf": "当日 PCF 缺失（404）", "coverage": "有效成员覆盖率低于 95%",
+                    "warmup": "此前 N 个交易日不在已取历史内（预热不足）",
                     "lm_late": "PCF 的 Last-Modified 晚于当日 09:00:00（沿用原研究严格版留空；服务器元数据，不等于实际发布时间）",
                     "lm_missing": "PCF 缺 Last-Modified，无法套用可得性门槛"},
-        "summary": {**counts, "firstValid": next((r[0] for r in rows if r[1] is not None), None), "lastValid": last_valid[0] if last_valid else None,
-                    "members": len(union), "baskets": len(versions)},
-        "method": "B20 = 当日官方 PCF 股票成员中，后复权（比例事件链）收盘严格高于此前 20 个交易日（不含当天）均值的成员数 ÷ 有效成员数；"
-                  "t 与此前 20 日全部有已核实复权收盘才有效；覆盖率 < 95% 留空；每天只用当天的篮子，不用今天的篮子回填。",
-        "rows": rows,
+        "summary": {"days": len(etf_dates), "members": len(union), "baskets": len(versions)},
+        "method": "B{N} = 当日官方 PCF 股票成员中，后复权（比例事件链）收盘严格高于此前 N 个 A 股交易日（不含当天）均值的成员数 ÷ 有效成员数，N = 20 / 55 / 120；"
+                  "t 与此前 N 日全部有已核实复权收盘、窗口内不跨未核实除权才有效；覆盖率 < 95% 留空；每天只用当天的篮子，不用今天的篮子回填。",
+        "series": series,
     }
     prov_out = {
         "code": code, "name": cfg["name"], "index": cfg["index"], "through": through, "generatedAt": page["generatedAt"],
-        "script": "scripts/grid_b20.py", "lm_gate": f"PCF 的 Last-Modified（北京时间，比较到秒）晚于当日 {LM_GATE} 或缺失 → B20 留空；Last-Modified 是服务器元数据，不是实际发布时间",
+        "script": "scripts/grid_b20.py", "windows": list(WINDOWS), "stock_from": STOCK_FROM, "lm_gate": f"PCF 的 Last-Modified（北京时间，比较到秒）晚于当日 {LM_GATE} 或缺失 → 当日 B20 / B55 / B120 都留空；Last-Modified 是服务器元数据，不是实际发布时间",
         "calendar": {"source": cal_meta, "etf_source": etf_meta, "issues": cal_issues},
         "baskets": versions, "names": dict(sorted(names.items())), "pcf": dict(sorted(pcf_man.items())), "stocks": stock_meta,
     }
     res = commit_outputs(page_path, prov_path, page, prov_out, failures, allow_regress, log)
-    log(f"完成：{counts}；末个有效日 {last_valid}；结果 {res['status']}；失败 {len(failures)}；回退 {len(res['regressions'])}；取值变化 {len(res['changes'])}")
+    for n, (counts, last) in all_counts.items(): log(f"B{n}：{counts}；末个有效日 {last}")
+    log(f"完成：结果 {res['status']}；失败 {len(failures)}；回退 {len(res['regressions'])}；取值变化 {len(res['changes'])}")
     return {**res, "page": page, "stocks": stocks, "baskets": baskets, "cal": cal}
 
 
