@@ -3,9 +3,9 @@
  "name": "中证A50指数ETF",
  "index": "930050",
  "through": "2026-11-25",
- "generatedAt": "2026-11-25T22:27:17+08:00",
+ "generatedAt": "2026-11-25T22:56:53+08:00",
  "script": "scripts/grid_b20.py",
- "lm_gate": "Last-Modified（北京）晚于当日 09:00 或缺失 → B20 留空",
+ "lm_gate": "PCF 的 Last-Modified（北京时间，比较到秒）晚于当日 09:00:00 或缺失 → B20 留空；Last-Modified 是服务器元数据，不是实际发布时间",
  "calendar": {
   "source": {
    "pages": [

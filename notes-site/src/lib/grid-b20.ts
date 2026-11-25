@@ -56,9 +56,9 @@ export async function fetchB20(code: string): Promise<B20Series> {
 
 const pct = (value: number) => `${(value * 100).toFixed(1)}%`;
 const SHORT: Record<B20Reason, string> = {
-  pcf: '当日 PCF 缺失或未通过核验',
+  pcf: '当日 PCF 缺失（404）',
   coverage: '有效成员不足篮子 95%',
-  lm_late: 'PCF 晚于当日 09:00 发布（严格版留空）',
+  lm_late: 'Last-Modified 晚于 09:00:00（严格版留空）',
   lm_missing: 'PCF 缺 Last-Modified',
 };
 

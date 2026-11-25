@@ -71,6 +71,29 @@ class MemberState(unittest.TestCase):
         self.assertEqual(G.member_state(S, CAL, self.T)[1], None)
 
 
+class StableCompare(unittest.TestCase):
+    def test_equal_decimal_prices_are_not_above(self):
+        # 二十个相等的复权收盘：朴素 sum/20 会比单值小一个 ulp，得到假站上
+        for p, f in [(281.78, 1.691400829417505), (52.316, 1.1729351794564966), (5.5, 2.5082905703125413), (0.7, 1.0)]:
+            x = p * f
+            self.assertFalse(G.above_mean(x, [x] * 20))
+        self.assertTrue(sum([281.78 * 1.691400829417505] * 20) / 20 < 281.78 * 1.691400829417505)  # 旧写法确实会误判
+
+    def test_decimal_mean_equal_to_today_is_not_above(self):
+        for a, b, c in [(87.99, 88.09, 88.04), (38.42, 39.12, 38.77), (43.86, 44.26, 44.06)]:
+            self.assertTrue(c > sum([a] * 10 + [b] * 10) / 20)  # 旧写法误判
+            self.assertFalse(G.above_mean(c, [a] * 10 + [b] * 10))
+
+    def test_real_small_difference_still_counts(self):
+        # 最小真实价差：一分钱摊到 20 日、两千元股价，再乘复权因子
+        for f in (1.0, 1.2345678, 3.3):
+            prev = [2000.00 * f] * 19 + [2000.01 * f]
+            self.assertTrue(G.above_mean(2000.01 * f, prev))
+            self.assertFalse(G.above_mean(2000.00 * f, prev))
+            self.assertTrue(G.above_mean(0.701 * f, [0.70 * f] * 20))
+            self.assertFalse(G.above_mean(0.699 * f, [0.70 * f] * 20))
+
+
 class Adjustment(unittest.TestCase):
     def test_proportional_chain_identity(self):
         c = {d: 10.0 for d in CAL}
@@ -144,9 +167,13 @@ class Pcf(unittest.TestCase):
     def test_lm_gate(self):
         self.assertEqual(G.lm_beijing("Wed, 25 Nov 2026 00:11:08 GMT"), "2026-11-25 08:11:08")
         self.assertIsNone(G.lm_gate("2026-11-25 08:11:08", "2026-11-25"))
-        self.assertIsNone(G.lm_gate("2026-11-25 09:00:59", "2026-11-25"))  # 同原研究按分钟比较
-        self.assertEqual(G.lm_gate("2026-11-25 09:01:00", "2026-11-25"), "lm_late")
+        # 比较到秒：09:00:00 有效，09:00:01 起算晚（原研究按分钟比较会把 09:00:59 当有效）
+        self.assertIsNone(G.lm_gate("2026-11-25 09:00:00", "2026-11-25"))
+        self.assertEqual(G.lm_gate("2026-11-25 09:00:01", "2026-11-25"), "lm_late")
+        self.assertEqual(G.lm_gate("2026-11-25 09:00:59", "2026-11-25"), "lm_late")
+        self.assertEqual(G.lm_gate("2026-11-24 23:59:59", "2026-11-25"), None)
         self.assertEqual(G.lm_gate(None, "2026-11-25"), "lm_missing")
+        self.assertEqual(G.lm_gate("2026-11-25 08:11", "2026-11-25"), "lm_missing")  # 格式不全不猜
 
 
 class Rows(unittest.TestCase):
@@ -181,6 +208,168 @@ class Rows(unittest.TestCase):
         codes = sorted(self.stocks)[:20]
         rows, _ = G.compute_rows([self.t], {self.t: codes}, {}, {self.t: f"{self.t} 17:30:00"}, self.stocks, CAL)
         self.assertEqual(rows[0][1:6], [None, 10, 20, 20, "lm_late"])
+
+
+# ---------------------------------------------------------------- 更新流程：假网络上的封锁 / 瞬时失败 / 回退 / 无变化
+import datetime as _dt  # noqa: E402
+import email.utils as _eu  # noqa: E402
+import io  # noqa: E402
+import json  # noqa: E402
+import tempfile  # noqa: E402
+import urllib.error  # noqa: E402
+from pathlib import Path  # noqa: E402
+from unittest import mock  # noqa: E402
+
+MEMBERS = ["000001", "300001", "600000"]
+
+
+def business_days(start, end):
+    d, out = _dt.date.fromisoformat(start), []
+    while d.isoformat() <= end:
+        if d.weekday() < 5: out.append(d.isoformat())
+        d += _dt.timedelta(days=1)
+    return out
+
+
+class FakeNet:
+    """按 URL 返回合成数据：沪深300 / ETF / 三只成员的腾讯日线，逐日 PCF，东财空分红表。fail 指定要模拟的失败。"""
+    def __init__(self, end="2024-04-10"):
+        self.days = business_days("2024-01-02", end)
+        self.fail = {}        # 键：'pcf:YYYYMMDD' / 'tx:sym' / 'em:code' → 403 或 'oserror'
+        self.drop = {}        # 'sym' → 该股行情里缺掉的日期集合（模拟数据源静默缺行）
+        self.calls = 0
+
+    def price(self, sym, i):
+        k = sum(map(ord, sym))
+        return round(10 + ((i * 7 + k) % 13) / 10, 2)
+
+    def kline(self, sym, fq):
+        rows = [[d, "0", f"{self.price(sym, i):.2f}", "0", "0", "1"] for i, d in enumerate(self.days) if d not in self.drop.get(sym, ())]
+        if sym == "sz159593": rows = [r for r in rows if r[0] >= "2024-03-12"]
+        key = "qfqday" if fq == "qfq" and sym != "sh600000" else "day"  # 600000 模拟从未除权的股票：前复权请求只回 day
+        return {"data": {sym: {key: rows}}}
+
+    def pcf(self, d):
+        lines = [f"( {d} )", "基金代码：  159593", "目标指数代码：  930050", f"全部申购赎回组合证券只数：  {len(MEMBERS) + 1}只"]
+        for c in MEMBERS + ["159900"]:
+            lines.append(f" {c}  名称{c}  100  允许  10.00%  10.00%  0.0000  0.0000  深圳市场")
+        return "\n".join(lines).encode("gbk")
+
+    def __call__(self, req, timeout=None):
+        self.calls += 1
+        url = req.full_url
+        def boom(key):
+            how = self.fail.get(key)
+            if how in (403, 429): raise urllib.error.HTTPError(url, how, "denied", {}, None)
+            if how == "oserror": raise urllib.error.URLError("connection reset")
+        if "reportdocs" in url:
+            ymd = url[-12:-4]; boom(f"pcf:{ymd}")
+            d = f"{ymd[:4]}-{ymd[4:6]}-{ymd[6:]}"
+            lm = _eu.format_datetime(_dt.datetime.fromisoformat(f"{d}T00:10:00+00:00"), usegmt=True)
+            return Resp(self.pcf(d), {"Last-Modified": lm})
+        if "fqkline" in url:
+            param = url.split("param=")[1].split(","); sym = param[0]; boom(f"tx:{sym}")
+            return Resp(json.dumps(self.kline(sym, param[5])).encode())
+        if "eastmoney" in url:
+            code = url.split("%22")[1]; boom(f"em:{code}")
+            return Resp(json.dumps({"success": True, "result": {"pages": 1, "data": []}}).encode())
+        raise AssertionError(url)
+
+
+class Resp(io.BytesIO):
+    def __init__(self, body, headers=None):
+        super().__init__(body); self.status = 200; self.headers = headers or {}
+
+
+class UpdateFlow(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(); root = Path(self.tmp.name)
+        self.patches = [mock.patch.object(G, "ROOT", root), mock.patch.object(G, "CACHE", root / "cache"),
+                        mock.patch.dict(G.GAPS, {k: 0 for k in G.GAPS}), mock.patch.object(G, "BACKOFF", 0)]
+        for p in self.patches: p.start()
+        self.net = FakeNet()
+        self.page, self.prov = G.outputs("159593")
+
+    def tearDown(self):
+        for p in self.patches: p.stop()
+        self.tmp.cleanup()
+
+    def run_update(self, **kw):
+        with mock.patch.object(G.urllib.request, "urlopen", self.net):
+            return G.update("159593", offline=False, log=lambda *_: None, **kw)
+
+    def snapshot(self):
+        return self.page.read_bytes(), self.prov.read_bytes()
+
+    def good_first(self):
+        res = self.run_update()
+        self.assertEqual(res["status"], "written")
+        return self.snapshot()
+
+    def test_first_run_writes_and_rerun_is_unchanged(self):
+        before = self.good_first()
+        rows = json.loads(before[0])["rows"]
+        self.assertEqual(rows[0][0], "2024-03-12")
+        qfq = json.loads(before[1])["stocks"]["600000"]["tencent_qfq"]["pages"][0]
+        self.assertEqual((qfq["field"], qfq["rows"] > 0), ("day", True))  # 只回 day 键时照用并记下
+        self.assertTrue(all(r[1] is not None for r in rows))
+        res = self.run_update()
+        self.assertEqual(res["status"], "unchanged")      # 无变化：两份文件都不重写，不会产生新提交
+        self.assertEqual(self.snapshot(), before)
+        self.assertEqual(G.EXIT[res["status"]], 0)
+
+    def test_blocked_source_keeps_existing_files(self):
+        before = self.good_first()
+        for key in ("tx:sh600000", "em:300001", "pcf:20240410"):
+            with self.subTest(key=key):
+                self.net.fail = {key: 403}
+                if key.startswith("pcf"):  # PCF 已有记录不重取：去掉最后一天的清单记录，模拟新一天要抓
+                    prov = json.loads(self.prov.read_text()); prov["pcf"].pop("2024-04-10"); self.prov.write_text(json.dumps(prov))
+                    before = self.snapshot()
+                res = self.run_update()
+                self.assertEqual(res["status"], "failed")
+                self.assertTrue(any("403" in f for f in res["failures"]))
+                self.assertEqual(G.EXIT[res["status"]], 2)
+                self.assertEqual(self.snapshot(), before)
+
+    def test_transient_failure_keeps_existing_files(self):
+        before = self.good_first()
+        for key in ("tx:sz000001", "em:600000", "tx:sh000300"):
+            with self.subTest(key=key):
+                self.net.fail = {key: "oserror"}
+                res = self.run_update()
+                self.assertEqual(res["status"], "failed")
+                self.assertEqual(self.snapshot(), before)
+
+    def test_silently_incomplete_source_cannot_erase_history(self):
+        before = self.good_first()
+        self.net.drop = {"sz000001": {"2024-03-20"}}     # 数据源静默少一天：多个过去有数的日期会被重算成缺失
+        res = self.run_update()
+        self.assertEqual(res["status"], "regressed")
+        self.assertTrue(res["regressions"])
+        self.assertEqual(G.EXIT[res["status"]], 3)
+        self.assertEqual(self.snapshot(), before)
+        res = self.run_update(allow_regress=True)        # 人工确认后才写
+        self.assertEqual(res["status"], "written")
+
+    def test_new_day_may_be_marked_coverage_short(self):
+        self.good_first()
+        self.net.days = business_days("2024-01-02", "2024-04-11")
+        self.net.drop = {"sz000001": {"2024-04-11"}}     # 新交易日一只成员缺 K 线：如实标覆盖不足
+        res = self.run_update()
+        self.assertEqual(res["status"], "written")
+        rows = {r[0]: r for r in json.loads(self.page.read_text())["rows"]}
+        self.assertEqual(rows["2024-04-11"][1:6], [None, rows["2024-04-11"][2], 2, 3, "coverage"])
+        self.assertIsNotNone(rows["2024-04-10"][1])
+        prov = json.loads(self.prov.read_text())
+        self.assertEqual(prov["through"], "2024-04-11")
+        self.assertIn("2024-04-11", prov["pcf"])
+
+    def test_main_exit_codes(self):
+        self.good_first()
+        self.net.fail = {"tx:sh600000": 429}
+        with mock.patch.object(G.urllib.request, "urlopen", self.net), mock.patch("builtins.print"):
+            self.assertEqual(G.main(["update"]), 2)
 
 
 if __name__ == "__main__":

@@ -4,23 +4,27 @@
 protocol_amendments_IB.md A3/A3b、b20_top_expansion/protocol_B20TX.md §4，lib_ib.stock/tri 的逻辑在此逐段移植）：
 
 - t 日篮子 = 深交所当日 PCF（ETF{code}{yyyymmdd}.txt）。文件内日期、基金代码、目标指数必须相符，
-  解析出的成分数 + 现金占位 159900 必须等于“全部申购赎回组合证券只数”。缺文件 / 解析失败 → 当日篮子未知，不前填。
+  解析出的成分数 + 现金占位 159900 必须等于“全部申购赎回组合证券只数”。当日无清单（404）→ 当日留空，不前填、不用其他日的篮子；
+  请求失败或核验不通过 → 本次更新失败、不写盘（见下“写盘保护”）。
 - N_t = 当日 PCF 中除 159900 以外的全部证券；股数为 0 或“必须”现金替代的仍算成员（单独计数）。
 - 个股价格 = 腾讯不复权日线 × 比例事件链因子（后复权方向，因子只用到 ≤t 的事件）。事件链只采用腾讯日线内嵌分红送转
   与东财分红送配明细“实施分配”两源一致的事件；只在一方出现或金额不符 → bad_ev，窗口跨越它即未知。东财空表须巨潮
-  “权益分派”类公告中无实施公告才判无事件（A3b）。另加一道本页新增的第三源核对：腾讯前复权（加法口径）在
-  每对相邻交易日上必须与事件链推出的仿射关系一致，不一致的日子同样记为 bad_ev（可抓到配股等两源都不记的行动）。
+  “权益分派”类公告中无实施公告才判无事件（A3b）。另加一道本页新增的第三源旁证（qfq_check）：腾讯前复权大体是加法口径，
+  非事件日相邻两天的涨跌须与不复权一致，出现明显跳变的日子记为 bad_ev（可能是两源都没记的配股等）；除权日只报告量级偏差、不改判。
 - 个股 B20 判定：adj_t 严格大于此前 20 个 A 股交易日（不含 t）adj 的均值；t 与这 20 日任一缺 K 线、或窗口 (t−20, t]
   跨未核实事件 → 未知。不填充停牌，不沿用最后价格。
 - 当日 B20 = 真 / (真 + 假)，覆盖率 (真 + 假) / N < 95% 时为空（仍保留计数与原因）。
-- 原研究严格版：PCF 的 Last-Modified 晚于当日 09:00（北京）的日子，篮子派生值置空。本页沿用：每份 PCF 都记录
-  Last-Modified，晚于 09:00 或缺失的日子 B20 留空并注明原因。Last-Modified 只是服务器元数据，不能证明历史披露时间。
+- 个股 B20 的“严格高于”用 math.fsum 求均值并留 1e-9 相对容差（above_mean），避免十进制价格在浮点下求和产生假站上。
+- 原研究严格版：PCF 的 Last-Modified 晚于当日 09:00（北京）的日子，篮子派生值置空。本页沿用并比较到秒（09:00:01 即晚，
+  原研究按分钟）；缺 Last-Modified 也留空。Last-Modified 只是服务器元数据，不等于实际发布时间，不能证明历史披露时间。
 
 数据更新：python3 scripts/grid_b20.py update        （收盘后运行；PCF 只抓新增日期，个股行情与分红表每次重取）
          python3 scripts/grid_b20.py build --offline（只用本地缓存重算，不联网）
+写盘保护：本次有任何来源 403/429、拉取或解析失败 → 两份产物都不动，退出码 2；过去有数的日期被重算成缺失（疑似不完整数据）→
+不动，退出码 3（人工确认后可加 --allow-regress）；新交易日覆盖不足照实写入；页面数据除生成时间外无变化 → 不写盘，退出码 0。
 原始文件缓存在 .local/grid-b20/（不入库）；入库的是页面数据 notes-site/public/data/grid-b20/{code}.json
 和溯源清单 data-raw/grid-b20/{code}-provenance.json（每份 PCF 的 url/sha256/Last-Modified/抓取时间与当日成员版本，
-每只个股的请求 url/sha256/事件链/核对结果）。
+每只个股的请求 url/sha256/事件链/核对结果）。两份文件总是同一次运行一起写出，彼此一致。
 请求节奏：单线程；PCF 间隔 1s，腾讯 1.2s，东财 1.5s，巨潮 3s；HTTP 403/429 立即停止该来源，不重试、不绕过。
 """
 from __future__ import annotations
@@ -31,6 +35,7 @@ import datetime as dt
 import email.utils
 import hashlib
 import json
+import math
 import os
 import re
 import sys
@@ -50,7 +55,10 @@ ETFS = {
 }
 WINDOW = 20
 MIN_COV = 0.95
-LM_GATE = "09:00"
+LM_GATE = "09:00:00"  # 比较到秒：09:00:00 有效，09:00:01 起算晚
+REL_EPS = 1e-9      # 严格大于的相对容差：吸收十进制价格在二进制浮点下的求和误差，远小于真实最小价差（约 1e-7）
+GAPS = {"pcf": 1.0, "tx": 1.2, "em": 1.5, "cn": 3.0}  # 各来源请求间隔（秒）
+BACKOFF = 3.0       # 网络抖动重试退避基数（秒）
 PCF_URL = "https://reportdocs.static.szse.cn/files/text/etf/ETF{code}{ymd}.txt"
 TX_URL = "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={sym},day,{start},{end},2000,{fq}"
 EM_URL = ("https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_SHAREBONUS_DET&columns=SECURITY_CODE,EX_DIVIDEND_DATE,"
@@ -91,6 +99,7 @@ class Source:
                 with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=UA), timeout=30) as r:
                     return r.status, r.read(), dict(r.headers)
             except urllib.error.HTTPError as e:
+                e.close()
                 if e.code in (403, 429):
                     self.blocked = f"{self.name} HTTP {e.code}：停止该来源，不重试、不绕过"
                     raise Blocked(self.blocked)
@@ -98,7 +107,7 @@ class Source:
                 err = repr(e)
             except Exception as e:  # noqa: BLE001 网络抖动退避重试
                 err = repr(e)
-            time.sleep(3 * (k + 1))
+            time.sleep(BACKOFF * (k + 1))
         raise OSError(err)
 
 
@@ -135,9 +144,12 @@ def lm_beijing(v: str | None) -> str | None:
 
 
 def lm_gate(lm: str | None, d: str) -> str | None:
-    """原研究严格版（EV-A3）：LM 晚于当日 09:00 → 篮子派生值置空。返回原因或 None。"""
+    """原研究严格版（EV-A3）：PCF 的 Last-Modified 晚于当日 09:00 → 篮子派生值置空。返回原因或 None。
+    比较到秒（lm 形如 'YYYY-MM-DD HH:MM:SS'，北京时间）：09:00:00 有效，09:00:01 即晚。原研究按分钟比较（09:00:59 仍算有效），本页更严。
+    Last-Modified 是服务器元数据，不等于实际发布时间。"""
     if lm is None: return "lm_missing"
-    return "lm_late" if lm[:16] > f"{d} {LM_GATE}" else None
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}", lm): return "lm_missing"
+    return "lm_late" if lm > f"{d} {LM_GATE}" else None
 
 
 # ---------------------------------------------------------------- 个股：比例事件链（移植 lib_ib.stock，A3/A3b）
@@ -172,6 +184,12 @@ def tencent_rows(payload: dict, field: str) -> list:
     d = payload.get("data") or {}
     v = next(iter(d.values()), {}) if isinstance(d, dict) else {}
     return (v.get(field) if isinstance(v, dict) else None) or []
+
+
+def tx_has(payload: dict, field: str) -> bool:
+    d = payload.get("data") or {}
+    v = next(iter(d.values()), {}) if isinstance(d, dict) else {}
+    return isinstance(v, dict) and field in v
 
 
 def build_stock(raw_rows: list, divs: dict | None, cninfo: list | None, qfq_rows: list | None = None) -> dict:
@@ -250,7 +268,15 @@ def member_state(S: dict | None, cal: list, t_idx: int) -> tuple[bool | None, st
     if any(x is None for x in v): return None, "kline"
     a, b = cal[t_idx - WINDOW], cal[t_idx]
     if any(a < d <= b for d in S["bad_ev"]): return None, "adj"
-    return v[-1] > sum(v[:-1]) / WINDOW, None
+    return above_mean(v[-1], v[:-1]), None
+
+
+def above_mean(today: float, prev: list) -> bool:
+    """严格大于此前均值的稳定比较：math.fsum 求和（无累计舍入），差值须超过 REL_EPS × 量级才算站上。
+    二十个相等的十进制价格（如 0.7）的均值在浮点下可能比单值小一个 ulp，直接 > 比较会得到假站上；真实最小价差
+    （1 分 ÷ 20 日 ÷ 数千元股价 ≈ 2.5e-7 相对）远大于 1e-9，仍可区分。"""
+    mean = math.fsum(prev) / len(prev)
+    return today - mean > REL_EPS * max(abs(today), abs(mean))
 
 
 def breadth_day(codes: list, stocks: dict, cal: list, t_idx: int) -> dict:
@@ -313,8 +339,11 @@ def fetch_tx(src: Source, sym: str, start: str, end: str, fq: str, field: str) -
         url = TX_URL.format(sym=sym, start=start, end=to, fq=fq)
         status, b, _ = src.get(url)
         payload = json.loads(b)
-        page = tencent_rows(payload, field)
-        metas.append({"url": url, "status": status, "bytes": len(b), "sha256": sha256(b), "fetched_at": now_iso(), "rows": len(page)})
+        page, used = tencent_rows(payload, field), field
+        if not page and field == "qfqday" and tx_has(payload, "day") and not tx_has(payload, "qfqday"):
+            # 从未除权的股票（如 688981）前复权请求只返回 day 键：前复权即不复权，照用并记下实际字段
+            page, used = tencent_rows(payload, "day"), "day"
+        metas.append({"url": url, "status": status, "bytes": len(b), "sha256": sha256(b), "fetched_at": now_iso(), "rows": len(page), "field": used})
         for r in page: rows.setdefault(r[0], r)
         if len(page) < 640 or not page or page[0][0] <= start: break
         prev = dt.date.fromisoformat(page[0][0]) - dt.timedelta(days=1)
@@ -322,28 +351,83 @@ def fetch_tx(src: Source, sym: str, start: str, end: str, fq: str, field: str) -
     return [rows[d] for d in sorted(rows)], {"pages": metas}
 
 
-def update(code: str, offline: bool, log=print) -> dict:
+class UpdateFailed(Exception):
+    """来源封锁或明确的拉取 / 解析失败：本次不写盘。"""
+
+
+def regressions(old: dict | None, new: dict) -> list:
+    """过去有数的日期被重算成缺失（或整行消失、截止日后退）→ 视为不完整重算，返回问题列表。新增日期如实标记覆盖不足不算回退。"""
+    if not old: return []
+    out = []
+    if old.get("through", "") > new["through"]: out.append(f"截止日后退：{old['through']} → {new['through']}")
+    new_rows = {r[0]: r for r in new["rows"]}
+    for r in old.get("rows", []):
+        if r[1] is None: continue
+        n = new_rows.get(r[0])
+        if n is None: out.append(f"{r[0]} 行消失（原值 {r[1]}）")
+        elif n[1] is None: out.append(f"{r[0]} 由 {r[1]} 变为缺失（{n[5]}：{n[6] or ''}）")
+    return out
+
+
+def value_changes(old: dict | None, new: dict) -> list:
+    """过去有数、重算后仍有数但取值不同的日期（只报告，不阻止）。"""
+    if not old: return []
+    new_rows = {r[0]: r for r in new["rows"]}
+    return [(r[0], r[1], new_rows[r[0]][1], r[2:5], new_rows[r[0]][2:5]) for r in old.get("rows", [])
+            if r[1] is not None and r[0] in new_rows and new_rows[r[0]][1] is not None and new_rows[r[0]][1] != r[1]]
+
+
+def commit_outputs(page_path: Path, prov_path: Path, page: dict, prov_out: dict, failures: list, allow_regress: bool, log=print) -> dict:
+    """两层保护后才写盘：① 本次有任何来源封锁 / 拉取或解析失败 → 两份文件都不动；② 过去有数的日期被重算成缺失 → 不动（除非人工确认 allow_regress）。
+    页面数据（除生成时间外）没有变化也不写：个股响应里含实时报价，溯源 sha256 每次都变，不值得为此产生提交。"""
+    old = read_json(page_path)
+    if failures:
+        log(f"不写盘：{len(failures)} 项失败（保留现有两份文件）"); [log(f"  - {f}") for f in failures[:20]]
+        return {"written": False, "status": "failed", "failures": failures, "regressions": [], "changes": []}
+    reg = regressions(old, page)
+    changes = value_changes(old, page)
+    for c in changes[:20]: log(f"  取值变化 {c[0]}：{c[1]} → {c[2]}（站上/有效/篮子 {c[3]} → {c[4]}）")
+    if reg and not allow_regress:
+        log(f"不写盘：{len(reg)} 个过去有数的日期会被改成缺失（疑似不完整重算；确认无误可加 --allow-regress）"); [log(f"  - {r}") for r in reg[:20]]
+        return {"written": False, "status": "regressed", "failures": [], "regressions": reg, "changes": changes}
+    same = old is not None and {**old, "generatedAt": None} == {**json.loads(json.dumps(page, ensure_ascii=False)), "generatedAt": None}
+    if same: return {"written": False, "status": "unchanged", "failures": [], "regressions": reg, "changes": changes}
+    write_json(page_path, page, compact=True); write_json(prov_path, prov_out)
+    return {"written": True, "status": "written", "failures": [], "regressions": reg, "changes": changes}
+
+
+def update(code: str, offline: bool, log=print, allow_regress: bool = False) -> dict:
     cfg = ETFS[code]
     page_path, prov_path = outputs(code)
     prov = read_json(prov_path) or {}
-    pcf_man: dict = prov.get("pcf", {})
+    pcf_man: dict = json.loads(json.dumps(prov.get("pcf", {})))  # 副本：失败时不污染已读入的清单
     cdir = CACHE / code
     for sub in ("pcf", "stocks", "divs", "cninfo"): (cdir / sub).mkdir(parents=True, exist_ok=True)
-    pcf_src, tx_src, em_src, cn_src = Source("深交所 PCF", 1.0), Source("腾讯日线", 1.2), Source("东财分红表", 1.5), Source("巨潮公告", 3.0)
-    blocked: list = []
+    pcf_src, tx_src, em_src, cn_src = Source("深交所 PCF", GAPS["pcf"]), Source("腾讯日线", GAPS["tx"]), Source("东财分红表", GAPS["em"]), Source("巨潮公告", GAPS["cn"])
+    failures: list = []
     now = dt.datetime.now(BJ)
 
-    # 1) 日历：沪深300 日线日期 = A 股交易日；ETF 自身日线用于确定上市后的交易日与已收盘日
     def cached_tx(name, sym, fq, field):
+        """联网时重取并覆盖缓存；离线时读缓存。失败抛 UpdateFailed / Blocked。"""
         p = cdir / f"{name}.json"
         if not offline:
-            rows, meta = fetch_tx(tx_src, sym, STOCK_FROM, now.strftime("%Y-%m-%d"), fq, field)
+            try:
+                rows, meta = fetch_tx(tx_src, sym, STOCK_FROM, now.strftime("%Y-%m-%d"), fq, field)
+            except (OSError, json.JSONDecodeError) as e:
+                raise UpdateFailed(f"腾讯日线 {sym} {fq or 'raw'}：{e}") from e
+            if not rows: raise UpdateFailed(f"腾讯日线 {sym} {fq or 'raw'}：返回空")
             p.write_text(json.dumps({"rows": rows, "meta": meta}, ensure_ascii=False), "utf-8")
         x = read_json(p)
-        if x is None: raise SystemExit(f"缺少本地缓存 {p}，请先联网运行 update")
+        if x is None: raise UpdateFailed(f"缺少本地缓存 {p}，请先联网运行 update")
         return x["rows"], x["meta"]
-    cal_rows, cal_meta = cached_tx("calendar_sh000300", "sh000300", "", "day")
-    etf_rows, etf_meta = cached_tx(f"etf_{code}", cfg["symbol"], "", "day")
+
+    # 1) 日历：沪深300 日线日期 = A 股交易日；ETF 自身日线用于确定上市后的交易日与已收盘日。取不到直接失败。
+    try:
+        cal_rows, cal_meta = cached_tx("calendar_sh000300", "sh000300", "", "day")
+        etf_rows, etf_meta = cached_tx(f"etf_{code}", cfg["symbol"], "", "day")
+    except (UpdateFailed, Blocked) as e:
+        failures.append(str(e)); log(f"不写盘：日历取数失败 {e}")
+        return {"written": False, "status": "failed", "failures": failures, "regressions": [], "changes": []}
     cal = [r[0] for r in cal_rows]
     etf_dates = [r[0] for r in etf_rows if r[0] >= cfg["listing"]]
     through = settle_through(cal, etf_dates, now)
@@ -353,16 +437,20 @@ def update(code: str, offline: bool, log=print) -> dict:
     cal_issues = [d for d in etf_dates if d not in ci] + [d for d in cal if cfg["listing"] <= d and d not in set(etf_dates)]
     log(f"日历 {cal[0]}~{cal[-1]}（{len(cal)} 日），ETF 交易日 {len(etf_dates)}，截至 {through}，日历差异 {len(cal_issues)}")
 
-    # 2) PCF：已有 200 的不重取（本地有原文件时核对 sha256）；404 只对最近 5 个交易日重试
+    # 2) PCF：已有 200 的不重取（本地有原文件时核对 sha256）；404 只对最近 5 个交易日重试。
+    #    404 是“当日没有清单”，如实留空；封锁、请求错误、sha256 不符、核验失败都算失败。
     baskets: dict = {}; issues: dict = {}
-    versions: dict = prov.get("baskets", {}); names: dict = prov.get("names", {})
+    versions: dict = json.loads(json.dumps(prov.get("baskets", {}))); names: dict = dict(prov.get("names", {}))
     vid_of = {tuple(v): k for k, v in versions.items()}
     recent = set(etf_dates[-5:])
     fetched = 0
     for d in etf_dates:
         ymd = d.replace("-", ""); p = cdir / "pcf" / f"{code}_{ymd}.txt"; rec = pcf_man.get(d)
         need = rec is None or ("error" in rec) or (rec.get("status") == 404 and d in recent)
-        if need and not offline and not pcf_src.blocked:
+        if need and offline:
+            failures.append(f"PCF {d}：离线模式下没有已核验记录"); continue
+        if need and pcf_src.blocked: continue  # 已记过封锁
+        if need:
             url = PCF_URL.format(code=code, ymd=ymd)
             try:
                 status, b, h = pcf_src.get(url)
@@ -371,19 +459,17 @@ def update(code: str, offline: bool, log=print) -> dict:
                     p.write_bytes(b); rec.update(bytes=len(b), sha256=sha256(b), last_modified=h.get("Last-Modified"), last_modified_bj=lm_beijing(h.get("Last-Modified")))
                 fetched += 1
             except Blocked as e:
-                rec = {"url": url, "error": str(e), "fetched_at": now_iso()}; blocked.append(str(e))
+                failures.append(str(e)); continue
             except OSError as e:
-                rec = {"url": url, "error": str(e), "fetched_at": now_iso()}
+                failures.append(f"PCF {d} 请求失败：{e}"); continue
             pcf_man[d] = rec
             if fetched % 50 == 0 and fetched: log(f"PCF 已抓 {fetched}，当前 {d}")
-        if rec is None: issues[d] = "未抓取"; continue
         if rec.get("status") == 404: issues[d] = "PCF 404"; continue
-        if "error" in rec: issues[d] = "PCF 请求失败"; continue
         if p.exists():
             b = p.read_bytes()
-            if sha256(b) != rec.get("sha256"): issues[d] = "本地 PCF 与清单 sha256 不符"; continue
+            if sha256(b) != rec.get("sha256"): failures.append(f"PCF {d}：本地原文与清单 sha256 不符"); continue
             bk, why = verify_pcf(parse_szse_pcf(b.decode("gbk", errors="replace")), code, cfg["index"], d)
-            if bk is None: issues[d] = why; rec["issue"] = why; continue
+            if bk is None: failures.append(f"PCF {d} 核验失败：{why}"); continue
             key = tuple(bk["codes"])
             if key not in vid_of:
                 vid = f"v{len(versions) + 1}"; versions[vid] = list(key); vid_of[key] = vid
@@ -393,10 +479,10 @@ def update(code: str, offline: bool, log=print) -> dict:
         elif rec.get("members") in versions:
             baskets[d] = versions[rec["members"]]  # 无原文件时用清单里已核验过的成员版本（sha256 可回溯原文）
         else:
-            issues[d] = rec.get("issue", "缺少原文件与成员记录")
-    log(f"PCF 有效 {len(baskets)} / {len(etf_dates)} 日，问题 {len(issues)}，本次抓取 {fetched}")
+            failures.append(f"PCF {d}：缺少原文件与成员记录")
+    log(f"PCF 有效 {len(baskets)} / {len(etf_dates)} 日，404 {len(issues)}，本次抓取 {fetched}，失败 {len(failures)}")
 
-    # 3) 成员个股（含调出成员）：腾讯不复权 + 前复权、东财分红表、必要时巨潮
+    # 3) 成员个股（含调出成员）：腾讯不复权 + 前复权、东财分红表、必要时巨潮。任一失败都记失败，不退回旧缓存。
     union = sorted({c for v in baskets.values() for c in v})
     stocks: dict = {}; stock_meta: dict = {}
     cn_org = None
@@ -406,11 +492,11 @@ def update(code: str, offline: bool, log=print) -> dict:
             raw_rows, raw_meta = cached_tx(f"stocks/{c}_raw", sym, "", "day")
             qfq_rows, qfq_meta = cached_tx(f"stocks/{c}_qfq", sym, "qfq", "qfqday")
         except Blocked as e:
-            blocked.append(str(e)); break
-        except (OSError, SystemExit, json.JSONDecodeError) as e:
-            stock_meta[c] = {"error": f"腾讯日线：{e}"}; continue
+            failures.append(str(e)); break
+        except UpdateFailed as e:
+            failures.append(str(e)); continue
         dp = cdir / "divs" / f"{c}.json"
-        if not offline and not em_src.blocked:
+        if not offline:
             try:
                 pages = []; metas = []
                 for page in range(1, 6):
@@ -424,27 +510,34 @@ def update(code: str, offline: bool, log=print) -> dict:
                     merged = {**merged, "result": {**merged["result"], "data": [r for x in pages for r in (x.get("result") or {}).get("data") or []]}}
                 if not merged.get("success") and merged.get("code") != 9201: raise OSError(f"接口错误 {merged.get('code')}")
                 dp.write_text(json.dumps({"payload": merged, "meta": metas}, ensure_ascii=False), "utf-8")
-            except Blocked as e: blocked.append(str(e))
-            except (OSError, json.JSONDecodeError) as e: log(f"{c} 东财分红表失败：{e}")
+            except Blocked as e:
+                failures.append(str(e)); break
+            except (OSError, json.JSONDecodeError) as e:
+                failures.append(f"东财分红表 {c}：{e}"); continue
         dj = read_json(dp)
-        divs, divs_meta = (dj["payload"], dj["meta"]) if dj else (None, None)
+        if dj is None: failures.append(f"东财分红表 {c}：没有本地缓存"); continue
+        divs, divs_meta = dj["payload"], dj["meta"]
         cninfo = None
-        if divs is not None and not divs.get("success") and divs.get("code") == 9201:
+        if not divs.get("success") and divs.get("code") == 9201:
             cp = cdir / "cninfo" / f"{c}.json"
-            if not offline and not cn_src.blocked:
+            if not offline:
                 try:
                     if cn_org is None:
                         _, b, _ = cn_src.get(CNINFO_ORG); cn_org = {a["code"]: a["orgId"] for a in json.loads(b)["stockList"]}
-                    rows, ok = [], c in cn_org
-                    for page in range(1, 6) if ok else ():
-                        body = urllib.parse.urlencode({"stock": f"{c},{cn_org[c]}", "tabName": "fulltext", "pageSize": 30, "pageNum": page, "column": "sse" if c[0] in "69" else "szse",
-                                                       "category": "category_qyfpxzcs_szsh", "seDate": f"2019-01-01~{through}", "isHLtitle": "true"}).encode()
-                        _, b, _ = cn_src.get(CNINFO_QUERY, data=body); x = json.loads(b)
-                        rows += [{"title": r["announcementTitle"], "time": r["announcementTime"], "id": r["announcementId"]} for r in (x.get("announcements") or [])]
-                        if not x.get("hasMore"): break
-                    if ok: cp.write_text(json.dumps(rows, ensure_ascii=False), "utf-8")
-                except Blocked as e: blocked.append(str(e))
-                except (OSError, json.JSONDecodeError, KeyError) as e: log(f"{c} 巨潮失败：{e}")
+                    if c in cn_org:  # 巨潮股票表里没有该代码：如实按“巨潮缺失”判复权未知，不算失败
+                        rows = []
+                        for page in range(1, 6):
+                            body = urllib.parse.urlencode({"stock": f"{c},{cn_org[c]}", "tabName": "fulltext", "pageSize": 30, "pageNum": page, "column": "sse" if c[0] in "69" else "szse",
+                                                           "category": "category_qyfpxzcs_szsh", "seDate": f"2019-01-01~{through}", "isHLtitle": "true"}).encode()
+                            _, b, _ = cn_src.get(CNINFO_QUERY, data=body); x = json.loads(b)
+                            rows += [{"title": r["announcementTitle"], "time": r["announcementTime"], "id": r["announcementId"]} for r in (x.get("announcements") or [])]
+                            if not x.get("hasMore"): break
+                        cp.write_text(json.dumps(rows, ensure_ascii=False), "utf-8")
+                    elif cp.exists(): cp.unlink()
+                except Blocked as e:
+                    failures.append(str(e)); break
+                except (OSError, json.JSONDecodeError, KeyError) as e:
+                    failures.append(f"巨潮 {c}：{e}"); continue
             cninfo = read_json(cp)
         S = build_stock(raw_rows, divs, cninfo, qfq_rows)
         stocks[c] = S
@@ -459,37 +552,39 @@ def update(code: str, offline: bool, log=print) -> dict:
     page = {
         "version": 1, "code": code, "name": cfg["name"], "index": cfg["index"], "through": through, "generatedAt": now_iso(),
         "fields": ["date", "value", "above", "valid", "total", "reason", "detail"],
-        "reasons": {"pcf": "当日 PCF 缺失或未通过核验", "coverage": "有效成员覆盖率低于 95%", "lm_late": "PCF Last-Modified 晚于当日 09:00（沿用原研究严格版留空）",
-                    "lm_missing": "PCF 缺 Last-Modified，无法确认可得性"},
+        "reasons": {"pcf": "当日 PCF 缺失（404）", "coverage": "有效成员覆盖率低于 95%",
+                    "lm_late": "PCF 的 Last-Modified 晚于当日 09:00:00（沿用原研究严格版留空；服务器元数据，不等于实际发布时间）",
+                    "lm_missing": "PCF 缺 Last-Modified，无法套用可得性门槛"},
         "summary": {**counts, "firstValid": next((r[0] for r in rows if r[1] is not None), None), "lastValid": last_valid[0] if last_valid else None,
-                    "members": len(union), "baskets": len(versions), "blocked": sorted(set(blocked))},
+                    "members": len(union), "baskets": len(versions)},
         "method": "B20 = 当日官方 PCF 股票成员中，后复权（比例事件链）收盘严格高于此前 20 个交易日（不含当天）均值的成员数 ÷ 有效成员数；"
                   "t 与此前 20 日全部有已核实复权收盘才有效；覆盖率 < 95% 留空；每天只用当天的篮子，不用今天的篮子回填。",
         "rows": rows,
     }
     prov_out = {
         "code": code, "name": cfg["name"], "index": cfg["index"], "through": through, "generatedAt": page["generatedAt"],
-        "script": "scripts/grid_b20.py", "lm_gate": f"Last-Modified（北京）晚于当日 {LM_GATE} 或缺失 → B20 留空",
+        "script": "scripts/grid_b20.py", "lm_gate": f"PCF 的 Last-Modified（北京时间，比较到秒）晚于当日 {LM_GATE} 或缺失 → B20 留空；Last-Modified 是服务器元数据，不是实际发布时间",
         "calendar": {"source": cal_meta, "etf_source": etf_meta, "issues": cal_issues},
         "baskets": versions, "names": dict(sorted(names.items())), "pcf": dict(sorted(pcf_man.items())), "stocks": stock_meta,
     }
-    # 页面数据（除生成时间外）没有变化就两份都不写：个股响应里含实时报价，sha256 每次都变，不值得为此产生提交。
-    old = read_json(page_path)
-    same = old is not None and {**old, "generatedAt": None} == {**json.loads(json.dumps(page, ensure_ascii=False)), "generatedAt": None}
-    changed = False if same else (write_json(page_path, page, compact=True) | write_json(prov_path, prov_out))
-    log(f"完成：{counts}；末个有效日 {last_valid}；写盘 {'有变化' if changed else '无变化'}；停止来源 {sorted(set(blocked)) or '无'}")
-    return {"page": page, "stocks": stocks, "baskets": baskets, "cal": cal, "blocked": blocked}
+    res = commit_outputs(page_path, prov_path, page, prov_out, failures, allow_regress, log)
+    log(f"完成：{counts}；末个有效日 {last_valid}；结果 {res['status']}；失败 {len(failures)}；回退 {len(res['regressions'])}；取值变化 {len(res['changes'])}")
+    return {**res, "page": page, "stocks": stocks, "baskets": baskets, "cal": cal}
 
 
-def main(argv=None):
+EXIT = {"written": 0, "unchanged": 0, "failed": 2, "regressed": 3}
+
+
+def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("command", choices=["update", "build"])
     ap.add_argument("--code", default="159593", choices=sorted(ETFS))
     ap.add_argument("--offline", action="store_true", help="只用本地缓存重算（build 默认离线）")
+    ap.add_argument("--allow-regress", action="store_true", help="人工确认后允许过去有数的日期变为缺失")
     a = ap.parse_args(argv)
-    res = update(a.code, offline=a.offline or a.command == "build")
-    if res["blocked"]: sys.exit(2)
+    res = update(a.code, offline=a.offline or a.command == "build", log=print, allow_regress=a.allow_regress)
+    return EXIT[res["status"]]
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -5,7 +5,7 @@ import { renderEquityChart, type Candle } from './grid-trading';
 const FIELDS = ['date', 'value', 'above', 'valid', 'total', 'reason', 'detail'];
 const snapshot = (rows: unknown[][], extra: Record<string, unknown> = {}) => ({
   version: 1, code: '159593', through: '2026-11-25', generatedAt: '2026-11-25T22:00:00+08:00', fields: FIELDS,
-  reasons: { pcf: '当日 PCF 缺失或未通过核验', coverage: '有效成员覆盖率低于 95%', lm_late: 'PCF Last-Modified 晚于当日 09:00（沿用原研究严格版留空）', lm_missing: 'PCF 缺 Last-Modified，无法确认可得性' },
+  reasons: { pcf: '当日 PCF 缺失（404）', coverage: '有效成员覆盖率低于 95%', lm_late: 'PCF 的 Last-Modified 晚于当日 09:00:00（沿用原研究严格版留空；服务器元数据，不等于实际发布时间）', lm_missing: 'PCF 缺 Last-Modified，无法套用可得性门槛' },
   summary: { days: rows.length, value: 0, firstValid: null, lastValid: null, coverage: 0, pcf: 0, lm_late: 0, lm_missing: 0, members: 50, baskets: 1 },
   rows, ...extra,
 });
@@ -42,7 +42,7 @@ describe('B20 快照解析', () => {
     const series = parseB20Snapshot(snapshot(ROWS), '159593');
     expect(b20TipLines(series, '2026-11-19')).toEqual(['B20 申赎篮子宽度 62.0%（收盘）', '站上 31 / 有效 50 / 篮子 50', '']);
     expect(b20TipLines(series, '2026-11-20')).toEqual(['B20 缺失 · 有效成员不足篮子 95%', '站上 29 / 有效 46 / 篮子 50', '未知 4（缺K线 3，复权未核实 1）']);
-    expect(b20TipLines(series, '2026-11-23')).toEqual(['B20 缺失 · 当日 PCF 缺失或未通过核验', '', 'PCF 404']);
+    expect(b20TipLines(series, '2026-11-23')).toEqual(['B20 缺失 · 当日 PCF 缺失（404）', '', 'PCF 404']);
     expect(b20TipLines(series, '2026-11-26')).toEqual(['B20 缺失 · 收盘后更新', '快照截至 2026-11-25', '']);
   });
 });

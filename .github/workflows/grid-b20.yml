@@ -23,29 +23,31 @@ jobs:
         with:
           python-version: '3.12'
       - name: Update 159593 B20 snapshot
-        id: fetch
-        shell: bash
-        run: |
-          # PCF 只抓清单里没有的新日期（已有日期用清单记录的已核验成员版本）；个股日线与分红表每次重取。
-          # 任一来源 403/429 即停止该来源、退出码 2，已有数据保持不变。
-          status=0
-          python3 scripts/grid_b20.py update --code 159593 || status=$?
-          echo "status=$status" >> "$GITHUB_OUTPUT"
-      - name: Commit if changed
+        # 退出码：0 = 写入或无变化；2 = 有来源封锁（403/429）或拉取 / 解析失败；3 = 过去有数的日期会被重算成缺失。
+        # 非 0 时脚本不写任何文件，本步骤失败，后面的提交步骤不会运行。
+        # PCF 只抓清单里没有的新日期（已有日期用清单记录的已核验成员版本）；个股日线与分红表每次重取。
+        run: python3 scripts/grid_b20.py update --code 159593
+      - name: Commit and push if changed
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- notes-site/public/data/grid-b20 data-raw/grid-b20; then
-            echo "无变化"
+          paths=(notes-site/public/data/grid-b20 data-raw/grid-b20)
+          if git diff --quiet -- "${paths[@]}" && [ -z "$(git ls-files --others --exclude-standard -- "${paths[@]}")" ]; then
+            echo "无变化，不提交"
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add notes-site/public/data/grid-b20 data-raw/grid-b20
+          git add -- "${paths[@]}"
           git commit -m "data(grid-b20): 更新 159593 B20 申赎篮子宽度 $(date -u +%Y-%m-%d)"
-          git push
-      - name: Fail if a source was blocked or errored
-        if: steps.fetch.outputs.status != '0'
-        run: |
-          echo "有来源被拒或出错（详见上面日志），已写入的数据只包含核验通过的部分" >&2
-          exit 1
+          # 其他定时任务可能刚推过同一分支：non-fast-forward 时取最新、变基后再推一次；变基冲突则放弃，本次失败。
+          branch="${GITHUB_REF_NAME}"
+          if ! git push origin "HEAD:${branch}"; then
+            git fetch origin "${branch}"
+            if ! git rebase "origin/${branch}"; then
+              git rebase --abort
+              echo "变基冲突，放弃本次提交" >&2
+              exit 1
+            fi
+            git push origin "HEAD:${branch}"
+          fi
