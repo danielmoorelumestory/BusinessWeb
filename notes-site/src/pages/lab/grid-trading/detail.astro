@@ -34,6 +34,7 @@ const etfReviewUrl = href('lab/etf-review');
       <label><input id="view-ma10" type="checkbox" checked> 10 日线</label>
       <label><input id="view-ma20" type="checkbox" checked> 20 日线</label>
       <label><input id="view-volume" type="checkbox" checked> 成交量</label>
+      <label><input id="view-turnover-trend" type="checkbox" checked> 成交额加权趋势</label>
       <label><input id="view-macd" type="checkbox"> MACD</label>
       <label><input id="view-band" type="checkbox"> 波段顶底</label>
       <label hidden title="创业板 ETF（159915）÷ 红利 ETF（510880）前复权收盘比值，与其 20 日均线比较：上方偏进攻，下方偏防守（金叉不买）；2011 年起"><input id="view-r2" type="checkbox"> 创业板择时</label>
@@ -44,6 +45,7 @@ const etfReviewUrl = href('lab/etf-review');
       
     </div>
     <div class="chart-stage"><div id="price-estimate" class="price-estimate" hidden></div><div class="chart-scroll"><svg id="equity-chart" viewBox="0 0 920 300" role="img" aria-label="当前标的的资金与收盘价变化曲线"><text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">读取已保存回测数据后显示曲线</text></svg></div></div>
+    <p id="turnover-trend-note" class="turnover-note" role="status" hidden></p>
     <section class="levels-panel" id="levels-panel" aria-label="支撑与压力区间">
       <div class="levels-head"><h3>支撑 / 压力区间</h3><span>数量自己增减（每侧最多 10 个），可设强度（弱 / 中 / 强，越强色带越深、边线越粗），只用于在价格图上显示，不参与回测；全空的行保存时忽略；只有一个价位时，下沿和上沿填同一个价格</span></div>
       <div class="levels-grid">
@@ -135,7 +137,7 @@ const etfReviewUrl = href('lab/etf-review');
   import {
     calculateGrid, adjustmentsOf, getCandles, getHfqCandles, fetchQuotes, mergeQuote, mergeQuoteByChange, refreshRecord, readRecords, saveRecord, pushRecord, pullRecord, recordByCode, pullByCode, newWatchRecord, watchIdOf,
     renderEquityChart, renderCompareChart, parseLevels, normalizeLevels, parseFib, fibFromDates, normalizeFibSets, normalizeView, MAX_FIB_SETS, type FibSet, MAX_LEVELS, type Candle, type Levels, type Fib, type View, holdingValue, openingOf, createBackup, replayBackup, refreshBackupSnapshot, upgradeBackup, formatMoney, formatAmount, formatPercent, tick,
-    blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, type MinuteBar, type ChartIndicators, type RatioPanels,
+    blockCopy, fetchMinuteBars, fetchLatestMinuteBars, syncMinuteBars, fetchMinuteStatus, readSyncKey, marketToday, symbolOf, type MinuteBar, type ChartIndicators, type RatioPanels,
     type SavedRecord, type Trade, type Adjustments, type GridResult, type Backup, type CompareMetric, type EquityPoint,
   } from '../../../lib/grid-trading';
   import { renderMinuteChart, minuteSummaryHtml } from '../../../lib/minute-chart';
@@ -146,6 +148,7 @@ const etfReviewUrl = href('lab/etf-review');
   import { backtestPlan, backtestPlanYearly, cybPlan, hsPlan, macdPlan, planStats, planTrades, yearlySummary, type PlanBacktest, type PlanKey, type PlanResult } from '../../../lib/plan-trades';
   import { bullLookup } from '../../../lib/kd10-signals';
   import { SYNC_ENDPOINT } from '../../../lib/endpoints';
+  import { fetchDailyTurnover, turnoverTrend, type TurnoverTrendPoint } from '../../../lib/grid-turnover-trend';
 
   blockCopy(); // 屏蔽页面内容复制
 
@@ -178,7 +181,10 @@ const etfReviewUrl = href('lab/etf-review');
   const INDICATOR_KEY = 'grid-detail-indicators';
   const readIndicators = (): ChartIndicators => { try { return JSON.parse(localStorage.getItem(INDICATOR_KEY) ?? '{}') ?? {}; } catch { return {}; } };
   // 10 / 20 日均线默认显示（没存过对应设置时）
-  let indicators: ChartIndicators = { ma10: true, ma20: true, volume: true, ...readIndicators() };
+  let indicators: ChartIndicators = { ma10: true, ma20: true, volume: true, turnoverTrend: true, ...readIndicators() };
+  const turnoverNote = document.querySelector('#turnover-trend-note') as HTMLElement;
+  type TurnoverHistory = { key: string; status: 'loading' | 'ready' | 'failed'; amounts?: Map<string, number>; candles?: Candle[]; points?: Map<string, TurnoverTrendPoint> };
+  let turnoverHistory: TurnoverHistory | undefined;
   const shown = (input: ChartInput) => ({ levels: input.view?.levels !== false, fib: input.view?.fib ?? !!input.fib, grid: !input.watch && input.view?.grid !== false });
   // MACD 金叉 / 死叉、10 日线跌破 / 站上预估：不依赖图上开关，始终显示在图上方。盘中按昨收后的状态估今天收盘，收盘后估下一交易日。
   const priceEstimate = document.querySelector('#price-estimate') as HTMLElement;
@@ -368,7 +374,25 @@ const etfReviewUrl = href('lab/etf-review');
       equitySvg.innerHTML = '<text x="460" y="150" text-anchor="middle" fill="#94a3b8" font-size="13">行情获取失败，暂时无法绘制曲线</text>';
       return;
     }
+    if (indicators.turnoverTrend && chartCandles?.candles.length) void loadTurnover(input.code, begin);
     renderChart();
+  }
+  async function loadTurnover(code: string, begin: string) {
+    const today = marketToday();
+    const end = new Date(`${today}T00:00:00Z`);
+    if (isLiveBar(today)) end.setUTCDate(end.getUTCDate() - 1);
+    const through = end.toISOString().slice(0, 10);
+    const key = `${code}|${through}`;
+    if (turnoverHistory?.key === key) return;
+    const current: TurnoverHistory = { key, status: 'loading' };
+    turnoverHistory = current;
+    try {
+      current.amounts = await fetchDailyTurnover(symbolOf(code), begin, through);
+      current.status = 'ready';
+    } catch {
+      current.status = 'failed';
+    }
+    if (turnoverHistory === current && chartInput?.code === code) renderChart();
   }
   // 用已取到的日线按当前区间同步重绘（拖动、缩放时逐帧调用，不发请求）。
   function renderChart() {
@@ -385,7 +409,21 @@ const etfReviewUrl = href('lab/etf-review');
     const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
     rangeFromInput.max = rangeToInput.max = latest > today ? latest : today; rangeFromInput.min = rangeToInput.min = '2000-01-01'; // 不能用已加载日线的首日：那样只能选到建仓日，选更早的日期才会补拉行情；早于上市日的由上面夹到首日
     document.querySelectorAll<HTMLButtonElement>('.range-presets button').forEach(button => button.classList.toggle('active', button.dataset.range === rangeKey));
-    const plans = renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid, indicators, ratioPoints);
+    const history = turnoverHistory?.key.startsWith(`${input.code}|`) ? turnoverHistory : undefined;
+    if (history?.amounts && history.candles !== candles) {
+      history.candles = candles;
+      history.points = turnoverTrend(candles, history.amounts);
+    }
+    turnoverNote.hidden = !indicators.turnoverTrend;
+    if (indicators.turnoverTrend) {
+      const points = history?.points;
+      const hasPoints = points && candles.some(bar => bar.date >= from && (!rangeTo || bar.date <= rangeTo) && points.has(bar.date));
+      turnoverNote.textContent = history?.status === 'failed' ? '暂时无法获取收盘成交额，可重新勾选重试。'
+        : history?.status !== 'ready' ? '正在读取收盘成交额…'
+        : hasPoints ? '成交额加权采用本标的收盘日线。今日加权值 = 当日成交额 + 前日加权值 × 10/11。首值为当日成交额的 11 倍，缺失时断开，按同一规则重新起算。'
+        : '所选区间没有可用的收盘成交额。';
+    }
+    const plans = renderEquityChart(equitySvg, input.series, input.nextBuy, input.nextSell, input.trades, input.marker, input.gridStep, candles, { from, to: rangeTo }, shown(input).levels ? input.levels : undefined, shown(input).fib ? input.fib : undefined, shown(input).grid, indicators, ratioPoints, history?.points);
     void plans; // 图上勾选的方案只用于画买卖点；卡片统计固定算三个方案
     renderPlanStats(allPlans(candles), candles);
   }
@@ -859,9 +897,11 @@ const etfReviewUrl = href('lab/etf-review');
     viewFibBox.addEventListener('change', onView);
     viewGridBox.addEventListener('change', onView);
     const macdBox = document.querySelector('#view-macd') as HTMLInputElement, bandBox = document.querySelector('#view-band') as HTMLInputElement, ma10Box = document.querySelector('#view-ma10') as HTMLInputElement, ma20Box = document.querySelector('#view-ma20') as HTMLInputElement, tradesBox = document.querySelector('#view-macd-trades') as HTMLInputElement, volumeBox = document.querySelector('#view-volume') as HTMLInputElement, r2Box = document.querySelector('#view-r2') as HTMLInputElement, kd10Box = document.querySelector('#view-kd10-trades') as HTMLInputElement, h1Box = document.querySelector('#view-h1') as HTMLInputElement, h1TradesBox = document.querySelector('#view-h1-trades') as HTMLInputElement;
+    const turnoverBox = document.querySelector('#view-turnover-trend') as HTMLInputElement;
     macdBox.checked = !!indicators.macd; bandBox.checked = !!indicators.band; ma10Box.checked = indicators.ma10 !== false; ma20Box.checked = indicators.ma20 !== false; tradesBox.checked = !!indicators.macdTrades; volumeBox.checked = indicators.volume !== false; r2Box.checked = !!indicators.r2; kd10Box.checked = !!indicators.kd10Trades; h1Box.checked = !!indicators.h1; h1TradesBox.checked = !!indicators.h1Trades;
+    turnoverBox.checked = indicators.turnoverTrend !== false;
     const onIndicator = () => {
-      indicators = { macd: macdBox.checked, band: bandBox.checked, ma10: ma10Box.checked, ma20: ma20Box.checked, macdTrades: tradesBox.checked, volume: volumeBox.checked, r2: r2Box.checked, kd10Trades: kd10Box.checked, h1: h1Box.checked, h1Trades: h1TradesBox.checked };
+      indicators = { macd: macdBox.checked, band: bandBox.checked, ma10: ma10Box.checked, ma20: ma20Box.checked, macdTrades: tradesBox.checked, volume: volumeBox.checked, turnoverTrend: turnoverBox.checked, r2: r2Box.checked, kd10Trades: kd10Box.checked, h1: h1Box.checked, h1Trades: h1TradesBox.checked };
       try { localStorage.setItem(INDICATOR_KEY, JSON.stringify(indicators)); } catch { /* 隐私模式等写不进去时只影响记忆 */ }
       void drawEquity();
     };
@@ -870,6 +910,10 @@ const etfReviewUrl = href('lab/etf-review');
     tradesBox.addEventListener('change', onIndicator);
     kd10Box.addEventListener('change', onIndicator);
     volumeBox.addEventListener('change', onIndicator);
+    turnoverBox.addEventListener('change', () => {
+      if (turnoverBox.checked && turnoverHistory?.status === 'failed') turnoverHistory = undefined;
+      onIndicator();
+    });
     r2Box.addEventListener('change', onIndicator);
     h1Box.addEventListener('change', onIndicator);
     h1TradesBox.addEventListener('change', onIndicator);
@@ -1701,6 +1745,7 @@ const etfReviewUrl = href('lab/etf-review');
   .range-bar label { display:flex; align-items:center; gap:6px; }
   .range-bar input[type=date] { border:1px solid #cbd5e1; border-radius:6px; padding:3px 6px; background:#fff; color:#334155; font-size:12px; }
   .range-note { color:#dc2626; font-size:12px; }
+  .turnover-note { color:#64748b; font-size:12px; margin:6px 0 0; }
   .chart-stage { position:relative; }
   .price-estimate { position:absolute; left:70px; top:38px; z-index:2; padding:5px 8px; border:1px solid #e2e8f0; border-radius:6px; background:rgba(255,255,255,.88); font-size:12px; line-height:1.6; pointer-events:none; font-variant-numeric:tabular-nums; }
   .price-estimate .pe-sw { display:inline-block; width:16px; height:0; align-self:center; }
