@@ -1,0 +1,51 @@
+name: Update grid B20 basket breadth
+
+on:
+  schedule:
+    # 北京时间交易日 17:20：当日收盘行情与当日 PCF 都已发布。脚本只算已收盘的交易日（16:00 前不计当天）。
+    - cron: '20 9 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: grid-b20
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Update 159593 B20 snapshot
+        id: fetch
+        shell: bash
+        run: |
+          # PCF 只抓清单里没有的新日期（已有日期用清单记录的已核验成员版本）；个股日线与分红表每次重取。
+          # 任一来源 403/429 即停止该来源、退出码 2，已有数据保持不变。
+          status=0
+          python3 scripts/grid_b20.py update --code 159593 || status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+      - name: Commit if changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- notes-site/public/data/grid-b20 data-raw/grid-b20; then
+            echo "无变化"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add notes-site/public/data/grid-b20 data-raw/grid-b20
+          git commit -m "data(grid-b20): 更新 159593 B20 申赎篮子宽度 $(date -u +%Y-%m-%d)"
+          git push
+      - name: Fail if a source was blocked or errored
+        if: steps.fetch.outputs.status != '0'
+        run: |
+          echo "有来源被拒或出错（详见上面日志），已写入的数据只包含核验通过的部分" >&2
+          exit 1
