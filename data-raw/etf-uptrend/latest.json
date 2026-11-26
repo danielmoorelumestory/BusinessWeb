@@ -1,45 +1,21 @@
 {
- "date": "2026-11-25",
- "collected_on": "2026-11-26",
- "source_as_of": "2026-11-25",
- "fetch_started_at": "2026-11-26T07:43:11+08:00",
- "fetch_completed_at": "2026-11-26T07:43:26+08:00",
- "run_id": "20261126T074311",
+ "date": "2026-11-26",
+ "collected_on": "2026-11-27",
+ "source_as_of": "2026-11-26",
+ "fetch_started_at": "2026-11-27T07:57:06+08:00",
+ "fetch_completed_at": "2026-11-27T07:57:25+08:00",
+ "run_id": "20261127T075706",
  "status": "success",
  "counts": {
-  "all": 14,
-  "trend_retracement": 1,
-  "new_pool": 1,
-  "t0": 1,
+  "all": 18,
+  "trend_retracement": 0,
+  "new_pool": 5,
+  "t0": 3,
   "industry": 13,
   "broad_index": 0,
-  "unique_rep": 4
+  "unique_rep": 6
  },
  "etfs": [
-  {
-   "ths_code": "36:159887",
-   "code": "159887",
-   "market": "36",
-   "name": "富国中证800银行ETF",
-   "trend_retracement": false,
-   "new_pool": false,
-   "t0": false,
-   "industry": true,
-   "broad_index": false,
-   "unique_rep": true
-  },
-  {
-   "ths_code": "20:512410",
-   "code": "512410",
-   "market": "20",
-   "name": "广发中证银行ETF",
-   "trend_retracement": false,
-   "new_pool": false,
-   "t0": false,
-   "industry": true,
-   "broad_index": false,
-   "unique_rep": false
-  },
   {
    "ths_code": "20:512700",
    "code": "512700",
@@ -53,28 +29,16 @@
    "unique_rep": false
   },
   {
-   "ths_code": "20:512730",
-   "code": "512730",
+   "ths_code": "20:512800",
+   "code": "512800",
    "market": "20",
-   "name": "银行FUND",
+   "name": "华宝中证银行ETF",
    "trend_retracement": false,
-   "new_pool": false,
+   "new_pool": true,
    "t0": false,
    "industry": true,
    "broad_index": false,
-   "unique_rep": false
-  },
-  {
-   "ths_code": "20:512820",
-   "code": "512820",
-   "market": "20",
-   "name": "中证银行ETF",
-   "trend_retracement": false,
-   "new_pool": false,
-   "t0": false,
-   "industry": true,
-   "broad_index": false,
-   "unique_rep": false
+   "unique_rep": true
   },
   {
    "ths_code": "20:515020",
@@ -101,46 +65,10 @@
    "unique_rep": false
   },
   {
-   "ths_code": "20:516210",
-   "code": "516210",
-   "market": "20",
-   "name": "华安中证银行ETF",
-   "trend_retracement": false,
-   "new_pool": false,
-   "t0": false,
-   "industry": true,
-   "broad_index": false,
-   "unique_rep": false
-  },
-  {
    "ths_code": "20:516310",
    "code": "516310",
    "market": "20",
    "name": "易方达中证银行ETF",
-   "trend_retracement": false,
-   "new_pool": false,
-   "t0": false,
-   "industry": true,
-   "broad_index": false,
-   "unique_rep": true
-  },
-  {
-   "ths_code": "20:560670",
-   "code": "560670",
-   "market": "20",
-   "name": "华泰柏瑞中证银行ETF",
-   "trend_retracement": false,
-   "new_pool": false,
-   "t0": false,
-   "industry": true,
-   "broad_index": false,
-   "unique_rep": false
-  },
-  {
-   "ths_code": "20:561530",
-   "code": "561530",
-   "market": "20",
-   "name": "银华银行",
    "trend_retracement": false,
    "new_pool": false,
    "t0": false,
@@ -161,10 +89,130 @@
    "unique_rep": false
   },
   {
+   "ths_code": "20:512410",
+   "code": "512410",
+   "market": "20",
+   "name": "广发中证银行ETF",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": false,
+   "industry": true,
+   "broad_index": false,
+   "unique_rep": false
+  },
+  {
+   "ths_code": "20:512820",
+   "code": "512820",
+   "market": "20",
+   "name": "中证银行ETF",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": false,
+   "industry": true,
+   "broad_index": false,
+   "unique_rep": false
+  },
+  {
+   "ths_code": "20:516210",
+   "code": "516210",
+   "market": "20",
+   "name": "华安中证银行ETF",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": false,
+   "industry": true,
+   "broad_index": false,
+   "unique_rep": false
+  },
+  {
+   "ths_code": "20:561530",
+   "code": "561530",
+   "market": "20",
+   "name": "银华银行",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": false,
+   "industry": true,
+   "broad_index": false,
+   "unique_rep": false
+  },
+  {
+   "ths_code": "20:512730",
+   "code": "512730",
+   "market": "20",
+   "name": "银行FUND",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": false,
+   "industry": true,
+   "broad_index": false,
+   "unique_rep": false
+  },
+  {
+   "ths_code": "20:560670",
+   "code": "560670",
+   "market": "20",
+   "name": "华泰柏瑞中证银行ETF",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": false,
+   "industry": true,
+   "broad_index": false,
+   "unique_rep": false
+  },
+  {
+   "ths_code": "36:159887",
+   "code": "159887",
+   "market": "36",
+   "name": "富国中证800银行ETF",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": false,
+   "industry": true,
+   "broad_index": false,
+   "unique_rep": true
+  },
+  {
+   "ths_code": "20:515450",
+   "code": "515450",
+   "market": "20",
+   "name": "南方标普中国A股大盘红利低波50ETF",
+   "trend_retracement": false,
+   "new_pool": true,
+   "t0": false,
+   "industry": false,
+   "broad_index": false,
+   "unique_rep": true
+  },
+  {
+   "ths_code": "20:561450",
+   "code": "561450",
+   "market": "20",
+   "name": "华泰柏瑞标普中国A股大盘红利低波50ETF",
+   "trend_retracement": false,
+   "new_pool": true,
+   "t0": false,
+   "industry": false,
+   "broad_index": false,
+   "unique_rep": false
+  },
+  {
    "ths_code": "20:520580",
    "code": "520580",
    "market": "20",
    "name": "招商利安新兴亚洲精选ETF(QDII)",
+   "trend_retracement": false,
+   "new_pool": false,
+   "t0": true,
+   "industry": false,
+   "broad_index": false,
+   "unique_rep": true
+  },
+  {
+   "ths_code": "36:159502",
+   "code": "159502",
+   "market": "36",
+   "name": "嘉实标普生物科技精选行业ETF(QDII)",
    "trend_retracement": false,
    "new_pool": true,
    "t0": true,
@@ -173,14 +221,14 @@
    "unique_rep": true
   },
   {
-   "ths_code": "20:510230",
-   "code": "510230",
+   "ths_code": "20:513290",
+   "code": "513290",
    "market": "20",
-   "name": "国泰上证180金融ETF",
-   "trend_retracement": true,
-   "new_pool": false,
-   "t0": false,
-   "industry": true,
+   "name": "汇添富纳斯达克生物科技ETF",
+   "trend_retracement": false,
+   "new_pool": true,
+   "t0": true,
+   "industry": false,
    "broad_index": false,
    "unique_rep": true
   }
@@ -188,7 +236,7 @@
  "warnings": [],
  "errors": [],
  "notes": [],
- "periods_refreshed": 14,
+ "periods_refreshed": 18,
  "source_page": "https://fund.10jqka.com.cn/thsjj-jj-fe-market-domain/uptrend-list/index.html#/",
- "raw_file": "raw/2026-11-26/20261126T074311.json.gz"
+ "raw_file": "raw/2026-11-27/20261127T075706.json.gz"
 }
