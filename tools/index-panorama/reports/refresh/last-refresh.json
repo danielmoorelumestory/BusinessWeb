@@ -1,19 +1,19 @@
 {
- "startedAt": "2026-11-25T21:57:19Z",
- "startedAtBeijing": "2026-11-26T05:57:19+08:00",
+ "startedAt": "2026-11-26T21:50:48Z",
+ "startedAtBeijing": "2026-11-27T05:50:48+08:00",
  "mode": "online",
  "steps": [
   {
    "name": "行情/中证 fetch_data",
    "status": "ok",
    "detail": "腾讯行情在线刷新；中证仅刷新生产已有中证 store 的指数（选源不变）；丢弃生产中不存在的新中证 store ['data/store/indicator_930606_CSI.csv', 'data/store/indicator_930651_CSI.csv', 'data/store/indicator_930653_CSI.csv', 'data/store/indicator_930697_CSI.csv', 'data/store/indicator_930713_CSI.csv', 'data/store/indicator_930743_CSI.csv', 'data/store/indicator_931066_CSI.csv', 'data/store/indicator_931079_CSI.csv', 'data/store/indicator_931151_CSI.csv', 'data/store/indicator_931152_CSI.csv', 'data/store/indicator_931160_CSI.csv', 'data/store/indicator_931719_CSI.csv', 'data/store/indicator_931775_CSI.csv', 'data/store/indicator_932000_CSI.csv', 'data/store/indicator_990001_CSI.csv', 'data/store/indicator_H30184_CSI.csv', 'data/store/indicator_H30199_CSI.csv', 'data/store/indicator_H30202_CSI.csv', 'data/store/indicator_H30269_CSI.csv', 'data/store/indicator_H30590_CSI.csv']（保持既有选源）",
-   "seconds": 41.8
+   "seconds": 37.4
   },
   {
    "name": "provider domestic",
    "status": "ok",
-   "detail": "修订 0 个旧观测值；新字段 0；0 个请求错误（这些接口沿用上一份有效 raw）；蛋卷滚动尾点被更新尾点取代 51 列（已记入报告，非丢数据）",
-   "seconds": 318.1,
+   "detail": "修订 0 个旧观测值；新字段 0；0 个请求错误（这些接口沿用上一份有效 raw）；蛋卷滚动尾点被更新尾点取代 57 列（已记入报告，非丢数据）",
+   "seconds": 506.9,
    "headTrim": [
     "399001.SZ.pe 裁头 2",
     "399001.SZ.pb 裁头 2",
@@ -41,431 +41,449 @@
      "code": "399001.SZ",
      "field": "pe",
      "replaced": [
-      "2026-11-24",
-      23.4807
+      "2026-11-25",
+      22.7572
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399001.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      2.1143
+      "2026-11-25",
+      2.0494
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399001.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
-      9.0
+      "2026-11-25",
+      9.01
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399006.SZ",
      "field": "pe",
      "replaced": [
-      "2026-11-24",
-      25.805
+      "2026-11-25",
+      24.7056
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399006.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      3.6308
+      "2026-11-25",
+      3.4761
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399006.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       14.07
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000688.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      6.2185
+      "2026-11-25",
+      5.8869
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000688.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       6.73
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000016.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.2577
+      "2026-11-25",
+      1.2525
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000016.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       10.54
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000300.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.3373
+      "2026-11-25",
+      1.3238
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000300.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       9.93
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000905.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.9132
+      "2026-11-25",
+      1.8473
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000905.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       7.32
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000852.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.8221
+      "2026-11-25",
+      1.743
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000852.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       5.25
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000903.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.7265
+      "2026-11-25",
+      1.7051
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000903.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       10.83
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000922.CSI",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      0.9084
+      "2026-11-25",
+      0.9106
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000922.CSI",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       9.72
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000932.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      3.5949
+      "2026-11-25",
+      3.6139
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000932.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       13.09
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399967.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      2.7039
+      "2026-11-25",
+      2.6103
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399967.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       5.37
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399975.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.1027
+      "2026-11-25",
+      1.0841
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399975.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       9.36
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399986.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      0.7664
+      "2026-11-25",
+      0.7688
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399986.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       9.47
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399971.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      2.0323
+      "2026-11-25",
+      1.9705
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399971.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       6.19
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000827.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      2.0598
+      "2026-11-25",
+      1.9903
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000827.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       8.1
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000989.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.9024
+      "2026-11-25",
+      1.8608
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000989.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       8.94
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000991.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      2.7699
+      "2026-11-25",
+      2.7621
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000991.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       10.18
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000993.SH",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      4.4248
+      "2026-11-25",
+      4.1955
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "000993.SH",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       12.27
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "931079.CSI",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      3.7458
+      "2026-11-25",
+      3.6172
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "931079.CSI",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       16.19
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399989.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      3.2249
+      "2026-11-25",
+      3.1785
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399989.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       12.27
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399997.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      4.2419
+      "2026-11-25",
+      4.2819
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399997.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       18.75
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399998.SZ",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.7843
+      "2026-11-25",
+      1.7941
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "399998.SZ",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       10.19
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "H30269.CSI",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      0.9442
+      "2026-11-25",
+      0.946
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "H30269.CSI",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       10.04
+     ],
+     "newLast": "2026-11-26"
+    },
+    {
+     "code": "HSI.HK",
+     "field": "pb",
+     "replaced": [
+      "2026-11-24",
+      1.0158
+     ],
+     "newLast": "2026-11-25"
+    },
+    {
+     "code": "HSI.HK",
+     "field": "roe",
+     "replaced": [
+      "2026-11-24",
+      10.06
      ],
      "newLast": "2026-11-25"
     },
@@ -473,26 +491,62 @@
      "code": "HSTECH.HK",
      "field": "pe",
      "replaced": [
-      "2026-11-24",
-      16.7603
+      "2026-11-25",
+      16.413
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "HSTECH.HK",
      "field": "pb",
      "replaced": [
-      "2026-11-24",
-      1.7725
+      "2026-11-25",
+      1.7369
      ],
-     "newLast": "2026-11-25"
+     "newLast": "2026-11-26"
     },
     {
      "code": "HSTECH.HK",
      "field": "roe",
      "replaced": [
-      "2026-11-24",
+      "2026-11-25",
       10.58
+     ],
+     "newLast": "2026-11-26"
+    },
+    {
+     "code": "HSCEI.HK",
+     "field": "pb",
+     "replaced": [
+      "2026-11-24",
+      0.8503
+     ],
+     "newLast": "2026-11-25"
+    },
+    {
+     "code": "HSCEI.HK",
+     "field": "roe",
+     "replaced": [
+      "2026-11-24",
+      9.46
+     ],
+     "newLast": "2026-11-25"
+    },
+    {
+     "code": "SPX.US",
+     "field": "pb",
+     "replaced": [
+      "2026-11-24",
+      5.0181
+     ],
+     "newLast": "2026-11-25"
+    },
+    {
+     "code": "SPX.US",
+     "field": "roe",
+     "replaced": [
+      "2026-11-24",
+      22.61
      ],
      "newLast": "2026-11-25"
     }
@@ -503,7 +557,7 @@
    "name": "provider supplemental",
    "status": "partial",
    "detail": "修订 0 个旧观测值；新字段 0；2 个请求错误（这些接口沿用上一份有效 raw）",
-   "seconds": 33.2,
+   "seconds": 31.1,
    "headTrim": [],
    "tailReplaced": [],
    "errors": [
@@ -514,127 +568,127 @@
   {
    "name": "原站 EPS",
    "status": "ok",
-   "detail": "抓取 2026-11-25T22:04:01.474Z，原站面板日 20261125，修订 0 个旧值",
-   "seconds": 85.0,
+   "detail": "抓取 2026-11-26T22:00:37.274Z，原站面板日 20261126，修订 0 个旧值",
+   "seconds": 87.2,
    "detail_by_code": {
     "000001.SH": {
      "count": 1208,
-     "first": "20020108",
-     "last": "20261125",
+     "first": "20020109",
+     "last": "20261126",
      "oldCount": 1208,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000016.SH": {
-     "count": 1112,
-     "first": "20040108",
-     "last": "20261125",
+     "count": 1113,
+     "first": "20040102",
+     "last": "20261126",
      "oldCount": 1112,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000300.SH": {
      "count": 1052,
-     "first": "20050408",
-     "last": "20261125",
-     "oldCount": 1051,
-     "oldLast": "20261124",
+     "first": "20050411",
+     "last": "20261126",
+     "oldCount": 1052,
+     "oldLast": "20261125",
      "revised": 0
     },
     "000688.SH": {
      "count": 308,
-     "first": "20200727",
-     "last": "20261125",
+     "first": "20200728",
+     "last": "20261126",
      "oldCount": 308,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000827.SH": {
      "count": 688,
-     "first": "20120927",
-     "last": "20261125",
+     "first": "20120928",
+     "last": "20261126",
      "oldCount": 688,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000852.SH": {
      "count": 589,
-     "first": "20141022",
-     "last": "20261125",
+     "first": "20141023",
+     "last": "20261126",
      "oldCount": 589,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000903.SH": {
      "count": 997,
-     "first": "20060601",
-     "last": "20261125",
+     "first": "20060602",
+     "last": "20261126",
      "oldCount": 997,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000905.SH": {
      "count": 966,
-     "first": "20070116",
-     "last": "20261125",
+     "first": "20070117",
+     "last": "20261126",
      "oldCount": 966,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000906.SH": {
      "count": 966,
-     "first": "20070116",
-     "last": "20261125",
+     "first": "20070117",
+     "last": "20261126",
      "oldCount": 966,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "000922.CSI": {
      "count": 900,
-     "first": "20080527",
-     "last": "20261125",
+     "first": "20080528",
+     "last": "20261126",
      "oldCount": 900,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "399001.SZ": {
      "count": 1208,
-     "first": "20020108",
-     "last": "20261125",
+     "first": "20020109",
+     "last": "20261126",
      "oldCount": 1208,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "399006.SZ": {
      "count": 801,
-     "first": "20100603",
-     "last": "20261125",
+     "first": "20100604",
+     "last": "20261126",
      "oldCount": 801,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "399967.SZ": {
      "count": 628,
-     "first": "20131231",
-     "last": "20261125",
+     "first": "20140102",
+     "last": "20261126",
      "oldCount": 628,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "399975.SZ": {
-     "count": 650,
-     "first": "20130719",
-     "last": "20261125",
+     "count": 651,
+     "first": "20130715",
+     "last": "20261126",
      "oldCount": 650,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "399986.SZ": {
-     "count": 650,
-     "first": "20130719",
-     "last": "20261125",
+     "count": 651,
+     "first": "20130715",
+     "last": "20261126",
      "oldCount": 650,
-     "oldLast": "20261124",
+     "oldLast": "20261125",
      "revised": 0
     },
     "HSCEI.HK": {
@@ -683,7 +737,7 @@
    "name": "provider constituent_fin",
    "status": "ok",
    "detail": "修订 0 个旧观测值；新字段 0；0 个请求错误（这些接口沿用上一份有效 raw）",
-   "seconds": 28.9,
+   "seconds": 29.6,
    "headTrim": [],
    "tailReplaced": [],
    "errors": []
@@ -692,19 +746,19 @@
    "name": "最终数据包 enrich-only",
    "status": "ok",
    "detail": "四个 provider 缓存统一生成",
-   "seconds": 4.7
+   "seconds": 3.1
   },
   {
    "name": "数据包门禁",
    "status": "ok",
    "detail": "结构/观测/末日/选源/EPS 一一对应通过；manager_audit 通过；修订 0 个旧值",
-   "seconds": 52.6
+   "seconds": 33.7
   },
   {
    "name": "发布",
    "status": "ok",
-   "detail": "原子替换 382 个文件；备份 data/refresh-backups/20261125T215719Z",
-   "seconds": 0.3,
+   "detail": "原子替换 380 个文件；备份 data/refresh-backups/20261126T215048Z",
+   "seconds": 0.1,
    "files": [
     "data/manifest.json",
     "data/providers/constituent_fin.json",
@@ -771,467 +825,485 @@
   }
  ],
  "published": true,
- "providerAsOf": "2026-11-25",
+ "providerAsOf": "2026-11-26",
  "revisions": [],
  "headTrim": [
-  "399001.SZ.pe 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399001.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399006.SZ.pe 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399006.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000016.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000300.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000905.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000852.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000903.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000922.CSI.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000932.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399967.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399975.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399986.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399971.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000827.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000989.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000991.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "000993.SH.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399989.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399989.SZ.roe 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399997.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "399998.SZ.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "H30269.CSI.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
-  "HSI.HK.pb 最早端裁掉 2 个（2016-11-23~2016-11-28）",
-  "HSCEI.HK.pb 最早端裁掉 2 个（2016-11-23~2016-11-28）",
-  "SPX.US.pb 最早端裁掉 2 个（2016-11-23~2016-11-28）"
+  "399001.SZ.pe 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399001.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399006.SZ.pe 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399006.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000016.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000300.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000905.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000852.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000903.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000922.CSI.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000932.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399967.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399975.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399986.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399971.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000827.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000989.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000991.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "000993.SH.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399989.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399989.SZ.roe 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399997.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "399998.SZ.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "H30269.CSI.pb 最早端裁掉 2 个（2016-11-25~2016-11-30）",
+  "HSI.HK.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
+  "HSCEI.HK.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）",
+  "SPX.US.pb 最早端裁掉 2 个（2016-11-24~2016-11-29）"
  ],
  "tailReplaced": [
   {
    "code": "399001.SZ",
    "field": "pe",
    "replaced": [
-    "2026-11-24",
-    23.4807
+    "2026-11-25",
+    22.7572
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399001.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    2.1143
+    "2026-11-25",
+    2.0494
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399001.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
-    9.0
+    "2026-11-25",
+    9.01
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399006.SZ",
    "field": "pe",
    "replaced": [
-    "2026-11-24",
-    25.805
+    "2026-11-25",
+    24.7056
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399006.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    3.6308
+    "2026-11-25",
+    3.4761
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399006.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     14.07
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000688.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    6.2185
+    "2026-11-25",
+    5.8869
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000688.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     6.73
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000016.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.2577
+    "2026-11-25",
+    1.2525
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000016.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     10.54
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000300.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.3373
+    "2026-11-25",
+    1.3238
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000300.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     9.93
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000905.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.9132
+    "2026-11-25",
+    1.8473
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000905.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     7.32
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000852.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.8221
+    "2026-11-25",
+    1.743
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000852.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     5.25
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000903.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.7265
+    "2026-11-25",
+    1.7051
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000903.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     10.83
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000922.CSI",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    0.9084
+    "2026-11-25",
+    0.9106
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000922.CSI",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     9.72
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000932.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    3.5949
+    "2026-11-25",
+    3.6139
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000932.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     13.09
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399967.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    2.7039
+    "2026-11-25",
+    2.6103
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399967.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     5.37
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399975.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.1027
+    "2026-11-25",
+    1.0841
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399975.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     9.36
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399986.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    0.7664
+    "2026-11-25",
+    0.7688
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399986.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     9.47
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399971.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    2.0323
+    "2026-11-25",
+    1.9705
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399971.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     6.19
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000827.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    2.0598
+    "2026-11-25",
+    1.9903
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000827.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     8.1
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000989.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.9024
+    "2026-11-25",
+    1.8608
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000989.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     8.94
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000991.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    2.7699
+    "2026-11-25",
+    2.7621
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000991.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     10.18
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000993.SH",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    4.4248
+    "2026-11-25",
+    4.1955
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "000993.SH",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     12.27
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "931079.CSI",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    3.7458
+    "2026-11-25",
+    3.6172
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "931079.CSI",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     16.19
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399989.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    3.2249
+    "2026-11-25",
+    3.1785
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399989.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     12.27
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399997.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    4.2419
+    "2026-11-25",
+    4.2819
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399997.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     18.75
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399998.SZ",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.7843
+    "2026-11-25",
+    1.7941
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "399998.SZ",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     10.19
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "H30269.CSI",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    0.9442
+    "2026-11-25",
+    0.946
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "H30269.CSI",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     10.04
+   ],
+   "newLast": "2026-11-26"
+  },
+  {
+   "code": "HSI.HK",
+   "field": "pb",
+   "replaced": [
+    "2026-11-24",
+    1.0158
+   ],
+   "newLast": "2026-11-25"
+  },
+  {
+   "code": "HSI.HK",
+   "field": "roe",
+   "replaced": [
+    "2026-11-24",
+    10.06
    ],
    "newLast": "2026-11-25"
   },
@@ -1239,26 +1311,62 @@
    "code": "HSTECH.HK",
    "field": "pe",
    "replaced": [
-    "2026-11-24",
-    16.7603
+    "2026-11-25",
+    16.413
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "HSTECH.HK",
    "field": "pb",
    "replaced": [
-    "2026-11-24",
-    1.7725
+    "2026-11-25",
+    1.7369
    ],
-   "newLast": "2026-11-25"
+   "newLast": "2026-11-26"
   },
   {
    "code": "HSTECH.HK",
    "field": "roe",
    "replaced": [
-    "2026-11-24",
+    "2026-11-25",
     10.58
+   ],
+   "newLast": "2026-11-26"
+  },
+  {
+   "code": "HSCEI.HK",
+   "field": "pb",
+   "replaced": [
+    "2026-11-24",
+    0.8503
+   ],
+   "newLast": "2026-11-25"
+  },
+  {
+   "code": "HSCEI.HK",
+   "field": "roe",
+   "replaced": [
+    "2026-11-24",
+    9.46
+   ],
+   "newLast": "2026-11-25"
+  },
+  {
+   "code": "SPX.US",
+   "field": "pb",
+   "replaced": [
+    "2026-11-24",
+    5.0181
+   ],
+   "newLast": "2026-11-25"
+  },
+  {
+   "code": "SPX.US",
+   "field": "roe",
+   "replaced": [
+    "2026-11-24",
+    22.61
    ],
    "newLast": "2026-11-25"
   }
@@ -1269,31 +1377,31 @@
    "code": "000001.SH",
    "name": "上证指数",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3676,
+    "last": "2026-11-26",
+    "count": 3677,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 8,
+    "last": "2026-11-26",
+    "count": 9,
     "provider": "domestic",
     "frequency": "single"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 1064,
     "provider": "original_eps",
     "frequency": "weekly"
@@ -1305,8 +1413,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1315,44 +1423,44 @@
    "code": "399001.SZ",
    "name": "深证成指",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 7,
+    "last": "2026-11-26",
+    "count": 8,
     "provider": "domestic",
     "frequency": "single"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 1064,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1361,44 +1469,44 @@
    "code": "399006.SZ",
    "name": "创业板指",
    "price": {
-    "last": "2026-11-25",
-    "count": 4003,
+    "last": "2026-11-26",
+    "count": 4004,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 7,
+    "last": "2026-11-26",
+    "count": 8,
     "provider": "domestic",
     "frequency": "single"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 801,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 4002,
+    "last": "2026-11-26",
+    "count": 4003,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1407,44 +1515,44 @@
    "code": "000688.SH",
    "name": "科创50",
    "price": {
-    "last": "2026-11-25",
-    "count": 1671,
+    "last": "2026-11-26",
+    "count": 1672,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1551,
+    "last": "2026-11-26",
+    "count": 1552,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 357,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 308,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 357,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 1671,
+    "last": "2026-11-26",
+    "count": 1672,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1453,44 +1561,44 @@
    "code": "000016.SH",
    "name": "上证50",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 1064,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1499,44 +1607,44 @@
    "code": "000300.SH",
    "name": "沪深300",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 1052,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 364,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1545,44 +1653,44 @@
    "code": "000905.SH",
    "name": "中证500",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 966,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1591,44 +1699,44 @@
    "code": "000852.SH",
    "name": "中证1000",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3498,
+    "last": "2026-11-26",
+    "count": 3499,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 589,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1637,44 +1745,44 @@
    "code": "000903.SH",
    "name": "中证A100",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 997,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5075,
+    "last": "2026-11-26",
+    "count": 5076,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1683,14 +1791,14 @@
    "code": "000906.SH",
    "name": "中证800",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1701,13 +1809,13 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 966,
     "provider": "original_eps",
     "frequency": "weekly"
@@ -1719,8 +1827,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1729,14 +1837,14 @@
    "code": "000985.SH",
    "name": "中证全指",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1747,8 +1855,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1765,8 +1873,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1775,20 +1883,20 @@
    "code": "399303.SZ",
    "name": "国证2000",
    "price": {
-    "last": "2026-11-25",
-    "count": 3078,
+    "last": "2026-11-26",
+    "count": 3079,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-24",
-    "count": 4,
+    "last": "2026-11-25",
+    "count": 5,
     "provider": "domestic",
     "frequency": "single"
    },
    "pb": {
-    "last": "2026-11-24",
-    "count": 4,
+    "last": "2026-11-25",
+    "count": 5,
     "provider": "domestic",
     "frequency": "single"
    },
@@ -1811,8 +1919,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3078,
+    "last": "2026-11-26",
+    "count": 3079,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1821,14 +1929,14 @@
    "code": "932000.CSI",
    "name": "中证2000",
    "price": {
-    "last": "2026-11-25",
-    "count": 3136,
+    "last": "2026-11-26",
+    "count": 3137,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 837,
+    "last": "2026-11-26",
+    "count": 838,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1839,8 +1947,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1857,8 +1965,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3136,
+    "last": "2026-11-26",
+    "count": 3137,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -1867,44 +1975,44 @@
    "code": "000922.CSI",
    "name": "中证红利",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 900,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1913,26 +2021,26 @@
    "code": "000932.SH",
    "name": "中证消费",
    "price": {
-    "last": "2026-11-25",
-    "count": 4226,
+    "last": "2026-11-26",
+    "count": 4227,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -1943,14 +2051,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 4226,
+    "last": "2026-11-26",
+    "count": 4227,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -1959,44 +2067,44 @@
    "code": "399967.SZ",
    "name": "中证军工",
    "price": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3076,
+    "last": "2026-11-26",
+    "count": 3077,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 628,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2005,44 +2113,44 @@
    "code": "399975.SZ",
    "name": "证券公司",
    "price": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2802,
+    "last": "2026-11-26",
+    "count": 2803,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
-    "count": 650,
+    "last": "2026-11-26",
+    "count": 651,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2051,44 +2159,44 @@
    "code": "399986.SZ",
    "name": "中证银行",
    "price": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2802,
+    "last": "2026-11-26",
+    "count": 2803,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
-    "count": 650,
+    "last": "2026-11-26",
+    "count": 651,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2097,26 +2205,26 @@
    "code": "399971.SZ",
    "name": "中证传媒",
    "price": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2930,
+    "last": "2026-11-26",
+    "count": 2931,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2127,14 +2235,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2143,44 +2251,44 @@
    "code": "000827.SH",
    "name": "中证环保",
    "price": {
-    "last": "2026-11-25",
-    "count": 3616,
+    "last": "2026-11-26",
+    "count": 3617,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
    "eps": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 688,
     "provider": "original_eps",
     "frequency": "weekly"
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3616,
+    "last": "2026-11-26",
+    "count": 3617,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2189,14 +2297,14 @@
    "code": "000986.SH",
    "name": "全指能源",
    "price": {
-    "last": "2026-11-25",
-    "count": 4102,
+    "last": "2026-11-26",
+    "count": 4103,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2207,8 +2315,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2225,8 +2333,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3719,
+    "last": "2026-11-26",
+    "count": 3720,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2235,14 +2343,14 @@
    "code": "000987.SH",
    "name": "全指材料",
    "price": {
-    "last": "2026-11-25",
-    "count": 4102,
+    "last": "2026-11-26",
+    "count": 4103,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2253,8 +2361,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2271,8 +2379,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3719,
+    "last": "2026-11-26",
+    "count": 3720,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2281,14 +2389,14 @@
    "code": "000988.SH",
    "name": "全指工业",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2299,8 +2407,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2317,8 +2425,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2327,26 +2435,26 @@
    "code": "000989.SH",
    "name": "全指可选",
    "price": {
-    "last": "2026-11-25",
-    "count": 4102,
+    "last": "2026-11-26",
+    "count": 4103,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2357,14 +2465,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3719,
+    "last": "2026-11-26",
+    "count": 3720,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2373,14 +2481,14 @@
    "code": "000990.SH",
    "name": "全指消费",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2391,8 +2499,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2409,8 +2517,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2419,26 +2527,26 @@
    "code": "000991.SH",
    "name": "全指医药",
    "price": {
-    "last": "2026-11-25",
-    "count": 4102,
+    "last": "2026-11-26",
+    "count": 4103,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2449,14 +2557,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3719,
+    "last": "2026-11-26",
+    "count": 3720,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2465,14 +2573,14 @@
    "code": "000992.SH",
    "name": "全指金融",
    "price": {
-    "last": "2026-11-25",
-    "count": 4102,
+    "last": "2026-11-26",
+    "count": 4103,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2483,8 +2591,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2501,8 +2609,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3719,
+    "last": "2026-11-26",
+    "count": 3720,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2511,26 +2619,26 @@
    "code": "000993.SH",
    "name": "全指信息",
    "price": {
-    "last": "2026-11-25",
-    "count": 4102,
+    "last": "2026-11-26",
+    "count": 4103,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2541,14 +2649,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 386,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3719,
+    "last": "2026-11-26",
+    "count": 3720,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2557,14 +2665,14 @@
    "code": "000994.SH",
    "name": "全指通信",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2575,8 +2683,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2593,8 +2701,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2603,14 +2711,14 @@
    "code": "000995.SH",
    "name": "全指公用",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2621,8 +2729,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 30,
+    "last": "2026-11-26",
+    "count": 31,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2639,8 +2747,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -2649,14 +2757,14 @@
    "code": "H30184.CSI",
    "name": "全指半导体",
    "price": {
-    "last": "2026-11-25",
-    "count": 5315,
+    "last": "2026-11-26",
+    "count": 5316,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3261,
+    "last": "2026-11-26",
+    "count": 3262,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2667,8 +2775,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2685,8 +2793,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5315,
+    "last": "2026-11-26",
+    "count": 5316,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -2695,14 +2803,14 @@
    "code": "H30202.CSI",
    "name": "全指软件",
    "price": {
-    "last": "2026-11-25",
-    "count": 5315,
+    "last": "2026-11-26",
+    "count": 5316,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3261,
+    "last": "2026-11-26",
+    "count": 3262,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2713,8 +2821,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2731,8 +2839,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5315,
+    "last": "2026-11-26",
+    "count": 5316,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -2741,14 +2849,14 @@
    "code": "931160.CSI",
    "name": "全指通信设备",
    "price": {
-    "last": "2026-11-25",
-    "count": 1884,
+    "last": "2026-11-26",
+    "count": 1885,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1884,
+    "last": "2026-11-26",
+    "count": 1885,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2759,8 +2867,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2777,8 +2885,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 1884,
+    "last": "2026-11-26",
+    "count": 1885,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -2787,14 +2895,14 @@
    "code": "931775.CSI",
    "name": "全指房地产",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1271,
+    "last": "2026-11-26",
+    "count": 1272,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2805,8 +2913,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2823,8 +2931,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -2833,14 +2941,14 @@
    "code": "930697.CSI",
    "name": "全指家电",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2779,
+    "last": "2026-11-26",
+    "count": 2780,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2851,8 +2959,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2869,8 +2977,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -2879,14 +2987,14 @@
    "code": "H30199.CSI",
    "name": "全指电力",
    "price": {
-    "last": "2026-11-25",
-    "count": 5315,
+    "last": "2026-11-26",
+    "count": 5316,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3261,
+    "last": "2026-11-26",
+    "count": 3262,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2897,8 +3005,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2915,8 +3023,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5315,
+    "last": "2026-11-26",
+    "count": 5316,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -2925,14 +3033,14 @@
    "code": "990001.CSI",
    "name": "半导体芯片",
    "price": {
-    "last": "2026-11-25",
-    "count": 1637,
+    "last": "2026-11-26",
+    "count": 1638,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1638,
+    "last": "2026-11-26",
+    "count": 1639,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2943,8 +3051,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2961,8 +3069,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 1637,
+    "last": "2026-11-26",
+    "count": 1638,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -2971,14 +3079,14 @@
    "code": "930651.CSI",
    "name": "中证计算机",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2800,
+    "last": "2026-11-26",
+    "count": 2801,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -2989,8 +3097,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3007,8 +3115,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3017,14 +3125,14 @@
    "code": "930713.CSI",
    "name": "人工智能",
    "price": {
-    "last": "2026-11-25",
-    "count": 3499,
+    "last": "2026-11-26",
+    "count": 3500,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2760,
+    "last": "2026-11-26",
+    "count": 2761,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3035,8 +3143,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3053,8 +3161,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3499,
+    "last": "2026-11-26",
+    "count": 3500,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3063,14 +3171,14 @@
    "code": "H30590.CSI",
    "name": "机器人",
    "price": {
-    "last": "2026-11-25",
-    "count": 3860,
+    "last": "2026-11-26",
+    "count": 3861,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2878,
+    "last": "2026-11-26",
+    "count": 2879,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3081,8 +3189,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3099,8 +3207,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3860,
+    "last": "2026-11-26",
+    "count": 3861,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3109,26 +3217,26 @@
    "code": "931079.CSI",
    "name": "5G通信",
    "price": {
-    "last": "2026-11-25",
-    "count": 2647,
+    "last": "2026-11-26",
+    "count": 2648,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1845,
+    "last": "2026-11-26",
+    "count": 1846,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 392,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3139,14 +3247,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 392,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2647,
+    "last": "2026-11-26",
+    "count": 2648,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3155,14 +3263,14 @@
    "code": "931151.CSI",
    "name": "光伏产业",
    "price": {
-    "last": "2026-11-25",
-    "count": 3374,
+    "last": "2026-11-26",
+    "count": 3375,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1848,
+    "last": "2026-11-26",
+    "count": 1849,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3173,8 +3281,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3191,8 +3299,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3374,
+    "last": "2026-11-26",
+    "count": 3375,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3201,14 +3309,14 @@
    "code": "399976.SZ",
    "name": "新能源车",
    "price": {
-    "last": "2026-11-25",
-    "count": 2747,
+    "last": "2026-11-26",
+    "count": 2748,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2802,
+    "last": "2026-11-26",
+    "count": 2803,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3219,8 +3327,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3237,8 +3345,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2747,
+    "last": "2026-11-26",
+    "count": 2748,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3247,14 +3355,14 @@
    "code": "931719.CSI",
    "name": "电池",
    "price": {
-    "last": "2026-11-25",
-    "count": 2891,
+    "last": "2026-11-26",
+    "count": 2892,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1357,
+    "last": "2026-11-26",
+    "count": 1358,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3265,8 +3373,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3283,8 +3391,8 @@
     "frequency": "quarterly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2891,
+    "last": "2026-11-26",
+    "count": 2892,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3293,26 +3401,26 @@
    "code": "399989.SZ",
    "name": "中证医疗",
    "price": {
-    "last": "2026-11-25",
-    "count": 2747,
+    "last": "2026-11-26",
+    "count": 2748,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2802,
+    "last": "2026-11-26",
+    "count": 2803,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3323,14 +3431,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2747,
+    "last": "2026-11-26",
+    "count": 2748,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3339,14 +3447,14 @@
    "code": "931152.CSI",
    "name": "创新药",
    "price": {
-    "last": "2026-11-25",
-    "count": 2891,
+    "last": "2026-11-26",
+    "count": 2892,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 1848,
+    "last": "2026-11-26",
+    "count": 1849,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3357,8 +3465,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3375,8 +3483,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2891,
+    "last": "2026-11-26",
+    "count": 2892,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3385,14 +3493,14 @@
    "code": "930743.CSI",
    "name": "生物科技",
    "price": {
-    "last": "2026-11-25",
-    "count": 3616,
+    "last": "2026-11-26",
+    "count": 3617,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2743,
+    "last": "2026-11-26",
+    "count": 2744,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3403,8 +3511,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3421,8 +3529,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3616,
+    "last": "2026-11-26",
+    "count": 3617,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3431,26 +3539,26 @@
    "code": "399997.SZ",
    "name": "中证白酒",
    "price": {
-    "last": "2026-11-25",
-    "count": 2781,
+    "last": "2026-11-26",
+    "count": 2782,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2781,
+    "last": "2026-11-26",
+    "count": 2782,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3461,14 +3569,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2781,
+    "last": "2026-11-26",
+    "count": 2782,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3477,14 +3585,14 @@
    "code": "930653.CSI",
    "name": "食品饮料",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2800,
+    "last": "2026-11-26",
+    "count": 2801,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3495,8 +3603,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3513,8 +3621,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3523,26 +3631,26 @@
    "code": "399998.SZ",
    "name": "中证煤炭",
    "price": {
-    "last": "2026-11-25",
-    "count": 2781,
+    "last": "2026-11-26",
+    "count": 2782,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2781,
+    "last": "2026-11-26",
+    "count": 2782,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3553,14 +3661,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2781,
+    "last": "2026-11-26",
+    "count": 2782,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3569,14 +3677,14 @@
    "code": "000819.SH",
    "name": "有色金属",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3587,8 +3695,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3605,8 +3713,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3615,14 +3723,14 @@
    "code": "930606.CSI",
    "name": "中证钢铁",
    "price": {
-    "last": "2026-11-25",
-    "count": 4346,
+    "last": "2026-11-26",
+    "count": 4347,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2847,
+    "last": "2026-11-26",
+    "count": 2848,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3633,8 +3741,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3651,8 +3759,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 4346,
+    "last": "2026-11-26",
+    "count": 4347,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3661,14 +3769,14 @@
    "code": "000949.SH",
    "name": "中证农业",
    "price": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3678,
+    "last": "2026-11-26",
+    "count": 3679,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3679,8 +3787,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3697,8 +3805,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5317,
+    "last": "2026-11-26",
+    "count": 5318,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3707,14 +3815,14 @@
    "code": "399973.SZ",
    "name": "中证国防",
    "price": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2930,
+    "last": "2026-11-26",
+    "count": 2931,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3725,8 +3833,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3743,8 +3851,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2742,
+    "last": "2026-11-26",
+    "count": 2743,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3753,14 +3861,14 @@
    "code": "931066.CSI",
    "name": "军工龙头",
    "price": {
-    "last": "2026-11-25",
-    "count": 3374,
+    "last": "2026-11-26",
+    "count": 3375,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2148,
+    "last": "2026-11-26",
+    "count": 2149,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3771,8 +3879,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3789,8 +3897,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 3374,
+    "last": "2026-11-26",
+    "count": 3375,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3799,26 +3907,26 @@
    "code": "H30269.CSI",
    "name": "红利低波",
    "price": {
-    "last": "2026-11-25",
-    "count": 5075,
+    "last": "2026-11-26",
+    "count": 5076,
     "provider": "csi",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 3154,
+    "last": "2026-11-26",
+    "count": 3155,
     "provider": "domestic",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-25",
-    "count": 517,
+    "last": "2026-11-26",
+    "count": 516,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3829,14 +3937,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 5075,
+    "last": "2026-11-26",
+    "count": 5076,
     "provider": "csi",
     "frequency": "daily"
    }
@@ -3845,14 +3953,14 @@
    "code": "399809.SZ",
    "name": "保险主题",
    "price": {
-    "last": "2026-11-25",
-    "count": 2752,
+    "last": "2026-11-26",
+    "count": 2753,
     "provider": "tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 2765,
+    "last": "2026-11-26",
+    "count": 2766,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3863,8 +3971,8 @@
     "frequency": null
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 28,
+    "last": "2026-11-26",
+    "count": 29,
     "provider": "domestic",
     "frequency": "daily"
    },
@@ -3881,8 +3989,8 @@
     "frequency": null
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 2752,
+    "last": "2026-11-26",
+    "count": 2753,
     "provider": "tencent",
     "frequency": "daily"
    }
@@ -3891,26 +3999,26 @@
    "code": "HSI.HK",
    "name": "恒生指数",
    "price": {
-    "last": "2026-11-25",
-    "count": 5397,
+    "last": "2026-11-26",
+    "count": 5398,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 38,
+    "last": "2026-11-26",
+    "count": 39,
     "provider": "supplemental",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-24",
+    "last": "2026-11-25",
     "count": 517,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 38,
+    "last": "2026-11-26",
+    "count": 39,
     "provider": "supplemental",
     "frequency": "daily"
    },
@@ -3921,14 +4029,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-24",
+    "last": "2026-11-25",
     "count": 366,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 38,
+    "last": "2026-11-26",
+    "count": 39,
     "provider": "supplemental",
     "frequency": "daily"
    }
@@ -3937,26 +4045,26 @@
    "code": "HSTECH.HK",
    "name": "恒生科技",
    "price": {
-    "last": "2026-11-25",
-    "count": 1560,
+    "last": "2026-11-26",
+    "count": 1561,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 328,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "pb": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 328,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 7,
+    "last": "2026-11-26",
+    "count": 8,
     "provider": "domestic",
     "frequency": "single"
    },
@@ -3967,14 +4075,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-25",
+    "last": "2026-11-26",
     "count": 328,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 38,
+    "last": "2026-11-26",
+    "count": 39,
     "provider": "supplemental",
     "frequency": "daily"
    }
@@ -3983,26 +4091,26 @@
    "code": "HSCEI.HK",
    "name": "恒生国企",
    "price": {
-    "last": "2026-11-25",
-    "count": 5395,
+    "last": "2026-11-26",
+    "count": 5396,
     "provider": "cache+tencent",
     "frequency": "daily"
    },
    "pe": {
-    "last": "2026-11-25",
-    "count": 38,
+    "last": "2026-11-26",
+    "count": 39,
     "provider": "supplemental",
     "frequency": "daily"
    },
    "pb": {
-    "last": "2026-11-24",
+    "last": "2026-11-25",
     "count": 517,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "dy": {
-    "last": "2026-11-25",
-    "count": 38,
+    "last": "2026-11-26",
+    "count": 39,
     "provider": "supplemental",
     "frequency": "daily"
    },
@@ -4013,14 +4121,14 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-24",
+    "last": "2026-11-25",
     "count": 367,
     "provider": "domestic",
     "frequency": "weekly"
    },
    "amt": {
-    "last": "2026-11-25",
-    "count": 38,
+    "last": "2026-11-26",
+    "count": 39,
     "provider": "supplemental",
     "frequency": "daily"
    }
@@ -4041,7 +4149,7 @@
     "frequency": "single"
    },
    "pb": {
-    "last": "2026-11-24",
+    "last": "2026-11-25",
     "count": 517,
     "provider": "domestic",
     "frequency": "weekly"
@@ -4059,7 +4167,7 @@
     "frequency": null
    },
    "roe": {
-    "last": "2026-11-24",
+    "last": "2026-11-25",
     "count": 417,
     "provider": "domestic",
     "frequency": "weekly"
@@ -4164,12 +4272,12 @@
    }
   }
  ],
- "dataAsOf": "2026-11-25",
- "previousAsOf": "2026-11-24",
- "backup": "data/refresh-backups/20261125T215719Z",
- "endedAt": "2026-11-25T22:06:44Z",
- "endedAtBeijing": "2026-11-26T06:06:44+08:00",
+ "dataAsOf": "2026-11-26",
+ "previousAsOf": "2026-11-25",
+ "backup": "data/refresh-backups/20261126T215048Z",
+ "endedAt": "2026-11-26T22:02:58Z",
+ "endedAtBeijing": "2026-11-27T06:02:58+08:00",
  "status": "partial",
  "exitCode": 10,
- "workDir": "data/refresh-work/20261125T215719Z"
+ "workDir": "data/refresh-work/20261126T215048Z"
 }
