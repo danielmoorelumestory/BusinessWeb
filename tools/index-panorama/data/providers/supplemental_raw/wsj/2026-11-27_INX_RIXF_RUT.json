@@ -1,0 +1,58 @@
+{
+ "note": "WSJ peyields 页面内嵌 mdc_peAndYields 数据块（原样）",
+ "url": "https://www.wsj.com/market-data/stocks/peyields",
+ "retrievedAt": "2026-11-27T21:42:11Z",
+ "footnote": "P/E data based on as-reported earnings; estimate data based on operating earnings.",
+ "block": {
+  "timestamp": "Friday, November 27, 2026",
+  "tradeDate": "2026-11-27T00:00:00",
+  "instruments": [
+   {
+    "instrumentId": "343303",
+    "name": "Russell 2000 Index",
+    "priceEarningsRatio": "19.75",
+    "priceEarningsRatioEstimate": "25.71",
+    "priceEarningsRatio52WeekAgo": "35.63",
+    "ticker": "RUT",
+    "yield": "1.66",
+    "yield52WeekAgo": "1.36",
+    "formattedPriceEarningsRatio": "19.75",
+    "formattedPriceEarningsRatio52WeekAgo": "35.63",
+    "formattedPriceEarningsRatioEstimate": "25.71",
+    "formattedYield": "1.66",
+    "formattedYield52WeekAgo": "1.36"
+   },
+   {
+    "instrumentId": "343343",
+    "name": "NASDAQ 100 Index",
+    "priceEarningsRatio": "27.05",
+    "priceEarningsRatioEstimate": "19.19",
+    "priceEarningsRatio52WeekAgo": "33.37",
+    "ticker": "RIXF",
+    "yield": "0.72",
+    "yield52WeekAgo": "0.63",
+    "formattedPriceEarningsRatio": "27.05",
+    "formattedPriceEarningsRatio52WeekAgo": "33.37",
+    "formattedPriceEarningsRatioEstimate": "19.19",
+    "formattedYield": "0.72",
+    "formattedYield52WeekAgo": "0.63"
+   },
+   {
+    "instrumentId": "497001",
+    "name": "S&P 500 Index",
+    "priceEarningsRatio": "20.03",
+    "priceEarningsRatioEstimate": "17.78",
+    "priceEarningsRatio52WeekAgo": "25.25",
+    "ticker": "INX",
+    "yield": "1.2",
+    "yield52WeekAgo": "1.16",
+    "formattedPriceEarningsRatio": "20.03",
+    "formattedPriceEarningsRatio52WeekAgo": "25.25",
+    "formattedPriceEarningsRatioEstimate": "17.78",
+    "formattedYield": "1.20",
+    "formattedYield52WeekAgo": "1.16"
+   }
+  ],
+  "formattedTradeDate": "11/27/26"
+ }
+}
